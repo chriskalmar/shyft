@@ -1,0 +1,25 @@
+{
+  "name": "shift-engine",
+  "version": "0.0.1",
+  "description": "Model driven database and API generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec"
+  },
+  "keywords": [
+    "api",
+    "postgres",
+    "model",
+    "generator"
+  ],
+  "author": "Chris Kalmar <christian.kalmar@gmail.com>",
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 2.0.0"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.0"
+  }
+}
