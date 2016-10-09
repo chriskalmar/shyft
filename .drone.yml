@@ -1,5 +1,7 @@
 build:
   image: node:6.4.0
+  environment:
+    CODECOV_TOKEN: 2ba5a8e2-2c7e-44c7-bed4-efdda98e497b
   commands:
     - npm install
-    - npm test
+    - npm run coverage-ci
