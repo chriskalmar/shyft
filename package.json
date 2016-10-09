@@ -13,6 +13,8 @@
     "generator"
   ],
   "author": "Chris Kalmar <christian.kalmar@gmail.com>",
+  "contributors": [
+  ],
   "engines": {
     "node": ">= 6.0.0",
     "npm": ">= 2.0.0"
