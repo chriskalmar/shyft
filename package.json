@@ -4,7 +4,7 @@
   "description": "Model driven database and API generator",
   "main": "index.js",
   "scripts": {
-    "test": "istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec"
+    "test": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec"
   },
   "keywords": [
     "api",
@@ -23,6 +23,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "eslint": "^3.7.1",
+    "istanbul": "^0.4.5",
     "mocha": "^3.1.0"
   }
 }
