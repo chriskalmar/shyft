@@ -9,6 +9,9 @@
     "es6": true,
     "mocha": true
   },
+  "globals": {
+    "expect": true
+  },
   "rules": {
     "quotes": [ "error", "single"],
     "eqeqeq": [ "warn", "smart" ],

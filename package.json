@@ -4,11 +4,11 @@
   "description": "Model driven database and API generator",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/_mocha -R spec --check-leaks test/",
+    "test": "./node_modules/mocha/bin/_mocha --require test/setup.js -R spec --check-leaks test/*",
     "lint": "./node_modules/eslint/bin/eslint.js .",
     "lint-staged": "lint-staged",
-    "coverage": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec --check-leaks  test/",
-    "coverage-ci": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec --check-leaks test/ && cat ./coverage/lcov.info | ./node_modules/.bin/codecov"
+    "coverage": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --require test/setup.js -- -R spec --check-leaks  test/*",
+    "coverage-ci": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --require test/setup.js -- -R spec --check-leaks test/* && cat ./coverage/lcov.info | ./node_modules/.bin/codecov"
   },
   "lint-staged": {
     "*.js": "./node_modules/eslint/bin/eslint.js --no-color"
