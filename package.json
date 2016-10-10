@@ -5,10 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/_mocha -R spec --check-leaks test/",
-    "lint": "./node_modules/eslint/bin/eslint.js . --fix",
+    "lint": "./node_modules/eslint/bin/eslint.js .",
+    "lint-staged": "lint-staged",
     "coverage": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec --check-leaks  test/",
     "coverage-ci": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec --check-leaks test/ && cat ./coverage/lcov.info | ./node_modules/.bin/codecov"
   },
+  "lint-staged": {
+    "*": "./node_modules/eslint/bin/eslint.js"
+  },
+  "pre-commit": "lint-staged",
   "keywords": [
     "api",
     "postgres",
@@ -29,6 +34,8 @@
     "eslint": "^3.7.1",
     "eslint-plugin-mocha": "^4.6.0",
     "istanbul": "^0.4.5",
-    "mocha": "^3.1.0"
+    "lint-staged": "^3.0.3",
+    "mocha": "^3.1.0",
+    "pre-commit": "^1.1.3"
   }
 }
