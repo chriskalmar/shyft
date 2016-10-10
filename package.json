@@ -11,9 +11,12 @@
     "coverage-ci": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec --check-leaks test/ && cat ./coverage/lcov.info | ./node_modules/.bin/codecov"
   },
   "lint-staged": {
-    "*.js": "./node_modules/eslint/bin/eslint.js"
+    "*.js": "./node_modules/eslint/bin/eslint.js --no-color"
   },
-  "pre-commit": "lint-staged",
+  "pre-commit": {
+    "run": [ "lint-staged" ]
+  },
+  "pre-commit.silent": true,
   "keywords": [
     "api",
     "postgres",
