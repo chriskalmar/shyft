@@ -1,0 +1,30 @@
+{
+  "plugins": [
+    "mocha"
+  ],
+  "extends": "eslint:recommended",
+  "env": {
+    "browser": false,
+    "node": true,
+    "es6": true,
+    "mocha": true
+  },
+  "rules": {
+    "quotes": [ "error", "single"],
+    "eqeqeq": [ "warn", "smart" ],
+    "no-console": "off",
+    "strict": [ "error", "safe" ],
+    "curly": "error",
+    "dot-location": [ "error", "property"],
+    "dot-notation": "error",
+    "radix": "error",
+    "vars-on-top": "error",
+    "no-use-before-define": [ "error", { "functions": false, "classes": true } ],
+    "callback-return": "error",
+    "no-trailing-spaces": "error",
+    "no-mixed-spaces-and-tabs": "error",
+    "indent": [ "error", 2 ],
+
+    "mocha/no-exclusive-tests": "error"
+  }
+}
