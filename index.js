@@ -6,7 +6,7 @@ module.exports = {
 }
 
 
-function over100 (val) {
+function over100(val) {
   if ( val > 100) {
     return true
   }
