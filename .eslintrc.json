@@ -12,7 +12,8 @@
   "rules": {
     "quotes": [ "error", "single"],
     "eqeqeq": [ "warn", "smart" ],
-    "no-console": "off",
+    "no-undef": "error",
+    "no-console": "error",
     "strict": [ "error", "safe" ],
     "curly": "error",
     "dot-location": [ "error", "property"],
@@ -24,7 +25,8 @@
     "no-trailing-spaces": "error",
     "no-mixed-spaces-and-tabs": "error",
     "indent": [ "error", 2 ],
-
+    "space-before-function-paren": [ "error", "never" ],
+    "no-var": "error",
     "mocha/no-exclusive-tests": "error"
   }
 }
