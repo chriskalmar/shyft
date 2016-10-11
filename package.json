@@ -8,6 +8,7 @@
     "lint": "./node_modules/eslint/bin/eslint.js .",
     "lint-staged": "lint-staged",
     "coverage": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --require test/setup.js -- -R spec --check-leaks  test/*",
+    "coverage-detail": "node_modules/istanbul/lib/cli.js cover --print none ./node_modules/mocha/bin/_mocha --require test/setup.js -- -R spec --check-leaks  test/* && node_modules/istanbul/lib/cli.js report text",
     "coverage-ci": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --require test/setup.js -- -R spec --check-leaks test/* && cat ./coverage/lcov.info | ./node_modules/.bin/codecov"
   },
   "lint-staged": {
