@@ -13,7 +13,7 @@ describe('component', function() {
 
     it('should render a DB schema definition', function() {
 
-      let component = registry.components.core.schema
+      let component = registry.getCoreComponent('schema')
       let templateVars = component.processor(model)
       let template = engine.loadTemplate(component.templatePath)
       let result = template.renderSync(templateVars).trim()

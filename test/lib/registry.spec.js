@@ -37,4 +37,29 @@ describe('registry', function() {
     expect(fn).to.throw(/could not find template/);
   })
 
+
+
+
+  it('should return core components upon request', function() {
+
+    let component = registry.getCoreComponent('example')
+
+    expect(component.name).to.equal('example')
+  })
+
+
+
+
+  it('should throw an error if unknown core component is being fetched', function() {
+
+    function fn() {
+      registry.getCoreComponent('this-does-not-exist')
+    }
+
+    expect(fn).to.throw(/unknown core component/);
+  })
+
+
+
+
 })
