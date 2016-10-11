@@ -1,16 +1,9 @@
 
 'use strict';
 
+
 module.exports = {
-  over100
+  engine: require('./lib/engine'),
+  registry: require('./lib/registry')
 }
 
-
-function over100(val) {
-  if ( val > 100) {
-    return true
-  }
-  else {
-    return false
-  }
-}
