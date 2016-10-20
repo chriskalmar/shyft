@@ -5,7 +5,18 @@ class DataType {
 
   constructor (name, dbType) {
 
+    if (!name) {
+      throw new Error ('Missing data type name')
+    }
+
+    if (!dbType) {
+      throw new Error (`Missing database type for data type '${this.name}'`)
+    }
+
+    // name of the data type used in model definition
     this.name = name
+
+    // native database data type name
     this.dbType = dbType
   }
 
