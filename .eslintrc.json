@@ -28,7 +28,6 @@
     "no-trailing-spaces": "error",
     "no-mixed-spaces-and-tabs": "error",
     "indent": [ "error", 2 ],
-    "space-before-function-paren": [ "error", "never" ],
     "no-var": "error",
     "eol-last": [ "error", "always" ],
     "mocha/no-exclusive-tests": "error"
