@@ -21,7 +21,7 @@ function buildSytemNamePattern(minLength, maxLength) {
   let maxLengthStr = ''
   let lengthStr = '*'
 
-  if (minLength) {
+  if (minLength >= 0) {
     minLengthStr = minLength - 1
     lengthStr = `{${minLengthStr},}`
 

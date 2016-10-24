@@ -36,5 +36,15 @@ describe('validation', function() {
       expect(fn).to.throw(/expects maxLength to be >= minLength/);
     })
 
+
+    it('should fail if min length is less then 0', function() {
+
+      function fn() {
+        validation.buildSytemNamePattern(-1)
+      }
+
+      expect(fn).to.throw(/minLength to be a positive/);
+    })
+
   })
 })
