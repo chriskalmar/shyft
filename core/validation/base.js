@@ -5,8 +5,8 @@ const DOMAIN_NAME_MAX_LENGTH = 20
 const ENTITY_NAME_MAX_LENGTH = 40
 
 const SYSTEM_NAME_REGEX = '[a-z][a-z0-9_]'
-const DOMAIN_NAME_PATTERN = buildSytemNamePattern(1, DOMAIN_NAME_MAX_LENGTH)
-const ENTITY_NAME_PATTERN = buildSytemNamePattern(1, ENTITY_NAME_MAX_LENGTH)
+const DOMAIN_NAME_PATTERN = buildSytemNamePattern()
+const ENTITY_NAME_PATTERN = buildSytemNamePattern()
 
 
 module.exports = {
@@ -17,7 +17,28 @@ module.exports = {
 
 // returns a regex pattern with a length range definition
 function buildSytemNamePattern(minLength, maxLength) {
-  return `^${SYSTEM_NAME_REGEX}{${minLength-1},${maxLength-1}}$`
+  let minLengthStr = ''
+  let maxLengthStr = ''
+  let lengthStr = '*'
+
+  if (minLength) {
+    minLengthStr = minLength - 1
+    lengthStr = `{${minLengthStr},}`
+
+    if (maxLength >= minLength) {
+      maxLengthStr = maxLength - 1
+      lengthStr = `{${minLengthStr},${maxLengthStr}}`
+    }
+    else if (typeof maxLength !== 'undefined') {
+      throw new Error('buildSytemNamePattern() expects maxLength to be >= minLength')
+    }
+  }
+  else if (minLength < 0) {
+    throw new Error('buildSytemNamePattern() expects minLength to be a positive integer')
+  }
+
+
+  return `^${SYSTEM_NAME_REGEX}${lengthStr}$`
 }
 
 
@@ -30,12 +51,16 @@ module.exports.schema = {
 
     domainName: {
       type: 'string',
-      pattern: DOMAIN_NAME_PATTERN
+      pattern: DOMAIN_NAME_PATTERN,
+      minLength: 1,
+      maxLength: DOMAIN_NAME_MAX_LENGTH
     },
 
     entityName: {
       type: 'string',
-      pattern: ENTITY_NAME_PATTERN
+      pattern: ENTITY_NAME_PATTERN,
+      minLength: 1,
+      maxLength: ENTITY_NAME_MAX_LENGTH
     },
 
     typeDescription: {
