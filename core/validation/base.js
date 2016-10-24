@@ -33,6 +33,11 @@ module.exports.schema = {
       pattern: DOMAIN_NAME_PATTERN
     },
 
+    entityName: {
+      type: 'string',
+      pattern: ENTITY_NAME_PATTERN
+    },
+
     typeDescription: {
       type: 'string',
       minLength: 2
@@ -50,34 +55,35 @@ module.exports.schema = {
       $ref: '#/definitions/domainName'
     },
     entities: {
-      type: 'object',
-      minProperties: 1,
-      additionalProperties: false,
-      patternProperties: {
-        [ ENTITY_NAME_PATTERN ]: {
-          type: 'object',
-          additionalProperties: false,
-          required: [
-            'description',
-            'attributes'
-          ],
-          properties: {
-            cascadeOnDelete: {
-              type: 'boolean'
-            },
-            description: {
-              $ref: '#/definitions/typeDescription'
-            },
-            attributes: {
-              type: 'object'
-            },
-            indexing: {
-              type: 'object'
-            }
-
+      type: 'array',
+      minItems: 1,
+      items: {
+        type: 'object',
+        additionalProperties: false,
+        required: [
+          'name',
+          'description',
+          'attributes'
+        ],
+        properties: {
+          cascadeOnDelete: {
+            type: 'boolean'
+          },
+          name: {
+            $ref: '#/definitions/entityName'
+          },
+          description: {
+            $ref: '#/definitions/typeDescription'
+          },
+          attributes: {
+            type: 'object'
+          },
+          indexing: {
+            type: 'object'
           }
 
         }
+
       }
     }
   }
