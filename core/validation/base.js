@@ -145,7 +145,8 @@ module.exports.schema = {
             items: {
               $ref: '#/definitions/typeAttribute',
               required: [
-                'description'
+                'name',
+                'type'
               ]
             }
           },
