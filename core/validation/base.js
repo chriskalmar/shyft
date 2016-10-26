@@ -113,6 +113,14 @@ module.exports.schema = {
         },
         target: {
           $ref: '#/definitions/typeModelEntityPath'
+        },
+        targetAttributesMap: {
+          type: 'object',
+          patternProperties: {
+            '.+': {
+              type: 'string'
+            }
+          }
         }
       },
       patternProperties: {
