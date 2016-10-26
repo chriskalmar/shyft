@@ -103,6 +103,20 @@ module.exports.schema = {
           type: 'string',
           pattern: VALUE_GENERATOR_PATTERN
         }
+      },
+      patternProperties: {
+        '^(maximum|minimum|multipleOf)$': {
+          type: 'number'
+        },
+        '^(maxLength|minLength)$': {
+          type: 'integer'
+        },
+        '^(exclusiveMaximum|exclusiveMinimum)$': {
+          type: 'boolean'
+        },
+        '^(pattern|format)$': {
+          type: 'string'
+        }
       }
     }
 
