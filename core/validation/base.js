@@ -9,6 +9,7 @@ const SYSTEM_NAME_REGEX = '[a-z][a-z0-9_]'
 const DOMAIN_NAME_PATTERN = buildSytemNamePattern()
 const ENTITY_NAME_PATTERN = buildSytemNamePattern()
 const ATTRIBUTE_NAME_PATTERN = buildSytemNamePattern(1, ATTRIBUTE_NAME_MAX_LENGTH)
+const ENTITY_PATH_PATTERN = `^(?:${SYSTEM_NAME_REGEX}*\\:\\:)?(?:${SYSTEM_NAME_REGEX}*\\:\\:)?${SYSTEM_NAME_REGEX}*$`
 const VALUE_GENERATOR_PATTERN = `^(?:${SYSTEM_NAME_REGEX}*\\:\\:)?${SYSTEM_NAME_REGEX}*(?: *\\( *${SYSTEM_NAME_REGEX}*( *, *${SYSTEM_NAME_REGEX}*)* *\\))?$`
 
 
@@ -68,6 +69,13 @@ module.exports.schema = {
       maxLength: ENTITY_NAME_MAX_LENGTH
     },
 
+    // syntax of an entity path
+    typeModelEntityPath: {
+      type: 'string',
+      pattern: ENTITY_PATH_PATTERN,
+      minLength: 1
+    },
+
     // description rules
     propertyTypeDescription: {
       type: 'string',
@@ -102,6 +110,9 @@ module.exports.schema = {
         valueGenerator: {
           type: 'string',
           pattern: VALUE_GENERATOR_PATTERN
+        },
+        target: {
+          $ref: '#/definitions/typeModelEntityPath'
         }
       },
       patternProperties: {
