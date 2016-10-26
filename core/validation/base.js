@@ -3,10 +3,12 @@
 
 const DOMAIN_NAME_MAX_LENGTH = 20
 const ENTITY_NAME_MAX_LENGTH = 40
+const ATTRIBUTE_NAME_MAX_LENGTH = 20
 
 const SYSTEM_NAME_REGEX = '[a-z][a-z0-9_]'
 const DOMAIN_NAME_PATTERN = buildSytemNamePattern()
 const ENTITY_NAME_PATTERN = buildSytemNamePattern()
+const ATTRIBUTE_NAME_PATTERN = buildSytemNamePattern(1, ATTRIBUTE_NAME_MAX_LENGTH)
 
 
 module.exports = {
@@ -101,7 +103,33 @@ module.exports.schema = {
             $ref: '#/definitions/typeDescription'
           },
           attributes: {
-            type: 'object'
+            type: 'array',
+            minItems: 1,
+            items: {
+              type: 'object',
+              required: [
+                'name',
+                'type'
+              ],
+              properties: {
+                name: {
+                  type: 'string',
+                  pattern: ATTRIBUTE_NAME_PATTERN
+                },
+                type: {
+                  type: 'string',
+                },
+                description: {
+                  $ref: '#/definitions/typeDescription'
+                },
+                required: {
+                  type: 'boolean',
+                },
+                translatable: {
+                  type: 'boolean',
+                }
+              }
+            }
           },
           indexing: {
             type: 'object'
