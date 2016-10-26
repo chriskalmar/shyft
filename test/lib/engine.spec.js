@@ -37,7 +37,7 @@ describe('engine', function() {
 
 
 
-  it('reject code generation if models is not an array', function() {
+  it('reject code generation if "models" is not an array', function() {
 
     function fn() {
       engine.generateDatabaseSql(model)
