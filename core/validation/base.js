@@ -52,6 +52,7 @@ module.exports.schema = {
 
   definitions: {
 
+    // domain naming rules
     domainName: {
       type: 'string',
       pattern: DOMAIN_NAME_PATTERN,
@@ -59,6 +60,7 @@ module.exports.schema = {
       maxLength: DOMAIN_NAME_MAX_LENGTH
     },
 
+    // entity naming rules
     entityName: {
       type: 'string',
       pattern: ENTITY_NAME_PATTERN,
@@ -66,10 +68,44 @@ module.exports.schema = {
       maxLength: ENTITY_NAME_MAX_LENGTH
     },
 
-    typeDescription: {
+    // description rules
+    propertyTypeDescription: {
       type: 'string',
       minLength: 2
+    },
+
+    // structure of an entity attribute
+    typeAttribute: {
+      type: 'object',
+      additionalProperties: false,
+      required: [
+        'name',
+        'type'
+      ],
+      properties: {
+        name: {
+          type: 'string',
+          pattern: ATTRIBUTE_NAME_PATTERN
+        },
+        type: {
+          type: 'string',
+        },
+        description: {
+          $ref: '#/definitions/propertyTypeDescription'
+        },
+        required: {
+          type: 'boolean',
+        },
+        translatable: {
+          type: 'boolean',
+        },
+        valueGenerator: {
+          type: 'string',
+          pattern: VALUE_GENERATOR_PATTERN
+        }
+      }
     }
+
   },
 
   type: 'object',
@@ -101,39 +137,16 @@ module.exports.schema = {
             $ref: '#/definitions/entityName'
           },
           description: {
-            $ref: '#/definitions/typeDescription'
+            $ref: '#/definitions/propertyTypeDescription'
           },
           attributes: {
             type: 'array',
             minItems: 1,
             items: {
-              type: 'object',
+              $ref: '#/definitions/typeAttribute',
               required: [
-                'name',
-                'type'
-              ],
-              properties: {
-                name: {
-                  type: 'string',
-                  pattern: ATTRIBUTE_NAME_PATTERN
-                },
-                type: {
-                  type: 'string',
-                },
-                description: {
-                  $ref: '#/definitions/typeDescription'
-                },
-                required: {
-                  type: 'boolean',
-                },
-                translatable: {
-                  type: 'boolean',
-                },
-                valueGenerator: {
-                  type: 'string',
-                  pattern: VALUE_GENERATOR_PATTERN
-                }
-              }
+                'description'
+              ]
             }
           },
           indexing: {
