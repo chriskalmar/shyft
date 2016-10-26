@@ -9,6 +9,7 @@ const SYSTEM_NAME_REGEX = '[a-z][a-z0-9_]'
 const DOMAIN_NAME_PATTERN = buildSytemNamePattern()
 const ENTITY_NAME_PATTERN = buildSytemNamePattern()
 const ATTRIBUTE_NAME_PATTERN = buildSytemNamePattern(1, ATTRIBUTE_NAME_MAX_LENGTH)
+const VALUE_GENERATOR_PATTERN = `^(?:${SYSTEM_NAME_REGEX}*\\:\\:)?${SYSTEM_NAME_REGEX}*(?: *\\( *${SYSTEM_NAME_REGEX}*( *, *${SYSTEM_NAME_REGEX}*)* *\\))?$`
 
 
 module.exports = {
@@ -127,6 +128,10 @@ module.exports.schema = {
                 },
                 translatable: {
                   type: 'boolean',
+                },
+                valueGenerator: {
+                  type: 'string',
+                  pattern: VALUE_GENERATOR_PATTERN
                 }
               }
             }
