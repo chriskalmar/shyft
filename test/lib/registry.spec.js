@@ -92,6 +92,20 @@ describe('registry', function() {
 
 
 
+    it('should throw an error if an unknwon entity model is being fetched', function() {
+
+      function fn1() {
+        registry.getEntityModel('this-does-not-exist')
+      }
+
+      function fn2() {
+        registry.getEntityModel('geo', 'this-does-not-exist')
+      }
+
+      expect(fn1).to.throw(/unknown model domain/);
+      expect(fn2).to.throw(/unknown entity model/);
+    })
+
 
   })
 
