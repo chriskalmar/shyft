@@ -4,6 +4,7 @@
 const registry = require('../../').registry
 
 const model = require('../fixtures/models/geo.js')
+const emptyEntitiesModel = require('../fixtures/models/empty-entities.js')
 
 
 describe('registry', function() {
@@ -90,6 +91,26 @@ describe('registry', function() {
     })
 
 
+    it('should throw an error if duplicate models are being imported', function() {
+
+      function fn() {
+        registry.importEntityModels(model)
+      }
+
+      expect(fn).to.throw(/duplicate entity model: geo::country/);
+
+    })
+
+
+    it('should throw an error if basic schema validation fails', function() {
+
+      function fn() {
+        registry.importEntityModels(emptyEntitiesModel)
+      }
+
+      expect(fn).to.throw(/validation failed/);
+
+    })
 
 
     it('should throw an error if an unknwon entity model is being fetched', function() {
@@ -102,8 +123,8 @@ describe('registry', function() {
         registry.getEntityModel('geo', 'this-does-not-exist')
       }
 
-      expect(fn1).to.throw(/unknown model domain/);
-      expect(fn2).to.throw(/unknown entity model/);
+      expect(fn1).to.throw(/unknown model domain: this-does-not-exist/);
+      expect(fn2).to.throw(/unknown entity model: geo::this-does-not-exist/);
     })
 
 
