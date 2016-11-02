@@ -3,8 +3,8 @@
 
 const registry = require('../../').registry
 
-const emptyEntitiesModel = require('../fixtures/models/empty-entities.js')
-const model = require('../fixtures/models/geo.js')
+const emptyEntitiesModel = require('../fixtures/models/empty/empty-entities.js')
+const model = require('../fixtures/models/simple/geo.js')
 
 
 
@@ -71,11 +71,12 @@ describe('registry', function() {
 
 
 
-  describe('models', function() {
+  describe('domain models importer', function() {
 
 
-    it('should import entity models', function() {
+    it('should import domain models', function() {
 
+      registry.clearAllDomainModel()
       registry.importDomainModel(model)
 
       expect(registry.components.models).to.have.deep.property('geo.country')
