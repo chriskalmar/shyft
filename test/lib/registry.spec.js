@@ -134,5 +134,25 @@ describe('registry', function() {
 
 
 
+  it('should allow for clearing domain models', function() {
+
+    registry.clearAllDomainModel()
+    registry.importDomainModel(model)
+
+    expect(registry.components.models).to.have.deep.property('geo.country')
+
+    registry.clearAllDomainModel()
+    registry.importDomainModel(model)
+
+    expect(registry.components.models).to.have.deep.property('geo.country')
+
+    registry.clearDomainModel('geo')
+    registry.importDomainModel(model)
+
+    expect(registry.components.models).to.have.deep.property('geo.country')
+  })
+
+
+
 
 })
