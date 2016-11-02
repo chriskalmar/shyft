@@ -3,8 +3,9 @@
 
 const registry = require('../../').registry
 
-const model = require('../fixtures/models/geo.js')
 const emptyEntitiesModel = require('../fixtures/models/empty-entities.js')
+const model = require('../fixtures/models/geo.js')
+
 
 
 describe('registry', function() {
@@ -75,7 +76,7 @@ describe('registry', function() {
 
     it('should import entity models', function() {
 
-      registry.importEntityModels(model)
+      registry.importDomainModel(model)
 
       expect(registry.components.models).to.have.deep.property('geo.country')
     })
@@ -94,7 +95,7 @@ describe('registry', function() {
     it('should throw an error if duplicate models are being imported', function() {
 
       function fn() {
-        registry.importEntityModels(model)
+        registry.importDomainModel(model)
       }
 
       expect(fn).to.throw(/duplicate entity model: geo::country/);
@@ -105,7 +106,7 @@ describe('registry', function() {
     it('should throw an error if basic schema validation fails', function() {
 
       function fn() {
-        registry.importEntityModels(emptyEntitiesModel)
+        registry.importDomainModel(emptyEntitiesModel)
       }
 
       expect(fn).to.throw(/validation failed/);
