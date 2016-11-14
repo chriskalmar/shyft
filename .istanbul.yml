@@ -2,5 +2,6 @@ instrumentation:
   include-all-sources: true
   excludes:
     - Gruntfile.js
+    - lib/reporter.js
     - playground/*.js
 
