@@ -5,6 +5,7 @@ const registry = require('../../').registry
 
 const emptyEntitiesModel = require('../fixtures/models/empty/empty-entities.js')
 const model = require('../fixtures/models/simple/geo.js')
+const StringDataType = require('../../lib/datatypes/string.js')
 
 
 
@@ -19,6 +20,17 @@ describe('registry', function() {
       registry.setCoreComponent('example', function() {}, './test/fixtures/templates/empty.marko')
 
       expect(registry.components.core).to.have.property('example')
+    })
+
+
+
+    it('should reject core components without a name', function() {
+
+      function fn() {
+        registry.setCoreComponent(null, null, './test/fixtures/templates/empty.marko')
+      }
+
+      expect(fn).to.throw(/requires a name/);
     })
 
 
@@ -63,6 +75,78 @@ describe('registry', function() {
       }
 
       expect(fn).to.throw(/unknown core component/);
+    })
+
+
+  })
+
+
+
+
+  describe('data types', function() {
+
+
+    it('should register data types', function() {
+
+      registry.addDataType('lorem-ipsum', new StringDataType() )
+
+      expect(registry.components.dataTypes).to.have.property('lorem-ipsum')
+    })
+
+
+
+    it('should reject data types without a name', function() {
+
+      function fn() {
+        registry.addDataType(null, new StringDataType() )
+      }
+
+      expect(fn).to.throw(/requires a name/);
+    })
+
+
+
+    it('should throw an error if duplicate data types are being imported', function() {
+
+      function fn() {
+        registry.addDataType('another-lorem-ipsum', new StringDataType() )
+        registry.addDataType('another-lorem-ipsum', new StringDataType() )
+      }
+
+      expect(fn).to.throw(/duplicate data type/);
+    })
+
+
+
+    it('should reject data types that are not an instance of class DataType', function() {
+
+      function fn() {
+        registry.addDataType('some-lorem-ipsum', { lorem: 'ipsum' } )
+      }
+
+      expect(fn).to.throw(/instance of DataType class/);
+    })
+
+
+
+
+    it('should return data types upon request', function() {
+
+      let dataType = registry.getDataType('lorem-ipsum')
+
+      expect(dataType.name).to.equal('string')
+    })
+
+
+
+
+    it('should throw an error if unknown data type is being fetched', function() {
+
+      function fn() {
+        registry.getDataType('this-does-not-exist')
+      }
+
+      expect(fn).to.throw(/unknown data type/);
     })
 
 
