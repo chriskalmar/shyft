@@ -4,14 +4,14 @@
 const DataType = require('./data-type')
 
 
-class Text extends DataType {
+class String extends DataType {
 
   constructor (name) {
     if (name) {
       super(name, 'text')
     }
     else {
-      super('text', 'text')
+      super('string', 'text')
     }
   }
 
@@ -36,4 +36,4 @@ class Text extends DataType {
 }
 
 
-module.exports = Text
+module.exports = String

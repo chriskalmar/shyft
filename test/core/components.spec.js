@@ -4,7 +4,7 @@
 const engine = require('../../').engine
 const registry = require('../../').registry
 
-const model = require('../fixtures/models/geo.js')
+const model = require('../fixtures/models/simple/geo.js')
 
 
 function loadAndRenderCoreComponent(name, model) {

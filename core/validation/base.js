@@ -8,7 +8,7 @@ const ATTRIBUTE_NAME_MAX_LENGTH = 20
 const SYSTEM_NAME_REGEX = '[a-z][a-z0-9_]'
 const DOMAIN_NAME_PATTERN = buildSytemNamePattern()
 const ENTITY_NAME_PATTERN = buildSytemNamePattern()
-const ATTRIBUTE_NAME_PATTERN = buildSytemNamePattern(1, ATTRIBUTE_NAME_MAX_LENGTH)
+const ATTRIBUTE_NAME_PATTERN = buildSytemNamePattern()
 const ENTITY_PATH_PATTERN = `^(?:${SYSTEM_NAME_REGEX}*\\:\\:)?(?:${SYSTEM_NAME_REGEX}*\\:\\:)?${SYSTEM_NAME_REGEX}*$`
 const VALUE_GENERATOR_PATTERN = `^(?:${SYSTEM_NAME_REGEX}*\\:\\:)?${SYSTEM_NAME_REGEX}*(?: *\\( *${SYSTEM_NAME_REGEX}*( *, *${SYSTEM_NAME_REGEX}*)* *\\))?$`
 
@@ -93,7 +93,9 @@ module.exports.schema = {
       properties: {
         name: {
           type: 'string',
-          pattern: ATTRIBUTE_NAME_PATTERN
+          pattern: ATTRIBUTE_NAME_PATTERN,
+          minLength: 1,
+          maxLength: ATTRIBUTE_NAME_MAX_LENGTH
         },
         type: {
           type: 'string',
