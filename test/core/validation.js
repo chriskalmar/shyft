@@ -1,7 +1,7 @@
 
 'use strict';
 
-const validation = require('../../core/validation/base')
+const validation = require('../../lib/validation/base')
 
 
 
