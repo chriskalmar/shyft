@@ -26,25 +26,37 @@ module.exports = {
 
 
   invalid: [
+
     {
       setup: {
         type: 'string',
         description: 'lorem ipsum'
       },
-      errorContent: [
-        /"missingProperty": "name"/
+      errors: [
+        {
+          reason: '"name" is missing',
+          msg: /"missingProperty": "name"/
+        }
       ]
     },
+
     {
       setup: {
         type: 'string',
         required: true
       },
-      errorContent: [
-        /"missingProperty": "name"/,
-        /"missingProperty": "description"/
+      errors: [
+        {
+          reason: '"name" is missing',
+          msg: /"missingProperty": "name"/
+        },
+        {
+          reason: '"description" is missing',
+          msg: /"missingProperty": "description"/
+        }
       ]
     },
+
     {
       setup: {
         name: 'dolor',
@@ -53,10 +65,17 @@ module.exports = {
         pattern: 123,
         required: 'some text'
       },
-      errorContent: [
-        /should be boolean/,
-        /should be string/
+      errors: [
+        {
+          reason: '"required" is not a boolean',
+          msg: /should be boolean/
+        },
+        {
+          reason: '"pattern" is not a string',
+          msg: /should be string/
+        }
       ]
+
     }
   ]
 }
