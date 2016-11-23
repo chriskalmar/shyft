@@ -15,14 +15,14 @@ module.exports = {
 
         {
           name: 'name',
-          type: 'text',
+          type: 'string',
           description: 'The name of the country',
           minLength: 1
         },
 
         {
           name: 'iso_code',
-          type: 'text',
+          type: 'string',
           description: 'ISO code of the country',
           pattern: '^[a-z]+$',
           minLength: 3,
