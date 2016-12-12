@@ -6,7 +6,8 @@ const _ = require('lodash')
 const registry = require('../../').registry
 
 const dataTypeNames = [
-  'string'
+  'string',
+  'integer'
 ]
 
 
