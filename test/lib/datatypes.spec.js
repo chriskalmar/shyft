@@ -8,7 +8,8 @@ const registry = require('../../').registry
 const dataTypeNames = [
   'string',
   'integer',
-  'bigint'
+  'bigint',
+  'boolean'
 ]
 
 
