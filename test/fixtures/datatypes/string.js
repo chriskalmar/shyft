@@ -35,7 +35,7 @@ module.exports = {
       errors: [
         {
           reason: '"name" is missing',
-          msg: /"missingProperty": "name"/
+          msg: /"missingProperty":"name"/
         }
       ]
     },
@@ -48,11 +48,11 @@ module.exports = {
       errors: [
         {
           reason: '"name" is missing',
-          msg: /"missingProperty": "name"/
+          msg: /"missingProperty":"name"/
         },
         {
           reason: '"description" is missing',
-          msg: /"missingProperty": "description"/
+          msg: /"missingProperty":"description"/
         }
       ]
     },
@@ -68,11 +68,11 @@ module.exports = {
       errors: [
         {
           reason: '"required" is not a boolean',
-          msg: /should be boolean/
+          msg: /".required".*should be boolean/
         },
         {
           reason: '"pattern" is not a string',
-          msg: /should be string/
+          msg: /".pattern".*should be string/
         }
       ]
 
