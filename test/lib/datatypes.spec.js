@@ -63,7 +63,7 @@ describe('data types', function() {
 
               function fn() {
                 valid = definitionValidator( invalid.setup )
-                console.log(JSON.stringify(definitionValidator.errors,null,2))
+
                 if (!valid) {
                   forwardError = new Error('Validation Error')
                   forwardError.validationErrors = definitionValidator.errors
