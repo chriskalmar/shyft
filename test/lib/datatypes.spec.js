@@ -9,7 +9,16 @@ const dataTypeNames = [
   'string',
   'integer',
   'bigint',
-  'boolean'
+  'boolean',
+  'email',
+  'date',
+  'time',
+  'timetz',
+  'timestamp',
+  'timestamptz',
+  'json',
+  'password',
+  'reference'
 ]
 
 
