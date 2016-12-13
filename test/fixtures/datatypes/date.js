@@ -6,20 +6,13 @@ module.exports = {
   valid: [
     {
       name: 'lorem',
-      type: 'string',
+      type: 'date',
       description: 'lorem ipsum'
     },
     {
       name: 'ipsum',
-      type: 'string',
+      type: 'date',
       description: 'lorem ipsum',
-      required: true
-    },
-    {
-      name: 'dolor',
-      type: 'string',
-      description: 'lorem ipsum',
-      pattern: '^\d+$',
       required: true
     }
   ],
@@ -29,7 +22,7 @@ module.exports = {
 
     {
       setup: {
-        type: 'string',
+        type: 'date',
         description: 'lorem ipsum'
       },
       errors: [
@@ -42,7 +35,7 @@ module.exports = {
 
     {
       setup: {
-        type: 'string',
+        type: 'date',
         required: true
       },
       errors: [
@@ -60,9 +53,8 @@ module.exports = {
     {
       setup: {
         name: 'dolor',
-        type: 'string',
+        type: 'date',
         description: 'lorem ipsum',
-        pattern: 123,
         required: 'some text',
         minimum: 123
       },
@@ -70,10 +62,6 @@ module.exports = {
         {
           reason: '"required" is not a boolean',
           msg: /".required".*should be boolean/
-        },
-        {
-          reason: '"pattern" is not a string',
-          msg: /".pattern".*should be string/
         },
         {
           reason: '"minimum" is used',

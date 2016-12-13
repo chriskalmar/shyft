@@ -12,7 +12,7 @@ function loadAndRenderCoreComponent(name, model) {
   let templateVars = component.processor(model)
   let template = engine.loadTemplate(component.templatePath)
 
-  return template.renderSync(templateVars).trim()
+  return template.renderToString(templateVars).trim()
 }
 
 

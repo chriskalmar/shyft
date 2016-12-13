@@ -6,21 +6,8 @@ module.exports = {
   valid: [
     {
       name: 'lorem',
-      type: 'string',
+      type: 'boolean',
       description: 'lorem ipsum'
-    },
-    {
-      name: 'ipsum',
-      type: 'string',
-      description: 'lorem ipsum',
-      required: true
-    },
-    {
-      name: 'dolor',
-      type: 'string',
-      description: 'lorem ipsum',
-      pattern: '^\d+$',
-      required: true
     }
   ],
 
@@ -29,7 +16,7 @@ module.exports = {
 
     {
       setup: {
-        type: 'string',
+        type: 'boolean',
         description: 'lorem ipsum'
       },
       errors: [
@@ -42,8 +29,7 @@ module.exports = {
 
     {
       setup: {
-        type: 'string',
-        required: true
+        type: 'boolean'
       },
       errors: [
         {
@@ -60,24 +46,19 @@ module.exports = {
     {
       setup: {
         name: 'dolor',
-        type: 'string',
+        type: 'boolean',
         description: 'lorem ipsum',
         pattern: 123,
-        required: 'some text',
-        minimum: 123
+        required: 'some text'
       },
       errors: [
         {
-          reason: '"required" is not a boolean',
-          msg: /".required".*should be boolean/
+          reason: '"required" is used',
+          msg: /"required".*should NOT have additional properties/
         },
         {
-          reason: '"pattern" is not a string',
-          msg: /".pattern".*should be string/
-        },
-        {
-          reason: '"minimum" is used',
-          msg: /"minimum".*should NOT have additional properties/
+          reason: '"pattern" is used',
+          msg: /"pattern".*should NOT have additional properties/
         }
       ]
 

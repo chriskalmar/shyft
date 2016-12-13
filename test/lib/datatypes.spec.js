@@ -6,7 +6,19 @@ const _ = require('lodash')
 const registry = require('../../').registry
 
 const dataTypeNames = [
-  'string'
+  'string',
+  'integer',
+  'bigint',
+  'boolean',
+  'email',
+  'date',
+  'time',
+  'timetz',
+  'timestamp',
+  'timestamptz',
+  'json',
+  'password',
+  'reference'
 ]
 
 
@@ -58,16 +70,30 @@ describe('data types', function() {
             it(error.reason, function() {
 
               let valid
+              let forwardError
 
               function fn() {
                 valid = definitionValidator( invalid.setup )
 
                 if (!valid) {
-                  throw new Error(JSON.stringify(definitionValidator.errors, null, 2))
+                  forwardError = new Error('Validation Error')
+                  forwardError.validationErrors = definitionValidator.errors
+                  throw forwardError
                 }
               }
 
-              expect(fn).to.throw(error.msg || '----')
+              expect(fn).to.throw().and.to.satisfy(function(err) {
+                let matched = false
+
+                _.map(err.validationErrors, function(validationError) {
+
+                  if (JSON.stringify(validationError).match(error.msg)) {
+                    matched = true
+                  }
+                })
+
+                return matched
+              });
 
             })
 
