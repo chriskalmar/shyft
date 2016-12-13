@@ -33,6 +33,10 @@ describe('data types', function() {
 
     describe(dataTypeName, function() {
 
+      if (fixtures.skip) {
+        return it.skip('TODO')
+      }
+
       if (!fixtures.valid || !fixtures.valid.length) {
         throw new Error('Test fixture is broken')
       }
