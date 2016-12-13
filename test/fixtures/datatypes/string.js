@@ -63,7 +63,8 @@ module.exports = {
         type: 'string',
         description: 'lorem ipsum',
         pattern: 123,
-        required: 'some text'
+        required: 'some text',
+        minimum: 123
       },
       errors: [
         {
@@ -73,6 +74,10 @@ module.exports = {
         {
           reason: '"pattern" is not a string',
           msg: /".pattern".*should be string/
+        },
+        {
+          reason: '"minimum" is used',
+          msg: /"minimum".*should NOT have additional properties/
         }
       ]
 

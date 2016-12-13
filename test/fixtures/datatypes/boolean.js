@@ -53,11 +53,11 @@ module.exports = {
       },
       errors: [
         {
-          reason: '"required" is not an allowed property',
+          reason: '"required" is used',
           msg: /"required".*should NOT have additional properties/
         },
         {
-          reason: '"pattern" is not an allowed property',
+          reason: '"pattern" is used',
           msg: /"pattern".*should NOT have additional properties/
         }
       ]

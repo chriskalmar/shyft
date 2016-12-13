@@ -75,7 +75,8 @@ module.exports = {
         maximum: 'some text',
         exclusiveMinimum: 1,
         exclusiveMaximum: 1.2,
-        required: 123
+        required: 123,
+        pattern: '.*'
       },
       errors: [
         {
@@ -97,6 +98,10 @@ module.exports = {
         {
           reason: '"required" is not a boolean',
           msg: /".required".*should be boolean/
+        },
+        {
+          reason: '"pattern" is used',
+          msg: /"pattern".*should NOT have additional properties/
         }
       ]
 
