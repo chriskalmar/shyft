@@ -1,7 +1,7 @@
 
 'use strict';
 
-const validation = require('../../lib/validation/base')
+import validation from '../../lib/validation/base';
 
 
 
