@@ -1,0 +1,12 @@
+{
+  "verbose": false,
+  "watch": [
+    "*.js",
+    "**/*.js"
+  ],
+  "ignore": [
+    "node_modules/**",
+    "coverage/**"
+  ],
+  "exec": "npm run test"
+}
