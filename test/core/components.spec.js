@@ -1,28 +1,25 @@
 
-'use strict';
+import { engine, registry } from '../../';
 
-const engine = require('../../').engine
-const registry = require('../../').registry
-
-const model = require('../fixtures/models/geo.js')
+import model from '../fixtures/models/simple/geo.js';
 
 
-function loadAndRenderCoreComponent(name, model) {
-  let component = registry.getCoreComponent(name)
-  let templateVars = component.processor(model)
-  let template = engine.loadTemplate(component.templatePath)
+function loadAndRenderCoreComponent(name, theModel) {
+  const component = registry.getCoreComponent(name)
+  const templateVars = component.processor(theModel)
+  const template = engine.loadTemplate(component.templatePath)
 
-  return template.renderSync(templateVars).trim()
+  return template.renderToString(templateVars).trim()
 }
 
 
-describe('component', function() {
+describe('component', () => {
 
-  describe('schema', function() {
+  describe('schema', () => {
 
-    it('should render a DB schema definition', function() {
+    it('should render a DB schema definition', () => {
 
-      let result = loadAndRenderCoreComponent('schema', model)
+      const result = loadAndRenderCoreComponent('schema', model)
 
       expect(result).to.equal('CREATE SCHEMA IF NOT EXISTS geo;')
     })

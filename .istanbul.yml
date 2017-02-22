@@ -1,6 +1,0 @@
-instrumentation:
-  include-all-sources: true
-  excludes:
-    - Gruntfile.js
-    - playground/*.js
-
