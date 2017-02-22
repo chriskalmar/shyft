@@ -6,6 +6,7 @@
   "scripts": {
     "test": "mocha --compilers js:babel-register --require test/setup.js -R spec --check-leaks test/*",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "lint-staged": "lint-staged",
     "coverage": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --require test/setup.js -- -R spec --check-leaks  test/*",
     "coverage-detail": "node_modules/istanbul/lib/cli.js cover --print none ./node_modules/mocha/bin/_mocha --require test/setup.js -- -R spec --check-leaks  test/* && node_modules/istanbul/lib/cli.js report text",
@@ -13,7 +14,9 @@
     "babel": "babel --presets es2015 --ignore node_modules,coverage"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "lint-staged": {
     "*.js": "./node_modules/eslint/bin/eslint.js"
@@ -34,6 +37,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "babel-eslint": "^7.1.1",
     "babel-register": "^6.23.0",
     "chai": "^3.5.0",
     "codecov": "^1.0.1",
