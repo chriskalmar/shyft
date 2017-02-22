@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --compilers js:babel-register --require test/setup.js -R spec --check-leaks test/*",
+    "test:watch": "nodemon",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint-staged": "lint-staged",
@@ -47,6 +48,7 @@
     "grunt-newer": "^1.2.0",
     "lint-staged": "^3.2.2",
     "mocha": "^3.2.0",
+    "nodemon": "^1.11.0",
     "nyc": "^10.1.2",
     "pre-commit": "^1.2.1"
   },
