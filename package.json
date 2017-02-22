@@ -4,12 +4,19 @@
   "description": "Model driven database and API generator",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/_mocha --require test/setup.js -R spec --check-leaks test/*",
-    "lint": "./node_modules/eslint/bin/eslint.js .",
+    "test": "mocha --compilers js:babel-register --require test/setup.js -R spec --check-leaks test/*",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "lint-staged": "lint-staged",
     "coverage": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --require test/setup.js -- -R spec --check-leaks  test/*",
     "coverage-detail": "node_modules/istanbul/lib/cli.js cover --print none ./node_modules/mocha/bin/_mocha --require test/setup.js -- -R spec --check-leaks  test/* && node_modules/istanbul/lib/cli.js report text",
-    "coverage-ci": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --require test/setup.js -- -R spec --check-leaks test/* && cat ./coverage/lcov.info | ./node_modules/.bin/codecov"
+    "coverage-ci": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --require test/setup.js -- -R spec --check-leaks test/* && cat ./coverage/lcov.info | ./node_modules/.bin/codecov",
+    "babel": "babel --presets es2015 --ignore node_modules,coverage"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
   },
   "lint-staged": {
     "*.js": "./node_modules/eslint/bin/eslint.js"
@@ -30,6 +37,8 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "babel-register": "^6.23.0",
     "chai": "^3.5.0",
     "codecov": "^1.0.1",
     "eslint": "^3.12.1",
@@ -46,6 +55,8 @@
   },
   "dependencies": {
     "ajv": "^4.10.0",
+    "babel-cli": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
     "chalk": "^1.1.3",
     "lodash": "^4.17.2",
     "marko": "^3.13.0"

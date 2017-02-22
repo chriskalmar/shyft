@@ -1,9 +1,11 @@
 
+/* eslint consistent-return: [0] */
+
 'use strict';
 
 
-const _ = require('lodash')
-const registry = require('../../').registry
+import _ from 'lodash';
+import { registry } from '../../';
 
 const dataTypeNames = [
   'string',
@@ -23,15 +25,15 @@ const dataTypeNames = [
 
 
 
-describe('data types', function() {
+describe('data types', () => {
 
-  _.map(dataTypeNames, function(dataTypeName) {
+  _.map(dataTypeNames, (dataTypeName) => {
 
-    let fixtures = require(`../fixtures/datatypes/${dataTypeName}`)
-    let dataType = registry.getDataType(dataTypeName)
-    let definitionValidator = dataType.getDefinitionValidator()
+    const fixtures = require(`../fixtures/datatypes/${dataTypeName}`).default
+    const dataType = registry.getDataType(dataTypeName)
+    const definitionValidator = dataType.getDefinitionValidator()
 
-    describe(dataTypeName, function() {
+    describe(dataTypeName, () => {
 
       if (fixtures.skip) {
         return it.skip('TODO')
@@ -42,13 +44,11 @@ describe('data types', function() {
       }
 
 
-      it('should accept valid definitions', function() {
+      it('should accept valid definitions', () => {
 
-        _.map(fixtures.valid, function(validDefinition) {
+        _.map(fixtures.valid, (validDefinition) => {
 
-          let valid
-
-          valid = definitionValidator( validDefinition )
+          const valid = definitionValidator( validDefinition )
 
           expect(valid).to.be.true
 
@@ -57,21 +57,21 @@ describe('data types', function() {
       })
 
 
-      describe('should reject definition when', function() {
+      describe('should reject definition when', () => {
 
         if (!fixtures.invalid || !fixtures.invalid.length) {
           throw new Error('Test fixture is broken')
         }
 
-        _.map(fixtures.invalid, function(invalid) {
+        _.map(fixtures.invalid, (invalid) => {
 
           if (!invalid.errors || !invalid.errors.length) {
             throw new Error('Test fixture is broken')
           }
 
-          _.map(invalid.errors, function(error) {
+          _.map(invalid.errors, (error) => {
 
-            it(error.reason, function() {
+            it(error.reason, () => {
 
               let valid
               let forwardError
@@ -86,10 +86,10 @@ describe('data types', function() {
                 }
               }
 
-              expect(fn).to.throw().and.to.satisfy(function(err) {
+              expect(fn).to.throw().and.to.satisfy((err) => {
                 let matched = false
 
-                _.map(err.validationErrors, function(validationError) {
+                _.map(err.validationErrors, (validationError) => {
 
                   if (JSON.stringify(validationError).match(error.msg)) {
                     matched = true

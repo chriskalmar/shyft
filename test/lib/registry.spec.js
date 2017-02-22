@@ -1,30 +1,30 @@
 
 'use strict';
 
-const registry = require('../../').registry
+import { registry } from '../../';
 
-const emptyEntitiesModel = require('../fixtures/models/empty/empty-entities.js')
-const model = require('../fixtures/models/simple/geo.js')
-const StringDataType = require('../../lib/datatypes/string.js')
-
-
-
-describe('registry', function() {
+import emptyEntitiesModel from '../fixtures/models/empty/empty-entities.js';
+import model from '../fixtures/models/simple/geo.js';
+import StringDataType from '../../lib/datatypes/string.js';
 
 
-  describe('components', function() {
+
+describe('registry', () => {
 
 
-    it('should store core components', function() {
+  describe('components', () => {
 
-      registry.setCoreComponent('example', function() {}, './test/fixtures/templates/empty.marko')
+
+    it('should store core components', () => {
+
+      registry.setCoreComponent('example', () => {}, './test/fixtures/templates/empty.marko')
 
       expect(registry.components.core).to.have.property('example')
     })
 
 
 
-    it('should reject core components without a name', function() {
+    it('should reject core components without a name', () => {
 
       function fn() {
         registry.setCoreComponent(null, null, './test/fixtures/templates/empty.marko')
@@ -35,7 +35,7 @@ describe('registry', function() {
 
 
 
-    it('should reject core components with missing or non-function processors', function() {
+    it('should reject core components with missing or non-function processors', () => {
 
       function fn() {
         registry.setCoreComponent('example', null, './test/fixtures/templates/empty.marko')
@@ -46,10 +46,10 @@ describe('registry', function() {
 
 
 
-    it('should reject core components where the template path does not exist', function() {
+    it('should reject core components where the template path does not exist', () => {
 
       function fn() {
-        registry.setCoreComponent('example', function() {}, '/tmp/-no-file-here.marko')
+        registry.setCoreComponent('example', () => {}, '/tmp/-no-file-here.marko')
       }
 
       expect(fn).to.throw(/could not find template/);
@@ -57,18 +57,16 @@ describe('registry', function() {
 
 
 
+    it('should return core components upon request', () => {
 
-    it('should return core components upon request', function() {
-
-      let component = registry.getCoreComponent('example')
+      const component = registry.getCoreComponent('example')
 
       expect(component.name).to.equal('example')
     })
 
 
 
-
-    it('should throw an error if unknown core component is being fetched', function() {
+    it('should throw an error if unknown core component is being fetched', () => {
 
       function fn() {
         registry.getCoreComponent('this-does-not-exist')
@@ -82,11 +80,10 @@ describe('registry', function() {
 
 
 
+  describe('data types', () => {
 
-  describe('data types', function() {
 
-
-    it('should register data types', function() {
+    it('should register data types', () => {
 
       registry.addDataType('lorem-ipsum', new StringDataType() )
 
@@ -95,7 +92,7 @@ describe('registry', function() {
 
 
 
-    it('should reject data types without a name', function() {
+    it('should reject data types without a name', () => {
 
       function fn() {
         registry.addDataType(null, new StringDataType() )
@@ -106,7 +103,7 @@ describe('registry', function() {
 
 
 
-    it('should throw an error if duplicate data types are being imported', function() {
+    it('should throw an error if duplicate data types are being imported', () => {
 
       function fn() {
         registry.addDataType('another-lorem-ipsum', new StringDataType() )
@@ -118,7 +115,7 @@ describe('registry', function() {
 
 
 
-    it('should reject data types that are not an instance of class DataType', function() {
+    it('should reject data types that are not an instance of class DataType', () => {
 
       function fn() {
         registry.addDataType('some-lorem-ipsum', { lorem: 'ipsum' } )
@@ -129,18 +126,16 @@ describe('registry', function() {
 
 
 
+    it('should return data types upon request', () => {
 
-    it('should return data types upon request', function() {
-
-      let dataType = registry.getDataType('lorem-ipsum')
+      const dataType = registry.getDataType('lorem-ipsum')
 
       expect(dataType.name).to.equal('string')
     })
 
 
 
-
-    it('should throw an error if unknown data type is being fetched', function() {
+    it('should throw an error if unknown data type is being fetched', () => {
 
       function fn() {
         registry.getDataType('this-does-not-exist')
@@ -154,11 +149,10 @@ describe('registry', function() {
 
 
 
+  describe('domain models importer', () => {
 
-  describe('domain models importer', function() {
 
-
-    it('should import domain models', function() {
+    it('should import domain models', () => {
 
       registry.clearAllDomainModel()
       registry.importDomainModel(model)
@@ -168,16 +162,16 @@ describe('registry', function() {
 
 
 
-    it('should return entity models upon request', function() {
+    it('should return entity models upon request', () => {
 
-      let entityModel = registry.getEntityModel('geo', 'country')
+      const entityModel = registry.getEntityModel('geo', 'country')
 
       expect(entityModel.domain).to.equal('geo')
       expect(entityModel.name).to.equal('country')
     })
 
 
-    it('should throw an error if duplicate models are being imported', function() {
+    it('should throw an error if duplicate models are being imported', () => {
 
       function fn() {
         registry.importDomainModel(model)
@@ -188,7 +182,7 @@ describe('registry', function() {
     })
 
 
-    it('should throw an error if basic schema validation fails', function() {
+    it('should throw an error if basic schema validation fails', () => {
 
       function fn() {
         registry.importDomainModel(emptyEntitiesModel)
@@ -199,7 +193,7 @@ describe('registry', function() {
     })
 
 
-    it('should throw an error if an unknwon entity model is being fetched', function() {
+    it('should throw an error if an unknwon entity model is being fetched', () => {
 
       function fn1() {
         registry.getEntityModel('this-does-not-exist')
@@ -218,7 +212,7 @@ describe('registry', function() {
 
 
 
-  it('should allow for clearing domain models', function() {
+  it('should allow for clearing domain models', () => {
 
     registry.clearAllDomainModel()
     registry.importDomainModel(model)
@@ -235,7 +229,6 @@ describe('registry', function() {
 
     expect(registry.components.models).to.have.deep.property('geo.country')
   })
-
 
 
 

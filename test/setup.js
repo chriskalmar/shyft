@@ -1,7 +1,7 @@
 
 'use strict';
 
-const chai = require('chai')
+import chai from 'chai';
 
 process.env.SILENT = true
 

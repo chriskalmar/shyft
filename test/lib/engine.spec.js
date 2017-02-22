@@ -1,11 +1,11 @@
 
 'use strict';
 
-const engine = require('../../').engine
-const registry = require('../../').registry
-const fs = require('fs')
+import { engine, registry } from '../../';
+import fs from 'fs';
 
-const model = require('../fixtures/models/simple/geo.js')
+import model from '../fixtures/models/simple/geo.js';
+
 const domainModelsFilePath = __dirname + '/../fixtures/models/multiple/'
 
 const domainModel = {
@@ -16,16 +16,16 @@ const domainModels = [ domainModel ]
 
 
 
-describe('engine', function() {
+describe('engine', () => {
 
 
-  describe('should render a complete model into SQL code', function() {
+  describe('should render a complete model into SQL code', () => {
 
-    let sqlResult = fs.readFileSync('./test/fixtures/renders/full.sql').toString()
+    const sqlResult = fs.readFileSync('./test/fixtures/renders/full.sql').toString()
 
-    it('via callback', function() {
+    it('via callback', () => {
 
-      engine.generateDatabaseSql([model], function(err, result) {
+      engine.generateDatabaseSql([model], (err, result) => {
         expect(result.trim()).to.equal(sqlResult)
       })
 
@@ -33,9 +33,9 @@ describe('engine', function() {
 
 
 
-    it('via return', function() {
+    it('via return', () => {
 
-      let result = engine.generateDatabaseSql([model]).trim()
+      const result = engine.generateDatabaseSql([model]).trim()
 
       expect(result).to.equal(sqlResult)
     })
@@ -44,7 +44,7 @@ describe('engine', function() {
 
 
 
-  it('reject code generation if "models" is not an array', function() {
+  it('reject code generation if "models" is not an array', () => {
 
     function fn() {
       engine.generateDatabaseSql(model)
@@ -56,7 +56,7 @@ describe('engine', function() {
 
 
 
-  it('should load domain models', function() {
+  it('should load domain models', () => {
 
     registry.clearAllDomainModel()
     engine.loadDomainModels(domainModels)
@@ -66,8 +66,7 @@ describe('engine', function() {
 
 
 
-
-  it('throw an error if domain models are provided in wrong format', function() {
+  it('throw an error if domain models are provided in wrong format', () => {
 
     function fn1() {
       engine.loadDomainModels()
@@ -84,7 +83,7 @@ describe('engine', function() {
 
 
 
-  it('should load domain models from a given path', function() {
+  it('should load domain models from a given path', () => {
 
     registry.clearAllDomainModel()
     engine.loadDomainModelsFromFilePath(domainModelsFilePath)
