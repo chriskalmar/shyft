@@ -10,19 +10,19 @@ describe('validation', function() {
   describe('system name pattern generator', function() {
 
     it('should create a valid pattern if min and max length are provided', function() {
-      let result = validation.buildSytemNamePattern(1, 20)
+      const result = validation.buildSytemNamePattern(1, 20)
       expect(result).to.equal('^[a-z][a-z0-9_]{0,19}$')
     })
 
 
     it('should create a valid pattern if min length is provided', function() {
-      let result = validation.buildSytemNamePattern(5)
+      const result = validation.buildSytemNamePattern(5)
       expect(result).to.equal('^[a-z][a-z0-9_]{4,}$')
     })
 
 
     it('should create a valid pattern if no range length is provided', function() {
-      let result = validation.buildSytemNamePattern()
+      const result = validation.buildSytemNamePattern()
       expect(result).to.equal('^[a-z][a-z0-9_]*$')
     })
 

@@ -21,7 +21,7 @@ describe('engine', function() {
 
   describe('should render a complete model into SQL code', function() {
 
-    let sqlResult = fs.readFileSync('./test/fixtures/renders/full.sql').toString()
+    const sqlResult = fs.readFileSync('./test/fixtures/renders/full.sql').toString()
 
     it('via callback', function() {
 
@@ -35,7 +35,7 @@ describe('engine', function() {
 
     it('via return', function() {
 
-      let result = engine.generateDatabaseSql([model]).trim()
+      const result = engine.generateDatabaseSql([model]).trim()
 
       expect(result).to.equal(sqlResult)
     })
@@ -63,7 +63,6 @@ describe('engine', function() {
 
     expect(registry.components.models).to.have.deep.property('geo.country')
   })
-
 
 
 

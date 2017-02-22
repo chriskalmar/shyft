@@ -57,14 +57,12 @@ describe('registry', function() {
 
 
 
-
     it('should return core components upon request', function() {
 
-      let component = registry.getCoreComponent('example')
+      const component = registry.getCoreComponent('example')
 
       expect(component.name).to.equal('example')
     })
-
 
 
 
@@ -79,7 +77,6 @@ describe('registry', function() {
 
 
   })
-
 
 
 
@@ -129,14 +126,12 @@ describe('registry', function() {
 
 
 
-
     it('should return data types upon request', function() {
 
-      let dataType = registry.getDataType('lorem-ipsum')
+      const dataType = registry.getDataType('lorem-ipsum')
 
       expect(dataType.name).to.equal('string')
     })
-
 
 
 
@@ -151,7 +146,6 @@ describe('registry', function() {
 
 
   })
-
 
 
 
@@ -170,7 +164,7 @@ describe('registry', function() {
 
     it('should return entity models upon request', function() {
 
-      let entityModel = registry.getEntityModel('geo', 'country')
+      const entityModel = registry.getEntityModel('geo', 'country')
 
       expect(entityModel.domain).to.equal('geo')
       expect(entityModel.name).to.equal('country')
@@ -235,7 +229,6 @@ describe('registry', function() {
 
     expect(registry.components.models).to.have.deep.property('geo.country')
   })
-
 
 
 

@@ -27,9 +27,9 @@ describe('data types', function() {
 
   _.map(dataTypeNames, function(dataTypeName) {
 
-    let fixtures = require(`../fixtures/datatypes/${dataTypeName}`).default
-    let dataType = registry.getDataType(dataTypeName)
-    let definitionValidator = dataType.getDefinitionValidator()
+    const fixtures = require(`../fixtures/datatypes/${dataTypeName}`).default
+    const dataType = registry.getDataType(dataTypeName)
+    const definitionValidator = dataType.getDefinitionValidator()
 
     describe(dataTypeName, function() {
 
