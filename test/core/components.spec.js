@@ -1,10 +1,9 @@
 
 'use strict';
 
-const engine = require('../../').engine
-const registry = require('../../').registry
+import { engine, registry } from '../../';
 
-const model = require('../fixtures/models/simple/geo.js')
+import model from '../fixtures/models/simple/geo.js';
 
 
 function loadAndRenderCoreComponent(name, model) {

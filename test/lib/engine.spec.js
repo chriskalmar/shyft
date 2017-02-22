@@ -1,11 +1,11 @@
 
 'use strict';
 
-const engine = require('../../').engine
-const registry = require('../../').registry
-const fs = require('fs')
+import { engine, registry } from '../../';
+import fs from 'fs';
 
-const model = require('../fixtures/models/simple/geo.js')
+import model from '../fixtures/models/simple/geo.js';
+
 const domainModelsFilePath = __dirname + '/../fixtures/models/multiple/'
 
 const domainModel = {

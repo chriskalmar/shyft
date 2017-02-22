@@ -4,8 +4,8 @@
   "description": "Model driven database and API generator",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/_mocha --require test/setup.js -R spec --check-leaks test/*",
-    "lint": "./node_modules/eslint/bin/eslint.js .",
+    "test": "mocha --compilers js:babel-register --require test/setup.js -R spec --check-leaks test/*",
+    "lint": "eslint .",
     "lint-staged": "lint-staged",
     "coverage": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --require test/setup.js -- -R spec --check-leaks  test/*",
     "coverage-detail": "node_modules/istanbul/lib/cli.js cover --print none ./node_modules/mocha/bin/_mocha --require test/setup.js -- -R spec --check-leaks  test/* && node_modules/istanbul/lib/cli.js report text",
@@ -34,6 +34,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "babel-register": "^6.23.0",
     "chai": "^3.5.0",
     "codecov": "^1.0.1",
     "eslint": "^3.12.1",

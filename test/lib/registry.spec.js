@@ -1,11 +1,11 @@
 
 'use strict';
 
-const registry = require('../../').registry
+import { registry } from '../../';
 
-const emptyEntitiesModel = require('../fixtures/models/empty/empty-entities.js')
-const model = require('../fixtures/models/simple/geo.js')
-const StringDataType = require('../../lib/datatypes/string.js')
+import emptyEntitiesModel from '../fixtures/models/empty/empty-entities.js';
+import model from '../fixtures/models/simple/geo.js';
+import StringDataType from '../../lib/datatypes/string.js';
 
 
 

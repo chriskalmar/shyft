@@ -2,8 +2,8 @@
 'use strict';
 
 
-const _ = require('lodash')
-const registry = require('../../').registry
+import _ from 'lodash';
+import { registry } from '../../';
 
 const dataTypeNames = [
   'string',
@@ -27,7 +27,7 @@ describe('data types', function() {
 
   _.map(dataTypeNames, function(dataTypeName) {
 
-    let fixtures = require(`../fixtures/datatypes/${dataTypeName}`)
+    let fixtures = require(`../fixtures/datatypes/${dataTypeName}`).default
     let dataType = registry.getDataType(dataTypeName)
     let definitionValidator = dataType.getDefinitionValidator()
 
