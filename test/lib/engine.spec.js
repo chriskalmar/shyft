@@ -1,6 +1,4 @@
 
-'use strict';
-
 import { engine, registry } from '../../';
 import fs from 'fs';
 

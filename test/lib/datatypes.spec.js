@@ -1,9 +1,6 @@
 
 /* eslint consistent-return: [0] */
 
-'use strict';
-
-
 import _ from 'lodash';
 import { registry } from '../../';
 

@@ -1,6 +1,4 @@
 
-'use strict';
-
 import { registry } from '../../';
 
 import emptyEntitiesModel from '../fixtures/models/empty/empty-entities.js';

@@ -1,6 +1,4 @@
 
-'use strict';
-
 import validation from '../../lib/validation/base';
 
 
