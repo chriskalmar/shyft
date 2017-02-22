@@ -1,0 +1,20 @@
+{
+  "reporter": [
+    "lcov",
+    "text-summary"
+  ],
+  "include": [
+    "**/*.js"
+  ],
+  "exclude": [
+    "src/**/*.spec.js",
+    "Gruntfile.js",
+    "lib/reporter.js",
+    "playground/*.js"
+  ],
+  "require": [
+    "babel-register"
+  ],
+  "sourceMap": false,
+  "instrument": false
+}

@@ -8,9 +8,10 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint-staged": "lint-staged",
-    "coverage": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --require test/setup.js -- -R spec --check-leaks  test/*",
-    "coverage-detail": "node_modules/istanbul/lib/cli.js cover --print none ./node_modules/mocha/bin/_mocha --require test/setup.js -- -R spec --check-leaks  test/* && node_modules/istanbul/lib/cli.js report text",
-    "coverage-ci": "node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --require test/setup.js -- -R spec --check-leaks test/* && cat ./coverage/lcov.info | ./node_modules/.bin/codecov",
+    "cov": "NODE_ENV=test nyc npm run test",
+    "coverage": "NODE_ENV=test nyc mocha --require test/setup.js -R spec --check-leaks  test/*",
+    "coverage-detail": "NODE_ENV=test nyc --reporter=text mocha --require test/setup.js -R spec --check-leaks test/*",
+    "coverage-ci": "NODE_ENV=test nyc mocha --require test/setup.js -R spec --check-leaks test/* && cat ./coverage/lcov.info | codecov",
     "babel": "babel --presets es2015 --ignore node_modules,coverage"
   },
   "babel": {
@@ -38,6 +39,7 @@
   "license": "MIT",
   "devDependencies": {
     "babel-eslint": "^7.1.1",
+    "babel-plugin-istanbul": "^4.0.0",
     "babel-register": "^6.23.0",
     "chai": "^3.5.0",
     "codecov": "^1.0.1",
@@ -48,9 +50,9 @@
     "grunt-eslint": "^19.0.0",
     "grunt-mocha-test": "^0.13.2",
     "grunt-newer": "^1.2.0",
-    "istanbul": "^0.4.5",
     "lint-staged": "^3.2.2",
     "mocha": "^3.2.0",
+    "nyc": "^10.1.2",
     "pre-commit": "^1.2.1"
   },
   "dependencies": {
