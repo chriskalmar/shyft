@@ -90,4 +90,41 @@ describe('engine', () => {
   })
 
 
+
+  describe.only('should generate unique index names', () => {
+
+    it('for no attributes', () => {
+
+      const indexName = engine.generateIndexName('user')
+
+      expect(indexName).to.equal('user__idx')
+    })
+
+
+    it('for single attributes', () => {
+
+      const indexName = engine.generateIndexName('user', ['firstname'])
+
+      expect(indexName).to.equal('user_firstname_idx')
+    })
+
+
+    it('for multiple attributes', () => {
+
+      const indexName = engine.generateIndexName('user', ['firstname', 'lastname', 'email'])
+
+      expect(indexName).to.equal('user_firstname_lastname_email_idx')
+    })
+
+
+    it('for too many attributes', () => {
+
+      const indexName = engine.generateIndexName('user', ['firstname', 'lastname', 'email', 'birthday', 'city', 'color', 'location', 'about'])
+
+      expect(indexName).to.equal('user_firstname_lastname_email_birthday_city_colo_2090776b35_idx')
+    })
+
+  })
+
+
 })
