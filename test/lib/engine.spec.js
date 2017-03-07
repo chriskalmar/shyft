@@ -59,7 +59,7 @@ describe('engine', () => {
     registry.clearAllDomainModel()
     engine.loadDomainModels(domainModels)
 
-    expect(registry.components.models).to.have.deep.property('geo.country')
+    expect(registry.components.models).to.have.deep.property('@.geo.country')
   })
 
 
@@ -86,12 +86,12 @@ describe('engine', () => {
     registry.clearAllDomainModel()
     engine.loadDomainModelsFromFilePath(domainModelsFilePath)
 
-    expect(registry.components.models).to.have.deep.property('geo.country')
+    expect(registry.components.models).to.have.deep.property('@.geo.country')
   })
 
 
 
-  describe.only('should generate unique index names', () => {
+  describe('should generate unique index names', () => {
 
     it('for no attributes', () => {
 

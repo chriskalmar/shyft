@@ -155,7 +155,7 @@ describe('registry', () => {
       registry.clearAllDomainModel()
       registry.importDomainModel(model)
 
-      expect(registry.components.models).to.have.deep.property('geo.country')
+      expect(registry.components.models).to.have.deep.property('@.geo.country')
     })
 
 
@@ -175,7 +175,7 @@ describe('registry', () => {
         registry.importDomainModel(model)
       }
 
-      expect(fn).to.throw(/duplicate entity model: geo::country/);
+      expect(fn).to.throw(/duplicate entity model: @::geo::country/);
 
     })
 
@@ -215,17 +215,17 @@ describe('registry', () => {
     registry.clearAllDomainModel()
     registry.importDomainModel(model)
 
-    expect(registry.components.models).to.have.deep.property('geo.country')
+    expect(registry.components.models).to.have.deep.property('@.geo.country')
 
     registry.clearAllDomainModel()
     registry.importDomainModel(model)
 
-    expect(registry.components.models).to.have.deep.property('geo.country')
+    expect(registry.components.models).to.have.deep.property('@.geo.country')
 
     registry.clearDomainModel('geo')
     registry.importDomainModel(model)
 
-    expect(registry.components.models).to.have.deep.property('geo.country')
+    expect(registry.components.models).to.have.deep.property('@.geo.country')
   })
 
 
