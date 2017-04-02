@@ -26,8 +26,6 @@
     "generator"
   ],
   "author": "Chris Kalmar <christian.kalmar@gmail.com>",
-  "contributors": [
-  ],
   "engines": {
     "node": ">= 6.0.0",
     "npm": ">= 2.0.0"
@@ -53,7 +51,7 @@
     "babel-preset-es2015": "^6.22.0",
     "chalk": "^1.1.3",
     "glob": "^7.1.1",
-    "lodash": "^4.17.2",
-    "marko": "^3.13.0"
+    "knex": "^0.12.9",
+    "lodash": "^4.17.2"
   }
 }
