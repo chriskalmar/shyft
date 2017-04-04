@@ -4,6 +4,7 @@ import { registry } from '../../';
 import emptyEntitiesModel from '../fixtures/models/empty/empty-entities.js';
 import model from '../fixtures/models/simple/geo.js';
 import StringDataType from '../../lib/datatypes/string.js';
+import Component from '../../lib/component';
 
 
 
@@ -15,7 +16,13 @@ describe('registry', () => {
 
     it('should store core components', () => {
 
-      registry.setCoreComponent('example', () => {}, './test/fixtures/templates/empty.marko')
+      class ExampleComponent extends Component {
+        constructor () {
+          super('example')
+        }
+      }
+
+      registry.setCoreComponent( new ExampleComponent() )
 
       expect(registry.components.core).to.have.property('example')
     })
@@ -24,33 +31,32 @@ describe('registry', () => {
 
     it('should reject core components without a name', () => {
 
-      function fn() {
-        registry.setCoreComponent(null, null, './test/fixtures/templates/empty.marko')
+      class NoNameComponent extends Component {
+        constructor () {
+          super()
+        }
       }
 
-      expect(fn).to.throw(/requires a name/);
+      function fn() {
+        registry.setCoreComponent( new NoNameComponent() )
+      }
+
+      expect(fn).to.throw(/Missing component name/);
+
     })
 
 
 
-    it('should reject core components with missing or non-function processors', () => {
+    it('should reject core components if it does not extend the Component class', () => {
 
-      function fn() {
-        registry.setCoreComponent('example', null, './test/fixtures/templates/empty.marko')
+      class NonComponent {
       }
 
-      expect(fn).to.throw(/requires processor to be a function/);
-    })
-
-
-
-    it('should reject core components where the template path does not exist', () => {
-
       function fn() {
-        registry.setCoreComponent('example', () => {}, '/tmp/-no-file-here.marko')
+        registry.setCoreComponent( new NonComponent() )
       }
 
-      expect(fn).to.throw(/could not find template/);
+      expect(fn).to.throw(/requires component to extend Component class/);
     })
 
 
