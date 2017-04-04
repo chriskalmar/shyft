@@ -191,7 +191,7 @@ describe('registry', () => {
     })
 
 
-    it('should throw an error if an unknwon entity model is being fetched', () => {
+    it('should throw an error if an unknown entity model is being fetched', () => {
 
       function fn1() {
         registry.getEntityModel('this-does-not-exist')
