@@ -16,27 +16,20 @@ const domainModels = [ domainModel ]
 
 describe('engine', () => {
 
+  it('should render a complete model into SQL code', () => {
 
-  describe('should render a complete model into SQL code', () => {
+    // reset registry
+    registry.clearAllDomainModel()
+
+    // engine.loadCoreDomainModels()
+    engine.loadDomainModelsFromFilePath(__dirname + '/../fixtures/models/simple/')
+
+    const singleModel = registry.getEntityModel('geo', 'country')
 
     const sqlResult = fs.readFileSync('./test/fixtures/renders/full.sql').toString()
+    const result = engine.generateDatabaseSql([ singleModel ])
 
-    it('via callback', () => {
-
-      engine.generateDatabaseSql([model], (err, result) => {
-        expect(result.trim()).to.equal(sqlResult)
-      })
-
-    })
-
-
-
-    it('via return', () => {
-
-      const result = engine.generateDatabaseSql([model]).trim()
-
-      expect(result).to.equal(sqlResult)
-    })
+    expect(result).to.equal(sqlResult)
 
   })
 
