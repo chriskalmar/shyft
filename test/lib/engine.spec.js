@@ -5,6 +5,7 @@ import fs from 'fs';
 import model from '../fixtures/models/simple/geo.js';
 
 const domainModelsFilePath = __dirname + '/../fixtures/models/multiple/'
+const emptyDomainModelsFilePath = __dirname + '/../fixtures/models/no-models/'
 
 const domainModel = {
   filePath: 'geo.js',
@@ -80,6 +81,30 @@ describe('engine', () => {
     engine.loadDomainModelsFromFilePath(domainModelsFilePath)
 
     expect(registry.components.models).to.have.deep.property('@.geo.country')
+  })
+
+
+  it('should throw an error if given path does not exist', () => {
+
+    registry.clearAllDomainModel()
+
+    function fn() {
+      engine.loadDomainModelsFromFilePath('./some-random-path/')
+    }
+
+    expect(fn).to.throw(/path does not exist/);
+  })
+
+
+  it('should throw an error if given path does not have any valid models', () => {
+
+    registry.clearAllDomainModel()
+
+    function fn() {
+      engine.loadDomainModelsFromFilePath(emptyDomainModelsFilePath)
+    }
+
+    expect(fn).to.throw(/no models found/);
   })
 
 
