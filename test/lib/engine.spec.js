@@ -149,10 +149,12 @@ describe('engine', () => {
 
     let sqlPath
 
-    const structure = {
-      attribute: 'language'
-    }
+    const structure = {}
 
+    sqlPath = engine.convertPathToSql(structure)
+    expect(sqlPath).to.equal('')
+
+    structure.attribute = 'language'
     sqlPath = engine.convertPathToSql(structure)
     expect(sqlPath).to.equal('language')
 
@@ -167,6 +169,81 @@ describe('engine', () => {
     structure.provider = 'shift'
     sqlPath = engine.convertPathToSql(structure)
     expect(sqlPath).to.equal('shift__geo.country.language')
+
+  })
+
+
+  describe('target to path converter', () => {
+
+    it('needs a defined target', () => {
+
+      // const structure = engine.convertTargetToPath()
+
+      function fn() {
+        engine.convertTargetToPath()
+      }
+
+      expect(fn).to.throw(/target needs to be defined/);
+    })
+
+
+    it('converts entity targets', () => {
+
+      const structure = engine.convertTargetToPath('language')
+
+      expect(structure).to.deep.equal({
+        provider: undefined,
+        domain: undefined,
+        entity: 'language'
+      })
+    })
+
+    it('converts domain-entity targets', () => {
+
+      const structure = engine.convertTargetToPath('country::language')
+
+      expect(structure).to.deep.equal({
+        provider: undefined,
+        domain: 'country',
+        entity: 'language'
+      })
+    })
+
+
+    it('converts entity targets with domain fallback', () => {
+
+      const structure = engine.convertTargetToPath('language', 'country')
+
+      expect(structure).to.deep.equal({
+        provider: undefined,
+        domain: 'country',
+        entity: 'language'
+      })
+    })
+
+
+    it('converts provider-domain-entity targets', () => {
+
+      const structure = engine.convertTargetToPath('shift::country::language')
+
+      expect(structure).to.deep.equal({
+        provider: 'shift',
+        domain: 'country',
+        entity: 'language'
+      })
+    })
+
+
+    it('converts local provider targets', () => {
+
+      const structure = engine.convertTargetToPath('country::language', '', '@')
+
+      expect(structure).to.deep.equal({
+        provider: null,
+        domain: 'country',
+        entity: 'language'
+      })
+    })
 
   })
 
