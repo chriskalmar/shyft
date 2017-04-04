@@ -145,4 +145,30 @@ describe('engine', () => {
   })
 
 
+  it('should convert structure to SQL paths', () => {
+
+    let sqlPath
+
+    const structure = {
+      attribute: 'language'
+    }
+
+    sqlPath = engine.convertPathToSql(structure)
+    expect(sqlPath).to.equal('language')
+
+    structure.entity = 'country'
+    sqlPath = engine.convertPathToSql(structure)
+    expect(sqlPath).to.equal('country.language')
+
+    structure.domain = 'geo'
+    sqlPath = engine.convertPathToSql(structure)
+    expect(sqlPath).to.equal('geo.country.language')
+
+    structure.provider = 'shift'
+    sqlPath = engine.convertPathToSql(structure)
+    expect(sqlPath).to.equal('shift__geo.country.language')
+
+  })
+
+
 })
