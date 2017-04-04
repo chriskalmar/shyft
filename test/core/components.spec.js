@@ -1,7 +1,8 @@
 
-import { registry } from '../../';
+import { engine, registry } from '../../';
 
-// import model from '../fixtures/models/simple/geo.js';
+
+
 
 
 function loadAndRenderCoreComponent(name, theModel) {
@@ -12,15 +13,28 @@ function loadAndRenderCoreComponent(name, theModel) {
 
 describe.only('component', () => {
 
+  engine.loadCoreDomainModels()
+  engine.loadDomainModelsFromFilePath(__dirname + '/../fixtures/models/simple/')
+
+
+  // const models = registry.getAllEntityModels()
+  const schemaNames = engine.getSqlSchemaNames()
+  // const result = engine.generateDatabaseSql(models)
+
+
   describe('schema', () => {
 
     it('should render a DB schema definition', () => {
 
-      const schemaNames = [ 'geo' ]
       const result = loadAndRenderCoreComponent('schema', schemaNames)
 
-      expect(result).to.equal('CREATE SCHEMA IF NOT EXISTS geo;')
+      expect(result).to.have.string('CREATE SCHEMA IF NOT EXISTS shift__core;');
+      expect(result).to.have.string('CREATE SCHEMA IF NOT EXISTS geo;');
+
     })
 
   })
+
+
+
 })
