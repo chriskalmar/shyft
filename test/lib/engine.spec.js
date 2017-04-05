@@ -5,6 +5,7 @@ import fs from 'fs';
 import model from '../fixtures/models/simple/geo.js';
 
 const domainModelsFilePath = __dirname + '/../fixtures/models/multiple/'
+const emptyDomainModelsFilePath = __dirname + '/../fixtures/models/no-models/'
 
 const domainModel = {
   filePath: 'geo.js',
@@ -16,27 +17,20 @@ const domainModels = [ domainModel ]
 
 describe('engine', () => {
 
+  it('should render a complete model into SQL code', () => {
 
-  describe('should render a complete model into SQL code', () => {
+    // reset registry
+    registry.clearAllDomainModel()
+
+    // engine.loadCoreDomainModels()
+    engine.loadDomainModelsFromFilePath(__dirname + '/../fixtures/models/simple/')
+
+    const singleModel = registry.getEntityModel('geo', 'country')
 
     const sqlResult = fs.readFileSync('./test/fixtures/renders/full.sql').toString()
+    const result = engine.generateDatabaseSql([ singleModel ])
 
-    it('via callback', () => {
-
-      engine.generateDatabaseSql([model], (err, result) => {
-        expect(result.trim()).to.equal(sqlResult)
-      })
-
-    })
-
-
-
-    it('via return', () => {
-
-      const result = engine.generateDatabaseSql([model]).trim()
-
-      expect(result).to.equal(sqlResult)
-    })
+    expect(result).to.equal(sqlResult)
 
   })
 
@@ -59,7 +53,7 @@ describe('engine', () => {
     registry.clearAllDomainModel()
     engine.loadDomainModels(domainModels)
 
-    expect(registry.components.models).to.have.deep.property('geo.country')
+    expect(registry.components.models).to.have.deep.property('@.geo.country')
   })
 
 
@@ -86,7 +80,171 @@ describe('engine', () => {
     registry.clearAllDomainModel()
     engine.loadDomainModelsFromFilePath(domainModelsFilePath)
 
-    expect(registry.components.models).to.have.deep.property('geo.country')
+    expect(registry.components.models).to.have.deep.property('@.geo.country')
+  })
+
+
+  it('should throw an error if given path does not exist', () => {
+
+    registry.clearAllDomainModel()
+
+    function fn() {
+      engine.loadDomainModelsFromFilePath('./some-random-path/')
+    }
+
+    expect(fn).to.throw(/path does not exist/);
+  })
+
+
+  it('should throw an error if given path does not have any valid models', () => {
+
+    registry.clearAllDomainModel()
+
+    function fn() {
+      engine.loadDomainModelsFromFilePath(emptyDomainModelsFilePath)
+    }
+
+    expect(fn).to.throw(/no models found/);
+  })
+
+
+
+  describe('should generate unique index names', () => {
+
+    it('for no attributes', () => {
+
+      const indexName = engine.generateIndexName('user')
+
+      expect(indexName).to.equal('user__idx')
+    })
+
+
+    it('for single attributes', () => {
+
+      const indexName = engine.generateIndexName('user', ['firstname'])
+
+      expect(indexName).to.equal('user_firstname_idx')
+    })
+
+
+    it('for multiple attributes', () => {
+
+      const indexName = engine.generateIndexName('user', ['firstname', 'lastname', 'email'])
+
+      expect(indexName).to.equal('user_firstname_lastname_email_idx')
+    })
+
+
+    it('for too many attributes', () => {
+
+      const indexName = engine.generateIndexName('user', ['firstname', 'lastname', 'email', 'birthday', 'city', 'color', 'location', 'about'])
+
+      expect(indexName).to.equal('user_firstname_lastname_email_birthday_city_colo_2090776b35_idx')
+    })
+
+  })
+
+
+  it('should convert structure to SQL paths', () => {
+
+    let sqlPath
+
+    const structure = {}
+
+    sqlPath = engine.convertPathToSql(structure)
+    expect(sqlPath).to.equal('')
+
+    structure.attribute = 'language'
+    sqlPath = engine.convertPathToSql(structure)
+    expect(sqlPath).to.equal('language')
+
+    structure.entity = 'country'
+    sqlPath = engine.convertPathToSql(structure)
+    expect(sqlPath).to.equal('country.language')
+
+    structure.domain = 'geo'
+    sqlPath = engine.convertPathToSql(structure)
+    expect(sqlPath).to.equal('geo.country.language')
+
+    structure.provider = 'shift'
+    sqlPath = engine.convertPathToSql(structure)
+    expect(sqlPath).to.equal('shift__geo.country.language')
+
+  })
+
+
+  describe('target to path converter', () => {
+
+    it('needs a defined target', () => {
+
+      // const structure = engine.convertTargetToPath()
+
+      function fn() {
+        engine.convertTargetToPath()
+      }
+
+      expect(fn).to.throw(/target needs to be defined/);
+    })
+
+
+    it('converts entity targets', () => {
+
+      const structure = engine.convertTargetToPath('language')
+
+      expect(structure).to.deep.equal({
+        provider: undefined,
+        domain: undefined,
+        entity: 'language'
+      })
+    })
+
+    it('converts domain-entity targets', () => {
+
+      const structure = engine.convertTargetToPath('country::language')
+
+      expect(structure).to.deep.equal({
+        provider: undefined,
+        domain: 'country',
+        entity: 'language'
+      })
+    })
+
+
+    it('converts entity targets with domain fallback', () => {
+
+      const structure = engine.convertTargetToPath('language', 'country')
+
+      expect(structure).to.deep.equal({
+        provider: undefined,
+        domain: 'country',
+        entity: 'language'
+      })
+    })
+
+
+    it('converts provider-domain-entity targets', () => {
+
+      const structure = engine.convertTargetToPath('shift::country::language')
+
+      expect(structure).to.deep.equal({
+        provider: 'shift',
+        domain: 'country',
+        entity: 'language'
+      })
+    })
+
+
+    it('converts local provider targets', () => {
+
+      const structure = engine.convertTargetToPath('country::language', '', '@')
+
+      expect(structure).to.deep.equal({
+        provider: null,
+        domain: 'country',
+        entity: 'language'
+      })
+    })
+
   })
 
 
