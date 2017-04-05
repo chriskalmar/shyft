@@ -1,4 +1,5 @@
 
+import constants from './lib/constants';
 import engine from './lib/engine';
 import registry from './lib/registry';
 import reporter from './lib/reporter';
@@ -6,6 +7,7 @@ import reporter from './lib/reporter';
 
 
 export {
+  constants,
   engine,
   registry,
   reporter
@@ -13,6 +15,7 @@ export {
 
 
 export default {
+  constants,
   engine,
   registry,
   reporter
