@@ -29,9 +29,8 @@ export default {
 
         {
           name: 'continent',
-          type: 'reference',
-          description: 'The continent where the country is located',
-          target: 'geo::continent'
+          type: 'string',
+          description: 'The continent where the country is located'
         }
 
       ],
