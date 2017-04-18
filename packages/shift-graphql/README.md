@@ -1,2 +1,2 @@
 # shift-graphql
-GraphQL extensions for shift 
+GraphQL extension for shift
