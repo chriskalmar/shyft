@@ -44,6 +44,26 @@ describe('util', () => {
 
     })
 
+
+    it('should generate upper case type names from a model', () => {
+
+      registry.clearAllDomainModel()
+      engine.loadCoreDomainModels()
+      engine.loadDomainModelsFromFilePath(domainModelsFilePath)
+
+      const entityModel = registry.getEntityModel('geo', 'country')
+      const result1 = util.generateTypeNameUpperCase(entityModel)
+
+      expect(result1).to.equal('GeoCountry');
+
+
+      const coreEntityModel = registry.getProviderEntityModel('shift', 'core', 'language')
+      const result2 = util.generateTypeNameUpperCase(coreEntityModel)
+
+      expect(result2).to.equal('ShiftCoreLanguage');
+
+    })
+
   })
 
 })

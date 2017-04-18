@@ -28,6 +28,21 @@ export function generateTypeName(entityModel) {
 }
 
 
+export function upperCaseFirst(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+
+
+export function generateTypeNameUpperCase(entityModel) {
+  return upperCaseFirst(
+    generateTypeName(entityModel)
+  )
+}
+
+
 export default {
   generateTypeName,
+  upperCaseFirst,
+  generateTypeNameUpperCase,
 }
