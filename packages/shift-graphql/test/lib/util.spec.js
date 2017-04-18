@@ -28,12 +28,19 @@ describe('util', () => {
     it('should generate a type name from a model', () => {
 
       registry.clearAllDomainModel()
+      engine.loadCoreDomainModels()
       engine.loadDomainModelsFromFilePath(domainModelsFilePath)
 
       const entityModel = registry.getEntityModel('geo', 'country')
-      const result = util.generateTypeName(entityModel)
+      const result1 = util.generateTypeName(entityModel)
 
-      expect(result).to.equal('geoCountry');
+      expect(result1).to.equal('geoCountry');
+
+
+      const coreEntityModel = registry.getProviderEntityModel('shift', 'core', 'language')
+      const result2 = util.generateTypeName(coreEntityModel)
+
+      expect(result2).to.equal('shiftCoreLanguage');
 
     })
 
