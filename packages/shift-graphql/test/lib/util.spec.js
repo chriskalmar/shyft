@@ -6,15 +6,36 @@ const domainModelsFilePath = __dirname + '/../fixtures/models/multiple/'
 
 describe('util', () => {
 
-  it('should generate a type name from a model', () => {
+  describe('type name', () => {
 
-    registry.clearAllDomainModel()
-    engine.loadDomainModelsFromFilePath(domainModelsFilePath)
 
-    const entityModel = registry.getEntityModel('geo', 'country')
-    const result = util.generateTypeName(entityModel)
+    it('should fail on missing or incomplete models', () => {
 
-    expect(result).to.equal('geoCountry');
+      function fn1() {
+        util.generateTypeName()
+      }
+
+      function fn2() {
+        util.generateTypeName({})
+      }
+
+      expect(fn1).to.throw(/entityModel needs to be defined/);
+      expect(fn2).to.throw(/entityModel needs a name and a domain/);
+
+    })
+
+
+    it('should generate a type name from a model', () => {
+
+      registry.clearAllDomainModel()
+      engine.loadDomainModelsFromFilePath(domainModelsFilePath)
+
+      const entityModel = registry.getEntityModel('geo', 'country')
+      const result = util.generateTypeName(entityModel)
+
+      expect(result).to.equal('geoCountry');
+
+    })
 
   })
 
