@@ -8,6 +8,12 @@ describe('util', () => {
 
   describe('type name', () => {
 
+    registry.clearAllDomainModel()
+    engine.loadCoreDomainModels()
+    engine.loadDomainModelsFromFilePath(domainModelsFilePath)
+
+    const entityModel = registry.getEntityModel('geo', 'country')
+
 
     it('should fail on missing or incomplete models', () => {
 
@@ -27,11 +33,6 @@ describe('util', () => {
 
     it('should generate a type name from a model', () => {
 
-      registry.clearAllDomainModel()
-      engine.loadCoreDomainModels()
-      engine.loadDomainModelsFromFilePath(domainModelsFilePath)
-
-      const entityModel = registry.getEntityModel('geo', 'country')
       const result1 = util.generateTypeName(entityModel)
 
       expect(result1).to.equal('geoCountry');
@@ -47,11 +48,6 @@ describe('util', () => {
 
     it('should generate upper case type names from a model', () => {
 
-      registry.clearAllDomainModel()
-      engine.loadCoreDomainModels()
-      engine.loadDomainModelsFromFilePath(domainModelsFilePath)
-
-      const entityModel = registry.getEntityModel('geo', 'country')
       const result1 = util.generateTypeNameUpperCase(entityModel)
 
       expect(result1).to.equal('GeoCountry');
@@ -68,11 +64,6 @@ describe('util', () => {
 
     it('should generate pluralized type names from a model', () => {
 
-      registry.clearAllDomainModel()
-      engine.loadCoreDomainModels()
-      engine.loadDomainModelsFromFilePath(domainModelsFilePath)
-
-      const entityModel = registry.getEntityModel('geo', 'country')
       const result1 = util.generateTypeNamePlural(entityModel)
 
       expect(result1).to.equal('geoCountries');
@@ -88,11 +79,6 @@ describe('util', () => {
 
     it('should generate upper case and pluralized type names from a model', () => {
 
-      registry.clearAllDomainModel()
-      engine.loadCoreDomainModels()
-      engine.loadDomainModelsFromFilePath(domainModelsFilePath)
-
-      const entityModel = registry.getEntityModel('geo', 'country')
       const result1 = util.generateTypeNamePluralUpperCase(entityModel)
 
       expect(result1).to.equal('GeoCountries');
