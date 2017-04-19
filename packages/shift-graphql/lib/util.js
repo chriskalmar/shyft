@@ -1,6 +1,7 @@
 
 import { constants } from 'shift-engine';
 import _ from 'lodash';
+import pluralize from 'pluralize';
 
 
 // generate a type name from a model
@@ -41,8 +42,26 @@ export function generateTypeNameUpperCase(entityModel) {
 }
 
 
+export function generateTypeNamePlural(entityModel) {
+  return pluralize.plural(
+    generateTypeName(entityModel)
+  )
+}
+
+
+export function generateTypeNamePluralUpperCase(entityModel) {
+  return upperCaseFirst(
+      pluralize.plural(
+        generateTypeName(entityModel)
+    )
+  )
+}
+
+
 export default {
   generateTypeName,
   upperCaseFirst,
   generateTypeNameUpperCase,
+  generateTypeNamePlural,
+  generateTypeNamePluralUpperCase,
 }

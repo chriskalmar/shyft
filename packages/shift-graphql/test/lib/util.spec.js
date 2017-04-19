@@ -64,6 +64,47 @@ describe('util', () => {
 
     })
 
+
+
+    it('should generate pluralized type names from a model', () => {
+
+      registry.clearAllDomainModel()
+      engine.loadCoreDomainModels()
+      engine.loadDomainModelsFromFilePath(domainModelsFilePath)
+
+      const entityModel = registry.getEntityModel('geo', 'country')
+      const result1 = util.generateTypeNamePlural(entityModel)
+
+      expect(result1).to.equal('geoCountries');
+
+
+      const coreEntityModel = registry.getProviderEntityModel('shift', 'core', 'language')
+      const result2 = util.generateTypeNamePlural(coreEntityModel)
+
+      expect(result2).to.equal('shiftCoreLanguages');
+
+    })
+
+
+    it('should generate upper case and pluralized type names from a model', () => {
+
+      registry.clearAllDomainModel()
+      engine.loadCoreDomainModels()
+      engine.loadDomainModelsFromFilePath(domainModelsFilePath)
+
+      const entityModel = registry.getEntityModel('geo', 'country')
+      const result1 = util.generateTypeNamePluralUpperCase(entityModel)
+
+      expect(result1).to.equal('GeoCountries');
+
+
+      const coreEntityModel = registry.getProviderEntityModel('shift', 'core', 'language')
+      const result2 = util.generateTypeNamePluralUpperCase(coreEntityModel)
+
+      expect(result2).to.equal('ShiftCoreLanguages');
+
+    })
+
   })
 
 })
