@@ -7,7 +7,7 @@
     "**/*.js"
   ],
   "exclude": [
-    "src/**/*.spec.js"
+    "test/**"
   ],
   "require": [
     "babel-register"
