@@ -1,8 +1,8 @@
 
-import util from '../../lib/util';
+import util from './util';
 import { engine, registry } from 'shift-engine';
 
-const domainModelsFilePath = __dirname + '/../fixtures/models/multiple/'
+const domainModelsFilePath = __dirname + '/../test/fixtures/models/multiple/'
 
 describe('util', () => {
 

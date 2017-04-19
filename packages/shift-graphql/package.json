@@ -4,15 +4,15 @@
   "description": "GraphQL extension for shift",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-register --require test/setup.js -R spec --check-leaks test/*",
+    "test": "mocha --compilers js:babel-register --require test/setup.js -R spec --check-leaks **/*.js",
     "test:watch": "nodemon",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint-staged": "lint-staged",
-    "cov": "NODE_ENV=test nyc --all npm run test",
-    "coverage": "NODE_ENV=test nyc --all mocha --require test/setup.js -R spec --check-leaks  test/*",
-    "coverage-detail": "NODE_ENV=test nyc --all --reporter=text mocha --require test/setup.js -R spec --check-leaks test/*",
-    "coverage-ci": "NODE_ENV=test nyc --all mocha --require test/setup.js -R spec --check-leaks test/* && cat ./coverage/lcov.info | codecov",
+    "cov": "NODE_ENV=test nyc npm run test",
+    "coverage": "NODE_ENV=test nyc --require test/setup.js -R spec --check-leaks **/*.js",
+    "coverage-detail": "NODE_ENV=test nyc --reporter=text mocha --require test/setup.js -R spec --check-leaks **/*.js",
+    "coverage-ci": "NODE_ENV=test nyc mocha --require test/setup.js -R spec --check-leaks **/*.js && cat ./coverage/lcov.info | codecov",
     "babel": "babel --presets es2015,stage-0 --ignore node_modules,coverage"
   },
   "lint-staged": {

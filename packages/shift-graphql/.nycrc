@@ -4,14 +4,16 @@
     "text-summary"
   ],
   "include": [
-    "**/*.js"
+    "lib/**/*.js",
+    "*.js"
   ],
   "exclude": [
-    "test/**"
+    "**/*.spec.js"
   ],
   "require": [
     "babel-register"
   ],
+  "all": true,
   "sourceMap": false,
   "instrument": false
 }
