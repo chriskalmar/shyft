@@ -25,10 +25,14 @@ const dataTypeMap = {
 }
 
 
-export function mapDataTypeToGraphQL(dataType) {
+export function convertDataTypeToGraphQL(dataType) {
   // return graphql type based on mapping or fall back to string type
   return dataTypeMap[ dataType] || GraphQLString
 }
 
+
+export default {
+  convertDataTypeToGraphQL
+}
 
 
