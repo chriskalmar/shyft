@@ -8,5 +8,5 @@
     "node_modules/**",
     "coverage/**"
   ],
-  "exec": "npm run test"
+  "exec": "npm run test -s"
 }
