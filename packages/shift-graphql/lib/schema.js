@@ -72,6 +72,58 @@ export const generateGraphQLSchema = (entityModels) => {
   const queryType = new GraphQLObjectType({
     name: 'Query',
     root: 'The root query type',
+
+    fields: () => {
+
+      const listQueries = {}
+
+      _.forEach(graphQLObjectTypes, ( type, typeName) => {
+        const typePluralName = util.plural(typeName)
+        const typePluralListName = util.upperCaseFirst(typePluralName)
+        const fieldName = _.camelCase(`all_${typePluralName}`)
+
+        listQueries[ fieldName ] = {
+          type: new GraphQLList(type),
+          description: `Fetch a list of \`${typePluralListName}\``,
+          args: {
+            page: { type: GraphQLInt }
+          },
+          resolve: (__, { page }) => {
+            return {
+              page
+            }
+          },
+        }
+      })
+
+
+      const instanceQueries = {}
+
+      _.forEach(graphQLObjectTypes, ( type, typeName) => {
+        const typeUpperCaseName = util.upperCaseFirst(typeName)
+
+        instanceQueries[ typeName ] = {
+          type: type,
+          description: `Fetch a single \`${typeUpperCaseName}\` using its ID`,
+          args: {
+            id: {
+              type: new GraphQLNonNull( GraphQLID )
+            }
+          },
+          resolve: (__, { id }) => {
+            return {
+              id
+            }
+          },
+        }
+      })
+
+
+      return {
+        ...instanceQueries,
+        ...listQueries,
+      };
+    },
   });
 
 
