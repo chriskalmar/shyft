@@ -34,6 +34,11 @@ export function upperCaseFirst(str) {
 }
 
 
+export function plural(str) {
+  return pluralize.plural(str)
+}
+
+
 
 export function generateTypeNameUpperCase(entityModel) {
   return upperCaseFirst(
@@ -61,6 +66,7 @@ export function generateTypeNamePluralUpperCase(entityModel) {
 export default {
   generateTypeName,
   upperCaseFirst,
+  plural,
   generateTypeNameUpperCase,
   generateTypeNamePlural,
   generateTypeNamePluralUpperCase,
