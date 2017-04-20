@@ -1,7 +1,20 @@
 
+import util from './util';
+import datatype from './datatype';
+import _ from 'lodash';
+
+import {
+  engine,
+  registry,
+} from 'shift-engine';
+
 import {
   GraphQLObjectType,
   GraphQLSchema,
+  GraphQLNonNull,
+  GraphQLID,
+  GraphQLList,
+  GraphQLInt,
 } from 'graphql';
 
 
@@ -13,14 +26,44 @@ export const generateGraphQLSchema = (entityModels) => {
 
   entityModels.map( (entityModel) => {
 
-    const nodeName = entityModel.name
+    const typeName = util.generateTypeName(entityModel)
 
     const objectType = new GraphQLObjectType({
-      name: nodeName,
+
+      name: util.generateTypeNameUpperCase(entityModel),
       description: entityModel.description,
+
+      fields: () => {
+        const fields = {}
+
+        entityModel.attributes.map( (attribute) => {
+
+          const field = {
+            description: attribute.description,
+          };
+
+          // it's a reference
+          if (attribute.target) {
+            const targetStructurePath = engine.convertTargetToPath(attribute.target, entityModel.domain, entityModel.provider)
+            const targetEntityModel = registry.getProviderEntityModelFromPath(targetStructurePath)
+            const targetTypeName = util.generateTypeName(targetEntityModel)
+
+            field.type = graphQLObjectTypes[ targetTypeName ]
+          }
+          // it's a regular attribute
+          else {
+            field.type = datatype.convertDataTypeToGraphQL(attribute.type)
+          }
+
+          fields[ attribute.name ] = field;
+
+        });
+
+        return fields
+      }
     })
 
-    graphQLObjectTypes[ nodeName ] = objectType
+    graphQLObjectTypes[ typeName ] = objectType
   })
 
 
