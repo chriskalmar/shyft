@@ -48,7 +48,7 @@ export const generateGraphQLSchema = (entityModels) => {
             const targetEntityModel = registry.getProviderEntityModelFromPath(targetStructurePath)
             const targetTypeName = util.generateTypeName(targetEntityModel)
 
-            field.type = graphQLObjectTypes[ targetTypeName ]
+            field.type = graphQLObjectTypes[ targetTypeName ].type
           }
           // it's a regular attribute
           else {
@@ -63,7 +63,10 @@ export const generateGraphQLSchema = (entityModels) => {
       }
     })
 
-    graphQLObjectTypes[ typeName ] = objectType
+    graphQLObjectTypes[ typeName ] = {
+      entityModel,
+      type: objectType
+    }
   })
 
 
@@ -77,7 +80,7 @@ export const generateGraphQLSchema = (entityModels) => {
 
       const listQueries = {}
 
-      _.forEach(graphQLObjectTypes, ( type, typeName) => {
+      _.forEach(graphQLObjectTypes, ( { type, entityModel }, typeName) => {
         const typePluralName = util.plural(typeName)
         const typePluralListName = util.upperCaseFirst(typePluralName)
         const fieldName = _.camelCase(`all_${typePluralName}`)
@@ -99,7 +102,7 @@ export const generateGraphQLSchema = (entityModels) => {
 
       const instanceQueries = {}
 
-      _.forEach(graphQLObjectTypes, ( type, typeName) => {
+      _.forEach(graphQLObjectTypes, ( { type, entityModel }, typeName) => {
         const typeUpperCaseName = util.upperCaseFirst(typeName)
 
         instanceQueries[ typeName ] = {
