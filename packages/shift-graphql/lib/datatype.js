@@ -5,13 +5,29 @@ import {
   // GraphQLFloat,
   GraphQLString,
   GraphQLBoolean,
+  GraphQLScalarType,
+  Kind,
 } from 'graphql';
+
+
+export const GraphQLBigInt = new GraphQLScalarType({
+  name: 'BigInt',
+  description:
+    'The `BigInt` scalar type represents a 64-bit integer. As JavaScript ' +
+    'is limited to a precision of 53 bits on integer values, all `BigInt` ' +
+    'values will be output as strings.',
+  serialize: String,
+  parseValue: String,
+  parseLiteral(ast) {
+    return ast.kind === Kind.STRING ? ast.value : null;
+  }
+});
 
 
 const dataTypeMap = {
   string: GraphQLString,
   integer: GraphQLInt,
-  bigint: GraphQLString,
+  bigint: GraphQLBigInt,
   boolean: GraphQLBoolean,
   email: GraphQLString,
   date: GraphQLString,
@@ -21,7 +37,7 @@ const dataTypeMap = {
   timestamptz: GraphQLString,
   json: GraphQLString,
   password: GraphQLString,
-  reference: GraphQLString,
+  reference: GraphQLBigInt,
 }
 
 
@@ -34,5 +50,4 @@ export function convertDataTypeToGraphQL(dataType) {
 export default {
   convertDataTypeToGraphQL
 }
-
 
