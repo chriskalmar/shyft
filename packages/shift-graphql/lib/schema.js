@@ -19,7 +19,7 @@ import {
 
 
 // generate a graphQL schema from shift entity models
-export const generateGraphQLSchema = (entityModels) => {
+export const generateGraphQLSchema = (entityModels, resolverMap) => {
 
   // collect object types for each entity
   const graphQLObjectTypes = {}
@@ -49,6 +49,11 @@ export const generateGraphQLSchema = (entityModels) => {
             const targetTypeName = util.generateTypeName(targetEntityModel)
 
             field.type = graphQLObjectTypes[ targetTypeName ].type
+            field.resolve = (source, args, context, info) => {
+              const referenceId = source[ attribute.name ]
+              return resolverMap.findById(targetEntityModel, referenceId, source, args, context, info)
+            }
+
           }
           // it's a regular attribute
           else {
@@ -91,11 +96,10 @@ export const generateGraphQLSchema = (entityModels) => {
           args: {
             page: { type: GraphQLInt }
           },
-          resolve: (__, { page }) => {
-            return {
-              page
-            }
+          resolve: (source, args, context, info) => {
+            return resolverMap.find(entityModel, source, args, context, info)
           },
+
         }
       })
 
@@ -113,10 +117,8 @@ export const generateGraphQLSchema = (entityModels) => {
               type: new GraphQLNonNull( GraphQLID )
             }
           },
-          resolve: (__, { id }) => {
-            return {
-              id
-            }
+          resolve: (source, args, context, info) => {
+            return resolverMap.findById(entityModel, args.id, source, args, context, info)
           },
         }
       })
