@@ -27,7 +27,7 @@ import {
 
 
 // collect object types for each entity
-const graphQLObjectTypes = {}
+const typeRegistry = {}
 
 
 // get node definitions for relay
@@ -51,8 +51,8 @@ const getNodeDefinitions = (resolverMap) => {
       const type = obj._type_
 
       // return the graphql type definition
-      return graphQLObjectTypes[ type ]
-        ? graphQLObjectTypes[ type ].type
+      return typeRegistry[ type ]
+        ? typeRegistry[ type ].type
         : null
     }
   );
@@ -103,7 +103,7 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
             const targetEntityModel = registry.getProviderEntityModelFromPath(targetStructurePath)
             const targetTypeName = util.generateTypeName(targetEntityModel)
 
-            field.type = graphQLObjectTypes[ targetTypeName ].type
+            field.type = typeRegistry[ targetTypeName ].type
             field.resolve = (source, args, context, info) => {
               const referenceId = source[ attribute.name ]
               return resolverMap.findById(targetEntityModel, referenceId, source, args, context, info)
@@ -128,7 +128,7 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
       }
     })
 
-    graphQLObjectTypes[ typeName ] = {
+    typeRegistry[ typeName ] = {
       entityModel,
       type: objectType
     }
@@ -145,7 +145,7 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
 
       const listQueries = {}
 
-      _.forEach(graphQLObjectTypes, ( { type, entityModel }, typeName) => {
+      _.forEach(typeRegistry, ( { type, entityModel }, typeName) => {
         const typePluralName = util.plural(typeName)
         const typePluralListName = util.upperCaseFirst(typePluralName)
         const fieldName = _.camelCase(`all_${typePluralName}`)
@@ -166,7 +166,7 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
 
       const instanceQueries = {}
 
-      _.forEach(graphQLObjectTypes, ( { type, entityModel }, typeName) => {
+      _.forEach(typeRegistry, ( { type, entityModel }, typeName) => {
         const typeUpperCaseName = util.upperCaseFirst(typeName)
 
         instanceQueries[ typeName ] = {
