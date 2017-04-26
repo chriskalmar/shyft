@@ -181,7 +181,7 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
 
         instanceQueries[ typeName ] = {
           type: type,
-          description: `Fetch a single \`${typeUpperCaseName}\` using its ID`,
+          description: `Fetch a single \`${typeUpperCaseName}\` using its node ID`,
           args: {
             id: {
               type: new GraphQLNonNull( GraphQLID )
@@ -191,6 +191,31 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
             return resolverMap.findById(entityModel, args.id, source, args, context, info)
           },
         }
+
+
+        // find the primary attribute and add a query for it
+        const primaryAttribute = _.find(entityModel.attributes, { isPrimary: true })
+
+        if (primaryAttribute) {
+
+          const attributeName = primaryAttribute.name
+          const graphqlDataType = datatype.convertDataTypeToGraphQL(primaryAttribute.type)
+          const fieldName = _.camelCase(`${typeName}_by_${attributeName}`)
+
+          instanceQueries[ fieldName ] = {
+            type: type,
+            description: `Fetch a single \`${typeUpperCaseName}\` using its \`${attributeName}\``,
+            args: {
+              [ attributeName ]: {
+                type: new GraphQLNonNull( graphqlDataType )
+              }
+            },
+            resolve: (source, args, context, info) => {
+              return resolverMap.findById(entityModel, args[ attributeName ], source, args, context, info)
+            },
+          }
+        }
+
       })
 
 
