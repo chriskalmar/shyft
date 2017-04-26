@@ -60,6 +60,20 @@ const getNodeDefinitions = (resolverMap) => {
 
 
 
+// fix relay ID field collisions
+const fixRelayNodeIdNameCollision = (entityModel) => {
+
+  entityModel.attributes.map( (attribute) => {
+
+    // name collision with relay ID field
+    if (attribute.name === constants.RELAY_ID_FIELD) {
+      attribute.name = constants.FALLBACK_ID_FIELD
+    }
+  })
+}
+
+
+
 // generate a graphQL schema from shift entity models
 export const generateGraphQLSchema = (entityModels, resolverMap) => {
 
@@ -70,6 +84,8 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
 
 
   entityModels.map( (entityModel) => {
+
+    fixRelayNodeIdNameCollision(entityModel)
 
     const typeName = util.generateTypeName(entityModel)
 
@@ -89,12 +105,6 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
           const field = {
             description: attribute.description,
           };
-
-
-          // name collision with relay ID field
-          if (attribute.name === constants.RELAY_ID_FIELD) {
-            attribute.name = constants.FALLBACK_ID_FIELD
-          }
 
 
           // it's a reference
