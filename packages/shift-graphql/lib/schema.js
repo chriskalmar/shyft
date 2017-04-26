@@ -14,20 +14,21 @@ import {
   GraphQLSchema,
   GraphQLNonNull,
   GraphQLID,
-  GraphQLList,
-  GraphQLInt,
 } from 'graphql';
 
 import {
   globalIdField,
   nodeDefinitions,
   fromGlobalId,
+  connectionDefinitions,
+  connectionFromPromisedArray,
+  connectionArgs,
 } from 'graphql-relay';
 
 
 
-// collect object types for each entity
-const typeRegistry = {}
+// collect object types, connections ... for each entity
+const graphRegistry = {}
 
 
 // get node definitions for relay
@@ -51,8 +52,8 @@ const getNodeDefinitions = (resolverMap) => {
       const type = obj[ constants.RELAY_TYPE_PROMOTER_FIELD ]
 
       // return the graphql type definition
-      return typeRegistry[ type ]
-        ? typeRegistry[ type ].type
+      return graphRegistry[ type ]
+        ? graphRegistry[ type ].type
         : null
     }
   );
@@ -70,6 +71,21 @@ const fixRelayNodeIdNameCollision = (entityModel) => {
       attribute.name = constants.FALLBACK_ID_FIELD
     }
   })
+}
+
+
+
+// register a new connection
+const registerConnection = (entityModel) => {
+
+  const typeName = util.generateTypeName(entityModel)
+
+  const { connectionType } = connectionDefinitions({
+    nodeType: graphRegistry[ typeName ].type
+  })
+
+  graphRegistry[ typeName ].connection = connectionType
+
 }
 
 
@@ -113,7 +129,7 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
             const targetEntityModel = registry.getProviderEntityModelFromPath(targetStructurePath)
             const targetTypeName = util.generateTypeName(targetEntityModel)
 
-            field.type = typeRegistry[ targetTypeName ].type
+            field.type = graphRegistry[ targetTypeName ].type
             field.resolve = (source, args, context, info) => {
               const referenceId = source[ attribute.name ]
               return resolverMap.findById(targetEntityModel, referenceId, source, args, context, info)
@@ -138,10 +154,12 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
       }
     })
 
-    typeRegistry[ typeName ] = {
+    graphRegistry[ typeName ] = {
       entityModel,
       type: objectType
     }
+
+    registerConnection(entityModel)
   })
 
 
@@ -155,28 +173,26 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
 
       const listQueries = {}
 
-      _.forEach(typeRegistry, ( { type, entityModel }, typeName) => {
+      _.forEach(graphRegistry, ( { type, entityModel }, typeName) => {
         const typePluralName = util.plural(typeName)
         const typePluralListName = util.upperCaseFirst(typePluralName)
         const fieldName = _.camelCase(`all_${typePluralName}`)
 
         listQueries[ fieldName ] = {
-          type: new GraphQLList(type),
+          type: graphRegistry[ typeName ].connection,
           description: `Fetch a list of \`${typePluralListName}\``,
-          args: {
-            page: { type: GraphQLInt }
-          },
-          resolve: (source, args, context, info) => {
-            return resolverMap.find(entityModel, source, args, context, info)
-          },
-
+          args: connectionArgs,
+          resolve: (source, args, context, info) => connectionFromPromisedArray(
+            resolverMap.find(entityModel, source, args, context, info),
+            args,
+          ),
         }
       })
 
 
       const instanceQueries = {}
 
-      _.forEach(typeRegistry, ( { type, entityModel }, typeName) => {
+      _.forEach(graphRegistry, ( { type, entityModel }, typeName) => {
         const typeUpperCaseName = util.upperCaseFirst(typeName)
 
         instanceQueries[ typeName ] = {
