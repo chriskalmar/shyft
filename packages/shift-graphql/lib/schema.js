@@ -48,7 +48,7 @@ const getNodeDefinitions = (resolverMap) => {
 
     (obj) => {
 
-      const type = obj._type_
+      const type = obj[ constants.RELAY_TYPE_PROMOTER_FIELD ]
 
       // return the graphql type definition
       return typeRegistry[ type ]
