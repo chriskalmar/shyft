@@ -2,6 +2,7 @@
 import util from './util';
 import datatype from './datatype';
 import _ from 'lodash';
+import constants from './constants';
 
 import {
   engine,
@@ -41,6 +42,13 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
           const field = {
             description: attribute.description,
           };
+
+
+          // name collision with relay ID field
+          if (attribute.name === constants.RELAY_ID_FIELD) {
+            attribute.name = constants.FALLBACK_ID_FIELD
+          }
+
 
           // it's a reference
           if (attribute.target) {
