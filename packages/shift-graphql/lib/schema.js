@@ -18,12 +18,56 @@ import {
   GraphQLInt,
 } from 'graphql';
 
+import {
+  globalIdField,
+  nodeDefinitions,
+  fromGlobalId,
+} from 'graphql-relay';
+
+
+
+// collect object types for each entity
+const graphQLObjectTypes = {}
+
+
+// get node definitions for relay
+const getNodeDefinitions = (resolverMap) => {
+
+  return nodeDefinitions(
+
+    (globalId) => {
+
+      const {
+        type,
+        id
+      } = fromGlobalId(globalId);
+
+      // resolve based on type and id
+      return resolverMap.findById(type, id)
+    },
+
+    (obj) => {
+
+      const type = obj._type_
+
+      // return the graphql type definition
+      return graphQLObjectTypes[ type ]
+        ? graphQLObjectTypes[ type ].type
+        : null
+    }
+  );
+}
+
+
 
 // generate a graphQL schema from shift entity models
 export const generateGraphQLSchema = (entityModels, resolverMap) => {
 
-  // collect object types for each entity
-  const graphQLObjectTypes = {}
+  const {
+    nodeInterface,
+    nodeField,
+  } = getNodeDefinitions(resolverMap)
+
 
   entityModels.map( (entityModel) => {
 
@@ -33,9 +77,12 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
 
       name: util.generateTypeNameUpperCase(entityModel),
       description: entityModel.description,
+      interfaces: [nodeInterface],
 
       fields: () => {
-        const fields = {}
+        const fields = {
+          id: globalIdField(typeName)
+        }
 
         entityModel.attributes.map( (attribute) => {
 
@@ -138,6 +185,7 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
 
 
       return {
+        node: nodeField,
         ...instanceQueries,
         ...listQueries,
       };
