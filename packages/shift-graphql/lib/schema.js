@@ -60,6 +60,11 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
             field.type = datatype.convertDataTypeToGraphQL(attribute.type)
           }
 
+          // make it non-nullable if it's required
+          if (attribute.required) {
+            field.type = new GraphQLNonNull(field.type)
+          }
+
           fields[ attribute.name ] = field;
 
         });
