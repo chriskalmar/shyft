@@ -146,7 +146,12 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
             field.type = new GraphQLNonNull(field.type)
           }
 
-          fields[ attribute.name ] = field;
+          // convert field name to camelCase
+          const fieldName = ( attribute.name === constants.FALLBACK_ID_FIELD )
+            ? attribute.name
+            : _.camelCase(attribute.name)
+
+          fields[ fieldName ] = field;
 
         });
 
