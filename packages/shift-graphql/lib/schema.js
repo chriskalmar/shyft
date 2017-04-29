@@ -90,6 +90,83 @@ const registerConnection = (entityModel) => {
 
 
 
+const generateListQueries = (resolverMap) => {
+
+  const listQueries = {}
+
+  _.forEach(graphRegistry, ( { type, entityModel }, typeName) => {
+    const typePluralName = util.plural(typeName)
+    const typePluralListName = util.upperCaseFirst(typePluralName)
+    const fieldName = _.camelCase(`all_${typePluralName}`)
+
+    listQueries[ fieldName ] = {
+      type: graphRegistry[ typeName ].connection,
+      description: `Fetch a list of \`${typePluralListName}\``,
+      args: {
+        ...connectionArgs,
+      },
+      resolve: (source, args, context, info) => connectionFromPromisedArray(
+        resolverMap.find(entityModel, source, args, context, info),
+        args,
+      ),
+    }
+  })
+
+  return listQueries
+}
+
+
+const generateInstanceQueries = (resolverMap) => {
+
+  const instanceQueries = {}
+
+  _.forEach(graphRegistry, ( { type, entityModel }, typeName) => {
+    const typeUpperCaseName = util.upperCaseFirst(typeName)
+
+    instanceQueries[ typeName ] = {
+      type: type,
+      description: `Fetch a single \`${typeUpperCaseName}\` using its node ID`,
+      args: {
+        id: {
+          type: new GraphQLNonNull( GraphQLID )
+        }
+      },
+      resolve: (source, args, context, info) => {
+        return resolverMap.findById(entityModel, args.id, source, args, context, info)
+      },
+    }
+
+
+    // find the primary attribute and add a query for it
+    const primaryAttribute = _.find(entityModel.attributes, { isPrimary: true })
+
+    if (primaryAttribute) {
+
+      const attributeName = primaryAttribute.name
+      const graphqlDataType = datatype.convertDataTypeToGraphQL(primaryAttribute.type)
+      const fieldName = _.camelCase(`${typeName}_by_${attributeName}`)
+
+      instanceQueries[ fieldName ] = {
+        type: type,
+        description: `Fetch a single \`${typeUpperCaseName}\` using its \`${attributeName}\``,
+        args: {
+          [ attributeName ]: {
+            type: new GraphQLNonNull( graphqlDataType )
+          }
+        },
+        resolve: (source, args, context, info) => {
+          return resolverMap.findById(entityModel, args[ attributeName ], source, args, context, info)
+        },
+      }
+    }
+
+  })
+
+  return instanceQueries
+}
+
+
+
 // generate a graphQL schema from shift entity models
 export const generateGraphQLSchema = (entityModels, resolverMap) => {
 
@@ -176,69 +253,8 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
 
     fields: () => {
 
-      const listQueries = {}
-
-      _.forEach(graphRegistry, ( { type, entityModel }, typeName) => {
-        const typePluralName = util.plural(typeName)
-        const typePluralListName = util.upperCaseFirst(typePluralName)
-        const fieldName = _.camelCase(`all_${typePluralName}`)
-
-        listQueries[ fieldName ] = {
-          type: graphRegistry[ typeName ].connection,
-          description: `Fetch a list of \`${typePluralListName}\``,
-          args: connectionArgs,
-          resolve: (source, args, context, info) => connectionFromPromisedArray(
-            resolverMap.find(entityModel, source, args, context, info),
-            args,
-          ),
-        }
-      })
-
-
-      const instanceQueries = {}
-
-      _.forEach(graphRegistry, ( { type, entityModel }, typeName) => {
-        const typeUpperCaseName = util.upperCaseFirst(typeName)
-
-        instanceQueries[ typeName ] = {
-          type: type,
-          description: `Fetch a single \`${typeUpperCaseName}\` using its node ID`,
-          args: {
-            id: {
-              type: new GraphQLNonNull( GraphQLID )
-            }
-          },
-          resolve: (source, args, context, info) => {
-            return resolverMap.findById(entityModel, args.id, source, args, context, info)
-          },
-        }
-
-
-        // find the primary attribute and add a query for it
-        const primaryAttribute = _.find(entityModel.attributes, { isPrimary: true })
-
-        if (primaryAttribute) {
-
-          const attributeName = primaryAttribute.name
-          const graphqlDataType = datatype.convertDataTypeToGraphQL(primaryAttribute.type)
-          const fieldName = _.camelCase(`${typeName}_by_${attributeName}`)
-
-          instanceQueries[ fieldName ] = {
-            type: type,
-            description: `Fetch a single \`${typeUpperCaseName}\` using its \`${attributeName}\``,
-            args: {
-              [ attributeName ]: {
-                type: new GraphQLNonNull( graphqlDataType )
-              }
-            },
-            resolve: (source, args, context, info) => {
-              return resolverMap.findById(entityModel, args[ attributeName ], source, args, context, info)
-            },
-          }
-        }
-
-      })
-
+      const listQueries = generateListQueries(resolverMap)
+      const instanceQueries = generateInstanceQueries(resolverMap)
 
       return {
         node: nodeField,
