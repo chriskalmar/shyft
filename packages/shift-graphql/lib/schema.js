@@ -31,6 +31,40 @@ import {
 const graphRegistry = {}
 
 
+// prepare models for graphql
+const extendModelsForGql = (entityModels) => {
+
+  entityModels.map( (entityModel) => {
+
+    // generate type names for various cases
+    entityModel.gqlTypeName = util.generateTypeName(entityModel)
+    entityModel.gqlTypeNamePlural = util.generateTypeNamePlural(entityModel)
+    entityModel.gqlTypeNameUpperCase = util.generateTypeNameUpperCase(entityModel)
+    entityModel.gqlTypeNamePluralUpperCase = util.generateTypeNamePluralUpperCase(entityModel)
+
+
+    // build a map of graphql field names to original attribute names
+    entityModel.gqlFieldAttributeMap = {}
+
+    entityModel.attributes.map( (attribute) => {
+
+      // exception: name collision with relay ID field
+      if (attribute.name === constants.RELAY_ID_FIELD) {
+        attribute.gqlFieldName = constants.FALLBACK_ID_FIELD
+      }
+      // otherwise generate a field name for graphql
+      else {
+        attribute.gqlFieldName = _.camelCase(attribute.name)
+      }
+
+      // add to map
+      entityModel.gqlFieldAttributeMap[ attribute.gqlFieldName ] = attribute.name
+    })
+
+  })
+}
+
+
 // get node definitions for relay
 const getNodeDefinitions = (resolverMap) => {
 
@@ -61,24 +95,10 @@ const getNodeDefinitions = (resolverMap) => {
 
 
 
-// fix relay ID field collisions
-const fixRelayNodeIdNameCollision = (entityModel) => {
-
-  entityModel.attributes.map( (attribute) => {
-
-    // name collision with relay ID field
-    if (attribute.name === constants.RELAY_ID_FIELD) {
-      attribute.name = constants.FALLBACK_ID_FIELD
-    }
-  })
-}
-
-
-
 // register a new connection
 const registerConnection = (entityModel) => {
 
-  const typeName = util.generateTypeName(entityModel)
+  const typeName = entityModel.gqlTypeName
 
   const { connectionType } = connectionDefinitions({
     nodeType: graphRegistry[ typeName ].type
@@ -95,13 +115,13 @@ const generateListQueries = (resolverMap) => {
   const listQueries = {}
 
   _.forEach(graphRegistry, ( { type, entityModel }, typeName) => {
-    const typePluralName = util.plural(typeName)
-    const typePluralListName = util.upperCaseFirst(typePluralName)
-    const fieldName = _.camelCase(`all_${typePluralName}`)
+    const typeNamePlural = entityModel.gqlTypeNamePlural
+    const typeNamePluralListName = entityModel.gqlTypeNamePluralUpperCase
+    const queryName = _.camelCase(`all_${typeNamePlural}`)
 
-    listQueries[ fieldName ] = {
+    listQueries[ queryName ] = {
       type: graphRegistry[ typeName ].connection,
-      description: `Fetch a list of \`${typePluralListName}\``,
+      description: `Fetch a list of \`${typeNamePluralListName}\``,
       args: {
         ...connectionArgs,
       },
@@ -121,11 +141,12 @@ const generateInstanceQueries = (resolverMap) => {
   const instanceQueries = {}
 
   _.forEach(graphRegistry, ( { type, entityModel }, typeName) => {
-    const typeUpperCaseName = util.upperCaseFirst(typeName)
+    const typeNameUpperCase = entityModel.gqlTypeNameUpperCase
+    const queryName = typeName
 
-    instanceQueries[ typeName ] = {
+    instanceQueries[ queryName ] = {
       type: type,
-      description: `Fetch a single \`${typeUpperCaseName}\` using its node ID`,
+      description: `Fetch a single \`${typeNameUpperCase}\` using its node ID`,
       args: {
         id: {
           type: new GraphQLNonNull( GraphQLID )
@@ -142,20 +163,20 @@ const generateInstanceQueries = (resolverMap) => {
 
     if (primaryAttribute) {
 
-      const attributeName = primaryAttribute.name
+      const fieldName = primaryAttribute.gqlFieldName
       const graphqlDataType = datatype.convertDataTypeToGraphQL(primaryAttribute.type)
-      const fieldName = _.camelCase(`${typeName}_by_${attributeName}`)
+      const queryNamePrimaryAttribute = _.camelCase(`${typeName}_by_${fieldName}`)
 
-      instanceQueries[ fieldName ] = {
+      instanceQueries[ queryNamePrimaryAttribute ] = {
         type: type,
-        description: `Fetch a single \`${typeUpperCaseName}\` using its \`${attributeName}\``,
+        description: `Fetch a single \`${typeNameUpperCase}\` using its \`${fieldName}\``,
         args: {
-          [ attributeName ]: {
+          [ fieldName ]: {
             type: new GraphQLNonNull( graphqlDataType )
           }
         },
         resolve: (source, args, context, info) => {
-          return resolverMap.findById(entityModel, args[ attributeName ], source, args, context, info)
+          return resolverMap.findById(entityModel, args[ fieldName ], source, args, context, info)
         },
       }
     }
@@ -175,18 +196,18 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
     nodeField,
   } = getNodeDefinitions(resolverMap)
 
+  // prepare models for graphql
+  extendModelsForGql(entityModels)
 
   entityModels.map( (entityModel) => {
 
-    fixRelayNodeIdNameCollision(entityModel)
-
-    const typeName = util.generateTypeName(entityModel)
+    const typeName = entityModel.gqlTypeName
 
     const objectType = new GraphQLObjectType({
 
-      name: util.generateTypeNameUpperCase(entityModel),
+      name: entityModel.gqlTypeNameUpperCase,
       description: entityModel.description,
-      interfaces: [nodeInterface],
+      interfaces: [ nodeInterface ],
 
       fields: () => {
         const fields = {
@@ -199,16 +220,15 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
             description: attribute.description,
           };
 
-
           // it's a reference
           if (attribute.target) {
             const targetStructurePath = engine.convertTargetToPath(attribute.target, entityModel.domain, entityModel.provider)
             const targetEntityModel = registry.getProviderEntityModelFromPath(targetStructurePath)
-            const targetTypeName = util.generateTypeName(targetEntityModel)
+            const targetTypeName = targetEntityModel.gqlTypeName
 
             field.type = graphRegistry[ targetTypeName ].type
             field.resolve = (source, args, context, info) => {
-              const referenceId = source[ attribute.name ]
+              const referenceId = source[ attribute.gqlFieldName ]
               return resolverMap.findById(targetEntityModel, referenceId, source, args, context, info)
             }
 
@@ -223,12 +243,7 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
             field.type = new GraphQLNonNull(field.type)
           }
 
-          // convert field name to camelCase
-          const fieldName = ( attribute.name === constants.FALLBACK_ID_FIELD )
-            ? attribute.name
-            : _.camelCase(attribute.name)
-
-          fields[ fieldName ] = field;
+          fields[ attribute.gqlFieldName ] = field;
 
         });
 
