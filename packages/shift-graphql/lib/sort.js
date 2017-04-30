@@ -39,5 +39,10 @@ export const generateSortInput = (entityModel) => {
     values: sortNames
   });
 
-  return new GraphQLList(sortInputType)
+
+  return {
+    type: new GraphQLList(sortInputType),
+    description: 'Order list by a single or multiple attributes',
+    defaultValue: [ sortInputType.getValues()[0].value ],
+  }
 }

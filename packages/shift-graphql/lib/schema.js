@@ -127,8 +127,7 @@ const generateListQueries = (resolverMap) => {
       args: {
         ...connectionArgs,
         orderBy: {
-          type: generateSortInput(entityModel),
-          description: 'Order list by a single or multiple attributes'
+          ...generateSortInput(entityModel),
         }
       },
       resolve: (source, args, context, info) => connectionFromPromisedArray(
