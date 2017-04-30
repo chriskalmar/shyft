@@ -123,7 +123,7 @@ const generateListQueries = (resolverMap) => {
 
     listQueries[ queryName ] = {
       type: graphRegistry[ typeName ].connection,
-      description: `Fetch a list of \`${typeNamePluralListName}\``,
+      description: `Fetch a list of **\`${typeNamePluralListName}\`**`,
       args: {
         ...connectionArgs,
         orderBy: {
@@ -152,7 +152,7 @@ const generateInstanceQueries = (resolverMap) => {
 
     instanceQueries[ queryName ] = {
       type: type,
-      description: `Fetch a single \`${typeNameUpperCase}\` using its node ID`,
+      description: `Fetch a single **\`${typeNameUpperCase}\`** using its node ID`,
       args: {
         id: {
           type: new GraphQLNonNull( GraphQLID )
@@ -175,7 +175,7 @@ const generateInstanceQueries = (resolverMap) => {
 
       instanceQueries[ queryNamePrimaryAttribute ] = {
         type: type,
-        description: `Fetch a single \`${typeNameUpperCase}\` using its \`${fieldName}\``,
+        description: `Fetch a single **\`${typeNameUpperCase}\`** using its **\`${fieldName}\`**`,
         args: {
           [ fieldName ]: {
             type: new GraphQLNonNull( graphqlDataType )
