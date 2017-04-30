@@ -4,6 +4,8 @@ import datatype from './datatype';
 import _ from 'lodash';
 import constants from './constants';
 
+import { generateSortInput } from './sort';
+
 import {
   engine,
   registry,
@@ -124,6 +126,10 @@ const generateListQueries = (resolverMap) => {
       description: `Fetch a list of \`${typeNamePluralListName}\``,
       args: {
         ...connectionArgs,
+        orderBy: {
+          type: generateSortInput(entityModel),
+          description: 'Order list by a single or multiple attributes'
+        }
       },
       resolve: (source, args, context, info) => connectionFromPromisedArray(
         resolverMap.find(entityModel, source, args, context, info),
