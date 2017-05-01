@@ -12,22 +12,6 @@ export default {
       type: 'bigint',
       description: 'lorem ipsum',
       required: true
-    },
-    {
-      name: 'dolor',
-      type: 'bigint',
-      description: 'lorem ipsum',
-      minimum: 1,
-      maximum: 10
-    },
-    {
-      name: 'dolor',
-      type: 'bigint',
-      description: 'lorem ipsum',
-      minimum: 1,
-      maximum: 10,
-      exclusiveMinimum: true,
-      exclusiveMaximum: false
     }
   ],
 
@@ -69,30 +53,10 @@ export default {
         name: 'dolor',
         type: 'bigint',
         description: 'lorem ipsum',
-        minimum: true,
-        maximum: 'some text',
-        exclusiveMinimum: 'some text',
-        exclusiveMaximum: 1.2,
         required: 123,
         pattern: '.*'
       },
       errors: [
-        {
-          reason: '"minimum" is not a number',
-          msg: /".minimum".*should be number/
-        },
-        {
-          reason: '"maximum" is not a number',
-          msg: /".maximum".*should be number/
-        },
-        {
-          reason: '"exclusiveMinimum" is not a boolean',
-          msg: /".exclusiveMinimum".*should be boolean/
-        },
-        {
-          reason: '"exclusiveMaximum" is not a boolean',
-          msg: /".exclusiveMaximum".*should be boolean/
-        },
         {
           reason: '"required" is not a boolean',
           msg: /".required".*should be boolean/
