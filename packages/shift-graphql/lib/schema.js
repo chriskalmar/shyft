@@ -248,6 +248,11 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
             field.type = new GraphQLNonNull(field.type)
           }
 
+          // use computed value's function as the field resolver
+          if (attribute.computedValue) {
+            field.resolve = attribute.computedValue
+          }
+
           fields[ attribute.gqlFieldName ] = field;
 
         });
