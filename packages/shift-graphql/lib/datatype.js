@@ -2,7 +2,7 @@
 import {
   // GraphQLID,
   GraphQLInt,
-  // GraphQLFloat,
+  GraphQLFloat,
   GraphQLString,
   GraphQLBoolean,
   GraphQLScalarType,
@@ -38,6 +38,7 @@ const dataTypeMap = {
   json: GraphQLString,
   password: GraphQLString,
   reference: GraphQLBigInt,
+  float: GraphQLFloat,
 }
 
 
