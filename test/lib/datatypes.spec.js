@@ -20,7 +20,8 @@ const dataTypeNames = [
   'timestamptz',
   'json',
   'password',
-  'reference'
+  'reference',
+  'float'
 ]
 
 
