@@ -7,7 +7,7 @@
     "**/*.js"
   ],
   "exclude": [
-    "src/**/*.spec.js",
+    "test/*",
     "Gruntfile.js",
     "lib/reporter.js",
     "playground/*.js"
@@ -15,6 +15,7 @@
   "require": [
     "babel-register"
   ],
+  "all": true,
   "sourceMap": false,
   "instrument": false
 }
