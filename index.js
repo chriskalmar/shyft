@@ -1,20 +1,23 @@
 
 import constants from './lib/constants';
-import registry from './lib/registry';
 import reporter from './lib/reporter';
+import datatypes from './lib/datatypes';
+import Entity from './lib/Entity';
 
 
 
 export {
   constants,
-  registry,
-  reporter
+  reporter,
+  datatypes,
+  Entity
 }
 
 
 export default {
   constants,
-  registry,
-  reporter
+  reporter,
+  datatypes,
+  Entity
 }
 
