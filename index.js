@@ -1,8 +1,8 @@
 
 import constants from './lib/constants';
 import reporter from './lib/reporter';
-import datatypes from './lib/datatypes';
-import Entity from './lib/Entity';
+import datatypes from './lib/datatype/datatypes';
+import Entity from './lib/entity/Entity';
 
 
 
