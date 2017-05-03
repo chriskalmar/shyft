@@ -10,9 +10,9 @@
     "lint:fix": "eslint . --fix",
     "lint-staged": "lint-staged",
     "cov": "NODE_ENV=test nyc npm run test",
-    "coverage": "NODE_ENV=test nyc mocha -R spec --check-leaks  test/*",
-    "coverage-detail": "NODE_ENV=test nyc --reporter=text mocha -R spec --check-leaks test/*",
-    "coverage-ci": "NODE_ENV=test nyc mocha -R spec --check-leaks test/* && cat ./coverage/lcov.info | codecov",
+    "coverage": "NODE_ENV=test nyc mocha -R spec --check-leaks lib/*.spec.js",
+    "coverage-detail": "NODE_ENV=test nyc --reporter=text mocha -R spec --check-leaks lib/*.spec.js",
+    "coverage-ci": "NODE_ENV=test nyc mocha -R spec --check-leaks lib/*.spec.js && cat ./coverage/lcov.info | codecov",
     "babel": "babel --presets es2015,stage-0 --ignore node_modules,coverage"
   },
   "lint-staged": {
