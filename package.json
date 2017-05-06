@@ -4,8 +4,8 @@
   "description": "Model driven database and API generator",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-register -R spec --check-leaks lib/*.spec.js lib/**/*.spec.js",
-    "test:watch": "nodemon",
+    "test": "mocha --compilers js:babel-register -R spec --check-leaks lib/*.spec.js lib/**/*.spec.js || exit 1",
+    "test:watch": "nodemon --delay 1",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint-staged": "lint-staged",
@@ -20,8 +20,8 @@
   },
   "pre-commit": "lint-staged",
   "keywords": [
+    "shift",
     "api",
-    "postgres",
     "model",
     "generator"
   ],
