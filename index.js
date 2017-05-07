@@ -1,6 +1,6 @@
 
 import constants from './lib/constants';
-import * as datatypes from './lib/datatype/datatypes';
+import * as dataTypes from './lib/datatype/dataTypes';
 import Entity from './lib/entity/Entity';
 import Schema from './lib/schema/Schema';
 import StorageType from './lib/storage/StorageType';
@@ -10,7 +10,7 @@ import StorageDataType from './lib/storage/StorageDataType';
 
 export {
   constants,
-  datatypes,
+  dataTypes,
   Entity,
   Schema,
   StorageType,
@@ -20,7 +20,7 @@ export {
 
 export default {
   constants,
-  datatypes,
+  dataTypes,
   Entity,
   Schema,
   StorageType,

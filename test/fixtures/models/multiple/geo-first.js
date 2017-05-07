@@ -1,6 +1,6 @@
 
 import {
-  datatypes,
+  dataTypes,
   Entity,
 } from '../../../../';
 
@@ -8,7 +8,7 @@ import GeoContinent from './GeoContinent';
 
 const {
   DataTypeString,
-} = datatypes
+} = dataTypes
 
 
 

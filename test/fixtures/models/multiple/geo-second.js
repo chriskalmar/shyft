@@ -1,12 +1,12 @@
 
 import {
-  datatypes,
+  dataTypes,
   Entity,
 } from '../../../../';
 
 const {
   DataTypeString,
-} = datatypes
+} = dataTypes
 
 
 export const GeoContinent = new Entity({
