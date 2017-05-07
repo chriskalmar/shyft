@@ -1,23 +1,29 @@
 
 import constants from './lib/constants';
-import engine from './lib/engine';
-import registry from './lib/registry';
-import reporter from './lib/reporter';
+import * as dataTypes from './lib/datatype/dataTypes';
+import Entity from './lib/entity/Entity';
+import Schema from './lib/schema/Schema';
+import StorageType from './lib/storage/StorageType';
+import StorageDataType from './lib/storage/StorageDataType';
 
 
 
 export {
   constants,
-  engine,
-  registry,
-  reporter
+  dataTypes,
+  Entity,
+  Schema,
+  StorageType,
+  StorageDataType,
 }
 
 
 export default {
   constants,
-  engine,
-  registry,
-  reporter
+  dataTypes,
+  Entity,
+  Schema,
+  StorageType,
+  StorageDataType,
 }
 
