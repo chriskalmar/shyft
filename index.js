@@ -1,23 +1,15 @@
 
 import constants from './lib/constants';
-import engine from './lib/engine';
-import registry from './lib/registry';
-import reporter from './lib/reporter';
-
+import StorageTypePostgres from './lib/StorageTypePostgres';
 
 
 export {
   constants,
-  engine,
-  registry,
-  reporter
+  StorageTypePostgres,
 }
 
 
 export default {
   constants,
-  engine,
-  registry,
-  reporter
+  StorageTypePostgres,
 }
-
