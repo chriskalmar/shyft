@@ -1,6 +1,5 @@
 
 import constants from './lib/constants';
-import reporter from './lib/reporter';
 import * as datatypes from './lib/datatype/datatypes';
 import Entity from './lib/entity/Entity';
 import Schema from './lib/schema/Schema';
@@ -11,7 +10,6 @@ import StorageDataType from './lib/storage/StorageDataType';
 
 export {
   constants,
-  reporter,
   datatypes,
   Entity,
   Schema,
@@ -22,7 +20,6 @@ export {
 
 export default {
   constants,
-  reporter,
   datatypes,
   Entity,
   Schema,
