@@ -1,47 +1,42 @@
 
-export default {
+import {
+  datatypes,
+  Entity,
+} from '../../../../';
 
+import GeoContinent from './GeoContinent';
+
+const {
+  DataTypeString,
+} = datatypes
+
+
+
+export const GeoCountry = new Entity({
+  name: 'country',
   domain: 'geo',
+  description: 'A country on our beautiful planet',
 
-  entities: [
+  attributes: {
 
-    {
-      name: 'country',
-      description: 'A country on our beautiful planet',
+    name: {
+      type: DataTypeString,
+      description: 'The name of the country',
+      minLength: 1
+    },
 
-      attributes: [
+    isoCode: {
+      type: DataTypeString,
+      description: 'ISO code of the country',
+      pattern: '^[a-z]+$',
+      minLength: 3,
+      maxLength: 3
+    },
 
-        {
-          name: 'name',
-          type: 'string',
-          description: 'The name of the country',
-          minLength: 1
-        },
-
-        {
-          name: 'iso_code',
-          type: 'string',
-          description: 'ISO code of the country',
-          pattern: '^[a-z]+$',
-          minLength: 3,
-          maxLength: 3
-        },
-
-        {
-          name: 'continent',
-          type: 'reference',
-          description: 'The continent where the country is located',
-          target: 'geo::continent'
-        }
-
-      ],
-
-      indexing: {
-        unique: [
-          [ 'name' ]
-        ]
-      }
-
+    continent: {
+      type: GeoContinent,
+      description: 'The continent where the country is located',
     }
-  ]
-}
+
+  }
+})
