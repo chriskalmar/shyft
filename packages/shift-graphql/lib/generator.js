@@ -1,14 +1,13 @@
 
 import util from './util';
-import datatype from './datatype';
 import _ from 'lodash';
 import constants from './constants';
+import ProtocolGraphQL from './ProtocolGraphQL';
 
 import { generateSortInput } from './sort';
 
 import {
-  engine,
-  registry,
+  isEntity,
 } from 'shift-engine';
 
 import {
@@ -163,7 +162,7 @@ const generateInstanceQueries = (resolverMap) => {
     if (primaryAttribute) {
 
       const fieldName = primaryAttribute.gqlFieldName
-      const graphqlDataType = datatype.convertDataTypeToGraphQL(primaryAttribute.type)
+      const graphqlDataType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type)
       const queryNamePrimaryAttribute = _.camelCase(`${typeName}_by_${fieldName}`)
 
       instanceQueries[ queryNamePrimaryAttribute ] = {
@@ -220,21 +219,21 @@ export const generateGraphQLSchema = (schema, resolverMap) => {
           };
 
           // it's a reference
-          if (attribute.target) {
-            const targetStructurePath = engine.convertTargetToPath(attribute.target, entity.domain, entity.provider)
-            const targetentity = registry.getProviderentityFromPath(targetStructurePath)
-            const targetTypeName = targetentity.graphql.typeName
+          if (isEntity(attribute.type)) {
+
+            const targetEntity = attribute.type
+            const targetTypeName = targetEntity.graphql.typeName
 
             field.type = graphRegistry[ targetTypeName ].type
             field.resolve = (source, args, context, info) => {
               const referenceId = source[ attribute.gqlFieldName ]
-              return resolverMap.findById(targetentity, referenceId, source, args, context, info)
+              return resolverMap.findById(targetEntity, referenceId, source, args, context, info)
             }
 
           }
           // it's a regular attribute
           else {
-            field.type = datatype.convertDataTypeToGraphQL(attribute.type)
+            field.type = ProtocolGraphQL.convertToProtocolDataType(attribute.type)
           }
 
           // make it non-nullable if it's required
