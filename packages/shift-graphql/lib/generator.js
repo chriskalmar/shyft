@@ -292,12 +292,9 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
 
 
   // put it all together into a graphQL schema
-  const schema = new GraphQLSchema({
+  return new GraphQLSchema({
     query: queryType,
   });
-
-
-  return schema
 }
 
 
