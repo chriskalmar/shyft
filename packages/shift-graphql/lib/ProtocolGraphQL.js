@@ -17,6 +17,7 @@ import {
 
 import {
   GraphQLBigInt,
+  GraphQLJSON,
 } from './dataTypes';
 
 const {
@@ -48,4 +49,4 @@ ProtocolGraphQL.addDataTypeMap(DataTypeBigInt, GraphQLBigInt);
 ProtocolGraphQL.addDataTypeMap(DataTypeFloat, GraphQLFloat);
 ProtocolGraphQL.addDataTypeMap(DataTypeBoolean, GraphQLBoolean);
 ProtocolGraphQL.addDataTypeMap(DataTypeString, GraphQLString);
-ProtocolGraphQL.addDataTypeMap(DataTypeJson, GraphQLString);
+ProtocolGraphQL.addDataTypeMap(DataTypeJson, GraphQLJSON);

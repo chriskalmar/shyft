@@ -1,9 +1,15 @@
 
+import GraphQLJSON from 'graphql-type-json';
+
 import {
   GraphQLScalarType,
   Kind,
 } from 'graphql';
 
+
+export {
+  GraphQLJSON,
+}
 
 export const GraphQLBigInt = new GraphQLScalarType({
   name: 'BigInt',
@@ -18,5 +24,3 @@ export const GraphQLBigInt = new GraphQLScalarType({
   }
 });
 
-
-export default GraphQLBigInt
