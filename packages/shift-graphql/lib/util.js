@@ -1,35 +1,15 @@
 
-import { constants } from 'shift-engine';
 import _ from 'lodash';
 import pluralize from 'pluralize';
 
 
-// generate a type name from a model
-export function generateTypeName(entityModel) {
 
-  if (!entityModel || !_.isObject(entityModel)) {
-    throw new Error('generateTypeName() entityModel needs to be defined')
-  }
-
-  if (!entityModel.name || !entityModel.domain) {
-    throw new Error('generateTypeName() entityModel needs a name and a domain')
-  }
-
-  let name = entityModel.domain
-
-  // if it's not the local provider use it for the node name (unique naming)
-  if (constants.localProviderName !== entityModel.provider) {
-    name = `${entityModel.provider}_${name}`
-  }
-
-  // add entity name
-  name += `_${entityModel.name}`
-
+export function generateTypeName(name) {
   return _.camelCase(name)
 }
 
 
-export function upperCaseFirst(str) {
+export function pascalCase(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
@@ -40,24 +20,24 @@ export function plural(str) {
 
 
 
-export function generateTypeNameUpperCase(entityModel) {
-  return upperCaseFirst(
-    generateTypeName(entityModel)
+export function generateTypeNamePascalCase(name) {
+  return pascalCase(
+    generateTypeName(name)
   )
 }
 
 
-export function generateTypeNamePlural(entityModel) {
+export function generateTypeNamePlural(name) {
   return pluralize.plural(
-    generateTypeName(entityModel)
+    generateTypeName(name)
   )
 }
 
 
-export function generateTypeNamePluralUpperCase(entityModel) {
-  return upperCaseFirst(
+export function generateTypeNamePluralPascalCase(name) {
+  return pascalCase(
       pluralize.plural(
-        generateTypeName(entityModel)
+        generateTypeName(name)
     )
   )
 }
@@ -65,9 +45,9 @@ export function generateTypeNamePluralUpperCase(entityModel) {
 
 export default {
   generateTypeName,
-  upperCaseFirst,
+  pascalCase,
   plural,
-  generateTypeNameUpperCase,
+  generateTypeNamePascalCase,
   generateTypeNamePlural,
-  generateTypeNamePluralUpperCase,
+  generateTypeNamePluralPascalCase,
 }
