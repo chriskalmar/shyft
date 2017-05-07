@@ -1,13 +1,14 @@
 {
   "reporter": [
     "lcov",
-    "text-summary"
+    "text"
   ],
   "include": [
     "**/*.js"
   ],
   "exclude": [
-    "**/*.spec.js"
+    "**/*.spec.js",
+    "playground/*"
   ],
   "require": [
     "babel-register"
