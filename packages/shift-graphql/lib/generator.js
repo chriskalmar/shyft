@@ -34,33 +34,27 @@ const graphRegistry = {}
 
 
 // prepare models for graphql
-const extendModelsForGql = (entityModels) => {
+const extendModelsForGql = (entities) => {
 
-  entityModels.map( (entityModel) => {
+  _.forEach(entities, (entity) => {
+
+    entity.graphql = entity.graphql || {}
 
     // generate type names for various cases
-    entityModel.gqlTypeName = util.generateTypeName(entityModel.name)
-    entityModel.gqlTypeNamePlural = util.generateTypeNamePlural(entityModel.name)
-    entityModel.gqlTypeNamePascalCase = util.generateTypeNamePascalCase(entityModel.name)
-    entityModel.gqlTypeNamePluralPascalCase = util.generateTypeNamePluralPascalCase(entityModel.name)
+    entity.graphql.typeName = util.generateTypeName(entity.name)
+    entity.graphql.typeNamePlural = util.generateTypeNamePlural(entity.name)
+    entity.graphql.typeNamePascalCase = util.generateTypeNamePascalCase(entity.name)
+    entity.graphql.typeNamePluralPascalCase = util.generateTypeNamePluralPascalCase(entity.name)
 
+    _.forEach(entity.getAttributes(), (attribute) => {
 
-    // build a map of graphql field names to original attribute names
-    entityModel.gqlFieldAttributeMap = {}
-
-    entityModel.attributes.map( (attribute) => {
+      attribute.gqlFieldName = _.camelCase(attribute.name)
 
       // exception: name collision with relay ID field
-      if (attribute.name === constants.RELAY_ID_FIELD) {
+      if (attribute.gqlFieldName === constants.RELAY_ID_FIELD) {
         attribute.gqlFieldName = constants.FALLBACK_ID_FIELD
       }
-      // otherwise generate a field name for graphql
-      else {
-        attribute.gqlFieldName = _.camelCase(attribute.name)
-      }
 
-      // add to map
-      entityModel.gqlFieldAttributeMap[ attribute.gqlFieldName ] = attribute.name
     })
 
   })
@@ -98,9 +92,9 @@ const getNodeDefinitions = (resolverMap) => {
 
 
 // register a new connection
-const registerConnection = (entityModel) => {
+const registerConnection = (entity) => {
 
-  const typeName = entityModel.gqlTypeName
+  const typeName = entity.graphql.typeName
 
   const { connectionType } = connectionDefinitions({
     nodeType: graphRegistry[ typeName ].type
@@ -116,9 +110,9 @@ const generateListQueries = (resolverMap) => {
 
   const listQueries = {}
 
-  _.forEach(graphRegistry, ( { type, entityModel }, typeName) => {
-    const typeNamePlural = entityModel.gqlTypeNamePlural
-    const typeNamePluralListName = entityModel.gqlTypeNamePluralPascalCase
+  _.forEach(graphRegistry, ( { type, entity }, typeName) => {
+    const typeNamePlural = entity.graphql.typeNamePlural
+    const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase
     const queryName = _.camelCase(`all_${typeNamePlural}`)
 
     listQueries[ queryName ] = {
@@ -127,11 +121,11 @@ const generateListQueries = (resolverMap) => {
       args: {
         ...connectionArgs,
         orderBy: {
-          ...generateSortInput(entityModel),
+          ...generateSortInput(entity),
         }
       },
       resolve: (source, args, context, info) => connectionFromPromisedArray(
-        resolverMap.find(entityModel, source, args, context, info),
+        resolverMap.find(entity, source, args, context, info),
         args,
       ),
     }
@@ -145,8 +139,8 @@ const generateInstanceQueries = (resolverMap) => {
 
   const instanceQueries = {}
 
-  _.forEach(graphRegistry, ( { type, entityModel }, typeName) => {
-    const typeNamePascalCase = entityModel.gqlTypeNamePascalCase
+  _.forEach(graphRegistry, ( { type, entity }, typeName) => {
+    const typeNamePascalCase = entity.graphql.typeNamePascalCase
     const queryName = typeName
 
     instanceQueries[ queryName ] = {
@@ -158,13 +152,13 @@ const generateInstanceQueries = (resolverMap) => {
         }
       },
       resolve: (source, args, context, info) => {
-        return resolverMap.findById(entityModel, args.id, source, args, context, info)
+        return resolverMap.findById(entity, args.id, source, args, context, info)
       },
     }
 
 
     // find the primary attribute and add a query for it
-    const primaryAttribute = _.find(entityModel.attributes, { isPrimary: true })
+    const primaryAttribute = _.find(entity.attributes, { isPrimary: true })
 
     if (primaryAttribute) {
 
@@ -181,7 +175,7 @@ const generateInstanceQueries = (resolverMap) => {
           }
         },
         resolve: (source, args, context, info) => {
-          return resolverMap.findById(entityModel, args[ fieldName ], source, args, context, info)
+          return resolverMap.findById(entity, args[ fieldName ], source, args, context, info)
         },
       }
     }
@@ -193,8 +187,7 @@ const generateInstanceQueries = (resolverMap) => {
 
 
 
-// generate a graphQL schema from shift entity models
-export const generateGraphQLSchema = (entityModels, resolverMap) => {
+export const generateGraphQLSchema = (schema, resolverMap) => {
 
   const {
     nodeInterface,
@@ -202,16 +195,17 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
   } = getNodeDefinitions(resolverMap)
 
   // prepare models for graphql
-  extendModelsForGql(entityModels)
+  extendModelsForGql(schema.getEntities())
 
-  entityModels.map( (entityModel) => {
 
-    const typeName = entityModel.gqlTypeName
+  _.forEach(schema.getEntities(), (entity) => {
+
+    const typeName = entity.graphql.typeName
 
     const objectType = new GraphQLObjectType({
 
-      name: entityModel.gqlTypeNamePascalCase,
-      description: entityModel.description,
+      name: entity.graphql.typeNamePascalCase,
+      description: entity.description,
       interfaces: [ nodeInterface ],
 
       fields: () => {
@@ -219,7 +213,7 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
           id: globalIdField(typeName)
         }
 
-        entityModel.attributes.map( (attribute) => {
+        _.forEach(entity.getAttributes(), (attribute) => {
 
           const field = {
             description: attribute.description,
@@ -227,14 +221,14 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
 
           // it's a reference
           if (attribute.target) {
-            const targetStructurePath = engine.convertTargetToPath(attribute.target, entityModel.domain, entityModel.provider)
-            const targetEntityModel = registry.getProviderEntityModelFromPath(targetStructurePath)
-            const targetTypeName = targetEntityModel.gqlTypeName
+            const targetStructurePath = engine.convertTargetToPath(attribute.target, entity.domain, entity.provider)
+            const targetentity = registry.getProviderentityFromPath(targetStructurePath)
+            const targetTypeName = targetentity.graphql.typeName
 
             field.type = graphRegistry[ targetTypeName ].type
             field.resolve = (source, args, context, info) => {
               const referenceId = source[ attribute.gqlFieldName ]
-              return resolverMap.findById(targetEntityModel, referenceId, source, args, context, info)
+              return resolverMap.findById(targetentity, referenceId, source, args, context, info)
             }
 
           }
@@ -262,11 +256,11 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
     })
 
     graphRegistry[ typeName ] = {
-      entityModel,
+      entity,
       type: objectType
     }
 
-    registerConnection(entityModel)
+    registerConnection(entity)
   })
 
 
