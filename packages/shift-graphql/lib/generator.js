@@ -39,10 +39,10 @@ const extendModelsForGql = (entityModels) => {
   entityModels.map( (entityModel) => {
 
     // generate type names for various cases
-    entityModel.gqlTypeName = util.generateTypeName(entityModel)
-    entityModel.gqlTypeNamePlural = util.generateTypeNamePlural(entityModel)
-    entityModel.gqlTypeNameUpperCase = util.generateTypeNameUpperCase(entityModel)
-    entityModel.gqlTypeNamePluralUpperCase = util.generateTypeNamePluralUpperCase(entityModel)
+    entityModel.gqlTypeName = util.generateTypeName(entityModel.name)
+    entityModel.gqlTypeNamePlural = util.generateTypeNamePlural(entityModel.name)
+    entityModel.gqlTypeNamePascalCase = util.generateTypeNamePascalCase(entityModel.name)
+    entityModel.gqlTypeNamePluralPascalCase = util.generateTypeNamePluralPascalCase(entityModel.name)
 
 
     // build a map of graphql field names to original attribute names
@@ -118,7 +118,7 @@ const generateListQueries = (resolverMap) => {
 
   _.forEach(graphRegistry, ( { type, entityModel }, typeName) => {
     const typeNamePlural = entityModel.gqlTypeNamePlural
-    const typeNamePluralListName = entityModel.gqlTypeNamePluralUpperCase
+    const typeNamePluralListName = entityModel.gqlTypeNamePluralPascalCase
     const queryName = _.camelCase(`all_${typeNamePlural}`)
 
     listQueries[ queryName ] = {
@@ -146,12 +146,12 @@ const generateInstanceQueries = (resolverMap) => {
   const instanceQueries = {}
 
   _.forEach(graphRegistry, ( { type, entityModel }, typeName) => {
-    const typeNameUpperCase = entityModel.gqlTypeNameUpperCase
+    const typeNamePascalCase = entityModel.gqlTypeNamePascalCase
     const queryName = typeName
 
     instanceQueries[ queryName ] = {
       type: type,
-      description: `Fetch a single **\`${typeNameUpperCase}\`** using its node ID`,
+      description: `Fetch a single **\`${typeNamePascalCase}\`** using its node ID`,
       args: {
         id: {
           type: new GraphQLNonNull( GraphQLID )
@@ -174,7 +174,7 @@ const generateInstanceQueries = (resolverMap) => {
 
       instanceQueries[ queryNamePrimaryAttribute ] = {
         type: type,
-        description: `Fetch a single **\`${typeNameUpperCase}\`** using its **\`${fieldName}\`**`,
+        description: `Fetch a single **\`${typeNamePascalCase}\`** using its **\`${fieldName}\`**`,
         args: {
           [ fieldName ]: {
             type: new GraphQLNonNull( graphqlDataType )
@@ -210,7 +210,7 @@ export const generateGraphQLSchema = (entityModels, resolverMap) => {
 
     const objectType = new GraphQLObjectType({
 
-      name: entityModel.gqlTypeNameUpperCase,
+      name: entityModel.gqlTypeNamePascalCase,
       description: entityModel.description,
       interfaces: [ nodeInterface ],
 
