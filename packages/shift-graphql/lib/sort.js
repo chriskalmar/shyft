@@ -4,16 +4,18 @@ import {
   GraphQLList,
 } from 'graphql';
 
+import _ from 'lodash';
+
 
 export const generateSortInput = (entityModel) => {
 
-  const typeNameUpperCase = entityModel.gqlTypeNameUpperCase
+  const typeNamePascalCase = entityModel.graphql.typeNamePascalCase
 
   const sortNames = {}
 
-  entityModel.attributes.map( (attribute) => {
-    const keyAsc = `${attribute.name.toUpperCase()}_ASC`
-    const keyDesc = `${attribute.name.toUpperCase()}_DESC`
+  _.forEach(entityModel.getAttributes(), (attribute) => {
+    const keyAsc = `${_.snakeCase(attribute.name).toUpperCase()}_ASC`
+    const keyDesc = `${_.snakeCase(attribute.name).toUpperCase()}_DESC`
 
     // add ascending key
     sortNames[ keyAsc ] = {
@@ -35,7 +37,7 @@ export const generateSortInput = (entityModel) => {
   })
 
   const sortInputType = new GraphQLEnumType({
-    name: `${typeNameUpperCase}OrderBy`,
+    name: `${typeNamePascalCase}OrderBy`,
     values: sortNames
   });
 
