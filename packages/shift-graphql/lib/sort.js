@@ -16,6 +16,7 @@ export const generateSortInput = (entity) => {
   const storageType = entity.storageType
 
   const sortNames = {}
+  let defaultSortValue
 
   _.forEach(entity.getAttributes(), (attribute) => {
 
@@ -42,6 +43,12 @@ export const generateSortInput = (entity) => {
       }
     }
 
+
+    if (attribute.isPrimary) {
+      defaultSortValue = sortNames[ keyAsc ].value
+    }
+
+
     // add descending key
     sortNames[ keyDesc ] = {
       description: `Order by **\`${attribute.gqlFieldName}\`** descending`,
@@ -64,9 +71,13 @@ export const generateSortInput = (entity) => {
   });
 
 
+  if (!defaultSortValue) {
+    defaultSortValue = sortInputType.getValues()[0].value
+  }
+
   return {
     type: new GraphQLList(sortInputType),
     description: 'Order list by a single or multiple attributes',
-    defaultValue: [ sortInputType.getValues()[0].value ],
+    defaultValue: [ defaultSortValue ],
   }
 }
