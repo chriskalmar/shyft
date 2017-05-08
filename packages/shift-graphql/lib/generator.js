@@ -176,9 +176,12 @@ const generateInstanceQueries = () => {
 
 
     // find the primary attribute and add a query for it
-    const primaryAttribute = _.find(entity.attributes, { isPrimary: true })
+    const attributes = entity.getAttributes()
+    const primaryAttributeName = _.findKey(attributes, { isPrimary: true })
 
-    if (primaryAttribute) {
+    if (primaryAttributeName) {
+
+      const primaryAttribute = attributes[ primaryAttributeName ]
 
       const fieldName = primaryAttribute.gqlFieldName
       const graphqlDataType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type)
