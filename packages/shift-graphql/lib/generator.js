@@ -61,7 +61,7 @@ const extendModelsForGql = (entities) => {
 
 
 // get node definitions for relay
-const getNodeDefinitions = (resolverMap) => {
+const getNodeDefinitions = () => {
 
   return nodeDefinitions(
 
@@ -73,7 +73,17 @@ const getNodeDefinitions = (resolverMap) => {
       } = fromGlobalId(globalId);
 
       // resolve based on type and id
-      return resolverMap.findById(type, id)
+      const entity = graphRegistry[ type ]
+        ? graphRegistry[ type ].entity
+        : null
+
+      if (entity) {
+        const storageType = entity.storageType
+        return storageType.findOne(entity, id)
+      }
+
+      return null
+
     },
 
     (obj) => {
@@ -105,11 +115,14 @@ const registerConnection = (entity) => {
 
 
 
-const generateListQueries = (resolverMap) => {
+const generateListQueries = () => {
 
   const listQueries = {}
 
   _.forEach(graphRegistry, ( { type, entity }, typeName) => {
+
+    const storageType = entity.storageType
+
     const typeNamePlural = entity.graphql.typeNamePlural
     const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase
     const queryName = _.camelCase(`all_${typeNamePlural}`)
@@ -124,7 +137,7 @@ const generateListQueries = (resolverMap) => {
         }
       },
       resolve: (source, args, context, info) => connectionFromPromisedArray(
-        resolverMap.find(entity, source, args, context, info),
+        storageType.find(entity, source, args, context, info),
         args,
       ),
     }
@@ -134,11 +147,14 @@ const generateListQueries = (resolverMap) => {
 }
 
 
-const generateInstanceQueries = (resolverMap) => {
+const generateInstanceQueries = () => {
 
   const instanceQueries = {}
 
   _.forEach(graphRegistry, ( { type, entity }, typeName) => {
+
+    const storageType = entity.storageType
+
     const typeNamePascalCase = entity.graphql.typeNamePascalCase
     const queryName = typeName
 
@@ -151,7 +167,7 @@ const generateInstanceQueries = (resolverMap) => {
         }
       },
       resolve: (source, args, context, info) => {
-        return resolverMap.findById(entity, args.id, source, args, context, info)
+        return storageType.findOne(entity, args.id, source, args, context, info)
       },
     }
 
@@ -174,7 +190,7 @@ const generateInstanceQueries = (resolverMap) => {
           }
         },
         resolve: (source, args, context, info) => {
-          return resolverMap.findById(entity, args[ fieldName ], source, args, context, info)
+          return storageType.findOne(entity, args[ fieldName ], source, args, context, info)
         },
       }
     }
@@ -186,12 +202,12 @@ const generateInstanceQueries = (resolverMap) => {
 
 
 
-export const generateGraphQLSchema = (schema, resolverMap) => {
+export const generateGraphQLSchema = (schema) => {
 
   const {
     nodeInterface,
     nodeField,
-  } = getNodeDefinitions(resolverMap)
+  } = getNodeDefinitions()
 
   // prepare models for graphql
   extendModelsForGql(schema.getEntities())
@@ -200,6 +216,8 @@ export const generateGraphQLSchema = (schema, resolverMap) => {
   _.forEach(schema.getEntities(), (entity) => {
 
     const typeName = entity.graphql.typeName
+
+    const storageType = entity.storageType
 
     const objectType = new GraphQLObjectType({
 
@@ -227,7 +245,7 @@ export const generateGraphQLSchema = (schema, resolverMap) => {
             field.type = graphRegistry[ targetTypeName ].type
             field.resolve = (source, args, context, info) => {
               const referenceId = source[ attribute.gqlFieldName ]
-              return resolverMap.findById(targetEntity, referenceId, source, args, context, info)
+              return storageType.findOne(targetEntity, referenceId, source, args, context, info)
             }
 
           }
@@ -242,8 +260,8 @@ export const generateGraphQLSchema = (schema, resolverMap) => {
           }
 
           // use computed value's function as the field resolver
-          if (attribute.computedValue) {
-            field.resolve = attribute.computedValue
+          if (attribute.resolve) {
+            field.resolve = attribute.resolve
           }
 
           fields[ attribute.gqlFieldName ] = field;
@@ -271,8 +289,8 @@ export const generateGraphQLSchema = (schema, resolverMap) => {
 
     fields: () => {
 
-      const listQueries = generateListQueries(resolverMap)
-      const instanceQueries = generateInstanceQueries(resolverMap)
+      const listQueries = generateListQueries()
+      const instanceQueries = generateInstanceQueries()
 
       return {
         node: nodeField,
