@@ -6,14 +6,30 @@ import {
 
 import _ from 'lodash';
 
+import { isEntity } from 'shift-engine';
 
-export const generateSortInput = (entityModel) => {
 
-  const typeNamePascalCase = entityModel.graphql.typeNamePascalCase
+export const generateSortInput = (entity) => {
+
+  const typeNamePascalCase = entity.graphql.typeNamePascalCase
+
+  const storageType = entity.storageType
 
   const sortNames = {}
 
-  _.forEach(entityModel.getAttributes(), (attribute) => {
+  _.forEach(entity.getAttributes(), (attribute) => {
+
+    if (isEntity(attribute.type)) {
+      return
+    }
+
+    const storageDataType = storageType.convertToStorageDataType(attribute.type)
+
+    if (!storageDataType.isSortable) {
+      return
+    }
+
+
     const keyAsc = `${_.snakeCase(attribute.name).toUpperCase()}_ASC`
     const keyDesc = `${_.snakeCase(attribute.name).toUpperCase()}_DESC`
 
@@ -35,6 +51,12 @@ export const generateSortInput = (entityModel) => {
       }
     }
   })
+
+
+  if (_.isEmpty(sortNames)) {
+    return null
+  }
+
 
   const sortInputType = new GraphQLEnumType({
     name: `${typeNamePascalCase}OrderBy`,

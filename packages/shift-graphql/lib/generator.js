@@ -127,14 +127,17 @@ const generateListQueries = () => {
     const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase
     const queryName = _.camelCase(`all_${typeNamePlural}`)
 
+    const sortInput = generateSortInput(entity)
+    const orderBy = sortInput
+      ? { orderBy: { ...sortInput } }
+      : undefined
+
     listQueries[ queryName ] = {
       type: graphRegistry[ typeName ].connection,
       description: `Fetch a list of **\`${typeNamePluralListName}\`**`,
       args: {
         ...connectionArgs,
-        orderBy: {
-          ...generateSortInput(entity),
-        }
+        ...orderBy,
       },
       resolve: (source, args, context, info) => connectionFromPromisedArray(
         storageType.find(entity, source, args, context, info),
