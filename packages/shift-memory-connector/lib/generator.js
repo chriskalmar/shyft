@@ -39,6 +39,7 @@ export const generateMemoryDB = (schema) => {
 
           const field = {
             description: attribute.description,
+            required: attribute.required,
           };
 
 
@@ -113,8 +114,14 @@ function generateItem(entity) {
 
   const item = {  }
 
-  _.forEach(model.fields, ({ type, dataGenerator }, name) => {
-    if (dataGenerator && !isEntity(type)) {
+  _.forEach(model.fields, ({ type, required, dataGenerator }, name) => {
+
+    if (!required && Math.random() > 0.5) {
+      item[ name ] = null
+      return
+    }
+
+    if (dataGenerator) {
       item[ name ] = dataGenerator()
     }
   })
