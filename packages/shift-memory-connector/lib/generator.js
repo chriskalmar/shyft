@@ -1,6 +1,8 @@
 
 import { isEntity } from 'shift-engine';
+import StorageTypeMemory from './StorageTypeMemory';
 import _ from 'lodash';
+
 
 
 export const generateMemoryDB = (schema) => {
@@ -9,8 +11,11 @@ export const generateMemoryDB = (schema) => {
 
   _.map(schema.getEntities(), (entity, entityName) => {
 
-    const model = {
+    if (String(entity.storageType) !== String(StorageTypeMemory)) {
+      return
+    }
 
+    const model = {
       name: entityName,
       description: entity.description,
 
