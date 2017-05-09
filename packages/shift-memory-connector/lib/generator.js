@@ -45,9 +45,7 @@ export const generateMemoryDB = (schema) => {
 
           // it's a reference
           if (isEntity(attribute.type)) {
-
             field.type = attribute.type
-            // memoryDB[ targetEntityName ].model
           }
           // it's a regular attribute
           else {
@@ -101,6 +99,30 @@ export const generateData = (memoryDB) => {
     })
   })
 
+
+  // generate references
+  _.forEach(memoryDB, ({data, model}) => {
+
+    _.forEach(model.fields, ({ type }, name) => {
+
+      if (isEntity(type)) {
+
+        if (memoryDB[ type.name ]) {
+          const referencingData = memoryDB[ type.name ].data
+
+          data.map((item) => {
+            item[ name ] = _.sample(referencingData).id
+          })
+        }
+        else {
+          data.map((item) => {
+            item[ name ] = null
+          })
+        }
+      }
+    })
+
+  })
 
 
 }
