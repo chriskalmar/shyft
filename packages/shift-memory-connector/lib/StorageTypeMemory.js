@@ -25,6 +25,28 @@ const {
 export const StorageTypeMemory = new StorageType({
   name: 'StorageTypeMemory',
   description: 'Simple in-memory database',
+
+  systemAttributes: {
+    id: {
+      description: 'Unique row identifier',
+      type: DataTypeBigInt,
+      required: true,
+      isPrimary: true,
+    },
+    createdAt: {
+      description: 'Record was created at this time',
+      type: DataTypeInteger,
+      required: true,
+      defaultValue: () => new Date().getTime(),
+    },
+    updatedAt: {
+      description: 'Record was updated at this time',
+      type: DataTypeInteger,
+      required: true,
+      defaultValue: () => new Date().getTime(),
+    },
+  },
+
   findOne() {},
   find() {},
 })
