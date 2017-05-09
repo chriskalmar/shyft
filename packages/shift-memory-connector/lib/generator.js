@@ -3,6 +3,9 @@ import { isEntity } from 'shift-engine';
 import StorageTypeMemory from './StorageTypeMemory';
 import _ from 'lodash';
 
+import {
+  shaper,
+} from 'json-shaper'
 
 
 export const generateMemoryDB = (schema) => {
@@ -29,7 +32,9 @@ export const generateMemoryDB = (schema) => {
             return
           }
 
-          memoryDB[ entityName ].fieldTransformerMap[ attribute.gqlFieldName ] = attribute.name
+          const localAttributeName = _.camelCase(attribute.name)
+
+          memoryDB[ entityName ].dataShaperMap[ attribute.name ] = localAttributeName
 
           const field = {
             description: attribute.description,
@@ -49,7 +54,7 @@ export const generateMemoryDB = (schema) => {
             field.type = attribute.type
           }
 
-          fields[ attribute.name ] = field;
+          fields[ localAttributeName ] = field;
 
         });
 
@@ -62,7 +67,7 @@ export const generateMemoryDB = (schema) => {
     memoryDB[ entityName ] = {
       data: [],
       model,
-      fieldTransformerMap: {},
+      dataShaperMap: {},
     }
 
   })
@@ -74,6 +79,8 @@ export const generateMemoryDB = (schema) => {
     // lazy generate fields
     entity.model.fields = entity.model.fields()
 
+    // generate json shaper - translate database attribute names to schema attribute names
+    entity.dataShaper = shaper(entity.dataShaperMap)
   })
 
 
