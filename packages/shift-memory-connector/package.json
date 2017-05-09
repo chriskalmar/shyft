@@ -49,6 +49,7 @@
     "pre-commit": "^1.2.1"
   },
   "dependencies": {
+    "casual": "^1.5.12",
     "json-shaper": "^1.0.3",
     "lodash": "^4.17.4"
   }

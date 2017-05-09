@@ -2,6 +2,7 @@
 import { isEntity } from 'shift-engine';
 import StorageTypeMemory from './StorageTypeMemory';
 import _ from 'lodash';
+import casual from 'casual';
 
 import {
   shaper,
@@ -44,14 +45,13 @@ export const generateMemoryDB = (schema) => {
           // it's a reference
           if (isEntity(attribute.type)) {
 
-            const targetEntity = attribute.type
-            const targetEntityName = targetEntity.name
-
-            field.type = memoryDB[ targetEntityName ].model
+            field.type = attribute.type
+            // memoryDB[ targetEntityName ].model
           }
           // it's a regular attribute
           else {
             field.type = StorageTypeMemory.convertToStorageDataType(attribute.type)
+            field.dataGenerator = convertDataTypeToCasualFunction(attribute.type)
           }
 
           fields[ localAttributeName ] = field;
@@ -87,4 +87,74 @@ export const generateMemoryDB = (schema) => {
 
   return memoryDB;
 
+}
+
+
+
+export const generateData = (memoryDB) => {
+
+  // generate basic data
+  _.forEach(memoryDB, (entity) => {
+    _.times( _.random(10, 100), () => {
+      generateItem(entity)
+    })
+  })
+
+
+
+}
+
+
+
+function generateItem(entity) {
+
+  const model = entity.model
+  const nextId = (entity.data.length + 1).toString()
+
+  const item = {  }
+
+  _.forEach(model.fields, ({ type, dataGenerator }, name) => {
+    if (dataGenerator && !isEntity(type)) {
+      item[ name ] = dataGenerator()
+    }
+  })
+
+  item.id = nextId
+
+  entity.data.push(item)
+
+  return nextId
+}
+
+
+
+const casualDataTypeMap = {
+  DataTypeID: () => casual.integer(2^20, 2^31).toString(),
+  DataTypeInteger: () => casual.integer(-2^10, 2^10),
+  DataTypeBigInt: () => casual.integer(2^20, 2^31).toString(),
+  DataTypeFloat: () => casual.double(-2^10, 2^10),
+  DataTypeBoolean: () => casual.boolean,
+  DataTypeString: () => casual.title,
+  DataTypeJson: randomJson,
+}
+
+
+function convertDataTypeToCasualFunction(dataType) {
+  return casualDataTypeMap[ String(dataType) ] || casualDataTypeMap.DataTypeString
+}
+
+
+function randomJson() {
+  const ret = {}
+
+  _.times(3, () => {
+    const key = _.camelCase( casual.words(2) )
+    const value = Math.random() > 0.5
+      ? casual.title
+      : casual.integer
+
+    ret[ key ] = value
+  })
+
+  return ret
 }
