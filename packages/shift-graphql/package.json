@@ -45,6 +45,7 @@
     "graphql-relay": "^0.5.1",
     "graphql-tools": "^0.11.0",
     "graphql-type-json": "^0.1.4",
+    "json-shaper": "^1.0.3",
     "lint-staged": "^3.4.0",
     "lodash": "^4.17.4",
     "mocha": "^3.2.0",

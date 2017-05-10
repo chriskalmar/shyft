@@ -11,6 +11,10 @@ import {
 } from 'shift-engine';
 
 import {
+  shaper,
+} from 'json-shaper'
+
+import {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLNonNull,
@@ -45,6 +49,9 @@ const extendModelsForGql = (entities) => {
     entity.graphql.typeNamePascalCase = util.generateTypeNamePascalCase(entity.name)
     entity.graphql.typeNamePluralPascalCase = util.generateTypeNamePluralPascalCase(entity.name)
 
+
+    const dataShaperMap = {}
+
     _.forEach(entity.getAttributes(), (attribute) => {
 
       attribute.gqlFieldName = _.camelCase(attribute.name)
@@ -54,7 +61,16 @@ const extendModelsForGql = (entities) => {
         attribute.gqlFieldName = constants.FALLBACK_ID_FIELD
       }
 
+      dataShaperMap[ attribute.gqlFieldName ] = attribute.name
+
     })
+
+    // generate json shaper - translate schema attribute names to graphql attribute names
+    const dataShaper = shaper(dataShaperMap)
+    entity.graphql.dataShaper = dataShaper;
+    entity.graphql.dataSetShaper = (set) => {
+      return set.map(dataShaper)
+    }
 
   })
 }
@@ -80,6 +96,7 @@ const getNodeDefinitions = () => {
       if (entity) {
         const storageType = entity.storageType
         return storageType.findOne(entity, id)
+          .then(entity.graphql.dataShaper)
       }
 
       return null
@@ -140,7 +157,8 @@ const generateListQueries = () => {
         ...orderBy,
       },
       resolve: (source, args, context, info) => connectionFromPromisedArray(
-        storageType.find(entity, source, args, context, info),
+        storageType.find(entity, source, args, context, info)
+          .then(entity.graphql.dataSetShaper),
         args,
       ),
     }
@@ -171,6 +189,7 @@ const generateInstanceQueries = () => {
       },
       resolve: (source, args, context, info) => {
         return storageType.findOne(entity, args.id, source, args, context, info)
+          .then(entity.graphql.dataShaper)
       },
     }
 
@@ -197,6 +216,7 @@ const generateInstanceQueries = () => {
         },
         resolve: (source, args, context, info) => {
           return storageType.findOne(entity, args[ fieldName ], source, args, context, info)
+            .then(entity.graphql.dataShaper)
         },
       }
     }
@@ -252,6 +272,7 @@ export const generateGraphQLSchema = (schema) => {
             field.resolve = (source, args, context, info) => {
               const referenceId = source[ attribute.gqlFieldName ]
               return storageType.findOne(targetEntity, referenceId, source, args, context, info)
+                .then(targetEntity.graphql.dataShaper)
             }
 
           }
