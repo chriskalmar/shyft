@@ -9,6 +9,7 @@ import {
 } from 'graphql';
 
 import {
+  GraphQLID,
   GraphQLInt,
   GraphQLFloat,
   GraphQLString,
@@ -18,7 +19,9 @@ import {
 import {
   GraphQLBigInt,
   GraphQLJSON,
+  GraphQLDateTime,
 } from './dataTypes';
+
 
 const {
   DataTypeID,
@@ -28,6 +31,8 @@ const {
   DataTypeBoolean,
   DataTypeString,
   DataTypeJson,
+  DataTypeTimestamp,
+  DataTypeTimestampTz,
 } = dataTypes;
 
 
@@ -43,10 +48,12 @@ export const ProtocolGraphQL = new ProtocolType({
 export default ProtocolGraphQL
 
 
-ProtocolGraphQL.addDataTypeMap(DataTypeID, GraphQLBigInt);
+ProtocolGraphQL.addDataTypeMap(DataTypeID, GraphQLID);
 ProtocolGraphQL.addDataTypeMap(DataTypeInteger, GraphQLInt);
 ProtocolGraphQL.addDataTypeMap(DataTypeBigInt, GraphQLBigInt);
 ProtocolGraphQL.addDataTypeMap(DataTypeFloat, GraphQLFloat);
 ProtocolGraphQL.addDataTypeMap(DataTypeBoolean, GraphQLBoolean);
 ProtocolGraphQL.addDataTypeMap(DataTypeString, GraphQLString);
 ProtocolGraphQL.addDataTypeMap(DataTypeJson, GraphQLJSON);
+ProtocolGraphQL.addDataTypeMap(DataTypeTimestamp, GraphQLDateTime);
+ProtocolGraphQL.addDataTypeMap(DataTypeTimestampTz, GraphQLDateTime);
