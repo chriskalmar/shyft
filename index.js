@@ -7,6 +7,15 @@ import StorageType from './lib/storage/StorageType';
 import StorageDataType from './lib/storage/StorageDataType';
 import ProtocolType from './lib/protocol/ProtocolType';
 
+import {
+  passOrThrow,
+  resolveFunctionMap,
+  isMap,
+  isFunction,
+  isArray,
+  mergeMaps,
+  mapOverProperties,
+} from './lib/util';
 
 
 export {
@@ -18,6 +27,13 @@ export {
   StorageType,
   StorageDataType,
   ProtocolType,
+  passOrThrow,
+  resolveFunctionMap,
+  isMap,
+  isFunction,
+  isArray,
+  mergeMaps,
+  mapOverProperties,
 }
 
 
@@ -30,5 +46,12 @@ export default {
   StorageType,
   StorageDataType,
   ProtocolType,
+  passOrThrow,
+  resolveFunctionMap,
+  isMap,
+  isFunction,
+  isArray,
+  mergeMaps,
+  mapOverProperties,
 }
 
