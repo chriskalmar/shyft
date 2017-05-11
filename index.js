@@ -1,6 +1,5 @@
 
 import constants from './lib/constants';
-import * as dataTypes from './lib/datatype/dataTypes';
 import Entity, { isEntity } from './lib/entity/Entity';
 import Schema from './lib/schema/Schema';
 import StorageType from './lib/storage/StorageType';
@@ -17,16 +16,52 @@ import {
   mapOverProperties,
 } from './lib/util';
 
+import {
+  DataTypeUserID,
+  DataTypeID,
+  DataTypeInteger,
+  DataTypeBigInt,
+  DataTypeFloat,
+  DataTypeBoolean,
+  DataTypeString,
+  DataTypeJson,
+  DataTypeTimestamp,
+  DataTypeTimestampTz,
+} from './lib/datatype/dataTypes';
+
+import { Language } from './lib/models/Language';
+import { User } from './lib/models/User';
+
+const coreModels = {
+  Language,
+  User,
+}
+
 
 export {
   constants,
-  dataTypes,
+
   Entity,
   isEntity,
+
   Schema,
+
   StorageType,
   StorageDataType,
+
   ProtocolType,
+
+  DataTypeUserID,
+  DataTypeID,
+  DataTypeInteger,
+  DataTypeBigInt,
+  DataTypeFloat,
+  DataTypeBoolean,
+  DataTypeString,
+  DataTypeJson,
+  DataTypeTimestamp,
+  DataTypeTimestampTz,
+
   passOrThrow,
   resolveFunctionMap,
   isMap,
@@ -34,18 +69,35 @@ export {
   isArray,
   mergeMaps,
   mapOverProperties,
+
+  coreModels,
 }
 
 
 export default {
   constants,
-  dataTypes,
+
   Entity,
   isEntity,
+
   Schema,
+
   StorageType,
   StorageDataType,
+
   ProtocolType,
+
+  DataTypeUserID,
+  DataTypeID,
+  DataTypeInteger,
+  DataTypeBigInt,
+  DataTypeFloat,
+  DataTypeBoolean,
+  DataTypeString,
+  DataTypeJson,
+  DataTypeTimestamp,
+  DataTypeTimestampTz,
+
   passOrThrow,
   resolveFunctionMap,
   isMap,
@@ -53,5 +105,7 @@ export default {
   isArray,
   mergeMaps,
   mapOverProperties,
+
+  coreModels,
 }
 
