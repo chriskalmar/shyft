@@ -1,17 +1,6 @@
 
 import {
   StorageType,
-  dataTypes,
-} from 'shift-engine';
-
-import {
-  StorageDataTypeBoolean,
-  StorageDataTypeNumber,
-  StorageDataTypeString,
-  StorageDataTypeObject,
-} from './storageDataTypes';
-
-const {
   DataTypeID,
   DataTypeInteger,
   DataTypeBigInt,
@@ -19,7 +8,17 @@ const {
   DataTypeBoolean,
   DataTypeString,
   DataTypeJson,
-} = dataTypes;
+  DataTypeTimestamp,
+  DataTypeTimestampTz,
+} from 'shift-engine';
+
+import {
+  StorageDataTypeBoolean,
+  StorageDataTypeNumber,
+  StorageDataTypeString,
+  StorageDataTypeObject,
+  StorageDataTimestamp,
+} from './storageDataTypes';
 
 
 export const StorageTypeMemory = new StorageType({
@@ -40,5 +39,7 @@ StorageTypeMemory.addDataTypeMap(DataTypeFloat, StorageDataTypeNumber);
 StorageTypeMemory.addDataTypeMap(DataTypeBoolean, StorageDataTypeBoolean);
 StorageTypeMemory.addDataTypeMap(DataTypeString, StorageDataTypeString);
 StorageTypeMemory.addDataTypeMap(DataTypeJson, StorageDataTypeObject);
+StorageTypeMemory.addDataTypeMap(DataTypeTimestamp, StorageDataTimestamp);
+StorageTypeMemory.addDataTypeMap(DataTypeTimestampTz, StorageDataTimestamp);
 
 
