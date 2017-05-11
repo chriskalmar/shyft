@@ -50,7 +50,7 @@ export const generateMemoryDB = (schema) => {
           // it's a regular attribute
           else {
             field.type = StorageTypeMemory.convertToStorageDataType(attribute.type)
-            field.dataGenerator = convertDataTypeToCasualFunction(attribute.type)
+            field.dataGenerator = attribute.fake || convertDataTypeToCasualFunction(attribute.type)
           }
 
           fields[ localAttributeName ] = field;
