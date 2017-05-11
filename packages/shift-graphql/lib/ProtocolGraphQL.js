@@ -1,7 +1,15 @@
 
 import {
   ProtocolType,
-  dataTypes,
+  DataTypeID,
+  DataTypeInteger,
+  DataTypeBigInt,
+  DataTypeFloat,
+  DataTypeBoolean,
+  DataTypeString,
+  DataTypeJson,
+  DataTypeTimestamp,
+  DataTypeTimestampTz,
 } from 'shift-engine';
 
 import {
@@ -21,19 +29,6 @@ import {
   GraphQLJSON,
   GraphQLDateTime,
 } from './dataTypes';
-
-
-const {
-  DataTypeID,
-  DataTypeInteger,
-  DataTypeBigInt,
-  DataTypeFloat,
-  DataTypeBoolean,
-  DataTypeString,
-  DataTypeJson,
-  DataTypeTimestamp,
-  DataTypeTimestampTz,
-} = dataTypes;
 
 
 
