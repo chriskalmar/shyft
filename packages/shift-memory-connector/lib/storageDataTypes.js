@@ -37,3 +37,12 @@ export const StorageDataTypeObject = new StorageDataType({
   isSortable: false,
   serialize: (value) => value,
 })
+
+
+export const StorageDataTimestamp = new StorageDataType({
+  name: 'StorageDataTimestamp',
+  description: 'Data type representing a date and time value',
+  nativeDataType: Date,
+  isSortable: false,
+  serialize: (value) => value,
+})

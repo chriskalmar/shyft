@@ -165,6 +165,8 @@ const casualDataTypeMap = {
   DataTypeBoolean: () => casual.boolean,
   DataTypeString: () => casual.title,
   DataTypeJson: randomJson,
+  DataTypeTimestamp: () => new Date(casual.unix_time * 1000),
+  DataTypeTimestampTz: () => new Date(casual.unix_time * 1000),
 }
 
 
