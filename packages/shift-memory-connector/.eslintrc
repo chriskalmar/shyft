@@ -1,10 +1,9 @@
 {
   "parser": "babel-eslint", // https://github.com/babel/babel-eslint
   "env": {
-    "browser": false,
+    "browser": true,
     "node": true,
-    "mocha": true,
-    "es6": true
+    "mocha": true
   },
   "globals": {
     "expect": true,

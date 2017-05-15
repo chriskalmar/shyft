@@ -1,0 +1,19 @@
+{
+  "reporter": [
+    "lcov",
+    "text-summary"
+  ],
+  "include": [
+    "lib/**/*.js",
+    "*.js"
+  ],
+  "exclude": [
+    "**/*.spec.js"
+  ],
+  "require": [
+    "babel-register"
+  ],
+  "all": true,
+  "sourceMap": false,
+  "instrument": false
+}
