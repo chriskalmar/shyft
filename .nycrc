@@ -4,11 +4,13 @@
     "text"
   ],
   "include": [
-    "**/*.js"
+    "**/shift-engine/**/*.js"
   ],
   "exclude": [
     "**/*.spec.js",
-    "playground/*"
+    "**/playground/*",
+    "**/coverage",
+    "**/test"
   ],
   "require": [
     "babel-register"
