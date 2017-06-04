@@ -1,94 +1,60 @@
 
+import { expect } from 'chai';
 import util from './util';
-import { engine, registry } from 'shift-engine';
 
-const domainModelsFilePath = __dirname + '/../test/fixtures/models/multiple/'
 
 describe('util', () => {
 
+
   describe('type name', () => {
 
-    registry.clearAllDomainModel()
-    engine.loadCoreDomainModels()
-    engine.loadDomainModelsFromFilePath(domainModelsFilePath)
 
-    const entityModel = registry.getEntityModel('geo', 'country')
+    it('should generate a type name', () => {
 
-
-    it('should fail on missing or incomplete models', () => {
-
-      function fn1() {
-        util.generateTypeName()
-      }
-
-      function fn2() {
-        util.generateTypeName({})
-      }
-
-      expect(fn1).to.throw(/entityModel needs to be defined/);
-      expect(fn2).to.throw(/entityModel needs a name and a domain/);
-
-    })
-
-
-    it('should generate a type name from a model', () => {
-
-      const result1 = util.generateTypeName(entityModel)
+      const result1 = util.generateTypeName('geoCountry')
+      const result2 = util.generateTypeName('geo_country')
+      const result3 = util.generateTypeName('GEO_COUNTRY')
 
       expect(result1).to.equal('geoCountry');
-
-
-      const coreEntityModel = registry.getProviderEntityModel('shift', 'core', 'language')
-      const result2 = util.generateTypeName(coreEntityModel)
-
-      expect(result2).to.equal('shiftCoreLanguage');
-
+      expect(result2).to.equal('geoCountry');
+      expect(result3).to.equal('geoCountry');
     })
 
 
-    it('should generate upper case type names from a model', () => {
+    it('should generate pascal case type names', () => {
 
-      const result1 = util.generateTypeNameUpperCase(entityModel)
+      const result1 = util.generateTypeNamePascalCase('geoCountry')
+      const result2 = util.generateTypeNamePascalCase('geo_country')
+      const result3 = util.generateTypeNamePascalCase('GEO_COUNTRY')
 
       expect(result1).to.equal('GeoCountry');
-
-
-      const coreEntityModel = registry.getProviderEntityModel('shift', 'core', 'language')
-      const result2 = util.generateTypeNameUpperCase(coreEntityModel)
-
-      expect(result2).to.equal('ShiftCoreLanguage');
-
+      expect(result2).to.equal('GeoCountry');
+      expect(result3).to.equal('GeoCountry');
     })
 
 
 
-    it('should generate pluralized type names from a model', () => {
+    it('should generate pluralized type names', () => {
 
-      const result1 = util.generateTypeNamePlural(entityModel)
+      const result1 = util.generateTypeNamePlural('geoCountry')
+      const result2 = util.generateTypeNamePlural('geo_country')
+      const result3 = util.generateTypeNamePlural('GEO_COUNTRY')
 
       expect(result1).to.equal('geoCountries');
-
-
-      const coreEntityModel = registry.getProviderEntityModel('shift', 'core', 'language')
-      const result2 = util.generateTypeNamePlural(coreEntityModel)
-
-      expect(result2).to.equal('shiftCoreLanguages');
-
+      expect(result2).to.equal('geoCountries');
+      expect(result3).to.equal('geoCountries');
     })
 
 
-    it('should generate upper case and pluralized type names from a model', () => {
+    it('should generate pluralized pascal case type names', () => {
 
-      const result1 = util.generateTypeNamePluralUpperCase(entityModel)
+      const result1 = util.generateTypeNamePluralPascalCase('geoCountry')
+      const result2 = util.generateTypeNamePluralPascalCase('geo_country')
+      const result3 = util.generateTypeNamePluralPascalCase('GEO_COUNTRY')
 
       expect(result1).to.equal('GeoCountries');
-
-
-      const coreEntityModel = registry.getProviderEntityModel('shift', 'core', 'language')
-      const result2 = util.generateTypeNamePluralUpperCase(coreEntityModel)
-
-      expect(result2).to.equal('ShiftCoreLanguages');
-
+      expect(result2).to.equal('GeoCountries');
+      expect(result3).to.equal('GeoCountries');
     })
 
   })
