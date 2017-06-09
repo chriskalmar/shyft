@@ -24,4 +24,18 @@ describe.only('ProtocolType', () => {
 
   })
 
+
+  it('should implement isProtocolDataType', () => {
+
+    function fn() {
+      new ProtocolType({ // eslint-disable-line no-new
+        name: 'REST',
+        description: 'REST protocol type'
+      })
+    }
+
+    assert.throws(fn, /needs to implement isProtocolDataType/);
+
+  })
+
 })
