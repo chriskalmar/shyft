@@ -1,10 +1,17 @@
 
 import { assert } from 'chai';
-import ProtocolType from './ProtocolType';
+import ProtocolType, { isProtocolType } from './ProtocolType';
 
 
 describe.only('ProtocolType', () => {
 
+  const ProtocolTypeREST = new ProtocolType({
+    name: 'ProtocolTypeREST',
+    description: 'REST API protocol',
+    isProtocolDataType(protocolDataType) {
+      return (typeof protocolDataType  === 'object' && protocolDataType.name)
+    }
+  })
 
 
   it('should reject invalid protocol type definitions', () => {
@@ -36,6 +43,25 @@ describe.only('ProtocolType', () => {
 
     assert.throws(fn, /needs to implement isProtocolDataType/);
 
+  })
+
+
+  it('should recognize object of type ProtocolType', () => {
+
+    const result = isProtocolType(ProtocolTypeREST)
+    assert.isTrue(result)
+  })
+
+
+  it('should recognize non-ProtocolType objects', () => {
+
+    const result1 = isProtocolType({})
+    const result2 = isProtocolType(123)
+    const result3 = isProtocolType('test')
+
+    assert.isFalse(result1)
+    assert.isFalse(result2)
+    assert.isFalse(result3)
   })
 
 })
