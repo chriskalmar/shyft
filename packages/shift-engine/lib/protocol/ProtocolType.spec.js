@@ -1,6 +1,10 @@
 
 import { assert } from 'chai';
 import ProtocolType, { isProtocolType } from './ProtocolType';
+import {
+  DataTypeID,
+  DataTypeString,
+} from '../datatype/dataTypes';
 
 
 describe.only('ProtocolType', () => {
@@ -12,6 +16,13 @@ describe.only('ProtocolType', () => {
       return (typeof protocolDataType  === 'object' && protocolDataType.name)
     }
   })
+
+  const ProtocolDataTypeID = {
+    name: 'ProtocolDataTypeID'
+  }
+  const ProtocolDataTypeString = {
+    name: 'ProtocolDataTypeString'
+  }
 
 
   it('should reject invalid protocol type definitions', () => {
@@ -63,5 +74,37 @@ describe.only('ProtocolType', () => {
     assert.isFalse(result2)
     assert.isFalse(result3)
   })
+
+
+
+  it('should map data types to protocol data types', () => {
+
+    ProtocolTypeREST.addDataTypeMap(DataTypeID, ProtocolDataTypeID)
+    ProtocolTypeREST.addDataTypeMap(DataTypeString, ProtocolDataTypeString)
+
+  })
+
+
+  it('should reject invalid data type mappings', () => {
+
+    function fn1() {
+      ProtocolTypeREST.addDataTypeMap('something')
+    }
+
+    function fn2() {
+      ProtocolTypeREST.addDataTypeMap(DataTypeID)
+    }
+
+    function fn3() {
+      ProtocolTypeREST.addDataTypeMap(DataTypeString, {})
+    }
+
+    assert.throws(fn1, /not a valid data type/);
+    assert.throws(fn2, /not a valid protocol data type/);
+    assert.throws(fn3, /not a valid protocol data type/);
+
+  })
+
+
 
 })
