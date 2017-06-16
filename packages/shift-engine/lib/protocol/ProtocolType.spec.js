@@ -4,6 +4,7 @@ import ProtocolType, { isProtocolType } from './ProtocolType';
 import {
   DataTypeID,
   DataTypeString,
+  DataTypeInteger,
 } from '../datatype/dataTypes';
 
 
@@ -20,8 +21,13 @@ describe.only('ProtocolType', () => {
   const ProtocolDataTypeID = {
     name: 'ProtocolDataTypeID'
   }
+
   const ProtocolDataTypeString = {
     name: 'ProtocolDataTypeString'
+  }
+
+  const ProtocolDataTypeInteger = {
+    name: 'ProtocolDataTypeInteger'
   }
 
 
@@ -103,6 +109,18 @@ describe.only('ProtocolType', () => {
     assert.throws(fn2, /not a valid protocol data type/);
     assert.throws(fn3, /not a valid protocol data type/);
 
+  })
+
+
+  it('should reject duplicate data type mappings', () => {
+
+    ProtocolTypeREST.addDataTypeMap(DataTypeInteger, ProtocolDataTypeInteger)
+
+    function fn() {
+      ProtocolTypeREST.addDataTypeMap(DataTypeInteger, ProtocolDataTypeInteger)
+    }
+
+    assert.throws(fn, /already registered with protocol type/);
   })
 
 
