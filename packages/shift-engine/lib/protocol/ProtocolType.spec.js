@@ -5,6 +5,7 @@ import {
   DataTypeID,
   DataTypeString,
   DataTypeInteger,
+  DataTypeBoolean,
 } from '../datatype/dataTypes';
 
 
@@ -123,6 +124,35 @@ describe.only('ProtocolType', () => {
     assert.throws(fn, /already registered with protocol type/);
   })
 
+
+
+  it('should convert to protocol data types', () => {
+
+    const result1 = ProtocolTypeREST.convertToProtocolDataType(DataTypeID)
+    const result2 = ProtocolTypeREST.convertToProtocolDataType(DataTypeString)
+    const result3 = ProtocolTypeREST.convertToProtocolDataType(DataTypeInteger)
+
+    assert.deepEqual(result1, ProtocolDataTypeID)
+    assert.deepEqual(result2, ProtocolDataTypeString)
+    assert.deepEqual(result3, ProtocolDataTypeInteger)
+
+  })
+
+
+  it('should throw if unknown data type mapping is requested', () => {
+
+    function fn1() {
+      ProtocolTypeREST.convertToProtocolDataType('DataTypeInteger')
+    }
+
+    function fn2() {
+      ProtocolTypeREST.convertToProtocolDataType(DataTypeBoolean)
+    }
+
+    assert.throws(fn1, /not a valid data type/);
+    assert.throws(fn2, /No data type mapping found/);
+
+  })
 
 
 })
