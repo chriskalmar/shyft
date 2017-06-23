@@ -2,14 +2,14 @@
 import constants from './lib/constants';
 import StorageTypePostgres from './lib/StorageTypePostgres';
 import {
-  generateDB,
+  loadModels,
   generateData,
 } from './lib/generator';
 
 export {
   constants,
   StorageTypePostgres,
-  generateDB,
+  loadModels,
   generateData,
 }
 
@@ -17,6 +17,6 @@ export {
 export default {
   constants,
   StorageTypePostgres,
-  generateDB,
+  loadModels,
   generateData,
 }
