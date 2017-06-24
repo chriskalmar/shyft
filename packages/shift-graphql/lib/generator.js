@@ -271,6 +271,11 @@ export const generateGraphQLSchema = (schema) => {
             field.type = graphRegistry[ targetTypeName ].type
             field.resolve = (source, args, context, info) => {
               const referenceId = source[ attribute.gqlFieldName ]
+
+              if (referenceId === null) {
+                return Promise.resolve(null)
+              }
+
               return storageType.findOne(targetEntity, referenceId, source, args, context, info)
                 .then(targetEntity.graphql.dataShaper)
             }
