@@ -113,7 +113,7 @@ class Entity {
       })
     }
 
-    if (this.includeUserTracking) {
+    if (this.includeUserTracking && !this.isUserEntity) {
       systemAttributesUserTracking.map(attribute => {
         this._checkSystemAttributeNameCollision(attributeMap, attribute.name)
         attributeMap[ attribute.name ] = attribute
