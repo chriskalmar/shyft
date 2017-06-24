@@ -1,5 +1,4 @@
 
-import constants from './lib/constants';
 import StorageTypePostgres from './lib/StorageTypePostgres';
 import {
   loadModels,
@@ -7,7 +6,6 @@ import {
 } from './lib/generator';
 
 export {
-  constants,
   StorageTypePostgres,
   loadModels,
   generateMockData,
@@ -15,7 +13,6 @@ export {
 
 
 export default {
-  constants,
   StorageTypePostgres,
   loadModels,
   generateMockData,
