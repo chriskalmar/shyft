@@ -1,5 +1,8 @@
 
-import { passOrThrow } from '../util';
+import {
+  passOrThrow,
+  isFunction,
+} from '../util';
 
 
 class DataType {
@@ -9,13 +12,20 @@ class DataType {
     const {
       name,
       description,
+      mock,
     } = setup
 
     passOrThrow(name, () => 'Missing data type name')
     passOrThrow(description, () => `Missing description for data type '${name}'`)
 
+    passOrThrow(
+      isFunction(mock),
+      () => `'Missing mock function for data type '${name}'`
+    )
+
     this.name = name
     this.description = description
+    this.mock = mock
   }
 
 

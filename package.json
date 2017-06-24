@@ -35,5 +35,8 @@
     "nodemon": "^1.11.0",
     "nyc": "^10.1.2",
     "pre-commit": "^1.2.1"
+  },
+  "dependencies": {
+    "casual": "^1.5.14"
   }
 }
