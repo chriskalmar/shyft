@@ -11,23 +11,11 @@
     "sinon": true,
     "__DEV__": true
   },
-  "ecmaFeatures": {
-    "arrowFunctions": true,
-    "blockBindings": true,
-    "classes": true,
-    "defaultParams": true,
-    "destructuring": true,
-    "forOf": true,
-    "generators": false,
-    "modules": true,
-    "objectLiteralComputedProperties": true,
-    "objectLiteralDuplicateProperties": false,
-    "objectLiteralShorthandMethods": true,
-    "objectLiteralShorthandProperties": true,
-    "spread": true,
-    "superInFunctions": true,
-    "templateStrings": true,
-    "jsx": true
+  "parserOptions": {
+      "sourceType": "module",
+      "ecmaFeatures": {
+          "jsx": true
+      }
   },
   "rules": {
     "no-var": 2,                     // http://eslint.org/docs/rules/no-var
