@@ -5,6 +5,8 @@ import Schema from './lib/schema/Schema';
 import StorageType from './lib/storage/StorageType';
 import StorageDataType from './lib/storage/StorageDataType';
 import ProtocolType from './lib/protocol/ProtocolType';
+import Index, { INDEX_UNIQUE } from './lib/index/Index';
+
 
 import {
   passOrThrow,
@@ -71,6 +73,9 @@ export {
   mapOverProperties,
 
   coreModels,
+
+  Index,
+  INDEX_UNIQUE,
 }
 
 
@@ -107,5 +112,8 @@ export default {
   mapOverProperties,
 
   coreModels,
+
+  Index,
+  INDEX_UNIQUE,
 }
 

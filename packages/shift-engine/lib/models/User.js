@@ -1,6 +1,7 @@
 
 import Entity from '../entity/Entity';
 import { DataTypeString } from '../datatype/dataTypes';
+import Index, { INDEX_UNIQUE } from '../index/Index';
 
 import { Language } from './Language';
 
@@ -13,10 +14,16 @@ export const User = new Entity({
   // isUserTable: true,
   // sequenceGenerator: 'timebased',
 
-  // indexing: {
-  //   unique: [
-  //     [ 'username' ],
-  //     [ 'email' ],
+  indexing: [
+    new Index({
+      type: INDEX_UNIQUE,
+      attributes: [ 'username' ],
+    }),
+    new Index({
+      type: INDEX_UNIQUE,
+      attributes: [ 'email' ],
+    }),
+  ],
 
 
   attributes: {

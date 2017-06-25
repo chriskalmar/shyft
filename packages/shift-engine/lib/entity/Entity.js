@@ -3,6 +3,7 @@ import {
   passOrThrow,
   resolveFunctionMap,
   isMap,
+  isArray,
   isFunction,
 } from '../util';
 
@@ -11,6 +12,7 @@ import {
   attributeNameRegex,
 } from '../constants';
 
+import { isIndex } from '../index/Index';
 import { isDataType } from '../datatype/DataType';
 import { isStorageType } from '../storage/StorageType';
 import { StorageTypeNull } from '../storage/StorageTypeNull';
@@ -20,6 +22,7 @@ import {
   systemAttributesTimeTracking,
   systemAttributesUserTracking,
 } from './systemAttributes';
+
 
 
 class Entity {
@@ -34,6 +37,7 @@ class Entity {
       isUserEntity,
       includeTimeTracking,
       includeUserTracking,
+      indexes,
     } = setup
 
     passOrThrow(name, () => 'Missing entity name')
@@ -65,6 +69,27 @@ class Entity {
       this._exposeStorageAccess()
     }
 
+
+
+    if (indexes) {
+
+      this.indexes = indexes
+
+      passOrThrow(
+        isArray(indexes),
+        () => `Entity '${name}' indexes definition needs to be an array of indexes`
+      )
+
+      indexes.map((index, idx) => {
+        passOrThrow(
+          isIndex(index),
+          () => `Invalid index defintion for entity '${name}' at position '${idx}'`
+        )
+
+        // TODO check if attributes exist
+
+      })
+    }
   }
 
 
