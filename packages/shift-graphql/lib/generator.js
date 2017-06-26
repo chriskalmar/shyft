@@ -253,7 +253,7 @@ export const generateGraphQLSchema = (schema) => {
 
       fields: () => {
         const fields = {
-          id: globalIdField(typeName)
+          id: globalIdField(typeName, (data) => data._id)
         }
 
         _.forEach(entity.getAttributes(), (attribute) => {
