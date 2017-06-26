@@ -16,6 +16,7 @@ import {
   isArray,
   mergeMaps,
   mapOverProperties,
+  sortDataByKeys,
 } from './lib/util';
 
 import {
@@ -71,6 +72,7 @@ export {
   isArray,
   mergeMaps,
   mapOverProperties,
+  sortDataByKeys,
 
   coreModels,
 
@@ -110,6 +112,7 @@ export default {
   isArray,
   mergeMaps,
   mapOverProperties,
+  sortDataByKeys,
 
   coreModels,
 

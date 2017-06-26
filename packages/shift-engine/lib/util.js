@@ -71,3 +71,65 @@ export const mapOverProperties = (object, iteratee) => {
     iteratee(object[ key ], key)
   })
 }
+
+
+
+export const sortDataByKeys = (keys, data, keyProperty='id') => {
+  const map = {}
+  const result = []
+  const order = {}
+
+  if (!keys || ( isArray(keys) && keys.length === 0)) {
+    return []
+  }
+
+  if (!data || ( isArray(data) && data.length === 0)) {
+    return new Array(keys.length).map(() => null)
+  }
+
+
+  for (let d = 0; d < data.length; d++) {
+    const row = data[ d ]
+    const id = row[ keyProperty ]
+    const found = map[id]
+
+    if (!found) {
+      map[id] = row
+    }
+    else if (found instanceof Array) {
+      found.push(row)
+    }
+    else {
+      map[id] = [ found, row ];
+    }
+  }
+
+
+  for (let k = 0; k < keys.length; k++) {
+    const key = keys[ k ]
+    const found = map[ key ];
+
+    if (typeof found === 'undefined') {
+      result.push(null)
+    }
+    else if (found instanceof Array) {
+      let idx = order[ key ];
+
+      if (typeof idx === 'undefined') {
+        idx = 0
+      }
+      else {
+        idx++
+      }
+
+      order[ key ] = idx;
+
+      result.push(found[ idx ]);
+    }
+    else {
+      result.push(found);
+    }
+  }
+
+  return result;
+};
