@@ -28,7 +28,7 @@ import {
 } from 'graphql-relay';
 
 import {
-  generateConnectionsArgs,
+  generateConnectionArgs,
 } from './connection';
 
 
@@ -152,7 +152,7 @@ const generateListQueries = () => {
       type: graphRegistry[ typeName ].connection,
       description: `Fetch a list of **\`${typeNamePluralListName}\`**`,
       args: {
-        ...generateConnectionsArgs(entity),
+        ...generateConnectionArgs(entity),
       },
       resolve: (source, args, context, info) => connectionFromPromisedArray(
         storageType.find(entity, source, args, context, info)

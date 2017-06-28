@@ -11,7 +11,7 @@ import { generateSortInput } from './sort';
 
 
 
-export const generateConnectionsArgs = (entity) => {
+export const generateConnectionArgs = (entity) => {
 
   const sortInput = generateSortInput(entity)
 
