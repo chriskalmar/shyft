@@ -154,11 +154,15 @@ const generateListQueries = () => {
       args: {
         ...generateConnectionArgs(entity),
       },
-      resolve: (source, args, context, info) => connectionFromPromisedArray(
-        storageType.find(entity, source, args, context, info)
-          .then(entity.graphql.dataSetShaper),
-        args,
-      ),
+      resolve: async (source, args, context, info) => {
+        const ret = await storageType.find(entity, source, args, context, info)
+          .then(entity.graphql.dataSetShaper)
+
+        return connectionFromArray(
+          ret,
+          args,
+        )
+      },
     }
   })
 
