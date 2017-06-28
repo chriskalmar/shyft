@@ -4,8 +4,6 @@ import _ from 'lodash';
 import constants from './constants';
 import ProtocolGraphQL from './ProtocolGraphQL';
 
-import { generateSortInput } from './sort';
-
 import {
   isEntity,
 } from 'shift-engine';
@@ -26,10 +24,12 @@ import {
   nodeDefinitions,
   fromGlobalId,
   connectionDefinitions,
-  connectionFromPromisedArray,
-  connectionArgs,
+  connectionFromArray,
 } from 'graphql-relay';
 
+import {
+  generateConnectionsArgs,
+} from './connection';
 
 
 // collect object types, connections ... for each entity
@@ -147,17 +147,12 @@ const generateListQueries = () => {
     const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase
     const queryName = _.camelCase(`all_${typeNamePlural}`)
 
-    const sortInput = generateSortInput(entity)
-    const orderBy = sortInput
-      ? { orderBy: { ...sortInput } }
-      : undefined
 
     listQueries[ queryName ] = {
       type: graphRegistry[ typeName ].connection,
       description: `Fetch a list of **\`${typeNamePluralListName}\`**`,
       args: {
-        ...connectionArgs,
-        ...orderBy,
+        ...generateConnectionsArgs(entity),
       },
       resolve: (source, args, context, info) => connectionFromPromisedArray(
         storageType.find(entity, source, args, context, info)
