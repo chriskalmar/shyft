@@ -65,6 +65,9 @@ const extendModelsForGql = (entities) => {
 
     })
 
+    // forward relay type promoter field as well
+    dataShaperMap[ constants.RELAY_TYPE_PROMOTER_FIELD ] = constants.RELAY_TYPE_PROMOTER_FIELD
+
     // generate json shaper - translate schema attribute names to graphql attribute names
     const dataShaper = shaper(dataShaperMap)
     entity.graphql.dataShaper = dataShaper;
@@ -81,7 +84,7 @@ const getNodeDefinitions = () => {
 
   return nodeDefinitions(
 
-    (globalId) => {
+    (globalId, context, info) => {
 
       const {
         type,
@@ -95,7 +98,7 @@ const getNodeDefinitions = () => {
 
       if (entity) {
         const storageType = entity.storageType
-        return storageType.findOne(entity, id)
+        return storageType.findOne(entity, id, null, null, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
           .then(entity.graphql.dataShaper)
       }
 
@@ -105,7 +108,7 @@ const getNodeDefinitions = () => {
 
     (obj) => {
 
-      const type = obj[ constants.RELAY_TYPE_PROMOTER_FIELD ]
+      const type = util.generateTypeName( obj[ constants.RELAY_TYPE_PROMOTER_FIELD ] )
 
       // return the graphql type definition
       return graphRegistry[ type ]
