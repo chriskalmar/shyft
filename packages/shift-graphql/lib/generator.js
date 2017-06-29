@@ -23,12 +23,12 @@ import {
   globalIdField,
   nodeDefinitions,
   fromGlobalId,
-  connectionDefinitions,
   connectionFromArray,
 } from 'graphql-relay';
 
 import {
   generateConnectionArgs,
+  generateConnectionType,
 } from './connection';
 
 
@@ -125,7 +125,7 @@ const registerConnection = (entity) => {
 
   const typeName = entity.graphql.typeName
 
-  const { connectionType } = connectionDefinitions({
+  const { connectionType } = generateConnectionType({
     nodeType: graphRegistry[ typeName ].type
   })
 
