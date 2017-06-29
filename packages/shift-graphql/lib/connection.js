@@ -162,7 +162,7 @@ export const buildCursor = (entityName, args, data ) => {
 }
 
 
-export const connectionFromData = (data, entity, source, args, context) => {
+export const connectionFromData = (data, entity, source, args, context, info, pageInfoFromData) => {
 
   const entityName = entity.name
 
@@ -185,10 +185,8 @@ export const connectionFromData = (data, entity, source, args, context) => {
     pageInfo: {
       startCursor: firstNode ? firstNode.cursor : null,
       endCursor: lastNode ? lastNode.cursor : null,
-
-      // TODO
-      hasPreviousPage: false,
-      hasNextPage: false,
+      hasPreviousPage: pageInfoFromData.hasPreviousPage,
+      hasNextPage: pageInfoFromData.hasNextPage,
     },
   }
 }

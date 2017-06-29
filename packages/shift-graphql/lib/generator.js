@@ -160,13 +160,21 @@ const generateListQueries = () => {
 
         validateConnectionArgs(args)
 
+        const {
+          data,
+          pageInfo,
+        } = await storageType.find(entity, source, args, context, info)
+
+        const transformedData = entity.graphql.dataSetShaper(data)
+
         return connectionFromData(
-          ret,
+          transformedData,
           entity,
           source,
           args,
           context,
           info,
+          pageInfo,
         )
       },
     }
