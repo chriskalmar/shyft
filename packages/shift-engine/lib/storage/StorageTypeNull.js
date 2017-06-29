@@ -11,4 +11,7 @@ export const StorageTypeNull = new StorageType({
   find() {
     throw new Error('\'StorageTypeNull\' is not a real storage type implementation')
   },
+  count() {
+    throw new Error('\'StorageTypeNull\' is not a real storage type implementation')
+  },
 })

@@ -16,6 +16,7 @@ class StorageType {
       description,
       findOne,
       find,
+      count,
     } = setup
 
     passOrThrow(name, () => 'Missing storage type name')
@@ -31,11 +32,17 @@ class StorageType {
       () => `Storage type '${name}' needs to implement find()`
     )
 
+    passOrThrow(
+      isFunction(count),
+      () => `Storage type '${name}' needs to implement count()`
+    )
+
 
     this.name = name
     this.description = description
     this.findOne = findOne
     this.find = find
+    this.count = count
 
     this._dataTypeMap = {}
   }
