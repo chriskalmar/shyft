@@ -23,12 +23,12 @@ import {
   globalIdField,
   nodeDefinitions,
   fromGlobalId,
-  connectionFromArray,
 } from 'graphql-relay';
 
 import {
   generateConnectionArgs,
   generateConnectionType,
+  connectionFromData,
 } from './connection';
 
 
@@ -158,9 +158,10 @@ const generateListQueries = () => {
         const ret = await storageType.find(entity, source, args, context, info)
           .then(entity.graphql.dataSetShaper)
 
-        return connectionFromArray(
+        return connectionFromData(
           ret,
           args,
+          entity,
         )
       },
     }

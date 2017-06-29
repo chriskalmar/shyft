@@ -15,6 +15,7 @@ import constants from './constants';
 
 import { generateSortInput } from './sort';
 
+import _ from 'lodash';
 
 
 export const generateConnectionArgs = (entity) => {
@@ -130,3 +131,28 @@ export const buildCursor = (entityName, args, data ) => {
   }
 }
 
+
+export const connectionFromData = (data, args, entity) => {
+
+  const entityName = entity.name
+
+  const nodeToEdge = (node) => ({
+    cursor: buildCursor(entityName, args, node),
+    node,
+  });
+
+  const edges = data.map(nodeToEdge)
+
+  const firstNode = _.first(edges)
+  const lastNode = _.last(edges)
+
+  return {
+    edges,
+    pageInfo: {
+      startCursor: firstNode ? firstNode.cursor : null,
+      endCursor: lastNode ? lastNode.cursor : null,
+      hasPreviousPage: false,
+      hasNextPage: false,
+    },
+  }
+}
