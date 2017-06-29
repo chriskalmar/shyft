@@ -45,6 +45,21 @@ export const generateConnectionArgs = (entity) => {
 }
 
 
+export const validateConnectionArgs = (args) => {
+  if (args.first >= 0 && args.last >= 0) {
+    throw new Error('`first` and `last` settings are mutual exclusive')
+  }
+
+  if (args.first && (args.first < 0 || args.first > constants.MAX_PAGE_SIZE)) {
+    throw new Error('`first` needs to be within the range of 0 and ' + constants.MAX_PAGE_SIZE)
+  }
+
+  if (args.last && (args.last < 0 || args.last > constants.MAX_PAGE_SIZE)) {
+    throw new Error('`last` needs to be within the range of 0 and ' + constants.MAX_PAGE_SIZE)
+  }
+}
+
+
 const pageInfoType = new GraphQLObjectType({
   name: 'PageInfo',
   description: 'Information about pagination in a connection.',
@@ -170,6 +185,8 @@ export const connectionFromData = (data, entity, source, args, context) => {
     pageInfo: {
       startCursor: firstNode ? firstNode.cursor : null,
       endCursor: lastNode ? lastNode.cursor : null,
+
+      // TODO
       hasPreviousPage: false,
       hasNextPage: false,
     },

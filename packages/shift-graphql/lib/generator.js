@@ -27,6 +27,7 @@ import {
 
 import {
   generateConnectionArgs,
+  validateConnectionArgs,
   generateConnectionType,
   connectionFromData,
 } from './connection';
@@ -156,8 +157,8 @@ const generateListQueries = () => {
         ...generateConnectionArgs(entity),
       },
       resolve: async (source, args, context, info) => {
-        const ret = await storageType.find(entity, source, args, context, info)
-          .then(entity.graphql.dataSetShaper)
+
+        validateConnectionArgs(args)
 
         return connectionFromData(
           ret,
