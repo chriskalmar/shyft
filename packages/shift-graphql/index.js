@@ -2,16 +2,22 @@
 import generator from './lib/generator';
 import dataTypes from './lib/dataTypes';
 import ProtocolGraphQL from './lib/ProtocolGraphQL';
-import util from './lib/util';
 import constants from './lib/constants';
+import {
+  fromBase64,
+  toBase64,
+} from './lib/util';
 
 
 export {
   generator,
   dataTypes,
   ProtocolGraphQL,
-  util,
   constants,
+
+  fromBase64,
+  toBase64,
+
 }
 
 
@@ -19,7 +25,9 @@ export default {
   generator,
   dataTypes,
   ProtocolGraphQL,
-  util,
   constants,
+
+  fromBase64,
+  toBase64,
 }
 

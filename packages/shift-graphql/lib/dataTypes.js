@@ -12,6 +12,23 @@ export {
   GraphQLJSON,
 }
 
+import {
+  serializeCursor,
+  deserializeCursor,
+} from './util';
+
+
+export const GraphQLCursor = new GraphQLScalarType({
+  name: 'Cursor',
+  description:
+    'A cursor to define a location in a data set used for pagination.',
+  serialize: serializeCursor,
+  parseValue: deserializeCursor,
+  parseLiteral(ast) {
+    return ast.kind === Kind.STRING ? deserializeCursor(ast.value) : null;
+  }
+});
+
 
 export const GraphQLBigInt = new GraphQLScalarType({
   name: 'BigInt',
