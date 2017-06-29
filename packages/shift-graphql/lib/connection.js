@@ -109,3 +109,24 @@ export const generateConnectionType = (config) => {
   }
 
 }
+
+
+export const buildCursor = (entityName, args, data ) => {
+
+  const idAttribute = constants.FALLBACK_ID_FIELD
+
+  const cursor = {
+    [ idAttribute ]: data[ idAttribute ]
+  }
+
+  if (args && args.orderBy) {
+    args.orderBy.map(({ attribute }) => {
+      cursor[ attribute ] = data[ attribute ]
+    })
+  }
+
+  return {
+    [ entityName ]: cursor
+  }
+}
+
