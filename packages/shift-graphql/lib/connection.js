@@ -71,8 +71,14 @@ const pageInfoType = new GraphQLObjectType({
 
 export const generateConnectionType = (config) => {
 
-  const { nodeType } = config
+  const {
+    nodeType,
+    entity,
+  } = config
+
   const name = config.name || nodeType.name;
+
+  const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase
 
   const edgeType = new GraphQLObjectType({
     name: `${name}Edge`,
@@ -100,6 +106,15 @@ export const generateConnectionType = (config) => {
       edges: {
         type: new GraphQLList(edgeType),
         description: 'A list of edges.'
+      },
+      totalCount: {
+        type: GraphQLInt,
+        description: `The count of all **\`${typeNamePluralListName}\`** you could get from the connection.`,
+      },
+      resultCount: {
+        type: GraphQLInt,
+        description: `The count of **\`${typeNamePluralListName}\`** in this result set.`,
+        resolve: ({ edges }) => edges.length
       },
     }),
   });
@@ -132,7 +147,7 @@ export const buildCursor = (entityName, args, data ) => {
 }
 
 
-export const connectionFromData = (data, args, entity) => {
+export const connectionFromData = (data, entity, source, args, context) => {
 
   const entityName = entity.name
 
@@ -148,6 +163,10 @@ export const connectionFromData = (data, args, entity) => {
 
   return {
     edges,
+    totalCount: async () => {
+      const storageType = entity.storageType
+      return await storageType.count(entity, source, args, context)
+    },
     pageInfo: {
       startCursor: firstNode ? firstNode.cursor : null,
       endCursor: lastNode ? lastNode.cursor : null,

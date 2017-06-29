@@ -126,7 +126,8 @@ const registerConnection = (entity) => {
   const typeName = entity.graphql.typeName
 
   const { connectionType } = generateConnectionType({
-    nodeType: graphRegistry[ typeName ].type
+    nodeType: graphRegistry[ typeName ].type,
+    entity,
   })
 
   graphRegistry[ typeName ].connection = connectionType
@@ -160,8 +161,11 @@ const generateListQueries = () => {
 
         return connectionFromData(
           ret,
-          args,
           entity,
+          source,
+          args,
+          context,
+          info,
         )
       },
     }
