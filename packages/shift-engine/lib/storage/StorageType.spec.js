@@ -47,6 +47,7 @@ describe('StorageType', () => {
       description: 'Just some description',
       findOne() {},
       find() {},
+      count() {},
     })
 
     assert.strictEqual(SomeStorageType.name, 'SomeStorageType');
@@ -77,6 +78,18 @@ describe('StorageType', () => {
 
     assert.throws(fn2, /needs to implement find\(\)/);
 
+
+    function fn3() {
+      new StorageType({ // eslint-disable-line no-new
+        name: 'SomeStorageType',
+        description: 'Just some description',
+        findOne() {},
+        find() {},
+      })
+    }
+
+    assert.throws(fn3, /needs to implement count\(\)/);
+
   })
 
 
@@ -88,6 +101,7 @@ describe('StorageType', () => {
       description: 'Just some description',
       findOne() {},
       find() {},
+      count() {},
     })
 
     const StorageDataTypeText = new StorageDataType({
@@ -151,6 +165,7 @@ describe('StorageType', () => {
         description: 'Just some description',
         findOne() {},
         find() {},
+        count() {},
       })
 
       function fn() {
