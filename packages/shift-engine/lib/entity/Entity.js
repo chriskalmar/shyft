@@ -86,8 +86,6 @@ class Entity {
           () => `Invalid index defintion for entity '${name}' at position '${idx}'`
         )
 
-        // TODO check if attributes exist
-
       })
     }
   }
@@ -115,7 +113,9 @@ class Entity {
 
 
   getAttributes () {
-    return this._attributes || (this._attributes = this._processAttributeMap())
+    const ret = this._attributes || (this._attributes = this._processAttributeMap())
+    this._processIndexes()
+    return ret
   }
 
 
@@ -257,6 +257,22 @@ class Entity {
     )
 
     return attributes[ attributeName ]
+  }
+
+
+  _processIndexes () {
+    if (this.indexes) {
+
+      this.indexes.map((index) => {
+        index.attributes.map((attributeName) => {
+
+          passOrThrow(
+            this._attributes[ attributeName ],
+            () => `Cannot use attribute '${this.name}.${attributeName}' in index as it does not exist`
+          )
+        })
+      })
+    }
   }
 
 

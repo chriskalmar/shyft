@@ -1,6 +1,7 @@
 
 import { assert } from 'chai';
 import Entity, { isEntity } from './Entity';
+import Index, { INDEX_UNIQUE } from '../index/Index';
 import { passOrThrow } from '../util';
 import {
   DataTypeID,
@@ -383,6 +384,66 @@ describe('Entity', () => {
       }
 
       assert.throws(fn, /has an invalid defaultValue function/);
+
+    })
+
+  })
+
+
+  describe('indexes', () => {
+
+    it('should throw if provided with an invalid list of indexes', () => {
+
+      function fn() {
+        const entity = new Entity({
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {
+            someAttribute: {
+              type: DataTypeString,
+              description: 'Just some description',
+            }
+          },
+          indexes: {
+            unique: [{}]
+          }
+        })
+
+        entity.getAttributes()
+      }
+
+      assert.throws(fn, /indexes definition needs to be an array of indexes/);
+
+    })
+
+
+    it('should throw if attribute used in index does not exist', () => {
+
+      function fn() {
+        const entity = new Entity({
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {
+            someAttribute: {
+              type: DataTypeString,
+              description: 'Just some description',
+            }
+          },
+          indexes: [
+            new Index({
+              type: INDEX_UNIQUE,
+              attributes: [
+                'someAttribute',
+                'notHere',
+              ]
+            })
+          ]
+        })
+
+        entity.getAttributes()
+      }
+
+      assert.throws(fn, /in index as it does not exist/);
 
     })
 
