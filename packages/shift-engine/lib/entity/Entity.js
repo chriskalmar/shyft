@@ -12,7 +12,7 @@ import {
   attributeNameRegex,
 } from '../constants';
 
-import { isIndex } from '../index/Index';
+import { isIndex, INDEX_UNIQUE } from '../index/Index';
 import { isDataType } from '../datatype/DataType';
 import { isStorageType } from '../storage/StorageType';
 import { StorageTypeNull } from '../storage/StorageTypeNull';
@@ -270,6 +270,11 @@ class Entity {
             this._attributes[ attributeName ],
             () => `Cannot use attribute '${this.name}.${attributeName}' in index as it does not exist`
           )
+
+          if (index.type === INDEX_UNIQUE && index.attributes.length === 1) {
+            this._attributes[ attributeName ].isUnique = true
+          }
+
         })
       })
     }

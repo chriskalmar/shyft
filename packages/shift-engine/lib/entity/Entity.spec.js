@@ -447,6 +447,62 @@ describe('Entity', () => {
 
     })
 
+
+    it('should set isUnique flag on attributes based on index definition', () => {
+
+      const entity = new Entity({
+        name: 'SomeEntityName',
+        description: 'Just some description',
+        attributes: {
+          loginName: {
+            type: DataTypeString,
+            description: 'Just some description',
+          },
+          firstName: {
+            type: DataTypeString,
+            description: 'Just some description',
+          },
+          lastName: {
+            type: DataTypeString,
+            description: 'Just some description',
+          },
+          email: {
+            type: DataTypeString,
+            description: 'Just some description',
+          },
+        },
+        indexes: [
+          new Index({
+            type: INDEX_UNIQUE,
+            attributes: [
+              'loginName',
+            ]
+          }),
+          new Index({
+            type: INDEX_UNIQUE,
+            attributes: [
+              'firstName',
+              'lastName',
+            ]
+          }),
+          new Index({
+            type: INDEX_UNIQUE,
+            attributes: [
+              'email',
+            ]
+          }),
+        ]
+      })
+
+      const attributes = entity.getAttributes()
+
+      assert.strictEqual(attributes.loginName.isUnique, true);
+      assert.isNotTrue(attributes.firstName.isUnique);
+      assert.isNotTrue(attributes.lastName.isUnique);
+      assert.strictEqual(attributes.email.isUnique, true);
+
+    })
+
   })
 
 
