@@ -37,11 +37,27 @@ describe('DataType', () => {
 
   })
 
+
+  it('should provide a mock function', () => {
+
+    function fn() {
+      new DataType({ // eslint-disable-line no-new
+        name: 'example',
+        description: 'Just some description',
+      })
+    }
+
+    assert.throws(fn, /Missing mock function for data type/);
+
+  })
+
+
   it('should return it\'s name', () => {
 
     const dataType = new DataType({
       name: 'someDataTypeName',
-      description: 'Just some description'
+      description: 'Just some description',
+      mock () {},
     })
 
     assert.strictEqual(dataType.name, 'someDataTypeName');
