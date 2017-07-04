@@ -7,6 +7,7 @@ import {
   isMap,
   isArray,
   mergeMaps,
+  mapOverProperties,
 } from './util';
 
 import {
@@ -216,6 +217,83 @@ describe('util', () => {
       assert.throws(fn1, /expects 2 maps for a merge to work/);
       assert.throws(fn2, /expects 2 maps for a merge to work/);
       assert.throws(fn3, /expects 2 maps for a merge to work/);
+
+    })
+
+  })
+
+
+  describe('mapOverProperties', () => {
+
+
+    it('should map over properties and call interatee', () => {
+
+      const keys = []
+      let sum = 0
+
+      function iteratee(val, key) {
+        sum += val;
+        keys.push(key)
+      }
+
+      const someMap = {
+        a: 1,
+        b: 4,
+        c: 8,
+      }
+
+      mapOverProperties(someMap, iteratee)
+
+      assert.deepEqual(keys, [ 'a', 'b', 'c' ])
+      assert.strictEqual(sum, 13)
+
+    })
+
+
+    it('should throw if non-maps are provided', () => {
+
+      function fn1() {
+        mapOverProperties()
+      }
+
+      function fn2() {
+        mapOverProperties([])
+      }
+
+      function fn3() {
+        mapOverProperties('string')
+      }
+
+      assert.throws(fn1, /Provided object is not a map/);
+      assert.throws(fn2, /Provided object is not a map/);
+      assert.throws(fn3, /Provided object is not a map/);
+
+    })
+
+
+    it('should throw if iteratee is not a function', () => {
+
+      function fn1() {
+        mapOverProperties({})
+      }
+
+      function fn2() {
+        mapOverProperties({}, [])
+      }
+
+      function fn3() {
+        mapOverProperties({}, 'string')
+      }
+
+      assert.throws(fn1, /Provided iteratee is not a function/);
+      assert.throws(fn2, /Provided iteratee is not a function/);
+      assert.throws(fn3, /Provided iteratee is not a function/);
+
+    })
+
+  })
+
+
 
     })
 
