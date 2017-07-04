@@ -8,6 +8,7 @@ import {
   isArray,
   mergeMaps,
   mapOverProperties,
+  sortDataByKeys,
 } from './util';
 
 import {
@@ -294,6 +295,89 @@ describe('util', () => {
   })
 
 
+
+  describe.only('sortDataByKeys', () => {
+
+
+    it('should return empty result if keys list is empty or invalid', () => {
+
+      const result1 = sortDataByKeys([], { a: 1, b: 3})
+      const result2 = sortDataByKeys({}, { a: 1, b: 3})
+      const result3 = sortDataByKeys(null, { a: 1, b: 3})
+
+      assert.deepEqual(result1, [])
+      assert.deepEqual(result2, [])
+      assert.deepEqual(result3, [])
+
+    })
+
+
+    it('should return null-filled array if data list is empty or invalid', () => {
+
+      const result1 = sortDataByKeys([ 'a', 'b' ], null)
+      const result2 = sortDataByKeys([ 'a' ], {})
+      const result3 = sortDataByKeys([ 'a', 'b', 'f' ], [])
+
+      assert.deepEqual(result1, [ null, null ])
+      assert.deepEqual(result2, [ null ])
+      assert.deepEqual(result3, [ null, null, null ])
+
+    })
+
+
+    it('should sort data based on keys', () => {
+
+      const data = [
+        { id: 'a', val: 'lorem' },
+        { id: 'b', val: 'ipsum' },
+        { id: 'c', val: 'dolor' },
+        { id: 'd', val: 'et' },
+        { id: 'e', val: 'unde' },
+        { id: 'f', val: 'omnis' },
+        { id: 'g', val: 'iste' },
+        { id: 'a', val: 'natus' },
+        { id: 'b', val: 'voluptatem' },
+        { id: 'c', val: 'doloremque' },
+      ]
+
+      const keys1 = [ 'a', 'c', 'f' ]
+      const keys2 = [ 'e', 'e', 'b', 'b', 'c' ]
+      const keys3 = [ 'g' ]
+      const keys4 = [ 'a-unknown', 'f', 'c-unknown', 'g', 'c', 'd-unkown', 'c', 'hh' ]
+
+      const result1 = sortDataByKeys(keys1, data)
+      const result2 = sortDataByKeys(keys2, data)
+      const result3 = sortDataByKeys(keys3, data)
+      const result4 = sortDataByKeys(keys4, data)
+
+      assert.deepEqual(result1, [
+        { id: 'a', val: 'lorem' },
+        { id: 'c', val: 'dolor' },
+        { id: 'f', val: 'omnis' },
+      ])
+
+      assert.deepEqual(result2, [
+        { id: 'e', val: 'unde' },
+        { id: 'e', val: 'unde' },
+        { id: 'b', val: 'ipsum' },
+        { id: 'b', val: 'voluptatem' },
+        { id: 'c', val: 'dolor' },
+      ])
+
+      assert.deepEqual(result3, [
+        { id: 'g', val: 'iste' },
+      ])
+
+      assert.deepEqual(result4, [
+        null,
+        { id: 'f', val: 'omnis' },
+        null,
+        { id: 'g', val: 'iste' },
+        { id: 'c', val: 'dolor' },
+        null,
+        { id: 'c', val: 'doloremque' },
+        null,
+      ])
 
     })
 

@@ -84,7 +84,7 @@ export const sortDataByKeys = (keys, data, keyProperty='id') => {
   }
 
   if (!data || ( isArray(data) && data.length === 0)) {
-    return new Array(keys.length).map(() => null)
+    return keys.map(() => null)
   }
 
 
