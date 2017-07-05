@@ -169,6 +169,7 @@ class Entity {
     const attribute = {
       ...rawAttribute,
       isPrimary: !!rawAttribute.isPrimary,
+      isUnique: !!rawAttribute.isPrimary,
       required: !!rawAttribute.required,
       name: attributeName
     }
