@@ -57,6 +57,30 @@ export const validateConnectionArgs = (args) => {
   if (args.last && (args.last < 0 || args.last > constants.MAX_PAGE_SIZE)) {
     throw new Error('`last` needs to be within the range of 0 and ' + constants.MAX_PAGE_SIZE)
   }
+
+}
+
+
+export const forceSortByUnique = (orderBy, entity) => {
+
+  const attributes = entity.getAttributes()
+  let foundUnique = false
+
+  orderBy.map(({ attribute }) => {
+    const { isUnique } = attributes[ attribute ]
+    if (isUnique) {
+      foundUnique = true
+    }
+  })
+
+  if (!foundUnique) {
+    const primaryAttribute = entity.getPrimaryAttribute()
+    orderBy.push({
+      attribute: primaryAttribute.name,
+      direction: 'ASC',
+    })
+  }
+
 }
 
 

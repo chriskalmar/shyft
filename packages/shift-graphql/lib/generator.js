@@ -28,6 +28,7 @@ import {
 import {
   generateConnectionArgs,
   validateConnectionArgs,
+  forceSortByUnique,
   generateConnectionType,
   connectionFromData,
 } from './connection';
@@ -159,6 +160,7 @@ const generateListQueries = () => {
       resolve: async (source, args, context, info) => {
 
         validateConnectionArgs(args)
+        forceSortByUnique(args.orderBy, entity)
 
         const {
           data,
