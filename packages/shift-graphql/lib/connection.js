@@ -142,18 +142,29 @@ export const generateConnectionType = (config) => {
 }
 
 
-export const buildCursor = (entityName, args, data ) => {
+export const buildCursor = (entityName, primaryAttributeName, args, data ) => {
 
-  const idAttribute = constants.FALLBACK_ID_FIELD
-
-  const cursor = {
-    [ idAttribute ]: data[ idAttribute ]
-  }
+  const cursor = []
+  let primaryAttributeAdded = false
 
   if (args && args.orderBy) {
     args.orderBy.map(({ attribute }) => {
-      cursor[ attribute ] = data[ attribute ]
+      cursor.push([
+        attribute,
+        data[ attribute ],
+      ])
+
+      if (attribute === primaryAttributeName) {
+        primaryAttributeAdded = true
+      }
     })
+  }
+
+  if (!primaryAttributeAdded) {
+    cursor.push([
+      primaryAttributeName,
+      data[ primaryAttributeName ],
+    ])
   }
 
   return {
