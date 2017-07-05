@@ -1,5 +1,7 @@
 
 import { assert } from 'chai';
+import Entity from './entity/Entity';
+import Index, { INDEX_UNIQUE } from './index/Index';
 
 import {
   passOrThrow,
@@ -9,10 +11,12 @@ import {
   mergeMaps,
   mapOverProperties,
   sortDataByKeys,
+  processCursor,
 } from './util';
 
 import {
   DataTypeBoolean,
+  DataTypeString,
 } from './datatype/dataTypes';
 
 
@@ -296,7 +300,7 @@ describe('util', () => {
 
 
 
-  describe.only('sortDataByKeys', () => {
+  describe('sortDataByKeys', () => {
 
 
     it('should return empty result if keys list is empty or invalid', () => {
@@ -378,6 +382,566 @@ describe('util', () => {
         { id: 'c', val: 'doloremque' },
         null,
       ])
+
+    })
+
+  })
+
+
+
+  describe.only('processCursor', () => {
+
+    const SomeEntity = new Entity({
+      name: 'SomeEntity',
+      description: 'Just some description',
+      attributes: {
+        loginName: {
+          type: DataTypeString,
+          description: 'Just some description',
+        },
+        firstName: {
+          type: DataTypeString,
+          description: 'Just some description',
+        },
+        lastName: {
+          type: DataTypeString,
+          description: 'Just some description',
+        },
+        email: {
+          type: DataTypeString,
+          description: 'Just some description',
+        },
+      },
+      indexes: [
+        new Index({
+          type: INDEX_UNIQUE,
+          attributes: [
+            'loginName',
+          ]
+        }),
+        new Index({
+          type: INDEX_UNIQUE,
+          attributes: [
+            'firstName',
+            'lastName',
+          ]
+        }),
+        new Index({
+          type: INDEX_UNIQUE,
+          attributes: [
+            'email',
+          ]
+        }),
+      ]
+    })
+
+
+    it('should return empty clause if no cursor provided', () => {
+
+      const result = processCursor()
+
+      assert.deepEqual(result, {})
+    })
+
+
+    it('should throw if incompatible cursor provided', () => {
+
+      function fn() {
+        processCursor({}, { a: 'b' })
+      }
+
+      assert.throws(fn, /Incompatible cursor for this entity/);
+
+    })
+
+
+    it('should throw if cursor is malformed', () => {
+
+      function fn1() {
+        processCursor(SomeEntity, { 'SomeEntity': [ 'b' ] }, [])
+      }
+
+      function fn2() {
+        processCursor(SomeEntity, { 'SomeEntity': [ [ {}, {}, {} ] ] }, [])
+      }
+
+      function fn3() {
+        processCursor(SomeEntity, { 'SomeEntity': [ {} ] }, [])
+      }
+
+      assert.throws(fn1, /Cursor malformed/);
+      assert.throws(fn2, /Cursor malformed/);
+      assert.throws(fn3, /Cursor malformed/);
+
+    })
+
+
+
+    it('should throw if unknown attribute is used', () => {
+
+      function fn() {
+        processCursor(SomeEntity, {
+          'SomeEntity': [
+            [ 'iDontKnow', 123 ]
+          ]
+        }, [])
+      }
+
+      assert.throws(fn, /Unknown attribute/);
+
+    })
+
+
+    it('should throw if an attribute is used which the data set is not sorted by', () => {
+
+      function fn1() {
+        processCursor(SomeEntity, {
+          'SomeEntity': [
+            [ 'loginName', 123 ]
+          ]
+        })
+      }
+
+      function fn2() {
+        processCursor(SomeEntity, {
+          'SomeEntity': [
+            [ 'loginName', 123 ]
+          ]
+        }, [
+          {
+            attribute: 'a',
+            direction: 'ASC'
+          }
+        ])
+      }
+
+      function fn3() {
+        processCursor(SomeEntity, {
+          'SomeEntity': [
+            [ 'loginName', 123 ],
+            [ 'email', 123 ]
+          ]
+        }, [
+          {
+            attribute: 'loginName',
+            direction: 'ASC'
+          }
+        ])
+      }
+
+      assert.throws(fn1, /orderBy needs to be an array of order definitions/);
+      assert.throws(fn2, /Cursor works only on sorted attributes/);
+      assert.throws(fn3, /Cursor works only on sorted attributes/);
+
+    })
+
+
+    it('should throw if none of the attributes are defined as unique', () => {
+
+      function fn1() {
+        processCursor(SomeEntity, {
+          'SomeEntity': [
+            [ 'firstName', 'John' ]
+          ]
+        }, [
+          {
+            attribute: 'firstName',
+            direction: 'ASC'
+          }
+        ])
+      }
+
+      function fn2() {
+        processCursor(SomeEntity, {
+          'SomeEntity': [
+            [ 'firstName', 'John' ],
+            [ 'lastName', 'Snow' ],
+          ]
+        }, [
+          {
+            attribute: 'firstName',
+            direction: 'ASC'
+          },
+          {
+            attribute: 'lastName',
+            direction: 'ASC'
+          }
+        ])
+      }
+
+      assert.throws(fn1, /Cursor needs to have at least one attribute defined as unique/);
+      assert.throws(fn2, /Cursor needs to have at least one attribute defined as unique/);
+
+    })
+
+
+
+    describe('should return a filter clause based on the provided cursor', () => {
+
+
+      it('when using attributes that are defined as unique', () => {
+
+        const cursor1 = processCursor(
+          SomeEntity,
+          {
+            'SomeEntity': [
+              [ 'loginName', 'user1' ]
+            ]
+          },
+          [
+            {
+              attribute: 'loginName',
+              direction: 'ASC',
+            }
+          ]
+        )
+
+        const result1 = {
+          loginName: {
+            $gt: 'user1',
+          }
+        }
+
+
+        const cursor2 = processCursor(
+          SomeEntity,
+          {
+            'SomeEntity': [
+              [ 'loginName', 123 ]
+            ]
+          },
+          [
+            {
+              attribute: 'loginName',
+              direction: 'DESC',
+            }
+          ]
+        )
+
+        const result2 = {
+          loginName: {
+            $lt: 123,
+          }
+        }
+
+
+        const cursor3 = processCursor(
+          SomeEntity,
+          {
+            'SomeEntity': [
+              [ 'loginName', 'user1' ],
+              [ 'email', 'user1@example.com' ],
+            ]
+          },
+          [
+            {
+              attribute: 'email',
+              direction: 'ASC',
+            },
+            {
+              attribute: 'loginName',
+              direction: 'DESC',
+            },
+          ]
+        )
+
+        const result3 = {
+          loginName: {
+            $lt: 'user1',
+          },
+        }
+
+        assert.deepEqual(cursor1, result1)
+        assert.deepEqual(cursor2, result2)
+        assert.deepEqual(cursor3, result3)
+
+      })
+
+
+      it('when using attributes that are not all defined as unique', () => {
+
+        const row1 = {
+          'SomeEntity': [
+            [ 'firstName', 'John' ],
+            [ 'id', 1123 ],
+          ]
+        }
+
+        const cursor1 = processCursor(
+          SomeEntity,
+          row1,
+          [
+            {
+              attribute: 'firstName',
+              direction: 'ASC',
+            },
+            {
+              attribute: 'id',
+              direction: 'ASC',
+            },
+          ]
+        )
+
+        const result1 = {
+          $and: {
+            firstName: {
+              $gte: 'John',
+            },
+            $not: {
+              $and: {
+                id: {
+                  $lte: 1123,
+                },
+                firstName: 'John',
+              }
+            }
+          }
+        }
+
+
+        const cursor2 = processCursor(
+          SomeEntity,
+          row1,
+          [
+            {
+              attribute: 'firstName',
+              direction: 'ASC',
+            },
+            {
+              attribute: 'id',
+              direction: 'DESC',
+            },
+          ]
+        )
+
+        const result2 = {
+          $and: {
+            firstName: {
+              $gte: 'John',
+            },
+            $not: {
+              $and: {
+                id: {
+                  $gte: 1123,
+                },
+                firstName: 'John',
+              }
+            }
+          }
+        }
+
+
+        const cursor3 = processCursor(
+          SomeEntity,
+          row1,
+          [
+            {
+              attribute: 'firstName',
+              direction: 'DESC',
+            },
+            {
+              attribute: 'id',
+              direction: 'DESC',
+            },
+          ]
+        )
+
+        const result3 = {
+          $and: {
+            firstName: {
+              $lte: 'John',
+            },
+            $not: {
+              $and: {
+                id: {
+                  $gte: 1123,
+                },
+                firstName: 'John',
+              }
+            }
+          }
+        }
+
+
+        const cursor4 = processCursor(
+          SomeEntity,
+          row1,
+          [
+            {
+              attribute: 'firstName',
+              direction: 'DESC',
+            },
+            {
+              attribute: 'id',
+              direction: 'ASC',
+            },
+          ]
+        )
+
+        const result4 = {
+          $and: {
+            firstName: {
+              $lte: 'John',
+            },
+            $not: {
+              $and: {
+                id: {
+                  $lte: 1123,
+                },
+                firstName: 'John',
+              }
+            }
+          }
+        }
+
+
+        const row2 = {
+          'SomeEntity': [
+            [ 'firstName', 'John' ],
+            [ 'lastName', 'Snow' ],
+            [ 'id', 1123 ],
+          ]
+        }
+
+        const cursor5 = processCursor(
+          SomeEntity,
+          row2,
+          [
+            {
+              attribute: 'firstName',
+              direction: 'ASC',
+            },
+            {
+              attribute: 'lastName',
+              direction: 'ASC',
+            },
+            {
+              attribute: 'id',
+              direction: 'ASC',
+            },
+          ]
+        )
+
+        const result5 = {
+          $and: {
+            firstName: {
+              $gte: 'John',
+            },
+            lastName: {
+              $gte: 'Snow',
+            },
+            $not: {
+              $and: {
+                id: {
+                  $lte: 1123,
+                },
+                firstName: 'John',
+                lastName: 'Snow',
+              }
+            }
+          }
+        }
+
+
+        const cursor6 = processCursor(
+          SomeEntity,
+          row2,
+          [
+            {
+              attribute: 'firstName',
+              direction: 'ASC',
+            },
+            {
+              attribute: 'lastName',
+              direction: 'DESC',
+            },
+            {
+              attribute: 'id',
+              direction: 'DESC',
+            },
+          ]
+        )
+
+        const result6 = {
+          $and: {
+            firstName: {
+              $gte: 'John',
+            },
+            lastName: {
+              $lte: 'Snow',
+            },
+            $not: {
+              $and: {
+                id: {
+                  $gte: 1123,
+                },
+                firstName: 'John',
+                lastName: 'Snow',
+              }
+            }
+          }
+        }
+
+
+        const row3 = {
+          'SomeEntity': [
+            [ 'firstName', 'John' ],
+            [ 'email', 'john@example.com' ],
+            [ 'lastName', 'Snow' ],
+            [ 'id', 1123 ],
+          ]
+        }
+
+        const cursor7 = processCursor(
+          SomeEntity,
+          row3,
+          [
+            {
+              attribute: 'firstName',
+              direction: 'ASC',
+            },
+            {
+              attribute: 'email',
+              direction: 'DESC',
+            },
+            {
+              attribute: 'lastName',
+              direction: 'DESC',
+            },
+            {
+              attribute: 'id',
+              direction: 'DESC',
+            },
+          ]
+        )
+
+        const result7 = {
+          $and: {
+            firstName: {
+              $gte: 'John',
+            },
+            $not: {
+              $and: {
+                email: {
+                  $gte: 'john@example.com',
+                },
+                firstName: 'John',
+              }
+            }
+          }
+        }
+
+
+
+        assert.deepEqual(cursor1, result1)
+        assert.deepEqual(cursor2, result2)
+        assert.deepEqual(cursor3, result3)
+        assert.deepEqual(cursor4, result4)
+        assert.deepEqual(cursor5, result5)
+        assert.deepEqual(cursor6, result6)
+        assert.deepEqual(cursor7, result7)
+
+      })
 
     })
 
