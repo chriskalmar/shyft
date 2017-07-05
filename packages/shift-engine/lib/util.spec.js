@@ -683,18 +683,14 @@ describe('util', () => {
         )
 
         const result1 = {
-          $and: {
-            firstName: {
-              $gte: 'John',
+          firstName: {
+            $gte: 'John',
+          },
+          $not: {
+            id: {
+              $lte: 1123,
             },
-            $not: {
-              $and: {
-                id: {
-                  $lte: 1123,
-                },
-                firstName: 'John',
-              }
-            }
+            firstName: 'John',
           }
         }
 
@@ -715,18 +711,14 @@ describe('util', () => {
         )
 
         const result2 = {
-          $and: {
-            firstName: {
-              $gte: 'John',
+          firstName: {
+            $gte: 'John',
+          },
+          $not: {
+            id: {
+              $gte: 1123,
             },
-            $not: {
-              $and: {
-                id: {
-                  $gte: 1123,
-                },
-                firstName: 'John',
-              }
-            }
+            firstName: 'John',
           }
         }
 
@@ -747,18 +739,14 @@ describe('util', () => {
         )
 
         const result3 = {
-          $and: {
-            firstName: {
-              $lte: 'John',
+          firstName: {
+            $lte: 'John',
+          },
+          $not: {
+            id: {
+              $gte: 1123,
             },
-            $not: {
-              $and: {
-                id: {
-                  $gte: 1123,
-                },
-                firstName: 'John',
-              }
-            }
+            firstName: 'John',
           }
         }
 
@@ -779,20 +767,17 @@ describe('util', () => {
         )
 
         const result4 = {
-          $and: {
-            firstName: {
-              $lte: 'John',
+          firstName: {
+            $lte: 'John',
+          },
+          $not: {
+            id: {
+              $lte: 1123,
             },
-            $not: {
-              $and: {
-                id: {
-                  $lte: 1123,
-                },
-                firstName: 'John',
-              }
-            }
+            firstName: 'John',
           }
         }
+
 
 
         const row2 = {
@@ -823,22 +808,18 @@ describe('util', () => {
         )
 
         const result5 = {
-          $and: {
-            firstName: {
-              $gte: 'John',
+          firstName: {
+            $gte: 'John',
+          },
+          lastName: {
+            $gte: 'Snow',
+          },
+          $not: {
+            id: {
+              $lte: 1123,
             },
-            lastName: {
-              $gte: 'Snow',
-            },
-            $not: {
-              $and: {
-                id: {
-                  $lte: 1123,
-                },
-                firstName: 'John',
-                lastName: 'Snow',
-              }
-            }
+            firstName: 'John',
+            lastName: 'Snow',
           }
         }
 
@@ -863,22 +844,18 @@ describe('util', () => {
         )
 
         const result6 = {
-          $and: {
-            firstName: {
-              $gte: 'John',
+          firstName: {
+            $gte: 'John',
+          },
+          lastName: {
+            $lte: 'Snow',
+          },
+          $not: {
+            id: {
+              $gte: 1123,
             },
-            lastName: {
-              $lte: 'Snow',
-            },
-            $not: {
-              $and: {
-                id: {
-                  $gte: 1123,
-                },
-                firstName: 'John',
-                lastName: 'Snow',
-              }
-            }
+            firstName: 'John',
+            lastName: 'Snow',
           }
         }
 
@@ -916,18 +893,14 @@ describe('util', () => {
         )
 
         const result7 = {
-          $and: {
-            firstName: {
-              $gte: 'John',
+          firstName: {
+            $gte: 'John',
+          },
+          $not: {
+            email: {
+              $gte: 'john@example.com',
             },
-            $not: {
-              $and: {
-                email: {
-                  $gte: 'john@example.com',
-                },
-                firstName: 'John',
-              }
-            }
+            firstName: 'John',
           }
         }
 
@@ -995,18 +968,14 @@ describe('util', () => {
         )
 
         const result1 = {
-          $and: {
-            firstName: {
-              $lte: 'John',
+          firstName: {
+            $lte: 'John',
+          },
+          $not: {
+            id: {
+              $gte: 1123,
             },
-            $not: {
-              $and: {
-                id: {
-                  $gte: 1123,
-                },
-                firstName: 'John',
-              }
-            }
+            firstName: 'John',
           }
         }
 
@@ -1028,18 +997,14 @@ describe('util', () => {
         )
 
         const result2 = {
-          $and: {
-            firstName: {
-              $lte: 'John',
+          firstName: {
+            $lte: 'John',
+          },
+          $not: {
+            id: {
+              $lte: 1123,
             },
-            $not: {
-              $and: {
-                id: {
-                  $lte: 1123,
-                },
-                firstName: 'John',
-              }
-            }
+            firstName: 'John',
           }
         }
 
@@ -1061,18 +1026,14 @@ describe('util', () => {
         )
 
         const result3 = {
-          $and: {
-            firstName: {
-              $gte: 'John',
+          firstName: {
+            $gte: 'John',
+          },
+          $not: {
+            id: {
+              $lte: 1123,
             },
-            $not: {
-              $and: {
-                id: {
-                  $lte: 1123,
-                },
-                firstName: 'John',
-              }
-            }
+            firstName: 'John',
           }
         }
 
@@ -1094,18 +1055,14 @@ describe('util', () => {
         )
 
         const result4 = {
-          $and: {
-            firstName: {
-              $gte: 'John',
+          firstName: {
+            $gte: 'John',
+          },
+          $not: {
+            id: {
+              $gte: 1123,
             },
-            $not: {
-              $and: {
-                id: {
-                  $gte: 1123,
-                },
-                firstName: 'John',
-              }
-            }
+            firstName: 'John',
           }
         }
 
@@ -1139,22 +1096,18 @@ describe('util', () => {
         )
 
         const result5 = {
-          $and: {
-            firstName: {
-              $lte: 'John',
+          firstName: {
+            $lte: 'John',
+          },
+          lastName: {
+            $lte: 'Snow',
+          },
+          $not: {
+            id: {
+              $gte: 1123,
             },
-            lastName: {
-              $lte: 'Snow',
-            },
-            $not: {
-              $and: {
-                id: {
-                  $gte: 1123,
-                },
-                firstName: 'John',
-                lastName: 'Snow',
-              }
-            }
+            firstName: 'John',
+            lastName: 'Snow',
           }
         }
 
@@ -1180,22 +1133,18 @@ describe('util', () => {
         )
 
         const result6 = {
-          $and: {
-            firstName: {
-              $lte: 'John',
+          firstName: {
+            $lte: 'John',
+          },
+          lastName: {
+            $gte: 'Snow',
+          },
+          $not: {
+            id: {
+              $lte: 1123,
             },
-            lastName: {
-              $gte: 'Snow',
-            },
-            $not: {
-              $and: {
-                id: {
-                  $lte: 1123,
-                },
-                firstName: 'John',
-                lastName: 'Snow',
-              }
-            }
+            firstName: 'John',
+            lastName: 'Snow',
           }
         }
 
@@ -1234,18 +1183,14 @@ describe('util', () => {
         )
 
         const result7 = {
-          $and: {
-            firstName: {
-              $lte: 'John',
+          firstName: {
+            $lte: 'John',
+          },
+          $not: {
+            email: {
+              $lte: 'john@example.com',
             },
-            $not: {
-              $and: {
-                email: {
-                  $lte: 'john@example.com',
-                },
-                firstName: 'John',
-              }
-            }
+            firstName: 'John',
           }
         }
 
