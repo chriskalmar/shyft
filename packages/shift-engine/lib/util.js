@@ -231,11 +231,7 @@ export const processCursor = (entity, cursor, orderBy, reverse) => {
 
     }
     else {
-      where.$and = {
-        $not: {
-          $and: {}
-        }
-      }
+      where.$not = {}
 
       cursor[ entity.name ].map(filter => {
         const attributeName = filter[0]
@@ -250,26 +246,26 @@ export const processCursor = (entity, cursor, orderBy, reverse) => {
 
         if (attribute.isUnique) {
           if (orderMap[ attributeName ] === 'DESC') {
-            where.$and.$not.$and[ attributeName ] = {
+            where.$not[ attributeName ] = {
               [ $GTE ]: value
             }
           }
           else {
-            where.$and.$not.$and[ attributeName ] = {
+            where.$not[ attributeName ] = {
               [ $LTE ]: value
             }
           }
         }
         else {
-          where.$and.$not.$and[ attributeName ] = value
+          where.$not[ attributeName ] = value
 
           if (orderMap[ attributeName ] === 'DESC') {
-            where.$and[ attributeName ] = {
+            where[ attributeName ] = {
               [ $LTE ]: value
             }
           }
           else {
-            where.$and[ attributeName ] = {
+            where[ attributeName ] = {
               [ $GTE ]: value
             }
           }
