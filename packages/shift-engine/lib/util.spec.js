@@ -943,6 +943,324 @@ describe('util', () => {
 
       })
 
+
+
+      it('when using in reverse mode', () => {
+
+        const cursor0 = processCursor(
+          SomeEntity,
+          {
+            'SomeEntity': [
+              [ 'loginName', 123 ]
+            ]
+          },
+          [
+            {
+              attribute: 'loginName',
+              direction: 'DESC',
+            }
+          ],
+          true
+        )
+
+        const result0 = {
+          loginName: {
+            $gt: 123,
+          }
+        }
+
+
+        const row1 = {
+          'SomeEntity': [
+            [ 'firstName', 'John' ],
+            [ 'id', 1123 ],
+          ]
+        }
+
+
+        const cursor1 = processCursor(
+          SomeEntity,
+          row1,
+          [
+            {
+              attribute: 'firstName',
+              direction: 'ASC',
+            },
+            {
+              attribute: 'id',
+              direction: 'ASC',
+            },
+          ],
+          true
+        )
+
+        const result1 = {
+          $and: {
+            firstName: {
+              $lte: 'John',
+            },
+            $not: {
+              $and: {
+                id: {
+                  $gte: 1123,
+                },
+                firstName: 'John',
+              }
+            }
+          }
+        }
+
+
+        const cursor2 = processCursor(
+          SomeEntity,
+          row1,
+          [
+            {
+              attribute: 'firstName',
+              direction: 'ASC',
+            },
+            {
+              attribute: 'id',
+              direction: 'DESC',
+            },
+          ],
+          true
+        )
+
+        const result2 = {
+          $and: {
+            firstName: {
+              $lte: 'John',
+            },
+            $not: {
+              $and: {
+                id: {
+                  $lte: 1123,
+                },
+                firstName: 'John',
+              }
+            }
+          }
+        }
+
+
+        const cursor3 = processCursor(
+          SomeEntity,
+          row1,
+          [
+            {
+              attribute: 'firstName',
+              direction: 'DESC',
+            },
+            {
+              attribute: 'id',
+              direction: 'DESC',
+            },
+          ],
+          true
+        )
+
+        const result3 = {
+          $and: {
+            firstName: {
+              $gte: 'John',
+            },
+            $not: {
+              $and: {
+                id: {
+                  $lte: 1123,
+                },
+                firstName: 'John',
+              }
+            }
+          }
+        }
+
+
+        const cursor4 = processCursor(
+          SomeEntity,
+          row1,
+          [
+            {
+              attribute: 'firstName',
+              direction: 'DESC',
+            },
+            {
+              attribute: 'id',
+              direction: 'ASC',
+            },
+          ],
+          true
+        )
+
+        const result4 = {
+          $and: {
+            firstName: {
+              $gte: 'John',
+            },
+            $not: {
+              $and: {
+                id: {
+                  $gte: 1123,
+                },
+                firstName: 'John',
+              }
+            }
+          }
+        }
+
+
+        const row2 = {
+          'SomeEntity': [
+            [ 'firstName', 'John' ],
+            [ 'lastName', 'Snow' ],
+            [ 'id', 1123 ],
+          ]
+        }
+
+        const cursor5 = processCursor(
+          SomeEntity,
+          row2,
+          [
+            {
+              attribute: 'firstName',
+              direction: 'ASC',
+            },
+            {
+              attribute: 'lastName',
+              direction: 'ASC',
+            },
+            {
+              attribute: 'id',
+              direction: 'ASC',
+            },
+          ],
+          true
+        )
+
+        const result5 = {
+          $and: {
+            firstName: {
+              $lte: 'John',
+            },
+            lastName: {
+              $lte: 'Snow',
+            },
+            $not: {
+              $and: {
+                id: {
+                  $gte: 1123,
+                },
+                firstName: 'John',
+                lastName: 'Snow',
+              }
+            }
+          }
+        }
+
+
+        const cursor6 = processCursor(
+          SomeEntity,
+          row2,
+          [
+            {
+              attribute: 'firstName',
+              direction: 'ASC',
+            },
+            {
+              attribute: 'lastName',
+              direction: 'DESC',
+            },
+            {
+              attribute: 'id',
+              direction: 'DESC',
+            },
+          ],
+          true
+        )
+
+        const result6 = {
+          $and: {
+            firstName: {
+              $lte: 'John',
+            },
+            lastName: {
+              $gte: 'Snow',
+            },
+            $not: {
+              $and: {
+                id: {
+                  $lte: 1123,
+                },
+                firstName: 'John',
+                lastName: 'Snow',
+              }
+            }
+          }
+        }
+
+
+        const row3 = {
+          'SomeEntity': [
+            [ 'firstName', 'John' ],
+            [ 'email', 'john@example.com' ],
+            [ 'lastName', 'Snow' ],
+            [ 'id', 1123 ],
+          ]
+        }
+
+        const cursor7 = processCursor(
+          SomeEntity,
+          row3,
+          [
+            {
+              attribute: 'firstName',
+              direction: 'ASC',
+            },
+            {
+              attribute: 'email',
+              direction: 'DESC',
+            },
+            {
+              attribute: 'lastName',
+              direction: 'DESC',
+            },
+            {
+              attribute: 'id',
+              direction: 'DESC',
+            },
+          ],
+          true
+        )
+
+        const result7 = {
+          $and: {
+            firstName: {
+              $lte: 'John',
+            },
+            $not: {
+              $and: {
+                email: {
+                  $lte: 'john@example.com',
+                },
+                firstName: 'John',
+              }
+            }
+          }
+        }
+
+
+        assert.deepEqual(cursor0, result0)
+        assert.deepEqual(cursor1, result1)
+        assert.deepEqual(cursor2, result2)
+        assert.deepEqual(cursor3, result3)
+        assert.deepEqual(cursor4, result4)
+        assert.deepEqual(cursor5, result5)
+        assert.deepEqual(cursor6, result6)
+        assert.deepEqual(cursor7, result7)
+
+      })
+
     })
 
   })
