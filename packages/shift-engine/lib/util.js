@@ -133,3 +133,163 @@ export const sortDataByKeys = (keys, data, keyProperty='id') => {
 
   return result;
 };
+
+
+
+export const processCursor = (entity, cursor, orderBy) => {
+
+  const where = {}
+
+  if (cursor) {
+    passOrThrow(
+      isArray(cursor[ entity.name ]),
+      () => 'Incompatible cursor for this entity'
+    )
+
+    passOrThrow(
+      isArray(orderBy),
+      () => 'orderBy needs to be an array of order definitions'
+    )
+
+    const orderList = []
+
+    const orderMap = {}
+    orderBy.map(({attribute, direction}) => {
+
+      passOrThrow(
+        attribute && direction,
+        () => 'orderBy needs to be an array of attributes and respective sort order'
+      )
+
+      orderMap[ attribute ] = direction
+    })
+
+    const primaryAttribute = entity.getPrimaryAttribute()
+    const attributes = entity.getAttributes()
+
+    let foundUniqueAttribute = false
+
+    cursor[ entity.name ].map(filter => {
+      if (filter.length !== 2) {
+        throw new Error('Cursor malformed')
+      }
+
+      const attributeName = filter[0]
+
+      passOrThrow(
+        attributes[ attributeName ],
+        () => `Unknown attribute '${attributeName}' used in cursor`
+      )
+
+      if (attributeName !== primaryAttribute.name) {
+        passOrThrow(
+          orderMap[ attributeName ],
+          () => `Cursor works only on sorted attributes (check: '${attributeName}')`
+        )
+      }
+
+      const attribute = attributes[ attributeName ]
+
+      // limit where clause to the first attribute which is defined as unique
+      if (!foundUniqueAttribute) {
+        orderList.push(attributeName)
+      }
+
+      if (attribute.isUnique) {
+        foundUniqueAttribute = true
+      }
+
+    })
+
+    passOrThrow(
+      foundUniqueAttribute,
+      () => 'Cursor needs to have at least one attribute defined as unique'
+    )
+
+
+    // simple filter for single attributes
+    if (orderList.length === 1) {
+
+      const attributeName = orderList[0]
+      const value = cursor[ entity.name ][0][1]
+
+      if (orderMap[ attributeName ] === 'DESC') {
+        where[ attributeName ] = {
+          $lt: value
+        }
+      }
+      else {
+        where[ attributeName ] = {
+          $gt: value
+        }
+      }
+
+    }
+    else {
+      where.$and = {
+        $not: {
+          $and: {}
+        }
+      }
+
+      cursor[ entity.name ].map(filter => {
+        const attributeName = filter[0]
+        const value = filter[1]
+
+        // ignore attributes that obsolete due to prior unique attribute
+        if (orderList.indexOf(attributeName) === -1) {
+          return
+        }
+
+        const attribute = attributes[ attributeName ]
+
+        if (attribute.isUnique) {
+          if (orderMap[ attributeName ] === 'DESC') {
+            where.$and.$not.$and[ attributeName ] = {
+              $gte: value
+            }
+          }
+          else {
+            where.$and.$not.$and[ attributeName ] = {
+              $lte: value
+            }
+          }
+        }
+        else {
+          where.$and.$not.$and[ attributeName ] = value
+
+          if (orderMap[ attributeName ] === 'DESC') {
+            where.$and[ attributeName ] = {
+              $lte: value
+            }
+          }
+          else {
+            where.$and[ attributeName ] = {
+              $gte: value
+            }
+          }
+        }
+
+      })
+    }
+  }
+
+  return where
+}
+
+
+export const processCursors = (entity, args) => {
+
+  const {
+    after,
+    before,
+  } = args;
+
+  const where = {
+    ...processCursor(entity, after, args.orderBy),
+    ...processCursor(entity, before, args.orderBy),
+  }
+
+  console.log(JSON.stringify(where, null, 2));
+  return where
+}
