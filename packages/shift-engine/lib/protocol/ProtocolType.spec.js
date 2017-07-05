@@ -9,7 +9,7 @@ import {
 } from '../datatype/dataTypes';
 
 
-describe.only('ProtocolType', () => {
+describe('ProtocolType', () => {
 
   const ProtocolTypeREST = new ProtocolType({
     name: 'ProtocolTypeREST',

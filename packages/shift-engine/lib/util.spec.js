@@ -389,7 +389,7 @@ describe('util', () => {
 
 
 
-  describe.only('processCursor', () => {
+  describe('processCursor', () => {
 
     const SomeEntity = new Entity({
       name: 'SomeEntity',
