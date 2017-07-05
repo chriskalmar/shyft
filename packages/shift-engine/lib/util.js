@@ -287,10 +287,11 @@ export const processCursors = (entity, args) => {
   } = args;
 
   const where = {
-    ...processCursor(entity, after, args.orderBy),
-    ...processCursor(entity, before, args.orderBy),
+    $and: [
+      processCursor(entity, after, args.orderBy),
+      processCursor(entity, before, args.orderBy, true),
+    ]
   }
 
-  console.log(JSON.stringify(where, null, 2));
   return where
 }
