@@ -17,6 +17,7 @@ import {
   mergeMaps,
   mapOverProperties,
   sortDataByKeys,
+  processCursors,
 } from './lib/util';
 
 import {
@@ -73,6 +74,7 @@ export {
   mergeMaps,
   mapOverProperties,
   sortDataByKeys,
+  processCursors,
 
   coreModels,
 
@@ -113,6 +115,7 @@ export default {
   mergeMaps,
   mapOverProperties,
   sortDataByKeys,
+  processCursors,
 
   coreModels,
 
