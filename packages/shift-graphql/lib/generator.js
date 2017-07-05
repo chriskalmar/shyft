@@ -168,7 +168,10 @@ const generateListQueries = () => {
         const transformedData = entity.graphql.dataSetShaper(data)
 
         return connectionFromData(
-          transformedData,
+          {
+            transformedData,
+            originalData: data,
+          },
           entity,
           source,
           args,

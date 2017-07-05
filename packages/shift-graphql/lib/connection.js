@@ -162,16 +162,17 @@ export const buildCursor = (entityName, args, data ) => {
 }
 
 
-export const connectionFromData = (data, entity, source, args, context, info, pageInfoFromData) => {
+export const connectionFromData = ({transformedData, originalData}, entity, source, args, context, info, pageInfoFromData) => {
 
   const entityName = entity.name
+  const primaryAttributeName = entity.getPrimaryAttribute().name
 
-  const nodeToEdge = (node) => ({
-    cursor: buildCursor(entityName, args, node),
+  const nodeToEdge = (node, idx) => ({
+    cursor: buildCursor(entityName, primaryAttributeName, args, originalData[idx]),
     node,
   });
 
-  const edges = data.map(nodeToEdge)
+  const edges = transformedData.map(nodeToEdge)
 
   const firstNode = _.first(edges)
   const lastNode = _.last(edges)
