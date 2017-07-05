@@ -136,7 +136,12 @@ export const sortDataByKeys = (keys, data, keyProperty='id') => {
 
 
 
-export const processCursor = (entity, cursor, orderBy) => {
+export const processCursor = (entity, cursor, orderBy, reverse) => {
+
+  const $LT = reverse ? '$gt' : '$lt'
+  const $GT = reverse ? '$lt' : '$gt'
+  const $LTE = reverse ? '$gte' : '$lte'
+  const $GTE = reverse ? '$lte' : '$gte'
 
   const where = {}
 
@@ -215,12 +220,12 @@ export const processCursor = (entity, cursor, orderBy) => {
 
       if (orderMap[ attributeName ] === 'DESC') {
         where[ attributeName ] = {
-          $lt: value
+          [ $LT ]: value
         }
       }
       else {
         where[ attributeName ] = {
-          $gt: value
+          [ $GT ]: value
         }
       }
 
@@ -246,12 +251,12 @@ export const processCursor = (entity, cursor, orderBy) => {
         if (attribute.isUnique) {
           if (orderMap[ attributeName ] === 'DESC') {
             where.$and.$not.$and[ attributeName ] = {
-              $gte: value
+              [ $GTE ]: value
             }
           }
           else {
             where.$and.$not.$and[ attributeName ] = {
-              $lte: value
+              [ $LTE ]: value
             }
           }
         }
@@ -260,12 +265,12 @@ export const processCursor = (entity, cursor, orderBy) => {
 
           if (orderMap[ attributeName ] === 'DESC') {
             where.$and[ attributeName ] = {
-              $lte: value
+              [ $LTE ]: value
             }
           }
           else {
             where.$and[ attributeName ] = {
-              $gte: value
+              [ $GTE ]: value
             }
           }
         }
