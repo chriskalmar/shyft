@@ -38,6 +38,10 @@ export const generateConnectionArgs = (entity) => {
       type: GraphQLCursor
     },
 
+    offset: {
+      type: GraphQLInt
+    },
+
     orderBy: {
       ...sortInput
     }
@@ -56,6 +60,10 @@ export const validateConnectionArgs = (args) => {
 
   if (args.last && (args.last < 0 || args.last > constants.MAX_PAGE_SIZE)) {
     throw new Error('`last` needs to be within the range of 0 and ' + constants.MAX_PAGE_SIZE)
+  }
+
+  if (args.offset && args.offset < 0) {
+    throw new Error('`offset` needs to be an integer starting from 0')
   }
 
 }
