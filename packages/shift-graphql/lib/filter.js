@@ -1,5 +1,7 @@
 
 import {
+  GraphQLList,
+  GraphQLNonNull,
   GraphQLInputObjectType,
 } from 'graphql';
 
@@ -7,7 +9,16 @@ import _ from 'lodash';
 
 import ProtocolGraphQL from './ProtocolGraphQL';
 
-import { isEntity } from 'shift-engine';
+import {
+  isEntity,
+  constants,
+} from 'shift-engine';
+
+
+const {
+  storageDataTypeCapabilities,
+  storageDataTypeCapabilityType,
+} = constants;
 
 
 export const generateFilterInput = (entity) => {
@@ -48,9 +59,13 @@ export const generateFilterInput = (entity) => {
         storageDataType.capabilities.map(capability => {
 
           const fieldName = `${attribute.gqlFieldName}__${capability}`
+          const field = {}
 
-          const field = {
-            type: fieldType,
+          if (storageDataTypeCapabilities[ capability ] === storageDataTypeCapabilityType.VALUE) {
+            field.type = fieldType
+          }
+          else if (storageDataTypeCapabilities[ capability ] === storageDataTypeCapabilityType.LIST) {
+            field.type = new GraphQLList( new GraphQLNonNull( fieldType ))
           }
 
           fields[ fieldName ] = field;
