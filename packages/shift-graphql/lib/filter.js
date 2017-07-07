@@ -35,7 +35,16 @@ export const generateFilterInput = (entity) => {
     description: `Filter **\`${typeNamePluralListName}\`** by various criteria`,
 
     fields: () => {
-      const fields = {}
+      const fields = {
+        AND: {
+          description: `Combine **\`${typeNamePascalCase}Filter\`** by a logical **AND**`,
+          type: new GraphQLList( new GraphQLNonNull( entityFilterType )),
+        },
+        OR: {
+          description: `Combine **\`${typeNamePascalCase}Filter\`** by a logical **OR**`,
+          type: new GraphQLList( new GraphQLNonNull( entityFilterType )),
+        },
+      }
 
       _.forEach(entity.getAttributes(), (attribute) => {
 
