@@ -283,14 +283,23 @@ export const generateGraphQLSchema = (schema) => {
             description: attribute.description,
           };
 
-          // it's a reference
-          if (isEntity(attribute.type)) {
+          let attributeType = attribute.type
 
-            const targetEntity = attribute.type
+          // it's a reference
+          if (isEntity(attributeType)) {
+
+            const targetEntity = attributeType
+            const primaryAttribute = targetEntity.getPrimaryAttribute()
+            attributeType = primaryAttribute.type
+
+            const reference = {
+              description: attribute.description,
+            };
+
             const targetTypeName = targetEntity.graphql.typeName
 
-            field.type = graphRegistry[ targetTypeName ].type
-            field.resolve = (source, args, context, info) => {
+            reference.type = graphRegistry[ targetTypeName ].type
+            reference.resolve = (source, args, context, info) => {
               const referenceId = source[ attribute.gqlFieldName ]
 
               if (referenceId === null) {
@@ -301,15 +310,19 @@ export const generateGraphQLSchema = (schema) => {
                 .then(targetEntity.graphql.dataShaper)
             }
 
+            const referenceFieldName = util.generateTypeName(`${reference.type.name}-by-${attribute.gqlFieldName}`)
+            fields[ referenceFieldName ] = reference;
+
           }
-          // it's a regular attribute
-          else {
-            field.type = ProtocolGraphQL.convertToProtocolDataType(attribute.type)
-          }
+
+          const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType)
 
           // make it non-nullable if it's required
           if (attribute.required) {
-            field.type = new GraphQLNonNull(field.type)
+            field.type = new GraphQLNonNull(fieldType)
+          }
+          else {
+            field.type = fieldType
           }
 
           // use computed value's function as the field resolver
