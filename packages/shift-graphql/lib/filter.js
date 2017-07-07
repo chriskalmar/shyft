@@ -51,8 +51,8 @@ export const generateFilterInput = (entity) => {
         let attributeType = attribute.type
 
         // it's a reference
-        if (isEntity(attribute.type)) {
-          const targetEntity = attribute.type
+        if (isEntity(attributeType)) {
+          const targetEntity = attributeType
           const primaryAttribute = targetEntity.getPrimaryAttribute()
           attributeType = primaryAttribute.type
         }
