@@ -2,7 +2,10 @@
 import {
   passOrThrow,
   isFunction,
+  isArray,
 } from '../util';
+
+import constants from '../constants';
 
 
 class StorageDataType {
@@ -16,6 +19,7 @@ class StorageDataType {
       isSortable,
       serialize,
       parse,
+      capabilities,
     } = setup
 
     passOrThrow(name, () => 'Missing storage data type name')
@@ -32,12 +36,27 @@ class StorageDataType {
       () => `Storage data type '${name}' has an invalid parse function`
     )
 
+    if (capabilities) {
+      passOrThrow(
+        isArray(capabilities),
+        () => `Storage data type '${name}' has an invalid list of capabilities`
+      )
+
+      capabilities.map(capability => {
+        passOrThrow(
+          constants.storageDataTypeCapabilities[ capability ],
+          () => `Storage data type '${name}' has an unknown capability '${capability}'`
+        )
+      })
+    }
+
     this.name = name
     this.description = description
     this.nativeDataType = nativeDataType
     this.isSortable = !!isSortable
     this.serialize = serialize
     this.parse = parse || (value => value)
+    this.capabilities = capabilities || []
   }
 
 

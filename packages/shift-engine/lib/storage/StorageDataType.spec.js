@@ -79,6 +79,62 @@ describe('StorageDataType', () => {
   })
 
 
+  it('should have a valid list of capabilities if provided', () => {
+
+    function fn() {
+      new StorageDataType({ // eslint-disable-line no-new
+        name: 'someStorageDataType',
+        description: 'Just some description',
+        nativeDataType: String,
+        serialize() {},
+        capabilities: 123,
+      })
+    }
+
+    assert.throws(fn, /has an invalid list of capabilities/);
+
+  })
+
+  it('should reject invalid capabilities', () => {
+
+    function fn() {
+      new StorageDataType({ // eslint-disable-line no-new
+        name: 'someStorageDataType',
+        description: 'Just some description',
+        nativeDataType: String,
+        serialize() {},
+        capabilities: [
+          'in',
+          'not',
+          'magic_unicorn_filter',
+        ],
+      })
+    }
+
+    assert.throws(fn, /has an unknown capability/);
+
+  })
+
+  it('should accept a correct list of capabilities', () => {
+
+
+    const storageDataType = new StorageDataType({
+      name: 'someStorageDataType',
+      description: 'Just some description',
+      nativeDataType: String,
+      serialize() {},
+      capabilities: [
+        'in',
+        'not',
+        'contains',
+      ],
+    })
+
+    assert.deepEqual(storageDataType.capabilities, [ 'in', 'not', 'contains' ]);
+
+  })
+
+
   it('should fall back to a simple parse function if none provided', () => {
 
     const storageDataType = new StorageDataType({
