@@ -155,7 +155,7 @@ const generateListQueries = () => {
       type: graphRegistry[ typeName ].connection,
       description: `Fetch a list of **\`${typeNamePluralListName}\`**`,
       args: {
-        ...generateConnectionArgs(entity),
+        ...generateConnectionArgs(entity, type),
       },
       resolve: async (source, args, context, info) => {
 

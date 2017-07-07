@@ -15,12 +15,15 @@ import constants from './constants';
 
 import { generateSortInput } from './sort';
 
+import { generateFilterInput } from './filter';
+
 import _ from 'lodash';
 
 
-export const generateConnectionArgs = (entity) => {
+export const generateConnectionArgs = (entity, type) => {
 
   const sortInput = generateSortInput(entity)
+  const filterInput = generateFilterInput(entity, type)
 
   return {
 
@@ -44,6 +47,10 @@ export const generateConnectionArgs = (entity) => {
 
     orderBy: {
       ...sortInput
+    },
+
+    filter: {
+      ...filterInput
     }
   }
 }
