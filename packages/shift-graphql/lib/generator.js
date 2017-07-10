@@ -258,6 +258,7 @@ const generateReverseConnections = (entity) => {
   const fields = {}
 
   const typeName = entity.graphql.typeName
+  const typeNamePascalCase = entity.graphql.typeNamePascalCase
 
   entity.referencedByEntities.map(({sourceEntityName, sourceAttributeName}) => {
 
@@ -269,16 +270,16 @@ const generateReverseConnections = (entity) => {
 
     const fieldName = util.generateTypeName(`${sourceEntity.graphql.typeNamePlural}-by-${typeName}`)
 
-    const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase
+    const typeNamePluralListName = sourceEntity.graphql.typeNamePluralPascalCase
 
     fields[ fieldName ] = {
       type: graphRegistry[ sourceEntityTypeName ].connection,
-      description: `Fetch a list of **\`${typeNamePluralListName}\`**`,
+      description: `Fetch a list of **\`${typeNamePluralListName}\`** for a given **\`${typeNamePascalCase}\`**`,
       args: graphRegistry[ sourceEntityTypeName ].connectionArgs,
       resolve: async (source, args, context, info) => {
 
         validateConnectionArgs(args)
-        forceSortByUnique(args.orderBy, entity)
+        forceSortByUnique(args.orderBy, sourceEntity)
 
         const parentEntityTypeName = util.generateTypeName(info.parentType.name)
         const parentEntity = graphRegistry[ parentEntityTypeName ].entity
