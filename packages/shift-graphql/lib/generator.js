@@ -126,13 +126,17 @@ const getNodeDefinitions = () => {
 const registerConnection = (entity) => {
 
   const typeName = entity.graphql.typeName
+  const type = graphRegistry[ typeName ].type
 
   const { connectionType } = generateConnectionType({
-    nodeType: graphRegistry[ typeName ].type,
+    nodeType: type,
     entity,
   })
 
+  const connectionArgs = generateConnectionArgs(entity, type)
+
   graphRegistry[ typeName ].connection = connectionType
+  graphRegistry[ typeName ].connectionArgs = connectionArgs
 
 }
 
@@ -154,9 +158,7 @@ const generateListQueries = () => {
     listQueries[ queryName ] = {
       type: graphRegistry[ typeName ].connection,
       description: `Fetch a list of **\`${typeNamePluralListName}\`**`,
-      args: {
-        ...generateConnectionArgs(entity, type),
-      },
+      args: graphRegistry[ typeName ].connectionArgs,
       resolve: async (source, args, context, info) => {
 
         validateConnectionArgs(args)
