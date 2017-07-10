@@ -56,6 +56,7 @@ class Entity {
     this.includeUserTracking = !!includeUserTracking
     this._attributesMap = attributes
     this._primaryAttribute = null
+    this.referencedByEntities = []
 
     if (storageType) {
       passOrThrow(
@@ -277,6 +278,34 @@ class Entity {
           }
 
         })
+      })
+    }
+  }
+
+
+  referencedBy (sourceEntityName, sourceAttributeName) {
+    passOrThrow(
+      sourceEntityName,
+      () => `Entity '${this.name}' expects an entity to be referenced by`
+    )
+
+    passOrThrow(
+      sourceAttributeName,
+      () => `Entity '${this.name}' expects a source attribute to be referenced by`
+    )
+
+    let found = false;
+
+    this.referencedByEntities.map(entry => {
+      if (entry.sourceEntityName === sourceEntityName  &&  entry.sourceAttributeName === sourceAttributeName ) {
+        found = true
+      }
+    })
+
+    if (!found) {
+      this.referencedByEntities.push({
+        sourceEntityName,
+        sourceAttributeName,
       })
     }
   }

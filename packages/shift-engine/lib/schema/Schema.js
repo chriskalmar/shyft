@@ -163,6 +163,10 @@ class Schema {
             () => `Entity '${targetEntity.name}' (referenced by '${entity.name}') ` +
               'needs to be registered with this schema'
           )
+
+          // keep track of references
+          targetEntity.referencedBy(entity.name, attributeName)
+
         }
         else if (isDataTypeUser(attribute.type)) {
           // replace with actual user entity
