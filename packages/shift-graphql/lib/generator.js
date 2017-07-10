@@ -181,6 +181,7 @@ const generateListQueries = () => {
           args,
           context,
           info,
+          null,
           pageInfo,
         )
       },
@@ -189,6 +190,7 @@ const generateListQueries = () => {
 
   return listQueries
 }
+
 
 
 const generateInstanceQueries = () => {
@@ -247,6 +249,73 @@ const generateInstanceQueries = () => {
   })
 
   return instanceQueries
+}
+
+
+
+const generateReverseConnections = (entity) => {
+
+  const fields = {}
+
+  const typeName = entity.graphql.typeName
+
+  entity.referencedByEntities.map(({sourceEntityName, sourceAttributeName}) => {
+
+    const sourceEntityTypeName = util.generateTypeName(sourceEntityName)
+    const sourceType = graphRegistry[ sourceEntityTypeName ]
+    const sourceEntity = sourceType.entity
+
+    const storageType = sourceEntity.storageType
+
+    const fieldName = util.generateTypeName(`${sourceEntity.graphql.typeNamePlural}-by-${typeName}`)
+
+    const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase
+
+    fields[ fieldName ] = {
+      type: graphRegistry[ sourceEntityTypeName ].connection,
+      description: `Fetch a list of **\`${typeNamePluralListName}\`**`,
+      args: graphRegistry[ sourceEntityTypeName ].connectionArgs,
+      resolve: async (source, args, context, info) => {
+
+        validateConnectionArgs(args)
+        forceSortByUnique(args.orderBy, entity)
+
+        const parentEntityTypeName = util.generateTypeName(info.parentType.name)
+        const parentEntity = graphRegistry[ parentEntityTypeName ].entity
+        const parentAttribute = parentEntity.getPrimaryAttribute()
+
+        const parentConnection = {
+          id: source[ parentAttribute.gqlFieldName ],
+          attribute: sourceAttributeName
+        }
+
+
+        const {
+          data,
+          pageInfo,
+        } = await storageType.find(sourceEntity, source, args, context, info, parentConnection)
+
+        const transformedData = sourceEntity.graphql.dataSetShaper(data)
+
+        return connectionFromData(
+          {
+            transformedData,
+            originalData: data,
+          },
+          sourceEntity,
+          source,
+          args,
+          context,
+          info,
+          parentConnection,
+          pageInfo,
+        )
+      },
+    }
+
+  })
+
+  return fields
 }
 
 
@@ -335,6 +404,8 @@ export const generateGraphQLSchema = (schema) => {
           fields[ attribute.gqlFieldName ] = field;
 
         });
+
+        Object.assign(fields, generateReverseConnections(entity))
 
         return fields
       }

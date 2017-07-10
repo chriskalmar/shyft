@@ -212,7 +212,7 @@ export const buildCursor = (entityName, primaryAttributeName, args, data ) => {
 }
 
 
-export const connectionFromData = ({transformedData, originalData}, entity, source, args, context, info, pageInfoFromData) => {
+export const connectionFromData = ({transformedData, originalData}, entity, source, args, context, info, parentConnection, pageInfoFromData) => {
 
   const entityName = entity.name
   const primaryAttributeName = entity.getPrimaryAttribute().name
@@ -231,7 +231,7 @@ export const connectionFromData = ({transformedData, originalData}, entity, sour
     edges,
     totalCount: async () => {
       const storageType = entity.storageType
-      return await storageType.count(entity, source, args, context)
+      return await storageType.count(entity, source, args, context, info, parentConnection)
     },
     pageInfo: {
       startCursor: firstNode ? firstNode.cursor : null,
