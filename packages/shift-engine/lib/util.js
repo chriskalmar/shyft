@@ -388,9 +388,17 @@ export const processFilterLevel = (filters, attributes, path, storageType) => {
     )
 
 
-    ret[ attributeName ] = ret[ attributeName ] || {}
-
     if (operator) {
+
+      ret[ attributeName ] = ret[ attributeName ] || {}
+
+      passOrThrow(
+        isMap(ret[ attributeName ]),
+        () => {
+          return `Cannot combine 'exact match' operator with other operators on attribute '${attributeName}' used in filter${errorLocation}`
+        }
+      )
+
       const storageDataType = storageType.convertToStorageDataType(attribute.type)
 
       passOrThrow(
@@ -405,6 +413,14 @@ export const processFilterLevel = (filters, attributes, path, storageType) => {
       ret[ attributeName ][ operatorKey ] = value
     }
     else {
+
+      passOrThrow(
+        !isMap(ret[ attributeName ]),
+        () => {
+          return `Cannot combine 'exact match' operator with other operators on attribute '${attributeName}' used in filter${errorLocation}`
+        }
+      )
+
       ret[ attributeName ] = value
     }
 

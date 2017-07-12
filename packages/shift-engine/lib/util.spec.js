@@ -1499,6 +1499,36 @@ describe('util', () => {
       })
 
 
+      it('should throw if exact match operators is used with another operator on the same attribute', () => {
+
+        const badFilter1 = {
+          lastName__in: [ 'Doe', 'Smith' ],
+          firstName__starts_with: 'Joh',
+          firstName__ends_with: 'an',
+          firstName: 'Frank',
+          isActive: true,
+        }
+
+        const badFilter2 = {
+          lastName__in: [ 'Doe', 'Smith' ],
+          firstName: 'Frank',
+          firstName__starts_with: 'Joh',
+          firstName__ends_with: 'an',
+          isActive: true,
+        }
+
+        function fn1() {
+          processFilterLevel(badFilter1, filteredEntity.getAttributes(), null, SomeStorageType)
+        }
+
+        function fn2() {
+          processFilterLevel(badFilter2, filteredEntity.getAttributes(), null, SomeStorageType)
+        }
+
+        assert.throws(fn1, /Cannot combine 'exact match' operator with other operators on attribute 'firstName'/);
+        assert.throws(fn2, /Cannot combine 'exact match' operator with other operators on attribute 'firstName'/);
+
+      })
 
     })
 
