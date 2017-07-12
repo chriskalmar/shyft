@@ -1,4 +1,7 @@
 
+const AND_OPERATOR = 'AND'
+const OR_OPERATOR = 'OR'
+
 
 export const passOrThrow = (condition, messageFn) => {
   // providing the error message as a callback return massively improves code coverage reports.
@@ -371,7 +374,19 @@ export const processFilterLevel = (filters, attributes, path, storageType) => {
     }
   )
 
+
   mapOverProperties(filters, (value, filter) => {
+
+    if (filter === AND_OPERATOR || filter === OR_OPERATOR) {
+      const logicalKey = `\$${filter.toLocaleLowerCase()}`
+      const newPath = path.slice()
+
+      newPath.push(filter)
+
+      ret[ logicalKey ] = value.map(newFilter => processFilterLevel(newFilter, attributes, path, storageType))
+
+      return
+    }
 
     const {
       operator,

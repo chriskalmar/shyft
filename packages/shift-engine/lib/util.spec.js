@@ -1409,6 +1409,83 @@ describe('util', () => {
       })
 
 
+      it('should process nested filter levels', () => {
+
+        const goodFilter1 = {
+          lastName: 'Doe',
+          OR: [
+            {
+              firstName: 'Jack'
+            },
+            {
+              firstName__starts_with: 'A',
+              isActive: true
+            }
+          ]
+        }
+
+        const result1 = {
+          lastName: 'Doe',
+          $or: [
+            {
+              firstName: 'Jack'
+            },
+            {
+              firstName: {
+                $starts_with: 'A'
+              },
+              isActive: true
+            }
+          ]
+        }
+
+
+        const goodFilter2 = {
+          lastName__gt: 'Tomson',
+          firstName__starts_with: 'Joh',
+          firstName__ends_with: 'an',
+          AND: [
+            {
+              lastName__starts_with: 'Und',
+              lastName__ends_with: 'ton',
+            }
+          ],
+          isActive: true,
+        }
+
+        const result2 = {
+          lastName: {
+            $gt: 'Tomson'
+          },
+          firstName: {
+            $starts_with: 'Joh',
+            $ends_with: 'an',
+          },
+          $and: [
+            {
+              lastName: {
+                $starts_with: 'Und',
+                $ends_with: 'ton',
+              }
+            }
+          ],
+          isActive: true,
+        }
+
+
+        assert.deepEqual(
+          processFilterLevel(goodFilter1, filteredEntity.getAttributes(), ['somewhere'], SomeStorageType),
+          result1
+        )
+
+        assert.deepEqual(
+          processFilterLevel(goodFilter2, filteredEntity.getAttributes(), ['somewhere'], SomeStorageType),
+          result2
+        )
+
+      })
+
+
       it('should throw if provided params are invalid', () => {
 
         function fn1() {
