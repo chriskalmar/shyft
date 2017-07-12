@@ -1235,7 +1235,7 @@ describe('util', () => {
 
 
 
-  describe.only('filter', () => {
+  describe('filter', () => {
 
     const filteredEntity = new Entity({
       name: 'FilteredEntityName',

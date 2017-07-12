@@ -18,6 +18,7 @@ import {
   mapOverProperties,
   sortDataByKeys,
   processCursors,
+  processFilter,
 } from './lib/util';
 
 import {
@@ -75,6 +76,7 @@ export {
   mapOverProperties,
   sortDataByKeys,
   processCursors,
+  processFilter,
 
   coreModels,
 
@@ -116,6 +118,7 @@ export default {
   mapOverProperties,
   sortDataByKeys,
   processCursors,
+  processFilter,
 
   coreModels,
 

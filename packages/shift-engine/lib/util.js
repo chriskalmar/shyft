@@ -379,7 +379,9 @@ export const processFilterLevel = (filters, attributes, path, storageType) => {
 
     if (filter === AND_OPERATOR || filter === OR_OPERATOR) {
       const logicalKey = `\$${filter.toLocaleLowerCase()}`
-      const newPath = path.slice()
+      const newPath = path
+        ? path.slice()
+        : []
 
       newPath.push(filter)
 
@@ -444,3 +446,22 @@ export const processFilterLevel = (filters, attributes, path, storageType) => {
   return ret
 }
 
+
+
+export const processFilter = (entity, args, storageType) => {
+
+  const {
+    filter,
+  } = args;
+
+
+  if (!filter) {
+    return {}
+  }
+
+  const where = {
+    ...processFilterLevel(filter, entity.getAttributes(), null, storageType)
+  }
+
+  return where
+}
