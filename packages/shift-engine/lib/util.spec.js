@@ -13,13 +13,19 @@ import {
   sortDataByKeys,
   processCursor,
   reverseString,
+  splitAttributeAndFilterOperator,
+  processFilterLevel,
+  // processFilter,
 } from './util';
 
 import {
   DataTypeBoolean,
   DataTypeString,
+  DataTypeInteger,
 } from './datatype/dataTypes';
 
+import StorageType from './storage/StorageType';
+import StorageDataType from './storage/StorageDataType';
 
 
 describe('util', () => {
@@ -1227,5 +1233,275 @@ describe('util', () => {
     })
   })
 
+
+
+  describe.only('filter', () => {
+
+    const filteredEntity = new Entity({
+      name: 'FilteredEntityName',
+      description: 'Just some description',
+      attributes: {
+        id: {
+          type: DataTypeInteger,
+          description: 'ID of user',
+          isPrimary: true,
+        },
+        firstName: {
+          type: DataTypeString,
+          description: 'First name'
+        },
+        lastName: {
+          type: DataTypeString,
+          description: 'Last name'
+        },
+        isActive: {
+          type: DataTypeBoolean,
+          description: 'User has been active within this month'
+        },
+      }
+    })
+
+
+    const SomeStorageType = new StorageType({
+      name: 'SomeStorageType',
+      description: 'Just some description',
+      findOne() {},
+      find() {},
+      count() {},
+    })
+
+    const StorageDataTypeAny = new StorageDataType({
+      name: 'StorageDataTypeAny',
+      description: 'Just some description',
+      nativeDataType: 'text',
+      serialize() {},
+      capabilities: [
+        'lt',
+        'lte',
+        'gt',
+        'gte',
+      ]
+    })
+
+    const StorageDataTypeText = new StorageDataType({
+      name: 'StorageDataTypeText',
+      description: 'Just some description',
+      nativeDataType: 'text',
+      serialize() {},
+      capabilities: [
+        'in',
+        'lt',
+        'lte',
+        'gt',
+        'gte',
+        'starts_with',
+        'ends_with',
+      ],
+    })
+
+
+    SomeStorageType.addDataTypeMap(DataTypeInteger, StorageDataTypeAny)
+    SomeStorageType.addDataTypeMap(DataTypeBoolean, StorageDataTypeAny)
+    SomeStorageType.addDataTypeMap(DataTypeString, StorageDataTypeText)
+
+
+
+    describe('splitAttributeAndFilterOperator', () => {
+
+
+      it('should split attributes from operators', () => {
+
+        assert.deepEqual( splitAttributeAndFilterOperator('test'), { attributeName: 'test' })
+        assert.deepEqual( splitAttributeAndFilterOperator('__test'), { attributeName: '__test' })
+        assert.deepEqual( splitAttributeAndFilterOperator('login__lt'), { attributeName: 'login', operator: 'lt' })
+        assert.deepEqual( splitAttributeAndFilterOperator('firstName__gte'), { attributeName: 'firstName', operator: 'gte'})
+        assert.deepEqual( splitAttributeAndFilterOperator('last_name__not'), { attributeName: 'last_name', operator: 'not' })
+        assert.deepEqual( splitAttributeAndFilterOperator('some__long_attribute__name__lte'), { attributeName: 'some__long_attribute__name', operator: 'lte' })
+        assert.deepEqual( splitAttributeAndFilterOperator('__some_name__not'), { attributeName: '__some_name', operator: 'not' })
+        assert.deepEqual( splitAttributeAndFilterOperator('___some_name__not'), { attributeName: '___some_name', operator: 'not' })
+        assert.deepEqual( splitAttributeAndFilterOperator('___some_name___not'), { attributeName: '___some_name_', operator: 'not' })
+
+      })
+
+
+      it('should fail on wrong inputs', () => {
+
+
+        function fn1() {
+          splitAttributeAndFilterOperator()
+        }
+
+        function fn2() {
+          splitAttributeAndFilterOperator([])
+        }
+
+        function fn3() {
+          splitAttributeAndFilterOperator({ any: 'thing'})
+        }
+
+        function fn4() {
+          splitAttributeAndFilterOperator('name__')
+        }
+
+        function fn5() {
+          splitAttributeAndFilterOperator('name___')
+        }
+
+        assert.throws(fn1, /invalid filter/);
+        assert.throws(fn2, /invalid filter/);
+        assert.throws(fn3, /invalid filter/);
+        assert.throws(fn4, /invalid filter/);
+        assert.throws(fn5, /invalid filter/);
+
+      })
+
+    })
+
+
+
+    describe('processFilterLevel', () => {
+
+
+      it('should process filter level', () => {
+
+        const goodFilter1 = {
+          lastName: 'Doe',
+          firstName__gte: 'J',
+        }
+
+        const result1 = {
+          lastName: 'Doe',
+          firstName: {
+            $gte: 'J'
+          }
+        }
+
+
+        const goodFilter2 = {
+          lastName__in: [ 'Doe', 'Smith' ],
+          firstName__starts_with: 'Joh',
+          firstName__ends_with: 'an',
+          isActive: true,
+        }
+
+        const result2 = {
+          lastName: {
+            $in: [ 'Doe', 'Smith' ],
+          },
+          firstName: {
+            $starts_with: 'Joh',
+            $ends_with: 'an',
+          },
+          isActive: true,
+        }
+
+
+        assert.deepEqual(
+          processFilterLevel(goodFilter1, filteredEntity.getAttributes(), ['somewhere'], SomeStorageType),
+          result1
+        )
+
+        assert.deepEqual(
+          processFilterLevel(goodFilter2, filteredEntity.getAttributes(), ['somewhere'], SomeStorageType),
+          result2
+        )
+
+      })
+
+
+      it('should throw if provided params are invalid', () => {
+
+        function fn1() {
+          processFilterLevel()
+        }
+
+        function fn2() {
+          processFilterLevel([], null, [])
+        }
+
+        function fn3() {
+          processFilterLevel([], null, ['somewhere'], SomeStorageType)
+        }
+
+        function fn4() {
+          processFilterLevel([], null, ['somewhere', 'deeply', 'nested'], SomeStorageType)
+        }
+
+        function fn5() {
+          processFilterLevel({}, null, ['somewhere', 'deeply', 'nested'], SomeStorageType)
+        }
+
+        assert.throws(fn1, /filter needs to be an object of filter criteria/);
+        assert.throws(fn2, /path in processFilterLevel\(\) needs to be an array/);
+        assert.throws(fn3, /filter at 'somewhere' needs to be an object of filter criteria/);
+        assert.throws(fn4, /filter at 'somewhere.deeply.nested' needs to be an object of filter criteria/);
+        assert.throws(fn5, /expects an attribute map/);
+
+      })
+
+
+      it('should throw if invalid attributes are used in filter', () => {
+
+        const badFilter1 = {
+          lastName: 'Doe',
+          firstName__gte: 'J',
+          something__not: true,
+        }
+
+        const badFilter2 = {
+          lastName: 'Doe',
+          firstName__gte: 'J',
+          anything_here: 'test',
+        }
+
+
+        function fn1() {
+          processFilterLevel(badFilter1, filteredEntity.getAttributes(), null, SomeStorageType)
+        }
+
+        function fn2() {
+          processFilterLevel(badFilter2, filteredEntity.getAttributes(), null, SomeStorageType)
+        }
+
+        function fn3() {
+          processFilterLevel(badFilter2, filteredEntity.getAttributes(), ['just', 'here'], SomeStorageType)
+        }
+
+        assert.throws(fn1, /Unknown attribute name 'something' used in filter/);
+        assert.throws(fn2, /Unknown attribute name 'anything_here' used in filter/);
+        assert.throws(fn3, /Unknown attribute name 'anything_here' used in filter at 'just.here'/);
+      })
+
+
+      it('should throw if invalid operators are used in filter', () => {
+
+        const badFilter1 = {
+          lastName: 'Doe',
+          isActive__ends_with: 'J',
+        }
+
+        const badFilter2 = {
+          lastName: 'Doe',
+          firstName__anything: 'J',
+        }
+
+
+        function fn1() {
+          processFilterLevel(badFilter1, filteredEntity.getAttributes(), null, SomeStorageType)
+        }
+
+        function fn2() {
+          processFilterLevel(badFilter2, filteredEntity.getAttributes(), null, SomeStorageType)
+        }
+
+        assert.throws(fn1, /Unknown or incompatible operator 'ends_with' used on 'isActive'/);
+        assert.throws(fn2, /Unknown or incompatible operator 'anything' used on 'firstName'/);
+      })
+
+
+
+    })
+
+  })
 
 })
