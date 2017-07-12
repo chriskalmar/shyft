@@ -295,3 +295,14 @@ export const processCursors = (entity, args) => {
 
   return where
 }
+
+
+
+export const reverseString = (str) => {
+  return str
+    .split('')
+    .reverse()
+    .join('');
+}
+
+

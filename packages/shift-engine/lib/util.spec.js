@@ -12,6 +12,7 @@ import {
   mapOverProperties,
   sortDataByKeys,
   processCursor,
+  reverseString,
 } from './util';
 
 import {
@@ -1209,5 +1210,22 @@ describe('util', () => {
     })
 
   })
+
+
+
+  describe('reverseString', () => {
+
+
+    it('should reverse a string', () => {
+
+      assert.equal( reverseString('hello'), 'olleh')
+      assert.equal( reverseString(''), '')
+      assert.equal( reverseString('a'), 'a')
+      assert.equal( reverseString('aBC'), 'CBa')
+      assert.equal( reverseString(' x y '), ' y x ')
+
+    })
+  })
+
 
 })
