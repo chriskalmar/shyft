@@ -20,9 +20,9 @@ import {
 } from 'graphql';
 
 import {
-  globalIdField,
   nodeDefinitions,
   fromGlobalId,
+  toGlobalId,
 } from 'graphql-relay';
 
 import {
@@ -55,16 +55,8 @@ const extendModelsForGql = (entities) => {
     const dataShaperMap = {}
 
     _.forEach(entity.getAttributes(), (attribute) => {
-
       attribute.gqlFieldName = _.camelCase(attribute.name)
-
-      // exception: name collision with relay ID field
-      if (attribute.gqlFieldName === constants.RELAY_ID_FIELD) {
-        attribute.gqlFieldName = constants.FALLBACK_ID_FIELD
-      }
-
       dataShaperMap[ attribute.gqlFieldName ] = attribute.name
-
     })
 
     // forward relay type promoter field as well
@@ -84,40 +76,44 @@ const extendModelsForGql = (entities) => {
 // get node definitions for relay
 const getNodeDefinitions = () => {
 
-  return nodeDefinitions(
+  const idFetcher = (globalId, context, info) => {
+    const {
+      type,
+      id
+    } = fromGlobalId(globalId);
 
-    (globalId, context, info) => {
+    // resolve based on type and id
+    const entity = graphRegistry[ type ]
+      ? graphRegistry[ type ].entity
+      : null
 
-      const {
-        type,
-        id
-      } = fromGlobalId(globalId);
 
-      // resolve based on type and id
-      const entity = graphRegistry[ type ]
-        ? graphRegistry[ type ].entity
-        : null
-
-      if (entity) {
-        const storageType = entity.storageType
-        return storageType.findOne(entity, id, null, null, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
-          .then(entity.graphql.dataShaper)
-      }
-
-      return null
-
-    },
-
-    (obj) => {
-
-      const type = util.generateTypeName( obj[ constants.RELAY_TYPE_PROMOTER_FIELD ] )
-
-      // return the graphql type definition
-      return graphRegistry[ type ]
-        ? graphRegistry[ type ].type
-        : null
+    if (entity) {
+      const storageType = entity.storageType
+      return storageType.findOne(entity, id, null, null, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+        .then(entity.graphql.dataShaper)
     }
-  );
+
+    return null
+
+  }
+
+
+  const typeResolver = (obj) => {
+
+    const type = util.generateTypeName( obj[ constants.RELAY_TYPE_PROMOTER_FIELD ] )
+
+    // return the graphql type definition
+    return graphRegistry[ type ]
+      ? graphRegistry[ type ].type
+      : null
+  }
+
+
+  return {
+    ...nodeDefinitions(idFetcher, typeResolver),
+    idFetcher,
+  }
 }
 
 
@@ -326,6 +322,7 @@ export const generateGraphQLSchema = (schema) => {
   const {
     nodeInterface,
     nodeField,
+    idFetcher,
   } = getNodeDefinitions()
 
   // prepare models for graphql
@@ -346,7 +343,17 @@ export const generateGraphQLSchema = (schema) => {
 
       fields: () => {
         const fields = {
-          id: globalIdField(typeName, (data) => data._id)
+          id: {
+            type: new GraphQLNonNull(GraphQLID),
+          },
+          nodeId: {
+            description: 'The node ID of an object',
+            type: new GraphQLNonNull(GraphQLID),
+            resolve: (obj) => toGlobalId(
+              typeName,
+              obj.id
+            )
+          }
         }
 
         _.forEach(entity.getAttributes(), (attribute) => {
@@ -431,6 +438,11 @@ export const generateGraphQLSchema = (schema) => {
 
       const listQueries = generateListQueries()
       const instanceQueries = generateInstanceQueries()
+
+      // override args.id of relay to args.nodeId
+      nodeField.args.nodeId = nodeField.args.id
+      nodeField.resolve = (obj, { nodeId }, context, info) => idFetcher(nodeId, context, info)
+      delete nodeField.args.id;
 
       return {
         node: nodeField,
