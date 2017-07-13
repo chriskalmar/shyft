@@ -64,9 +64,11 @@ const extendModelsForGql = (entities) => {
 
     // generate json shaper - translate schema attribute names to graphql attribute names
     const dataShaper = shaper(dataShaperMap)
-    entity.graphql.dataShaper = dataShaper;
+    entity.graphql.dataShaper = (data) => {
+      return data ? dataShaper(data) : data
+    }
     entity.graphql.dataSetShaper = (set) => {
-      return set.map(dataShaper)
+      return set.map(entity.graphql.dataShaper)
     }
 
   })
