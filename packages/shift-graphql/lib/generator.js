@@ -163,7 +163,7 @@ const generateListQueries = () => {
         const {
           data,
           pageInfo,
-        } = await storageType.find(entity, source, args, context, info)
+        } = await storageType.find(entity, source, args, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
 
         const transformedData = entity.graphql.dataSetShaper(data)
 
@@ -204,12 +204,12 @@ const generateInstanceQueries = () => {
       type: type,
       description: `Fetch a single **\`${typeNamePascalCase}\`** using its node ID`,
       args: {
-        id: {
+        nodeId: {
           type: new GraphQLNonNull( GraphQLID )
         }
       },
       resolve: (source, args, context, info) => {
-        return storageType.findOne(entity, args.id, source, args, context, info)
+        return storageType.findOne(entity, args.nodeId, source, args, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
           .then(entity.graphql.dataShaper)
       },
     }
@@ -236,7 +236,7 @@ const generateInstanceQueries = () => {
           }
         },
         resolve: (source, args, context, info) => {
-          return storageType.findOne(entity, args[ fieldName ], source, args, context, info)
+          return storageType.findOne(entity, args[ fieldName ], source, args, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
             .then(entity.graphql.dataShaper)
         },
       }
@@ -290,7 +290,7 @@ const generateReverseConnections = (entity) => {
         const {
           data,
           pageInfo,
-        } = await storageType.find(sourceEntity, source, args, context, info, parentConnection)
+        } = await storageType.find(sourceEntity, source, args, context, info, constants.RELAY_TYPE_PROMOTER_FIELD, parentConnection)
 
         const transformedData = sourceEntity.graphql.dataSetShaper(data)
 
@@ -385,7 +385,7 @@ export const generateGraphQLSchema = (schema) => {
                 return Promise.resolve(null)
               }
 
-              return storageType.findOne(targetEntity, referenceId, source, args, context, info)
+              return storageType.findOne(targetEntity, referenceId, source, args, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
                 .then(targetEntity.graphql.dataShaper)
             }
 
