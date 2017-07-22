@@ -360,6 +360,10 @@ export const generateGraphQLSchema = (schema) => {
 
         _.forEach(entity.getAttributes(), (attribute) => {
 
+          if (attribute.hidden) {
+            return
+          }
+
           const field = {
             description: attribute.description,
           };

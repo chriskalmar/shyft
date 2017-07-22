@@ -172,6 +172,7 @@ class Entity {
       isPrimary: !!rawAttribute.isPrimary,
       isUnique: !!rawAttribute.isPrimary,
       required: !!rawAttribute.required,
+      hidden: !!rawAttribute.hidden,
       name: attributeName
     }
 
