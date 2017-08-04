@@ -183,6 +183,31 @@ class Entity {
       () => `'${this.name}.${attributeName}' has invalid data type '${String(attribute.type)}'`
     )
 
+    if (attribute.targetAttributesMap) {
+      passOrThrow(
+        attribute.type instanceof Entity,
+        () => `'${this.name}.${attributeName}' cannot have a targetAttributesMap as it is not a reference`
+      )
+
+      passOrThrow(
+        isMap(attribute.targetAttributesMap),
+        () => `targetAttributesMap for '${this.name}.${attributeName}' needs to be a map`
+      )
+
+      const localAttributeNames = Object.keys(attribute.targetAttributesMap);
+      localAttributeNames.map(localAttributeName => {
+        const targetAttribute = attribute.targetAttributesMap[ localAttributeName ]
+
+        passOrThrow(
+          isMap(targetAttribute) && targetAttribute.name && targetAttribute.type,
+          () => `targetAttributesMap for '${this.name}.${attributeName}' needs to be a map between local and target attributes`
+        )
+
+        // check if attribute is found in target entity
+        attribute.type.referenceAttribute(targetAttribute.name)
+      })
+    }
+
     if (attribute.isPrimary) {
       passOrThrow(
         !this._primaryAttribute,
@@ -233,6 +258,22 @@ class Entity {
 
     attributeNames.forEach((attributeName) => {
       resultAttributes[ attributeName ] = this._processAttribute(attributeMap[ attributeName ], attributeName)
+    })
+
+    attributeNames.forEach((attributeName) => {
+      const attribute = resultAttributes[ attributeName ]
+
+      if (attribute.targetAttributesMap) {
+        const localAttributeNames = Object.keys(attribute.targetAttributesMap);
+        localAttributeNames.map(localAttributeName => {
+          passOrThrow(
+            resultAttributes[ localAttributeName ],
+            () => `Unknown local attribute '${localAttributeName}' used in targetAttributesMap ` +
+              `for '${this.name}.${attributeName}'`
+          )
+
+        })
+      }
     })
 
 
