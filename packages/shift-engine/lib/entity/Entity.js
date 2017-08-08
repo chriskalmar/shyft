@@ -13,6 +13,7 @@ import {
 } from '../constants';
 
 import { isIndex, INDEX_UNIQUE } from '../index/Index';
+import { isMutation } from '../mutation/Mutation';
 import { isDataType } from '../datatype/DataType';
 import { isStorageType } from '../storage/StorageType';
 import { StorageTypeNull } from '../storage/StorageTypeNull';
@@ -38,6 +39,7 @@ class Entity {
       includeTimeTracking,
       includeUserTracking,
       indexes,
+      mutations,
     } = setup
 
     passOrThrow(name, () => 'Missing entity name')
@@ -89,6 +91,25 @@ class Entity {
 
       })
     }
+
+
+    if (mutations) {
+
+      this.mutations = mutations
+
+      passOrThrow(
+        isArray(mutations),
+        () => `Entity '${name}' mutations definition needs to be an array of mutations`
+      )
+
+      mutations.map((mutation, idx) => {
+        passOrThrow(
+          isMutation(mutation),
+          () => `Invalid mutation defintion for entity '${name}' at position '${idx}'`
+        )
+
+      })
+    }
   }
 
 
@@ -116,6 +137,7 @@ class Entity {
   getAttributes () {
     const ret = this._attributes || (this._attributes = this._processAttributeMap())
     this._processIndexes()
+    this._processMutations()
     return ret
   }
 
@@ -318,6 +340,23 @@ class Entity {
           if (index.type === INDEX_UNIQUE && index.attributes.length === 1) {
             this._attributes[ attributeName ].isUnique = true
           }
+
+        })
+      })
+    }
+  }
+
+
+  _processMutations () {
+    if (this.mutations) {
+
+      this.mutations.map((mutation) => {
+        mutation.attributes.map((attributeName) => {
+
+          passOrThrow(
+            this._attributes[ attributeName ],
+            () => `Cannot use attribute '${this.name}.${attributeName}' in mutation as it does not exist`
+          )
 
         })
       })
