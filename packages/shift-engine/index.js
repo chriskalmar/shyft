@@ -6,6 +6,11 @@ import StorageType from './lib/storage/StorageType';
 import StorageDataType from './lib/storage/StorageDataType';
 import ProtocolType from './lib/protocol/ProtocolType';
 import Index, { INDEX_UNIQUE } from './lib/index/Index';
+import Mutation, {
+  MUTATION_TYPE_CREATE,
+  MUTATION_TYPE_UPDATE,
+  MUTATION_TYPE_DELETE,
+} from './lib/mutation/Mutation';
 
 
 import {
@@ -82,6 +87,12 @@ export {
 
   Index,
   INDEX_UNIQUE,
+
+  Mutation,
+  MUTATION_TYPE_CREATE,
+  MUTATION_TYPE_UPDATE,
+  MUTATION_TYPE_DELETE,
+
 }
 
 
@@ -124,5 +135,11 @@ export default {
 
   Index,
   INDEX_UNIQUE,
+
+  Mutation,
+  MUTATION_TYPE_CREATE,
+  MUTATION_TYPE_UPDATE,
+  MUTATION_TYPE_DELETE,
+
 }
 
