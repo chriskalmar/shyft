@@ -41,7 +41,7 @@ class Index {
 
     passOrThrow(
       attributes.length === _.uniq(attributes).length,
-      () => `Index defintion of type '${type}' needs to have a unique list of attribute names`
+      () => `Index defintion of type '${type}' needs to have a list of unique attribute names`
     )
 
 
