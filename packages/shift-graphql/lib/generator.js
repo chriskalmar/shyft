@@ -191,8 +191,7 @@ const generateListQueries = () => {
 
 
 
-const generateInstanceQueries = () => {
-
+const generateInstanceQueries = (idFetcher) => {
   const instanceQueries = {}
 
   _.forEach(graphRegistry, ( { type, entity }, typeName) => {
@@ -210,10 +209,7 @@ const generateInstanceQueries = () => {
           type: new GraphQLNonNull( GraphQLID )
         }
       },
-      resolve: (source, args, context, info) => {
-        return storageType.findOne(entity, args.nodeId, source, args, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
-          .then(entity.graphql.dataShaper)
-      },
+      resolve: (source, { nodeId }, context, info) => idFetcher(nodeId, context, info)
     }
 
 
@@ -443,7 +439,7 @@ export const generateGraphQLSchema = (schema) => {
     fields: () => {
 
       const listQueries = generateListQueries()
-      const instanceQueries = generateInstanceQueries()
+      const instanceQueries = generateInstanceQueries(idFetcher)
 
       // override args.id of relay to args.nodeId
       nodeField.args.nodeId = nodeField.args.id
