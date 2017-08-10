@@ -5,6 +5,7 @@ import {
   isMap,
   isArray,
   isFunction,
+  mapOverProperties,
 } from '../util';
 
 import {
@@ -13,7 +14,10 @@ import {
 } from '../constants';
 
 import { isIndex, INDEX_UNIQUE } from '../index/Index';
-import { isMutation } from '../mutation/Mutation';
+import Mutation, {
+  isMutation,
+  defaultEntityMutations,
+} from '../mutation/Mutation';
 import { isDataType } from '../datatype/DataType';
 import { isStorageType } from '../storage/StorageType';
 import { StorageTypeNull } from '../storage/StorageTypeNull';
@@ -135,12 +139,20 @@ class Entity {
 
 
   getAttributes () {
-    const ret = this._attributes || (this._attributes = this._processAttributeMap())
+    if (this._attributes) {
+      return this._attributes
+    }
+
+    const ret = this._attributes = this._processAttributeMap()
     this._processIndexes()
     this._processMutations()
     return ret
   }
 
+
+  getMutations () {
+    return this.mutations
+  }
 
 
   _collectSystemAttributes (attributeMap) {
@@ -349,19 +361,41 @@ class Entity {
 
 
   _processMutations () {
-    if (this.mutations) {
+    const _self = this
 
-      this.mutations.map((mutation) => {
+    const coreAttributeNames = []
+
+    mapOverProperties(_self.getAttributes(), (attribute, attributeName) => {
+      if (!attribute.isSystemAttribute) {
+        coreAttributeNames.push(attributeName)
+      }
+    })
+
+
+    if (!this.mutations) {
+      this.mutations = []
+    }
+
+    defaultEntityMutations.map(defaultMutation => {
+      this.mutations.push(new Mutation({
+        name: defaultMutation.name,
+        type: defaultMutation.type,
+        description: defaultMutation.description(this.name),
+        attributes: coreAttributeNames
+      }))
+    })
+
+    this.mutations.map((mutation) => {
+      if (mutation.attributes) {
         mutation.attributes.map((attributeName) => {
-
           passOrThrow(
             this._attributes[ attributeName ],
             () => `Cannot use attribute '${this.name}.${attributeName}' in mutation as it does not exist`
           )
-
         })
-      })
-    }
+      }
+    })
+
   }
 
 
