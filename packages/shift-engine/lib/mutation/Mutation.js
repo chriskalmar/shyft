@@ -69,6 +69,10 @@ class Mutation {
     if (this.type === MUTATION_TYPE_UPDATE || this.type === MUTATION_TYPE_DELETE) {
       this.needsInstance = true
     }
+
+    if (this.type === MUTATION_TYPE_UPDATE) {
+      this.ignoreRequired = true
+    }
   }
 
 
