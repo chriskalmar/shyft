@@ -303,6 +303,7 @@ class Entity {
 
     systemAttributeNames.forEach((attributeName) => {
       resultAttributes[ attributeName ] = this._processAttribute(attributeMap[ attributeName ], attributeName)
+      resultAttributes[ attributeName ].isSystemAttribute = true
     })
 
     return resultAttributes
