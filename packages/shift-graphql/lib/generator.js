@@ -33,6 +33,10 @@ import {
   connectionFromData,
 } from './connection';
 
+import {
+  generateMutations,
+} from './mutation';
+
 
 // collect object types, connections ... for each entity
 const graphRegistry = {}
@@ -456,9 +460,26 @@ export const generateGraphQLSchema = (schema) => {
 
 
 
+  const mutationType = new GraphQLObjectType({
+    name: 'Mutation',
+    root: 'The root mutation type',
+
+    fields: () => {
+
+      const mutations = generateMutations(graphRegistry)
+
+      return {
+        ...mutations,
+      };
+    },
+  });
+
+
+
   // put it all together into a graphQL schema
   return new GraphQLSchema({
     query: queryType,
+    mutation: mutationType,
   });
 }
 
