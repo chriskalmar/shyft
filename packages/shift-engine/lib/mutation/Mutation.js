@@ -16,6 +16,26 @@ export const mutationTypes = [
   MUTATION_TYPE_DELETE,
 ]
 
+export const defaultEntityMutations = [
+  {
+    name: 'create',
+    type: MUTATION_TYPE_CREATE,
+    description: (typeName) => `Create a new **\`${typeName}\`**`,
+    hasAttributes: true,
+  },
+  {
+    name: 'update',
+    type: MUTATION_TYPE_UPDATE,
+    description: (typeName) => `Update a single **\`${typeName}\`** using its node ID and a data patch`,
+    hasAttributes: true,
+  },
+  {
+    name: 'delete',
+    description: (typeName) => `Delete a single **\`${typeName}\`** using its node ID`,
+    type: MUTATION_TYPE_DELETE,
+  },
+]
+
 
 class Mutation {
 
