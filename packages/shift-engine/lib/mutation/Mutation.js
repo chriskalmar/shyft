@@ -37,26 +37,34 @@ class Mutation {
 
     passOrThrow(description, () => `Missing description for mutation '${name}'`)
 
-    passOrThrow(
-      isArray(attributes, true),
-      () => `Mutation '${name}' needs to have a list of attributes`
-    )
 
-    attributes.map(attribute => {
-      passOrThrow(
-        typeof attribute === 'string',
-        () => `Mutation '${name}' needs to have a list of attribute names`
-      )
-    })
-
-    passOrThrow(
-      attributes.length === _.uniq(attributes).length,
-      () => `Mutation '${name}' needs to have a list of unique attribute names`
-    )
-
-
+    this.name = name
     this.type = type
-    this.attributes = attributes
+    this.description = description
+
+
+    if (this.type === MUTATION_TYPE_CREATE || this.type === MUTATION_TYPE_UPDATE) {
+
+      passOrThrow(
+        isArray(attributes, true),
+        () => `Mutation '${name}' needs to have a list of attributes`
+      )
+
+      attributes.map(attribute => {
+        passOrThrow(
+          typeof attribute === 'string',
+          () => `Mutation '${name}' needs to have a list of attribute names`
+        )
+      })
+
+      passOrThrow(
+        attributes.length === _.uniq(attributes).length,
+        () => `Mutation '${name}' needs to have a list of unique attribute names`
+      )
+
+      this.attributes = attributes
+    }
+
 
   }
 
