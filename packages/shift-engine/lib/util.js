@@ -215,6 +215,12 @@ export const processCursor = (entity, cursor, orderBy, reverse) => {
     )
 
 
+    // if more than 2 attributes are used for the cursor take only the first and the last (primary key)
+    if (orderList.length > 2) {
+      orderList.splice(1, (orderList.length - 2) )
+    }
+
+
     // simple filter for single attributes
     if (orderList.length === 1) {
 
