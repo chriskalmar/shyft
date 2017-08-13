@@ -4,6 +4,8 @@ import {
   GraphQLID,
   GraphQLNonNull,
   GraphQLInputObjectType,
+  GraphQLObjectType,
+  GraphQLInt,
 } from 'graphql';
 
 import {
@@ -108,6 +110,43 @@ export const generateMutationInput = (entity, typeName, entityMutation) => {
 
 
 
+export const generateMutationOutput = (entity, typeName, type, entityMutation) => {
+
+  const typeNamePascalCase = entity.graphql.typeNamePascalCase
+
+  const entityMutationInputType = new GraphQLObjectType({
+
+    name: generateTypeNamePascalCase(`${entityMutation.name}_${typeNamePascalCase}Output`),
+    description: `Mutation output type for **\`${typeNamePascalCase}\`**`,
+
+    fields: () => {
+      const fields = {
+        clientMutationId: {
+          type: GraphQLString,
+        }
+      }
+
+      if (entityMutation.isTypeDelete) {
+        fields.deleteRowCount = {
+          type: new GraphQLNonNull( GraphQLInt ),
+          description: 'Number of deleted rows',
+        }
+      }
+      else {
+        fields[ typeName ] = {
+          type: new GraphQLNonNull( type )
+        }
+      }
+
+      return fields
+    }
+  })
+
+  return entityMutationInputType
+}
+
+
+
 const extractIdFromNodeId = (graphRegistry, sourceEntityName, nodeId) => {
   let instanceId
 
@@ -152,9 +191,10 @@ export const generateMutations = (graphRegistry) => {
       const mutationName = _.camelCase(`${entityMutation.name}_${typeName}`)
 
       const mutationInputType = generateMutationInput(entity, typeName, entityMutation)
+      const mutationOutputType = generateMutationOutput(entity, typeName, type, entityMutation)
 
       mutations[ mutationName ] = {
-        type: type,
+        type: mutationOutputType,
         description: entityMutation.description,
         args: {
           input: {
@@ -162,12 +202,15 @@ export const generateMutations = (graphRegistry) => {
             type: new GraphQLNonNull( mutationInputType ),
           },
         },
-        resolve: (source, args, context, info) => {
+        resolve: async (source, args, context, info) => {
 
           const id = extractIdFromNodeId(graphRegistry, entity.name, args.input.nodeId)
 
-          return storageType.mutate(entity, id, source, args.input[ typeName ], entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
-            .then(entity.graphql.dataShaper)
+          const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+          if (result[ typeName ]) {
+            result[ typeName ] = entity.graphql.dataShaper(result[ typeName ])
+          }
+          return result
         },
       }
     })
