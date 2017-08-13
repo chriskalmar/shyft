@@ -50,10 +50,10 @@
   },
   "dependencies": {
     "dataloader": "^1.3.0",
-    "json-shaper": "^1.0.3",
+    "json-shaper": "^1.1.0",
     "lodash": "^4.17.4",
-    "pg": "^6.4.0",
-    "sequelize": "^4.4.0",
+    "pg": "6.4.20",
+    "sequelize": "^4.4.3",
     "toposort": "^1.0.3"
   }
 }

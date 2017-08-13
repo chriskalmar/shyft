@@ -2080,6 +2080,10 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
+js-string-escape@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/js-string-escape/-/js-string-escape-1.0.1.tgz#e2625badbc0d67c7533e9edc1068c587ae4137ef"
+
 js-tokens@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"
@@ -2107,9 +2111,9 @@ json-schema@0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/json-schema/-/json-schema-0.2.3.tgz#b480c892e59a2f05954ce727bd3f2a4e882f9e13"
 
-json-shaper@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/json-shaper/-/json-shaper-1.0.3.tgz#2e0815aa82d6ec889fe875ec6718c22aa9666c72"
+json-shaper@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/json-shaper/-/json-shaper-1.1.0.tgz#2c919455df55635053119210c2469ecb79066e25"
 
 json-stable-stringify@^1.0.0, json-stable-stringify@^1.0.1:
   version "1.0.1"
@@ -2813,19 +2817,20 @@ pg-types@1.*:
     postgres-date "~1.0.0"
     postgres-interval "^1.1.0"
 
-pg@^6.4.0:
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/pg/-/pg-6.4.0.tgz#cb76ba2e7c2eab89fc64bf7a9fe648ced72436dc"
+pg@6.4.20:
+  version "6.4.2"
+  resolved "https://registry.yarnpkg.com/pg/-/pg-6.4.2.tgz#c364011060eac7a507a2ae063eb857ece910e27f"
   dependencies:
     buffer-writer "1.0.1"
+    js-string-escape "1.0.1"
     packet-reader "0.3.1"
     pg-connection-string "0.1.3"
     pg-pool "1.*"
     pg-types "1.*"
-    pgpass "1.x"
+    pgpass "1.*"
     semver "4.3.2"
 
-pgpass@1.x:
+pgpass@1.*:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/pgpass/-/pgpass-1.0.2.tgz#2a7bb41b6065b67907e91da1b07c1847c877b306"
   dependencies:
@@ -3221,9 +3226,9 @@ semver@4.3.2:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/semver/-/semver-4.3.2.tgz#c7a07158a80bedd052355b770d82d6640f803be7"
 
-sequelize@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-4.4.0.tgz#e562d3a0103f6d80527b0c5afc014ed24d0c5c84"
+sequelize@^4.4.3:
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-4.4.3.tgz#f9785524d1c7d2c1cd309f024476ec5897933690"
   dependencies:
     bluebird "^3.4.6"
     cls-bluebird "^2.0.1"
