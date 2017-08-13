@@ -6,6 +6,10 @@ import {
   GraphQLInputObjectType,
 } from 'graphql';
 
+import {
+  fromGlobalId,
+} from 'graphql-relay';
+
 import _ from 'lodash';
 
 import ProtocolGraphQL from './ProtocolGraphQL';
@@ -104,6 +108,31 @@ export const generateMutationInput = (entity, typeName, entityMutation) => {
 
 
 
+const extractIdFromNodeId = (graphRegistry, sourceEntityName, nodeId) => {
+  let instanceId
+
+  if (nodeId) {
+    const {
+      type,
+      id
+    } = fromGlobalId(nodeId);
+
+    instanceId = id
+
+    const entity = graphRegistry[ type ]
+      ? graphRegistry[ type ].entity
+      : null
+
+    if (!entity || entity.name !== sourceEntityName) {
+      throw new Error('Incompatible nodeId used with this mutation')
+    }
+  }
+
+  return instanceId
+}
+
+
+
 export const generateMutations = (graphRegistry) => {
 
   const mutations = {}
@@ -134,7 +163,10 @@ export const generateMutations = (graphRegistry) => {
           },
         },
         resolve: (source, args, context, info) => {
-          return storageType.mutate(entity, source, args.input, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+
+          const id = extractIdFromNodeId(graphRegistry, entity.name, args.input.nodeId)
+
+          return storageType.mutate(entity, id, source, args.input[ typeName ], entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
             .then(entity.graphql.dataShaper)
         },
       }
