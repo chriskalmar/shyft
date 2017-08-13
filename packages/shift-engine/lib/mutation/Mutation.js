@@ -86,13 +86,21 @@ class Mutation {
     }
 
 
-    if (this.type === MUTATION_TYPE_UPDATE || this.type === MUTATION_TYPE_DELETE) {
-      this.needsInstance = true
+    if (this.type === MUTATION_TYPE_CREATE) {
+      this.isTypeCreate = true
     }
 
     if (this.type === MUTATION_TYPE_UPDATE) {
+      this.needsInstance = true
       this.ignoreRequired = true
+      this.isTypeUpdate = true
     }
+
+    if (this.type === MUTATION_TYPE_DELETE) {
+      this.needsInstance = true
+      this.isTypeDelete = true
+    }
+
   }
 
 
