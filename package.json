@@ -2,7 +2,7 @@
   "name": "shift-postgres-connector",
   "version": "0.1.0",
   "description": "Postgres connector for shift",
-  "main": "index.js",
+  "main": "dist/",
   "scripts": {
     "test": "mocha --compilers js:babel-register -R spec --check-leaks lib/*.spec.js lib/**/*.spec.js || exit 1",
     "test:watch": "nodemon --delay 1",
@@ -12,7 +12,8 @@
     "cov": "NODE_ENV=test nyc npm run test",
     "coverage": "NODE_ENV=test nyc mocha -R spec --check-leaks lib/*.spec.js lib/**/*.spec.js",
     "coverage-ci": "npm run coverage && cat ./coverage/lcov.info | codecov",
-    "babel": "babel --presets es2015,stage-0 --ignore node_modules,coverage"
+    "babel": "babel --presets es2015,stage-0 --ignore node_modules,coverage",
+    "build": "mkdir dist; NODE_ENV=build babel lib -d dist"
   },
   "lint-staged": {
     "*.js": "./node_modules/eslint/bin/eslint.js"

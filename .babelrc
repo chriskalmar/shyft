@@ -8,6 +8,11 @@
       "plugins": [
         "istanbul"
       ]
+    },
+    "build": {
+      "ignore": [
+        "**/*.spec.js"
+      ]
     }
   }
 }
