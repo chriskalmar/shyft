@@ -5,6 +5,7 @@ import {
   isMap,
   isArray,
   isFunction,
+  mapOverProperties,
 } from '../util';
 
 import {
@@ -13,6 +14,10 @@ import {
 } from '../constants';
 
 import { isIndex, INDEX_UNIQUE } from '../index/Index';
+import Mutation, {
+  isMutation,
+  defaultEntityMutations,
+} from '../mutation/Mutation';
 import { isDataType } from '../datatype/DataType';
 import { isStorageType } from '../storage/StorageType';
 import { StorageTypeNull } from '../storage/StorageTypeNull';
@@ -38,6 +43,7 @@ class Entity {
       includeTimeTracking,
       includeUserTracking,
       indexes,
+      mutations,
     } = setup
 
     passOrThrow(name, () => 'Missing entity name')
@@ -89,6 +95,25 @@ class Entity {
 
       })
     }
+
+
+    if (mutations) {
+
+      this.mutations = mutations
+
+      passOrThrow(
+        isArray(mutations),
+        () => `Entity '${name}' mutations definition needs to be an array of mutations`
+      )
+
+      mutations.map((mutation, idx) => {
+        passOrThrow(
+          isMutation(mutation),
+          () => `Invalid mutation defintion for entity '${name}' at position '${idx}'`
+        )
+
+      })
+    }
   }
 
 
@@ -114,11 +139,20 @@ class Entity {
 
 
   getAttributes () {
-    const ret = this._attributes || (this._attributes = this._processAttributeMap())
+    if (this._attributes) {
+      return this._attributes
+    }
+
+    const ret = this._attributes = this._processAttributeMap()
     this._processIndexes()
+    this._processMutations()
     return ret
   }
 
+
+  getMutations () {
+    return this.mutations
+  }
 
 
   _collectSystemAttributes (attributeMap) {
@@ -281,6 +315,7 @@ class Entity {
 
     systemAttributeNames.forEach((attributeName) => {
       resultAttributes[ attributeName ] = this._processAttribute(attributeMap[ attributeName ], attributeName)
+      resultAttributes[ attributeName ].isSystemAttribute = true
     })
 
     return resultAttributes
@@ -322,6 +357,45 @@ class Entity {
         })
       })
     }
+  }
+
+
+  _processMutations () {
+    const _self = this
+
+    const coreAttributeNames = []
+
+    mapOverProperties(_self.getAttributes(), (attribute, attributeName) => {
+      if (!attribute.isSystemAttribute) {
+        coreAttributeNames.push(attributeName)
+      }
+    })
+
+
+    if (!this.mutations) {
+      this.mutations = []
+    }
+
+    defaultEntityMutations.map(defaultMutation => {
+      this.mutations.push(new Mutation({
+        name: defaultMutation.name,
+        type: defaultMutation.type,
+        description: defaultMutation.description(this.name),
+        attributes: coreAttributeNames
+      }))
+    })
+
+    this.mutations.map((mutation) => {
+      if (mutation.attributes) {
+        mutation.attributes.map((attributeName) => {
+          passOrThrow(
+            this._attributes[ attributeName ],
+            () => `Cannot use attribute '${this.name}.${attributeName}' in mutation as it does not exist`
+          )
+        })
+      }
+    })
+
   }
 
 

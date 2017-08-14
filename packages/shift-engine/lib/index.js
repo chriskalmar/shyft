@@ -1,11 +1,16 @@
 
-import constants from './lib/constants';
-import Entity, { isEntity } from './lib/entity/Entity';
-import Schema from './lib/schema/Schema';
-import StorageType from './lib/storage/StorageType';
-import StorageDataType from './lib/storage/StorageDataType';
-import ProtocolType from './lib/protocol/ProtocolType';
-import Index, { INDEX_UNIQUE } from './lib/index/Index';
+import constants from './constants';
+import Entity, { isEntity } from './entity/Entity';
+import Schema from './schema/Schema';
+import StorageType from './storage/StorageType';
+import StorageDataType from './storage/StorageDataType';
+import ProtocolType from './protocol/ProtocolType';
+import Index, { INDEX_UNIQUE } from './index/Index';
+import Mutation, {
+  MUTATION_TYPE_CREATE,
+  MUTATION_TYPE_UPDATE,
+  MUTATION_TYPE_DELETE,
+} from './mutation/Mutation';
 
 
 import {
@@ -19,7 +24,7 @@ import {
   sortDataByKeys,
   processCursors,
   processFilter,
-} from './lib/util';
+} from './util';
 
 import {
   DataTypeUserID,
@@ -32,10 +37,10 @@ import {
   DataTypeJson,
   DataTypeTimestamp,
   DataTypeTimestampTz,
-} from './lib/datatype/dataTypes';
+} from './datatype/dataTypes';
 
-import { Language } from './lib/models/Language';
-import { User } from './lib/models/User';
+import { Language } from './models/Language';
+import { User } from './models/User';
 
 const coreModels = {
   Language,
@@ -82,6 +87,12 @@ export {
 
   Index,
   INDEX_UNIQUE,
+
+  Mutation,
+  MUTATION_TYPE_CREATE,
+  MUTATION_TYPE_UPDATE,
+  MUTATION_TYPE_DELETE,
+
 }
 
 
@@ -124,5 +135,11 @@ export default {
 
   Index,
   INDEX_UNIQUE,
+
+  Mutation,
+  MUTATION_TYPE_CREATE,
+  MUTATION_TYPE_UPDATE,
+  MUTATION_TYPE_DELETE,
+
 }
 

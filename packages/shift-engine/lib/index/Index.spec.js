@@ -89,7 +89,7 @@ describe('Index', () => {
       })
     }
 
-    assert.throws(fn, /needs to have a unique list of attribute names/);
+    assert.throws(fn, /needs to have a list of unique attribute names/);
 
   })
 

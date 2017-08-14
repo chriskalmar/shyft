@@ -31,7 +31,7 @@
     "eslint-plugin-mocha": "^4.10.1",
     "lerna": "^2.0.0-rc.4",
     "lint-staged": "^3.2.2",
-    "mocha": "^3.2.0",
+    "mocha": "^3.5.0",
     "nodemon": "^1.11.0",
     "nyc": "^10.1.2",
     "pre-commit": "^1.2.1"

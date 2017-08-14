@@ -14,4 +14,7 @@ export const StorageTypeNull = new StorageType({
   count() {
     throw new Error('\'StorageTypeNull\' is not a real storage type implementation')
   },
+  mutate() {
+    throw new Error('\'StorageTypeNull\' is not a real storage type implementation')
+  },
 })
