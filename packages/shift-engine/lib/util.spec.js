@@ -818,15 +818,11 @@ describe('util', () => {
           firstName: {
             $gte: 'John',
           },
-          lastName: {
-            $gte: 'Snow',
-          },
           $not: {
             id: {
               $lte: 1123,
             },
             firstName: 'John',
-            lastName: 'Snow',
           }
         }
 
@@ -854,15 +850,11 @@ describe('util', () => {
           firstName: {
             $gte: 'John',
           },
-          lastName: {
-            $lte: 'Snow',
-          },
           $not: {
             id: {
               $gte: 1123,
             },
             firstName: 'John',
-            lastName: 'Snow',
           }
         }
 
@@ -1106,15 +1098,11 @@ describe('util', () => {
           firstName: {
             $lte: 'John',
           },
-          lastName: {
-            $lte: 'Snow',
-          },
           $not: {
             id: {
               $gte: 1123,
             },
             firstName: 'John',
-            lastName: 'Snow',
           }
         }
 
@@ -1143,15 +1131,11 @@ describe('util', () => {
           firstName: {
             $lte: 'John',
           },
-          lastName: {
-            $gte: 'Snow',
-          },
           $not: {
             id: {
               $lte: 1123,
             },
             firstName: 'John',
-            lastName: 'Snow',
           }
         }
 
