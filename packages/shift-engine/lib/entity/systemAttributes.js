@@ -21,14 +21,22 @@ export const systemAttributesTimeTracking = [
     description: 'Record was created at this time',
     type: DataTypeTimestampTz,
     required: true,
-    defaultValue: () => new Date(),
+    defaultValue: (data, mutation) => {
+      return (mutation.isTypeCreate)
+        ? new Date()
+        : undefined
+    },
   },
   {
     name: 'updatedAt',
     description: 'Record was updated at this time',
     type: DataTypeTimestampTz,
     required: true,
-    defaultValue: () => new Date(),
+    defaultValue: (data, mutation) => {
+      return (mutation.isTypeCreate || mutation.isTypeUpdate)
+        ? new Date()
+        : undefined
+    },
   },
 ]
 
