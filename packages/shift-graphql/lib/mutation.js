@@ -71,7 +71,7 @@ export const generateMutationInstanceInput = (entity, entityMutation) => {
 
 
 
-export const generateMutationInput = (entity, typeName, entityMutation) => {
+export const generateMutationInput = (entity, typeName, entityMutation, entityMutationInstanceInputType) => {
 
   const typeNamePascalCase = entity.graphql.typeNamePascalCase
 
@@ -93,9 +93,46 @@ export const generateMutationInput = (entity, typeName, entityMutation) => {
         }
       }
 
-      if (entityMutation.attributes) {
-        const entityMutationInstanceInputType = generateMutationInstanceInput(entity, entityMutation)
+      if (entityMutationInstanceInputType) {
+        fields[ typeName ] = {
+          type: new GraphQLNonNull( entityMutationInstanceInputType )
+        }
+      }
 
+      return fields
+    }
+  })
+
+  return entityMutationInputType
+}
+
+
+
+export const generateMutationByPrimaryAttributeInput = (entity, typeName, entityMutation, entityMutationInstanceInputType, primaryAttribute) => {
+
+  const fieldName = primaryAttribute.gqlFieldName
+  const fieldType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type)
+  const typeNamePascalCase = entity.graphql.typeNamePascalCase
+
+  const entityMutationInputType = new GraphQLInputObjectType({
+
+    name: generateTypeNamePascalCase(`${entityMutation.name}_${typeNamePascalCase}_by_${fieldName}_Input`),
+    description: `Mutation input type for **\`${typeNamePascalCase}\`** using the **\`${fieldName}\`**`,
+
+    fields: () => {
+      const fields = {
+        clientMutationId: {
+          type: GraphQLString,
+        }
+      }
+
+      if (entityMutation.needsInstance) {
+        fields[ fieldName ] = {
+          type: new GraphQLNonNull( fieldType )
+        }
+      }
+
+      if (entityMutationInstanceInputType) {
         fields[ typeName ] = {
           type: new GraphQLNonNull( entityMutationInstanceInputType )
         }
@@ -190,7 +227,13 @@ export const generateMutations = (graphRegistry) => {
 
       const mutationName = _.camelCase(`${entityMutation.name}_${typeName}`)
 
-      const mutationInputType = generateMutationInput(entity, typeName, entityMutation)
+      let entityMutationInstanceInputType
+
+      if (entityMutation.attributes) {
+        entityMutationInstanceInputType = generateMutationInstanceInput(entity, entityMutation)
+      }
+
+      const mutationInputType = generateMutationInput(entity, typeName, entityMutation, entityMutationInstanceInputType)
       const mutationOutputType = generateMutationOutput(entity, typeName, type, entityMutation)
 
       mutations[ mutationName ] = {
@@ -213,6 +256,40 @@ export const generateMutations = (graphRegistry) => {
           return result
         },
       }
+
+
+      if (entityMutation.needsInstance) {
+
+        const primaryAttribute = entity.getPrimaryAttribute()
+
+        if (primaryAttribute) {
+          const fieldName = primaryAttribute.gqlFieldName
+          const mutationByPrimaryAttributeInputType = generateMutationByPrimaryAttributeInput(entity, typeName, entityMutation, entityMutationInstanceInputType, primaryAttribute)
+          const mutationByPrimaryAttributeName = _.camelCase(`${entityMutation.name}_${typeName}_by_${fieldName}`)
+
+          mutations[ mutationByPrimaryAttributeName ] = {
+            type: mutationOutputType,
+            description: entityMutation.description,
+            args: {
+              input: {
+                description: 'Input argument for this mutation',
+                type: new GraphQLNonNull( mutationByPrimaryAttributeInputType ),
+              },
+            },
+            resolve: async (source, args, context, info) => {
+
+              const id = args.input[ fieldName ]
+
+              const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+              if (result[ typeName ]) {
+                result[ typeName ] = entity.graphql.dataShaper(result[ typeName ])
+              }
+              return result
+            },
+          }
+        }
+      }
+
     })
 
   })
