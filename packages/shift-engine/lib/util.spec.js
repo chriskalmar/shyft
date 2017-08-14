@@ -1252,6 +1252,7 @@ describe('util', () => {
       findOne() {},
       find() {},
       count() {},
+      mutate() {},
     })
 
     const StorageDataTypeAny = new StorageDataType({
