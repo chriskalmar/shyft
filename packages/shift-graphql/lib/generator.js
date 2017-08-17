@@ -39,7 +39,10 @@ import {
 
 
 // collect object types, connections ... for each entity
-const graphRegistry = {}
+const graphRegistry = {
+  types: {},
+  actions: {},
+}
 
 
 // prepare models for graphql
@@ -89,8 +92,8 @@ const getNodeDefinitions = () => {
     } = fromGlobalId(globalId);
 
     // resolve based on type and id
-    const entity = graphRegistry[ type ]
-      ? graphRegistry[ type ].entity
+    const entity = graphRegistry.types[ type ]
+      ? graphRegistry.types[ type ].entity
       : null
 
 
@@ -110,8 +113,8 @@ const getNodeDefinitions = () => {
     const type = util.generateTypeName( obj[ constants.RELAY_TYPE_PROMOTER_FIELD ] )
 
     // return the graphql type definition
-    return graphRegistry[ type ]
-      ? graphRegistry[ type ].type
+    return graphRegistry.types[ type ]
+      ? graphRegistry.types[ type ].type
       : null
   }
 
@@ -128,7 +131,7 @@ const getNodeDefinitions = () => {
 const registerConnection = (entity) => {
 
   const typeName = entity.graphql.typeName
-  const type = graphRegistry[ typeName ].type
+  const type = graphRegistry.types[ typeName ].type
 
   const { connectionType } = generateConnectionType({
     nodeType: type,
@@ -137,8 +140,8 @@ const registerConnection = (entity) => {
 
   const connectionArgs = generateConnectionArgs(entity, type)
 
-  graphRegistry[ typeName ].connection = connectionType
-  graphRegistry[ typeName ].connectionArgs = connectionArgs
+  graphRegistry.types[ typeName ].connection = connectionType
+  graphRegistry.types[ typeName ].connectionArgs = connectionArgs
 
 }
 
@@ -148,7 +151,7 @@ const generateListQueries = () => {
 
   const listQueries = {}
 
-  _.forEach(graphRegistry, ( { type, entity }, typeName) => {
+  _.forEach(graphRegistry.types, ( { type, entity }, typeName) => {
 
     const storageType = entity.storageType
 
@@ -158,9 +161,9 @@ const generateListQueries = () => {
 
 
     listQueries[ queryName ] = {
-      type: graphRegistry[ typeName ].connection,
+      type: graphRegistry.types[ typeName ].connection,
       description: `Fetch a list of **\`${typeNamePluralListName}\`**`,
-      args: graphRegistry[ typeName ].connectionArgs,
+      args: graphRegistry.types[ typeName ].connectionArgs,
       resolve: async (source, args, context, info) => {
 
         validateConnectionArgs(args)
@@ -198,7 +201,7 @@ const generateListQueries = () => {
 const generateInstanceQueries = (idFetcher) => {
   const instanceQueries = {}
 
-  _.forEach(graphRegistry, ( { type, entity }, typeName) => {
+  _.forEach(graphRegistry.types, ( { type, entity }, typeName) => {
 
     const storageType = entity.storageType
 
@@ -261,7 +264,7 @@ const generateReverseConnections = (entity) => {
   entity.referencedByEntities.map(({sourceEntityName, sourceAttributeName}) => {
 
     const sourceEntityTypeName = util.generateTypeName(sourceEntityName)
-    const sourceType = graphRegistry[ sourceEntityTypeName ]
+    const sourceType = graphRegistry.types[ sourceEntityTypeName ]
     const sourceEntity = sourceType.entity
 
     const storageType = sourceEntity.storageType
@@ -271,16 +274,16 @@ const generateReverseConnections = (entity) => {
     const typeNamePluralListName = sourceEntity.graphql.typeNamePluralPascalCase
 
     fields[ fieldName ] = {
-      type: graphRegistry[ sourceEntityTypeName ].connection,
+      type: graphRegistry.types[ sourceEntityTypeName ].connection,
       description: `Fetch a list of **\`${typeNamePluralListName}\`** for a given **\`${typeNamePascalCase}\`**`,
-      args: graphRegistry[ sourceEntityTypeName ].connectionArgs,
+      args: graphRegistry.types[ sourceEntityTypeName ].connectionArgs,
       resolve: async (source, args, context, info) => {
 
         validateConnectionArgs(args)
         forceSortByUnique(args.orderBy, sourceEntity)
 
         const parentEntityTypeName = util.generateTypeName(info.parentType.name)
-        const parentEntity = graphRegistry[ parentEntityTypeName ].entity
+        const parentEntity = graphRegistry.types[ parentEntityTypeName ].entity
         const parentAttribute = parentEntity.getPrimaryAttribute()
 
         const parentConnection = {
@@ -383,7 +386,7 @@ export const generateGraphQLSchema = (schema) => {
 
             const targetTypeName = targetEntity.graphql.typeName
 
-            reference.type = graphRegistry[ targetTypeName ].type
+            reference.type = graphRegistry.types[ targetTypeName ].type
             reference.resolve = (source, args, context, info) => {
               const referenceId = source[ attribute.gqlFieldName ]
 
@@ -425,7 +428,7 @@ export const generateGraphQLSchema = (schema) => {
       }
     })
 
-    graphRegistry[ typeName ] = {
+    graphRegistry.types[ typeName ] = {
       entity,
       type: objectType
     }
