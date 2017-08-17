@@ -88,6 +88,7 @@ class Schema {
     }
 
 
+    entity._isRegistered = true
     this._entityMap[ entity.name ] = entity
     this._isValidated = false
   }
@@ -126,7 +127,13 @@ class Schema {
 
           const targetEntity = attribute.type
 
-          if (!this._entityMap[ targetEntity.name ]) {
+          if (this._entityMap[ targetEntity.name ]) {
+            passOrThrow(
+              targetEntity._isRegistered,
+              () => `Referenced entity '${targetEntity.name}' already registered with this schema`
+            )
+          }
+          else {
             this.addEntity(targetEntity)
             foundMissingCount++
           }
