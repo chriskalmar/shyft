@@ -195,8 +195,8 @@ const extractIdFromNodeId = (graphRegistry, sourceEntityName, nodeId) => {
 
     instanceId = id
 
-    const entity = graphRegistry[ type ]
-      ? graphRegistry[ type ].entity
+    const entity = graphRegistry.types[ type ]
+      ? graphRegistry.types[ type ].entity
       : null
 
     if (!entity || entity.name !== sourceEntityName) {
@@ -213,7 +213,7 @@ export const generateMutations = (graphRegistry) => {
 
   const mutations = {}
 
-  _.forEach(graphRegistry, ( { type, entity }, typeName) => {
+  _.forEach(graphRegistry.types, ( { type, entity }, typeName) => {
 
     const entityMutations = entity.getMutations()
 
