@@ -6,21 +6,24 @@ import {
 } from '../util';
 
 import { isEntity } from '../entity/Entity';
+import { isAction } from '../action/Action';
 import { isDataTypeUser } from '../datatype/DataType';
 import { isStorageType } from '../storage/StorageType';
 
 
 class Schema {
 
-  constructor (setup = { entities: null, defaultStorageType: null }) {
+  constructor (setup = { entities: null, defaultStorageType: null, actions: null }) {
 
     this._entityMap = {}
+    this._actionMap = {}
     this._isValidated = false
     this._userEntity = null
 
     const {
       entities,
       defaultStorageType,
+      actions,
     } = setup
 
 
@@ -42,6 +45,17 @@ class Schema {
       )
 
       entities.map(entity => this.addEntity(entity))
+    }
+
+
+    if (actions) {
+
+      passOrThrow(
+        isArray(actions),
+        () => 'Schema needs \'actions\' to be an array of type Action'
+      )
+
+      actions.map(entity => this.addAction(entity))
     }
 
   }
@@ -185,6 +199,29 @@ class Schema {
 
     return this._entityMap
   }
+
+
+
+  addAction (action) {
+    passOrThrow(
+      isAction(action),
+      () => 'Provided object to schema is not an action'
+    )
+
+    passOrThrow(
+      !this._actionMap[ action.name ],
+      () => `Action '${action.name}' already registered with this schema`
+    )
+
+    this._actionMap[ action.name ] = action
+    this._isValidated = false
+  }
+
+
+  getActions () {
+    return this._actionMap
+  }
+
 
 }
 
