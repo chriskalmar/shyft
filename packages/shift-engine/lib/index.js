@@ -6,6 +6,7 @@ import StorageType from './storage/StorageType';
 import StorageDataType from './storage/StorageDataType';
 import ProtocolType from './protocol/ProtocolType';
 import Index, { INDEX_UNIQUE } from './index/Index';
+import Action, { isAction } from './action/Action';
 import Mutation, {
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
@@ -88,6 +89,9 @@ export {
   Index,
   INDEX_UNIQUE,
 
+  Action,
+  isAction,
+
   Mutation,
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
@@ -135,6 +139,9 @@ export default {
 
   Index,
   INDEX_UNIQUE,
+
+  Action,
+  isAction,
 
   Mutation,
   MUTATION_TYPE_CREATE,
