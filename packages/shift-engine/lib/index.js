@@ -1,5 +1,6 @@
 
 import constants from './constants';
+import CustomError from './CustomError';
 import Entity, { isEntity } from './entity/Entity';
 import Schema from './schema/Schema';
 import StorageType from './storage/StorageType';
@@ -51,6 +52,7 @@ const coreModels = {
 
 export {
   constants,
+  CustomError,
 
   Entity,
   isEntity,
@@ -102,6 +104,7 @@ export {
 
 export default {
   constants,
+  CustomError,
 
   Entity,
   isEntity,
