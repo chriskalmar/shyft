@@ -151,7 +151,7 @@ export const generateMutationOutput = (entity, typeName, type, entityMutation) =
 
   const typeNamePascalCase = entity.graphql.typeNamePascalCase
 
-  const entityMutationInputType = new GraphQLObjectType({
+  const entityMutationOutputType = new GraphQLObjectType({
 
     name: generateTypeNamePascalCase(`${entityMutation.name}_${typeNamePascalCase}Output`),
     description: `Mutation output type for **\`${typeNamePascalCase}\`**`,
@@ -179,7 +179,7 @@ export const generateMutationOutput = (entity, typeName, type, entityMutation) =
     }
   })
 
-  return entityMutationInputType
+  return entityMutationOutputType
 }
 
 

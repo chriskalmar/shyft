@@ -37,6 +37,10 @@ import {
   generateMutations,
 } from './mutation';
 
+import {
+  generateActions,
+} from './action';
+
 
 // collect object types, connections ... for each entity
 const graphRegistry = {
@@ -322,6 +326,20 @@ const generateReverseConnections = (entity) => {
 
 
 
+const registerAction = (action) => {
+  const actionName = action.name
+  graphRegistry.actions[ actionName ] = {
+    action
+  }
+}
+
+
+export const registerActions = (actions) => {
+  _.forEach(actions, (action) => registerAction(action))
+}
+
+
+
 export const generateGraphQLSchema = (schema) => {
 
   const {
@@ -330,9 +348,10 @@ export const generateGraphQLSchema = (schema) => {
     idFetcher,
   } = getNodeDefinitions()
 
+  registerActions(schema.getActions())
+
   // prepare models for graphql
   extendModelsForGql(schema.getEntities())
-
 
   _.forEach(schema.getEntities(), (entity) => {
 
@@ -470,9 +489,11 @@ export const generateGraphQLSchema = (schema) => {
     fields: () => {
 
       const mutations = generateMutations(graphRegistry)
+      const actions = generateActions(graphRegistry)
 
       return {
         ...mutations,
+        ...actions,
       };
     },
   });
