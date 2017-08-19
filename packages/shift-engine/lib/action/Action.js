@@ -62,6 +62,11 @@ class Action {
   }
 
 
+  hasInputParams () {
+    return isMap(this.getInput(), true)
+  }
+
+
   getOutput () {
     if (this._output) {
       return this._output
