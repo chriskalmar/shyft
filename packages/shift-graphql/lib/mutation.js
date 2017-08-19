@@ -253,7 +253,10 @@ export const generateMutations = (graphRegistry) => {
           if (result[ typeName ]) {
             result[ typeName ] = entity.graphql.dataShaper(result[ typeName ])
           }
-          return result
+          return {
+            ...result,
+            clientMutationId: args.input.clientMutationId,
+          }
         },
       }
 
@@ -284,7 +287,10 @@ export const generateMutations = (graphRegistry) => {
               if (result[ typeName ]) {
                 result[ typeName ] = entity.graphql.dataShaper(result[ typeName ])
               }
-              return result
+              return {
+                ...result,
+                clientMutationId: args.input.clientMutationId,
+              }
             },
           }
         }
