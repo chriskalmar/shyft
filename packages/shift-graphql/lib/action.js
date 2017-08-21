@@ -6,7 +6,6 @@ import {
   GraphQLObjectType,
 } from 'graphql';
 
-import { GraphQLJSON } from './dataTypes';
 
 import _ from 'lodash';
 
@@ -99,6 +98,7 @@ const generateActionDataInputFields = (inputParams, action, level=0) => {
   return fields
 }
 
+
 export const generateActionInput = (action, actionDataInputType) => {
 
   const actionInputType = new GraphQLInputObjectType({
@@ -128,7 +128,81 @@ export const generateActionInput = (action, actionDataInputType) => {
 
 
 
-export const generateActionOutput = (action) => {
+export const generateActionDataOutput = (action) => {
+
+  const actionDataOutputType = new GraphQLObjectType({
+    name: generateTypeNamePascalCase(`${action.name}DataOutput`),
+    description: `Mutation data output type for action **\`${action.name}\`**`,
+
+    fields: () => {
+      const outputParams = action.getOutput()
+      return generateActionDataOutputFields(outputParams, action) // eslint-disable-line no-use-before-define
+    }
+  })
+
+  return actionDataOutputType
+}
+
+
+export const generateNestedActionDataOutput = (action, nestedParam, level=1) => {
+
+  const levelStr = level > 1
+    ? `L${level}`
+    : ''
+
+  const actionDataOutputType = new GraphQLObjectType({
+    name: generateTypeNamePascalCase(`${action.name}-${nestedParam.name}-${levelStr}DataOutput`),
+    description: nestedParam.description,
+
+    fields: () => {
+      const outputParams = nestedParam.getAttributes()
+      return generateActionDataOutputFields(outputParams, action, level) // eslint-disable-line no-use-before-define
+    }
+  })
+
+  return actionDataOutputType
+}
+
+
+const generateActionDataOutputFields = (outputParams, action, level=0) => {
+  const fields = {}
+
+  _.forEach(outputParams, (param, paramName) => {
+    const nestedActionDataOutput = generateNestedActionDataOutput(action, param, level+1)
+
+    if (isObjectDataType(param)) {
+      fields[ paramName ] = {
+        type: nestedActionDataOutput,
+        description: param.description,
+      }
+
+      return
+    }
+
+    let paramType = param.type
+
+    // it's a reference
+    if (isEntity(paramType)) {
+      const targetEntity = paramType
+      const primaryAttribute = targetEntity.getPrimaryAttribute()
+      paramType = primaryAttribute.type
+    }
+
+    const fieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
+
+    fields[ paramName ] = {
+      type: fieldType,
+      description: param.description,
+    }
+
+  });
+
+  return fields
+}
+
+
+
+export const generateActionOutput = (action, actionDataOutputType) => {
 
   const actionOutputType = new GraphQLObjectType({
 
@@ -142,8 +216,10 @@ export const generateActionOutput = (action) => {
         }
       }
 
-      fields.result = {
-        type: new GraphQLNonNull( GraphQLJSON )
+      if (actionDataOutputType) {
+        fields.result = {
+          type: actionDataOutputType
+        }
       }
 
       return fields
@@ -164,13 +240,18 @@ export const generateActions = (graphRegistry) => {
     const queryName = _.camelCase(actionName)
 
     let actionDataInputType
+    let actionDataOutputType
 
     if (action.hasInputParams()) {
       actionDataInputType = generateActionDataInput(action)
     }
 
+    if (action.hasOutputParams()) {
+      actionDataOutputType = generateActionDataOutput(action)
+    }
+
     const actionInputType = generateActionInput(action, actionDataInputType)
-    const actionOutputType = generateActionOutput(action)
+    const actionOutputType = generateActionOutput(action, actionDataOutputType)
 
     actions[ queryName ] = {
       type: actionOutputType,
