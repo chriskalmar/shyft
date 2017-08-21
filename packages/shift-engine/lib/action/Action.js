@@ -78,6 +78,11 @@ class Action {
   }
 
 
+  hasOutputParams () {
+    return isMap(this.getOutput(), true)
+  }
+
+
 
   _processParam (rawParam, paramName) {
 
@@ -88,10 +93,7 @@ class Action {
 
     const param = {
       ...rawParam,
-      isPrimary: !!rawParam.isPrimary,
-      isUnique: !!rawParam.isPrimary,
       required: !!rawParam.required,
-      hidden: !!rawParam.hidden,
       name: paramName
     }
 
