@@ -14,11 +14,13 @@ import ProtocolGraphQL from './ProtocolGraphQL';
 
 import {
   isEntity,
+  isObjectDataType,
 } from 'shift-engine';
 
 import {
   generateTypeNamePascalCase,
 } from './util';
+
 
 
 export const generateActionDataInput = (action) => {
@@ -28,32 +30,8 @@ export const generateActionDataInput = (action) => {
     description: `Mutation data input type for action **\`${action.name}\`**`,
 
     fields: () => {
-      const fields = {}
-
       const inputParams = action.getInput()
-
-      _.forEach(inputParams, (param, paramName) => {
-
-        let paramType = param.type
-
-        // it's a reference
-        if (isEntity(paramType)) {
-          const targetEntity = paramType
-          const primaryAttribute = targetEntity.getPrimaryAttribute()
-          paramType = primaryAttribute.type
-        }
-
-        const fieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
-
-        fields[ paramName ] = {
-          type: param.required
-            ? new GraphQLNonNull(fieldType)
-            : fieldType
-        }
-
-      });
-
-      return fields
+      return generateActionDataInputFields(inputParams, action) // eslint-disable-line no-use-before-define
     }
   })
 
@@ -61,6 +39,65 @@ export const generateActionDataInput = (action) => {
 }
 
 
+export const generateNestedActionDataInput = (action, nestedParam, level=1) => {
+
+  const levelStr = level > 1
+    ? `L${level}`
+    : ''
+
+  const actionDataInputType = new GraphQLInputObjectType({
+    name: generateTypeNamePascalCase(`${action.name}-${nestedParam.name}-${levelStr}DataInput`),
+    description: nestedParam.description,
+
+    fields: () => {
+      const inputParams = nestedParam.getAttributes()
+      return generateActionDataInputFields(inputParams, action, level) // eslint-disable-line no-use-before-define
+    }
+  })
+
+  return actionDataInputType
+}
+
+
+const generateActionDataInputFields = (inputParams, action, level=0) => {
+  const fields = {}
+
+  _.forEach(inputParams, (param, paramName) => {
+    const nestedActionDataInput = generateNestedActionDataInput(action, param, level+1)
+
+    if (isObjectDataType(param)) {
+      fields[ paramName ] = {
+        type: param.required
+          ? new GraphQLNonNull(nestedActionDataInput)
+          : nestedActionDataInput,
+        description: param.description,
+      }
+
+      return
+    }
+
+    let paramType = param.type
+
+    // it's a reference
+    if (isEntity(paramType)) {
+      const targetEntity = paramType
+      const primaryAttribute = targetEntity.getPrimaryAttribute()
+      paramType = primaryAttribute.type
+    }
+
+    const fieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
+
+    fields[ paramName ] = {
+      type: param.required
+        ? new GraphQLNonNull(fieldType)
+        : fieldType,
+      description: param.description,
+    }
+
+  });
+
+  return fields
+}
 
 export const generateActionInput = (action, actionDataInputType) => {
 
