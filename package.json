@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --compilers js:babel-register -R spec --check-leaks packages/*/lib/*.spec.js packages/*/lib/**/*.spec.js || exit 1",
-    "test:watch": "nodemon --delay 1",
+    "test:watch": "nodemon --config ./nodemon.json --delay 1",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint-staged": "lint-staged",
