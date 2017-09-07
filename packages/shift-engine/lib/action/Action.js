@@ -9,6 +9,7 @@ import {
 
 import { isDataType } from '../datatype/DataType';
 import { isEntity } from '../entity/Entity';
+import { isObjectDataType } from '../datatype/ObjectDataType';
 
 
 class Action {
@@ -77,15 +78,22 @@ class Action {
   }
 
 
+  hasOutputParams () {
+    return isMap(this.getOutput(), true)
+  }
+
+
 
   _processParam (rawParam, paramName) {
 
+    if (isObjectDataType(rawParam)) {
+      rawParam.getAttributes()
+      return rawParam
+    }
+
     const param = {
       ...rawParam,
-      isPrimary: !!rawParam.isPrimary,
-      isUnique: !!rawParam.isPrimary,
       required: !!rawParam.required,
-      hidden: !!rawParam.hidden,
       name: paramName
     }
 

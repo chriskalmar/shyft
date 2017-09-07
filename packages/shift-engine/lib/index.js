@@ -41,6 +41,8 @@ import {
   DataTypeTimestampTz,
 } from './datatype/dataTypes';
 
+import ObjectDataType, { isObjectDataType } from './datatype/ObjectDataType';
+
 import { Language } from './models/Language';
 import { User } from './models/User';
 
@@ -74,6 +76,9 @@ export {
   DataTypeJson,
   DataTypeTimestamp,
   DataTypeTimestampTz,
+
+  ObjectDataType,
+  isObjectDataType,
 
   passOrThrow,
   resolveFunctionMap,
@@ -126,6 +131,9 @@ export default {
   DataTypeJson,
   DataTypeTimestamp,
   DataTypeTimestampTz,
+
+  ObjectDataType,
+  isObjectDataType,
 
   passOrThrow,
   resolveFunctionMap,
