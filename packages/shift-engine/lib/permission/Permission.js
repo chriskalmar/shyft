@@ -17,7 +17,7 @@ import _ from 'lodash';
 const compatibilityList = [
   [ 'everyone', ],
   [ 'authenticated', ],
-  [ 'role', 'lookup', 'value' ],
+  [ 'role', 'ownerAttribute', 'lookup', 'value' ],
 ]
 
 
@@ -31,6 +31,7 @@ class Permission {
   authenticatedCanAccess = false
   types = {}
   roles = []
+  ownerAttributes = []
   lookups = []
   values = []
 
@@ -91,6 +92,26 @@ class Permission {
     passOrThrow(
       this.roles.length === _.uniq(this.roles).length,
       () => `Duplicate role '${name}' for permission type \'role\'`
+    )
+
+    return this
+  }
+
+
+
+  ownerAttribute (attributeName) {
+    this._checkCompatibility('ownerAttribute')
+
+    passOrThrow(
+      attributeName,
+      () => 'Permission type \'ownerAttribute\' expects an attribute name'
+    )
+
+    this.ownerAttributes.push(attributeName)
+
+    passOrThrow(
+      this.ownerAttributes.length === _.uniq(this.ownerAttributes).length,
+      () => `Duplicate attribute name '${attributeName}' for permission type \'ownerAttribute\'`
     )
 
     return this
