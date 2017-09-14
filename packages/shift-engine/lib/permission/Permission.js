@@ -214,3 +214,26 @@ export const checkPermissionSimple = (permission, userId = null, userRoles = [])
 }
 
 
+
+export const buildPermissionFilter = (permission, userId = null) => {
+
+  let where
+
+  if (permission.ownerAttributes.length > 0) {
+
+    where = where || {}
+    where.OR = where.OR || []
+
+    permission.ownerAttributes.map((attributeName) => {
+      where.OR.push({
+        [ attributeName ]: userId
+      })
+    })
+  }
+
+
+  // TODO: other permission types as well
+
+
+  return where
+}
