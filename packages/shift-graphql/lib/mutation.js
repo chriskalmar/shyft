@@ -19,6 +19,7 @@ import ProtocolGraphQL from './ProtocolGraphQL';
 import {
   isEntity,
   constants,
+  MUTATION_TYPE_CREATE,
 } from 'shift-engine';
 
 import {
@@ -209,6 +210,32 @@ const extractIdFromNodeId = (graphRegistry, sourceEntityName, nodeId) => {
 
 
 
+const fillDefaultValues = (entity, entityMutation, payload) => {
+
+  const ret = {
+    ...payload
+  }
+
+  const entityAttributes = entity.getAttributes()
+  const requiredAttributes = _.filter(
+    entityAttributes,
+    attribute => attribute.required && !attribute.isSystemAttribute
+  )
+
+  requiredAttributes.map((attribute) => {
+    const attributeName = attribute.name
+    if (!entityMutation.attributes.includes(attributeName)) {
+      if (attribute.defaultValue) {
+        ret[ attributeName ] = attribute.defaultValue(ret)
+      }
+    }
+  })
+
+  return ret
+}
+
+
+
 export const generateMutations = (graphRegistry) => {
 
   const mutations = {}
@@ -248,6 +275,10 @@ export const generateMutations = (graphRegistry) => {
         resolve: async (source, args, context, info) => {
 
           const id = extractIdFromNodeId(graphRegistry, entity.name, args.input.nodeId)
+
+          if (entityMutation.type === MUTATION_TYPE_CREATE) {
+            args.input[typeName] = fillDefaultValues(entity, entityMutation, args.input[typeName])
+          }
 
           const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
           if (result[ typeName ]) {
