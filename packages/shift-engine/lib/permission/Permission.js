@@ -2,6 +2,7 @@
 import {
   passOrThrow,
   isMap,
+  isArray,
 } from '../util';
 
 import { isEntity } from '../entity/Entity';
@@ -26,6 +27,8 @@ class Permission {
   static EVERYONE = (new Permission()).everyone()
   static AUTHENTICATED = (new Permission()).authenticated()
 
+  everyoneCanAccess = false
+  authenticatedCanAccess = false
   types = {}
   roles = []
   lookups = []
@@ -63,12 +66,14 @@ class Permission {
 
   everyone () {
     this._checkCompatibility('everyone')
+    this.everyoneCanAccess = true
     return this
   }
 
 
   authenticated () {
     this._checkCompatibility('authenticated')
+    this.authenticatedCanAccess = true
     return this
   }
 
@@ -148,3 +153,43 @@ export default Permission
 export const isPermission = (obj) => {
   return (obj instanceof Permission)
 }
+
+
+
+export const checkPermissionSimple = (permission, userId = null, userRoles = []) => {
+
+  passOrThrow(
+    isPermission(permission),
+    () => 'checkPermissionSimple needs a valid permission object'
+  )
+
+  passOrThrow(
+    !userRoles || isArray(userRoles),
+    () => 'checkPermissionSimple needs a valid list of assigned user roles'
+  )
+
+  if (permission.everyoneCanAccess) {
+    return true
+  }
+
+  if (permission.authenticatedCanAccess && userId) {
+    return true
+  }
+
+  if (userId && userRoles) {
+    let foundRole = false
+    permission.roles.map(role => {
+      if (userRoles.includes(role)) {
+        foundRole = true
+      }
+    })
+
+    if (foundRole) {
+      return true
+    }
+  }
+
+  return false
+}
+
+
