@@ -18,6 +18,8 @@ import Mutation, {
   isMutation,
   defaultEntityMutations,
 } from '../mutation/Mutation';
+
+import { isPermission } from '../permission/Permission';
 import { isDataType } from '../datatype/DataType';
 import { isStorageType } from '../storage/StorageType';
 import { StorageTypeNull } from '../storage/StorageTypeNull';
@@ -44,6 +46,7 @@ class Entity {
       includeUserTracking,
       indexes,
       mutations,
+      permissions,
     } = setup
 
     passOrThrow(name, () => 'Missing entity name')
@@ -113,6 +116,42 @@ class Entity {
         )
 
       })
+    }
+
+
+    if (permissions) {
+
+      this.permissions = permissions
+
+      passOrThrow(
+        isMap(permissions),
+        () => `Entity '${name}' permissions definition needs to be an object`
+      )
+
+
+      if (permissions.read) {
+        passOrThrow(
+          isPermission(permissions.read),
+          () => `Invalid read permission defintion for entity '${name}'`
+        )
+      }
+
+      if (permissions.mutations) {
+        passOrThrow(
+          isMap(permissions.mutations),
+          () => `Entity '${name}' permissions definition for mutations needs to be a map of mutations and permissions`
+        )
+
+        const mutationNames = Object.keys(permissions.mutations);
+        mutationNames.map((mutationName, idx) => {
+          passOrThrow(
+            isPermission(permissions.mutations[ mutationName ]),
+            () => `Invalid mutation permission defintion for entity '${name}' at position '${idx}'`
+          )
+
+        })
+      }
+
     }
   }
 
