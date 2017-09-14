@@ -210,7 +210,7 @@ const extractIdFromNodeId = (graphRegistry, sourceEntityName, nodeId) => {
 
 
 
-const fillDefaultValues = (entity, entityMutation, payload) => {
+const fillDefaultValues = (entity, entityMutation, payload, context) => {
 
   const ret = {
     ...payload
@@ -226,7 +226,7 @@ const fillDefaultValues = (entity, entityMutation, payload) => {
     const attributeName = attribute.name
     if (!entityMutation.attributes.includes(attributeName)) {
       if (attribute.defaultValue) {
-        ret[ attributeName ] = attribute.defaultValue(ret)
+        ret[ attributeName ] = attribute.defaultValue(ret, context)
       }
     }
   })
@@ -277,7 +277,7 @@ export const generateMutations = (graphRegistry) => {
           const id = extractIdFromNodeId(graphRegistry, entity.name, args.input.nodeId)
 
           if (entityMutation.type === MUTATION_TYPE_CREATE) {
-            args.input[typeName] = fillDefaultValues(entity, entityMutation, args.input[typeName])
+            args.input[typeName] = fillDefaultValues(entity, entityMutation, args.input[typeName], context)
           }
 
           const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
