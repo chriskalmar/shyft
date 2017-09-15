@@ -20,6 +20,7 @@ import {
   isEntity,
   constants,
   MUTATION_TYPE_CREATE,
+  MUTATION_TYPE_UPDATE,
 } from 'shift-engine';
 
 import {
@@ -210,6 +211,34 @@ const extractIdFromNodeId = (graphRegistry, sourceEntityName, nodeId) => {
 
 
 
+const fillSystemAttributesDefaultValues = (entity, entityMutation, payload, context) => {
+
+  const ret = {
+    ...payload
+  }
+
+  const entityAttributes = entity.getAttributes()
+  const systemAttributes = _.filter(
+    entityAttributes,
+    attribute => attribute.isSystemAttribute && attribute.defaultValue
+  )
+
+  systemAttributes.map((attribute) => {
+    const attributeName = attribute.name
+    const defaultValue = attribute.defaultValue
+
+    const value = defaultValue(ret, entityMutation, context)
+    if (typeof value !== 'undefined') {
+      ret[ attributeName ] = value
+    }
+
+  })
+
+  return ret
+}
+
+
+
 const fillDefaultValues = (entity, entityMutation, payload, context) => {
 
   const ret = {
@@ -226,7 +255,7 @@ const fillDefaultValues = (entity, entityMutation, payload, context) => {
     const attributeName = attribute.name
     if (!entityMutation.attributes.includes(attributeName)) {
       if (attribute.defaultValue) {
-        ret[ attributeName ] = attribute.defaultValue(ret, context)
+        ret[ attributeName ] = attribute.defaultValue(ret, entityMutation, context)
       }
     }
   })
@@ -280,6 +309,10 @@ export const generateMutations = (graphRegistry) => {
             args.input[typeName] = fillDefaultValues(entity, entityMutation, args.input[typeName], context)
           }
 
+          if (entityMutation.type === MUTATION_TYPE_CREATE || entityMutation.type === MUTATION_TYPE_UPDATE) {
+            args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
+          }
+
           const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
           if (result[ typeName ]) {
             result[ typeName ] = entity.graphql.dataShaper(result[ typeName ])
@@ -313,6 +346,10 @@ export const generateMutations = (graphRegistry) => {
             resolve: async (source, args, context, info) => {
 
               const id = args.input[ fieldName ]
+
+              if (entityMutation.type === MUTATION_TYPE_UPDATE) {
+                args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
+              }
 
               const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
               if (result[ typeName ]) {
