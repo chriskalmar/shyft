@@ -403,10 +403,15 @@ class Entity {
     const _self = this
 
     const coreAttributeNames = []
+    const requiredAttributeNames = []
 
     mapOverProperties(_self.getAttributes(), (attribute, attributeName) => {
       if (!attribute.isSystemAttribute) {
         coreAttributeNames.push(attributeName)
+
+        if (attribute.required && !attribute.defaultValue) {
+          requiredAttributeNames.push(attributeName)
+        }
       }
     })
 
@@ -429,9 +434,18 @@ class Entity {
         mutation.attributes.map((attributeName) => {
           passOrThrow(
             this._attributes[ attributeName ],
-            () => `Cannot use attribute '${this.name}.${attributeName}' in mutation as it does not exist`
+            () => `Cannot use attribute '${this.name}.${attributeName}' in mutation '${this.name}.${mutation.name}' as it does not exist`
           )
         })
+
+        const missingAttributeNames = requiredAttributeNames.filter(requiredAttributeName => {
+          return !mutation.attributes.includes(requiredAttributeName)
+        })
+
+        passOrThrow(
+          missingAttributeNames.length === 0,
+          () => `Missing required attributes in mutation '${this.name}.${mutation.name}' need to have a defaultValue() function: [ ${missingAttributeNames.join(', ')} ]`
+        )
       }
     })
 
