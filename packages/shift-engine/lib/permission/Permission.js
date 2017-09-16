@@ -177,6 +177,42 @@ export const isPermission = (obj) => {
 
 
 
+export const findInvalidPermissionAttributes = (permission, entityAttributeNames) => {
+
+  const missingOwnerAttribute = permission.ownerAttributes.find(ownerAttribute => !entityAttributeNames.includes(ownerAttribute))
+  if (missingOwnerAttribute) {
+    return missingOwnerAttribute
+  }
+
+  let missingLookupAttribute
+  permission.lookups.map(({entity, lookupMap}) => {
+    const lookupEntityAttributes = entity.getAttributes()
+    const lookupEntityAttributeNames = Object.keys(lookupEntityAttributes)
+
+    _.forEach(lookupMap, (targetAttribute, sourceAttribute) => {
+      if (!entityAttributeNames.includes(sourceAttribute)) {
+        missingLookupAttribute = sourceAttribute
+        return
+      }
+      else if (!lookupEntityAttributeNames.includes(targetAttribute)) {
+        missingLookupAttribute = `${entity.name}.${targetAttribute}`
+        return
+      }
+    })
+  })
+  if (missingLookupAttribute) {
+    return missingLookupAttribute
+  }
+
+  const missingValueAttribute = permission.values.find(({attributeName}) => !entityAttributeNames.includes(attributeName))
+  if (missingValueAttribute) {
+    return missingValueAttribute.attributeName
+  }
+
+  return false
+}
+
+
 export const generatePermissionDescription = (permission) => {
 
   const lines = []

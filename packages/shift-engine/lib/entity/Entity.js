@@ -23,6 +23,7 @@ import Mutation, {
 import {
   isPermission,
   generatePermissionDescription,
+  findInvalidPermissionAttributes,
 } from '../permission/Permission';
 
 import { isDataType } from '../datatype/DataType';
@@ -488,14 +489,24 @@ class Entity {
       })
 
       this.mutations.map((mutation) => {
-        const permission = this.permissions.mutations[ mutation.name ]
+        const mutationName = mutation.name
+        const permission = this.permissions.mutations[ mutationName ]
+
         if (permission) {
+
+          const attributeNames = Object.keys(this._attributes)
+          const invalidAttribute = findInvalidPermissionAttributes(permission, attributeNames)
+
+          passOrThrow(
+            !invalidAttribute,
+            () => `Cannot use attribute '${invalidAttribute}' in mutation '${this.name}.${mutationName}' as it does not exist`
+          )
+
           const descriptionPermissions = generatePermissionDescription(permission)
           if (descriptionPermissions) {
             mutation.description += descriptionPermissions
           }
         }
-
       })
     }
   }
