@@ -421,14 +421,6 @@ class Entity {
       this.mutations = []
     }
 
-    defaultEntityMutations.map(defaultMutation => {
-      this.mutations.push(new Mutation({
-        name: defaultMutation.name,
-        type: defaultMutation.type,
-        description: defaultMutation.description(this.name),
-        attributes: coreAttributeNames
-      }))
-    })
     const mutationNames = []
 
     this.mutations.map((mutation) => {
@@ -458,6 +450,17 @@ class Entity {
             () => `Missing required attributes in mutation '${this.name}.${mutation.name}' need to have a defaultValue() function: [ ${missingAttributeNames.join(', ')} ]`
           )
         }
+      }
+    })
+
+    defaultEntityMutations.map(defaultMutation => {
+      if (!mutationNames.includes(defaultMutation.name)) {
+        this.mutations.push(new Mutation({
+          name: defaultMutation.name,
+          type: defaultMutation.type,
+          description: defaultMutation.description(this.name),
+          attributes: coreAttributeNames
+        }))
       }
     })
 
