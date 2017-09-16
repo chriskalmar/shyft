@@ -429,8 +429,17 @@ class Entity {
         attributes: coreAttributeNames
       }))
     })
+    const mutationNames = []
 
     this.mutations.map((mutation) => {
+
+      passOrThrow(
+        !mutationNames.includes(mutation.name),
+        () => `Duplicate mutation name '${mutation.name}' found in '${this.name}'`
+      )
+
+      mutationNames.push(mutation.name)
+
       if (mutation.attributes) {
         mutation.attributes.map((attributeName) => {
           passOrThrow(
