@@ -20,7 +20,11 @@ import Mutation, {
   MUTATION_TYPE_CREATE,
 } from '../mutation/Mutation';
 
-import { isPermission } from '../permission/Permission';
+import {
+  isPermission,
+  generatePermissionDescription,
+} from '../permission/Permission';
+
 import { isDataType } from '../datatype/DataType';
 import { isStorageType } from '../storage/StorageType';
 import { StorageTypeNull } from '../storage/StorageTypeNull';
@@ -481,6 +485,17 @@ class Entity {
           mutationNames.includes(permissionMutationName),
           () => `Unknown mutation '${permissionMutationName}' used for permissions in entity '${this.name}'`
         )
+      })
+
+      this.mutations.map((mutation) => {
+        const permission = this.permissions.mutations[ mutation.name ]
+        if (permission) {
+          const descriptionPermissions = generatePermissionDescription(permission)
+          if (descriptionPermissions) {
+            mutation.description += descriptionPermissions
+          }
+        }
+
       })
     }
   }

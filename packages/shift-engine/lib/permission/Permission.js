@@ -177,6 +177,56 @@ export const isPermission = (obj) => {
 
 
 
+export const generatePermissionDescription = (permission) => {
+
+  const lines = []
+
+  passOrThrow(
+    isPermission(permission),
+    () => 'generatePermissionDescription needs a valid permission object'
+  )
+
+  if (permission.everyoneCanAccess) {
+    lines.push('everyone')
+  }
+
+  if (permission.authenticatedCanAccess) {
+    lines.push('authenticated')
+  }
+
+  if (permission.roles.length > 0) {
+    lines.push(`roles: ${permission.roles.join(', ')}`)
+  }
+
+  if (permission.ownerAttributes.length > 0) {
+    lines.push(`ownerAttributes: ${permission.ownerAttributes.join(', ')}`)
+  }
+
+  if (permission.lookups.length > 0) {
+    lines.push(`lookups: ${permission.lookups.map(lookup => lookup.entity)}`)
+  }
+
+  if (permission.values.length > 0) {
+    const valueBullets = permission.values.reduce((prev, {attributeName, value}) => {
+      return `${prev}\n  - ${attributeName} = ${value}`
+    }, '')
+    lines.push(`values: ${valueBullets}`)
+  }
+
+  if (lines.length > 0) {
+    const text = '\n***\nPermissions:\n'
+    const bullets = lines.reduce((prev, next) => {
+      return `${prev}\n- ${next}`
+    }, '')
+
+    return text + bullets
+  }
+
+  return false
+}
+
+
+
 export const checkPermissionSimple = (permission, userId = null, userRoles = []) => {
 
   passOrThrow(
