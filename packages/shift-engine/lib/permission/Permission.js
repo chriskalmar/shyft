@@ -222,10 +222,10 @@ export const buildPermissionFilter = (permission, userId = null) => {
   if (permission.ownerAttributes.length > 0) {
 
     where = where || {}
-    where.OR = where.OR || []
+    where.$or = where.$or || []
 
     permission.ownerAttributes.map((attributeName) => {
-      where.OR.push({
+      where.$or.push({
         [ attributeName ]: userId
       })
     })
