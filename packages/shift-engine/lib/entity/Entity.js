@@ -138,7 +138,14 @@ class Entity {
       if (permissions.read) {
         passOrThrow(
           isPermission(permissions.read),
-          () => `Invalid read permission defintion for entity '${name}'`
+          () => `Invalid 'read' permission defintion for entity '${name}'`
+        )
+      }
+
+      if (permissions.find) {
+        passOrThrow(
+          isPermission(permissions.find),
+          () => `Invalid 'find' permission defintion for entity '${name}'`
         )
       }
 
