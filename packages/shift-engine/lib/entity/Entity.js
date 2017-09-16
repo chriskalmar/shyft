@@ -186,6 +186,7 @@ class Entity {
     const ret = this._attributes = this._processAttributeMap()
     this._processIndexes()
     this._processMutations()
+    this._processPermissions()
     return ret
   }
 
@@ -465,6 +466,25 @@ class Entity {
     })
 
   }
+
+
+
+  _processPermissions () {
+
+    if (this.permissions && this.permissions.mutations && this.mutations) {
+      const permissionMutationNames = Object.keys(this.permissions.mutations);
+
+      const mutationNames = this.mutations.map((mutation) => mutation.name)
+
+      permissionMutationNames.map(permissionMutationName => {
+        passOrThrow(
+          mutationNames.includes(permissionMutationName),
+          () => `Unknown mutation '${permissionMutationName}' used for permissions in entity '${this.name}'`
+        )
+      })
+    }
+  }
+
 
 
   referencedBy (sourceEntityName, sourceAttributeName) {
