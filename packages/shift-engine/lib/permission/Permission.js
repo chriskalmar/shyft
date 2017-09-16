@@ -203,7 +203,16 @@ export const generatePermissionDescription = (permission) => {
   }
 
   if (permission.lookups.length > 0) {
-    lines.push(`lookups: ${permission.lookups.map(lookup => lookup.entity)}`)
+    const lookupBullets = permission.lookups.reduce((lprev, {entity, lookupMap}) => {
+
+      const attributeBullets = _.reduce(lookupMap, (aprev, target, source) => {
+        return `${aprev}\n    - ${source} -> ${target}`
+      }, '')
+
+      return `${lprev}\n  - Entity: ${entity} ${attributeBullets}`
+    }, '')
+
+    lines.push(`lookups: ${lookupBullets}`)
   }
 
   if (permission.values.length > 0) {
