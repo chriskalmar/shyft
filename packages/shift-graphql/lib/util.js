@@ -53,7 +53,10 @@ export const deserializeCursor = (cursor) => {
     return JSON.parse( fromBase64(cursor) )
   }
   catch(e) {
-    throw new Error('Invalid cursor provided')
+    // TODO: check
+    // should throw error, not return
+    // https://github.com/graphql/graphql-js/issues/910
+    return new Error('Invalid cursor provided')
   }
 }
 
