@@ -17,6 +17,7 @@ import { isIndex, INDEX_UNIQUE } from '../index/Index';
 import Mutation, {
   isMutation,
   defaultEntityMutations,
+  MUTATION_TYPE_CREATE,
 } from '../mutation/Mutation';
 
 import { isPermission } from '../permission/Permission';
@@ -438,14 +439,16 @@ class Entity {
           )
         })
 
-        const missingAttributeNames = requiredAttributeNames.filter(requiredAttributeName => {
-          return !mutation.attributes.includes(requiredAttributeName)
-        })
+        if (mutation.type === MUTATION_TYPE_CREATE) {
+          const missingAttributeNames = requiredAttributeNames.filter(requiredAttributeName => {
+            return !mutation.attributes.includes(requiredAttributeName)
+          })
 
-        passOrThrow(
-          missingAttributeNames.length === 0,
-          () => `Missing required attributes in mutation '${this.name}.${mutation.name}' need to have a defaultValue() function: [ ${missingAttributeNames.join(', ')} ]`
-        )
+          passOrThrow(
+            missingAttributeNames.length === 0,
+            () => `Missing required attributes in mutation '${this.name}.${mutation.name}' need to have a defaultValue() function: [ ${missingAttributeNames.join(', ')} ]`
+          )
+        }
       }
     })
 
