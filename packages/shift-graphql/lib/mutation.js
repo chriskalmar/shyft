@@ -320,6 +320,44 @@ export const generateMutationInstanceNestedInput = (entity, entityMutation, grap
 }
 
 
+
+export const generateMutationNestedInput = (entity, typeName, entityMutation, entityMutationInstanceUniquenessInputType) => {
+
+  const typeNamePascalCase = entity.graphql.typeNamePascalCase
+
+  const entityMutationInputType = new GraphQLInputObjectType({
+
+    name: generateTypeNamePascalCase(`${entityMutation.name}_${typeNamePascalCase}NestedInput`),
+    description: `Mutation input type for **\`${typeNamePascalCase}\`** using data uniqueness to resolve references`,
+
+    fields: () => {
+      const fields = {
+        clientMutationId: {
+          type: GraphQLString,
+        }
+      }
+
+      if (entityMutation.needsInstance) {
+        fields.nodeId = {
+          type: new GraphQLNonNull( GraphQLID )
+        }
+      }
+
+      if (entityMutationInstanceUniquenessInputType) {
+        fields[ typeName ] = {
+          type: new GraphQLNonNull( entityMutationInstanceUniquenessInputType )
+        }
+      }
+
+      return fields
+    }
+  })
+
+  return entityMutationInputType
+}
+
+
+
 export const generateMutationOutput = (entity, typeName, type, entityMutation) => {
 
   const typeNamePascalCase = entity.graphql.typeNamePascalCase
