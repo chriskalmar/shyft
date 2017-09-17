@@ -198,22 +198,30 @@ export const generateInstanceUniquenessInput = (entity, uniquenessAttributes, gr
           attributeType = primaryAttribute.type
           const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType)
 
-          fields[ attribute.gqlFieldName ] = {
-            type: fieldType
-          };
-
-
           const uniquenessAttributesList = getEntityUniquenessAttributes(targetEntity)
 
-          const registryType = graphRegistry.types[ targetTypeName ]
-          registryType.instanceUniquenessInputs = registryType.instanceUniquenessInputs || {}
+          if (uniquenessAttributesList.length === 0) {
+            fields[ attribute.gqlFieldName ] = {
+              type: attribute.required
+              ? new GraphQLNonNull(fieldType)
+              : fieldType
+            };
+          }
+          else {
+            fields[ attribute.gqlFieldName ] = {
+              type: fieldType
+            };
 
-          uniquenessAttributesList.map(({uniquenessName}) => {
-            const fieldName = _.camelCase(`${attribute.gqlFieldName}_by_unique_${uniquenessName}`)
-            fields[ fieldName ] = {
-              type: registryType.instanceUniquenessInputs[ uniquenessName ]
-            }
-          })
+            const registryType = graphRegistry.types[ targetTypeName ]
+            registryType.instanceUniquenessInputs = registryType.instanceUniquenessInputs || {}
+
+            uniquenessAttributesList.map(({uniquenessName}) => {
+              const fieldName = _.camelCase(`${attribute.gqlFieldName}_by_unique_${uniquenessName}`)
+              fields[ fieldName ] = {
+                type: registryType.instanceUniquenessInputs[ uniquenessName ]
+              }
+            })
+          }
 
         }
         else {
@@ -282,22 +290,30 @@ export const generateMutationInstanceNestedInput = (entity, entityMutation, grap
           attributeType = primaryAttribute.type
           const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType)
 
-          fields[ attribute.gqlFieldName ] = {
-            type: fieldType
-          };
-
-
           const uniquenessAttributesList = getEntityUniquenessAttributes(targetEntity)
 
-          const registryType = graphRegistry.types[ targetTypeName ]
-          registryType.instanceUniquenessInputs = registryType.instanceUniquenessInputs || {}
+          if (uniquenessAttributesList.length === 0) {
+            fields[ attribute.gqlFieldName ] = {
+              type: attribute.required && !entityMutation.ignoreRequired
+              ? new GraphQLNonNull(fieldType)
+              : fieldType
+            };
+          }
+          else {
+            fields[ attribute.gqlFieldName ] = {
+              type: fieldType
+            };
 
-          uniquenessAttributesList.map(({uniquenessName}) => {
-            const fieldName = _.camelCase(`${attribute.gqlFieldName}_by_unique_${uniquenessName}`)
-            fields[ fieldName ] = {
-              type: registryType.instanceUniquenessInputs[ uniquenessName ]
-            }
-          })
+            const registryType = graphRegistry.types[ targetTypeName ]
+            registryType.instanceUniquenessInputs = registryType.instanceUniquenessInputs || {}
+
+            uniquenessAttributesList.map(({uniquenessName}) => {
+              const fieldName = _.camelCase(`${attribute.gqlFieldName}_by_unique_${uniquenessName}`)
+              fields[ fieldName ] = {
+                type: registryType.instanceUniquenessInputs[ uniquenessName ]
+              }
+            })
+          }
 
         }
         else {
