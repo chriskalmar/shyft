@@ -264,6 +264,52 @@ const fillDefaultValues = (entity, entityMutation, payload, context) => {
 }
 
 
+const getMutationResolver = (entity, entityMutation, typeName, storageType, graphRegistry) => {
+
+  return async (source, args, context, info) => {
+
+    const id = extractIdFromNodeId(graphRegistry, entity.name, args.input.nodeId)
+
+    if (entityMutation.type === MUTATION_TYPE_CREATE) {
+      args.input[typeName] = fillDefaultValues(entity, entityMutation, args.input[typeName], context)
+    }
+
+    if (entityMutation.type === MUTATION_TYPE_CREATE || entityMutation.type === MUTATION_TYPE_UPDATE) {
+      args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
+    }
+
+    const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+    if (result[ typeName ]) {
+      result[ typeName ] = entity.graphql.dataShaper(result[ typeName ])
+    }
+    return {
+      ...result,
+      clientMutationId: args.input.clientMutationId,
+    }
+  }
+}
+
+
+const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storageType, fieldName) => {
+  return async (source, args, context, info) => {
+
+    const id = args.input[ fieldName ]
+
+    if (entityMutation.type === MUTATION_TYPE_UPDATE) {
+      args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
+    }
+
+    const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+    if (result[ typeName ]) {
+      result[ typeName ] = entity.graphql.dataShaper(result[ typeName ])
+    }
+    return {
+      ...result,
+      clientMutationId: args.input.clientMutationId,
+    }
+  }
+}
+
 
 export const generateMutations = (graphRegistry) => {
 
@@ -301,28 +347,9 @@ export const generateMutations = (graphRegistry) => {
             type: new GraphQLNonNull( mutationInputType ),
           },
         },
-        resolve: async (source, args, context, info) => {
-
-          const id = extractIdFromNodeId(graphRegistry, entity.name, args.input.nodeId)
-
-          if (entityMutation.type === MUTATION_TYPE_CREATE) {
-            args.input[typeName] = fillDefaultValues(entity, entityMutation, args.input[typeName], context)
-          }
-
-          if (entityMutation.type === MUTATION_TYPE_CREATE || entityMutation.type === MUTATION_TYPE_UPDATE) {
-            args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
-          }
-
-          const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
-          if (result[ typeName ]) {
-            result[ typeName ] = entity.graphql.dataShaper(result[ typeName ])
-          }
-          return {
-            ...result,
-            clientMutationId: args.input.clientMutationId,
-          }
-        },
+        resolve: getMutationResolver(entity, entityMutation, typeName, storageType, graphRegistry),
       }
+
 
 
       if (entityMutation.needsInstance) {
@@ -343,23 +370,7 @@ export const generateMutations = (graphRegistry) => {
                 type: new GraphQLNonNull( mutationByPrimaryAttributeInputType ),
               },
             },
-            resolve: async (source, args, context, info) => {
-
-              const id = args.input[ fieldName ]
-
-              if (entityMutation.type === MUTATION_TYPE_UPDATE) {
-                args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
-              }
-
-              const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
-              if (result[ typeName ]) {
-                result[ typeName ] = entity.graphql.dataShaper(result[ typeName ])
-              }
-              return {
-                ...result,
-                clientMutationId: args.input.clientMutationId,
-              }
-            },
+            resolve: getMutationByFieldNameResolver(entity, entityMutation, typeName, storageType, fieldName),
           }
         }
       }
