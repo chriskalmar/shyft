@@ -254,6 +254,72 @@ export const generateInstanceUniquenessInputs = (graphRegistry) => {
 }
 
 
+
+export const generateMutationInstanceNestedInput = (entity, entityMutation, graphRegistry) => {
+
+  const typeNamePascalCase = entity.graphql.typeNamePascalCase
+
+  const entityMutationInstanceInputType = new GraphQLInputObjectType({
+    name: generateTypeNamePascalCase(`${entityMutation.name}_${typeNamePascalCase}InstanceNestedInput`),
+    description: `**\`${entityMutation.name}\`** mutation input type for **\`${typeNamePascalCase}\`** using data uniqueness to resolve references`,
+
+    fields: () => {
+      const fields = {}
+
+      const entityAttributes = entity.getAttributes()
+
+      _.forEach(entityMutation.attributes, (attributeName) => {
+
+        const attribute = entityAttributes[ attributeName ]
+
+        let attributeType = attribute.type
+
+        if (isEntity(attributeType)) {
+          const targetEntity = attributeType
+          const primaryAttribute = targetEntity.getPrimaryAttribute()
+          const targetTypeName = targetEntity.graphql.typeName
+
+          attributeType = primaryAttribute.type
+          const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType)
+
+          fields[ attribute.gqlFieldName ] = {
+            type: fieldType
+          };
+
+
+          const uniquenessAttributesList = getEntityUniquenessAttributes(targetEntity)
+
+          const registryType = graphRegistry.types[ targetTypeName ]
+          registryType.instanceUniquenessInputs = registryType.instanceUniquenessInputs || {}
+
+          uniquenessAttributesList.map(({uniquenessName}) => {
+            const fieldName = _.camelCase(`${attribute.gqlFieldName}_by_unique_${uniquenessName}`)
+            fields[ fieldName ] = {
+              type: registryType.instanceUniquenessInputs[ uniquenessName ]
+            }
+          })
+
+        }
+        else {
+          const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType)
+
+          fields[ attribute.gqlFieldName ] = {
+            type: attribute.required && !entityMutation.ignoreRequired
+              ? new GraphQLNonNull(fieldType)
+              : fieldType
+          };
+        }
+
+      });
+
+      return fields
+    }
+  })
+
+  return entityMutationInstanceInputType
+}
+
+
 export const generateMutationOutput = (entity, typeName, type, entityMutation) => {
 
   const typeNamePascalCase = entity.graphql.typeNamePascalCase
