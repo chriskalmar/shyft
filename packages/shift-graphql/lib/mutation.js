@@ -21,6 +21,7 @@ import {
   constants,
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
+  INDEX_UNIQUE,
 } from 'shift-engine';
 
 import {
@@ -147,6 +148,26 @@ export const generateMutationByPrimaryAttributeInput = (entity, typeName, entity
   return entityMutationInputType
 }
 
+
+
+const getEntityUniquenessAttributes = (entity) => {
+
+  const ret = []
+  const entityIndexes = entity.getIndexes()
+
+  if (entityIndexes) {
+    entityIndexes.map(({type, attributes}) => {
+      if (type === INDEX_UNIQUE) {
+        ret.push({
+          uniquenessName: _.camelCase(attributes.join('-and-')),
+          attributes,
+        })
+      }
+    })
+  }
+
+  return ret
+}
 
 
 export const generateMutationOutput = (entity, typeName, type, entityMutation) => {
