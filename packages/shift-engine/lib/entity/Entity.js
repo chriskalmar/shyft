@@ -17,7 +17,15 @@ import { isIndex, INDEX_UNIQUE } from '../index/Index';
 import Mutation, {
   isMutation,
   defaultEntityMutations,
+  MUTATION_TYPE_CREATE,
 } from '../mutation/Mutation';
+
+import {
+  isPermission,
+  generatePermissionDescription,
+  findInvalidPermissionAttributes,
+} from '../permission/Permission';
+
 import { isDataType } from '../datatype/DataType';
 import { isStorageType } from '../storage/StorageType';
 import { StorageTypeNull } from '../storage/StorageTypeNull';
@@ -44,6 +52,7 @@ class Entity {
       includeUserTracking,
       indexes,
       mutations,
+      permissions,
     } = setup
 
     passOrThrow(name, () => 'Missing entity name')
@@ -114,6 +123,49 @@ class Entity {
 
       })
     }
+
+
+    if (permissions) {
+
+      this.permissions = permissions
+
+      passOrThrow(
+        isMap(permissions),
+        () => `Entity '${name}' permissions definition needs to be an object`
+      )
+
+
+      if (permissions.read) {
+        passOrThrow(
+          isPermission(permissions.read),
+          () => `Invalid 'read' permission defintion for entity '${name}'`
+        )
+      }
+
+      if (permissions.find) {
+        passOrThrow(
+          isPermission(permissions.find),
+          () => `Invalid 'find' permission defintion for entity '${name}'`
+        )
+      }
+
+      if (permissions.mutations) {
+        passOrThrow(
+          isMap(permissions.mutations),
+          () => `Entity '${name}' permissions definition for mutations needs to be a map of mutations and permissions`
+        )
+
+        const mutationNames = Object.keys(permissions.mutations);
+        mutationNames.map((mutationName, idx) => {
+          passOrThrow(
+            isPermission(permissions.mutations[ mutationName ]),
+            () => `Invalid mutation permission defintion for entity '${name}' at position '${idx}'`
+          )
+
+        })
+      }
+
+    }
   }
 
 
@@ -146,6 +198,7 @@ class Entity {
     const ret = this._attributes = this._processAttributeMap()
     this._processIndexes()
     this._processMutations()
+    this._processPermissions()
     return ret
   }
 
@@ -364,10 +417,15 @@ class Entity {
     const _self = this
 
     const coreAttributeNames = []
+    const requiredAttributeNames = []
 
     mapOverProperties(_self.getAttributes(), (attribute, attributeName) => {
       if (!attribute.isSystemAttribute) {
         coreAttributeNames.push(attributeName)
+
+        if (attribute.required && !attribute.defaultValue) {
+          requiredAttributeNames.push(attributeName)
+        }
       }
     })
 
@@ -376,27 +434,101 @@ class Entity {
       this.mutations = []
     }
 
-    defaultEntityMutations.map(defaultMutation => {
-      this.mutations.push(new Mutation({
-        name: defaultMutation.name,
-        type: defaultMutation.type,
-        description: defaultMutation.description(this.name),
-        attributes: coreAttributeNames
-      }))
-    })
+    const mutationNames = []
 
     this.mutations.map((mutation) => {
+
+      passOrThrow(
+        !mutationNames.includes(mutation.name),
+        () => `Duplicate mutation name '${mutation.name}' found in '${this.name}'`
+      )
+
+      mutationNames.push(mutation.name)
+
       if (mutation.attributes) {
         mutation.attributes.map((attributeName) => {
           passOrThrow(
             this._attributes[ attributeName ],
-            () => `Cannot use attribute '${this.name}.${attributeName}' in mutation as it does not exist`
+            () => `Cannot use attribute '${this.name}.${attributeName}' in mutation '${this.name}.${mutation.name}' as it does not exist`
           )
         })
+
+        if (mutation.type === MUTATION_TYPE_CREATE) {
+          const missingAttributeNames = requiredAttributeNames.filter(requiredAttributeName => {
+            return !mutation.attributes.includes(requiredAttributeName)
+          })
+
+          passOrThrow(
+            missingAttributeNames.length === 0,
+            () => `Missing required attributes in mutation '${this.name}.${mutation.name}' need to have a defaultValue() function: [ ${missingAttributeNames.join(', ')} ]`
+          )
+        }
+      }
+    })
+
+    defaultEntityMutations.map(defaultMutation => {
+      if (!mutationNames.includes(defaultMutation.name)) {
+        this.mutations.push(new Mutation({
+          name: defaultMutation.name,
+          type: defaultMutation.type,
+          description: defaultMutation.description(this.name),
+          attributes: coreAttributeNames
+        }))
       }
     })
 
   }
+
+
+
+  _processPermissions () {
+
+    if (this.permissions) {
+
+      if (this.permissions.find) {
+        this.descriptionPermissionsFind = generatePermissionDescription(this.permissions.find)
+      }
+
+      if (this.permissions.read) {
+        this.descriptionPermissionsRead = generatePermissionDescription(this.permissions.read)
+      }
+
+      if (this.permissions.mutations && this.mutations) {
+        const permissionMutationNames = Object.keys(this.permissions.mutations);
+
+        const mutationNames = this.mutations.map((mutation) => mutation.name)
+
+        permissionMutationNames.map(permissionMutationName => {
+          passOrThrow(
+            mutationNames.includes(permissionMutationName),
+            () => `Unknown mutation '${permissionMutationName}' used for permissions in entity '${this.name}'`
+          )
+        })
+
+        this.mutations.map((mutation) => {
+          const mutationName = mutation.name
+          const permission = this.permissions.mutations[ mutationName ]
+
+          if (permission) {
+
+            const attributeNames = Object.keys(this._attributes)
+            const invalidAttribute = findInvalidPermissionAttributes(permission, attributeNames)
+
+            passOrThrow(
+              !invalidAttribute,
+              () => `Cannot use attribute '${invalidAttribute}' in mutation '${this.name}.${mutationName}' as it does not exist`
+            )
+
+            const descriptionPermissions = generatePermissionDescription(permission)
+            if (descriptionPermissions) {
+              mutation.description += descriptionPermissions
+            }
+          }
+        })
+      }
+    }
+  }
+
 
 
   referencedBy (sourceEntityName, sourceAttributeName) {

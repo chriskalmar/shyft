@@ -13,6 +13,11 @@ import Mutation, {
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
 } from './mutation/Mutation';
+import Permission, {
+  checkPermissionSimple,
+  buildPermissionFilter,
+}
+from './permission/Permission';
 
 
 import {
@@ -104,6 +109,9 @@ export {
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
 
+  Permission,
+  checkPermissionSimple,
+  buildPermissionFilter,
 }
 
 
@@ -159,5 +167,8 @@ export default {
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
 
+  Permission,
+  checkPermissionSimple,
+  buildPermissionFilter,
 }
 
