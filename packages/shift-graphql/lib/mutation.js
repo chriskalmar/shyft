@@ -524,6 +524,8 @@ export const generateMutations = (graphRegistry) => {
 
   const mutations = {}
 
+  generateInstanceUniquenessInputs(graphRegistry)
+
   _.forEach(graphRegistry.types, ( { type, entity }, typeName) => {
 
     const entityMutations = entity.getMutations()
@@ -559,6 +561,29 @@ export const generateMutations = (graphRegistry) => {
         resolve: getMutationResolver(entity, entityMutation, typeName, storageType, graphRegistry),
       }
 
+
+      if (entityMutation.isTypeCreate || entityMutation.isTypeUpdate) {
+        const nestedMutationName = _.camelCase(`${entityMutation.name}_${typeName}_Nested`)
+
+        let entityMutationInstanceNestedInputType
+
+        if (entityMutation.attributes) {
+          entityMutationInstanceNestedInputType = generateMutationInstanceNestedInput(entity, entityMutation, graphRegistry)
+        }
+
+        const mutationInputNestedType = generateMutationNestedInput(entity, typeName, entityMutation, entityMutationInstanceNestedInputType)
+        mutations[ nestedMutationName ] = {
+          type: mutationOutputType,
+          description: entityMutation.description,
+          args: {
+            input: {
+              description: 'Input argument for this mutation',
+              type: new GraphQLNonNull( mutationInputNestedType ),
+            },
+          },
+          resolve: getMutationResolver(entity, entityMutation, typeName, storageType, graphRegistry),
+        }
+      }
 
 
       if (entityMutation.needsInstance) {
