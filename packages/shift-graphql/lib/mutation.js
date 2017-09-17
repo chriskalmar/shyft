@@ -233,6 +233,27 @@ export const generateInstanceUniquenessInput = (entity, uniquenessAttributes, gr
   return entityInstanceInputType
 }
 
+
+
+export const generateInstanceUniquenessInputs = (graphRegistry) => {
+
+  _.forEach(graphRegistry.types, ( { type, entity }, typeName) => {
+
+    const uniquenessAttributesList = getEntityUniquenessAttributes(entity)
+
+    const registryType = graphRegistry.types[ typeName ]
+    registryType.instanceUniquenessInputs = registryType.instanceUniquenessInputs || {}
+
+    uniquenessAttributesList.map((uniquenessAttributes) => {
+      const instanceUniquenessInput = generateInstanceUniquenessInput(entity, uniquenessAttributes, graphRegistry)
+      registryType.instanceUniquenessInputs[ uniquenessAttributes.uniquenessName ] = instanceUniquenessInput
+    })
+
+  })
+
+}
+
+
 export const generateMutationOutput = (entity, typeName, type, entityMutation) => {
 
   const typeNamePascalCase = entity.graphql.typeNamePascalCase
