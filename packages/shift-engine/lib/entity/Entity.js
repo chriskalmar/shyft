@@ -483,38 +483,49 @@ class Entity {
 
   _processPermissions () {
 
-    if (this.permissions && this.permissions.mutations && this.mutations) {
-      const permissionMutationNames = Object.keys(this.permissions.mutations);
+    if (this.permissions) {
 
-      const mutationNames = this.mutations.map((mutation) => mutation.name)
+      if (this.permissions.find) {
+        this.descriptionPermissionsFind = generatePermissionDescription(this.permissions.find)
+      }
 
-      permissionMutationNames.map(permissionMutationName => {
-        passOrThrow(
-          mutationNames.includes(permissionMutationName),
-          () => `Unknown mutation '${permissionMutationName}' used for permissions in entity '${this.name}'`
-        )
-      })
+      if (this.permissions.read) {
+        this.descriptionPermissionsRead = generatePermissionDescription(this.permissions.read)
+      }
 
-      this.mutations.map((mutation) => {
-        const mutationName = mutation.name
-        const permission = this.permissions.mutations[ mutationName ]
+      if (this.permissions.mutations && this.mutations) {
+        const permissionMutationNames = Object.keys(this.permissions.mutations);
 
-        if (permission) {
+        const mutationNames = this.mutations.map((mutation) => mutation.name)
 
-          const attributeNames = Object.keys(this._attributes)
-          const invalidAttribute = findInvalidPermissionAttributes(permission, attributeNames)
-
+        permissionMutationNames.map(permissionMutationName => {
           passOrThrow(
-            !invalidAttribute,
-            () => `Cannot use attribute '${invalidAttribute}' in mutation '${this.name}.${mutationName}' as it does not exist`
+            mutationNames.includes(permissionMutationName),
+            () => `Unknown mutation '${permissionMutationName}' used for permissions in entity '${this.name}'`
           )
+        })
 
-          const descriptionPermissions = generatePermissionDescription(permission)
-          if (descriptionPermissions) {
-            mutation.description += descriptionPermissions
+        this.mutations.map((mutation) => {
+          const mutationName = mutation.name
+          const permission = this.permissions.mutations[ mutationName ]
+
+          if (permission) {
+
+            const attributeNames = Object.keys(this._attributes)
+            const invalidAttribute = findInvalidPermissionAttributes(permission, attributeNames)
+
+            passOrThrow(
+              !invalidAttribute,
+              () => `Cannot use attribute '${invalidAttribute}' in mutation '${this.name}.${mutationName}' as it does not exist`
+            )
+
+            const descriptionPermissions = generatePermissionDescription(permission)
+            if (descriptionPermissions) {
+              mutation.description += descriptionPermissions
+            }
           }
-        }
-      })
+        })
+      }
     }
   }
 

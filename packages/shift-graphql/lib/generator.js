@@ -166,7 +166,7 @@ const generateListQueries = () => {
 
     listQueries[ queryName ] = {
       type: graphRegistry.types[ typeName ].connection,
-      description: `Fetch a list of **\`${typeNamePluralListName}\`**`,
+      description: `Fetch a list of **\`${typeNamePluralListName}\`**\n${entity.descriptionPermissionsFind || ''}`,
       args: graphRegistry.types[ typeName ].connectionArgs,
       resolve: async (source, args, context, info) => {
 
@@ -214,7 +214,7 @@ const generateInstanceQueries = (idFetcher) => {
 
     instanceQueries[ queryName ] = {
       type: type,
-      description: `Fetch a single **\`${typeNamePascalCase}\`** using its node ID`,
+      description: `Fetch a single **\`${typeNamePascalCase}\`** using its node ID\n${entity.descriptionPermissionsRead || ''}`,
       args: {
         nodeId: {
           type: new GraphQLNonNull( GraphQLID )
@@ -238,7 +238,7 @@ const generateInstanceQueries = (idFetcher) => {
 
       instanceQueries[ queryNamePrimaryAttribute ] = {
         type: type,
-        description: `Fetch a single **\`${typeNamePascalCase}\`** using its **\`${fieldName}\`**`,
+        description: `Fetch a single **\`${typeNamePascalCase}\`** using its **\`${fieldName}\`**\n${entity.descriptionPermissionsRead || ''}`,
         args: {
           [ fieldName ]: {
             type: new GraphQLNonNull( graphqlDataType )
@@ -279,7 +279,7 @@ const generateReverseConnections = (entity) => {
 
     fields[ fieldName ] = {
       type: graphRegistry.types[ sourceEntityTypeName ].connection,
-      description: `Fetch a list of **\`${typeNamePluralListName}\`** for a given **\`${typeNamePascalCase}\`**`,
+      description: `Fetch a list of **\`${typeNamePluralListName}\`** for a given **\`${typeNamePascalCase}\`**\n${sourceEntity.descriptionPermissionsFind || ''}`,
       args: graphRegistry.types[ sourceEntityTypeName ].connectionArgs,
       resolve: async (source, args, context, info) => {
 
