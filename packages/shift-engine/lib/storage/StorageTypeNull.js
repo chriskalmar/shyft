@@ -8,6 +8,9 @@ export const StorageTypeNull = new StorageType({
   findOne() {
     throw new Error('\'StorageTypeNull\' is not a real storage type implementation')
   },
+  findOneByValues() {
+    throw new Error('\'StorageTypeNull\' is not a real storage type implementation')
+  },
   find() {
     throw new Error('\'StorageTypeNull\' is not a real storage type implementation')
   },
