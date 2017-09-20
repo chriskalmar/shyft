@@ -77,6 +77,12 @@ export const DataTypeTimestampTz = new DataType({
   mock: () => new Date(casual.unix_time * 1000),
 })
 
+export const DataTypeDate = new DataType({
+  name: 'DataTypeDate',
+  description: 'Data type representing a date',
+  mock: () => new Date(casual.unix_time * 1000),
+})
+
 
 
 function randomJson() {
