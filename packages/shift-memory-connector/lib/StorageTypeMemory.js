@@ -10,6 +10,7 @@ import {
   DataTypeJson,
   DataTypeTimestamp,
   DataTypeTimestampTz,
+  DataTypeDate,
 } from 'shift-engine';
 
 import {
@@ -17,7 +18,8 @@ import {
   StorageDataTypeNumber,
   StorageDataTypeString,
   StorageDataTypeObject,
-  StorageDataTimestamp,
+  StorageDataTypeTimestamp,
+  StorageDataTypeDate,
 } from './storageDataTypes';
 
 
@@ -39,7 +41,8 @@ StorageTypeMemory.addDataTypeMap(DataTypeFloat, StorageDataTypeNumber);
 StorageTypeMemory.addDataTypeMap(DataTypeBoolean, StorageDataTypeBoolean);
 StorageTypeMemory.addDataTypeMap(DataTypeString, StorageDataTypeString);
 StorageTypeMemory.addDataTypeMap(DataTypeJson, StorageDataTypeObject);
-StorageTypeMemory.addDataTypeMap(DataTypeTimestamp, StorageDataTimestamp);
-StorageTypeMemory.addDataTypeMap(DataTypeTimestampTz, StorageDataTimestamp);
+StorageTypeMemory.addDataTypeMap(DataTypeTimestamp, StorageDataTypeTimestamp);
+StorageTypeMemory.addDataTypeMap(DataTypeTimestampTz, StorageDataTypeTimestamp);
+StorageTypeMemory.addDataTypeMap(DataTypeDate, StorageDataTypeDate);
 
 
