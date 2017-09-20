@@ -208,6 +208,11 @@ class Entity {
   }
 
 
+  getIndexes () {
+    return this.indexes
+  }
+
+
   _collectSystemAttributes (attributeMap) {
 
     const list = []

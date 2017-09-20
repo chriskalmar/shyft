@@ -15,6 +15,7 @@ class StorageType {
       name,
       description,
       findOne,
+      findOneByValues,
       find,
       count,
       mutate,
@@ -26,6 +27,11 @@ class StorageType {
     passOrThrow(
       isFunction(findOne),
       () => `Storage type '${name}' needs to implement findOne()`
+    )
+
+    passOrThrow(
+      isFunction(findOneByValues),
+      () => `Storage type '${name}' needs to implement findOneByValues()`
     )
 
     passOrThrow(
@@ -47,6 +53,7 @@ class StorageType {
     this.name = name
     this.description = description
     this.findOne = findOne
+    this.findOneByValues = findOneByValues
     this.find = find
     this.count = count
     this.mutate = mutate
