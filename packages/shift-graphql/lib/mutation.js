@@ -491,7 +491,7 @@ const fillDefaultValues = (entity, entityMutation, payload, context) => {
 
 
 
-const getNestedPayloadResolver = (entity, attributeNames, storageType) => {
+const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) => {
 
   return async (source, args, context, info) => {
 
@@ -543,11 +543,17 @@ const getNestedPayloadResolver = (entity, attributeNames, storageType) => {
             let result
 
             if (uniquenessAttributes) {
-              const nestedPayloadResolver = getNestedPayloadResolver(targetEntity, uniquenessAttributes, storageType)
+
+              const newPath = path.concat(foundInput)
+              const nestedPayloadResolver = getNestedPayloadResolver(targetEntity, uniquenessAttributes, storageType, newPath)
               args[ foundInput ] = await nestedPayloadResolver(source, args[ foundInput ], context, info)
 
               result = await storageType.findOneByValues(targetEntity, source, args[ foundInput ], context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
                 .then(targetEntity.graphql.dataShaper)
+
+              if (!result) {
+                throw new CustomError(`Nested instance at path '${newPath.join('.')}' not found or access denied`, 'NestedInstanceNotFoundOrAccessDenied')
+              }
             }
             else {
               result = await storageType.findOne(targetEntity, args[ foundInput ], source, args[ foundInput ], context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
