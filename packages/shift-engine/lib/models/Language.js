@@ -1,6 +1,7 @@
 
 import Entity from '../entity/Entity';
 import { DataTypeString } from '../datatype/dataTypes';
+import Index, { INDEX_UNIQUE } from '../index/Index';
 
 
 export const Language = new Entity({
@@ -8,10 +9,16 @@ export const Language = new Entity({
   domain: 'core',
   description: 'A language',
 
-  // indexing: {
-  //   unique: [
-  //     [ 'name' ],
-  //     [ 'iso_code' ],
+  indexes: [
+    new Index({
+      type: INDEX_UNIQUE,
+      attributes: [ 'name' ],
+    }),
+    new Index({
+      type: INDEX_UNIQUE,
+      attributes: [ 'isoCode' ],
+    }),
+  ],
 
   attributes: {
 

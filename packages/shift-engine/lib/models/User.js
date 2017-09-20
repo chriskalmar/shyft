@@ -14,7 +14,7 @@ export const User = new Entity({
   // isUserTable: true,
   // sequenceGenerator: 'timebased',
 
-  indexing: [
+  indexes: [
     new Index({
       type: INDEX_UNIQUE,
       attributes: [ 'username' ],
