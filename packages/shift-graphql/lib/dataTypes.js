@@ -65,3 +65,25 @@ export const GraphQLDateTime = new GraphQLScalarType({
   }
 });
 
+
+export const GraphQLDate = new GraphQLScalarType({
+  name: 'Date',
+  description:
+    'The `Date` scalar type represents a date string.',
+  serialize: (value) => {
+    return value
+  },
+  parseValue: String,
+  parseLiteral(ast) {
+    if (ast.kind !== Kind.STRING) {
+      throw new GraphQLError('Query error: Can only parse strings but got a: ' + ast.kind, [ ast ]);
+    }
+
+    if (isNaN(Date.parse(ast.value))) {
+      throw new GraphQLError('Query error: String is not a valid date time string', [ ast ]);
+    }
+
+    return ast.value
+  }
+});
+

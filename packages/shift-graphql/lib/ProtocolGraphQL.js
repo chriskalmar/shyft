@@ -10,6 +10,7 @@ import {
   DataTypeJson,
   DataTypeTimestamp,
   DataTypeTimestampTz,
+  DataTypeDate,
 } from 'shift-engine';
 
 import {
@@ -28,6 +29,7 @@ import {
   GraphQLBigInt,
   GraphQLJSON,
   GraphQLDateTime,
+  GraphQLDate,
 } from './dataTypes';
 
 
@@ -52,3 +54,4 @@ ProtocolGraphQL.addDataTypeMap(DataTypeString, GraphQLString);
 ProtocolGraphQL.addDataTypeMap(DataTypeJson, GraphQLJSON);
 ProtocolGraphQL.addDataTypeMap(DataTypeTimestamp, GraphQLDateTime);
 ProtocolGraphQL.addDataTypeMap(DataTypeTimestampTz, GraphQLDateTime);
+ProtocolGraphQL.addDataTypeMap(DataTypeDate, GraphQLDate);

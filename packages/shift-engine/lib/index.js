@@ -44,6 +44,7 @@ import {
   DataTypeJson,
   DataTypeTimestamp,
   DataTypeTimestampTz,
+  DataTypeDate,
 } from './datatype/dataTypes';
 
 import ObjectDataType, { isObjectDataType } from './datatype/ObjectDataType';
@@ -81,6 +82,7 @@ export {
   DataTypeJson,
   DataTypeTimestamp,
   DataTypeTimestampTz,
+  DataTypeDate,
 
   ObjectDataType,
   isObjectDataType,
@@ -139,6 +141,7 @@ export default {
   DataTypeJson,
   DataTypeTimestamp,
   DataTypeTimestampTz,
+  DataTypeDate,
 
   ObjectDataType,
   isObjectDataType,

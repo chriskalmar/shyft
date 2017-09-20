@@ -167,6 +167,7 @@ const casualDataTypeMap = {
   DataTypeJson: randomJson,
   DataTypeTimestamp: () => new Date(casual.unix_time * 1000),
   DataTypeTimestampTz: () => new Date(casual.unix_time * 1000),
+  DataTypeDate: () => new Date(casual.unix_time * 1000),
 }
 
 
