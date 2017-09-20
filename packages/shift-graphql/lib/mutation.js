@@ -22,6 +22,7 @@ import {
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
   INDEX_UNIQUE,
+  CustomError,
 } from 'shift-engine';
 
 import {
@@ -177,7 +178,7 @@ export const generateInstanceUniquenessInput = (entity, uniquenessAttributes, gr
 
   const entityInstanceInputType = new GraphQLInputObjectType({
     name: generateTypeNamePascalCase(`${typeNamePascalCase}InstanceUniquenessOn-${uniquenessAttributes.uniquenessName}Input`),
-    description: `**\`Input type for **\`${typeNamePascalCase}\`** using data uniqueness (${uniquenessAttributes.attributes}) to resolve the ID`,
+    description: `Input type for **\`${typeNamePascalCase}\`** using data uniqueness (${uniquenessAttributes.attributes}) to resolve the ID`,
 
     fields: () => {
       const fields = {}
@@ -489,9 +490,99 @@ const fillDefaultValues = (entity, entityMutation, payload, context) => {
 }
 
 
-const getMutationResolver = (entity, entityMutation, typeName, storageType, graphRegistry) => {
+
+const getNestedPayloadResolver = (entity, attributeNames, storageType) => {
 
   return async (source, args, context, info) => {
+
+    const resultPayload = {}
+    const entityAttributes = entity.getAttributes()
+
+    await Promise.all(attributeNames.map( async (attributeName) => {
+
+      const attribute = entityAttributes[ attributeName ]
+      const attributeType = attribute.type
+
+      if (isEntity(attributeType)) {
+        const targetEntity = attributeType
+        const uniquenessAttributesList = getEntityUniquenessAttributes(targetEntity)
+
+        if (uniquenessAttributesList.length > 0) {
+          const uniquenessFieldNames = [ attribute.gqlFieldName ]
+          const fieldNameToUniquenessAttributesMap = {}
+
+          uniquenessAttributesList.map(({uniquenessName, attributes}) => {
+            const fieldName = _.camelCase(`${attribute.gqlFieldName}_by_unique_${uniquenessName}`)
+            uniquenessFieldNames.push(fieldName)
+            fieldNameToUniquenessAttributesMap[ fieldName ] = attributes
+          })
+
+          let foundInput = null
+
+          uniquenessFieldNames.map(uniquenessFieldName => {
+            if (args[ uniquenessFieldName ]) {
+
+              if (foundInput) {
+                throw new CustomError(`Only one of these fields may be used: ${uniquenessFieldNames.join(', ')}`, 'AmbigiousNestedInputError')
+              }
+
+              foundInput = uniquenessFieldName
+            }
+          })
+
+          if (!foundInput) {
+            if (attribute.required) {
+              throw new CustomError(`Provide one of these fields: ${uniquenessFieldNames.join(', ')}`, 'MissingNestedInputError')
+            }
+          }
+          else {
+            const attributes = targetEntity.getAttributes()
+            const primaryAttributeName = _.findKey(attributes, { isPrimary: true })
+            const uniquenessAttributes = fieldNameToUniquenessAttributesMap[foundInput]
+
+            let result
+
+            if (uniquenessAttributes) {
+              const nestedPayloadResolver = getNestedPayloadResolver(targetEntity, uniquenessAttributes, storageType)
+              args[ foundInput ] = await nestedPayloadResolver(source, args[ foundInput ], context, info)
+
+              result = await storageType.findOneByValues(targetEntity, source, args[ foundInput ], context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+                .then(targetEntity.graphql.dataShaper)
+            }
+            else {
+              result = await storageType.findOne(targetEntity, args[ foundInput ], source, args[ foundInput ], context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+                .then(targetEntity.graphql.dataShaper)
+            }
+
+            if (result) {
+              resultPayload[ attribute.gqlFieldName ] = result[ primaryAttributeName ]
+            }
+          }
+        }
+        else {
+          resultPayload[ attribute.gqlFieldName ] = args[ attribute.gqlFieldName ]
+        }
+      }
+      else {
+        resultPayload[ attribute.gqlFieldName ] = args[ attribute.gqlFieldName ]
+      }
+
+    }));
+
+    return resultPayload
+  }
+}
+
+
+const getMutationResolver = (entity, entityMutation, typeName, storageType, graphRegistry, nested) => {
+
+  const nestedPayloadResolver = getNestedPayloadResolver(entity, entityMutation.attributes, storageType)
+
+  return async (source, args, context, info) => {
+
+    if (nested) {
+      args.input[ typeName ] = await nestedPayloadResolver(source, args.input[ typeName ], context, info)
+    }
 
     const id = extractIdFromNodeId(graphRegistry, entity.name, args.input.nodeId)
 
@@ -597,7 +688,7 @@ export const generateMutations = (graphRegistry) => {
               type: new GraphQLNonNull( mutationInputNestedType ),
             },
           },
-          resolve: getMutationResolver(entity, entityMutation, typeName, storageType, graphRegistry),
+          resolve: getMutationResolver(entity, entityMutation, typeName, storageType, graphRegistry, true),
         }
       }
 
