@@ -262,7 +262,6 @@ const generateReverseConnections = (entity) => {
 
   const fields = {}
 
-  const typeName = entity.graphql.typeName
   const typeNamePascalCase = entity.graphql.typeNamePascalCase
 
   entity.referencedByEntities.map(({sourceEntityName, sourceAttributeName}) => {
@@ -273,7 +272,7 @@ const generateReverseConnections = (entity) => {
 
     const storageType = sourceEntity.storageType
 
-    const fieldName = util.generateTypeName(`${sourceEntity.graphql.typeNamePlural}-by-${typeName}`)
+    const fieldName = util.generateTypeName(`${sourceEntity.graphql.typeNamePlural}-by-${sourceAttributeName}`)
 
     const typeNamePluralListName = sourceEntity.graphql.typeNamePluralPascalCase
 
