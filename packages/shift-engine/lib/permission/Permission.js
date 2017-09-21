@@ -6,6 +6,7 @@ import {
 } from '../util';
 
 import { isEntity } from '../entity/Entity';
+import { isDataTypeUser } from '../datatype/DataType';
 import _ from 'lodash';
 
 
@@ -176,8 +177,26 @@ export const isPermission = (obj) => {
 }
 
 
+export const findInvalidPermissionAttributes = (permission, entityAttributeNames, entity) => {
 
-export const findInvalidPermissionAttributes = (permission, entityAttributeNames) => {
+  const attributes = entity.getAttributes()
+
+  permission.ownerAttributes.map(ownerAttribute => {
+    const attribute = attributes[ ownerAttribute ]
+
+    passOrThrow(
+      attribute && (
+        isDataTypeUser(attribute.type) ||
+        ( isEntity(attribute.type) && attribute.type.isUserEntity )
+      ),
+      () => `Cannot use attribute '${ownerAttribute}' in '${entity.name}.permissions' as 'ownerAttribute' as it is not a reference to the User entity`
+    )
+  })
+
+}
+
+
+export const findMissingPermissionAttributes = (permission, entityAttributeNames) => {
 
   const missingOwnerAttribute = permission.ownerAttributes.find(ownerAttribute => !entityAttributeNames.includes(ownerAttribute))
   if (missingOwnerAttribute) {
