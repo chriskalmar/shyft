@@ -486,16 +486,30 @@ class Entity {
 
 
 
+  _validatePermissionAttributes (permission, mutationName) {
+
+    const attributeNames = Object.keys(this._attributes)
+    const invalidAttribute = findInvalidPermissionAttributes(permission, attributeNames)
+
+    passOrThrow(
+      !invalidAttribute,
+      () => `Cannot use attribute '${invalidAttribute}' in '${this.name}.permissions' for '${mutationName}' as it does not exist`
+    )
+  }
+
+
   _processPermissions () {
 
     if (this.permissions) {
 
       if (this.permissions.find) {
         this.descriptionPermissionsFind = generatePermissionDescription(this.permissions.find)
+        this._validatePermissionAttributes(this.permissions.find, 'find')
       }
 
       if (this.permissions.read) {
         this.descriptionPermissionsRead = generatePermissionDescription(this.permissions.read)
+        this._validatePermissionAttributes(this.permissions.read, 'read')
       }
 
       if (this.permissions.mutations && this.mutations) {
@@ -516,13 +530,7 @@ class Entity {
 
           if (permission) {
 
-            const attributeNames = Object.keys(this._attributes)
-            const invalidAttribute = findInvalidPermissionAttributes(permission, attributeNames)
-
-            passOrThrow(
-              !invalidAttribute,
-              () => `Cannot use attribute '${invalidAttribute}' in mutation '${this.name}.${mutationName}' as it does not exist`
-            )
+            this._validatePermissionAttributes(permission, mutationName)
 
             const descriptionPermissions = generatePermissionDescription(permission)
             if (descriptionPermissions) {
