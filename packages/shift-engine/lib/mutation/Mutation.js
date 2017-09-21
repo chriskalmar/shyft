@@ -2,6 +2,7 @@
 import {
   passOrThrow,
   isArray,
+  isFunction,
 } from '../util';
 
 import _ from 'lodash';
@@ -46,6 +47,7 @@ class Mutation {
       type,
       description,
       attributes,
+      preProcessor,
     } = setup
 
     passOrThrow(name, () => 'Missing mutation name')
@@ -100,6 +102,17 @@ class Mutation {
       this.needsInstance = true
       this.isTypeDelete = true
     }
+
+
+    if (preProcessor) {
+      passOrThrow(
+        isFunction(preProcessor),
+        () => `preProcessor of mutation '${name}' needs to be a valid function`
+      )
+
+      this.preProcessor = preProcessor
+    }
+
 
   }
 

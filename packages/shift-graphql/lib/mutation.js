@@ -600,6 +600,10 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
       args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
     }
 
+    if (entityMutation.preProcessor) {
+      args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+    }
+
     const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
     if (result[ typeName ]) {
       result[ typeName ] = entity.graphql.dataShaper(result[ typeName ])
@@ -619,6 +623,10 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
 
     if (entityMutation.type === MUTATION_TYPE_UPDATE) {
       args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
+    }
+
+    if (entityMutation.preProcessor) {
+      args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
     }
 
     const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
