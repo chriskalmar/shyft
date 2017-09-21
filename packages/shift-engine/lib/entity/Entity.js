@@ -325,6 +325,11 @@ class Entity {
       () => `'${this.name}.${attributeName}' has an invalid defaultValue function'`
     )
 
+    passOrThrow(
+      !attribute.validate || isFunction(attribute.validate),
+      () => `'${this.name}.${attributeName}' has an invalid validate function'`
+    )
+
     return attribute
   }
 
