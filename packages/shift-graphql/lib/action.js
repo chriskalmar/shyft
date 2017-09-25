@@ -128,7 +128,7 @@ export const generateActionInput = (action, actionDataInputType) => {
 
 
 
-export const generateActionDataOutput = (action) => {
+export const generateActionDataOutput = (action, graphRegistry) => {
 
   const actionDataOutputType = new GraphQLObjectType({
     name: generateTypeNamePascalCase(`${action.name}DataOutput`),
@@ -136,7 +136,7 @@ export const generateActionDataOutput = (action) => {
 
     fields: () => {
       const outputParams = action.getOutput()
-      return generateActionDataOutputFields(outputParams, action) // eslint-disable-line no-use-before-define
+      return generateActionDataOutputFields(outputParams, action, graphRegistry) // eslint-disable-line no-use-before-define
     }
   })
 
@@ -144,7 +144,7 @@ export const generateActionDataOutput = (action) => {
 }
 
 
-export const generateNestedActionDataOutput = (action, nestedParam, level=1) => {
+export const generateNestedActionDataOutput = (action, nestedParam, graphRegistry, level=1) => {
 
   const levelStr = level > 1
     ? `L${level}`
@@ -156,7 +156,7 @@ export const generateNestedActionDataOutput = (action, nestedParam, level=1) => 
 
     fields: () => {
       const outputParams = nestedParam.getAttributes()
-      return generateActionDataOutputFields(outputParams, action, level) // eslint-disable-line no-use-before-define
+      return generateActionDataOutputFields(outputParams, action, graphRegistry, level) // eslint-disable-line no-use-before-define
     }
   })
 
@@ -164,11 +164,11 @@ export const generateNestedActionDataOutput = (action, nestedParam, level=1) => 
 }
 
 
-const generateActionDataOutputFields = (outputParams, action, level=0) => {
+const generateActionDataOutputFields = (outputParams, action, graphRegistry, level=0) => {
   const fields = {}
 
   _.forEach(outputParams, (param, paramName) => {
-    const nestedActionDataOutput = generateNestedActionDataOutput(action, param, level+1)
+    const nestedActionDataOutput = generateNestedActionDataOutput(action, param, graphRegistry, level+1)
 
     if (isObjectDataType(param)) {
       fields[ paramName ] = {
@@ -179,16 +179,21 @@ const generateActionDataOutputFields = (outputParams, action, level=0) => {
       return
     }
 
-    let paramType = param.type
+    const paramType = param.type
+    let fieldType
 
-    // it's a reference
     if (isEntity(paramType)) {
       const targetEntity = paramType
-      const primaryAttribute = targetEntity.getPrimaryAttribute()
-      paramType = primaryAttribute.type
+      const targetTypeName = targetEntity.graphql.typeName
+      const registryType = graphRegistry.types[ targetTypeName ]
+
+      fieldType = registryType.type
+    }
+    else {
+      fieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
     }
 
-    const fieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
+
 
     fields[ paramName ] = {
       type: fieldType,
@@ -243,11 +248,11 @@ export const generateActions = (graphRegistry) => {
     let actionDataOutputType
 
     if (action.hasInputParams()) {
-      actionDataInputType = generateActionDataInput(action)
+      actionDataInputType = generateActionDataInput(action, graphRegistry)
     }
 
     if (action.hasOutputParams()) {
-      actionDataOutputType = generateActionDataOutput(action)
+      actionDataOutputType = generateActionDataOutput(action, graphRegistry)
     }
 
     const actionInputType = generateActionInput(action, actionDataInputType)
