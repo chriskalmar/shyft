@@ -3,6 +3,11 @@ const AND_OPERATOR = 'AND'
 const OR_OPERATOR = 'OR'
 
 
+export const deleteUndefinedProps = (obj) =>
+  Object.keys(obj).forEach(key => obj[key] === undefined && delete obj[key])
+
+
+
 export const passOrThrow = (condition, messageFn) => {
   // providing the error message as a callback return massively improves code coverage reports.
   // the message function is only evaluated if the condition fails, which will show up correctly

@@ -31,6 +31,7 @@ import {
   sortDataByKeys,
   processCursors,
   processFilter,
+  deleteUndefinedProps,
 } from './util';
 
 import {
@@ -97,6 +98,7 @@ export {
   sortDataByKeys,
   processCursors,
   processFilter,
+  deleteUndefinedProps,
 
   coreModels,
 
@@ -156,6 +158,7 @@ export default {
   sortDataByKeys,
   processCursors,
   processFilter,
+  deleteUndefinedProps,
 
   coreModels,
 
