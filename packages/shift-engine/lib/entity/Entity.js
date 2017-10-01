@@ -580,6 +580,11 @@ class Entity {
   }
 
 
+  getStorageType () {
+    return this.storageType
+  }
+
+
   toString() {
     return this.name
   }
