@@ -29,10 +29,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "graphql-relay": "^0.5.1",
-    "graphql-tools": "^0.11.0",
+    "graphql-relay": "^0.5.3",
+    "graphql-tools": "^2.0.0",
     "graphql-type-json": "^0.1.4",
-    "json-shaper": "^1.0.3",
+    "json-shaper": "^1.1.0",
     "lodash": "^4.17.4",
     "pluralize": "^4.0.0"
   },
@@ -44,7 +44,7 @@
     "nyc": "^10.1.2"
   },
   "peerDependencies": {
-    "graphql": "^0.10.5",
+    "graphql": "^0.10.0 || ^0.11.0",
     "shift-engine": "^1.0.0"
   }
 }
