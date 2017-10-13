@@ -584,16 +584,18 @@ const validateMutationPayload = (entity, entityMutation, payload) => {
 
   const attributes = entity.getAttributes()
 
-  entityMutation.attributes.map(attributeName => {
-    const attribute = attributes[ attributeName ]
+  if (entityMutation.attributes) {
+    entityMutation.attributes.map(attributeName => {
+      const attribute = attributes[ attributeName ]
 
-    if (attribute.validate) {
-      const result = attribute.validate(payload[ attributeName ], attributeName)
-      if (result instanceof Error) {
-        throw result
+      if (attribute.validate) {
+        const result = attribute.validate(payload[ attributeName ], attributeName)
+        if (result instanceof Error) {
+          throw result
+        }
       }
-    }
-  })
+    })
+  }
 }
 
 
