@@ -11,18 +11,17 @@ import {
   DataTypeTimestamp,
   DataTypeTimestampTz,
   DataTypeDate,
+  isDataTypeEnum,
 } from 'shift-engine';
 
 import {
   GraphQLScalarType,
-} from 'graphql';
-
-import {
   GraphQLID,
   GraphQLInt,
   GraphQLFloat,
   GraphQLString,
   GraphQLBoolean,
+  GraphQLEnumType,
 } from 'graphql';
 
 import {
@@ -55,3 +54,37 @@ ProtocolGraphQL.addDataTypeMap(DataTypeJson, GraphQLJSON);
 ProtocolGraphQL.addDataTypeMap(DataTypeTimestamp, GraphQLDateTime);
 ProtocolGraphQL.addDataTypeMap(DataTypeTimestampTz, GraphQLDateTime);
 ProtocolGraphQL.addDataTypeMap(DataTypeDate, GraphQLDate);
+
+
+const enumDataTypesRegistry = {}
+
+ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeEnum, (attributeType) => {
+
+  const name = attributeType.name
+  const values = {}
+
+  if (enumDataTypesRegistry[ name ]) {
+    if (attributeType === enumDataTypesRegistry[ name ].attributeType) {
+      return enumDataTypesRegistry[ name ].type
+    }
+  }
+
+  attributeType.values.map(value => {
+    values[ value ] = {
+      value
+    }
+  })
+
+
+  const type = new GraphQLEnumType({
+    name,
+    values,
+  })
+
+  enumDataTypesRegistry[ name ] = {
+    type,
+    attributeType,
+  }
+
+  return type
+});
