@@ -4,6 +4,11 @@ import {
   isArray,
 } from '../util';
 
+import {
+  enumValueRegex,
+  ENUM_VALUE_PATTERN,
+} from '../constants';
+
 import DataType from './DataType';
 
 
@@ -21,6 +26,14 @@ class DataTypeEnum extends DataType {
       isArray(values, true),
       () => `'Missing enum values for data type '${name}'`
     )
+
+    values.map((value) => {
+      passOrThrow(
+        enumValueRegex.test(value),
+        () => `Invalid enum value '${value}' for data type '${name}' (Regex: /${ENUM_VALUE_PATTERN}/)`
+      )
+    })
+
 
     super({
       ...setup,

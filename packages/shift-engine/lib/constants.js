@@ -1,6 +1,9 @@
 
 export const ATTRIBUTE_NAME_PATTERN = '^[a-zA-Z][a-zA-Z0-9_]*$';
-export const attributeNameRegex = new RegExp('^[a-zA-Z][a-zA-Z0-9_]*$');
+export const attributeNameRegex = new RegExp(ATTRIBUTE_NAME_PATTERN);
+
+export const ENUM_VALUE_PATTERN = '^[_a-zA-Z][_a-zA-Z0-9]*$';
+export const enumValueRegex = new RegExp(ENUM_VALUE_PATTERN);
 
 
 export const storageDataTypeCapabilityType = {
