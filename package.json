@@ -55,7 +55,9 @@
     "json-shaper": "^1.1.0",
     "lodash": "^4.17.4",
     "pg": "6.4.2",
-    "sequelize": "^4.4.3",
     "toposort": "^1.0.3"
+  },
+  "peerDependencies": {
+    "sequelize": "^4.15.2"
   }
 }
