@@ -10,7 +10,8 @@
     "**/*.spec.js",
     "**/playground/*",
     "**/coverage",
-    "**/test"
+    "**/test",
+    "**/dist"
   ],
   "require": [
     "babel-register"
