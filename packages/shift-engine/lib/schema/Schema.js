@@ -7,7 +7,7 @@ import {
 
 import { isEntity } from '../entity/Entity';
 import { isAction } from '../action/Action';
-import { isDataTypeUser } from '../datatype/DataType';
+import { isDataTypeUser } from '../datatype/DataTypeUser';
 import { isStorageType } from '../storage/StorageType';
 
 

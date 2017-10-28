@@ -6,7 +6,7 @@ import {
 } from '../util';
 
 import { isEntity } from '../entity/Entity';
-import { isDataTypeUser } from '../datatype/DataType';
+import { isDataTypeUser } from '../datatype/DataTypeUser';
 import _ from 'lodash';
 
 
