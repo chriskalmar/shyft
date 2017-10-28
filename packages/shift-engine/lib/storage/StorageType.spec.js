@@ -46,6 +46,7 @@ describe('StorageType', () => {
       name: 'SomeStorageType',
       description: 'Just some description',
       findOne() {},
+      findOneByValues() {},
       find() {},
       count() {},
       mutate() {},
@@ -59,17 +60,19 @@ describe('StorageType', () => {
 
   it('should throw on missing data fetching implementations', () => {
 
-    function fn1() {
+    let fn
+
+    fn = () => {
       new StorageType({ // eslint-disable-line no-new
         name: 'SomeStorageType',
         description: 'Just some description',
       })
     }
 
-    assert.throws(fn1, /needs to implement findOne\(\)/);
+    assert.throws(fn, /needs to implement findOne\(\)/);
 
 
-    function fn2() {
+    fn = () => {
       new StorageType({ // eslint-disable-line no-new
         name: 'SomeStorageType',
         description: 'Just some description',
@@ -77,32 +80,46 @@ describe('StorageType', () => {
       })
     }
 
-    assert.throws(fn2, /needs to implement find\(\)/);
+    assert.throws(fn, /needs to implement findOneByValues\(\)/);
 
 
-    function fn3() {
+    fn = () => {
       new StorageType({ // eslint-disable-line no-new
         name: 'SomeStorageType',
         description: 'Just some description',
         findOne() {},
+        findOneByValues() {},
+      })
+    }
+
+    assert.throws(fn, /needs to implement find\(\)/);
+
+
+    fn = () => {
+      new StorageType({ // eslint-disable-line no-new
+        name: 'SomeStorageType',
+        description: 'Just some description',
+        findOne() {},
+        findOneByValues() {},
         find() {},
       })
     }
 
-    assert.throws(fn3, /needs to implement count\(\)/);
+    assert.throws(fn, /needs to implement count\(\)/);
 
 
-    function fn4() {
+    fn = () => {
       new StorageType({ // eslint-disable-line no-new
         name: 'SomeStorageType',
         description: 'Just some description',
         findOne() {},
+        findOneByValues() {},
         find() {},
         count() {},
       })
     }
 
-    assert.throws(fn4, /needs to implement mutate\(\)/);
+    assert.throws(fn, /needs to implement mutate\(\)/);
 
   })
 
@@ -114,6 +131,7 @@ describe('StorageType', () => {
       name: 'SomeStorageType',
       description: 'Just some description',
       findOne() {},
+      findOneByValues() {},
       find() {},
       count() {},
       mutate() {},
@@ -179,6 +197,7 @@ describe('StorageType', () => {
         name: 'SomeStorageType',
         description: 'Just some description',
         findOne() {},
+        findOneByValues() {},
         find() {},
         count() {},
         mutate() {},
