@@ -208,6 +208,10 @@ class Entity {
     return this.mutations
   }
 
+  getMutationByName (name) {
+    return this.mutations.find( mutation => String(mutation) === name )
+  }
+
 
   getIndexes () {
     return this.indexes
