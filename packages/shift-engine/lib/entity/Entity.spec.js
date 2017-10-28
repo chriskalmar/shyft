@@ -417,6 +417,73 @@ describe.only('Entity', () => {
 
 
 
+  describe('primary attribute', () => {
+
+    it('should catch multiple primary attributes', () => {
+
+      const entity = new Entity({
+        name: 'SomeEntityName',
+        description: 'Just some description',
+        attributes: {
+          someAttribute: {
+            type: DataTypeID,
+            description: 'Something',
+            isPrimary: true,
+          },
+          anotherAttribute: {
+            type: DataTypeID,
+            description: 'Something else',
+            isPrimary: true,
+          }
+        }
+      })
+
+      function fn() {
+        entity.getAttributes()
+      }
+
+      assert.throws(fn, /cannot be set as primary attribute/);
+
+    })
+
+
+    it('should catch primary attributes with invalid data types', () => {
+
+      const Country = new Entity({
+        name: 'Country',
+        description: 'A country',
+        attributes: {
+          name: {
+            type: DataTypeString,
+            description: 'Country name'
+          }
+        }
+      })
+
+      const City = new Entity({
+        name: 'City',
+        description: 'A city',
+        attributes: {
+          someAttribute: {
+            type: Country,
+            description: 'Something',
+            isPrimary: true,
+          }
+        }
+      })
+
+      function fn() {
+        City.getAttributes()
+      }
+
+      assert.throws(fn, /has invalid data type/);
+
+    })
+
+  })
+
+
+
   describe('system attributes', () => {
 
     it('should extend model with time tracking attributes if requested', () => {
