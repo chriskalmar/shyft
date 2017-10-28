@@ -393,6 +393,78 @@ describe.only('Entity', () => {
   })
 
 
+
+  describe('system attributes', () => {
+
+    it('should extend model with time tracking attributes if requested', () => {
+
+      const Country = new Entity({
+        name: 'Country',
+        description: 'A country',
+        includeTimeTracking: true,
+        attributes: {
+          name: {
+            type: DataTypeString,
+            description: 'Country name'
+          }
+        }
+      })
+
+      const attributes = Country.getAttributes()
+
+      assert.strictEqual(String(attributes.createdAt.type), 'DataTypeTimestampTz')
+      assert.strictEqual(String(attributes.updatedAt.type), 'DataTypeTimestampTz')
+
+    })
+
+
+    it('should extend model with user tracking attributes if requested', () => {
+
+      const Country = new Entity({
+        name: 'Country',
+        description: 'A country',
+        includeUserTracking: true,
+        attributes: {
+          name: {
+            type: DataTypeString,
+            description: 'Country name'
+          }
+        }
+      })
+
+      const attributes = Country.getAttributes()
+
+      assert.strictEqual(String(attributes.createdBy.type), 'DataTypeUserID')
+      assert.strictEqual(String(attributes.updatedBy.type), 'DataTypeUserID')
+
+    })
+
+
+    it('should throw if user defined attribute name collides with a system attribute name', () => {
+
+      const entity = new Entity({
+        name: 'SomeEntityName',
+        description: 'Just some description',
+        includeTimeTracking: true,
+        attributes: {
+          updatedAt: {
+            type: DataTypeString,
+            description: 'Just some description',
+          }
+        },
+      })
+
+      function fn() {
+        entity.getAttributes()
+      }
+
+      assert.throws(fn, /Attribute name collision with system attribute \'updatedAt\'/);
+
+    })
+
+  })
+
+
   describe('indexes', () => {
 
     it('should throw if provided with an invalid list of indexes', () => {
