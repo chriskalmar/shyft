@@ -30,6 +30,7 @@ class ProtocolType {
     this.isProtocolDataType = isProtocolDataType
 
     this._dataTypeMap = {}
+    this._dynamicDataTypeMap = []
   }
 
 
@@ -42,7 +43,7 @@ class ProtocolType {
 
     passOrThrow(
       this.isProtocolDataType(protocolDataType),
-      () => `Provided protocolDataType for '${schemaDataType}' is not a valid protocol data type in '${this.name}'`
+      () => `Provided protocolDataType for '${String(schemaDataType)}' is not a valid protocol data type in '${this.name}'`
     )
 
     passOrThrow(
@@ -54,7 +55,42 @@ class ProtocolType {
   }
 
 
+
+  addDynamicDataTypeMap(schemaDataTypeDetector, protocolDataType) {
+
+    passOrThrow(
+      isFunction(schemaDataTypeDetector),
+      () => `Provided schemaDataTypeDetector is not a valid function in '${this.name}', ` +
+        `got this instead: ${String(schemaDataTypeDetector)}`
+    )
+
+    passOrThrow(
+      this.isProtocolDataType(protocolDataType) || isFunction(protocolDataType),
+      () => `Provided protocolDataType for '${String(schemaDataTypeDetector)}' is not a valid protocol data type or function in '${this.name}', ` +
+        `got this instead: ${String(protocolDataType)}`
+    )
+
+    this._dynamicDataTypeMap.push({
+      schemaDataTypeDetector,
+      protocolDataType,
+    })
+  }
+
+
+
   convertToProtocolDataType (schemaDataType) {
+
+    const foundDynamicDataType = this._dynamicDataTypeMap.find(({schemaDataTypeDetector}) => schemaDataTypeDetector(schemaDataType))
+    if (foundDynamicDataType) {
+      const protocolDataType = foundDynamicDataType.protocolDataType
+
+      if (isFunction(protocolDataType)) {
+        const attributeType = schemaDataType
+        return protocolDataType(attributeType)
+      }
+
+      return protocolDataType
+    }
 
     passOrThrow(
       isDataType(schemaDataType),

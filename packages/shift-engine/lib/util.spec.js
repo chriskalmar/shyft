@@ -1250,6 +1250,7 @@ describe('util', () => {
       name: 'SomeStorageType',
       description: 'Just some description',
       findOne() {},
+      findOneByValues() {},
       find() {},
       count() {},
       mutate() {},
