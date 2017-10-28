@@ -390,6 +390,29 @@ describe.only('Entity', () => {
 
     })
 
+
+    it('should throw if provided with an invalid validate function', () => {
+
+      const entity = new Entity({
+        name: 'SomeEntityName',
+        description: 'Just some description',
+        attributes: {
+          someAttribute: {
+            type: DataTypeString,
+            description: 'Just some description',
+            validate: 'not-a-function'
+          }
+        },
+      })
+
+      function fn() {
+        entity.getAttributes()
+      }
+
+      assert.throws(fn, /has an invalid validate function/);
+
+    })
+
   })
 
 
