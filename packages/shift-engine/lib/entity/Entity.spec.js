@@ -483,6 +483,40 @@ describe.only('Entity', () => {
   })
 
 
+  describe('references', () => {
+
+    const Country = new Entity({
+      name: 'Country',
+      description: 'A country',
+      attributes: {
+        name: {
+          type: DataTypeString,
+          description: 'Country name'
+        }
+      }
+    })
+
+
+    it('should return a request attribute when used as reference', () => {
+
+      const countryName = Country.referenceAttribute('name')
+
+      assert.strictEqual(String(countryName.type), 'DataTypeString')
+    })
+
+
+    it('should throw if invalid attribute is to be referenced', () => {
+
+      function fn() {
+        Country.referenceAttribute('notHere')
+      }
+
+      assert.throws(fn, /Cannot reference attribute \'Country.notHere\'/);
+    })
+
+  })
+
+
 
   describe('system attributes', () => {
 
