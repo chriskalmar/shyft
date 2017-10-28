@@ -85,7 +85,7 @@ describe('ObjectDataType', () => {
   it('should reject non-map results of attribute definition functions', () => {
 
     function fn() {
-      const objectDataType = new ObjectDataType({ // eslint-disable-line no-new
+      const objectDataType = new ObjectDataType({
         name: 'Example',
         description: 'Just some description',
         attributes: () => {
@@ -101,6 +101,175 @@ describe('ObjectDataType', () => {
   })
 
 
+  it('should reject empty attribute maps', () => {
+
+    function fn() {
+      const objectDataType = new ObjectDataType({
+        name: 'Example',
+        description: 'Just some description',
+        attributes: {}
+      })
+
+      objectDataType.getAttributes()
+    }
+
+    assert.throws(fn, /has no attributes defined/);
+
+  })
+
+
+  it('should reject attributes with missing descriptions', () => {
+
+    function fn() {
+      const objectDataType = new ObjectDataType({
+        name: 'Example',
+        description: 'Just some description',
+        attributes: {
+          name: {
+            type: DataTypeString,
+          },
+        }
+      })
+
+      objectDataType.getAttributes()
+    }
+
+    assert.throws(fn, /Missing description for/);
+
+  })
+
+
+  it('should reject attributes with invalid data types', () => {
+
+    function fn() {
+      const objectDataType = new ObjectDataType({
+        name: 'Example',
+        description: 'Just some description',
+        attributes: {
+          name: {
+            type: {},
+            description: 'Just some description',
+          },
+        }
+      })
+
+      objectDataType.getAttributes()
+    }
+
+    assert.throws(fn, /has invalid data type/);
+
+  })
+
+
+  it('should reject attributes with invalid resolve functions', () => {
+
+    function fn() {
+      const objectDataType = new ObjectDataType({
+        name: 'Example',
+        description: 'Just some description',
+        attributes: {
+          name: {
+            type: DataTypeString,
+            description: 'Just some description',
+            resolve: 123456,
+          },
+        }
+      })
+
+      objectDataType.getAttributes()
+    }
+
+    assert.throws(fn, /has an invalid resolve function/);
+
+  })
+
+
+  it('should reject attributes with invalid defaultValue functions', () => {
+
+    function fn() {
+      const objectDataType = new ObjectDataType({
+        name: 'Example',
+        description: 'Just some description',
+        attributes: {
+          name: {
+            type: DataTypeString,
+            description: 'Just some description',
+            defaultValue: 123456,
+          },
+        }
+      })
+
+      objectDataType.getAttributes()
+    }
+
+    assert.throws(fn, /has an invalid defaultValue function/);
+
+  })
+
+
+  it('should cache the attributes map after initial processing', () => {
+
+    const objectDataType = new ObjectDataType({
+      name: 'SomeName',
+      description: 'Just some description',
+      attributes: {
+        id: {
+          type: DataTypeID,
+          description: 'ID of item',
+        },
+      }
+    })
+
+    const attributes = objectDataType.getAttributes()
+    const attributesAgain = objectDataType.getAttributes()
+
+    assert.deepEqual(attributes, attributesAgain)
+
+  })
+
+
+  it('should handle nested object data types', () => {
+
+    const objectDataType = new ObjectDataType({
+      name: 'SomeName',
+      description: 'Just some description',
+      attributes: {
+        id: {
+          type: DataTypeID,
+          description: 'ID of item',
+        },
+        name: {
+          type: DataTypeString,
+          description: 'Just another description'
+        },
+        nested: new ObjectDataType({
+          name: 'SomeNestedName',
+          description: 'Just some description',
+          attributes: {
+            randomInput: {
+              type: DataTypeString,
+              description: 'One more description'
+            },
+          }
+        })
+      }
+    })
+
+    const attributes = objectDataType.getAttributes()
+    const attributesAgain = objectDataType.getAttributes()
+
+    assert.deepEqual(attributes, attributesAgain)
+
+    assert.strictEqual(attributes.id.type, DataTypeID);
+    assert.strictEqual(attributes.name.type, DataTypeString);
+
+    const attributesNested = attributes.nested.getAttributes()
+
+    assert.strictEqual(attributesNested.randomInput.type, DataTypeString);
+
+  })
+
+
   describe('should have a list of attributes', () => {
 
     it('as a map', () => {
@@ -112,7 +281,6 @@ describe('ObjectDataType', () => {
           id: {
             type: DataTypeID,
             description: 'ID of item',
-            isPrimary: true,
           },
           name: {
             type: DataTypeString,
@@ -129,7 +297,7 @@ describe('ObjectDataType', () => {
     })
 
 
-    it('as a function return a map', () => {
+    it('as a function returning a map', () => {
 
       const objectDataType = new ObjectDataType({
         name: 'SomeName',
@@ -139,7 +307,6 @@ describe('ObjectDataType', () => {
             id: {
               type: DataTypeID,
               description: 'ID of item',
-              isPrimary: true,
             },
             name: {
               type: DataTypeString,
