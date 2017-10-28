@@ -1,7 +1,10 @@
 
 import { assert } from 'chai';
 import Entity, { isEntity } from './Entity';
-import Index, { INDEX_UNIQUE } from '../index/Index';
+import Index, {
+  INDEX_UNIQUE,
+  isIndex,
+} from '../index/Index';
 import { passOrThrow } from '../util';
 import {
   DataTypeID,
@@ -9,7 +12,7 @@ import {
 } from '../datatype/dataTypes';
 
 
-describe('Entity', () => {
+describe.only('Entity', () => {
 
   it('should have a name', () => {
 
@@ -417,6 +420,31 @@ describe('Entity', () => {
     })
 
 
+    it('should throw if provided with an invalid index', () => {
+
+      function fn() {
+        const entity = new Entity({
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {
+            someAttribute: {
+              type: DataTypeString,
+              description: 'Just some description',
+            }
+          },
+          indexes: [
+            { foo: 'bar' }
+          ]
+        })
+
+        entity.getAttributes()
+      }
+
+      assert.throws(fn, /Invalid index defintion for entity/);
+
+    })
+
+
     it('should throw if attribute used in index does not exist', () => {
 
       function fn() {
@@ -502,6 +530,37 @@ describe('Entity', () => {
       assert.strictEqual(attributes.email.isUnique, true);
 
     })
+
+
+    it('should return a list of indexes', () => {
+
+      const entity = new Entity({
+        name: 'SomeEntityName',
+        description: 'Just some description',
+        attributes: {
+          someAttribute: {
+            type: DataTypeString,
+            description: 'Just some description',
+          }
+        },
+        indexes: [
+          new Index({
+            type: INDEX_UNIQUE,
+            attributes: [
+              'someAttribute',
+            ]
+          })
+        ]
+      })
+
+      entity.getAttributes()
+      const indexes = entity.getIndexes()
+
+      assert.isArray(indexes)
+      assert.isTrue(isIndex(indexes[0]));
+
+    })
+
 
   })
 
