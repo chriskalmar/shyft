@@ -5,6 +5,7 @@ import Permission, {
   findInvalidPermissionAttributes,
   findMissingPermissionAttributes,
   generatePermissionDescription,
+  checkPermissionSimple,
 } from './Permission';
 import Entity from '../entity/Entity';
 import { DataTypeString } from '../datatype/dataTypes';
@@ -12,7 +13,7 @@ import { passOrThrow } from '../util';
 import { Language } from '../models/Language';
 
 
-describe.only('Permission', () => {
+describe('Permission', () => {
 
   it('should create permission objects', () => {
 
@@ -467,6 +468,90 @@ describe.only('Permission', () => {
       const result = generatePermissionDescription(permission)
 
       assert.isFalse(result)
+    })
+
+  })
+
+
+  describe('permissions check simple', () => {
+
+    const userId = 123
+    const userRoles = [ 'manager', 'reviewer' ]
+
+    it('should reject if non-Permission object is provided', () => {
+
+      function fn() {
+        checkPermissionSimple({})
+      }
+
+      assert.throws(fn, /checkPermissionSimple needs a valid permission object/);
+
+    })
+
+
+    it('should reject if user roles are not provided as an array', () => {
+
+      function fn() {
+        checkPermissionSimple(new Permission(), null, {bad: 'roles'})
+      }
+
+      assert.throws(fn, /checkPermissionSimple needs a valid list of assigned user roles/);
+
+    })
+
+
+    it('should always give access if permission mode is `everyone`', () => {
+
+      assert.isTrue(
+        checkPermissionSimple(
+          new Permission().everyone()
+        )
+      )
+    })
+
+
+    it('should give access to authenticated users if permission mode is `authenticated`', () => {
+
+      assert.isTrue(
+        checkPermissionSimple(
+          new Permission().authenticated(),
+          userId,
+        )
+      )
+    })
+
+
+    it('should reject access for anonymous users if permission mode is `authenticated`', () => {
+
+      assert.isFalse(
+        checkPermissionSimple(
+          new Permission().authenticated(),
+        )
+      )
+    })
+
+
+    it('should give access to users with corresponding user roles on permission mode `role`', () => {
+
+      assert.isTrue(
+        checkPermissionSimple(
+          new Permission().role('reviewer'),
+          userId,
+          userRoles,
+        )
+      )
+    })
+
+
+    it('should reject access for users with different roles on permission mode `role`', () => {
+
+      assert.isFalse(
+        checkPermissionSimple(
+          new Permission().role('admin'),
+          userId,
+          userRoles,
+        )
+      )
     })
 
   })
