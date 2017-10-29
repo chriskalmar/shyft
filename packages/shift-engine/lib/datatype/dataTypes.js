@@ -1,6 +1,6 @@
 
 import DataType from './DataType';
-import DataTypeUser from './DataType';
+import DataTypeUser from './DataTypeUser';
 
 import casual from 'casual';
 import _ from 'lodash';
