@@ -4,6 +4,7 @@ import Permission, {
   isPermission,
   findInvalidPermissionAttributes,
   findMissingPermissionAttributes,
+  generatePermissionDescription,
 } from './Permission';
 import Entity from '../entity/Entity';
 import { DataTypeString } from '../datatype/dataTypes';
@@ -376,6 +377,97 @@ describe.only('Permission', () => {
       assert.isFalse(missing)
     })
 
+
+  })
+
+
+  describe('permissions description', () => {
+
+    it('should reject if non-Permission object is provided', () => {
+
+      function fn() {
+        generatePermissionDescription({foo: 'bar'})
+      }
+
+      assert.throws(fn, /generatePermissionDescription needs a valid permission object/);
+
+    })
+
+
+    it('should generate a description based on defined permissions', () => {
+
+      const tests = [
+        [
+          new Permission().everyone(),
+          '\n***\nPermissions:\n\n- everyone'
+        ],
+        [
+          new Permission().authenticated(),
+          '\n***\nPermissions:\n\n- authenticated'
+        ],
+        [
+          new Permission().role('manager'),
+          '\n***\nPermissions:\n\n- roles: manager'
+        ],
+        [
+          new Permission().ownerAttribute('publisher'),
+          '\n***\nPermissions:\n\n- ownerAttributes: publisher'
+        ],
+        [
+          new Permission().lookup(Language, { createdBy: 'someAttribute' }),
+          '\n***\nPermissions:\n\n- lookups: \n  - Entity: Language \n    - createdBy -> someAttribute'
+        ],
+        [
+          new Permission().value('someAttribute', 123),
+          '\n***\nPermissions:\n\n- values: \n  - someAttribute = 123'
+        ],
+        [
+          new Permission()
+            .role('manager')
+            .role('admin')
+            .ownerAttribute('publisher')
+            .ownerAttribute('organizer')
+            .lookup(Language, { createdBy: 'someAttribute' })
+            .lookup(Language, { updatedAt: 'anotherAttribute' })
+            .lookup(Language, { source: 'lorem', mainContinent: 'ipsum' })
+            .value('someAttribute', 123)
+            .value('anotherAttribute', 'hello'),
+          '\n***\nPermissions:\n\n' +
+            '- roles: manager, admin\n' +
+            '- ownerAttributes: publisher, organizer\n' +
+            '- lookups: \n' +
+            '  - Entity: Language \n' +
+            '    - createdBy -> someAttribute\n' +
+            '  - Entity: Language \n' +
+            '    - updatedAt -> anotherAttribute\n' +
+            '  - Entity: Language \n' +
+            '    - source -> lorem\n' +
+            '    - mainContinent -> ipsum\n' +
+            '- values: \n' +
+            '  - someAttribute = 123\n' +
+            '  - anotherAttribute = hello'
+        ],
+      ]
+
+
+      tests.map(([ permission, resultText ]) => {
+        assert.strictEqual(
+          generatePermissionDescription(permission),
+          resultText
+        )
+      })
+
+    })
+
+
+    it('should return no description if permission object is empty', () => {
+
+      const permission = new Permission()
+
+      const result = generatePermissionDescription(permission)
+
+      assert.isFalse(result)
+    })
 
   })
 
