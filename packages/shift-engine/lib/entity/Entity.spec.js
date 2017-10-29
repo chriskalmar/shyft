@@ -1300,4 +1300,136 @@ describe('Entity', () => {
 
   })
 
+
+
+  describe('states', () => {
+
+    const entityDefinition = {
+      name: 'SomeEntityName',
+      description: 'Just some description',
+      attributes: {},
+    }
+
+
+    it('should return a list of states', () => {
+
+      const states = {
+        open: 10,
+        closed: 20,
+      }
+
+      const entity = new Entity({
+        ...entityDefinition,
+        states
+      })
+
+      const theStates = entity.getStates()
+
+      assert.deepEqual(states, theStates)
+
+    })
+
+
+    it('should throw if provided with an invalid map of states', () => {
+
+      function fn() {
+        new Entity({ // eslint-disable-line no-new
+          ...entityDefinition,
+          states: [ 'bad' ]
+        })
+      }
+
+      assert.throws(fn, /states definition needs to be a map/);
+
+    })
+
+
+    it('should throw on invalid state names', () => {
+
+      function fn() {
+        new Entity({ // eslint-disable-line no-new
+          ...entityDefinition,
+          states: {
+            [ 'bad-state-name' ]: 123
+          }
+        })
+      }
+
+      assert.throws(fn, /Invalid state name/);
+
+    })
+
+
+    it('should throw on invalid state IDs', () => {
+
+      function fn1() {
+        new Entity({ // eslint-disable-line no-new
+          ...entityDefinition,
+          states: {
+            open: 1.234
+          }
+        })
+      }
+
+      assert.throws(fn1, /has an invalid unique ID/);
+
+
+      function fn2() {
+        new Entity({ // eslint-disable-line no-new
+          ...entityDefinition,
+          states: {
+            open: -1
+          }
+        })
+      }
+
+      assert.throws(fn2, /has an invalid unique ID/);
+
+
+      function fn3() {
+        new Entity({ // eslint-disable-line no-new
+          ...entityDefinition,
+          states: {
+            open: 0
+          }
+        })
+      }
+
+      assert.throws(fn3, /has an invalid unique ID/);
+
+
+      function fn4() {
+        new Entity({ // eslint-disable-line no-new
+          ...entityDefinition,
+          states: {
+            open: 'not a number'
+          }
+        })
+      }
+
+      assert.throws(fn4, /has an invalid unique ID/);
+
+    })
+
+
+    it('should throw if states IDs are not unique', () => {
+
+      function fn() {
+        new Entity({ // eslint-disable-line no-new
+          ...entityDefinition,
+          states: {
+            open: 100,
+            closed: 100,
+          }
+        })
+      }
+
+      assert.throws(fn, /needs to have a unique ID/);
+
+    })
+
+
+
+  })
+
 })

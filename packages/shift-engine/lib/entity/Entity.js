@@ -11,6 +11,8 @@ import {
 import {
   ATTRIBUTE_NAME_PATTERN,
   attributeNameRegex,
+  STATE_NAME_PATTERN,
+  stateNameRegex,
 } from '../constants';
 
 import { isIndex, INDEX_UNIQUE } from '../index/Index';
@@ -37,6 +39,7 @@ import {
   systemAttributesUserTracking,
 } from './systemAttributes';
 
+import _ from 'lodash';
 
 
 class Entity {
@@ -54,6 +57,7 @@ class Entity {
       indexes,
       mutations,
       permissions,
+      states,
     } = setup
 
     passOrThrow(name, () => 'Missing entity name')
@@ -167,6 +171,40 @@ class Entity {
       }
 
     }
+
+
+    if (states) {
+      this.states = states
+
+      passOrThrow(
+        isMap(states),
+        () => `Entity '${name}' states definition needs to be a map of state names and their unique ID`
+      )
+
+      const stateNames = Object.keys(states);
+      const uniqueIds = []
+
+      stateNames.map(stateName => {
+        const stateId = states[ stateName ]
+        uniqueIds.push(stateId)
+
+        passOrThrow(
+          stateNameRegex.test(stateName),
+          () => `Invalid state name '${stateName}' in entity '${name}' (Regex: /${STATE_NAME_PATTERN}/)`
+        )
+
+        passOrThrow(
+          stateId === parseInt(stateId, 10)  &&  stateId > 0,
+          () => `State '${stateName}' in entity '${name}' has an invalid unique ID (needs to be a positive integer)`
+        )
+      })
+
+      passOrThrow(
+        uniqueIds.length === _.uniq(uniqueIds).length,
+        () => `Each state defined in entity '${name}' needs to have a unique ID`
+      )
+    }
+
   }
 
 
@@ -220,6 +258,11 @@ class Entity {
 
   getIndexes () {
     return this.indexes
+  }
+
+
+  getStates () {
+    return this.states
   }
 
 
