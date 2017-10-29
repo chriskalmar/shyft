@@ -145,7 +145,7 @@ class Permission {
 
     passOrThrow(
       attributeName,
-      () => 'Permission type \'value\' expects an attributeName'
+      () => 'Permission type \'value\' expects an attribute name'
     )
     passOrThrow(
       typeof value !== 'undefined',

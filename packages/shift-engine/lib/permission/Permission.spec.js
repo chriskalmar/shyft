@@ -7,7 +7,7 @@ import { passOrThrow } from '../util';
 import { Language } from '../models/Language';
 
 
-describe('Permission', () => {
+describe.only('Permission', () => {
 
   it('should create permission objects', () => {
 
@@ -19,6 +19,7 @@ describe('Permission', () => {
     })
     new Permission().value('someAttribute', 123)
 
+    assert.strictEqual(String(new Permission()), 'Permission Object')
   })
 
 
@@ -128,6 +129,34 @@ describe('Permission', () => {
   })
 
 
+  describe('ownerAttribute permissions', () => {
+
+    it('should reject if attribute name is missing', () => {
+
+      function fn1() {
+        new Permission()
+          .ownerAttribute()
+      }
+
+      assert.throws(fn1, /expects an attribute name/);
+
+    })
+
+    it('should reject if duplicate attribute names are provided', () => {
+
+      function fn1() {
+        new Permission()
+          .ownerAttribute('profile')
+          .ownerAttribute('profile')
+      }
+
+      assert.throws(fn1, /Duplicate attribute name/);
+
+    })
+
+  })
+
+
   describe('lookup permissions', () => {
 
     it('should reject if entity is missing', () => {
@@ -158,14 +187,14 @@ describe('Permission', () => {
 
   describe('value permissions', () => {
 
-    it('should reject if attributeName is missing', () => {
+    it('should reject if attribute name is missing', () => {
 
       function fn1() {
         new Permission()
           .value()
       }
 
-      assert.throws(fn1, /expects an attributeName/);
+      assert.throws(fn1, /expects an attribute name/);
 
     })
 
