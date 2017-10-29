@@ -2,7 +2,11 @@
 import { assert } from 'chai';
 import Permission, {
   isPermission,
+  findInvalidPermissionAttributes,
+  findMissingPermissionAttributes,
 } from './Permission';
+import Entity from '../entity/Entity';
+import { DataTypeString } from '../datatype/dataTypes';
 import { passOrThrow } from '../util';
 import { Language } from '../models/Language';
 
@@ -251,5 +255,128 @@ describe.only('Permission', () => {
 
   })
 
+
+  describe('permission attributes', () => {
+
+    const City = new Entity({
+      name: 'City',
+      description: 'A city',
+      attributes: {
+        cityName: {
+          type: DataTypeString,
+          description: 'City name'
+        },
+      }
+    })
+
+    const User = new Entity({
+      name: 'User',
+      description: 'A user',
+      isUserEntity: true,
+      attributes: {
+        loginName: {
+          type: DataTypeString,
+          description: 'Login name'
+        },
+        city: {
+          type: City,
+          description: 'User\'s city'
+        }
+      }
+    })
+
+
+    it('should reject if ownerAttribute is not a reference to the user entity', () => {
+
+      function fn1() {
+        const permission = new Permission()
+          .ownerAttribute('any')
+
+        findInvalidPermissionAttributes(permission, City)
+      }
+
+      function fn2() {
+        const permission = new Permission()
+          .ownerAttribute('cityName')
+
+        findInvalidPermissionAttributes(permission, City)
+      }
+
+      function fn3() {
+        const permission = new Permission()
+          .ownerAttribute('city')
+
+        findInvalidPermissionAttributes(permission, User)
+      }
+
+      assert.throws(fn1, /as it is not a reference to the User entity/);
+      assert.throws(fn2, /as it is not a reference to the User entity/);
+      assert.throws(fn3, /as it is not a reference to the User entity/);
+
+    })
+
+
+    it('should find missing permission attributes', () => {
+
+      {
+        const permission = new Permission()
+          .ownerAttribute('wrong')
+
+        const missing = findMissingPermissionAttributes(permission, City)
+
+        assert.deepEqual(missing, 'wrong')
+      }
+
+      {
+        const permission = new Permission()
+          .lookup(User, {
+            id: 'wrong'
+          })
+
+        const missing = findMissingPermissionAttributes(permission, City)
+
+        assert.deepEqual(missing, 'User.wrong')
+      }
+
+      {
+        const permission = new Permission()
+          .lookup(User, {
+            hello: 'city'
+          })
+
+        const missing = findMissingPermissionAttributes(permission, City)
+
+        assert.deepEqual(missing, 'hello')
+      }
+
+      {
+        const permission = new Permission()
+          .value('wrong', 123)
+
+        const missing = findMissingPermissionAttributes(permission, City)
+
+        assert.deepEqual(missing, 'wrong')
+      }
+
+    })
+
+
+    it('should accept correctly defined permission attributes', () => {
+
+      const permission = new Permission()
+        .ownerAttribute('id')
+        .lookup(User, {
+          id: 'city'
+        })
+        // https://en.wikipedia.org/wiki/Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu
+        .value('cityName', 'Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu')
+
+      const missing = findMissingPermissionAttributes(permission, City)
+
+      assert.isFalse(missing)
+    })
+
+
+  })
 
 })
