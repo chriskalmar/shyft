@@ -3,16 +3,17 @@ import { assert } from 'chai';
 import Action, {
   isAction,
 } from './Action';
-import {
-  DataTypeString,
-} from '../datatype/dataTypes';
+
+import { DataTypeString } from '../datatype/dataTypes';
+import ObjectDataType from '../datatype/ObjectDataType';
+
 import {
   passOrThrow,
 } from '../util';
 
 
 
-describe.only('Action', () => {
+describe('Action', () => {
 
   it('should have a name', () => {
 
@@ -99,6 +100,98 @@ describe.only('Action', () => {
   })
 
 
+  it('should have valid input and output definitions when generated via a function', () => {
+
+    const action = new Action({ // eslint-disable-line no-new
+      name: 'example',
+      description: 'do something',
+      input() {
+        return 123
+      },
+      output() {},
+      resolve() {},
+    })
+
+    function fn1() {
+      action.getInput()
+    }
+
+    function fn2() {
+      action.getOutput()
+    }
+
+    assert.throws(fn1, /does not return a map/);
+    assert.throws(fn2, /does not return a map/);
+
+  })
+
+
+  it('should have valid input data types', () => {
+
+    const action = new Action({
+      name: 'example',
+      description: 'do something',
+      input: {
+        someAttr: {}
+      },
+      output: {},
+      resolve() {},
+    })
+
+    function fn() {
+      action.getInput()
+    }
+
+    assert.throws(fn, /has invalid data type/);
+
+  })
+
+
+  it('should have valid output data types', () => {
+
+    const action = new Action({
+      name: 'example',
+      description: 'do something',
+      input: {},
+      output: {
+        someAttr: {}
+      },
+      resolve() {},
+    })
+
+    function fn() {
+      action.getOutput()
+    }
+
+    assert.throws(fn, /has invalid data type/);
+
+  })
+
+
+  it('should have valid input attributes if valid defaultValue functions', () => {
+
+    const action = new Action({
+      name: 'example',
+      description: 'do something',
+      input: {
+        someAttr: {
+          type: DataTypeString,
+          defaultValue: 'not-a-function'
+        }
+      },
+      output: {},
+      resolve() {},
+    })
+
+    function fn() {
+      action.getInput()
+    }
+
+    assert.throws(fn, /has an invalid defaultValue function/);
+
+  })
+
+
   it('should have a valid resolve function', () => {
 
     function fn() {
@@ -168,6 +261,16 @@ describe.only('Action', () => {
           type: DataTypeString,
           required: true
         },
+        about: new ObjectDataType({
+          name: 'about',
+          description: 'Just some description',
+          attributes: {
+            favouriteActor: {
+              type: DataTypeString,
+              description: 'One more description'
+            },
+          }
+        })
       },
       output: {
         luckyNumber: {
@@ -185,6 +288,9 @@ describe.only('Action', () => {
     assert.isFalse(input2.firstName.required);
     assert.isTrue(input2.lastName.required);
     assert.isFunction(input2.firstName.defaultValue);
+
+    const nestedInput2 = input2.about.getAttributes()
+    assert.strictEqual(String(nestedInput2.favouriteActor.type), 'DataTypeString')
 
     assert.strictEqual(String(output2.luckyNumber.type), 'DataTypeString');
 
