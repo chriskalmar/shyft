@@ -99,76 +99,87 @@ describe('Permission', () => {
 
 
 
-  it('should reject if role name is missing', () => {
+  describe('role permissions', () => {
 
-    function fn1() {
-      new Permission()
-        .role()
-    }
+    it('should reject if role name is missing', () => {
 
-    assert.throws(fn1, /'role' expects an role name/);
+      function fn1() {
+        new Permission()
+          .role()
+      }
 
-  })
+      assert.throws(fn1, /'role' expects an role name/);
 
-
-  it('should reject if duplicate roles are provided', () => {
-
-    function fn1() {
-      new Permission()
-        .role('manager')
-        .role('manager')
-    }
-
-    assert.throws(fn1, /Duplicate role/);
-
-  })
+    })
 
 
-  it('should reject if entity is missing for lookup permission', () => {
+    it('should reject if duplicate roles are provided', () => {
 
-    function fn1() {
-      new Permission()
-        .lookup()
-    }
+      function fn1() {
+        new Permission()
+          .role('manager')
+          .role('manager')
+      }
 
-    assert.throws(fn1, /expects an entity/);
+      assert.throws(fn1, /Duplicate role/);
+
+    })
 
   })
 
 
-  it('should reject if lookupMap is missing for lookup permission', () => {
+  describe('lookup permissions', () => {
 
-    function fn1() {
-      new Permission()
-        .lookup(Language)
-    }
+    it('should reject if entity is missing', () => {
 
-    assert.throws(fn1, /expects a lookupMap/);
+      function fn1() {
+        new Permission()
+          .lookup()
+      }
+
+      assert.throws(fn1, /expects an entity/);
+
+    })
+
+
+    it('should reject if lookupMap is missing', () => {
+
+      function fn1() {
+        new Permission()
+          .lookup(Language)
+      }
+
+      assert.throws(fn1, /expects a lookupMap/);
+
+    })
 
   })
 
 
+  describe('value permissions', () => {
 
-  it('should reject if attributeName is missing for value permission', () => {
+    it('should reject if attributeName is missing', () => {
 
-    function fn1() {
-      new Permission()
-        .value()
-    }
+      function fn1() {
+        new Permission()
+          .value()
+      }
 
-    assert.throws(fn1, /expects an attributeName/);
+      assert.throws(fn1, /expects an attributeName/);
 
-  })
+    })
 
 
-  it('should reject if value is missing for value permission', () => {
+    it('should reject if value is missing', () => {
 
-    function fn1() {
-      new Permission()
-        .value('someAttribute')
-    }
+      function fn1() {
+        new Permission()
+          .value('someAttribute')
+      }
 
-    assert.throws(fn1, /expects a value/);
+      assert.throws(fn1, /expects a value/);
+
+    })
 
   })
 
