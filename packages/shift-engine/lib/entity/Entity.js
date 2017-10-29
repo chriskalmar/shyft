@@ -100,7 +100,7 @@ class Entity {
       indexes.map((index, idx) => {
         passOrThrow(
           isIndex(index),
-          () => `Invalid index defintion for entity '${name}' at position '${idx}'`
+          () => `Invalid index definition for entity '${name}' at position '${idx}'`
         )
 
       })
@@ -119,7 +119,7 @@ class Entity {
       mutations.map((mutation, idx) => {
         passOrThrow(
           isMutation(mutation),
-          () => `Invalid mutation defintion for entity '${name}' at position '${idx}'`
+          () => `Invalid mutation definition for entity '${name}' at position '${idx}'`
         )
 
       })
@@ -139,14 +139,14 @@ class Entity {
       if (permissions.read) {
         passOrThrow(
           isPermission(permissions.read),
-          () => `Invalid 'read' permission defintion for entity '${name}'`
+          () => `Invalid 'read' permission definition for entity '${name}'`
         )
       }
 
       if (permissions.find) {
         passOrThrow(
           isPermission(permissions.find),
-          () => `Invalid 'find' permission defintion for entity '${name}'`
+          () => `Invalid 'find' permission definition for entity '${name}'`
         )
       }
 
@@ -160,7 +160,7 @@ class Entity {
         mutationNames.map((mutationName, idx) => {
           passOrThrow(
             isPermission(permissions.mutations[ mutationName ]),
-            () => `Invalid mutation permission defintion for entity '${name}' at position '${idx}'`
+            () => `Invalid mutation permission definition for entity '${name}' at position '${idx}'`
           )
 
         })

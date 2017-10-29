@@ -29,19 +29,19 @@ class Index {
 
     passOrThrow(
       isArray(attributes, true),
-      () => `Index defintion of type '${type}' needs to have a list of attributes`
+      () => `Index definition of type '${type}' needs to have a list of attributes`
     )
 
     attributes.map(attribute => {
       passOrThrow(
         typeof attribute === 'string',
-        () => `Index defintion of type '${type}' needs to have a list of attribute names`
+        () => `Index definition of type '${type}' needs to have a list of attribute names`
       )
     })
 
     passOrThrow(
       attributes.length === _.uniq(attributes).length,
-      () => `Index defintion of type '${type}' needs to have a list of unique attribute names`
+      () => `Index definition of type '${type}' needs to have a list of unique attribute names`
     )
 
 

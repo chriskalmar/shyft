@@ -645,7 +645,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      assert.throws(fn, /Invalid index defintion for entity/);
+      assert.throws(fn, /Invalid index definition for entity/);
 
     })
 
@@ -848,7 +848,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      assert.throws(fn, /Invalid mutation defintion for entity/);
+      assert.throws(fn, /Invalid mutation definition for entity/);
 
     })
 
