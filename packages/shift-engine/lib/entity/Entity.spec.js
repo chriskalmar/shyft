@@ -11,6 +11,9 @@ import Mutation, {
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
 } from '../mutation/Mutation';
+import Permission, {
+  isPermission,
+} from '../permission/Permission';
 import { passOrThrow } from '../util';
 import {
   DataTypeID,
@@ -1033,5 +1036,268 @@ describe('Entity', () => {
   })
 
 
+
+  describe('permissions', () => {
+
+
+    it('should return a list of mutations', () => {
+
+      const entity = new Entity({
+        name: 'SomeEntityName',
+        description: 'Just some description',
+        attributes: {},
+        permissions: {
+          read: new Permission()
+        }
+      })
+
+      const permissions = entity.getPermissions()
+
+      assert.isTrue(isPermission(permissions.read));
+
+    })
+
+
+    it('should accept a correct permissions setup', () => {
+
+      const entity = new Entity({
+        name: 'SomeEntityName',
+        description: 'Just some description',
+        attributes: {
+          someAttribute: {
+            type: DataTypeString,
+            description: 'Some description',
+          }
+        },
+        permissions: {
+          read: new Permission().value('someAttribute', 123),
+          mutations: {
+            update: new Permission().role('manager'),
+          }
+        }
+      })
+
+      entity.getAttributes()
+    })
+
+
+    it('should throw if provided with an invalid map of permissions', () => {
+
+      function fn() {
+        new Entity({ // eslint-disable-line no-new
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {},
+          permissions: [ 'bad' ]
+        })
+      }
+
+      assert.throws(fn, /permissions definition needs to be an object/);
+
+    })
+
+
+    it('should throw if provided with an invalid map of mutation permissions', () => {
+
+      function fn() {
+        new Entity({ // eslint-disable-line no-new
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {},
+          permissions: {
+            mutations: [ 'bad' ]
+          }
+        })
+      }
+
+      assert.throws(fn, /permissions definition for mutations needs to be a map of mutations and permissions/);
+
+    })
+
+
+    it('should throw if provided with an invalid permissions', () => {
+
+      function fn1() {
+        new Entity({ // eslint-disable-line no-new
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {},
+          permissions: {
+            read: [ 'bad' ]
+          }
+        })
+      }
+
+      assert.throws(fn1, /Invalid \'read\' permission definition/);
+
+
+      function fn2() {
+        new Entity({ // eslint-disable-line no-new
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {},
+          permissions: {
+            find: [ 'bad' ]
+          }
+        })
+      }
+
+      assert.throws(fn2, /Invalid \'find\' permission definition/);
+
+
+      function fn3() {
+        new Entity({ // eslint-disable-line no-new
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {},
+          permissions: {
+            mutations: {
+              create: [ 'bad' ]
+            }
+          }
+        })
+      }
+
+      assert.throws(fn3, /Invalid mutation permission definition/);
+
+    })
+
+
+    it('should throw if permissions have unknown attributes defined', () => {
+
+      function fn1() {
+        const entity = new Entity({
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {
+            someAttribute: {
+              type: DataTypeString,
+              description: 'Some description',
+            }
+          },
+          permissions: {
+            read: new Permission().ownerAttribute('notHere')
+          }
+        })
+
+        entity.getAttributes()
+      }
+
+      assert.throws(
+        fn1,
+        /Cannot use attribute \'notHere\' in \'SomeEntityName.permissions\' for \'read\' as it does not exist/
+      );
+
+
+      function fn2() {
+        const entity = new Entity({
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {
+            someAttribute: {
+              type: DataTypeString,
+              description: 'Some description',
+            }
+          },
+          permissions: {
+            find: new Permission().value('notHere', 123)
+          }
+        })
+
+        entity.getAttributes()
+      }
+
+      assert.throws(
+        fn2,
+        /Cannot use attribute \'notHere\' in \'SomeEntityName.permissions\' for \'find\' as it does not exist/
+      );
+
+
+      function fn3() {
+        const entity = new Entity({
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {
+            someAttribute: {
+              type: DataTypeString,
+              description: 'Some description',
+            }
+          },
+          permissions: {
+            mutations: {
+              update: new Permission().ownerAttribute('notHere')
+            }
+          }
+        })
+
+        entity.getAttributes()
+      }
+
+      assert.throws(
+        fn3,
+        /Cannot use attribute \'notHere\' in \'SomeEntityName.permissions\' for \'update\' as it does not exist/
+      );
+
+    })
+
+
+    it('should throw if permissions have invalid attributes defined', () => {
+
+      function fn1() {
+        const entity = new Entity({
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {
+            someAttribute: {
+              type: DataTypeString,
+              description: 'Some description',
+            }
+          },
+          permissions: {
+            read: new Permission().ownerAttribute('someAttribute')
+          }
+        })
+
+        entity.getAttributes()
+      }
+
+      assert.throws(
+        fn1,
+        /Cannot use attribute \'someAttribute\' in \'SomeEntityName.permissions\' as \'ownerAttribute\' as it is not a reference to the User entity/
+      );
+
+    })
+
+
+    it('should throw if permissions are assigned to unknown mutations', () => {
+
+      function fn1() {
+        const entity = new Entity({
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {
+            someAttribute: {
+              type: DataTypeString,
+              description: 'Some description',
+            }
+          },
+          permissions: {
+            mutations: {
+              noSuchMutation: new Permission().ownerAttribute('someAttribute')
+            }
+          }
+        })
+
+        entity.getAttributes()
+      }
+
+      assert.throws(
+        fn1,
+        /Unknown mutation \'noSuchMutation\' used for permissions/
+      );
+
+    })
+
+  })
 
 })

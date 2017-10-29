@@ -213,6 +213,11 @@ class Entity {
   }
 
 
+  getPermissions () {
+    return this.permissions
+  }
+
+
   getIndexes () {
     return this.indexes
   }
