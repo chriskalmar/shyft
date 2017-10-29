@@ -498,15 +498,14 @@ class Entity {
 
   _validatePermissionAttributes (permission, mutationName) {
 
-    const attributeNames = Object.keys(this._attributes)
-    const invalidAttribute = findMissingPermissionAttributes(permission, attributeNames, this)
+    const invalidAttribute = findMissingPermissionAttributes(permission, this)
 
     passOrThrow(
       !invalidAttribute,
       () => `Cannot use attribute '${invalidAttribute}' in '${this.name}.permissions' for '${mutationName}' as it does not exist`
     )
 
-    findInvalidPermissionAttributes(permission, attributeNames, this)
+    findInvalidPermissionAttributes(permission, this)
   }
 
 

@@ -177,7 +177,7 @@ export const isPermission = (obj) => {
 }
 
 
-export const findInvalidPermissionAttributes = (permission, entityAttributeNames, entity) => {
+export const findInvalidPermissionAttributes = (permission, entity) => {
 
   const attributes = entity.getAttributes()
 
@@ -196,7 +196,9 @@ export const findInvalidPermissionAttributes = (permission, entityAttributeNames
 }
 
 
-export const findMissingPermissionAttributes = (permission, entityAttributeNames) => {
+export const findMissingPermissionAttributes = (permission, permissionEntity) => {
+
+  const entityAttributeNames = Object.keys(permissionEntity.getAttributes())
 
   const missingOwnerAttribute = permission.ownerAttributes.find(ownerAttribute => !entityAttributeNames.includes(ownerAttribute))
   if (missingOwnerAttribute) {
