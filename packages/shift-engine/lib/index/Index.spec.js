@@ -109,6 +109,8 @@ describe('Index', () => {
     assert.deepEqual(index1.attributes, [ 'a' ]);
     assert.deepEqual(index2.attributes, [ 'a', 'b', 'c' ]);
 
+    assert.deepEqual(String(index1), 'unique');
+
   })
 
 

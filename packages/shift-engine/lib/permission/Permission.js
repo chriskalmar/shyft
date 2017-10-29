@@ -6,7 +6,7 @@ import {
 } from '../util';
 
 import { isEntity } from '../entity/Entity';
-import { isDataTypeUser } from '../datatype/DataType';
+import { isDataTypeUser } from '../datatype/DataTypeUser';
 import _ from 'lodash';
 
 
@@ -145,7 +145,7 @@ class Permission {
 
     passOrThrow(
       attributeName,
-      () => 'Permission type \'value\' expects an attributeName'
+      () => 'Permission type \'value\' expects an attribute name'
     )
     passOrThrow(
       typeof value !== 'undefined',
@@ -177,7 +177,7 @@ export const isPermission = (obj) => {
 }
 
 
-export const findInvalidPermissionAttributes = (permission, entityAttributeNames, entity) => {
+export const findInvalidPermissionAttributes = (permission, entity) => {
 
   const attributes = entity.getAttributes()
 
@@ -196,7 +196,9 @@ export const findInvalidPermissionAttributes = (permission, entityAttributeNames
 }
 
 
-export const findMissingPermissionAttributes = (permission, entityAttributeNames) => {
+export const findMissingPermissionAttributes = (permission, permissionEntity) => {
+
+  const entityAttributeNames = Object.keys(permissionEntity.getAttributes())
 
   const missingOwnerAttribute = permission.ownerAttributes.find(ownerAttribute => !entityAttributeNames.includes(ownerAttribute))
   if (missingOwnerAttribute) {

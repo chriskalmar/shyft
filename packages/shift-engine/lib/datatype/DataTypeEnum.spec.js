@@ -103,6 +103,18 @@ describe('DataTypeEnum', () => {
   })
 
 
+  it('should have a generated mock function', () => {
+
+    const values = [ 'ACTION', 'COMEDY', 'DRAMA' ]
+    const dataType = new DataTypeEnum({
+      name: 'example',
+      values,
+    })
+
+    assert.oneOf(dataType.mock(), values);
+  })
+
+
   describe('isDataTypeEnum', () => {
 
 
