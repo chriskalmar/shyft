@@ -93,7 +93,7 @@ describe('util', () => {
 
       const result = resolveFunctionMap(dataMap)
 
-      assert.strictEqual(result, dataMap)
+      assert.deepEqual(result, dataMap)
     })
 
 
