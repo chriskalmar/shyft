@@ -265,6 +265,10 @@ class Entity {
     return this.states
   }
 
+  hasStates () {
+    return !!this.states
+  }
+
 
   _collectSystemAttributes (attributeMap) {
 
@@ -527,7 +531,45 @@ class Entity {
           )
         }
       }
+
+
+      const checkMutationStates = (stateStringOrArray) => {
+
+        const stateNames = isArray(stateStringOrArray)
+          ? stateStringOrArray
+          : [ stateStringOrArray ]
+
+        const states = _self.getStates()
+
+        stateNames.map(stateName => {
+          passOrThrow(
+            states[ stateName ],
+            () => `Unknown state '${stateName}' used in mutation '${this.name}.${mutation.name}'`
+          )
+        })
+      }
+
+
+      if (mutation.fromState) {
+        passOrThrow(
+          _self.hasStates(),
+          () => `Mutation '${this.name}.${mutation.name}' cannot define fromState as the entity is stateless`
+        )
+
+        checkMutationStates(mutation.fromState)
+      }
+
+
+      if (mutation.toState) {
+        passOrThrow(
+          _self.hasStates(),
+          () => `Mutation '${this.name}.${mutation.name}' cannot define toState as the entity is stateless`
+        )
+
+        checkMutationStates(mutation.toState)
+      }
     })
+
 
     defaultEntityMutations.map(defaultMutation => {
       if (!mutationNames.includes(defaultMutation.name)) {
