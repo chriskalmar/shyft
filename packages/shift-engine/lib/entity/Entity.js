@@ -37,6 +37,7 @@ import {
   systemAttributePrimary,
   systemAttributesTimeTracking,
   systemAttributesUserTracking,
+  systemAttributeState,
 } from './systemAttributes';
 
 import _ from 'lodash';
@@ -294,6 +295,12 @@ class Entity {
         attributeMap[ attribute.name ] = attribute
         list.push(attribute.name)
       })
+    }
+
+    if (this.hasStates()) {
+      this._checkSystemAttributeNameCollision(attributeMap, systemAttributeState.name)
+      attributeMap[ systemAttributeState.name ] = systemAttributeState
+      list.push(systemAttributeState.name)
     }
 
     return list

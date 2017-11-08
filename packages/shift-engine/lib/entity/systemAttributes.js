@@ -5,6 +5,10 @@ import {
   DataTypeTimestampTz,
 } from '../datatype/dataTypes';
 
+import DataTypeState from '../datatype/DataTypeState.js';
+
+import _ from 'lodash';
+
 
 export const systemAttributePrimary = {
   name: 'id',
@@ -67,3 +71,16 @@ export const systemAttributesUserTracking = [
     },
   },
 ]
+
+
+export const systemAttributeState = {
+  name: 'state',
+  description: 'State of record',
+  type: (attribute, entity) => new DataTypeState({
+    ...attribute,
+    name: _.camelCase(`${entity.name}-instance-state`),
+    states: entity.states,
+  }),
+  required: true,
+}
+
