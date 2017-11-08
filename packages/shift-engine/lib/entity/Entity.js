@@ -334,6 +334,10 @@ class Entity {
 
     passOrThrow(attribute.description, () => `Missing description for '${this.name}.${attributeName}'`)
 
+    if (isFunction(attribute.type)) {
+      attribute.type = attribute.type(attribute, this)
+    }
+
     passOrThrow(
       isDataType(attribute.type) || (attribute.type instanceof Entity),
       () => `'${this.name}.${attributeName}' has invalid data type '${String(attribute.type)}'`
