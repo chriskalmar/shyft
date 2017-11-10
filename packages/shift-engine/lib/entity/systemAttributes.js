@@ -102,5 +102,15 @@ export const systemAttributeState = {
 
     return state
   },
+  validate: (value, data, mutation) => {
+    if (mutation.isTypeCreate || mutation.isTypeUpdate) {
+      if (typeof mutation.toState !== 'string') {
+        if (!mutation.toState.includes(value)) {
+          const stateList = mutation.toState.join(', ')
+          throw new CustomError(`Invalid state was set. Needs to be one of: ${stateList}`, 'InvalidStateSetError')
+        }
+      }
+    }
+  },
 }
 
