@@ -453,7 +453,7 @@ const fillSystemAttributesDefaultValues = (entity, entityMutation, payload, cont
     const attributeName = attribute.name
     const defaultValue = attribute.defaultValue
 
-    const value = defaultValue(ret, entityMutation, context)
+    const value = defaultValue(ret, entityMutation, entity, context)
     if (typeof value !== 'undefined') {
       ret[ attributeName ] = value
     }
@@ -481,7 +481,8 @@ const fillDefaultValues = (entity, entityMutation, payload, context) => {
     const attributeName = attribute.name
     if (!entityMutation.attributes.includes(attributeName)) {
       if (attribute.defaultValue) {
-        ret[ attributeName ] = attribute.defaultValue(ret, entityMutation, context)
+        ret[ attributeName ] = attribute.defaultValue(ret, entityMutation, entity, context)
+      }
       }
     }
   })
