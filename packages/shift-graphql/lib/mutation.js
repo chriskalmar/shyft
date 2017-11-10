@@ -581,23 +581,27 @@ const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) 
 }
 
 
-const validateMutationPayload = (entity, entityMutation, payload) => {
+const validateMutationPayload = (entity, entityMutation, payload, context) => {
 
   const attributes = entity.getAttributes()
+  const systemAttributes = _.filter(
+    attributes,
+    attribute => attribute.isSystemAttribute && attribute.defaultValue
+  ).map(attribute => attribute.name)
 
-  if (entityMutation.attributes) {
-    entityMutation.attributes.map(attributeName => {
+  const attributesToValidate = systemAttributes.concat(entityMutation.attributes || [])
+
+  attributesToValidate.map(attributeName => {
       const attribute = attributes[ attributeName ]
 
       if (attribute.validate) {
-        const result = attribute.validate(payload[ attributeName ], attributeName)
+      const result = attribute.validate(payload[ attributeName ], payload, entityMutation, entity, context)
         if (result instanceof Error) {
           throw result
         }
       }
     })
   }
-}
 
 
 const getMutationResolver = (entity, entityMutation, typeName, storageType, graphRegistry, nested) => {
@@ -620,7 +624,7 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
       args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
     }
 
-    validateMutationPayload(entity, entityMutation, args.input[typeName])
+    validateMutationPayload(entity, entityMutation, args.input[ typeName ], context)
 
     if (entityMutation.preProcessor) {
       args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
@@ -647,7 +651,7 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
       args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
     }
 
-    validateMutationPayload(entity, entityMutation, args.input[typeName])
+    validateMutationPayload(entity, entityMutation, args.input[ typeName ], context)
 
     if (entityMutation.preProcessor) {
       args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
