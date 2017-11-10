@@ -92,5 +92,15 @@ export const systemAttributeState = {
     }
     return undefined
   },
+  serialize: (value, data, mutation, entity) => {
+    const states = entity.getStates()
+    const state = states[ value ]
+
+    if (!state) {
+      throw new CustomError('State was not set', 'StateNotSetError')
+    }
+
+    return state
+  },
 }
 
