@@ -483,11 +483,11 @@ const fillDefaultValues = (entity, entityMutation, payload, context) => {
       if (attribute.defaultValue) {
         ret[ attributeName ] = attribute.defaultValue(ret, entityMutation, entity, context)
       }
-      }
+    }
   })
 
   return ret
-    }
+}
 
 
 const serializeValues = (entity, entityMutation, payload, context) => {
@@ -610,16 +610,16 @@ const validateMutationPayload = (entity, entityMutation, payload, context) => {
   const attributesToValidate = systemAttributes.concat(entityMutation.attributes || [])
 
   attributesToValidate.map(attributeName => {
-      const attribute = attributes[ attributeName ]
+    const attribute = attributes[ attributeName ]
 
-      if (attribute.validate) {
+    if (attribute.validate) {
       const result = attribute.validate(payload[ attributeName ], payload, entityMutation, entity, context)
-        if (result instanceof Error) {
-          throw result
-        }
+      if (result instanceof Error) {
+        throw result
       }
-    })
-  }
+    }
+  })
+}
 
 
 const getMutationResolver = (entity, entityMutation, typeName, storageType, graphRegistry, nested) => {
@@ -634,6 +634,10 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
 
     const id = extractIdFromNodeId(graphRegistry, entity.name, args.input.nodeId)
 
+    if (entityMutation.preProcessor) {
+      args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+    }
+
     if (entityMutation.type === MUTATION_TYPE_CREATE) {
       args.input[typeName] = fillDefaultValues(entity, entityMutation, args.input[typeName], context)
     }
@@ -643,10 +647,6 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
     }
 
     validateMutationPayload(entity, entityMutation, args.input[ typeName ], context)
-
-    if (entityMutation.preProcessor) {
-      args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
-    }
 
     args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
 
@@ -667,15 +667,15 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
 
     const id = args.input[ fieldName ]
 
+    if (entityMutation.preProcessor) {
+      args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+    }
+
     if (entityMutation.type === MUTATION_TYPE_UPDATE) {
       args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
     }
 
     validateMutationPayload(entity, entityMutation, args.input[ typeName ], context)
-
-    if (entityMutation.preProcessor) {
-      args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
-    }
 
     args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
 
