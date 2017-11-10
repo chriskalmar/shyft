@@ -5,6 +5,8 @@ import {
   DataTypeTimestampTz,
 } from '../datatype/dataTypes';
 
+import CustomError from '../CustomError'
+
 import DataTypeState from '../datatype/DataTypeState.js';
 
 import _ from 'lodash';
@@ -51,7 +53,7 @@ export const systemAttributesUserTracking = [
     description: 'Record was created by this time',
     type: DataTypeUserID,
     required: true,
-    defaultValue: (data, mutation, { req }) => {
+    defaultValue: (data, mutation, entity, { req }) => {
       // TODO: make overridable
       return (mutation.isTypeCreate && req && req.user && req.user.id)
         ? req.user.id
@@ -63,7 +65,7 @@ export const systemAttributesUserTracking = [
     description: 'Record was updated by this user',
     type: DataTypeUserID,
     required: true,
-    defaultValue: (data, mutation, { req }) => {
+    defaultValue: (data, mutation, entity, { req }) => {
       // TODO: make overridable
       return ((mutation.isTypeCreate || mutation.isTypeUpdate) && req && req.user && req.user.id)
         ? req.user.id
