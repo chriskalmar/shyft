@@ -484,6 +484,24 @@ const fillDefaultValues = (entity, entityMutation, payload, context) => {
         ret[ attributeName ] = attribute.defaultValue(ret, entityMutation, entity, context)
       }
       }
+  })
+
+  return ret
+    }
+
+
+const serializeValues = (entity, entityMutation, payload, context) => {
+
+  const ret = {
+    ...payload
+  }
+
+  const entityAttributes = entity.getAttributes()
+
+  _.forEach(entityAttributes, (attribute) => {
+    const attributeName = attribute.name
+    if (attribute.serialize) {
+      ret[attributeName] = attribute.serialize(ret[attributeName], ret, entityMutation, entity, context)
     }
   })
 
@@ -630,6 +648,8 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
       args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
     }
 
+    args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
+
     const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
     if (result[ typeName ]) {
       result[ typeName ] = entity.graphql.dataShaper(result[ typeName ])
@@ -656,6 +676,8 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
     if (entityMutation.preProcessor) {
       args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
     }
+
+    args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
 
     const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
     if (result[ typeName ]) {
