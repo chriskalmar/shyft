@@ -84,5 +84,13 @@ export const systemAttributeState = {
     states: entity.states,
   }),
   required: true,
+  defaultValue: (data, mutation) => {
+    if (mutation.isTypeCreate || mutation.isTypeUpdate) {
+      if (typeof mutation.toState === 'string') {
+        return mutation.toState
+      }
+    }
+    return undefined
+  },
 }
 
