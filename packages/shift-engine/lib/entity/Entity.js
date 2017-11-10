@@ -398,6 +398,11 @@ class Entity {
       () => `'${this.name}.${attributeName}' has an invalid validate function'`
     )
 
+    passOrThrow(
+      !attribute.serialize || isFunction(attribute.serialize),
+      () => `'${this.name}.${attributeName}' has an invalid serialize function'`
+    )
+
     return attribute
   }
 
