@@ -18,7 +18,7 @@ import _ from 'lodash';
 const compatibilityList = [
   [ 'everyone', ],
   [ 'authenticated', ],
-  [ 'role', 'ownerAttribute', 'lookup', 'value' ],
+  [ 'role', 'ownerAttribute', 'lookup', 'value', 'state' ],
 ]
 
 
@@ -35,6 +35,7 @@ class Permission {
   ownerAttributes = []
   lookups = []
   values = []
+  states = []
 
 
   constructor () {
@@ -161,6 +162,20 @@ class Permission {
   }
 
 
+  state (stateName) {
+    this._checkCompatibility('state')
+
+    passOrThrow(
+      stateName,
+      () => 'Permission type \'state\' expects a state name'
+    )
+
+    this.states.push(stateName)
+
+    return this
+  }
+
+
 
   toString() {
     return 'Permission Object'
@@ -259,6 +274,10 @@ export const generatePermissionDescription = (permission) => {
     lines.push(`ownerAttributes: ${permission.ownerAttributes.join(', ')}`)
   }
 
+  if (permission.states.length > 0) {
+    lines.push(`states: ${permission.states.join(', ')}`)
+  }
+
   if (permission.lookups.length > 0) {
     const lookupBullets = permission.lookups.reduce((lprev, {entity, lookupMap}) => {
 
@@ -331,7 +350,7 @@ export const checkPermissionSimple = (permission, userId = null, userRoles = [])
 
 
 
-export const buildPermissionFilter = (permission, userId = null) => {
+export const buildPermissionFilter = (permission, userId, userRoles, entity) => {
 
   let where
 
@@ -347,6 +366,30 @@ export const buildPermissionFilter = (permission, userId = null) => {
     })
   }
 
+  if (permission.states.length > 0) {
+
+    where = where || {}
+    where.$or = where.$or || []
+
+    const states = entity.getStates()
+    const stateIds = permission.states.map((stateName) => {
+      const state = states[ stateName ]
+
+      passOrThrow(
+        state,
+        () => `unknown state name '${stateName}' used in permission object`
+      )
+
+      return state
+    })
+
+    where.$or.push({
+      state: {
+        $in: stateIds
+      }
+    })
+
+  }
 
   // TODO: other permission types as well
 

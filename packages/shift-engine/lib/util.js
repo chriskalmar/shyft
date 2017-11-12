@@ -24,7 +24,7 @@ export const passOrThrow = (condition, messageFn) => {
 export const resolveFunctionMap = (functionOrMap) => {
   return typeof functionOrMap === 'function'
     ? functionOrMap()
-    : functionOrMap
+    : { ...functionOrMap }
 }
 
 

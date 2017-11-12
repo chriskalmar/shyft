@@ -453,7 +453,7 @@ const fillSystemAttributesDefaultValues = (entity, entityMutation, payload, cont
     const attributeName = attribute.name
     const defaultValue = attribute.defaultValue
 
-    const value = defaultValue(ret, entityMutation, context)
+    const value = defaultValue(ret, entityMutation, entity, context)
     if (typeof value !== 'undefined') {
       ret[ attributeName ] = value
     }
@@ -481,8 +481,27 @@ const fillDefaultValues = (entity, entityMutation, payload, context) => {
     const attributeName = attribute.name
     if (!entityMutation.attributes.includes(attributeName)) {
       if (attribute.defaultValue) {
-        ret[ attributeName ] = attribute.defaultValue(ret, entityMutation, context)
+        ret[ attributeName ] = attribute.defaultValue(ret, entityMutation, entity, context)
       }
+    }
+  })
+
+  return ret
+}
+
+
+const serializeValues = (entity, entityMutation, payload, context) => {
+
+  const ret = {
+    ...payload
+  }
+
+  const entityAttributes = entity.getAttributes()
+
+  _.forEach(entityAttributes, (attribute) => {
+    const attributeName = attribute.name
+    if (attribute.serialize) {
+      ret[attributeName] = attribute.serialize(ret[attributeName], ret, entityMutation, entity, context)
     }
   })
 
@@ -580,22 +599,26 @@ const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) 
 }
 
 
-const validateMutationPayload = (entity, entityMutation, payload) => {
+const validateMutationPayload = (entity, entityMutation, payload, context) => {
 
   const attributes = entity.getAttributes()
+  const systemAttributes = _.filter(
+    attributes,
+    attribute => attribute.isSystemAttribute && attribute.defaultValue
+  ).map(attribute => attribute.name)
 
-  if (entityMutation.attributes) {
-    entityMutation.attributes.map(attributeName => {
-      const attribute = attributes[ attributeName ]
+  const attributesToValidate = systemAttributes.concat(entityMutation.attributes || [])
 
-      if (attribute.validate) {
-        const result = attribute.validate(payload[ attributeName ], attributeName)
-        if (result instanceof Error) {
-          throw result
-        }
+  attributesToValidate.map(attributeName => {
+    const attribute = attributes[ attributeName ]
+
+    if (attribute.validate) {
+      const result = attribute.validate(payload[ attributeName ], payload, entityMutation, entity, context)
+      if (result instanceof Error) {
+        throw result
       }
-    })
-  }
+    }
+  })
 }
 
 
@@ -611,6 +634,10 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
 
     const id = extractIdFromNodeId(graphRegistry, entity.name, args.input.nodeId)
 
+    if (entityMutation.preProcessor) {
+      args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+    }
+
     if (entityMutation.type === MUTATION_TYPE_CREATE) {
       args.input[typeName] = fillDefaultValues(entity, entityMutation, args.input[typeName], context)
     }
@@ -619,11 +646,9 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
       args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
     }
 
-    validateMutationPayload(entity, entityMutation, args.input[typeName])
+    validateMutationPayload(entity, entityMutation, args.input[ typeName ], context)
 
-    if (entityMutation.preProcessor) {
-      args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
-    }
+    args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
 
     const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
     if (result[ typeName ]) {
@@ -642,15 +667,17 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
 
     const id = args.input[ fieldName ]
 
+    if (entityMutation.preProcessor) {
+      args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+    }
+
     if (entityMutation.type === MUTATION_TYPE_UPDATE) {
       args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
     }
 
-    validateMutationPayload(entity, entityMutation, args.input[typeName])
+    validateMutationPayload(entity, entityMutation, args.input[ typeName ], context)
 
-    if (entityMutation.preProcessor) {
-      args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
-    }
+    args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
 
     const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
     if (result[ typeName ]) {

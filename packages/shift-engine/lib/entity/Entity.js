@@ -11,6 +11,8 @@ import {
 import {
   ATTRIBUTE_NAME_PATTERN,
   attributeNameRegex,
+  STATE_NAME_PATTERN,
+  stateNameRegex,
 } from '../constants';
 
 import { isIndex, INDEX_UNIQUE } from '../index/Index';
@@ -35,8 +37,10 @@ import {
   systemAttributePrimary,
   systemAttributesTimeTracking,
   systemAttributesUserTracking,
+  systemAttributeState,
 } from './systemAttributes';
 
+import _ from 'lodash';
 
 
 class Entity {
@@ -54,6 +58,7 @@ class Entity {
       indexes,
       mutations,
       permissions,
+      states,
     } = setup
 
     passOrThrow(name, () => 'Missing entity name')
@@ -167,6 +172,40 @@ class Entity {
       }
 
     }
+
+
+    if (states) {
+      this.states = states
+
+      passOrThrow(
+        isMap(states),
+        () => `Entity '${name}' states definition needs to be a map of state names and their unique ID`
+      )
+
+      const stateNames = Object.keys(states);
+      const uniqueIds = []
+
+      stateNames.map(stateName => {
+        const stateId = states[ stateName ]
+        uniqueIds.push(stateId)
+
+        passOrThrow(
+          stateNameRegex.test(stateName),
+          () => `Invalid state name '${stateName}' in entity '${name}' (Regex: /${STATE_NAME_PATTERN}/)`
+        )
+
+        passOrThrow(
+          stateId === parseInt(stateId, 10)  &&  stateId > 0,
+          () => `State '${stateName}' in entity '${name}' has an invalid unique ID (needs to be a positive integer)`
+        )
+      })
+
+      passOrThrow(
+        uniqueIds.length === _.uniq(uniqueIds).length,
+        () => `Each state defined in entity '${name}' needs to have a unique ID`
+      )
+    }
+
   }
 
 
@@ -223,6 +262,15 @@ class Entity {
   }
 
 
+  getStates () {
+    return this.states
+  }
+
+  hasStates () {
+    return !!this.states
+  }
+
+
   _collectSystemAttributes (attributeMap) {
 
     const list = []
@@ -247,6 +295,12 @@ class Entity {
         attributeMap[ attribute.name ] = attribute
         list.push(attribute.name)
       })
+    }
+
+    if (this.hasStates()) {
+      this._checkSystemAttributeNameCollision(attributeMap, systemAttributeState.name)
+      attributeMap[ systemAttributeState.name ] = systemAttributeState
+      list.push(systemAttributeState.name)
     }
 
     return list
@@ -279,6 +333,10 @@ class Entity {
     }
 
     passOrThrow(attribute.description, () => `Missing description for '${this.name}.${attributeName}'`)
+
+    if (isFunction(attribute.type)) {
+      attribute.type = attribute.type(attribute, this)
+    }
 
     passOrThrow(
       isDataType(attribute.type) || (attribute.type instanceof Entity),
@@ -338,6 +396,11 @@ class Entity {
     passOrThrow(
       !attribute.validate || isFunction(attribute.validate),
       () => `'${this.name}.${attributeName}' has an invalid validate function'`
+    )
+
+    passOrThrow(
+      !attribute.serialize || isFunction(attribute.serialize),
+      () => `'${this.name}.${attributeName}' has an invalid serialize function'`
     )
 
     return attribute
@@ -484,7 +547,45 @@ class Entity {
           )
         }
       }
+
+
+      const checkMutationStates = (stateStringOrArray) => {
+
+        const stateNames = isArray(stateStringOrArray)
+          ? stateStringOrArray
+          : [ stateStringOrArray ]
+
+        const states = _self.getStates()
+
+        stateNames.map(stateName => {
+          passOrThrow(
+            states[ stateName ],
+            () => `Unknown state '${stateName}' used in mutation '${this.name}.${mutation.name}'`
+          )
+        })
+      }
+
+
+      if (mutation.fromState) {
+        passOrThrow(
+          _self.hasStates(),
+          () => `Mutation '${this.name}.${mutation.name}' cannot define fromState as the entity is stateless`
+        )
+
+        checkMutationStates(mutation.fromState)
+      }
+
+
+      if (mutation.toState) {
+        passOrThrow(
+          _self.hasStates(),
+          () => `Mutation '${this.name}.${mutation.name}' cannot define toState as the entity is stateless`
+        )
+
+        checkMutationStates(mutation.toState)
+      }
     })
+
 
     defaultEntityMutations.map(defaultMutation => {
       if (!mutationNames.includes(defaultMutation.name)) {

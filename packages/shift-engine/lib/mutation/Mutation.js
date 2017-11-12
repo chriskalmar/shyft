@@ -48,6 +48,8 @@ class Mutation {
       description,
       attributes,
       preProcessor,
+      fromState,
+      toState,
     } = setup
 
     passOrThrow(name, () => 'Missing mutation name')
@@ -114,6 +116,48 @@ class Mutation {
     }
 
 
+    if (fromState) {
+      passOrThrow(
+        this.type !== MUTATION_TYPE_CREATE,
+        () => `Mutation '${this.name}' cannot define fromState as it is a 'create' type mutation`
+      )
+
+      passOrThrow(
+        typeof fromState === 'string' || isArray(fromState),
+        () => `fromState in mutation '${name}' needs to be the name of a state or a list of state names as a precondition to the mutation`
+      )
+
+      if (this.type !== MUTATION_TYPE_DELETE) {
+        passOrThrow(
+          toState,
+          () => `Mutation '${this.name}' has a fromState defined but misses a toState definition`
+        )
+      }
+
+      this.fromState = fromState
+    }
+
+
+    if (toState) {
+      passOrThrow(
+        this.type !== MUTATION_TYPE_DELETE,
+        () => `Mutation '${this.name}' cannot define toState as it is a 'delete' type mutation`
+      )
+
+      passOrThrow(
+        typeof toState === 'string' || isArray(toState),
+        () => `toState in mutation '${this.name}' needs to be the name of a state or a list of state names the mutation can transition to`
+      )
+
+      if (this.type !== MUTATION_TYPE_CREATE) {
+        passOrThrow(
+          fromState,
+          () => `Mutation '${this.name}' has a toState defined but misses a fromState definition`
+        )
+      }
+
+      this.toState = toState
+    }
   }
 
 

@@ -1300,4 +1300,282 @@ describe('Entity', () => {
 
   })
 
+
+
+  describe('states', () => {
+
+    const entityDefinition = {
+      name: 'SomeEntityName',
+      description: 'Just some description',
+      attributes: {
+        something: {
+          type: DataTypeString,
+          description: 'Just some description',
+        }
+      },
+    }
+
+    const mutationTypeCreateDefinition = {
+      type: MUTATION_TYPE_CREATE,
+      name: 'build',
+      description: 'build item',
+      attributes: ['something']
+    }
+
+    const mutationTypeUpdateDefinition = {
+      type: MUTATION_TYPE_UPDATE,
+      name: 'change',
+      description: 'change item',
+      attributes: [ 'id', 'something']
+    }
+
+    const mutationTypeDeleteDefinition = {
+      type: MUTATION_TYPE_DELETE,
+      name: 'drop',
+      description: 'drop item',
+      attributes: [ 'id' ]
+    }
+
+    const states = {
+      open: 10,
+      closed: 20,
+      inTransfer: 40,
+      onHold: 50,
+    }
+
+    it('should return a list of states', () => {
+
+      const entity = new Entity({
+        ...entityDefinition,
+        states
+      })
+
+      const theStates = entity.getStates()
+
+      assert.deepEqual(states, theStates)
+
+    })
+
+
+    it('should throw if provided with an invalid map of states', () => {
+
+      function fn() {
+        new Entity({ // eslint-disable-line no-new
+          ...entityDefinition,
+          states: [ 'bad' ]
+        })
+      }
+
+      assert.throws(fn, /states definition needs to be a map/);
+
+    })
+
+
+    it('should throw on invalid state names', () => {
+
+      function fn() {
+        new Entity({ // eslint-disable-line no-new
+          ...entityDefinition,
+          states: {
+            [ 'bad-state-name' ]: 123
+          }
+        })
+      }
+
+      assert.throws(fn, /Invalid state name/);
+
+    })
+
+
+    it('should throw on invalid state IDs', () => {
+
+      function fn1() {
+        new Entity({ // eslint-disable-line no-new
+          ...entityDefinition,
+          states: {
+            open: 1.234
+          }
+        })
+      }
+
+      assert.throws(fn1, /has an invalid unique ID/);
+
+
+      function fn2() {
+        new Entity({ // eslint-disable-line no-new
+          ...entityDefinition,
+          states: {
+            open: -1
+          }
+        })
+      }
+
+      assert.throws(fn2, /has an invalid unique ID/);
+
+
+      function fn3() {
+        new Entity({ // eslint-disable-line no-new
+          ...entityDefinition,
+          states: {
+            open: 0
+          }
+        })
+      }
+
+      assert.throws(fn3, /has an invalid unique ID/);
+
+
+      function fn4() {
+        new Entity({ // eslint-disable-line no-new
+          ...entityDefinition,
+          states: {
+            open: 'not a number'
+          }
+        })
+      }
+
+      assert.throws(fn4, /has an invalid unique ID/);
+
+    })
+
+
+    it('should throw if state IDs are not unique', () => {
+
+      function fn() {
+        new Entity({ // eslint-disable-line no-new
+          ...entityDefinition,
+          states: {
+            open: 100,
+            closed: 100,
+          }
+        })
+      }
+
+      assert.throws(fn, /needs to have a unique ID/);
+
+    })
+
+
+
+    it('should throw if using state in a stateless entity', () => {
+
+      function fn1() {
+        const entity = new Entity({
+          ...entityDefinition,
+          mutations: [
+            new Mutation({
+              ...mutationTypeUpdateDefinition,
+              fromState: 'open',
+              toState: 'close',
+            })
+          ]
+        })
+
+        entity.getAttributes()
+      }
+
+      assert.throws(fn1, /cannot define fromState as the entity is stateless/);
+
+
+      function fn2() {
+        const entity = new Entity({
+          ...entityDefinition,
+          mutations: [
+            new Mutation({
+              ...mutationTypeCreateDefinition,
+              toState: 'close',
+            })
+          ]
+        })
+
+        entity.getAttributes()
+      }
+
+      assert.throws(fn2, /cannot define toState as the entity is stateless/);
+
+    })
+
+
+    it('should throw if unknown state name is used', () => {
+
+      function fn1() {
+        const entity = new Entity({
+          ...entityDefinition,
+          states,
+          mutations: [
+            new Mutation({
+              ...mutationTypeUpdateDefinition,
+              fromState: 'fakeState',
+              toState: 'close',
+            })
+          ]
+        })
+
+        entity.getAttributes()
+      }
+
+      assert.throws(fn1, /Unknown state 'fakeState' used in mutation/);
+
+
+      function fn2() {
+        const entity = new Entity({
+          ...entityDefinition,
+          states,
+          mutations: [
+            new Mutation({
+              ...mutationTypeUpdateDefinition,
+              fromState: [ 'open', 'whatever', 'close' ],
+              toState: 'close',
+            })
+          ]
+        })
+
+        entity.getAttributes()
+      }
+
+      assert.throws(fn2, /Unknown state 'whatever' used in mutation/);
+
+
+      function fn3() {
+        const entity = new Entity({
+          ...entityDefinition,
+          states,
+          mutations: [
+            new Mutation({
+              ...mutationTypeUpdateDefinition,
+              fromState: 'open',
+              toState: [ 'closed', 'randomState', 'open' ],
+            })
+          ]
+        })
+
+        entity.getAttributes()
+      }
+
+      assert.throws(fn3, /Unknown state 'randomState' used in mutation/);
+
+
+      function fn4() {
+        const entity = new Entity({
+          ...entityDefinition,
+          states,
+          mutations: [
+            new Mutation({
+              ...mutationTypeDeleteDefinition,
+              fromState: [ 'open', 'notHere', 'open' ],
+            })
+          ]
+        })
+
+        entity.getAttributes()
+      }
+
+      assert.throws(fn4, /Unknown state 'notHere' used in mutation/);
+
+    })
+
+
+
+  })
+
 })

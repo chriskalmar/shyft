@@ -11,6 +11,7 @@ import {
   DataTypeTimestamp,
   DataTypeTimestampTz,
   DataTypeDate,
+  isDataTypeState,
   isDataTypeEnum,
 } from 'shift-engine';
 
@@ -57,6 +58,41 @@ ProtocolGraphQL.addDataTypeMap(DataTypeDate, GraphQLDate);
 
 
 const enumDataTypesRegistry = {}
+
+
+ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeState, (attributeType) => {
+
+  const name = attributeType.name
+  const values = {}
+
+  if (enumDataTypesRegistry[name]) {
+    if (attributeType === enumDataTypesRegistry[name].attributeType) {
+      return enumDataTypesRegistry[name].type
+    }
+  }
+
+  const states = attributeType.states
+  const stateNames = Object.keys(states)
+  stateNames.map(stateName => {
+    values[ stateName ] = {
+      value: states[ stateName ]
+    }
+  })
+
+  const type = new GraphQLEnumType({
+    name,
+    values,
+  })
+
+  enumDataTypesRegistry[name] = {
+    type,
+    attributeType,
+  }
+
+  return type
+})
+
+
 
 ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeEnum, (attributeType) => {
 

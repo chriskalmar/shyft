@@ -48,8 +48,10 @@ import {
   DataTypeDate,
 } from './datatype/dataTypes';
 
+
 import DataTypeEnum, { isDataTypeEnum } from './datatype/DataTypeEnum';
 import ObjectDataType, { isObjectDataType } from './datatype/ObjectDataType';
+import DataTypeState, { isDataTypeState} from './datatype/DataTypeState';
 
 import { Language } from './models/Language';
 import { User } from './models/User';
@@ -86,6 +88,8 @@ export {
   DataTypeTimestampTz,
   DataTypeDate,
 
+  DataTypeState,
+  isDataTypeState,
   DataTypeEnum,
   isDataTypeEnum,
 
@@ -148,6 +152,9 @@ export default {
   DataTypeTimestamp,
   DataTypeTimestampTz,
   DataTypeDate,
+
+  DataTypeState,
+  isDataTypeState,
 
   DataTypeEnum,
   isDataTypeEnum,
