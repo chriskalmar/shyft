@@ -64,3 +64,38 @@ export default Index
 export const isIndex = (obj) => {
   return (obj instanceof Index)
 }
+
+
+export const processEntityIndexes = (entity, indexes) => {
+
+  passOrThrow(
+    isArray(indexes),
+    () => `Entity '${entity.name}' indexes definition needs to be an array of indexes`
+  )
+
+
+  const entityAttributes = entity.getAttributes()
+
+  indexes.map((index, idx) => {
+    passOrThrow(
+      isIndex(index),
+      () => `Invalid index definition for entity '${entity.name}' at position '${idx}'`
+    )
+
+
+    index.attributes.map((attributeName) => {
+
+      passOrThrow(
+        entityAttributes[ attributeName ],
+        () => `Cannot use attribute '${entity.name}.${attributeName}' in index as it does not exist`
+      )
+
+      if (index.type === INDEX_UNIQUE && index.attributes.length === 1) {
+        entityAttributes[ attributeName ].isUnique = true
+      }
+
+    })
+  })
+
+  return indexes
+}

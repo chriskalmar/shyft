@@ -15,7 +15,7 @@ import {
   stateNameRegex,
 } from '../constants';
 
-import { isIndex, INDEX_UNIQUE } from '../index/Index';
+import { processEntityIndexes } from '../index/Index';
 import Mutation, {
   isMutation,
   defaultEntityMutations,
@@ -78,6 +78,7 @@ class Entity {
     this._attributesMap = attributes
     this._primaryAttribute = null
     this.referencedByEntities = []
+    this._indexes = indexes
 
     if (storageType) {
       passOrThrow(
@@ -91,25 +92,6 @@ class Entity {
       this._exposeStorageAccess()
     }
 
-
-
-    if (indexes) {
-
-      this.indexes = indexes
-
-      passOrThrow(
-        isArray(indexes),
-        () => `Entity '${name}' indexes definition needs to be an array of indexes`
-      )
-
-      indexes.map((index, idx) => {
-        passOrThrow(
-          isIndex(index),
-          () => `Invalid index definition for entity '${name}' at position '${idx}'`
-        )
-
-      })
-    }
 
 
     if (mutations) {
@@ -236,7 +218,7 @@ class Entity {
     }
 
     const ret = this._attributes = this._processAttributeMap()
-    this._processIndexes()
+    this.getIndexes()
     this._processMutations()
     this._processPermissions()
     return ret
@@ -257,7 +239,21 @@ class Entity {
   }
 
 
+  _processIndexes() {
+    if (this._indexes) {
+      return processEntityIndexes(this, this._indexes)
+    }
+
+    return null
+  }
+
+
   getIndexes () {
+    if (!this._indexes || this.indexes) {
+      return this.indexes
+    }
+
+    this.indexes = this._processIndexes()
     return this.indexes
   }
 
@@ -474,26 +470,6 @@ class Entity {
     return attributes[ attributeName ]
   }
 
-
-  _processIndexes () {
-    if (this.indexes) {
-
-      this.indexes.map((index) => {
-        index.attributes.map((attributeName) => {
-
-          passOrThrow(
-            this._attributes[ attributeName ],
-            () => `Cannot use attribute '${this.name}.${attributeName}' in index as it does not exist`
-          )
-
-          if (index.type === INDEX_UNIQUE && index.attributes.length === 1) {
-            this._attributes[ attributeName ].isUnique = true
-          }
-
-        })
-      })
-    }
-  }
 
 
   _processMutations () {
