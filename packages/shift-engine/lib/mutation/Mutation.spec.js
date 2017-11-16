@@ -5,8 +5,12 @@ import Mutation, {
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
+  processEntityMutations,
 } from './Mutation';
-
+import Entity from '../entity/Entity';
+import {
+  DataTypeString,
+} from '../datatype/dataTypes';
 import {
   passOrThrow,
 } from '../util';
@@ -14,6 +18,22 @@ import {
 
 
 describe('Mutation', () => {
+
+  const entity = new Entity({
+    name: 'SomeEntityName',
+    description: 'Just some description',
+    attributes: {
+      someAttribute: {
+        type: DataTypeString,
+        description: 'Just some description',
+      },
+      anotherAttribute: {
+        type: DataTypeString,
+        description: 'Just some description',
+      }
+    }
+  })
+
 
   it('should have a name', () => {
 
@@ -67,33 +87,42 @@ describe('Mutation', () => {
   })
 
 
-  it('should have a list of attributes', () => {
+  it('should have a list of default attributes', () => {
 
-    function fn() {
-      new Mutation({ // eslint-disable-line no-new
-        name: 'example',
-        type: MUTATION_TYPE_CREATE,
-        description: 'mutate the world',
-      })
-    }
+    const mutation = new Mutation({
+      name: 'example',
+      type: MUTATION_TYPE_CREATE,
+      description: 'mutate the world',
+    })
 
-    assert.throws(fn, /needs to have a list of attributes/);
+
+    processEntityMutations(entity, [ mutation ])
+    const defaultAttributes = mutation.attributes
+
+    const expectedAttributes = [
+      'someAttribute',
+      'anotherAttribute',
+    ]
+
+    assert.deepEqual(defaultAttributes, expectedAttributes)
 
   })
 
 
   it('should have a list of valid attribute names', () => {
 
+    const mutation = new Mutation({
+      name: 'example',
+      type: MUTATION_TYPE_CREATE,
+      description: 'mutate the world',
+      attributes: [
+        'anything',
+        { foo: 'bar' },
+      ]
+    })
+
     function fn() {
-      new Mutation({ // eslint-disable-line no-new
-        name: 'example',
-        type: MUTATION_TYPE_CREATE,
-        description: 'mutate the world',
-        attributes: [
-          'anything',
-          { foo: 'bar' },
-        ]
-      })
+      processEntityMutations(entity, [ mutation ])
     }
 
     assert.throws(fn, /needs to have a list of attribute names/);
@@ -103,27 +132,31 @@ describe('Mutation', () => {
 
   it('should allow an empty attributes list for DELETE type mutations', () => {
 
-    new Mutation({ // eslint-disable-line no-new
+    const mutation = new Mutation({
       name: 'example',
       type: MUTATION_TYPE_DELETE,
       description: 'mutate the world',
     })
+
+    processEntityMutations(entity, [ mutation ])
 
   })
 
 
   it('should have a list of unique attribute names', () => {
 
+    const mutation = new Mutation({
+      name: 'example',
+      type: MUTATION_TYPE_CREATE,
+      description: 'mutate the world',
+      attributes: [
+        'anything',
+        'anything',
+      ]
+    })
+
     function fn() {
-      new Mutation({ // eslint-disable-line no-new
-        name: 'example',
-        type: MUTATION_TYPE_CREATE,
-        description: 'mutate the world',
-        attributes: [
-          'anything',
-          'anything',
-        ]
-      })
+      processEntityMutations(entity, [ mutation ])
     }
 
     assert.throws(fn, /needs to have a list of unique attribute names/);
@@ -317,6 +350,298 @@ describe('Mutation', () => {
       }
 
       assert.throws(fn, /Not a Mutation object/);
+
+    })
+
+  })
+
+
+  describe('processEntityMutations', () => {
+
+    const mutationTypeCreateDefinition = {
+      type: MUTATION_TYPE_CREATE,
+      name: 'build',
+      description: 'build item',
+      attributes: [ 'someAttribute' ]
+    }
+
+    const mutationTypeUpdateDefinition = {
+      type: MUTATION_TYPE_UPDATE,
+      name: 'change',
+      description: 'change item',
+      attributes: [ 'id', 'someAttribute' ]
+    }
+
+    const mutationTypeDeleteDefinition = {
+      type: MUTATION_TYPE_DELETE,
+      name: 'drop',
+      description: 'drop item',
+      attributes: [ 'id' ]
+    }
+
+
+    it('should throw if provided with an invalid list of mutations', () => {
+
+      const mutations = {
+        foo: [ {} ]
+      }
+
+      function fn() {
+        processEntityMutations(entity, mutations)
+      }
+
+      assert.throws(fn, /mutations definition needs to be an array of mutations/);
+
+    })
+
+
+    it('should throw if provided with an invalid mutation', () => {
+
+      const mutations = [
+        { foo: 'bar' }
+      ]
+
+      function fn() {
+        processEntityMutations(entity, mutations)
+      }
+
+      assert.throws(fn, /Invalid mutation definition for entity/);
+
+    })
+
+
+    it('should throw if required attribute (without defaultValue) is missing in CREATE type mutations', () => {
+
+      function fn() {
+        const otherEntity = new Entity({
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {
+            someAttribute: {
+              type: DataTypeString,
+              description: 'Just some description',
+            },
+            neededAttribute: {
+              type: DataTypeString,
+              description: 'This is important',
+              required: true,
+            }
+          },
+          mutations: [
+            new Mutation({
+              type: MUTATION_TYPE_CREATE,
+              name: 'build',
+              description: 'build item',
+              attributes: [
+                'someAttribute',
+              ]
+            })
+          ]
+        })
+
+        otherEntity.getMutationByName('build')
+      }
+
+      assert.throws(fn, /Missing required attributes in mutation/);
+
+    })
+
+
+    it('should throw on duplicate mutation names', () => {
+
+      const mutations = [
+        new Mutation({
+          type: MUTATION_TYPE_CREATE,
+          name: 'build',
+          description: 'build item',
+          attributes: [
+            'someAttribute',
+          ]
+        }),
+        new Mutation({
+          type: MUTATION_TYPE_CREATE,
+          name: 'build',
+          description: 'build item',
+          attributes: [
+            'someAttribute',
+          ]
+        })
+      ]
+
+      function fn() {
+        processEntityMutations(entity, mutations)
+      }
+
+      assert.throws(fn, /Duplicate mutation name/);
+
+    })
+
+
+    it('should throw if unknown attributes are used', () => {
+
+      const mutations = [
+        new Mutation({
+          type: MUTATION_TYPE_CREATE,
+          name: 'build',
+          description: 'build item',
+          attributes: [
+            'doesNotExist',
+          ]
+        })
+      ]
+
+      function fn() {
+        processEntityMutations(entity, mutations)
+      }
+
+      assert.throws(fn, /as it does not exist/);
+
+    })
+
+
+    it('should allow for empty attribute lists on DELETE type mutations', () => {
+
+      const mutations = [
+        new Mutation({
+          type: MUTATION_TYPE_DELETE,
+          name: 'drop',
+          description: 'drop item',
+          attributes: []
+        })
+      ]
+
+      processEntityMutations(entity, mutations)
+
+    })
+
+
+    it('should throw if using state in a stateless entity', () => {
+
+      const mutations1 = [
+        new Mutation({
+          ...mutationTypeUpdateDefinition,
+          fromState: 'open',
+          toState: 'close',
+        })
+      ]
+
+      function fn1() {
+        processEntityMutations(entity, mutations1)
+      }
+
+      assert.throws(fn1, /cannot define fromState as the entity is stateless/);
+
+
+      const mutations2 = [
+        new Mutation({
+          ...mutationTypeCreateDefinition,
+          toState: 'close',
+        })
+      ]
+
+      function fn2() {
+        processEntityMutations(entity, mutations2)
+      }
+
+      assert.throws(fn2, /cannot define toState as the entity is stateless/);
+
+    })
+
+
+    it('should throw if unknown state name is used', () => {
+
+      const someEntity = new Entity({
+        name: 'SomeEntityName',
+        description: 'Just some description',
+        attributes: {
+          someAttribute: {
+            type: DataTypeString,
+            description: 'Just some description',
+          },
+        },
+        states: {
+          open: 10,
+          closed: 20,
+          inTransfer: 40,
+          onHold: 50,
+        },
+      })
+
+
+      const mutations1 = [
+        new Mutation({
+          ...mutationTypeUpdateDefinition,
+          fromState: 'fakeState',
+          toState: 'close',
+        })
+      ]
+
+      function fn1() {
+        processEntityMutations(someEntity, mutations1)
+      }
+
+      assert.throws(fn1, /Unknown state 'fakeState' used in mutation/);
+
+
+      const mutations2 = [
+        new Mutation({
+          ...mutationTypeUpdateDefinition,
+          fromState: [ 'open', 'whatever', 'close' ],
+          toState: 'close',
+        })
+      ]
+
+      function fn2() {
+        processEntityMutations(someEntity, mutations2)
+      }
+
+      assert.throws(fn2, /Unknown state 'whatever' used in mutation/);
+
+
+      function fn3() {
+        const anotherEntity = new Entity({
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {
+            someAttribute: {
+              type: DataTypeString,
+              description: 'Just some description',
+            },
+          },
+          states: {
+            open: 10,
+            closed: 20,
+            inTransfer: 40,
+            onHold: 50,
+          },
+        })
+
+        const mutations3 = [
+          new Mutation({
+            ...mutationTypeUpdateDefinition,
+            fromState: 'open',
+            toState: [ 'closed', 'randomState', 'open' ],
+          })
+        ]
+
+        processEntityMutations(anotherEntity, mutations3)
+      }
+
+      assert.throws(fn3, /Unknown state 'randomState' used in mutation/);
+
+
+      const mutations4 = [
+        new Mutation({
+          ...mutationTypeDeleteDefinition,
+          fromState: [ 'open', 'notHere', 'open' ],
+        })
+      ]
+
+      function fn4() {
+        processEntityMutations(someEntity, mutations4)
+      }
+
+      assert.throws(fn4, /Unknown state 'notHere' used in mutation/);
 
     })
 

@@ -3,7 +3,12 @@ import { assert } from 'chai';
 import Index, {
   isIndex,
   INDEX_UNIQUE,
+  processEntityIndexes,
 } from './Index';
+import Entity from '../entity/Entity';
+import {
+  DataTypeString,
+} from '../datatype/dataTypes';
 import { passOrThrow } from '../util';
 
 
@@ -155,5 +160,73 @@ describe('Index', () => {
 
   })
 
+
+  describe('processEntityIndexes', () => {
+
+    const entity = new Entity({
+      name: 'SomeEntityName',
+      description: 'Just some description',
+      attributes: {
+        someAttribute: {
+          type: DataTypeString,
+          description: 'Just some description',
+        }
+      }
+    })
+
+    entity.getIndexes()
+
+
+    it('should throw if provided with an invalid list of indexes', () => {
+
+      const indexes = {
+        unique: [ { }]
+      }
+
+      function fn() {
+        processEntityIndexes(entity, indexes)
+      }
+
+      assert.throws(fn, /indexes definition needs to be an array of indexes/);
+
+    })
+
+
+    it('should throw if provided with an invalid index', () => {
+
+      const indexes = [
+        { foo: 'bar' }
+      ]
+
+      function fn() {
+        processEntityIndexes(entity, indexes)
+      }
+
+      assert.throws(fn, /Invalid index definition for entity/);
+
+    })
+
+
+    it('should throw if attribute used in index does not exist', () => {
+
+      const indexes = [
+        new Index({
+          type: INDEX_UNIQUE,
+          attributes: [
+            'someAttribute',
+            'notHere',
+          ]
+        })
+      ]
+
+      function fn() {
+        processEntityIndexes(entity, indexes)
+      }
+
+      assert.throws(fn, /in index as it does not exist/);
+
+    })
+
+  })
 
 })

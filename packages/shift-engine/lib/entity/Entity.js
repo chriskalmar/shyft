@@ -3,7 +3,6 @@ import {
   passOrThrow,
   resolveFunctionMap,
   isMap,
-  isArray,
   isFunction,
   mapOverProperties,
 } from '../util';
@@ -15,18 +14,15 @@ import {
   stateNameRegex,
 } from '../constants';
 
-import { isIndex, INDEX_UNIQUE } from '../index/Index';
+import { processEntityIndexes } from '../index/Index';
 import Mutation, {
-  isMutation,
   defaultEntityMutations,
-  MUTATION_TYPE_CREATE,
+  processEntityMutations,
 } from '../mutation/Mutation';
 
 import {
-  isPermission,
   generatePermissionDescription,
-  findMissingPermissionAttributes,
-  findInvalidPermissionAttributes,
+  processEntityPermissions,
 } from '../permission/Permission';
 
 import { isDataType } from '../datatype/DataType';
@@ -78,6 +74,10 @@ class Entity {
     this._attributesMap = attributes
     this._primaryAttribute = null
     this.referencedByEntities = []
+    this._indexes = indexes
+    this._mutations = mutations
+    this._states = states
+    this._permissions = permissions
 
     if (storageType) {
       passOrThrow(
@@ -89,121 +89,6 @@ class Entity {
       this.storageType = StorageTypeNull
       this.isFallbackStorageType = true
       this._exposeStorageAccess()
-    }
-
-
-
-    if (indexes) {
-
-      this.indexes = indexes
-
-      passOrThrow(
-        isArray(indexes),
-        () => `Entity '${name}' indexes definition needs to be an array of indexes`
-      )
-
-      indexes.map((index, idx) => {
-        passOrThrow(
-          isIndex(index),
-          () => `Invalid index definition for entity '${name}' at position '${idx}'`
-        )
-
-      })
-    }
-
-
-    if (mutations) {
-
-      this.mutations = mutations
-
-      passOrThrow(
-        isArray(mutations),
-        () => `Entity '${name}' mutations definition needs to be an array of mutations`
-      )
-
-      mutations.map((mutation, idx) => {
-        passOrThrow(
-          isMutation(mutation),
-          () => `Invalid mutation definition for entity '${name}' at position '${idx}'`
-        )
-
-      })
-    }
-
-
-    if (permissions) {
-
-      this.permissions = permissions
-
-      passOrThrow(
-        isMap(permissions),
-        () => `Entity '${name}' permissions definition needs to be an object`
-      )
-
-
-      if (permissions.read) {
-        passOrThrow(
-          isPermission(permissions.read),
-          () => `Invalid 'read' permission definition for entity '${name}'`
-        )
-      }
-
-      if (permissions.find) {
-        passOrThrow(
-          isPermission(permissions.find),
-          () => `Invalid 'find' permission definition for entity '${name}'`
-        )
-      }
-
-      if (permissions.mutations) {
-        passOrThrow(
-          isMap(permissions.mutations),
-          () => `Entity '${name}' permissions definition for mutations needs to be a map of mutations and permissions`
-        )
-
-        const mutationNames = Object.keys(permissions.mutations);
-        mutationNames.map((mutationName, idx) => {
-          passOrThrow(
-            isPermission(permissions.mutations[ mutationName ]),
-            () => `Invalid mutation permission definition for entity '${name}' at position '${idx}'`
-          )
-
-        })
-      }
-
-    }
-
-
-    if (states) {
-      this.states = states
-
-      passOrThrow(
-        isMap(states),
-        () => `Entity '${name}' states definition needs to be a map of state names and their unique ID`
-      )
-
-      const stateNames = Object.keys(states);
-      const uniqueIds = []
-
-      stateNames.map(stateName => {
-        const stateId = states[ stateName ]
-        uniqueIds.push(stateId)
-
-        passOrThrow(
-          stateNameRegex.test(stateName),
-          () => `Invalid state name '${stateName}' in entity '${name}' (Regex: /${STATE_NAME_PATTERN}/)`
-        )
-
-        passOrThrow(
-          stateId === parseInt(stateId, 10)  &&  stateId > 0,
-          () => `State '${stateName}' in entity '${name}' has an invalid unique ID (needs to be a positive integer)`
-        )
-      })
-
-      passOrThrow(
-        uniqueIds.length === _.uniq(uniqueIds).length,
-        () => `Each state defined in entity '${name}' needs to have a unique ID`
-      )
     }
 
   }
@@ -236,38 +121,111 @@ class Entity {
     }
 
     const ret = this._attributes = this._processAttributeMap()
-    this._processIndexes()
-    this._processMutations()
-    this._processPermissions()
     return ret
   }
 
 
-  getMutations () {
-    return this.mutations
-  }
+  _processIndexes() {
+    if (this._indexes) {
+      return processEntityIndexes(this, this._indexes)
+    }
 
-  getMutationByName (name) {
-    return this.mutations.find( mutation => String(mutation) === name )
-  }
-
-
-  getPermissions () {
-    return this.permissions
+    return null
   }
 
 
   getIndexes () {
+    if (!this._indexes || this.indexes) {
+      return this.indexes
+    }
+
+    this.getAttributes()
+    this.indexes = this._processIndexes()
     return this.indexes
   }
 
 
+  _processMutations() {
+    if (this._mutations) {
+      return processEntityMutations(this, this._mutations)
+    }
+
+    return null
+  }
+
+
+  getMutations() {
+    if (this.mutations) {
+      return this.mutations
+    }
+
+    this.getStates()
+    this.mutations = this._processMutations()
+    this._addDefaultMutations()
+    return this.mutations
+  }
+
+
+  getMutationByName(name) {
+    const mutations = this.getMutations()
+
+    return mutations
+    ? mutations.find(mutation => String(mutation) === name)
+    : null
+  }
+
+
+  _processStates() {
+    if (this._states) {
+
+      const states = this._states
+
+      passOrThrow(
+        isMap(states),
+        () => `Entity '${this.name}' states definition needs to be a map of state names and their unique ID`
+      )
+
+      const stateNames = Object.keys(states);
+      const uniqueIds = []
+
+      stateNames.map(stateName => {
+        const stateId = states[ stateName ]
+        uniqueIds.push(stateId)
+
+        passOrThrow(
+          stateNameRegex.test(stateName),
+          () => `Invalid state name '${stateName}' in entity '${this.name}' (Regex: /${STATE_NAME_PATTERN}/)`
+        )
+
+        passOrThrow(
+          stateId === parseInt(stateId, 10) && stateId > 0,
+          () => `State '${stateName}' in entity '${this.name}' has an invalid unique ID (needs to be a positive integer)`
+        )
+      })
+
+      passOrThrow(
+        uniqueIds.length === _.uniq(uniqueIds).length,
+        () => `Each state defined in entity '${this.name}' needs to have a unique ID`
+      )
+
+      return states
+    }
+
+    return null
+  }
+
+
   getStates () {
+    if (!this._states || this.states) {
+      return this.states
+    }
+
+    this.states = this._processStates()
     return this.states
   }
 
   hasStates () {
-    return !!this.states
+    return !!this.getStates()
   }
 
 
@@ -475,117 +433,22 @@ class Entity {
   }
 
 
-  _processIndexes () {
-    if (this.indexes) {
 
-      this.indexes.map((index) => {
-        index.attributes.map((attributeName) => {
+  _addDefaultMutations () {
 
-          passOrThrow(
-            this._attributes[ attributeName ],
-            () => `Cannot use attribute '${this.name}.${attributeName}' in index as it does not exist`
-          )
+    const nonSystemAttributeNames = []
 
-          if (index.type === INDEX_UNIQUE && index.attributes.length === 1) {
-            this._attributes[ attributeName ].isUnique = true
-          }
-
-        })
-      })
-    }
-  }
-
-
-  _processMutations () {
-    const _self = this
-
-    const coreAttributeNames = []
-    const requiredAttributeNames = []
-
-    mapOverProperties(_self.getAttributes(), (attribute, attributeName) => {
+    mapOverProperties(this.getAttributes(), (attribute, attributeName) => {
       if (!attribute.isSystemAttribute) {
-        coreAttributeNames.push(attributeName)
-
-        if (attribute.required && !attribute.defaultValue) {
-          requiredAttributeNames.push(attributeName)
-        }
+        nonSystemAttributeNames.push(attributeName)
       }
     })
-
 
     if (!this.mutations) {
       this.mutations = []
     }
 
-    const mutationNames = []
-
-    this.mutations.map((mutation) => {
-
-      passOrThrow(
-        !mutationNames.includes(mutation.name),
-        () => `Duplicate mutation name '${mutation.name}' found in '${this.name}'`
-      )
-
-      mutationNames.push(mutation.name)
-
-      if (mutation.attributes) {
-        mutation.attributes.map((attributeName) => {
-          passOrThrow(
-            this._attributes[ attributeName ],
-            () => `Cannot use attribute '${this.name}.${attributeName}' in mutation '${this.name}.${mutation.name}' as it does not exist`
-          )
-        })
-
-        if (mutation.type === MUTATION_TYPE_CREATE) {
-          const missingAttributeNames = requiredAttributeNames.filter(requiredAttributeName => {
-            return !mutation.attributes.includes(requiredAttributeName)
-          })
-
-          passOrThrow(
-            missingAttributeNames.length === 0,
-            () => `Missing required attributes in mutation '${this.name}.${mutation.name}' need to have a defaultValue() function: [ ${missingAttributeNames.join(', ')} ]`
-          )
-        }
-      }
-
-
-      const checkMutationStates = (stateStringOrArray) => {
-
-        const stateNames = isArray(stateStringOrArray)
-          ? stateStringOrArray
-          : [ stateStringOrArray ]
-
-        const states = _self.getStates()
-
-        stateNames.map(stateName => {
-          passOrThrow(
-            states[ stateName ],
-            () => `Unknown state '${stateName}' used in mutation '${this.name}.${mutation.name}'`
-          )
-        })
-      }
-
-
-      if (mutation.fromState) {
-        passOrThrow(
-          _self.hasStates(),
-          () => `Mutation '${this.name}.${mutation.name}' cannot define fromState as the entity is stateless`
-        )
-
-        checkMutationStates(mutation.fromState)
-      }
-
-
-      if (mutation.toState) {
-        passOrThrow(
-          _self.hasStates(),
-          () => `Mutation '${this.name}.${mutation.name}' cannot define toState as the entity is stateless`
-        )
-
-        checkMutationStates(mutation.toState)
-      }
-    })
-
+    const mutationNames = this.mutations.map(mutation => mutation.name)
 
     defaultEntityMutations.map(defaultMutation => {
       if (!mutationNames.includes(defaultMutation.name)) {
@@ -593,7 +456,7 @@ class Entity {
           name: defaultMutation.name,
           type: defaultMutation.type,
           description: defaultMutation.description(this.name),
-          attributes: coreAttributeNames
+          attributes: nonSystemAttributeNames
         }))
       }
     })
@@ -602,53 +465,33 @@ class Entity {
 
 
 
-  _validatePermissionAttributes (permission, mutationName) {
+  _processPermissions () {
+    if (this._permissions) {
+      return processEntityPermissions(this, this._permissions)
+    }
 
-    const invalidAttribute = findMissingPermissionAttributes(permission, this)
-
-    passOrThrow(
-      !invalidAttribute,
-      () => `Cannot use attribute '${invalidAttribute}' in '${this.name}.permissions' for '${mutationName}' as it does not exist`
-    )
-
-    findInvalidPermissionAttributes(permission, this)
+    return null
   }
 
 
-  _processPermissions () {
-
+  _generatePermissionDescriptions () {
     if (this.permissions) {
 
       if (this.permissions.find) {
         this.descriptionPermissionsFind = generatePermissionDescription(this.permissions.find)
-        this._validatePermissionAttributes(this.permissions.find, 'find')
       }
 
       if (this.permissions.read) {
         this.descriptionPermissionsRead = generatePermissionDescription(this.permissions.read)
-        this._validatePermissionAttributes(this.permissions.read, 'read')
       }
 
       if (this.permissions.mutations && this.mutations) {
-        const permissionMutationNames = Object.keys(this.permissions.mutations);
-
-        const mutationNames = this.mutations.map((mutation) => mutation.name)
-
-        permissionMutationNames.map(permissionMutationName => {
-          passOrThrow(
-            mutationNames.includes(permissionMutationName),
-            () => `Unknown mutation '${permissionMutationName}' used for permissions in entity '${this.name}'`
-          )
-        })
 
         this.mutations.map((mutation) => {
           const mutationName = mutation.name
           const permission = this.permissions.mutations[ mutationName ]
 
           if (permission) {
-
-            this._validatePermissionAttributes(permission, mutationName)
-
             const descriptionPermissions = generatePermissionDescription(permission)
             if (descriptionPermissions) {
               mutation.description += descriptionPermissions
@@ -657,6 +500,18 @@ class Entity {
         })
       }
     }
+  }
+
+
+  getPermissions() {
+    if (!this._permissions || this.permissions) {
+      return this.permissions
+    }
+
+    this.getMutations()
+    this.permissions = this._processPermissions()
+    this._generatePermissionDescriptions()
+    return this.permissions
   }
 
 

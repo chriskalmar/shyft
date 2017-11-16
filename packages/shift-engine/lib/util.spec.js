@@ -442,6 +442,8 @@ describe('util', () => {
       ]
     })
 
+    SomeEntity.getIndexes()
+
 
     it('should return empty clause if no cursor provided', () => {
 

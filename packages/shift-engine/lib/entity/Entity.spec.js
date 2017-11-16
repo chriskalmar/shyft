@@ -8,8 +8,6 @@ import Index, {
 import Mutation, {
   isMutation,
   MUTATION_TYPE_CREATE,
-  MUTATION_TYPE_UPDATE,
-  MUTATION_TYPE_DELETE,
 } from '../mutation/Mutation';
 import Permission, {
   isPermission,
@@ -600,86 +598,6 @@ describe('Entity', () => {
 
   describe('indexes', () => {
 
-    it('should throw if provided with an invalid list of indexes', () => {
-
-      function fn() {
-        const entity = new Entity({
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {
-            someAttribute: {
-              type: DataTypeString,
-              description: 'Just some description',
-            }
-          },
-          indexes: {
-            unique: [{}]
-          }
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn, /indexes definition needs to be an array of indexes/);
-
-    })
-
-
-    it('should throw if provided with an invalid index', () => {
-
-      function fn() {
-        const entity = new Entity({
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {
-            someAttribute: {
-              type: DataTypeString,
-              description: 'Just some description',
-            }
-          },
-          indexes: [
-            { foo: 'bar' }
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn, /Invalid index definition for entity/);
-
-    })
-
-
-    it('should throw if attribute used in index does not exist', () => {
-
-      function fn() {
-        const entity = new Entity({
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {
-            someAttribute: {
-              type: DataTypeString,
-              description: 'Just some description',
-            }
-          },
-          indexes: [
-            new Index({
-              type: INDEX_UNIQUE,
-              attributes: [
-                'someAttribute',
-                'notHere',
-              ]
-            })
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn, /in index as it does not exist/);
-
-    })
-
 
     it('should set isUnique flag on attributes based on index definition', () => {
 
@@ -727,6 +645,7 @@ describe('Entity', () => {
         ]
       })
 
+      entity.getIndexes()
       const attributes = entity.getAttributes()
 
       assert.strictEqual(attributes.loginName.isUnique, true);
@@ -803,168 +722,7 @@ describe('Entity', () => {
     })
 
 
-    it('should throw if provided with an invalid list of mutations', () => {
-
-      function fn() {
-        const entity = new Entity({
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {
-            someAttribute: {
-              type: DataTypeString,
-              description: 'Just some description',
-            }
-          },
-          mutations: {
-            foo: [{}]
-          }
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn, /mutations definition needs to be an array of mutations/);
-
-    })
-
-
-    it('should throw if provided with an invalid mutation', () => {
-
-      function fn() {
-        const entity = new Entity({
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {
-            someAttribute: {
-              type: DataTypeString,
-              description: 'Just some description',
-            }
-          },
-          mutations: [
-            { foo: 'bar' }
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn, /Invalid mutation definition for entity/);
-
-    })
-
-
-    it('should throw if required attribute (without defaultValue) is missing in CREATE type mutations', () => {
-
-      function fn() {
-        const entity = new Entity({
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {
-            someAttribute: {
-              type: DataTypeString,
-              description: 'Just some description',
-            },
-            neededAttribute: {
-              type: DataTypeString,
-              description: 'This is important',
-              required: true,
-            }
-          },
-          mutations: [
-            new Mutation({
-              type: MUTATION_TYPE_CREATE,
-              name: 'build',
-              description: 'build item',
-              attributes: [
-                'someAttribute',
-              ]
-            })
-          ]
-        })
-
-        entity.getAttributes()
-
-        entity.getMutationByName('build')
-      }
-
-      assert.throws(fn, /Missing required attributes in mutation/);
-
-    })
-
-
-    it('should throw on duplicate mutation names', () => {
-
-      function fn() {
-        const entity = new Entity({
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {
-            someAttribute: {
-              type: DataTypeString,
-              description: 'Just some description',
-            }
-          },
-          mutations: [
-            new Mutation({
-              type: MUTATION_TYPE_CREATE,
-              name: 'build',
-              description: 'build item',
-              attributes: [
-                'someAttribute',
-              ]
-            }),
-            new Mutation({
-              type: MUTATION_TYPE_CREATE,
-              name: 'build',
-              description: 'build item',
-              attributes: [
-                'someAttribute',
-              ]
-            })
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn, /Duplicate mutation name/);
-
-    })
-
-
-    it('should throw if unknown attributes are used', () => {
-
-      function fn() {
-        const entity = new Entity({
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {
-            someAttribute: {
-              type: DataTypeString,
-              description: 'Just some description',
-            }
-          },
-          mutations: [
-            new Mutation({
-              type: MUTATION_TYPE_CREATE,
-              name: 'build',
-              description: 'build item',
-              attributes: [
-                'doesNotExist',
-              ]
-            })
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn, /as it does not exist/);
-
-    })
-
-
-    it('should automatically default mutations', () => {
+    it('should automatically have default mutations', () => {
 
       const entity = new Entity({
         name: 'SomeEntityName',
@@ -995,44 +753,6 @@ describe('Entity', () => {
 
     })
 
-
-    it('should allow for empty attribute lists on DELETE type mutations', () => {
-
-      const entity = new Entity({
-        name: 'SomeEntityName',
-        description: 'Just some description',
-        attributes: {
-          someAttribute: {
-            type: DataTypeString,
-            description: 'Just some description',
-          }
-        },
-        mutations: [
-          new Mutation({
-            type: MUTATION_TYPE_UPDATE,
-            name: 'edit',
-            description: 'edit item',
-            attributes: [
-              'someAttribute'
-            ]
-          }),
-          new Mutation({
-            type: MUTATION_TYPE_DELETE,
-            name: 'drop',
-            description: 'drop item',
-            attributes: []
-          })
-        ]
-      })
-
-      entity.getAttributes()
-
-      assert.isTrue(isMutation(entity.getMutationByName('create')));
-      assert.isTrue(isMutation(entity.getMutationByName('update')));
-      assert.isTrue(isMutation(entity.getMutationByName('delete')));
-
-    })
-
   })
 
 
@@ -1040,25 +760,7 @@ describe('Entity', () => {
   describe('permissions', () => {
 
 
-    it('should return a list of mutations', () => {
-
-      const entity = new Entity({
-        name: 'SomeEntityName',
-        description: 'Just some description',
-        attributes: {},
-        permissions: {
-          read: new Permission()
-        }
-      })
-
-      const permissions = entity.getPermissions()
-
-      assert.isTrue(isPermission(permissions.read));
-
-    })
-
-
-    it('should accept a correct permissions setup', () => {
+    it('should return a list of permissions', () => {
 
       const entity = new Entity({
         name: 'SomeEntityName',
@@ -1070,231 +772,13 @@ describe('Entity', () => {
           }
         },
         permissions: {
-          read: new Permission().value('someAttribute', 123),
-          mutations: {
-            update: new Permission().role('manager'),
-          }
+          read: new Permission()
         }
       })
 
-      entity.getAttributes()
-    })
+      const permissions = entity.getPermissions()
 
-
-    it('should throw if provided with an invalid map of permissions', () => {
-
-      function fn() {
-        new Entity({ // eslint-disable-line no-new
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {},
-          permissions: [ 'bad' ]
-        })
-      }
-
-      assert.throws(fn, /permissions definition needs to be an object/);
-
-    })
-
-
-    it('should throw if provided with an invalid map of mutation permissions', () => {
-
-      function fn() {
-        new Entity({ // eslint-disable-line no-new
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {},
-          permissions: {
-            mutations: [ 'bad' ]
-          }
-        })
-      }
-
-      assert.throws(fn, /permissions definition for mutations needs to be a map of mutations and permissions/);
-
-    })
-
-
-    it('should throw if provided with an invalid permissions', () => {
-
-      function fn1() {
-        new Entity({ // eslint-disable-line no-new
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {},
-          permissions: {
-            read: [ 'bad' ]
-          }
-        })
-      }
-
-      assert.throws(fn1, /Invalid \'read\' permission definition/);
-
-
-      function fn2() {
-        new Entity({ // eslint-disable-line no-new
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {},
-          permissions: {
-            find: [ 'bad' ]
-          }
-        })
-      }
-
-      assert.throws(fn2, /Invalid \'find\' permission definition/);
-
-
-      function fn3() {
-        new Entity({ // eslint-disable-line no-new
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {},
-          permissions: {
-            mutations: {
-              create: [ 'bad' ]
-            }
-          }
-        })
-      }
-
-      assert.throws(fn3, /Invalid mutation permission definition/);
-
-    })
-
-
-    it('should throw if permissions have unknown attributes defined', () => {
-
-      function fn1() {
-        const entity = new Entity({
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {
-            someAttribute: {
-              type: DataTypeString,
-              description: 'Some description',
-            }
-          },
-          permissions: {
-            read: new Permission().ownerAttribute('notHere')
-          }
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(
-        fn1,
-        /Cannot use attribute \'notHere\' in \'SomeEntityName.permissions\' for \'read\' as it does not exist/
-      );
-
-
-      function fn2() {
-        const entity = new Entity({
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {
-            someAttribute: {
-              type: DataTypeString,
-              description: 'Some description',
-            }
-          },
-          permissions: {
-            find: new Permission().value('notHere', 123)
-          }
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(
-        fn2,
-        /Cannot use attribute \'notHere\' in \'SomeEntityName.permissions\' for \'find\' as it does not exist/
-      );
-
-
-      function fn3() {
-        const entity = new Entity({
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {
-            someAttribute: {
-              type: DataTypeString,
-              description: 'Some description',
-            }
-          },
-          permissions: {
-            mutations: {
-              update: new Permission().ownerAttribute('notHere')
-            }
-          }
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(
-        fn3,
-        /Cannot use attribute \'notHere\' in \'SomeEntityName.permissions\' for \'update\' as it does not exist/
-      );
-
-    })
-
-
-    it('should throw if permissions have invalid attributes defined', () => {
-
-      function fn1() {
-        const entity = new Entity({
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {
-            someAttribute: {
-              type: DataTypeString,
-              description: 'Some description',
-            }
-          },
-          permissions: {
-            read: new Permission().ownerAttribute('someAttribute')
-          }
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(
-        fn1,
-        /Cannot use attribute \'someAttribute\' in \'SomeEntityName.permissions\' as \'ownerAttribute\' as it is not a reference to the User entity/
-      );
-
-    })
-
-
-    it('should throw if permissions are assigned to unknown mutations', () => {
-
-      function fn1() {
-        const entity = new Entity({
-          name: 'SomeEntityName',
-          description: 'Just some description',
-          attributes: {
-            someAttribute: {
-              type: DataTypeString,
-              description: 'Some description',
-            }
-          },
-          permissions: {
-            mutations: {
-              noSuchMutation: new Permission().ownerAttribute('someAttribute')
-            }
-          }
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(
-        fn1,
-        /Unknown mutation \'noSuchMutation\' used for permissions/
-      );
+      assert.isTrue(isPermission(permissions.read));
 
     })
 
@@ -1315,26 +799,6 @@ describe('Entity', () => {
       },
     }
 
-    const mutationTypeCreateDefinition = {
-      type: MUTATION_TYPE_CREATE,
-      name: 'build',
-      description: 'build item',
-      attributes: ['something']
-    }
-
-    const mutationTypeUpdateDefinition = {
-      type: MUTATION_TYPE_UPDATE,
-      name: 'change',
-      description: 'change item',
-      attributes: [ 'id', 'something']
-    }
-
-    const mutationTypeDeleteDefinition = {
-      type: MUTATION_TYPE_DELETE,
-      name: 'drop',
-      description: 'drop item',
-      attributes: [ 'id' ]
-    }
 
     const states = {
       open: 10,
@@ -1360,10 +824,12 @@ describe('Entity', () => {
     it('should throw if provided with an invalid map of states', () => {
 
       function fn() {
-        new Entity({ // eslint-disable-line no-new
+        const entity = new Entity({
           ...entityDefinition,
           states: [ 'bad' ]
         })
+
+        entity.getStates()
       }
 
       assert.throws(fn, /states definition needs to be a map/);
@@ -1374,12 +840,14 @@ describe('Entity', () => {
     it('should throw on invalid state names', () => {
 
       function fn() {
-        new Entity({ // eslint-disable-line no-new
+        const entity = new Entity({
           ...entityDefinition,
           states: {
             [ 'bad-state-name' ]: 123
           }
         })
+
+        entity.getStates()
       }
 
       assert.throws(fn, /Invalid state name/);
@@ -1390,48 +858,56 @@ describe('Entity', () => {
     it('should throw on invalid state IDs', () => {
 
       function fn1() {
-        new Entity({ // eslint-disable-line no-new
+        const entity = new Entity({
           ...entityDefinition,
           states: {
             open: 1.234
           }
         })
+
+        entity.getStates()
       }
 
       assert.throws(fn1, /has an invalid unique ID/);
 
 
       function fn2() {
-        new Entity({ // eslint-disable-line no-new
+        const entity = new Entity({
           ...entityDefinition,
           states: {
             open: -1
           }
         })
+
+        entity.getStates()
       }
 
       assert.throws(fn2, /has an invalid unique ID/);
 
 
       function fn3() {
-        new Entity({ // eslint-disable-line no-new
+        const entity = new Entity({
           ...entityDefinition,
           states: {
             open: 0
           }
         })
+
+        entity.getStates()
       }
 
       assert.throws(fn3, /has an invalid unique ID/);
 
 
       function fn4() {
-        new Entity({ // eslint-disable-line no-new
+        const entity = new Entity({
           ...entityDefinition,
           states: {
             open: 'not a number'
           }
         })
+
+        entity.getStates()
       }
 
       assert.throws(fn4, /has an invalid unique ID/);
@@ -1442,138 +918,20 @@ describe('Entity', () => {
     it('should throw if state IDs are not unique', () => {
 
       function fn() {
-        new Entity({ // eslint-disable-line no-new
+        const entity = new Entity({
           ...entityDefinition,
           states: {
             open: 100,
             closed: 100,
           }
         })
+
+        entity.getStates()
       }
 
       assert.throws(fn, /needs to have a unique ID/);
 
     })
-
-
-
-    it('should throw if using state in a stateless entity', () => {
-
-      function fn1() {
-        const entity = new Entity({
-          ...entityDefinition,
-          mutations: [
-            new Mutation({
-              ...mutationTypeUpdateDefinition,
-              fromState: 'open',
-              toState: 'close',
-            })
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn1, /cannot define fromState as the entity is stateless/);
-
-
-      function fn2() {
-        const entity = new Entity({
-          ...entityDefinition,
-          mutations: [
-            new Mutation({
-              ...mutationTypeCreateDefinition,
-              toState: 'close',
-            })
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn2, /cannot define toState as the entity is stateless/);
-
-    })
-
-
-    it('should throw if unknown state name is used', () => {
-
-      function fn1() {
-        const entity = new Entity({
-          ...entityDefinition,
-          states,
-          mutations: [
-            new Mutation({
-              ...mutationTypeUpdateDefinition,
-              fromState: 'fakeState',
-              toState: 'close',
-            })
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn1, /Unknown state 'fakeState' used in mutation/);
-
-
-      function fn2() {
-        const entity = new Entity({
-          ...entityDefinition,
-          states,
-          mutations: [
-            new Mutation({
-              ...mutationTypeUpdateDefinition,
-              fromState: [ 'open', 'whatever', 'close' ],
-              toState: 'close',
-            })
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn2, /Unknown state 'whatever' used in mutation/);
-
-
-      function fn3() {
-        const entity = new Entity({
-          ...entityDefinition,
-          states,
-          mutations: [
-            new Mutation({
-              ...mutationTypeUpdateDefinition,
-              fromState: 'open',
-              toState: [ 'closed', 'randomState', 'open' ],
-            })
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn3, /Unknown state 'randomState' used in mutation/);
-
-
-      function fn4() {
-        const entity = new Entity({
-          ...entityDefinition,
-          states,
-          mutations: [
-            new Mutation({
-              ...mutationTypeDeleteDefinition,
-              fromState: [ 'open', 'notHere', 'open' ],
-            })
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn4, /Unknown state 'notHere' used in mutation/);
-
-    })
-
 
 
   })
