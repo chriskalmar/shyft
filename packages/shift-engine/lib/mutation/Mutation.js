@@ -3,6 +3,7 @@ import {
   passOrThrow,
   isArray,
   isFunction,
+  mapOverProperties,
 } from '../util';
 
 import _ from 'lodash';
@@ -173,4 +174,106 @@ export default Mutation
 
 export const isMutation = (obj) => {
   return (obj instanceof Mutation)
+}
+
+
+
+export const processEntityMutations = (entity, mutations) => {
+
+  passOrThrow(
+    isArray(mutations),
+    () => `Entity '${entity.name}' mutations definition needs to be an array of mutations`
+  )
+
+  mutations.map((mutation, idx) => {
+    passOrThrow(
+      isMutation(mutation),
+      () => `Invalid mutation definition for entity '${entity.name}' at position '${idx}'`
+    )
+
+  })
+
+
+  const entityAttributes = entity.getAttributes()
+  const entityStates = entity.getStates()
+
+  const requiredAttributeNames = []
+
+  mapOverProperties(entityAttributes, (attribute, attributeName) => {
+    if (!attribute.isSystemAttribute) {
+      if (attribute.required && !attribute.defaultValue) {
+        requiredAttributeNames.push(attributeName)
+      }
+    }
+  })
+
+
+  const mutationNames = []
+
+  mutations.map((mutation) => {
+
+    passOrThrow(
+      !mutationNames.includes(mutation.name),
+      () => `Duplicate mutation name '${mutation.name}' found in '${entity.name}'`
+    )
+
+    mutationNames.push(mutation.name)
+
+    if (mutation.attributes) {
+      mutation.attributes.map((attributeName) => {
+        passOrThrow(
+          entityAttributes[ attributeName ],
+          () => `Cannot use attribute '${entity.name}.${attributeName}' in mutation '${entity.name}.${mutation.name}' as it does not exist`
+        )
+      })
+
+      if (mutation.type === MUTATION_TYPE_CREATE) {
+        const missingAttributeNames = requiredAttributeNames.filter(requiredAttributeName => {
+          return !mutation.attributes.includes(requiredAttributeName)
+        })
+
+        passOrThrow(
+          missingAttributeNames.length === 0,
+          () => `Missing required attributes in mutation '${entity.name}.${mutation.name}' need to have a defaultValue() function: [ ${missingAttributeNames.join(', ')} ]`
+        )
+      }
+    }
+
+
+    const checkMutationStates = (stateStringOrArray) => {
+
+      const stateNames = isArray(stateStringOrArray)
+        ? stateStringOrArray
+        : [ stateStringOrArray ]
+
+      stateNames.map(stateName => {
+        passOrThrow(
+          entityStates[ stateName ],
+          () => `Unknown state '${stateName}' used in mutation '${entity.name}.${mutation.name}'`
+        )
+      })
+    }
+
+
+    if (mutation.fromState) {
+      passOrThrow(
+        entity.hasStates(),
+        () => `Mutation '${entity.name}.${mutation.name}' cannot define fromState as the entity is stateless`
+      )
+
+      checkMutationStates(mutation.fromState)
+    }
+
+
+    if (mutation.toState) {
+      passOrThrow(
+        entity.hasStates(),
+        () => `Mutation '${entity.name}.${mutation.name}' cannot define toState as the entity is stateless`
+      )
+
+      checkMutationStates(mutation.toState)
+    }
+  })
+
+  return mutations
 }

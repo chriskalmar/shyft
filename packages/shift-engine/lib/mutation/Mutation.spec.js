@@ -5,8 +5,12 @@ import Mutation, {
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
+  processEntityMutations,
 } from './Mutation';
-
+import Entity from '../entity/Entity';
+import {
+  DataTypeString,
+} from '../datatype/dataTypes';
 import {
   passOrThrow,
 } from '../util';
@@ -317,6 +321,161 @@ describe('Mutation', () => {
       }
 
       assert.throws(fn, /Not a Mutation object/);
+
+    })
+
+  })
+
+
+  describe('processEntityMutations', () => {
+
+    const entity = new Entity({
+      name: 'SomeEntityName',
+      description: 'Just some description',
+      attributes: {
+        someAttribute: {
+          type: DataTypeString,
+          description: 'Just some description',
+        }
+      }
+    })
+
+    entity.getAttributes()
+
+
+    it('should throw if provided with an invalid list of mutations', () => {
+
+      const mutations = {
+        foo: [ {} ]
+      }
+
+      function fn() {
+        processEntityMutations(entity, mutations)
+      }
+
+      assert.throws(fn, /mutations definition needs to be an array of mutations/);
+
+    })
+
+
+    it('should throw if provided with an invalid mutation', () => {
+
+      const mutations = [
+        { foo: 'bar' }
+      ]
+
+      function fn() {
+        processEntityMutations(entity, mutations)
+      }
+
+      assert.throws(fn, /Invalid mutation definition for entity/);
+
+    })
+
+
+    it('should throw if required attribute (without defaultValue) is missing in CREATE type mutations', () => {
+
+      function fn() {
+        const otherEntity = new Entity({
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {
+            someAttribute: {
+              type: DataTypeString,
+              description: 'Just some description',
+            },
+            neededAttribute: {
+              type: DataTypeString,
+              description: 'This is important',
+              required: true,
+            }
+          },
+          mutations: [
+            new Mutation({
+              type: MUTATION_TYPE_CREATE,
+              name: 'build',
+              description: 'build item',
+              attributes: [
+                'someAttribute',
+              ]
+            })
+          ]
+        })
+
+        otherEntity.getAttributes()
+
+        otherEntity.getMutationByName('build')
+      }
+
+      assert.throws(fn, /Missing required attributes in mutation/);
+
+    })
+
+
+    it('should throw on duplicate mutation names', () => {
+
+      const mutations = [
+        new Mutation({
+          type: MUTATION_TYPE_CREATE,
+          name: 'build',
+          description: 'build item',
+          attributes: [
+            'someAttribute',
+          ]
+        }),
+        new Mutation({
+          type: MUTATION_TYPE_CREATE,
+          name: 'build',
+          description: 'build item',
+          attributes: [
+            'someAttribute',
+          ]
+        })
+      ]
+
+      function fn() {
+        processEntityMutations(entity, mutations)
+      }
+
+      assert.throws(fn, /Duplicate mutation name/);
+
+    })
+
+
+    it('should throw if unknown attributes are used', () => {
+
+      const mutations = [
+        new Mutation({
+          type: MUTATION_TYPE_CREATE,
+          name: 'build',
+          description: 'build item',
+          attributes: [
+            'doesNotExist',
+          ]
+        })
+      ]
+
+      function fn() {
+        processEntityMutations(entity, mutations)
+      }
+
+      assert.throws(fn, /as it does not exist/);
+
+    })
+
+
+    it('should allow for empty attribute lists on DELETE type mutations', () => {
+
+      const mutations = [
+        new Mutation({
+          type: MUTATION_TYPE_DELETE,
+          name: 'drop',
+          description: 'drop item',
+          attributes: []
+        })
+      ]
+
+      processEntityMutations(entity, mutations)
 
     })
 

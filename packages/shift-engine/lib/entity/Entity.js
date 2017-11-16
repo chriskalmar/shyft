@@ -3,7 +3,6 @@ import {
   passOrThrow,
   resolveFunctionMap,
   isMap,
-  isArray,
   isFunction,
   mapOverProperties,
 } from '../util';
@@ -17,9 +16,8 @@ import {
 
 import { processEntityIndexes } from '../index/Index';
 import Mutation, {
-  isMutation,
   defaultEntityMutations,
-  MUTATION_TYPE_CREATE,
+  processEntityMutations,
 } from '../mutation/Mutation';
 
 import {
@@ -79,6 +77,7 @@ class Entity {
     this._primaryAttribute = null
     this.referencedByEntities = []
     this._indexes = indexes
+    this._mutations = mutations
 
     if (storageType) {
       passOrThrow(
@@ -90,26 +89,6 @@ class Entity {
       this.storageType = StorageTypeNull
       this.isFallbackStorageType = true
       this._exposeStorageAccess()
-    }
-
-
-
-    if (mutations) {
-
-      this.mutations = mutations
-
-      passOrThrow(
-        isArray(mutations),
-        () => `Entity '${name}' mutations definition needs to be an array of mutations`
-      )
-
-      mutations.map((mutation, idx) => {
-        passOrThrow(
-          isMutation(mutation),
-          () => `Invalid mutation definition for entity '${name}' at position '${idx}'`
-        )
-
-      })
     }
 
 
@@ -219,18 +198,9 @@ class Entity {
 
     const ret = this._attributes = this._processAttributeMap()
     this.getIndexes()
-    this._processMutations()
+    this.getMutations()
     this._processPermissions()
     return ret
-  }
-
-
-  getMutations () {
-    return this.mutations
-  }
-
-  getMutationByName (name) {
-    return this.mutations.find( mutation => String(mutation) === name )
   }
 
 
@@ -255,6 +225,35 @@ class Entity {
 
     this.indexes = this._processIndexes()
     return this.indexes
+  }
+
+
+  _processMutations() {
+    if (this._mutations) {
+      return processEntityMutations(this, this._mutations)
+    }
+
+    return null
+  }
+
+
+  getMutations() {
+    if (this.mutations) {
+      return this.mutations
+    }
+
+    this.mutations = this._processMutations()
+    this._addDefaultMutations()
+    return this.mutations
+  }
+
+
+  getMutationByName(name) {
+    const mutations = this.getMutations()
+
+    return mutations
+      ? mutations.find(mutation => String(mutation) === name)
+      : null
   }
 
 
@@ -472,96 +471,21 @@ class Entity {
 
 
 
-  _processMutations () {
-    const _self = this
+  _addDefaultMutations () {
 
-    const coreAttributeNames = []
-    const requiredAttributeNames = []
+    const nonSystemAttributeNames = []
 
-    mapOverProperties(_self.getAttributes(), (attribute, attributeName) => {
+    mapOverProperties(this.getAttributes(), (attribute, attributeName) => {
       if (!attribute.isSystemAttribute) {
-        coreAttributeNames.push(attributeName)
-
-        if (attribute.required && !attribute.defaultValue) {
-          requiredAttributeNames.push(attributeName)
-        }
+        nonSystemAttributeNames.push(attributeName)
       }
     })
-
 
     if (!this.mutations) {
       this.mutations = []
     }
 
-    const mutationNames = []
-
-    this.mutations.map((mutation) => {
-
-      passOrThrow(
-        !mutationNames.includes(mutation.name),
-        () => `Duplicate mutation name '${mutation.name}' found in '${this.name}'`
-      )
-
-      mutationNames.push(mutation.name)
-
-      if (mutation.attributes) {
-        mutation.attributes.map((attributeName) => {
-          passOrThrow(
-            this._attributes[ attributeName ],
-            () => `Cannot use attribute '${this.name}.${attributeName}' in mutation '${this.name}.${mutation.name}' as it does not exist`
-          )
-        })
-
-        if (mutation.type === MUTATION_TYPE_CREATE) {
-          const missingAttributeNames = requiredAttributeNames.filter(requiredAttributeName => {
-            return !mutation.attributes.includes(requiredAttributeName)
-          })
-
-          passOrThrow(
-            missingAttributeNames.length === 0,
-            () => `Missing required attributes in mutation '${this.name}.${mutation.name}' need to have a defaultValue() function: [ ${missingAttributeNames.join(', ')} ]`
-          )
-        }
-      }
-
-
-      const checkMutationStates = (stateStringOrArray) => {
-
-        const stateNames = isArray(stateStringOrArray)
-          ? stateStringOrArray
-          : [ stateStringOrArray ]
-
-        const states = _self.getStates()
-
-        stateNames.map(stateName => {
-          passOrThrow(
-            states[ stateName ],
-            () => `Unknown state '${stateName}' used in mutation '${this.name}.${mutation.name}'`
-          )
-        })
-      }
-
-
-      if (mutation.fromState) {
-        passOrThrow(
-          _self.hasStates(),
-          () => `Mutation '${this.name}.${mutation.name}' cannot define fromState as the entity is stateless`
-        )
-
-        checkMutationStates(mutation.fromState)
-      }
-
-
-      if (mutation.toState) {
-        passOrThrow(
-          _self.hasStates(),
-          () => `Mutation '${this.name}.${mutation.name}' cannot define toState as the entity is stateless`
-        )
-
-        checkMutationStates(mutation.toState)
-      }
-    })
-
+    const mutationNames = this.mutations.map(mutation => mutation.name)
 
     defaultEntityMutations.map(defaultMutation => {
       if (!mutationNames.includes(defaultMutation.name)) {
@@ -569,7 +493,7 @@ class Entity {
           name: defaultMutation.name,
           type: defaultMutation.type,
           description: defaultMutation.description(this.name),
-          attributes: coreAttributeNames
+          attributes: nonSystemAttributeNames
         }))
       }
     })
