@@ -69,24 +69,6 @@ class Mutation {
 
 
     if (this.type === MUTATION_TYPE_CREATE || this.type === MUTATION_TYPE_UPDATE) {
-
-      passOrThrow(
-        isArray(attributes, true),
-        () => `Mutation '${name}' needs to have a list of attributes`
-      )
-
-      attributes.map(attribute => {
-        passOrThrow(
-          typeof attribute === 'string',
-          () => `Mutation '${name}' needs to have a list of attribute names`
-        )
-      })
-
-      passOrThrow(
-        attributes.length === _.uniq(attributes).length,
-        () => `Mutation '${name}' needs to have a list of unique attribute names`
-      )
-
       this.attributes = attributes
     }
 
@@ -219,7 +201,26 @@ export const processEntityMutations = (entity, mutations) => {
 
     mutationNames.push(mutation.name)
 
+
     if (mutation.attributes) {
+
+      passOrThrow(
+        isArray(mutation.attributes, true),
+        () => `Mutation '${entity.name}.${mutation.name}' needs to have a list of attributes`
+      )
+
+      mutation.attributes.map(attribute => {
+        passOrThrow(
+          typeof attribute === 'string',
+          () => `Mutation '${entity.name}.${mutation.name}' needs to have a list of attribute names`
+        )
+      })
+
+      passOrThrow(
+        mutation.attributes.length === _.uniq(mutation.attributes).length,
+        () => `Mutation '${entity.name}.${mutation.name}' needs to have a list of unique attribute names`
+      )
+
       mutation.attributes.map((attributeName) => {
         passOrThrow(
           entityAttributes[ attributeName ],
@@ -237,6 +238,17 @@ export const processEntityMutations = (entity, mutations) => {
           () => `Missing required attributes in mutation '${entity.name}.${mutation.name}' need to have a defaultValue() function: [ ${missingAttributeNames.join(', ')} ]`
         )
       }
+    }
+    else if (mutation.type === MUTATION_TYPE_CREATE || mutation.type === MUTATION_TYPE_UPDATE) {
+      const nonSystemAttributeNames = []
+
+      mapOverProperties(entityAttributes, (attribute, attributeName) => {
+        if (!attribute.isSystemAttribute) {
+          nonSystemAttributeNames.push(attributeName)
+        }
+      })
+
+      mutation.attributes = nonSystemAttributeNames
     }
 
 

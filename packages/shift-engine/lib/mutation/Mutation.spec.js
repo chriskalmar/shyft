@@ -19,6 +19,22 @@ import {
 
 describe('Mutation', () => {
 
+  const entity = new Entity({
+    name: 'SomeEntityName',
+    description: 'Just some description',
+    attributes: {
+      someAttribute: {
+        type: DataTypeString,
+        description: 'Just some description',
+      },
+      anotherAttribute: {
+        type: DataTypeString,
+        description: 'Just some description',
+      }
+    }
+  })
+
+
   it('should have a name', () => {
 
     function fn() {
@@ -71,33 +87,42 @@ describe('Mutation', () => {
   })
 
 
-  it('should have a list of attributes', () => {
+  it('should have a list of default attributes', () => {
 
-    function fn() {
-      new Mutation({ // eslint-disable-line no-new
-        name: 'example',
-        type: MUTATION_TYPE_CREATE,
-        description: 'mutate the world',
-      })
-    }
+    const mutation = new Mutation({
+      name: 'example',
+      type: MUTATION_TYPE_CREATE,
+      description: 'mutate the world',
+    })
 
-    assert.throws(fn, /needs to have a list of attributes/);
+
+    processEntityMutations(entity, [ mutation ])
+    const defaultAttributes = mutation.attributes
+
+    const expectedAttributes = [
+      'someAttribute',
+      'anotherAttribute',
+    ]
+
+    assert.deepEqual(defaultAttributes, expectedAttributes)
 
   })
 
 
   it('should have a list of valid attribute names', () => {
 
+    const mutation = new Mutation({
+      name: 'example',
+      type: MUTATION_TYPE_CREATE,
+      description: 'mutate the world',
+      attributes: [
+        'anything',
+        { foo: 'bar' },
+      ]
+    })
+
     function fn() {
-      new Mutation({ // eslint-disable-line no-new
-        name: 'example',
-        type: MUTATION_TYPE_CREATE,
-        description: 'mutate the world',
-        attributes: [
-          'anything',
-          { foo: 'bar' },
-        ]
-      })
+      processEntityMutations(entity, [ mutation ])
     }
 
     assert.throws(fn, /needs to have a list of attribute names/);
@@ -107,27 +132,31 @@ describe('Mutation', () => {
 
   it('should allow an empty attributes list for DELETE type mutations', () => {
 
-    new Mutation({ // eslint-disable-line no-new
+    const mutation = new Mutation({
       name: 'example',
       type: MUTATION_TYPE_DELETE,
       description: 'mutate the world',
     })
+
+    processEntityMutations(entity, [ mutation ])
 
   })
 
 
   it('should have a list of unique attribute names', () => {
 
+    const mutation = new Mutation({
+      name: 'example',
+      type: MUTATION_TYPE_CREATE,
+      description: 'mutate the world',
+      attributes: [
+        'anything',
+        'anything',
+      ]
+    })
+
     function fn() {
-      new Mutation({ // eslint-disable-line no-new
-        name: 'example',
-        type: MUTATION_TYPE_CREATE,
-        description: 'mutate the world',
-        attributes: [
-          'anything',
-          'anything',
-        ]
-      })
+      processEntityMutations(entity, [ mutation ])
     }
 
     assert.throws(fn, /needs to have a list of unique attribute names/);
@@ -328,20 +357,6 @@ describe('Mutation', () => {
 
 
   describe('processEntityMutations', () => {
-
-    const entity = new Entity({
-      name: 'SomeEntityName',
-      description: 'Just some description',
-      attributes: {
-        someAttribute: {
-          type: DataTypeString,
-          description: 'Just some description',
-        }
-      }
-    })
-
-    entity.getAttributes()
-
 
     it('should throw if provided with an invalid list of mutations', () => {
 
