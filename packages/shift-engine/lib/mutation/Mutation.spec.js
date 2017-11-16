@@ -358,6 +358,28 @@ describe('Mutation', () => {
 
   describe('processEntityMutations', () => {
 
+    const mutationTypeCreateDefinition = {
+      type: MUTATION_TYPE_CREATE,
+      name: 'build',
+      description: 'build item',
+      attributes: [ 'someAttribute' ]
+    }
+
+    const mutationTypeUpdateDefinition = {
+      type: MUTATION_TYPE_UPDATE,
+      name: 'change',
+      description: 'change item',
+      attributes: [ 'id', 'someAttribute' ]
+    }
+
+    const mutationTypeDeleteDefinition = {
+      type: MUTATION_TYPE_DELETE,
+      name: 'drop',
+      description: 'drop item',
+      attributes: [ 'id' ]
+    }
+
+
     it('should throw if provided with an invalid list of mutations', () => {
 
       const mutations = {
@@ -489,6 +511,137 @@ describe('Mutation', () => {
       ]
 
       processEntityMutations(entity, mutations)
+
+    })
+
+
+    it('should throw if using state in a stateless entity', () => {
+
+      const mutations1 = [
+        new Mutation({
+          ...mutationTypeUpdateDefinition,
+          fromState: 'open',
+          toState: 'close',
+        })
+      ]
+
+      function fn1() {
+        processEntityMutations(entity, mutations1)
+      }
+
+      assert.throws(fn1, /cannot define fromState as the entity is stateless/);
+
+
+      const mutations2 = [
+        new Mutation({
+          ...mutationTypeCreateDefinition,
+          toState: 'close',
+        })
+      ]
+
+      function fn2() {
+        processEntityMutations(entity, mutations2)
+      }
+
+      assert.throws(fn2, /cannot define toState as the entity is stateless/);
+
+    })
+
+
+    it('should throw if unknown state name is used', () => {
+
+      const someEntity = new Entity({
+        name: 'SomeEntityName',
+        description: 'Just some description',
+        attributes: {
+          someAttribute: {
+            type: DataTypeString,
+            description: 'Just some description',
+          },
+        },
+        states: {
+          open: 10,
+          closed: 20,
+          inTransfer: 40,
+          onHold: 50,
+        },
+      })
+
+
+      const mutations1 = [
+        new Mutation({
+          ...mutationTypeUpdateDefinition,
+          fromState: 'fakeState',
+          toState: 'close',
+        })
+      ]
+
+      function fn1() {
+        processEntityMutations(someEntity, mutations1)
+      }
+
+      assert.throws(fn1, /Unknown state 'fakeState' used in mutation/);
+
+
+      const mutations2 = [
+        new Mutation({
+          ...mutationTypeUpdateDefinition,
+          fromState: [ 'open', 'whatever', 'close' ],
+          toState: 'close',
+        })
+      ]
+
+      function fn2() {
+        processEntityMutations(someEntity, mutations2)
+      }
+
+      assert.throws(fn2, /Unknown state 'whatever' used in mutation/);
+
+
+      function fn3() {
+        const anotherEntity = new Entity({
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {
+            someAttribute: {
+              type: DataTypeString,
+              description: 'Just some description',
+            },
+          },
+          states: {
+            open: 10,
+            closed: 20,
+            inTransfer: 40,
+            onHold: 50,
+          },
+        })
+
+        const mutations3 = [
+          new Mutation({
+            ...mutationTypeUpdateDefinition,
+            fromState: 'open',
+            toState: [ 'closed', 'randomState', 'open' ],
+          })
+        ]
+
+        processEntityMutations(anotherEntity, mutations3)
+      }
+
+      assert.throws(fn3, /Unknown state 'randomState' used in mutation/);
+
+
+      const mutations4 = [
+        new Mutation({
+          ...mutationTypeDeleteDefinition,
+          fromState: [ 'open', 'notHere', 'open' ],
+        })
+      ]
+
+      function fn4() {
+        processEntityMutations(someEntity, mutations4)
+      }
+
+      assert.throws(fn4, /Unknown state 'notHere' used in mutation/);
 
     })
 

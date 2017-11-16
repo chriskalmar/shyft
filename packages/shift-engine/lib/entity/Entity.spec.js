@@ -8,8 +8,6 @@ import Index, {
 import Mutation, {
   isMutation,
   MUTATION_TYPE_CREATE,
-  MUTATION_TYPE_UPDATE,
-  MUTATION_TYPE_DELETE,
 } from '../mutation/Mutation';
 import Permission, {
   isPermission,
@@ -801,26 +799,6 @@ describe('Entity', () => {
       },
     }
 
-    const mutationTypeCreateDefinition = {
-      type: MUTATION_TYPE_CREATE,
-      name: 'build',
-      description: 'build item',
-      attributes: ['something']
-    }
-
-    const mutationTypeUpdateDefinition = {
-      type: MUTATION_TYPE_UPDATE,
-      name: 'change',
-      description: 'change item',
-      attributes: [ 'id', 'something']
-    }
-
-    const mutationTypeDeleteDefinition = {
-      type: MUTATION_TYPE_DELETE,
-      name: 'drop',
-      description: 'drop item',
-      attributes: [ 'id' ]
-    }
 
     const states = {
       open: 10,
@@ -954,126 +932,6 @@ describe('Entity', () => {
       assert.throws(fn, /needs to have a unique ID/);
 
     })
-
-
-
-    it('should throw if using state in a stateless entity', () => {
-
-      function fn1() {
-        const entity = new Entity({
-          ...entityDefinition,
-          mutations: [
-            new Mutation({
-              ...mutationTypeUpdateDefinition,
-              fromState: 'open',
-              toState: 'close',
-            })
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn1, /cannot define fromState as the entity is stateless/);
-
-
-      function fn2() {
-        const entity = new Entity({
-          ...entityDefinition,
-          mutations: [
-            new Mutation({
-              ...mutationTypeCreateDefinition,
-              toState: 'close',
-            })
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn2, /cannot define toState as the entity is stateless/);
-
-    })
-
-
-    it('should throw if unknown state name is used', () => {
-
-      function fn1() {
-        const entity = new Entity({
-          ...entityDefinition,
-          states,
-          mutations: [
-            new Mutation({
-              ...mutationTypeUpdateDefinition,
-              fromState: 'fakeState',
-              toState: 'close',
-            })
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn1, /Unknown state 'fakeState' used in mutation/);
-
-
-      function fn2() {
-        const entity = new Entity({
-          ...entityDefinition,
-          states,
-          mutations: [
-            new Mutation({
-              ...mutationTypeUpdateDefinition,
-              fromState: [ 'open', 'whatever', 'close' ],
-              toState: 'close',
-            })
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn2, /Unknown state 'whatever' used in mutation/);
-
-
-      function fn3() {
-        const entity = new Entity({
-          ...entityDefinition,
-          states,
-          mutations: [
-            new Mutation({
-              ...mutationTypeUpdateDefinition,
-              fromState: 'open',
-              toState: [ 'closed', 'randomState', 'open' ],
-            })
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn3, /Unknown state 'randomState' used in mutation/);
-
-
-      function fn4() {
-        const entity = new Entity({
-          ...entityDefinition,
-          states,
-          mutations: [
-            new Mutation({
-              ...mutationTypeDeleteDefinition,
-              fromState: [ 'open', 'notHere', 'open' ],
-            })
-          ]
-        })
-
-        entity.getAttributes()
-      }
-
-      assert.throws(fn4, /Unknown state 'notHere' used in mutation/);
-
-    })
-
 
 
   })
