@@ -78,6 +78,7 @@ class Entity {
     this.referencedByEntities = []
     this._indexes = indexes
     this._mutations = mutations
+    this._states = states
 
     if (storageType) {
       passOrThrow(
@@ -134,39 +135,6 @@ class Entity {
 
     }
 
-
-    if (states) {
-      this.states = states
-
-      passOrThrow(
-        isMap(states),
-        () => `Entity '${name}' states definition needs to be a map of state names and their unique ID`
-      )
-
-      const stateNames = Object.keys(states);
-      const uniqueIds = []
-
-      stateNames.map(stateName => {
-        const stateId = states[ stateName ]
-        uniqueIds.push(stateId)
-
-        passOrThrow(
-          stateNameRegex.test(stateName),
-          () => `Invalid state name '${stateName}' in entity '${name}' (Regex: /${STATE_NAME_PATTERN}/)`
-        )
-
-        passOrThrow(
-          stateId === parseInt(stateId, 10)  &&  stateId > 0,
-          () => `State '${stateName}' in entity '${name}' has an invalid unique ID (needs to be a positive integer)`
-        )
-      })
-
-      passOrThrow(
-        uniqueIds.length === _.uniq(uniqueIds).length,
-        () => `Each state defined in entity '${name}' needs to have a unique ID`
-      )
-    }
-
   }
 
 
@@ -198,6 +166,7 @@ class Entity {
 
     const ret = this._attributes = this._processAttributeMap()
     this.getIndexes()
+    this.getStates()
     this.getMutations()
     this._processPermissions()
     return ret
@@ -252,17 +221,62 @@ class Entity {
     const mutations = this.getMutations()
 
     return mutations
-      ? mutations.find(mutation => String(mutation) === name)
-      : null
+    ? mutations.find(mutation => String(mutation) === name)
+    : null
+  }
+
+
+  _processStates() {
+    if (this._states) {
+
+      const states = this._states
+
+      passOrThrow(
+        isMap(states),
+        () => `Entity '${this.name}' states definition needs to be a map of state names and their unique ID`
+      )
+
+      const stateNames = Object.keys(states);
+      const uniqueIds = []
+
+      stateNames.map(stateName => {
+        const stateId = states[ stateName ]
+        uniqueIds.push(stateId)
+
+        passOrThrow(
+          stateNameRegex.test(stateName),
+          () => `Invalid state name '${stateName}' in entity '${this.name}' (Regex: /${STATE_NAME_PATTERN}/)`
+        )
+
+        passOrThrow(
+          stateId === parseInt(stateId, 10) && stateId > 0,
+          () => `State '${stateName}' in entity '${this.name}' has an invalid unique ID (needs to be a positive integer)`
+        )
+      })
+
+      passOrThrow(
+        uniqueIds.length === _.uniq(uniqueIds).length,
+        () => `Each state defined in entity '${this.name}' needs to have a unique ID`
+      )
+
+      return states
+    }
+
+    return null
   }
 
 
   getStates () {
+    if (!this._states || this.states) {
+      return this.states
+    }
+
+    this.states = this._processStates()
     return this.states
   }
 
   hasStates () {
-    return !!this.states
+    return !!this.getStates()
   }
 
 
