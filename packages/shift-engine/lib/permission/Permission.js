@@ -396,3 +396,92 @@ export const buildPermissionFilter = (permission, userId, userRoles, entity) => 
 
   return where
 }
+
+
+const validatePermissionAttributes = (entity, permission, mutationName) => {
+
+  const invalidAttribute = findMissingPermissionAttributes(permission, entity)
+
+  passOrThrow(
+    !invalidAttribute,
+    () => `Cannot use attribute '${invalidAttribute}' in '${entity.name}.permissions' for '${mutationName}' as it does not exist`
+  )
+
+  findInvalidPermissionAttributes(permission, entity)
+}
+
+
+export const processEntityPermissions = (entity, permissions) => {
+
+  passOrThrow(
+    isMap(permissions),
+    () => `Entity '${entity.name}' permissions definition needs to be an object`
+  )
+
+
+  if (permissions.read) {
+    passOrThrow(
+      isPermission(permissions.read),
+      () => `Invalid 'read' permission definition for entity '${entity.name}'`
+    )
+  }
+
+  if (permissions.find) {
+    passOrThrow(
+      isPermission(permissions.find),
+      () => `Invalid 'find' permission definition for entity '${entity.name}'`
+    )
+  }
+
+  if (permissions.mutations) {
+    passOrThrow(
+      isMap(permissions.mutations),
+      () => `Entity '${entity.name}' permissions definition for mutations needs to be a map of mutations and permissions`
+    )
+
+    const mutationNames = Object.keys(permissions.mutations);
+    mutationNames.map((mutationName, idx) => {
+      passOrThrow(
+        isPermission(permissions.mutations[ mutationName ]),
+        () => `Invalid mutation permission definition for entity '${entity.name}' at position '${idx}'`
+      )
+
+    })
+  }
+
+
+  if (permissions.find) {
+    validatePermissionAttributes(entity, permissions.find, 'find')
+  }
+
+  if (permissions.read) {
+    validatePermissionAttributes(entity, permissions.read, 'read')
+  }
+
+
+  const entityMutations = entity.getMutations()
+
+  if (permissions.mutations && entityMutations) {
+    const permissionMutationNames = Object.keys(permissions.mutations);
+
+    const mutationNames = entityMutations.map((mutation) => mutation.name)
+
+    permissionMutationNames.map(permissionMutationName => {
+      passOrThrow(
+        mutationNames.includes(permissionMutationName),
+        () => `Unknown mutation '${permissionMutationName}' used for permissions in entity '${entity.name}'`
+      )
+    })
+
+    entityMutations.map((mutation) => {
+      const mutationName = mutation.name
+      const permission = permissions.mutations[ mutationName ]
+
+      if (permission) {
+        validatePermissionAttributes(entity, permission, mutationName)
+      }
+    })
+  }
+
+  return permissions
+}

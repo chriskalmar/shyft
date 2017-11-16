@@ -21,10 +21,8 @@ import Mutation, {
 } from '../mutation/Mutation';
 
 import {
-  isPermission,
   generatePermissionDescription,
-  findMissingPermissionAttributes,
-  findInvalidPermissionAttributes,
+  processEntityPermissions,
 } from '../permission/Permission';
 
 import { isDataType } from '../datatype/DataType';
@@ -79,6 +77,7 @@ class Entity {
     this._indexes = indexes
     this._mutations = mutations
     this._states = states
+    this._permissions = permissions
 
     if (storageType) {
       passOrThrow(
@@ -90,49 +89,6 @@ class Entity {
       this.storageType = StorageTypeNull
       this.isFallbackStorageType = true
       this._exposeStorageAccess()
-    }
-
-
-    if (permissions) {
-
-      this.permissions = permissions
-
-      passOrThrow(
-        isMap(permissions),
-        () => `Entity '${name}' permissions definition needs to be an object`
-      )
-
-
-      if (permissions.read) {
-        passOrThrow(
-          isPermission(permissions.read),
-          () => `Invalid 'read' permission definition for entity '${name}'`
-        )
-      }
-
-      if (permissions.find) {
-        passOrThrow(
-          isPermission(permissions.find),
-          () => `Invalid 'find' permission definition for entity '${name}'`
-        )
-      }
-
-      if (permissions.mutations) {
-        passOrThrow(
-          isMap(permissions.mutations),
-          () => `Entity '${name}' permissions definition for mutations needs to be a map of mutations and permissions`
-        )
-
-        const mutationNames = Object.keys(permissions.mutations);
-        mutationNames.map((mutationName, idx) => {
-          passOrThrow(
-            isPermission(permissions.mutations[ mutationName ]),
-            () => `Invalid mutation permission definition for entity '${name}' at position '${idx}'`
-          )
-
-        })
-      }
-
     }
 
   }
@@ -168,13 +124,8 @@ class Entity {
     this.getIndexes()
     this.getStates()
     this.getMutations()
-    this._processPermissions()
+    this.getPermissions()
     return ret
-  }
-
-
-  getPermissions () {
-    return this.permissions
   }
 
 
@@ -516,53 +467,33 @@ class Entity {
 
 
 
-  _validatePermissionAttributes (permission, mutationName) {
+  _processPermissions () {
+    if (this._permissions) {
+      return processEntityPermissions(this, this._permissions)
+    }
 
-    const invalidAttribute = findMissingPermissionAttributes(permission, this)
-
-    passOrThrow(
-      !invalidAttribute,
-      () => `Cannot use attribute '${invalidAttribute}' in '${this.name}.permissions' for '${mutationName}' as it does not exist`
-    )
-
-    findInvalidPermissionAttributes(permission, this)
+    return null
   }
 
 
-  _processPermissions () {
-
+  _generatePermissionDescriptions () {
     if (this.permissions) {
 
       if (this.permissions.find) {
         this.descriptionPermissionsFind = generatePermissionDescription(this.permissions.find)
-        this._validatePermissionAttributes(this.permissions.find, 'find')
       }
 
       if (this.permissions.read) {
         this.descriptionPermissionsRead = generatePermissionDescription(this.permissions.read)
-        this._validatePermissionAttributes(this.permissions.read, 'read')
       }
 
       if (this.permissions.mutations && this.mutations) {
-        const permissionMutationNames = Object.keys(this.permissions.mutations);
-
-        const mutationNames = this.mutations.map((mutation) => mutation.name)
-
-        permissionMutationNames.map(permissionMutationName => {
-          passOrThrow(
-            mutationNames.includes(permissionMutationName),
-            () => `Unknown mutation '${permissionMutationName}' used for permissions in entity '${this.name}'`
-          )
-        })
 
         this.mutations.map((mutation) => {
           const mutationName = mutation.name
           const permission = this.permissions.mutations[ mutationName ]
 
           if (permission) {
-
-            this._validatePermissionAttributes(permission, mutationName)
-
             const descriptionPermissions = generatePermissionDescription(permission)
             if (descriptionPermissions) {
               mutation.description += descriptionPermissions
@@ -571,6 +502,17 @@ class Entity {
         })
       }
     }
+  }
+
+
+  getPermissions() {
+    if (!this._permissions || this.permissions) {
+      return this.permissions
+    }
+
+    this.permissions = this._processPermissions()
+    this._generatePermissionDescriptions()
+    return this.permissions
   }
 
 
