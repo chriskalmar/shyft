@@ -571,8 +571,6 @@ describe('Permission', () => {
       }
     })
 
-    entity.getAttributes()
-
 
     it('should accept a correct permissions setup', () => {
 

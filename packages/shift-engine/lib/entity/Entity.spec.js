@@ -647,6 +647,7 @@ describe('Entity', () => {
         ]
       })
 
+      entity.getIndexes()
       const attributes = entity.getAttributes()
 
       assert.strictEqual(attributes.loginName.isUnique, true);

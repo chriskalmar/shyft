@@ -417,8 +417,6 @@ describe('Mutation', () => {
           ]
         })
 
-        otherEntity.getAttributes()
-
         otherEntity.getMutationByName('build')
       }
 

@@ -121,10 +121,6 @@ class Entity {
     }
 
     const ret = this._attributes = this._processAttributeMap()
-    this.getIndexes()
-    this.getStates()
-    this.getMutations()
-    this.getPermissions()
     return ret
   }
 
@@ -143,6 +139,7 @@ class Entity {
       return this.indexes
     }
 
+    this.getAttributes()
     this.indexes = this._processIndexes()
     return this.indexes
   }
@@ -162,6 +159,7 @@ class Entity {
       return this.mutations
     }
 
+    this.getStates()
     this.mutations = this._processMutations()
     this._addDefaultMutations()
     return this.mutations
@@ -510,6 +508,7 @@ class Entity {
       return this.permissions
     }
 
+    this.getMutations()
     this.permissions = this._processPermissions()
     this._generatePermissionDescriptions()
     return this.permissions

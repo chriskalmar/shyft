@@ -174,7 +174,7 @@ describe('Index', () => {
       }
     })
 
-    entity.getAttributes()
+    entity.getIndexes()
 
 
     it('should throw if provided with an invalid list of indexes', () => {
