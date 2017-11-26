@@ -130,23 +130,33 @@ class StorageType {
   }
 
 
-  setStorageInstanceContextKey (storageInstanceContextKey) {
-    this.storageInstanceContextKey = storageInstanceContextKey
+  setStorageInstance (storageInstance) {
+    this.storageInstance = storageInstance
   }
 
 
-  getStorageInstanceFromContext (context) {
+  getStorageInstance () {
     passOrThrow(
-      this.storageInstanceContextKey,
-      () => `Storage instance context key not set for storage type '${this.name}'`
+      this.storageInstance,
+      () => `Storage instance not set for storage type '${this.name}'`
     )
 
+    return this.storageInstance
+  }
+
+
+  setStorageModels (storageModels) {
+    this.storageModels = storageModels
+  }
+
+
+  getStorageModels () {
     passOrThrow(
-      context[ this.storageInstanceContextKey ],
-      () => `Storage instance not found at context key for storage type '${this.name}'`
+      this.storageModels,
+      () => `Storage models not set for storage type '${this.name}'`
     )
 
-    return context[ this.storageInstanceContextKey ]
+    return this.storageModels
   }
 
 
