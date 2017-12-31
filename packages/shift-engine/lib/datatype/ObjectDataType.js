@@ -47,8 +47,11 @@ class ObjectDataType extends ComplexDataType {
 
   _processAttribute (rawAttribute, attributeName) {
 
-    if (rawAttribute instanceof ObjectDataType) {
-      rawAttribute.getAttributes()
+    if (isFunction(rawAttribute.type)) {
+      rawAttribute.type = rawAttribute.type(attributeName)
+    }
+
+    if (isComplexDataType(rawAttribute.type)) {
       return rawAttribute
     }
 
@@ -120,3 +123,10 @@ export const isObjectDataType = (obj) => {
   return (obj instanceof ObjectDataType)
 }
 
+
+export const buildObjectDataType = (obj) => {
+  return (name) => new ObjectDataType({
+    ...obj,
+    name,
+  })
+}

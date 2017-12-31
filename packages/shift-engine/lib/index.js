@@ -50,7 +50,10 @@ import {
 
 
 import DataTypeEnum, { isDataTypeEnum } from './datatype/DataTypeEnum';
-import ObjectDataType, { isObjectDataType } from './datatype/ObjectDataType';
+import ObjectDataType, {
+  isObjectDataType,
+  buildObjectDataType,
+} from './datatype/ObjectDataType';
 import ComplexDataType, { isComplexDataType } from './datatype/ComplexDataType';
 import DataTypeState, { isDataTypeState} from './datatype/DataTypeState';
 
@@ -96,6 +99,7 @@ export {
 
   ObjectDataType,
   isObjectDataType,
+  buildObjectDataType,
   ComplexDataType,
   isComplexDataType,
 
@@ -164,6 +168,7 @@ export default {
 
   ObjectDataType,
   isObjectDataType,
+  buildObjectDataType,
   ComplexDataType,
   isComplexDataType,
 
