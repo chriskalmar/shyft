@@ -51,6 +51,7 @@ import {
 
 import DataTypeEnum, { isDataTypeEnum } from './datatype/DataTypeEnum';
 import ObjectDataType, { isObjectDataType } from './datatype/ObjectDataType';
+import ComplexDataType, { isComplexDataType } from './datatype/ComplexDataType';
 import DataTypeState, { isDataTypeState} from './datatype/DataTypeState';
 
 import { Language } from './models/Language';
@@ -95,6 +96,8 @@ export {
 
   ObjectDataType,
   isObjectDataType,
+  ComplexDataType,
+  isComplexDataType,
 
   passOrThrow,
   resolveFunctionMap,
@@ -161,6 +164,8 @@ export default {
 
   ObjectDataType,
   isObjectDataType,
+  ComplexDataType,
+  isComplexDataType,
 
   passOrThrow,
   resolveFunctionMap,
