@@ -3,13 +3,12 @@ import {
   passOrThrow,
   resolveFunctionMap,
   isMap,
-  // isArray,
   isFunction,
 } from '../util';
 
 import { isDataType } from '../datatype/DataType';
 import { isEntity } from '../entity/Entity';
-import { isObjectDataType } from '../datatype/ObjectDataType';
+import { isComplexDataType } from '../datatype/ComplexDataType';
 
 
 class Action {
@@ -84,11 +83,10 @@ class Action {
 
 
 
-  _processParam (rawParam, paramName) {
+  _processParam(rawParam, paramName) {
 
-    if (isObjectDataType(rawParam)) {
-      rawParam.getAttributes()
-      return rawParam
+    if (isFunction(rawParam.type)) {
+      rawParam.type = rawParam.type(paramName)
     }
 
     const param = {
@@ -98,7 +96,7 @@ class Action {
     }
 
     passOrThrow(
-      isDataType(param.type) || isEntity(param.type),
+      isDataType(param.type) || isComplexDataType(param.type) || isEntity(param.type),
       () => `'${this.name}.${paramName}' has invalid data type '${String(param.type)}'`
     )
 
