@@ -8,11 +8,14 @@ import {
 
 import { isEntity } from '../entity/Entity';
 import { isDataType } from './DataType';
+import ComplexDataType, { isComplexDataType } from './ComplexDataType';
 
 
-class ObjectDataType {
+class ObjectDataType extends ComplexDataType {
 
   constructor (setup = {}) {
+
+    super()
 
     const {
       name,
