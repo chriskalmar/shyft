@@ -19,13 +19,10 @@ class ObjectDataType extends ComplexDataType {
 
     const {
       name,
-      description,
       attributes,
-      required,
     } = setup
 
     passOrThrow(name, () => 'Missing object data type name')
-    passOrThrow(description, () => `Missing description for object data type '${name}'`)
     passOrThrow(attributes, () => `Missing attributes for object data type '${name}'`)
 
     passOrThrow(
@@ -34,9 +31,7 @@ class ObjectDataType extends ComplexDataType {
     )
 
     this.name = name
-    this.description = description
     this._attributesMap = attributes
-    this.required = !!required
   }
 
 
