@@ -38,14 +38,14 @@ export const generateActionDataInput = (action) => {
 }
 
 
-export const generateNestedActionDataInput = (action, nestedParam, level=1) => {
+export const generateNestedActionDataInput = (action, nestedParam, nestedParamName, level=1) => {
 
   const levelStr = level > 1
     ? `L${level}`
     : ''
 
   const actionDataInputType = new GraphQLInputObjectType({
-    name: generateTypeNamePascalCase(`${action.name}-${nestedParam.name}-${levelStr}DataInput`),
+    name: generateTypeNamePascalCase(`${action.name}-${nestedParamName}-${levelStr}DataInput`),
     description: nestedParam.description,
 
     fields: () => {
@@ -62,9 +62,10 @@ const generateActionDataInputFields = (inputParams, action, level=0) => {
   const fields = {}
 
   _.forEach(inputParams, (param, paramName) => {
-    const nestedActionDataInput = generateNestedActionDataInput(action, param, level+1)
 
-    if (isObjectDataType(param)) {
+    if (isObjectDataType(param.type)) {
+      const nestedActionDataInput = generateNestedActionDataInput(action, param.type, paramName, level + 1)
+
       fields[ paramName ] = {
         type: param.required
           ? new GraphQLNonNull(nestedActionDataInput)
@@ -168,9 +169,11 @@ const generateActionDataOutputFields = (outputParams, action, graphRegistry, lev
   const fields = {}
 
   _.forEach(outputParams, (param, paramName) => {
-    const nestedActionDataOutput = generateNestedActionDataOutput(action, param, graphRegistry, level+1)
 
-    if (isObjectDataType(param)) {
+    if (isObjectDataType(param.type)) {
+
+      const nestedActionDataOutput = generateNestedActionDataOutput(action, param.type, graphRegistry, level + 1)
+
       fields[ paramName ] = {
         type: nestedActionDataOutput,
         description: param.description,
