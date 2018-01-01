@@ -1,6 +1,7 @@
 
 import {
   passOrThrow,
+  isFunction,
 } from '../util';
 
 import { isEntity } from '../entity/Entity';
@@ -23,12 +24,29 @@ class ListDataType extends ComplexDataType {
     passOrThrow(itemType, () => `Missing item type for list data type '${name}'`)
 
     passOrThrow(
-      isDataType(itemType) || isEntity(itemType) || isComplexDataType(itemType),
+      isDataType(itemType) || isEntity(itemType) || isComplexDataType(itemType) || isFunction(itemType),
       () => `List data type '${name}' has invalid item type '${String(itemType)}'`
     )
 
     this.name = name
     this.itemType = itemType
+  }
+
+
+  _processItemType() {
+    return isFunction(this.itemType)
+      ? this.itemType(this.name)
+      : this.itemType
+  }
+
+
+  getItemType() {
+    if (this._itemType) {
+      return this._itemType
+    }
+
+    const ret = this._itemType = this._processItemType()
+    return ret
   }
 
 
