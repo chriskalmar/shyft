@@ -50,13 +50,18 @@ import {
 
 
 import DataTypeEnum, { isDataTypeEnum } from './datatype/DataTypeEnum';
+import ComplexDataType, { isComplexDataType } from './datatype/ComplexDataType';
+import DataTypeState, { isDataTypeState} from './datatype/DataTypeState';
+
 import ObjectDataType, {
   isObjectDataType,
   buildObjectDataType,
 } from './datatype/ObjectDataType';
-import ComplexDataType, { isComplexDataType } from './datatype/ComplexDataType';
-import DataTypeState, { isDataTypeState} from './datatype/DataTypeState';
-import ListDataType, { isListDataType } from './datatype/ListDataType';
+
+import ListDataType, {
+  isListDataType,
+  buildListDataType,
+} from './datatype/ListDataType';
 
 import { Language } from './models/Language';
 import { User } from './models/User';
@@ -105,6 +110,7 @@ export {
   isComplexDataType,
   ListDataType,
   isListDataType,
+  buildListDataType,
 
   passOrThrow,
   resolveFunctionMap,
@@ -176,6 +182,7 @@ export default {
   isComplexDataType,
   ListDataType,
   isListDataType,
+  buildListDataType,
 
   passOrThrow,
   resolveFunctionMap,

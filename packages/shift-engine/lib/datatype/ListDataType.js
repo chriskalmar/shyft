@@ -43,7 +43,13 @@ export default ListDataType
 
 
 export const isListDataType = (obj) => {
-  // console.log(JSON.stringify(obj, null, 2));
   return (obj instanceof ListDataType)
 }
 
+
+export const buildListDataType = (obj) => {
+  return (name) => new ListDataType({
+    ...obj,
+    name,
+  })
+}
