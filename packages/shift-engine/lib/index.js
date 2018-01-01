@@ -56,6 +56,7 @@ import ObjectDataType, {
 } from './datatype/ObjectDataType';
 import ComplexDataType, { isComplexDataType } from './datatype/ComplexDataType';
 import DataTypeState, { isDataTypeState} from './datatype/DataTypeState';
+import ListDataType, { isListDataType } from './datatype/ListDataType';
 
 import { Language } from './models/Language';
 import { User } from './models/User';
@@ -102,6 +103,8 @@ export {
   buildObjectDataType,
   ComplexDataType,
   isComplexDataType,
+  ListDataType,
+  isListDataType,
 
   passOrThrow,
   resolveFunctionMap,
@@ -171,6 +174,8 @@ export default {
   buildObjectDataType,
   ComplexDataType,
   isComplexDataType,
+  ListDataType,
+  isListDataType,
 
   passOrThrow,
   resolveFunctionMap,
