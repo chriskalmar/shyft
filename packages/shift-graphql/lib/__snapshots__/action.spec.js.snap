@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`action should generate an action data input type 1`] = `
+Object {
+  "firstName": Object {
+    "description": undefined,
+    "name": "firstName",
+    "type": "String",
+  },
+  "lastName": Object {
+    "description": undefined,
+    "name": "lastName",
+    "type": "String",
+  },
+}
+`;
+
+exports[`action should generate an action input type 1`] = `
+Object {
+  "clientMutationId": Object {
+    "name": "clientMutationId",
+    "type": "String",
+  },
+  "data": Object {
+    "name": "data",
+    "type": "NewSimpleActionDataInput!",
+  },
+}
+`;
