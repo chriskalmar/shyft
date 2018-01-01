@@ -8,6 +8,8 @@ import {
 import {
   generateActionDataInput,
   generateActionInput,
+  generateActionDataOutput,
+  generateActionOutput,
 } from './action';
 
 
@@ -19,14 +21,18 @@ describe('action', () => {
     input: {
       firstName: {
         type: DataTypeString,
+        description: 'First name',
       },
       lastName: {
         type: DataTypeString,
+        description: 'Last name',
+        required: true,
       },
     },
     output: {
       luckyNumber: {
         type: DataTypeInteger,
+        description: 'The perfect lucky number for the given name'
       }
     },
     resolve() { },
@@ -48,6 +54,27 @@ describe('action', () => {
     const inputDataInputType = generateActionDataInput(simpleAction)
     const type = generateActionInput(simpleAction, inputDataInputType)
     expect(type.name).toEqual('NewSimpleActionInput');
+
+    const fields = type.getFields()
+    expect(fields).toMatchSnapshot();
+  })
+
+
+  it('should generate an action data output type', () => {
+
+    const type = generateActionDataOutput(simpleAction)
+    expect(type.name).toEqual('NewSimpleActionDataOutput');
+
+    const fields = type.getFields()
+    expect(fields).toMatchSnapshot();
+  })
+
+
+  it('should generate an action output type', () => {
+
+    const outputDataOutputType = generateActionDataOutput(simpleAction)
+    const type = generateActionOutput(simpleAction, outputDataOutputType)
+    expect(type.name).toEqual('NewSimpleActionOutput');
 
     const fields = type.getFields()
     expect(fields).toMatchSnapshot();

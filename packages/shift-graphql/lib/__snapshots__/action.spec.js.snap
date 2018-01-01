@@ -3,14 +3,26 @@
 exports[`action should generate an action data input type 1`] = `
 Object {
   "firstName": Object {
-    "description": undefined,
+    "description": "First name",
     "name": "firstName",
     "type": "String",
   },
   "lastName": Object {
-    "description": undefined,
+    "description": "Last name",
     "name": "lastName",
-    "type": "String",
+    "type": "String!",
+  },
+}
+`;
+
+exports[`action should generate an action data output type 1`] = `
+Object {
+  "luckyNumber": Object {
+    "args": Array [],
+    "description": "The perfect lucky number for the given name",
+    "isDeprecated": false,
+    "name": "luckyNumber",
+    "type": "Int",
   },
 }
 `;
@@ -24,6 +36,23 @@ Object {
   "data": Object {
     "name": "data",
     "type": "NewSimpleActionDataInput!",
+  },
+}
+`;
+
+exports[`action should generate an action output type 1`] = `
+Object {
+  "clientMutationId": Object {
+    "args": Array [],
+    "isDeprecated": false,
+    "name": "clientMutationId",
+    "type": "String",
+  },
+  "result": Object {
+    "args": Array [],
+    "isDeprecated": false,
+    "name": "result",
+    "type": "NewSimpleActionDataOutput",
   },
 }
 `;
