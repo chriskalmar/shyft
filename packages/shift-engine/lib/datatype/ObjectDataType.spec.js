@@ -242,16 +242,18 @@ describe('ObjectDataType', () => {
           type: DataTypeString,
           description: 'Just another description'
         },
-        nested: new ObjectDataType({
-          name: 'SomeNestedName',
-          description: 'Just some description',
-          attributes: {
-            randomInput: {
-              type: DataTypeString,
-              description: 'One more description'
-            },
-          }
-        })
+        nested: {
+          type: new ObjectDataType({
+            name: 'SomeNestedName',
+            description: 'Just some description',
+            attributes: {
+              randomInput: {
+                type: DataTypeString,
+                description: 'One more description'
+              },
+            }
+          })
+        }
       }
     })
 
@@ -263,7 +265,7 @@ describe('ObjectDataType', () => {
     assert.strictEqual(attributes.id.type, DataTypeID);
     assert.strictEqual(attributes.name.type, DataTypeString);
 
-    const attributesNested = attributes.nested.getAttributes()
+    const attributesNested = attributes.nested.type.getAttributes()
 
     assert.strictEqual(attributesNested.randomInput.type, DataTypeString);
 

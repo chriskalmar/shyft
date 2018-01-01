@@ -5,7 +5,7 @@ import Action, {
 } from './Action';
 
 import { DataTypeString } from '../datatype/dataTypes';
-import ObjectDataType from '../datatype/ObjectDataType';
+import { buildObjectDataType } from '../datatype/ObjectDataType';
 
 import {
   passOrThrow,
@@ -261,16 +261,17 @@ describe('Action', () => {
           type: DataTypeString,
           required: true
         },
-        about: new ObjectDataType({
-          name: 'about',
+        about: {
           description: 'Just some description',
-          attributes: {
-            favouriteActor: {
-              type: DataTypeString,
-              description: 'One more description'
-            },
-          }
-        })
+          type: buildObjectDataType({
+            attributes: {
+              favouriteActor: {
+                type: DataTypeString,
+                description: 'One more description'
+              },
+            }
+          })
+        },
       },
       output: {
         luckyNumber: {
@@ -289,7 +290,7 @@ describe('Action', () => {
     assert.isTrue(input2.lastName.required);
     assert.isFunction(input2.firstName.defaultValue);
 
-    const nestedInput2 = input2.about.getAttributes()
+    const nestedInput2 = input2.about.type.getAttributes()
     assert.strictEqual(String(nestedInput2.favouriteActor.type), 'DataTypeString')
 
     assert.strictEqual(String(output2.luckyNumber.type), 'DataTypeString');
