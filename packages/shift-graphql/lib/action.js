@@ -150,14 +150,14 @@ export const generateActionDataOutput = (action, graphRegistry) => {
 }
 
 
-export const generateNestedActionDataOutput = (action, nestedParam, graphRegistry, level=1) => {
+export const generateNestedActionDataOutput = (action, nestedParam, nestedParamName, graphRegistry, level=1) => {
 
   const levelStr = level > 1
     ? `L${level}`
     : ''
 
   const actionDataOutputType = new GraphQLObjectType({
-    name: generateTypeNamePascalCase(`${action.name}-${nestedParam.name}-${levelStr}DataOutput`),
+    name: generateTypeNamePascalCase(`${action.name}-${nestedParamName}-${levelStr}DataOutput`),
     description: nestedParam.description,
 
     fields: () => {
@@ -175,32 +175,31 @@ const generateActionDataOutputFields = (outputParams, action, graphRegistry, lev
 
   _.forEach(outputParams, (param, paramName) => {
 
-    if (isObjectDataType(param.type)) {
+    let paramType = param.type
+    let baseFieldType
+    let isList = false
 
-      const nestedActionDataOutput = generateNestedActionDataOutput(action, param.type, graphRegistry, level + 1)
-
-      fields[ paramName ] = {
-        type: nestedActionDataOutput,
-        description: param.description,
-      }
-
-      return
+    if (isListDataType(paramType)) {
+      isList = true
+      paramType = paramType.getItemType()
     }
 
-    const paramType = param.type
-    let fieldType
 
-    if (isEntity(paramType)) {
+    if (isObjectDataType(paramType)) {
+      baseFieldType = generateNestedActionDataOutput(action, paramType, paramName, graphRegistry, level + 1)
+    }
+    else if (isEntity(paramType)) {
       const targetEntity = paramType
       const targetTypeName = targetEntity.graphql.typeName
-      const registryType = graphRegistry.types[ targetTypeName ]
-
-      fieldType = registryType.type
+      baseFieldType = graphRegistry.types[ targetTypeName ]
     }
     else {
-      fieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
+      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
     }
 
+    const fieldType = isList
+      ? new GraphQLList(baseFieldType)
+      : baseFieldType
 
 
     fields[ paramName ] = {
