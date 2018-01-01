@@ -4,6 +4,7 @@ import {
   GraphQLNonNull,
   GraphQLInputObjectType,
   GraphQLObjectType,
+  GraphQLList,
 } from 'graphql';
 
 
@@ -14,6 +15,7 @@ import ProtocolGraphQL from './ProtocolGraphQL';
 import {
   isEntity,
   isObjectDataType,
+  isListDataType,
 } from 'shift-engine';
 
 import {
@@ -63,29 +65,32 @@ const generateActionDataInputFields = (inputParams, action, level=0) => {
 
   _.forEach(inputParams, (param, paramName) => {
 
-    if (isObjectDataType(param.type)) {
-      const nestedActionDataInput = generateNestedActionDataInput(action, param.type, paramName, level + 1)
+    let paramType = param.type
+    let baseFieldType
+    let isList = false
 
-      fields[ paramName ] = {
-        type: param.required
-          ? new GraphQLNonNull(nestedActionDataInput)
-          : nestedActionDataInput,
-        description: param.description,
-      }
-
-      return
+    if (isListDataType(paramType)) {
+      isList = true
+      paramType = paramType.getItemType()
     }
 
-    let paramType = param.type
 
-    // it's a reference
-    if (isEntity(paramType)) {
+    if (isObjectDataType(paramType)) {
+      baseFieldType = generateNestedActionDataInput(action, paramType, paramName, level + 1)
+    }
+    else if (isEntity(paramType)) {
       const targetEntity = paramType
       const primaryAttribute = targetEntity.getPrimaryAttribute()
-      paramType = primaryAttribute.type
+      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type)
+    }
+    else {
+      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
     }
 
-    const fieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
+    const fieldType = isList
+      ? new GraphQLList(baseFieldType)
+      : baseFieldType
+
 
     fields[ paramName ] = {
       type: param.required
