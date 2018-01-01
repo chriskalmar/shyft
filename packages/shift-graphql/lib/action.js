@@ -4,6 +4,7 @@ import {
   GraphQLNonNull,
   GraphQLInputObjectType,
   GraphQLObjectType,
+  GraphQLList,
 } from 'graphql';
 
 
@@ -14,6 +15,7 @@ import ProtocolGraphQL from './ProtocolGraphQL';
 import {
   isEntity,
   isObjectDataType,
+  isListDataType,
 } from 'shift-engine';
 
 import {
@@ -38,14 +40,14 @@ export const generateActionDataInput = (action) => {
 }
 
 
-export const generateNestedActionDataInput = (action, nestedParam, level=1) => {
+export const generateNestedActionDataInput = (action, nestedParam, nestedParamName, level=1) => {
 
   const levelStr = level > 1
     ? `L${level}`
     : ''
 
   const actionDataInputType = new GraphQLInputObjectType({
-    name: generateTypeNamePascalCase(`${action.name}-${nestedParam.name}-${levelStr}DataInput`),
+    name: generateTypeNamePascalCase(`${action.name}-${nestedParamName}-${levelStr}DataInput`),
     description: nestedParam.description,
 
     fields: () => {
@@ -62,29 +64,33 @@ const generateActionDataInputFields = (inputParams, action, level=0) => {
   const fields = {}
 
   _.forEach(inputParams, (param, paramName) => {
-    const nestedActionDataInput = generateNestedActionDataInput(action, param, level+1)
-
-    if (isObjectDataType(param)) {
-      fields[ paramName ] = {
-        type: param.required
-          ? new GraphQLNonNull(nestedActionDataInput)
-          : nestedActionDataInput,
-        description: param.description,
-      }
-
-      return
-    }
 
     let paramType = param.type
+    let baseFieldType
+    let isList = false
 
-    // it's a reference
-    if (isEntity(paramType)) {
-      const targetEntity = paramType
-      const primaryAttribute = targetEntity.getPrimaryAttribute()
-      paramType = primaryAttribute.type
+    if (isListDataType(paramType)) {
+      isList = true
+      paramType = paramType.getItemType()
     }
 
-    const fieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
+
+    if (isObjectDataType(paramType)) {
+      baseFieldType = generateNestedActionDataInput(action, paramType, paramName, level + 1)
+    }
+    else if (isEntity(paramType)) {
+      const targetEntity = paramType
+      const primaryAttribute = targetEntity.getPrimaryAttribute()
+      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type)
+    }
+    else {
+      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
+    }
+
+    const fieldType = isList
+      ? new GraphQLList(baseFieldType)
+      : baseFieldType
+
 
     fields[ paramName ] = {
       type: param.required
@@ -144,14 +150,14 @@ export const generateActionDataOutput = (action, graphRegistry) => {
 }
 
 
-export const generateNestedActionDataOutput = (action, nestedParam, graphRegistry, level=1) => {
+export const generateNestedActionDataOutput = (action, nestedParam, nestedParamName, graphRegistry, level=1) => {
 
   const levelStr = level > 1
     ? `L${level}`
     : ''
 
   const actionDataOutputType = new GraphQLObjectType({
-    name: generateTypeNamePascalCase(`${action.name}-${nestedParam.name}-${levelStr}DataOutput`),
+    name: generateTypeNamePascalCase(`${action.name}-${nestedParamName}-${levelStr}DataOutput`),
     description: nestedParam.description,
 
     fields: () => {
@@ -168,31 +174,32 @@ const generateActionDataOutputFields = (outputParams, action, graphRegistry, lev
   const fields = {}
 
   _.forEach(outputParams, (param, paramName) => {
-    const nestedActionDataOutput = generateNestedActionDataOutput(action, param, graphRegistry, level+1)
 
-    if (isObjectDataType(param)) {
-      fields[ paramName ] = {
-        type: nestedActionDataOutput,
-        description: param.description,
-      }
+    let paramType = param.type
+    let baseFieldType
+    let isList = false
 
-      return
+    if (isListDataType(paramType)) {
+      isList = true
+      paramType = paramType.getItemType()
     }
 
-    const paramType = param.type
-    let fieldType
 
-    if (isEntity(paramType)) {
+    if (isObjectDataType(paramType)) {
+      baseFieldType = generateNestedActionDataOutput(action, paramType, paramName, graphRegistry, level + 1)
+    }
+    else if (isEntity(paramType)) {
       const targetEntity = paramType
       const targetTypeName = targetEntity.graphql.typeName
-      const registryType = graphRegistry.types[ targetTypeName ]
-
-      fieldType = registryType.type
+      baseFieldType = graphRegistry.types[ targetTypeName ]
     }
     else {
-      fieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
+      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
     }
 
+    const fieldType = isList
+      ? new GraphQLList(baseFieldType)
+      : baseFieldType
 
 
     fields[ paramName ] = {

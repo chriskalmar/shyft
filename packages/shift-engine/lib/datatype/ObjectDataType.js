@@ -8,17 +8,19 @@ import {
 
 import { isEntity } from '../entity/Entity';
 import { isDataType } from './DataType';
+import ComplexDataType, { isComplexDataType } from './ComplexDataType';
 
 
-class ObjectDataType {
+class ObjectDataType extends ComplexDataType {
 
   constructor (setup = {}) {
+
+    super()
 
     const {
       name,
       description,
       attributes,
-      required,
     } = setup
 
     passOrThrow(name, () => 'Missing object data type name')
@@ -33,7 +35,6 @@ class ObjectDataType {
     this.name = name
     this.description = description
     this._attributesMap = attributes
-    this.required = !!required
   }
 
 
@@ -49,8 +50,11 @@ class ObjectDataType {
 
   _processAttribute (rawAttribute, attributeName) {
 
-    if (rawAttribute instanceof ObjectDataType) {
-      rawAttribute.getAttributes()
+    if (isFunction(rawAttribute.type)) {
+      rawAttribute.type = rawAttribute.type(attributeName, rawAttribute.description)
+    }
+
+    if (isComplexDataType(rawAttribute.type)) {
       return rawAttribute
     }
 
@@ -122,3 +126,11 @@ export const isObjectDataType = (obj) => {
   return (obj instanceof ObjectDataType)
 }
 
+
+export const buildObjectDataType = (obj) => {
+  return (name, description) => new ObjectDataType({
+    description,
+    ...obj,
+    name,
+  })
+}
