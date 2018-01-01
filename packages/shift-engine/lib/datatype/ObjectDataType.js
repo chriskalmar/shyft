@@ -19,10 +19,12 @@ class ObjectDataType extends ComplexDataType {
 
     const {
       name,
+      description,
       attributes,
     } = setup
 
     passOrThrow(name, () => 'Missing object data type name')
+    passOrThrow(description, () => `Missing description for object data type '${name}'`)
     passOrThrow(attributes, () => `Missing attributes for object data type '${name}'`)
 
     passOrThrow(
@@ -31,6 +33,7 @@ class ObjectDataType extends ComplexDataType {
     )
 
     this.name = name
+    this.description = description
     this._attributesMap = attributes
   }
 
@@ -48,7 +51,7 @@ class ObjectDataType extends ComplexDataType {
   _processAttribute (rawAttribute, attributeName) {
 
     if (isFunction(rawAttribute.type)) {
-      rawAttribute.type = rawAttribute.type(attributeName)
+      rawAttribute.type = rawAttribute.type(attributeName, rawAttribute.description)
     }
 
     if (isComplexDataType(rawAttribute.type)) {
@@ -125,7 +128,8 @@ export const isObjectDataType = (obj) => {
 
 
 export const buildObjectDataType = (obj) => {
-  return (name) => new ObjectDataType({
+  return (name, description) => new ObjectDataType({
+    description,
     ...obj,
     name,
   })
