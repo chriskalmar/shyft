@@ -63,7 +63,12 @@ ProtocolGraphQL.addDataTypeMap(DataTypeTimestampTz, GraphQLDateTime);
 ProtocolGraphQL.addDataTypeMap(DataTypeDate, GraphQLDate);
 
 
-const enumDataTypesRegistry = {}
+
+const dataTypesRegistry = {
+  object: {},
+  enum: {},
+}
+
 
 
 ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeState, (attributeType) => {
@@ -71,9 +76,9 @@ ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeState, (attributeType) => {
   const name = attributeType.name
   const values = {}
 
-  if (enumDataTypesRegistry[name]) {
-    if (attributeType === enumDataTypesRegistry[name].attributeType) {
-      return enumDataTypesRegistry[name].type
+  if (dataTypesRegistry.enum[name]) {
+    if (attributeType === dataTypesRegistry.enum[name].attributeType) {
+      return dataTypesRegistry.enum[name].type
     }
   }
 
@@ -90,7 +95,7 @@ ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeState, (attributeType) => {
     values,
   })
 
-  enumDataTypesRegistry[name] = {
+  dataTypesRegistry.enum[name] = {
     type,
     attributeType,
   }
@@ -105,9 +110,9 @@ ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeEnum, (attributeType) => {
   const name = attributeType.name
   const values = {}
 
-  if (enumDataTypesRegistry[ name ]) {
-    if (attributeType === enumDataTypesRegistry[ name ].attributeType) {
-      return enumDataTypesRegistry[ name ].type
+  if (dataTypesRegistry.enum[ name ]) {
+    if (attributeType === dataTypesRegistry.enum[ name ].attributeType) {
+      return dataTypesRegistry.enum[ name ].type
     }
   }
 
@@ -123,7 +128,7 @@ ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeEnum, (attributeType) => {
     values,
   })
 
-  enumDataTypesRegistry[ name ] = {
+  dataTypesRegistry.enum[ name ] = {
     type,
     attributeType,
   }
@@ -131,10 +136,6 @@ ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeEnum, (attributeType) => {
   return type
 });
 
-
-const dataTypesRegistry = {
-  object: {},
-}
 
 
 ProtocolGraphQL.addDynamicDataTypeMap(isObjectDataType, (attributeType, sourceName, asInput) => {
