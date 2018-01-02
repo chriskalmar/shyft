@@ -86,7 +86,10 @@ class Action {
   _processParam(rawParam, paramName) {
 
     if (isFunction(rawParam.type)) {
-      rawParam.type = rawParam.type(paramName, rawParam.description)
+      rawParam.type = rawParam.type({
+        name: paramName,
+        description: rawParam.description,
+      })
     }
 
     const param = {

@@ -38,7 +38,10 @@ class ListDataType extends ComplexDataType {
 
   _processItemType() {
     return isFunction(this.itemType)
-      ? this.itemType(this.name, this.description)
+      ? this.itemType({
+        name: this.name,
+        description: this.description
+      })
       : this.itemType
   }
 
@@ -69,7 +72,7 @@ export const isListDataType = (obj) => {
 
 
 export const buildListDataType = (obj) => {
-  return (name, description) => new ListDataType({
+  return ({name, description}) => new ListDataType({
     description,
     ...obj,
     name,
