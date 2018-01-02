@@ -10,6 +10,9 @@ import {
   generateInput,
   generateDataInput,
   generateNestedDataInput,
+  generateOutput,
+  generateDataOutput,
+  generateNestedDataOutput,
 } from './io';
 
 
@@ -61,7 +64,7 @@ describe('io', () => {
   })
 
 
-  it('should generate an action data input type', () => {
+  it('should generate a nested data input type', () => {
 
     const type = generateNestedDataInput('AddTeamMember', player, 'player')
     expect(type.name).toEqual('AddTeamMemberPlayerDataInput');
@@ -71,7 +74,7 @@ describe('io', () => {
   })
 
 
-  it('should generate an action input type', () => {
+  it('should generate an input type', () => {
 
     const inputDataInputType = generateDataInput(simpleAction.name, simpleAction.getInput())
     const type = generateInput(simpleAction.name, inputDataInputType)
@@ -83,6 +86,31 @@ describe('io', () => {
     const dataInputType = inputFields.data.type.ofType
     const dataInputFields = dataInputType.getFields()
     expect(dataInputFields).toMatchSnapshot();
+  })
+
+
+  it('should generate a nested data output type', () => {
+
+    const type = generateNestedDataOutput('AddTeamMember', player, 'player')
+    expect(type.name).toEqual('AddTeamMemberPlayerDataOutput');
+
+    const fields = type.getFields()
+    expect(fields).toMatchSnapshot();
+  })
+
+
+  it('should generate an output type', () => {
+
+    const outputDataOutputType = generateDataOutput(simpleAction.name, simpleAction.getOutput())
+    const type = generateOutput(simpleAction.name, outputDataOutputType)
+    expect(type.name).toEqual('NewSimpleActionOutput');
+
+    const outputFields = type.getFields()
+    expect(outputFields).toMatchSnapshot();
+
+    const resultOutputType = outputFields.result.type
+    const resultOutputFields = resultOutputType.getFields()
+    expect(resultOutputFields).toMatchSnapshot();
   })
 
 

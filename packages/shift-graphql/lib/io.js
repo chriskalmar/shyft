@@ -133,6 +133,21 @@ export const generateInput = (baseName, dataInputType) => {
 
 
 
+export const generateDataOutput = (baseName, outputParams, graphRegistry) => {
+
+  const actionDataOutputType = new GraphQLObjectType({
+    name: generateTypeNamePascalCase(`${baseName}DataOutput`),
+    description: `Mutation data output type for **\`${baseName}\`**`,
+
+    fields: () => {
+      return generateDataOutputFields(outputParams, baseName, graphRegistry) // eslint-disable-line no-use-before-define
+    }
+  })
+
+  return actionDataOutputType
+}
+
+
 export const generateNestedDataOutput = (baseName, nestedParam, nestedParamName, graphRegistry, level = 1) => {
 
   const levelStr = level > 1
