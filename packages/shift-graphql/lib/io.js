@@ -80,10 +80,10 @@ const generateDataInputFields = (inputParams, baseName, level = 0) => {
     else if (isEntity(paramType)) {
       const targetEntity = paramType
       const primaryAttribute = targetEntity.getPrimaryAttribute()
-      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type)
+      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type, baseName, true)
     }
     else {
-      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
+      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType, baseName, true)
     }
 
     const fieldType = isList
@@ -192,7 +192,7 @@ const generateDataOutputFields = (outputParams, baseName, graphRegistry, level =
       baseFieldType = graphRegistry.types[ targetTypeName ]
     }
     else {
-      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
+      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType, baseName, false)
     }
 
     const fieldType = isList

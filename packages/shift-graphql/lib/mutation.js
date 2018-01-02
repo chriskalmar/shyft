@@ -56,7 +56,7 @@ export const generateMutationInstanceInput = (entity, entityMutation) => {
           attributeType = primaryAttribute.type
         }
 
-        const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, true)
+        const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, entity.name, true)
 
         fields[ attribute.gqlFieldName ] = {
           type: attribute.required && !entityMutation.ignoreRequired
@@ -115,7 +115,7 @@ export const generateMutationInput = (entity, typeName, entityMutation, entityMu
 export const generateMutationByPrimaryAttributeInput = (entity, typeName, entityMutation, entityMutationInstanceInputType, primaryAttribute) => {
 
   const fieldName = primaryAttribute.gqlFieldName
-  const fieldType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type, true)
+  const fieldType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type, entity.name, true)
   const typeNamePascalCase = entity.graphql.typeNamePascalCase
 
   const entityMutationInputType = new GraphQLInputObjectType({
@@ -197,7 +197,7 @@ export const generateInstanceUniquenessInput = (entity, uniquenessAttributes, gr
           const targetTypeName = targetEntity.graphql.typeName
 
           attributeType = primaryAttribute.type
-          const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, true)
+          const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, entity.name, true)
 
           const uniquenessAttributesList = getEntityUniquenessAttributes(targetEntity)
 
@@ -226,7 +226,7 @@ export const generateInstanceUniquenessInput = (entity, uniquenessAttributes, gr
 
         }
         else {
-          const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, true)
+          const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, entity.name, true)
 
           fields[ attribute.gqlFieldName ] = {
             type: new GraphQLNonNull(fieldType)
@@ -289,7 +289,7 @@ export const generateMutationInstanceNestedInput = (entity, entityMutation, grap
           const targetTypeName = targetEntity.graphql.typeName
 
           attributeType = primaryAttribute.type
-          const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, true)
+          const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, entity.name, true)
 
           const uniquenessAttributesList = getEntityUniquenessAttributes(targetEntity)
 
@@ -318,7 +318,7 @@ export const generateMutationInstanceNestedInput = (entity, entityMutation, grap
 
         }
         else {
-          const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, true)
+          const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, entity.name, true)
 
           fields[ attribute.gqlFieldName ] = {
             type: attribute.required && !entityMutation.ignoreRequired

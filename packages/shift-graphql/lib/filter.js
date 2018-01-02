@@ -62,7 +62,7 @@ export const generateFilterInput = (entity) => {
           attributeType = primaryAttribute.type
         }
 
-        const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType)
+        const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, entity.name, true)
 
         const storageDataType = storageType.convertToStorageDataType(attributeType)
 

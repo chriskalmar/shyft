@@ -137,10 +137,10 @@ const dataTypesRegistry = {
 }
 
 
-ProtocolGraphQL.addDynamicDataTypeMap(isObjectDataType, (attributeType, asInput) => {
+ProtocolGraphQL.addDynamicDataTypeMap(isObjectDataType, (attributeType, sourceName, asInput) => {
 
   const name = attributeType.name
-  const uniqueName = `${name}-${asInput ? 'Input' : 'Output' }`
+  const uniqueName = `${name}-${sourceName}-${asInput ? 'Input' : 'Output' }`
 
   if (asInput) {
     if (!dataTypesRegistry.object[ uniqueName ]) {
