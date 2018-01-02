@@ -78,15 +78,15 @@ class ProtocolType {
 
 
 
-  convertToProtocolDataType (schemaDataType) {
+  convertToProtocolDataType (schemaDataType, asInput) {
 
-    const foundDynamicDataType = this._dynamicDataTypeMap.find(({schemaDataTypeDetector}) => schemaDataTypeDetector(schemaDataType))
+    const foundDynamicDataType = this._dynamicDataTypeMap.find(({ schemaDataTypeDetector }) => schemaDataTypeDetector(schemaDataType))
     if (foundDynamicDataType) {
       const protocolDataType = foundDynamicDataType.protocolDataType
 
       if (isFunction(protocolDataType)) {
         const attributeType = schemaDataType
-        return protocolDataType(attributeType)
+        return protocolDataType(attributeType, asInput)
       }
 
       return protocolDataType
