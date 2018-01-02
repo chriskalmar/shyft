@@ -105,6 +105,19 @@ describe('action', () => {
       },
     })
 
+    const returnedPlayer = buildObjectDataType({
+      attributes: {
+        playerId: {
+          type: DataTypeInteger,
+          description: 'ID of the player',
+        },
+        lockerId: {
+          type: DataTypeInteger,
+          description: 'Assigned locker',
+        },
+      },
+    })
+
     const complexAction = new Action({
       name: 'buildTeam',
       description: 'build a team',
@@ -134,9 +147,24 @@ describe('action', () => {
         }
       },
       output: {
-        luckyNumber: {
-          type: DataTypeInteger,
-          description: 'The perfect lucky number for the given name'
+        result: {
+          type: buildObjectDataType({
+            attributes: {
+              offense: {
+                type: buildListDataType({
+                  itemType: returnedPlayer,
+                }),
+                description: 'Offense players',
+              },
+              defence: {
+                type: buildListDataType({
+                  itemType: returnedPlayer,
+                }),
+                description: 'Defence players',
+              },
+            },
+          }),
+          description: 'List of player',
         }
       },
       resolve() { },
@@ -160,6 +188,25 @@ describe('action', () => {
     const defenceInputFields = defenceInputType.getFields()
     expect(offenseInputFields).toMatchSnapshot();
     expect(defenceInputFields).toMatchSnapshot();
+
+
+    const outputType = generateActionDataOutput(complexAction)
+    expect(outputType.name).toEqual('BuildTeamDataOutput');
+
+    const outputFields = outputType.getFields()
+    expect(outputFields).toMatchSnapshot();
+
+    const playersOutputType = outputFields.result.type
+    const playersOutputFields = playersOutputType.getFields()
+    expect(playersOutputFields).toMatchSnapshot();
+
+
+    const offenseOutputType = playersOutputFields.offense.type.ofType
+    const defenceOutputType = playersOutputFields.defence.type.ofType
+    const offenseOutputFields = offenseOutputType.getFields()
+    const defenceOutputFields = defenceOutputType.getFields()
+    expect(offenseOutputFields).toMatchSnapshot();
+    expect(defenceOutputFields).toMatchSnapshot();
 
   })
 
