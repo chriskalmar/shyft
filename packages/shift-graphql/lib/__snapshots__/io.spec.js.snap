@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`io should generate an action data input type 1`] = `
+Object {
+  "firstName": Object {
+    "description": "First name",
+    "name": "firstName",
+    "type": "String",
+  },
+  "lastName": Object {
+    "description": "Last name",
+    "name": "lastName",
+    "type": "String!",
+  },
+  "number": Object {
+    "description": "Number on the shirt",
+    "name": "number",
+    "type": "Int!",
+  },
+}
+`;
+
+exports[`io should generate an action input type 1`] = `
+Object {
+  "clientMutationId": Object {
+    "name": "clientMutationId",
+    "type": "String",
+  },
+  "data": Object {
+    "name": "data",
+    "type": "NewSimpleActionDataInput!",
+  },
+}
+`;
+
+exports[`io should generate an action input type 2`] = `
+Object {
+  "firstName": Object {
+    "description": "First name",
+    "name": "firstName",
+    "type": "String",
+  },
+  "lastName": Object {
+    "description": "Last name",
+    "name": "lastName",
+    "type": "String!",
+  },
+}
+`;
