@@ -56,3 +56,73 @@ Object {
   },
 }
 `;
+
+exports[`action should handle nested input and output definitions 1`] = `
+Object {
+  "players": Object {
+    "description": "List of player",
+    "name": "players",
+    "type": "BuildTeamPlayersDataInput",
+  },
+  "teamName": Object {
+    "description": "Name of the team",
+    "name": "teamName",
+    "type": "String",
+  },
+}
+`;
+
+exports[`action should handle nested input and output definitions 2`] = `
+Object {
+  "defence": Object {
+    "description": "Defence players",
+    "name": "defence",
+    "type": "[BuildTeamDefenceL2DataInput]",
+  },
+  "offense": Object {
+    "description": "Offense players",
+    "name": "offense",
+    "type": "[BuildTeamOffenseL2DataInput]",
+  },
+}
+`;
+
+exports[`action should handle nested input and output definitions 3`] = `
+Object {
+  "firstName": Object {
+    "description": "First name",
+    "name": "firstName",
+    "type": "String",
+  },
+  "lastName": Object {
+    "description": "Last name",
+    "name": "lastName",
+    "type": "String!",
+  },
+  "number": Object {
+    "description": "Number on the shirt",
+    "name": "number",
+    "type": "Int!",
+  },
+}
+`;
+
+exports[`action should handle nested input and output definitions 4`] = `
+Object {
+  "firstName": Object {
+    "description": "First name",
+    "name": "firstName",
+    "type": "String",
+  },
+  "lastName": Object {
+    "description": "Last name",
+    "name": "lastName",
+    "type": "String!",
+  },
+  "number": Object {
+    "description": "Number on the shirt",
+    "name": "number",
+    "type": "Int!",
+  },
+}
+`;
