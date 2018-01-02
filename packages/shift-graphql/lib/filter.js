@@ -12,6 +12,7 @@ import ProtocolGraphQL from './ProtocolGraphQL';
 import {
   isEntity,
   constants,
+  isComplexDataType,
 } from 'shift-engine';
 
 
@@ -49,6 +50,10 @@ export const generateFilterInput = (entity) => {
       _.forEach(entity.getAttributes(), (attribute) => {
 
         let attributeType = attribute.type
+
+        if (isComplexDataType(attributeType)) {
+          return;
+        }
 
         // it's a reference
         if (isEntity(attributeType)) {
