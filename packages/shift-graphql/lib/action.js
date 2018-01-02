@@ -1,246 +1,16 @@
 
 import {
-  GraphQLString,
   GraphQLNonNull,
-  GraphQLInputObjectType,
-  GraphQLObjectType,
-  GraphQLList,
 } from 'graphql';
-
 
 import _ from 'lodash';
 
-import ProtocolGraphQL from './ProtocolGraphQL';
-
 import {
-  isEntity,
-  isObjectDataType,
-  isListDataType,
-} from 'shift-engine';
-
-import {
-  generateTypeNamePascalCase,
-} from './util';
-
-
-
-export const generateActionDataInput = (action) => {
-
-  const actionDataInputType = new GraphQLInputObjectType({
-    name: generateTypeNamePascalCase(`${action.name}DataInput`),
-    description: `Mutation data input type for action **\`${action.name}\`**`,
-
-    fields: () => {
-      const inputParams = action.getInput()
-      return generateActionDataInputFields(inputParams, action) // eslint-disable-line no-use-before-define
-    }
-  })
-
-  return actionDataInputType
-}
-
-
-export const generateNestedActionDataInput = (action, nestedParam, nestedParamName, level=1) => {
-
-  const levelStr = level > 1
-    ? `L${level}`
-    : ''
-
-  const actionDataInputType = new GraphQLInputObjectType({
-    name: generateTypeNamePascalCase(`${action.name}-${nestedParamName}-${levelStr}DataInput`),
-    description: nestedParam.description,
-
-    fields: () => {
-      const inputParams = nestedParam.getAttributes()
-      return generateActionDataInputFields(inputParams, action, level) // eslint-disable-line no-use-before-define
-    }
-  })
-
-  return actionDataInputType
-}
-
-
-const generateActionDataInputFields = (inputParams, action, level=0) => {
-  const fields = {}
-
-  _.forEach(inputParams, (param, paramName) => {
-
-    let paramType = param.type
-    let baseFieldType
-    let isList = false
-
-    if (isListDataType(paramType)) {
-      isList = true
-      paramType = paramType.getItemType()
-    }
-
-
-    if (isObjectDataType(paramType)) {
-      baseFieldType = generateNestedActionDataInput(action, paramType, paramName, level + 1)
-    }
-    else if (isEntity(paramType)) {
-      const targetEntity = paramType
-      const primaryAttribute = targetEntity.getPrimaryAttribute()
-      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type)
-    }
-    else {
-      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
-    }
-
-    const fieldType = isList
-      ? new GraphQLList(baseFieldType)
-      : baseFieldType
-
-
-    fields[ paramName ] = {
-      type: param.required
-        ? new GraphQLNonNull(fieldType)
-        : fieldType,
-      description: param.description,
-    }
-
-  });
-
-  return fields
-}
-
-
-export const generateActionInput = (action, actionDataInputType) => {
-
-  const actionInputType = new GraphQLInputObjectType({
-
-    name: generateTypeNamePascalCase(`${action.name}Input`),
-    description: `Mutation input type for action **\`${action.name}\`**`,
-
-    fields: () => {
-      const fields = {
-        clientMutationId: {
-          type: GraphQLString,
-        }
-      }
-
-      if (actionDataInputType) {
-        fields.data = {
-          type: new GraphQLNonNull( actionDataInputType )
-        }
-      }
-
-      return fields
-    }
-  })
-
-  return actionInputType
-}
-
-
-
-export const generateActionDataOutput = (action, graphRegistry) => {
-
-  const actionDataOutputType = new GraphQLObjectType({
-    name: generateTypeNamePascalCase(`${action.name}DataOutput`),
-    description: `Mutation data output type for action **\`${action.name}\`**`,
-
-    fields: () => {
-      const outputParams = action.getOutput()
-      return generateActionDataOutputFields(outputParams, action, graphRegistry) // eslint-disable-line no-use-before-define
-    }
-  })
-
-  return actionDataOutputType
-}
-
-
-export const generateNestedActionDataOutput = (action, nestedParam, nestedParamName, graphRegistry, level=1) => {
-
-  const levelStr = level > 1
-    ? `L${level}`
-    : ''
-
-  const actionDataOutputType = new GraphQLObjectType({
-    name: generateTypeNamePascalCase(`${action.name}-${nestedParamName}-${levelStr}DataOutput`),
-    description: nestedParam.description,
-
-    fields: () => {
-      const outputParams = nestedParam.getAttributes()
-      return generateActionDataOutputFields(outputParams, action, graphRegistry, level) // eslint-disable-line no-use-before-define
-    }
-  })
-
-  return actionDataOutputType
-}
-
-
-const generateActionDataOutputFields = (outputParams, action, graphRegistry, level=0) => {
-  const fields = {}
-
-  _.forEach(outputParams, (param, paramName) => {
-
-    let paramType = param.type
-    let baseFieldType
-    let isList = false
-
-    if (isListDataType(paramType)) {
-      isList = true
-      paramType = paramType.getItemType()
-    }
-
-
-    if (isObjectDataType(paramType)) {
-      baseFieldType = generateNestedActionDataOutput(action, paramType, paramName, graphRegistry, level + 1)
-    }
-    else if (isEntity(paramType)) {
-      const targetEntity = paramType
-      const targetTypeName = targetEntity.graphql.typeName
-      baseFieldType = graphRegistry.types[ targetTypeName ]
-    }
-    else {
-      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType)
-    }
-
-    const fieldType = isList
-      ? new GraphQLList(baseFieldType)
-      : baseFieldType
-
-
-    fields[ paramName ] = {
-      type: fieldType,
-      description: param.description,
-    }
-
-  });
-
-  return fields
-}
-
-
-
-export const generateActionOutput = (action, actionDataOutputType) => {
-
-  const actionOutputType = new GraphQLObjectType({
-
-    name: generateTypeNamePascalCase(`${action.name}Output`),
-    description: `Mutation output type for action **\`${action.name}\`**`,
-
-    fields: () => {
-      const fields = {
-        clientMutationId: {
-          type: GraphQLString,
-        }
-      }
-
-      if (actionDataOutputType) {
-        fields.result = {
-          type: actionDataOutputType
-        }
-      }
-
-      return fields
-    }
-  })
-
-  return actionOutputType
-}
-
+  generateInput,
+  generateDataInput,
+  generateOutput,
+  generateDataOutput,
+} from './io';
 
 
 export const generateActions = (graphRegistry) => {
@@ -255,15 +25,15 @@ export const generateActions = (graphRegistry) => {
     let actionDataOutputType
 
     if (action.hasInputParams()) {
-      actionDataInputType = generateActionDataInput(action, graphRegistry)
+      actionDataInputType = generateDataInput(actionName, action.getInput())
     }
 
     if (action.hasOutputParams()) {
-      actionDataOutputType = generateActionDataOutput(action, graphRegistry)
+      actionDataOutputType = generateDataOutput(actionName, action.getOutput(), graphRegistry)
     }
 
-    const actionInputType = generateActionInput(action, actionDataInputType)
-    const actionOutputType = generateActionOutput(action, actionDataOutputType)
+    const actionInputType = generateInput(actionName, actionDataInputType)
+    const actionOutputType = generateOutput(actionName, actionDataOutputType)
 
     actions[ queryName ] = {
       type: actionOutputType,
