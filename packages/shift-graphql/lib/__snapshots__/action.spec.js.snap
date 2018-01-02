@@ -1,0 +1,197 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`action should generate an action data input type 1`] = `
+Object {
+  "firstName": Object {
+    "description": "First name",
+    "name": "firstName",
+    "type": "String",
+  },
+  "lastName": Object {
+    "description": "Last name",
+    "name": "lastName",
+    "type": "String!",
+  },
+}
+`;
+
+exports[`action should generate an action data output type 1`] = `
+Object {
+  "luckyNumber": Object {
+    "args": Array [],
+    "description": "The perfect lucky number for the given name",
+    "isDeprecated": false,
+    "name": "luckyNumber",
+    "type": "Int",
+  },
+}
+`;
+
+exports[`action should generate an action input type 1`] = `
+Object {
+  "clientMutationId": Object {
+    "name": "clientMutationId",
+    "type": "String",
+  },
+  "data": Object {
+    "name": "data",
+    "type": "NewSimpleActionDataInput!",
+  },
+}
+`;
+
+exports[`action should generate an action output type 1`] = `
+Object {
+  "clientMutationId": Object {
+    "args": Array [],
+    "isDeprecated": false,
+    "name": "clientMutationId",
+    "type": "String",
+  },
+  "result": Object {
+    "args": Array [],
+    "isDeprecated": false,
+    "name": "result",
+    "type": "NewSimpleActionDataOutput",
+  },
+}
+`;
+
+exports[`action should handle nested input and output definitions 1`] = `
+Object {
+  "players": Object {
+    "description": "List of player",
+    "name": "players",
+    "type": "BuildTeamPlayersDataInput",
+  },
+  "teamName": Object {
+    "description": "Name of the team",
+    "name": "teamName",
+    "type": "String",
+  },
+}
+`;
+
+exports[`action should handle nested input and output definitions 2`] = `
+Object {
+  "defence": Object {
+    "description": "Defence players",
+    "name": "defence",
+    "type": "[BuildTeamDefenceL2DataInput]",
+  },
+  "offense": Object {
+    "description": "Offense players",
+    "name": "offense",
+    "type": "[BuildTeamOffenseL2DataInput]",
+  },
+}
+`;
+
+exports[`action should handle nested input and output definitions 3`] = `
+Object {
+  "firstName": Object {
+    "description": "First name",
+    "name": "firstName",
+    "type": "String",
+  },
+  "lastName": Object {
+    "description": "Last name",
+    "name": "lastName",
+    "type": "String!",
+  },
+  "number": Object {
+    "description": "Number on the shirt",
+    "name": "number",
+    "type": "Int!",
+  },
+}
+`;
+
+exports[`action should handle nested input and output definitions 4`] = `
+Object {
+  "firstName": Object {
+    "description": "First name",
+    "name": "firstName",
+    "type": "String",
+  },
+  "lastName": Object {
+    "description": "Last name",
+    "name": "lastName",
+    "type": "String!",
+  },
+  "number": Object {
+    "description": "Number on the shirt",
+    "name": "number",
+    "type": "Int!",
+  },
+}
+`;
+
+exports[`action should handle nested input and output definitions 5`] = `
+Object {
+  "result": Object {
+    "args": Array [],
+    "description": "List of player",
+    "isDeprecated": false,
+    "name": "result",
+    "type": "BuildTeamResultDataOutput",
+  },
+}
+`;
+
+exports[`action should handle nested input and output definitions 6`] = `
+Object {
+  "defence": Object {
+    "args": Array [],
+    "description": "Defence players",
+    "isDeprecated": false,
+    "name": "defence",
+    "type": "[BuildTeamDefenceL2DataOutput]",
+  },
+  "offense": Object {
+    "args": Array [],
+    "description": "Offense players",
+    "isDeprecated": false,
+    "name": "offense",
+    "type": "[BuildTeamOffenseL2DataOutput]",
+  },
+}
+`;
+
+exports[`action should handle nested input and output definitions 7`] = `
+Object {
+  "lockerId": Object {
+    "args": Array [],
+    "description": "Assigned locker",
+    "isDeprecated": false,
+    "name": "lockerId",
+    "type": "Int",
+  },
+  "playerId": Object {
+    "args": Array [],
+    "description": "ID of the player",
+    "isDeprecated": false,
+    "name": "playerId",
+    "type": "Int",
+  },
+}
+`;
+
+exports[`action should handle nested input and output definitions 8`] = `
+Object {
+  "lockerId": Object {
+    "args": Array [],
+    "description": "Assigned locker",
+    "isDeprecated": false,
+    "name": "lockerId",
+    "type": "Int",
+  },
+  "playerId": Object {
+    "args": Array [],
+    "description": "ID of the player",
+    "isDeprecated": false,
+    "name": "playerId",
+    "type": "Int",
+  },
+}
+`;

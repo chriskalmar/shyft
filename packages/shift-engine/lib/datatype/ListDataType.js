@@ -17,10 +17,12 @@ class ListDataType extends ComplexDataType {
 
     const {
       name,
+      description,
       itemType,
     } = setup
 
     passOrThrow(name, () => 'Missing list data type name')
+    passOrThrow(description, () => `Missing description for list data type '${name}'`)
     passOrThrow(itemType, () => `Missing item type for list data type '${name}'`)
 
     passOrThrow(
@@ -29,13 +31,14 @@ class ListDataType extends ComplexDataType {
     )
 
     this.name = name
+    this.description = description
     this.itemType = itemType
   }
 
 
   _processItemType() {
     return isFunction(this.itemType)
-      ? this.itemType(this.name)
+      ? this.itemType(this.name, this.description)
       : this.itemType
   }
 
@@ -66,7 +69,8 @@ export const isListDataType = (obj) => {
 
 
 export const buildListDataType = (obj) => {
-  return (name) => new ListDataType({
+  return (name, description) => new ListDataType({
+    description,
     ...obj,
     name,
   })
