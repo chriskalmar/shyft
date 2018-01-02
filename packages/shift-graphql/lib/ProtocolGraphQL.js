@@ -13,6 +13,7 @@ import {
   DataTypeDate,
   isDataTypeState,
   isDataTypeEnum,
+  isObjectDataType,
 } from 'shift-engine';
 
 import {
@@ -31,6 +32,11 @@ import {
   GraphQLDateTime,
   GraphQLDate,
 } from './dataTypes';
+
+import {
+  generateDataInput,
+  generateDataOutput,
+ } from './io';
 
 
 
@@ -124,3 +130,34 @@ ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeEnum, (attributeType) => {
 
   return type
 });
+
+
+const dataTypesRegistry = {
+  object: {},
+}
+
+
+ProtocolGraphQL.addDynamicDataTypeMap(isObjectDataType, (attributeType, asInput) => {
+
+  const name = attributeType.name
+  const uniqueName = `${name}-${asInput ? 'Input' : 'Output' }`
+
+  if (asInput) {
+    if (!dataTypesRegistry.object[ uniqueName ]) {
+      const dataInputType = generateDataInput(name, attributeType.getAttributes())
+      dataTypesRegistry.object[ uniqueName ] = dataInputType
+    }
+
+    return dataTypesRegistry.object[ uniqueName ]
+  }
+
+
+  if (!dataTypesRegistry.object[ uniqueName ]) {
+    const dataOutputType = generateDataOutput(name, attributeType.getAttributes())
+    dataTypesRegistry.object[ uniqueName ] = dataOutputType
+  }
+
+  return dataTypesRegistry.object[ uniqueName ]
+});
+
+
