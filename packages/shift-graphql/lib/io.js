@@ -68,6 +68,11 @@ const generateDataInputFields = (inputParams, baseName, level = 0) => {
     let baseFieldType
     let isList = false
 
+    if (!paramType) {
+      throw new Error(`Param '${baseName}.${paramName}' in generateDataInputFields() has no type`)
+    }
+
+
     if (isListDataType(paramType)) {
       isList = true
       paramType = paramType.getItemType()
@@ -176,6 +181,10 @@ const generateDataOutputFields = (outputParams, baseName, graphRegistry, level =
     let paramType = param.type
     let baseFieldType
     let isList = false
+
+    if (!paramType) {
+      throw new Error(`Param '${baseName}.${paramName}' in generateDataOutputFields() has no type`)
+    }
 
     if (isListDataType(paramType)) {
       isList = true
