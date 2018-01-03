@@ -4,15 +4,17 @@
   "description": "Model driven database and API generator",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-register -R spec --check-leaks packages/*/lib/*.spec.js packages/*/lib/**/*.spec.js || exit 1",
-    "test:watch": "nodemon --config ./nodemon.json --delay 1",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint-staged": "lint-staged",
-    "cov": "NODE_ENV=test nyc npm run test",
-    "coverage": "NODE_ENV=test nyc mocha -R spec --check-leaks packages/*/lib/*.spec.js packages/*/lib/**/*.spec.js",
+    "coverage": "NODE_ENV=test jest --coverage",
     "coverage-ci": "npm run coverage && cat ./coverage/lcov.info | codecov",
     "babel": "babel --presets es2015,stage-0 --ignore node_modules,coverage"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "lint-staged": {
     "*.js": "./node_modules/eslint/bin/eslint.js"
@@ -28,11 +30,9 @@
     "codecov": "^2.1.0",
     "eslint": "3.19.0",
     "eslint-plugin-mocha": "^4.10.1",
+    "jest": "^22.0.4",
     "lerna": "^2.0.0-rc.4",
     "lint-staged": "^3.2.2",
-    "mocha": "^3.5.0",
-    "nodemon": "^1.11.0",
-    "nyc": "^10.1.2",
     "pre-commit": "^1.2.1"
   },
   "dependencies": {
