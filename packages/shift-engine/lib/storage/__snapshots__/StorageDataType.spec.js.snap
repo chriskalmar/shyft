@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StorageDataType isStorageDataType should recognize non-StorageDataType objects 1`] = `"Not a StorageDataType object"`;
+
+exports[`StorageDataType should have a description 1`] = `"Missing description for storage data type 'example'"`;
+
+exports[`StorageDataType should have a name 1`] = `"Missing storage data type name"`;
+
+exports[`StorageDataType should have a native data type 1`] = `"Missing native data type for storage data type 'someStorageDataType'"`;
+
+exports[`StorageDataType should have a serialize function 1`] = `"Storage data type 'someStorageDataType' has an invalid serialize function"`;
+
+exports[`StorageDataType should have a valid list of capabilities if provided 1`] = `"Storage data type 'someStorageDataType' has an invalid list of capabilities"`;
+
+exports[`StorageDataType should have a valid parse function if provided 1`] = `"Storage data type 'someStorageDataType' has an invalid parse function"`;
+
+exports[`StorageDataType should reject invalid capabilities 1`] = `"Storage data type 'someStorageDataType' has an unknown capability 'magic_unicorn_filter'"`;

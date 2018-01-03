@@ -1,5 +1,4 @@
 
-import { assert } from 'chai';
 import Index, {
   isIndex,
   INDEX_UNIQUE,
@@ -21,7 +20,7 @@ describe('Index', () => {
       new Index() // eslint-disable-line no-new
     }
 
-    assert.throws(fn, /Missing index type/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -34,7 +33,7 @@ describe('Index', () => {
       })
     }
 
-    assert.throws(fn, /Unknown index type/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -47,7 +46,7 @@ describe('Index', () => {
       })
     }
 
-    assert.throws(fn1, /needs to have a list of attributes/);
+    expect(fn1).toThrowErrorMatchingSnapshot();
 
     function fn2() {
       new Index({ // eslint-disable-line no-new
@@ -56,7 +55,7 @@ describe('Index', () => {
       })
     }
 
-    assert.throws(fn2, /needs to have a list of attributes/);
+    expect(fn2).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -71,7 +70,7 @@ describe('Index', () => {
       })
     }
 
-    assert.throws(fn1, /needs to have a list of attribute names/);
+    expect(fn1).toThrowErrorMatchingSnapshot();
 
     function fn2() {
       new Index({ // eslint-disable-line no-new
@@ -80,7 +79,7 @@ describe('Index', () => {
       })
     }
 
-    assert.throws(fn2, /needs to have a list of attribute names/);
+    expect(fn2).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -94,7 +93,7 @@ describe('Index', () => {
       })
     }
 
-    assert.throws(fn, /needs to have a list of unique attribute names/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -111,10 +110,10 @@ describe('Index', () => {
       attributes: [ 'a', 'b', 'c' ]
     })
 
-    assert.deepEqual(index1.attributes, [ 'a' ]);
-    assert.deepEqual(index2.attributes, [ 'a', 'b', 'c' ]);
+    expect(index1.attributes).toEqual([ 'a' ]);
+    expect(index2.attributes).toEqual([ 'a', 'b', 'c' ]);
 
-    assert.deepEqual(String(index1), 'unique');
+    expect(String(index1)).toEqual('unique');
 
   })
 
@@ -137,7 +136,7 @@ describe('Index', () => {
         )
       }
 
-      assert.doesNotThrow(fn)
+      expect(fn).not.toThrow()
 
     })
 
@@ -148,13 +147,13 @@ describe('Index', () => {
         passOrThrow(
           isIndex({}) ||
           isIndex(function test() {}) ||
-          isIndex(assert),
+          isIndex(Error),
           () => 'Not an Index object'
         )
       }
 
 
-      assert.throws(fn, /Not an Index object/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -187,7 +186,7 @@ describe('Index', () => {
         processEntityIndexes(entity, indexes)
       }
 
-      assert.throws(fn, /indexes definition needs to be an array of indexes/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -202,7 +201,7 @@ describe('Index', () => {
         processEntityIndexes(entity, indexes)
       }
 
-      assert.throws(fn, /Invalid index definition for entity/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -223,7 +222,7 @@ describe('Index', () => {
         processEntityIndexes(entity, indexes)
       }
 
-      assert.throws(fn, /in index as it does not exist/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

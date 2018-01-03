@@ -1,5 +1,4 @@
 
-import { assert } from 'chai';
 import Mutation, {
   isMutation,
   MUTATION_TYPE_CREATE,
@@ -41,7 +40,7 @@ describe('Mutation', () => {
       new Mutation() // eslint-disable-line no-new
     }
 
-    assert.throws(fn, /Missing mutation name/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -54,7 +53,7 @@ describe('Mutation', () => {
       })
     }
 
-    assert.throws(fn, /Missing type for mutation/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -68,7 +67,7 @@ describe('Mutation', () => {
       })
     }
 
-    assert.throws(fn, /Unknown mutation type/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -82,7 +81,7 @@ describe('Mutation', () => {
       })
     }
 
-    assert.throws(fn, /Missing description for mutation/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -104,7 +103,7 @@ describe('Mutation', () => {
       'anotherAttribute',
     ]
 
-    assert.deepEqual(defaultAttributes, expectedAttributes)
+    expect(defaultAttributes).toEqual(expectedAttributes)
 
   })
 
@@ -125,7 +124,7 @@ describe('Mutation', () => {
       processEntityMutations(entity, [ mutation ])
     }
 
-    assert.throws(fn, /needs to have a list of attribute names/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -159,7 +158,7 @@ describe('Mutation', () => {
       processEntityMutations(entity, [ mutation ])
     }
 
-    assert.throws(fn, /needs to have a list of unique attribute names/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -173,8 +172,8 @@ describe('Mutation', () => {
       attributes: [ 'anything' ]
     })
 
-    assert.strictEqual(mutation.name, 'example');
-    assert.strictEqual(String(mutation), 'example');
+    expect(mutation.name).toBe('example');
+    expect(String(mutation)).toBe('example');
 
   })
 
@@ -194,7 +193,7 @@ describe('Mutation', () => {
       })
     }
 
-    assert.throws(fn, /needs to be a valid function/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -214,7 +213,7 @@ describe('Mutation', () => {
       })
     }
 
-    assert.throws(fn, /needs to be the name of a state or a list of state names as a precondition to the mutation/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -233,7 +232,7 @@ describe('Mutation', () => {
       })
     }
 
-    assert.throws(fn, /needs to be the name of a state or a list of state names the mutation can transition to/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -252,7 +251,7 @@ describe('Mutation', () => {
       })
     }
 
-    assert.throws(fn, /cannot define fromState as it is a 'create' type mutation/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -271,7 +270,7 @@ describe('Mutation', () => {
       })
     }
 
-    assert.throws(fn, /cannot define toState as it is a 'delete' type mutation/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -290,7 +289,7 @@ describe('Mutation', () => {
       })
     }
 
-    assert.throws(fn, /fromState defined but misses a toState definition/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -309,7 +308,7 @@ describe('Mutation', () => {
       })
     }
 
-    assert.throws(fn, /toState defined but misses a fromState definition/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -333,7 +332,7 @@ describe('Mutation', () => {
         )
       }
 
-      assert.doesNotThrow(fn)
+      expect(fn).not.toThrow()
 
     })
 
@@ -344,12 +343,12 @@ describe('Mutation', () => {
         passOrThrow(
           isMutation({}) ||
           isMutation(function test() {}) ||
-          isMutation(assert),
+          isMutation(Error),
           () => 'Not a Mutation object'
         )
       }
 
-      assert.throws(fn, /Not a Mutation object/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -390,7 +389,7 @@ describe('Mutation', () => {
         processEntityMutations(entity, mutations)
       }
 
-      assert.throws(fn, /mutations definition needs to be an array of mutations/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -405,7 +404,7 @@ describe('Mutation', () => {
         processEntityMutations(entity, mutations)
       }
 
-      assert.throws(fn, /Invalid mutation definition for entity/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -442,7 +441,7 @@ describe('Mutation', () => {
         otherEntity.getMutationByName('build')
       }
 
-      assert.throws(fn, /Missing required attributes in mutation/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -472,7 +471,7 @@ describe('Mutation', () => {
         processEntityMutations(entity, mutations)
       }
 
-      assert.throws(fn, /Duplicate mutation name/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -494,7 +493,7 @@ describe('Mutation', () => {
         processEntityMutations(entity, mutations)
       }
 
-      assert.throws(fn, /as it does not exist/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -529,7 +528,7 @@ describe('Mutation', () => {
         processEntityMutations(entity, mutations1)
       }
 
-      assert.throws(fn1, /cannot define fromState as the entity is stateless/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
 
       const mutations2 = [
@@ -543,7 +542,7 @@ describe('Mutation', () => {
         processEntityMutations(entity, mutations2)
       }
 
-      assert.throws(fn2, /cannot define toState as the entity is stateless/);
+      expect(fn2).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -580,7 +579,7 @@ describe('Mutation', () => {
         processEntityMutations(someEntity, mutations1)
       }
 
-      assert.throws(fn1, /Unknown state 'fakeState' used in mutation/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
 
       const mutations2 = [
@@ -595,7 +594,7 @@ describe('Mutation', () => {
         processEntityMutations(someEntity, mutations2)
       }
 
-      assert.throws(fn2, /Unknown state 'whatever' used in mutation/);
+      expect(fn2).toThrowErrorMatchingSnapshot();
 
 
       function fn3() {
@@ -627,7 +626,7 @@ describe('Mutation', () => {
         processEntityMutations(anotherEntity, mutations3)
       }
 
-      assert.throws(fn3, /Unknown state 'randomState' used in mutation/);
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
 
       const mutations4 = [
@@ -641,7 +640,7 @@ describe('Mutation', () => {
         processEntityMutations(someEntity, mutations4)
       }
 
-      assert.throws(fn4, /Unknown state 'notHere' used in mutation/);
+      expect(fn4).toThrowErrorMatchingSnapshot();
 
     })
 

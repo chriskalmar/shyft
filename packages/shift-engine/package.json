@@ -4,17 +4,19 @@
   "description": "Model driven database and API generator",
   "main": "dist/",
   "scripts": {
-    "test": "mocha --compilers js:babel-register -R spec --check-leaks lib/*.spec.js lib/**/*.spec.js || exit 1",
-    "test:watch": "nodemon --delay 1",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint-staged": "lint-staged",
-    "cov": "NODE_ENV=test nyc npm run test",
-    "coverage": "NODE_ENV=test nyc mocha -R spec --check-leaks lib/*.spec.js lib/**/*.spec.js",
+    "coverage": "NODE_ENV=test jest --coverage",
     "coverage-ci": "npm run coverage && cat ./coverage/lcov.info | codecov",
     "babel": "babel --presets es2015,stage-0 --ignore node_modules,coverage",
     "build": "mkdir dist; npm run test && NODE_ENV=build babel lib -d dist",
     "build:watch": "mkdir dist; NODE_ENV=build babel lib -w -d dist"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "keywords": [
     "shift",
@@ -31,8 +33,6 @@
   "devDependencies": {
     "babel-cli": "^6.23.0",
     "eslint": "^3.12.1",
-    "mocha": "^3.5.0",
-    "nodemon": "^1.11.0",
-    "nyc": "^10.1.2"
+    "jest": "^22.0.4"
   }
 }

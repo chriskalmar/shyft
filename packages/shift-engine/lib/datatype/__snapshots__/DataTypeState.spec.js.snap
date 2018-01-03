@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataTypeState isDataTypeState should recognize non-DataTypeState objects 1`] = `"Not a DataTypeState object"`;
+
+exports[`DataTypeState should have a name 1`] = `"Missing data type name"`;
+
+exports[`DataTypeState should have a set of states 1`] = `"'Missing states for data type 'something'"`;
+
+exports[`DataTypeState should have a set of states 2`] = `"'Missing states for data type 'something'"`;
+
+exports[`DataTypeState should have a set of valid states 1`] = `"Invalid state name '6' for data type 'progress' (Regex: /^[a-zA-Z][_a-zA-Z0-9]*$/)"`;
+
+exports[`DataTypeState should have a set of valid states 2`] = `"Invalid state name ' abc ' for data type 'test' (Regex: /^[a-zA-Z][_a-zA-Z0-9]*$/)"`;
+
+exports[`DataTypeState should have a set of valid states 3`] = `"Invalid state name 'hello-there' for data type 'another' (Regex: /^[a-zA-Z][_a-zA-Z0-9]*$/)"`;

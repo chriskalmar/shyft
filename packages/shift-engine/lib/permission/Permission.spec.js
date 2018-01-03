@@ -1,5 +1,4 @@
 
-import { assert } from 'chai';
 import Permission, {
   isPermission,
   findInvalidPermissionAttributes,
@@ -26,7 +25,7 @@ describe('Permission', () => {
     })
     new Permission().value('someAttribute', 123)
 
-    assert.strictEqual(String(new Permission()), 'Permission Object')
+    expect(String(new Permission())).toBe('Permission Object')
   })
 
 
@@ -45,8 +44,8 @@ describe('Permission', () => {
       .value('someAttribute', 987)
 
 
-    assert.deepEqual(permission.roles, [ 'manager', 'admin' ]);
-    assert.deepEqual(permission.lookups, [
+    expect(permission.roles).toEqual([ 'manager', 'admin' ]);
+    expect(permission.lookups).toEqual([
       {
         entity: Language,
         lookupMap: {
@@ -60,7 +59,7 @@ describe('Permission', () => {
         }
       }
     ]);
-    assert.deepEqual(permission.values, [
+    expect(permission.values).toEqual([
       {
         attributeName: 'someAttribute',
         value: 123
@@ -82,7 +81,7 @@ describe('Permission', () => {
         .everyone()
     }
 
-    assert.throws(fn1, /'everyone' is incompatible with other types/);
+    expect(fn1).toThrowErrorMatchingSnapshot();
 
 
     function fn2() {
@@ -91,7 +90,7 @@ describe('Permission', () => {
         .authenticated()
     }
 
-    assert.throws(fn2, /'authenticated' is incompatible with other types/);
+    expect(fn2).toThrowErrorMatchingSnapshot();
 
 
     function fn3() {
@@ -100,7 +99,7 @@ describe('Permission', () => {
         .authenticated()
     }
 
-    assert.throws(fn3, /'authenticated' is incompatible with other types/);
+    expect(fn3).toThrowErrorMatchingSnapshot();
 
 
   })
@@ -116,7 +115,7 @@ describe('Permission', () => {
           .role()
       }
 
-      assert.throws(fn1, /'role' expects an role name/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -129,7 +128,7 @@ describe('Permission', () => {
           .role('manager')
       }
 
-      assert.throws(fn1, /Duplicate role/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -145,7 +144,7 @@ describe('Permission', () => {
           .ownerAttribute()
       }
 
-      assert.throws(fn1, /expects an attribute name/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -157,7 +156,7 @@ describe('Permission', () => {
           .ownerAttribute('profile')
       }
 
-      assert.throws(fn1, /Duplicate attribute name/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -173,7 +172,7 @@ describe('Permission', () => {
           .lookup()
       }
 
-      assert.throws(fn1, /expects an entity/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -185,7 +184,7 @@ describe('Permission', () => {
           .lookup(Language)
       }
 
-      assert.throws(fn1, /expects a lookupMap/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -201,7 +200,7 @@ describe('Permission', () => {
           .value()
       }
 
-      assert.throws(fn1, /expects an attribute name/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -213,7 +212,7 @@ describe('Permission', () => {
           .value('someAttribute')
       }
 
-      assert.throws(fn1, /expects a value/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -235,7 +234,7 @@ describe('Permission', () => {
         )
       }
 
-      assert.doesNotThrow(fn)
+      expect(fn).not.toThrow()
 
     })
 
@@ -246,13 +245,13 @@ describe('Permission', () => {
         passOrThrow(
           isPermission({}) ||
           isPermission(function test() {}) ||
-          isPermission(assert),
+          isPermission(Error),
           () => 'Not a Permission object'
         )
       }
 
 
-      assert.throws(fn, /Not a Permission object/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -312,9 +311,9 @@ describe('Permission', () => {
         findInvalidPermissionAttributes(permission, User)
       }
 
-      assert.throws(fn1, /as it is not a reference to the User entity/);
-      assert.throws(fn2, /as it is not a reference to the User entity/);
-      assert.throws(fn3, /as it is not a reference to the User entity/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
+      expect(fn2).toThrowErrorMatchingSnapshot();
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -327,7 +326,7 @@ describe('Permission', () => {
 
         const missing = findMissingPermissionAttributes(permission, City)
 
-        assert.deepEqual(missing, 'wrong')
+        expect(missing).toEqual('wrong')
       }
 
       {
@@ -338,7 +337,7 @@ describe('Permission', () => {
 
         const missing = findMissingPermissionAttributes(permission, City)
 
-        assert.deepEqual(missing, 'User.wrong')
+        expect(missing).toEqual('User.wrong')
       }
 
       {
@@ -349,7 +348,7 @@ describe('Permission', () => {
 
         const missing = findMissingPermissionAttributes(permission, City)
 
-        assert.deepEqual(missing, 'hello')
+        expect(missing).toEqual('hello')
       }
 
       {
@@ -358,7 +357,7 @@ describe('Permission', () => {
 
         const missing = findMissingPermissionAttributes(permission, City)
 
-        assert.deepEqual(missing, 'wrong')
+        expect(missing).toEqual('wrong')
       }
 
     })
@@ -376,7 +375,7 @@ describe('Permission', () => {
 
       const missing = findMissingPermissionAttributes(permission, City)
 
-      assert.isFalse(missing)
+      expect(missing).toBe(false)
     })
 
 
@@ -391,7 +390,7 @@ describe('Permission', () => {
         generatePermissionDescription({foo: 'bar'})
       }
 
-      assert.throws(fn, /generatePermissionDescription needs a valid permission object/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -453,10 +452,7 @@ describe('Permission', () => {
 
 
       tests.map(([ permission, resultText ]) => {
-        assert.strictEqual(
-          generatePermissionDescription(permission),
-          resultText
-        )
+        expect(generatePermissionDescription(permission)).toBe(resultText)
       })
 
     })
@@ -468,7 +464,7 @@ describe('Permission', () => {
 
       const result = generatePermissionDescription(permission)
 
-      assert.isFalse(result)
+      expect(result).toBe(false)
     })
 
   })
@@ -485,7 +481,7 @@ describe('Permission', () => {
         checkPermissionSimple({})
       }
 
-      assert.throws(fn, /checkPermissionSimple needs a valid permission object/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -496,63 +492,53 @@ describe('Permission', () => {
         checkPermissionSimple(new Permission(), null, {bad: 'roles'})
       }
 
-      assert.throws(fn, /checkPermissionSimple needs a valid list of assigned user roles/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
 
     it('should always give access if permission mode is `everyone`', () => {
 
-      assert.isTrue(
-        checkPermissionSimple(
-          new Permission().everyone()
-        )
-      )
+      expect(checkPermissionSimple(
+        new Permission().everyone()
+      )).toBe(true)
     })
 
 
     it('should give access to authenticated users if permission mode is `authenticated`', () => {
 
-      assert.isTrue(
-        checkPermissionSimple(
-          new Permission().authenticated(),
-          userId,
-        )
-      )
+      expect(checkPermissionSimple(
+        new Permission().authenticated(),
+        userId,
+      )).toBe(true)
     })
 
 
     it('should reject access for anonymous users if permission mode is `authenticated`', () => {
 
-      assert.isFalse(
-        checkPermissionSimple(
-          new Permission().authenticated(),
-        )
-      )
+      expect(checkPermissionSimple(
+        new Permission().authenticated(),
+      )).toBe(false)
     })
 
 
     it('should give access to users with corresponding user roles on permission mode `role`', () => {
 
-      assert.isTrue(
-        checkPermissionSimple(
-          new Permission().role('reviewer'),
-          userId,
-          userRoles,
-        )
-      )
+      expect(checkPermissionSimple(
+        new Permission().role('reviewer'),
+        userId,
+        userRoles,
+      )).toBe(true)
     })
 
 
     it('should reject access for users with different roles on permission mode `role`', () => {
 
-      assert.isFalse(
-        checkPermissionSimple(
-          new Permission().role('admin'),
-          userId,
-          userRoles,
-        )
-      )
+      expect(checkPermissionSimple(
+        new Permission().role('admin'),
+        userId,
+        userRoles,
+      )).toBe(false)
     })
 
   })
@@ -593,7 +579,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions)
       }
 
-      assert.throws(fn, /permissions definition needs to be an object/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -608,7 +594,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions)
       }
 
-      assert.throws(fn, /permissions definition for mutations needs to be a map of mutations and permissions/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -623,7 +609,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions1)
       }
 
-      assert.throws(fn1, /Invalid \'read\' permission definition/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
 
       const permissions2 = {
@@ -634,7 +620,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions2)
       }
 
-      assert.throws(fn2, /Invalid \'find\' permission definition/);
+      expect(fn2).toThrowErrorMatchingSnapshot();
 
 
       const permissions3 = {
@@ -649,7 +635,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions3)
       }
 
-      assert.throws(fn3, /Invalid mutation permission definition/);
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -664,10 +650,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions1)
       }
 
-      assert.throws(
-        fn1,
-        /Cannot use attribute \'notHere\' in \'SomeEntityName.permissions\' for \'read\' as it does not exist/
-      );
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
 
       const permissions2 = {
@@ -679,10 +662,7 @@ describe('Permission', () => {
       }
 
 
-      assert.throws(
-        fn2,
-        /Cannot use attribute \'notHere\' in \'SomeEntityName.permissions\' for \'find\' as it does not exist/
-      );
+      expect(fn2).toThrowErrorMatchingSnapshot();
 
 
       const permissions3 = {
@@ -695,10 +675,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions3)
       }
 
-      assert.throws(
-        fn3,
-        /Cannot use attribute \'notHere\' in \'SomeEntityName.permissions\' for \'update\' as it does not exist/
-      );
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -713,10 +690,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions)
       }
 
-      assert.throws(
-        fn,
-        /Cannot use attribute \'someAttribute\' in \'SomeEntityName.permissions\' as \'ownerAttribute\' as it is not a reference to the User entity/
-      );
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -733,10 +707,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions)
       }
 
-      assert.throws(
-        fn,
-        /Unknown mutation \'noSuchMutation\' used for permissions/
-      );
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

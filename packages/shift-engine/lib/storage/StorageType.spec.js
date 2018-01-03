@@ -1,5 +1,4 @@
 
-import { assert } from 'chai';
 import StorageType, { isStorageType } from './StorageType';
 import StorageDataType from './StorageDataType';
 import { passOrThrow } from '../util';
@@ -22,7 +21,7 @@ describe('StorageType', () => {
       new StorageType() // eslint-disable-line no-new
     }
 
-    assert.throws(fn, /Missing storage type name/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -35,7 +34,7 @@ describe('StorageType', () => {
       })
     }
 
-    assert.throws(fn, /Missing description for storage type/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -52,8 +51,8 @@ describe('StorageType', () => {
       mutate() {},
     })
 
-    assert.strictEqual(SomeStorageType.name, 'SomeStorageType');
-    assert.strictEqual(String(SomeStorageType), 'SomeStorageType');
+    expect(SomeStorageType.name).toBe('SomeStorageType');
+    expect(String(SomeStorageType)).toBe('SomeStorageType');
 
   })
 
@@ -69,7 +68,7 @@ describe('StorageType', () => {
       })
     }
 
-    assert.throws(fn, /needs to implement findOne\(\)/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
 
     fn = () => {
@@ -80,7 +79,7 @@ describe('StorageType', () => {
       })
     }
 
-    assert.throws(fn, /needs to implement findOneByValues\(\)/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
 
     fn = () => {
@@ -92,7 +91,7 @@ describe('StorageType', () => {
       })
     }
 
-    assert.throws(fn, /needs to implement find\(\)/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
 
     fn = () => {
@@ -105,7 +104,7 @@ describe('StorageType', () => {
       })
     }
 
-    assert.throws(fn, /needs to implement count\(\)/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
 
     fn = () => {
@@ -119,7 +118,7 @@ describe('StorageType', () => {
       })
     }
 
-    assert.throws(fn, /needs to implement mutate\(\)/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -159,7 +158,7 @@ describe('StorageType', () => {
         SomeStorageType.addDataTypeMap({ some: 'thing' }, StorageDataTypeText)
       }
 
-      assert.throws(fn, /schemaDataType is not a valid data type/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -170,7 +169,7 @@ describe('StorageType', () => {
         SomeStorageType.addDataTypeMap(DataTypeString, { someThing: 'else' })
       }
 
-      assert.throws(fn, /not a valid storage data type/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -181,7 +180,7 @@ describe('StorageType', () => {
         SomeStorageType.addDataTypeMap(DataTypeID, StorageDataTypeText)
       }
 
-      assert.throws(fn, /already registered with storage type/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -210,7 +209,7 @@ describe('StorageType', () => {
         )
       }
 
-      assert.doesNotThrow(fn)
+      expect(fn).not.toThrow()
 
     })
 
@@ -221,13 +220,13 @@ describe('StorageType', () => {
         passOrThrow(
           isStorageType({}) ||
           isStorageType(function test() {}) ||
-          isStorageType(assert),
+          isStorageType(Error),
           () => 'Not an StorageType object'
         )
       }
 
 
-      assert.throws(fn, /Not an StorageType object/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

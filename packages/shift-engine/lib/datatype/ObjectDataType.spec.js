@@ -1,5 +1,4 @@
 
-import { assert } from 'chai';
 import ObjectDataType, { isObjectDataType } from './ObjectDataType';
 
 import {
@@ -20,7 +19,7 @@ describe('ObjectDataType', () => {
       new ObjectDataType() // eslint-disable-line no-new
     }
 
-    assert.throws(fn, /Missing object data type name/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -33,7 +32,7 @@ describe('ObjectDataType', () => {
       })
     }
 
-    assert.throws(fn, /Missing description for object data type/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -47,7 +46,7 @@ describe('ObjectDataType', () => {
       })
     }
 
-    assert.throws(fn, /Missing attributes for object data type/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -60,8 +59,8 @@ describe('ObjectDataType', () => {
       attributes: {},
     })
 
-    assert.strictEqual(objectDataType.name, 'someObjectDataTypeName');
-    assert.strictEqual(String(objectDataType), 'someObjectDataTypeName');
+    expect(objectDataType.name).toBe('someObjectDataTypeName');
+    expect(String(objectDataType)).toBe('someObjectDataTypeName');
 
   })
 
@@ -77,7 +76,7 @@ describe('ObjectDataType', () => {
       })
     }
 
-    assert.throws(fn, /attribute definition as a map or a function/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -96,7 +95,7 @@ describe('ObjectDataType', () => {
       objectDataType.getAttributes()
     }
 
-    assert.throws(fn, /does not return a map/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -113,7 +112,7 @@ describe('ObjectDataType', () => {
       objectDataType.getAttributes()
     }
 
-    assert.throws(fn, /has no attributes defined/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -134,7 +133,7 @@ describe('ObjectDataType', () => {
       objectDataType.getAttributes()
     }
 
-    assert.throws(fn, /Missing description for/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -156,7 +155,7 @@ describe('ObjectDataType', () => {
       objectDataType.getAttributes()
     }
 
-    assert.throws(fn, /has invalid data type/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -179,7 +178,7 @@ describe('ObjectDataType', () => {
       objectDataType.getAttributes()
     }
 
-    assert.throws(fn, /has an invalid resolve function/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -202,7 +201,7 @@ describe('ObjectDataType', () => {
       objectDataType.getAttributes()
     }
 
-    assert.throws(fn, /has an invalid defaultValue function/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -223,7 +222,7 @@ describe('ObjectDataType', () => {
     const attributes = objectDataType.getAttributes()
     const attributesAgain = objectDataType.getAttributes()
 
-    assert.deepEqual(attributes, attributesAgain)
+    expect(attributes).toEqual(attributesAgain)
 
   })
 
@@ -260,14 +259,14 @@ describe('ObjectDataType', () => {
     const attributes = objectDataType.getAttributes()
     const attributesAgain = objectDataType.getAttributes()
 
-    assert.deepEqual(attributes, attributesAgain)
+    expect(attributes).toEqual(attributesAgain)
 
-    assert.strictEqual(attributes.id.type, DataTypeID);
-    assert.strictEqual(attributes.name.type, DataTypeString);
+    expect(attributes.id.type).toBe(DataTypeID);
+    expect(attributes.name.type).toBe(DataTypeString);
 
     const attributesNested = attributes.nested.type.getAttributes()
 
-    assert.strictEqual(attributesNested.randomInput.type, DataTypeString);
+    expect(attributesNested.randomInput.type).toBe(DataTypeString);
 
   })
 
@@ -293,8 +292,8 @@ describe('ObjectDataType', () => {
 
       const attributes = objectDataType.getAttributes()
 
-      assert.strictEqual(attributes.id.type, DataTypeID);
-      assert.strictEqual(attributes.name.type, DataTypeString);
+      expect(attributes.id.type).toBe(DataTypeID);
+      expect(attributes.name.type).toBe(DataTypeString);
 
     })
 
@@ -320,8 +319,8 @@ describe('ObjectDataType', () => {
 
       const attributes = objectDataType.getAttributes()
 
-      assert.strictEqual(attributes.id.type, DataTypeID);
-      assert.strictEqual(attributes.name.type, DataTypeString);
+      expect(attributes.id.type).toBe(DataTypeID);
+      expect(attributes.name.type).toBe(DataTypeString);
 
     })
 
@@ -347,7 +346,7 @@ describe('ObjectDataType', () => {
         )
       }
 
-      assert.doesNotThrow(fn)
+      expect(fn).not.toThrow()
 
     })
 
@@ -358,13 +357,13 @@ describe('ObjectDataType', () => {
         passOrThrow(
           isObjectDataType({}) ||
           isObjectDataType(function test() {}) ||
-          isObjectDataType(assert),
+          isObjectDataType(Error),
           () => 'Not a DataType object'
         )
       }
 
 
-      assert.throws(fn, /Not a DataType object/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

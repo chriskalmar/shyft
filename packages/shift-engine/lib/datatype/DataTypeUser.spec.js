@@ -1,5 +1,4 @@
 
-import { assert } from 'chai';
 import DataTypeUser, { isDataTypeUser } from './DataTypeUser';
 
 import {
@@ -27,7 +26,7 @@ describe('DataTypeUser', () => {
         )
       }
 
-      assert.doesNotThrow(fn)
+      expect(fn).not.toThrow()
 
     })
 
@@ -38,13 +37,13 @@ describe('DataTypeUser', () => {
         passOrThrow(
           isDataTypeUser({}) ||
           isDataTypeUser(function test() {}) ||
-          isDataTypeUser(assert),
+          isDataTypeUser(Error),
           () => 'Not a DataType object'
         )
       }
 
 
-      assert.throws(fn, /Not a DataType object/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

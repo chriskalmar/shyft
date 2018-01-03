@@ -1,5 +1,4 @@
 
-import { assert } from 'chai';
 import DataTypeState, { isDataTypeState } from './DataTypeState';
 
 import {
@@ -20,7 +19,7 @@ describe('DataTypeState', () => {
       })
     }
 
-    assert.throws(fn, /Missing states/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
 
     fn = () => {
@@ -30,7 +29,7 @@ describe('DataTypeState', () => {
       })
     }
 
-    assert.throws(fn, /Missing states/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -48,7 +47,7 @@ describe('DataTypeState', () => {
       })
     }
 
-    assert.throws(fn, /Invalid state name \'6\' for data type \'progress\'/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
     fn = () => {
       new DataTypeState({ // eslint-disable-line no-new
@@ -59,7 +58,7 @@ describe('DataTypeState', () => {
       })
     }
 
-    assert.throws(fn, /Invalid state name \' abc \' for data type \'test\'/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
     fn = () => {
       new DataTypeState({ // eslint-disable-line no-new
@@ -72,7 +71,7 @@ describe('DataTypeState', () => {
       })
     }
 
-    assert.throws(fn, /Invalid state name \'hello-there\' for data type \'another\'/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -87,7 +86,7 @@ describe('DataTypeState', () => {
       })
     }
 
-    assert.throws(fn, /Missing data type name/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -102,8 +101,8 @@ describe('DataTypeState', () => {
       },
     })
 
-    assert.strictEqual(dataType.name, 'someDataTypeName');
-    assert.strictEqual(String(dataType), 'someDataTypeName');
+    expect(dataType.name).toBe('someDataTypeName');
+    expect(String(dataType)).toBe('someDataTypeName');
 
   })
 
@@ -119,7 +118,7 @@ describe('DataTypeState', () => {
       },
     })
 
-    assert.strictEqual(dataType.description, 'States: OPEN, CLOSED, IN_PROGRESS');
+    expect(dataType.description).toBe('States: OPEN, CLOSED, IN_PROGRESS');
   })
 
 
@@ -148,9 +147,9 @@ describe('DataTypeState', () => {
     const randomState2 = dataType.mock()
     const randomState3 = dataType.mock()
 
-    assert.isTrue( uniqueIds.includes(randomState1) );
-    assert.isTrue( uniqueIds.includes(randomState2) );
-    assert.isTrue( uniqueIds.includes(randomState3) );
+    expect(uniqueIds.includes(randomState1)).toBe(true);
+    expect(uniqueIds.includes(randomState2)).toBe(true);
+    expect(uniqueIds.includes(randomState3)).toBe(true);
   })
 
 
@@ -184,7 +183,7 @@ describe('DataTypeState', () => {
         )
       }
 
-      assert.doesNotThrow(fn)
+      expect(fn).not.toThrow()
 
     })
 
@@ -195,13 +194,13 @@ describe('DataTypeState', () => {
         passOrThrow(
           isDataTypeState({}) ||
           isDataTypeState(function test() {}) ||
-          isDataTypeState(assert),
+          isDataTypeState(Error),
           () => 'Not a DataTypeState object'
         )
       }
 
 
-      assert.throws(fn, /Not a DataTypeState object/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

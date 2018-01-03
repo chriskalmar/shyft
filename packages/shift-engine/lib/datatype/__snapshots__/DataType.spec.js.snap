@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataType isDataType should recognize non-DataType objects 1`] = `"Not a DataType object"`;
+
+exports[`DataType should have a description 1`] = `"Missing description for data type 'example'"`;
+
+exports[`DataType should have a name 1`] = `"Missing data type name"`;
+
+exports[`DataType should provide a mock function 1`] = `"'Missing mock function for data type 'example'"`;

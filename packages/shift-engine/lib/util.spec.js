@@ -1,5 +1,4 @@
 
-import { assert } from 'chai';
 import Entity from './entity/Entity';
 import Index, { INDEX_UNIQUE } from './index/Index';
 
@@ -43,7 +42,7 @@ describe('util', () => {
         )
       }
 
-      assert.doesNotThrow(fn)
+      expect(fn).not.toThrow()
 
     })
 
@@ -58,7 +57,7 @@ describe('util', () => {
       }
 
 
-      assert.throws(fn, /This is the very very super important error/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -73,7 +72,7 @@ describe('util', () => {
       }
 
 
-      assert.throws(fn, /expects messageFn to be a function/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -93,7 +92,7 @@ describe('util', () => {
 
       const result = resolveFunctionMap(dataMap)
 
-      assert.deepEqual(result, dataMap)
+      expect(result).toEqual(dataMap)
     })
 
 
@@ -103,7 +102,7 @@ describe('util', () => {
         return dataMap
       })
 
-      assert.strictEqual(result, dataMap)
+      expect(result).toEqual(dataMap)
 
     })
 
@@ -116,30 +115,30 @@ describe('util', () => {
 
     it('should accept maps', () => {
 
-      assert.isTrue(isMap({}))
-      assert.isTrue(isMap({ a: 123 }))
-      assert.isTrue(isMap(Object.create({})))
-      assert.isTrue(isMap(DataTypeBoolean))
+      expect(isMap({})).toBe(true)
+      expect(isMap({ a: 123 })).toBe(true)
+      expect(isMap(Object.create({}))).toBe(true)
+      expect(isMap(DataTypeBoolean)).toBe(true)
 
     })
 
 
     it('should reject non-maps', () => {
 
-      assert.isFalse(isMap())
-      assert.isFalse(isMap(null))
-      assert.isFalse(isMap(undefined))
-      assert.isFalse(isMap([]))
-      assert.isFalse(isMap([1, 2, 3]))
-      assert.isFalse(isMap(() => {}))
-      assert.isFalse(isMap(1234567))
+      expect(isMap()).toBe(false)
+      expect(isMap(null)).toBe(false)
+      expect(isMap(undefined)).toBe(false)
+      expect(isMap([])).toBe(false)
+      expect(isMap([1, 2, 3])).toBe(false)
+      expect(isMap(() => {})).toBe(false)
+      expect(isMap(1234567)).toBe(false)
 
     })
 
 
     it('should reject empty maps if flag `nonEmpty` is set', () => {
 
-      assert.isFalse(isMap({}, true))
+      expect(isMap({}, true)).toBe(false)
 
     })
 
@@ -152,29 +151,29 @@ describe('util', () => {
 
     it('should accept arrays', () => {
 
-      assert.isTrue(isArray([]))
-      assert.isTrue(isArray([ 'test' ]))
-      assert.isTrue(isArray([1, 2, 3]))
+      expect(isArray([])).toBe(true)
+      expect(isArray([ 'test' ])).toBe(true)
+      expect(isArray([1, 2, 3])).toBe(true)
 
     })
 
 
     it('should reject non-arrays', () => {
 
-      assert.isFalse(isArray())
-      assert.isFalse(isArray(null))
-      assert.isFalse(isArray(undefined))
-      assert.isFalse(isArray(Object.create({})))
-      assert.isFalse(isArray(DataTypeBoolean))
-      assert.isFalse(isArray(() => {}))
-      assert.isFalse(isArray(1234567))
+      expect(isArray()).toBe(false)
+      expect(isArray(null)).toBe(false)
+      expect(isArray(undefined)).toBe(false)
+      expect(isArray(Object.create({}))).toBe(false)
+      expect(isArray(DataTypeBoolean)).toBe(false)
+      expect(isArray(() => {})).toBe(false)
+      expect(isArray(1234567)).toBe(false)
 
     })
 
 
     it('should reject empty arrays if flag `nonEmpty` is set', () => {
 
-      assert.isFalse(isArray([], true))
+      expect(isArray([], true)).toBe(false)
 
     })
 
@@ -189,25 +188,25 @@ describe('util', () => {
       let obj
 
       obj = mergeMaps({}, {})
-      assert.deepEqual(obj, {})
+      expect(obj).toEqual({})
 
       obj = mergeMaps({ a: 123 }, {})
-      assert.deepEqual(obj, { a: 123 })
+      expect(obj).toEqual({ a: 123 })
 
       obj = mergeMaps({}, { b: 456 })
-      assert.deepEqual(obj, { b: 456 })
+      expect(obj).toEqual({ b: 456 })
 
       obj = mergeMaps({ a: 123 }, { b: 456 })
-      assert.deepEqual(obj, { a: 123, b: 456 })
+      expect(obj).toEqual({ a: 123, b: 456 })
 
       obj = mergeMaps({ b: 456 }, { a: 123 })
-      assert.deepEqual(obj, { a: 123, b: 456 })
+      expect(obj).toEqual({ a: 123, b: 456 })
 
       obj = mergeMaps({ a: 123, b: 456 }, { b: 789 })
-      assert.deepEqual(obj, { a: 123, b: 789 })
+      expect(obj).toEqual({ a: 123, b: 789 })
 
       obj = mergeMaps({ a: 123, b: [ 1, 2, 4], c: { deep: [ 7, 8, 9 ]} }, { b: { b1: 1, b2: 2 } })
-      assert.deepEqual(obj, { a: 123, b: { b1: 1, b2: 2 }, c: { deep: [ 7, 8, 9 ]} })
+      expect(obj).toEqual({ a: 123, b: { b1: 1, b2: 2 }, c: { deep: [ 7, 8, 9 ]} })
 
     })
 
@@ -226,9 +225,9 @@ describe('util', () => {
         mergeMaps('string', {})
       }
 
-      assert.throws(fn1, /expects 2 maps for a merge to work/);
-      assert.throws(fn2, /expects 2 maps for a merge to work/);
-      assert.throws(fn3, /expects 2 maps for a merge to work/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
+      expect(fn2).toThrowErrorMatchingSnapshot();
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -256,8 +255,8 @@ describe('util', () => {
 
       mapOverProperties(someMap, iteratee)
 
-      assert.deepEqual(keys, [ 'a', 'b', 'c' ])
-      assert.strictEqual(sum, 13)
+      expect(keys).toEqual([ 'a', 'b', 'c' ])
+      expect(sum).toBe(13)
 
     })
 
@@ -276,9 +275,9 @@ describe('util', () => {
         mapOverProperties('string')
       }
 
-      assert.throws(fn1, /Provided object is not a map/);
-      assert.throws(fn2, /Provided object is not a map/);
-      assert.throws(fn3, /Provided object is not a map/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
+      expect(fn2).toThrowErrorMatchingSnapshot();
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -297,9 +296,9 @@ describe('util', () => {
         mapOverProperties({}, 'string')
       }
 
-      assert.throws(fn1, /Provided iteratee is not a function/);
-      assert.throws(fn2, /Provided iteratee is not a function/);
-      assert.throws(fn3, /Provided iteratee is not a function/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
+      expect(fn2).toThrowErrorMatchingSnapshot();
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -316,9 +315,9 @@ describe('util', () => {
       const result2 = sortDataByKeys({}, { a: 1, b: 3})
       const result3 = sortDataByKeys(null, { a: 1, b: 3})
 
-      assert.deepEqual(result1, [])
-      assert.deepEqual(result2, [])
-      assert.deepEqual(result3, [])
+      expect(result1).toEqual([])
+      expect(result2).toEqual([])
+      expect(result3).toEqual([])
 
     })
 
@@ -329,9 +328,9 @@ describe('util', () => {
       const result2 = sortDataByKeys([ 'a' ], {})
       const result3 = sortDataByKeys([ 'a', 'b', 'f' ], [])
 
-      assert.deepEqual(result1, [ null, null ])
-      assert.deepEqual(result2, [ null ])
-      assert.deepEqual(result3, [ null, null, null ])
+      expect(result1).toEqual([ null, null ])
+      expect(result2).toEqual([ null ])
+      expect(result3).toEqual([ null, null, null ])
 
     })
 
@@ -361,13 +360,13 @@ describe('util', () => {
       const result3 = sortDataByKeys(keys3, data)
       const result4 = sortDataByKeys(keys4, data)
 
-      assert.deepEqual(result1, [
+      expect(result1).toEqual([
         { id: 'a', val: 'lorem' },
         { id: 'c', val: 'dolor' },
         { id: 'f', val: 'omnis' },
       ])
 
-      assert.deepEqual(result2, [
+      expect(result2).toEqual([
         { id: 'e', val: 'unde' },
         { id: 'e', val: 'unde' },
         { id: 'b', val: 'ipsum' },
@@ -375,11 +374,11 @@ describe('util', () => {
         { id: 'c', val: 'dolor' },
       ])
 
-      assert.deepEqual(result3, [
+      expect(result3).toEqual([
         { id: 'g', val: 'iste' },
       ])
 
-      assert.deepEqual(result4, [
+      expect(result4).toEqual([
         null,
         { id: 'f', val: 'omnis' },
         null,
@@ -449,7 +448,7 @@ describe('util', () => {
 
       const result = processCursor()
 
-      assert.deepEqual(result, {})
+      expect(result).toEqual({})
     })
 
 
@@ -459,7 +458,7 @@ describe('util', () => {
         processCursor({}, { a: 'b' })
       }
 
-      assert.throws(fn, /Incompatible cursor for this entity/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -478,9 +477,9 @@ describe('util', () => {
         processCursor(SomeEntity, { 'SomeEntity': [ {} ] }, [])
       }
 
-      assert.throws(fn1, /Cursor malformed/);
-      assert.throws(fn2, /Cursor malformed/);
-      assert.throws(fn3, /Cursor malformed/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
+      expect(fn2).toThrowErrorMatchingSnapshot();
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -496,7 +495,7 @@ describe('util', () => {
         }, [])
       }
 
-      assert.throws(fn, /Unknown attribute/);
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -538,9 +537,9 @@ describe('util', () => {
         ])
       }
 
-      assert.throws(fn1, /orderBy needs to be an array of order definitions/);
-      assert.throws(fn2, /Cursor works only on sorted attributes/);
-      assert.throws(fn3, /Cursor works only on sorted attributes/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
+      expect(fn2).toThrowErrorMatchingSnapshot();
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -578,8 +577,8 @@ describe('util', () => {
         ])
       }
 
-      assert.throws(fn1, /Cursor needs to have at least one attribute defined as unique/);
-      assert.throws(fn2, /Cursor needs to have at least one attribute defined as unique/);
+      expect(fn1).toThrowErrorMatchingSnapshot();
+      expect(fn2).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -660,9 +659,9 @@ describe('util', () => {
           },
         }
 
-        assert.deepEqual(cursor1, result1)
-        assert.deepEqual(cursor2, result2)
-        assert.deepEqual(cursor3, result3)
+        expect(cursor1).toEqual(result1)
+        expect(cursor2).toEqual(result2)
+        expect(cursor3).toEqual(result3)
 
       })
 
@@ -907,13 +906,13 @@ describe('util', () => {
 
 
 
-        assert.deepEqual(cursor1, result1)
-        assert.deepEqual(cursor2, result2)
-        assert.deepEqual(cursor3, result3)
-        assert.deepEqual(cursor4, result4)
-        assert.deepEqual(cursor5, result5)
-        assert.deepEqual(cursor6, result6)
-        assert.deepEqual(cursor7, result7)
+        expect(cursor1).toEqual(result1)
+        expect(cursor2).toEqual(result2)
+        expect(cursor3).toEqual(result3)
+        expect(cursor4).toEqual(result4)
+        expect(cursor5).toEqual(result5)
+        expect(cursor6).toEqual(result6)
+        expect(cursor7).toEqual(result7)
 
       })
 
@@ -1188,14 +1187,14 @@ describe('util', () => {
         }
 
 
-        assert.deepEqual(cursor0, result0)
-        assert.deepEqual(cursor1, result1)
-        assert.deepEqual(cursor2, result2)
-        assert.deepEqual(cursor3, result3)
-        assert.deepEqual(cursor4, result4)
-        assert.deepEqual(cursor5, result5)
-        assert.deepEqual(cursor6, result6)
-        assert.deepEqual(cursor7, result7)
+        expect(cursor0).toEqual(result0)
+        expect(cursor1).toEqual(result1)
+        expect(cursor2).toEqual(result2)
+        expect(cursor3).toEqual(result3)
+        expect(cursor4).toEqual(result4)
+        expect(cursor5).toEqual(result5)
+        expect(cursor6).toEqual(result6)
+        expect(cursor7).toEqual(result7)
 
       })
 
@@ -1210,11 +1209,11 @@ describe('util', () => {
 
     it('should reverse a string', () => {
 
-      assert.equal( reverseString('hello'), 'olleh')
-      assert.equal( reverseString(''), '')
-      assert.equal( reverseString('a'), 'a')
-      assert.equal( reverseString('aBC'), 'CBa')
-      assert.equal( reverseString(' x y '), ' y x ')
+      expect(reverseString('hello')).toEqual('olleh')
+      expect(reverseString('')).toEqual('')
+      expect(reverseString('a')).toEqual('a')
+      expect(reverseString('aBC')).toEqual('CBa')
+      expect(reverseString(' x y ')).toEqual(' y x ')
 
     })
   })
@@ -1299,15 +1298,15 @@ describe('util', () => {
 
       it('should split attributes from operators', () => {
 
-        assert.deepEqual( splitAttributeAndFilterOperator('test'), { attributeName: 'test' })
-        assert.deepEqual( splitAttributeAndFilterOperator('__test'), { attributeName: '__test' })
-        assert.deepEqual( splitAttributeAndFilterOperator('login__lt'), { attributeName: 'login', operator: 'lt' })
-        assert.deepEqual( splitAttributeAndFilterOperator('firstName__gte'), { attributeName: 'firstName', operator: 'gte'})
-        assert.deepEqual( splitAttributeAndFilterOperator('last_name__not'), { attributeName: 'last_name', operator: 'not' })
-        assert.deepEqual( splitAttributeAndFilterOperator('some__long_attribute__name__lte'), { attributeName: 'some__long_attribute__name', operator: 'lte' })
-        assert.deepEqual( splitAttributeAndFilterOperator('__some_name__not'), { attributeName: '__some_name', operator: 'not' })
-        assert.deepEqual( splitAttributeAndFilterOperator('___some_name__not'), { attributeName: '___some_name', operator: 'not' })
-        assert.deepEqual( splitAttributeAndFilterOperator('___some_name___not'), { attributeName: '___some_name_', operator: 'not' })
+        expect(splitAttributeAndFilterOperator('test')).toEqual({ attributeName: 'test' })
+        expect(splitAttributeAndFilterOperator('__test')).toEqual({ attributeName: '__test' })
+        expect(splitAttributeAndFilterOperator('login__lt')).toEqual({ attributeName: 'login', operator: 'lt' })
+        expect(splitAttributeAndFilterOperator('firstName__gte')).toEqual({ attributeName: 'firstName', operator: 'gte'})
+        expect(splitAttributeAndFilterOperator('last_name__not')).toEqual({ attributeName: 'last_name', operator: 'not' })
+        expect(splitAttributeAndFilterOperator('some__long_attribute__name__lte')).toEqual({ attributeName: 'some__long_attribute__name', operator: 'lte' })
+        expect(splitAttributeAndFilterOperator('__some_name__not')).toEqual({ attributeName: '__some_name', operator: 'not' })
+        expect(splitAttributeAndFilterOperator('___some_name__not')).toEqual({ attributeName: '___some_name', operator: 'not' })
+        expect(splitAttributeAndFilterOperator('___some_name___not')).toEqual({ attributeName: '___some_name_', operator: 'not' })
 
       })
 
@@ -1335,11 +1334,11 @@ describe('util', () => {
           splitAttributeAndFilterOperator('name___')
         }
 
-        assert.throws(fn1, /invalid filter/);
-        assert.throws(fn2, /invalid filter/);
-        assert.throws(fn3, /invalid filter/);
-        assert.throws(fn4, /invalid filter/);
-        assert.throws(fn5, /invalid filter/);
+        expect(fn1).toThrowErrorMatchingSnapshot();
+        expect(fn2).toThrowErrorMatchingSnapshot();
+        expect(fn3).toThrowErrorMatchingSnapshot();
+        expect(fn4).toThrowErrorMatchingSnapshot();
+        expect(fn5).toThrowErrorMatchingSnapshot();
 
       })
 
@@ -1384,15 +1383,13 @@ describe('util', () => {
         }
 
 
-        assert.deepEqual(
-          processFilterLevel(goodFilter1, filteredEntity.getAttributes(), ['somewhere'], SomeStorageType),
-          result1
-        )
+        expect(
+          processFilterLevel(goodFilter1, filteredEntity.getAttributes(), ['somewhere'], SomeStorageType)
+        ).toEqual(result1)
 
-        assert.deepEqual(
-          processFilterLevel(goodFilter2, filteredEntity.getAttributes(), ['somewhere'], SomeStorageType),
-          result2
-        )
+        expect(
+          processFilterLevel(goodFilter2, filteredEntity.getAttributes(), ['somewhere'], SomeStorageType)
+        ).toEqual(result2)
 
       })
 
@@ -1461,15 +1458,13 @@ describe('util', () => {
         }
 
 
-        assert.deepEqual(
-          processFilterLevel(goodFilter1, filteredEntity.getAttributes(), ['somewhere'], SomeStorageType),
-          result1
-        )
+        expect(
+          processFilterLevel(goodFilter1, filteredEntity.getAttributes(), ['somewhere'], SomeStorageType)
+        ).toEqual(result1)
 
-        assert.deepEqual(
-          processFilterLevel(goodFilter2, filteredEntity.getAttributes(), ['somewhere'], SomeStorageType),
-          result2
-        )
+        expect(
+          processFilterLevel(goodFilter2, filteredEntity.getAttributes(), ['somewhere'], SomeStorageType)
+        ).toEqual(result2)
 
       })
 
@@ -1496,11 +1491,11 @@ describe('util', () => {
           processFilterLevel({}, null, ['somewhere', 'deeply', 'nested'], SomeStorageType)
         }
 
-        assert.throws(fn1, /filter needs to be an object of filter criteria/);
-        assert.throws(fn2, /path in processFilterLevel\(\) needs to be an array/);
-        assert.throws(fn3, /filter at 'somewhere' needs to be an object of filter criteria/);
-        assert.throws(fn4, /filter at 'somewhere.deeply.nested' needs to be an object of filter criteria/);
-        assert.throws(fn5, /expects an attribute map/);
+        expect(fn1).toThrowErrorMatchingSnapshot();
+        expect(fn2).toThrowErrorMatchingSnapshot();
+        expect(fn3).toThrowErrorMatchingSnapshot();
+        expect(fn4).toThrowErrorMatchingSnapshot();
+        expect(fn5).toThrowErrorMatchingSnapshot();
 
       })
 
@@ -1532,9 +1527,9 @@ describe('util', () => {
           processFilterLevel(badFilter2, filteredEntity.getAttributes(), ['just', 'here'], SomeStorageType)
         }
 
-        assert.throws(fn1, /Unknown attribute name 'something' used in filter/);
-        assert.throws(fn2, /Unknown attribute name 'anything_here' used in filter/);
-        assert.throws(fn3, /Unknown attribute name 'anything_here' used in filter at 'just.here'/);
+        expect(fn1).toThrowErrorMatchingSnapshot();
+        expect(fn2).toThrowErrorMatchingSnapshot();
+        expect(fn3).toThrowErrorMatchingSnapshot();
       })
 
 
@@ -1559,8 +1554,8 @@ describe('util', () => {
           processFilterLevel(badFilter2, filteredEntity.getAttributes(), null, SomeStorageType)
         }
 
-        assert.throws(fn1, /Unknown or incompatible operator 'ends_with' used on 'isActive'/);
-        assert.throws(fn2, /Unknown or incompatible operator 'anything' used on 'firstName'/);
+        expect(fn1).toThrowErrorMatchingSnapshot();
+        expect(fn2).toThrowErrorMatchingSnapshot();
       })
 
 
@@ -1590,8 +1585,8 @@ describe('util', () => {
           processFilterLevel(badFilter2, filteredEntity.getAttributes(), null, SomeStorageType)
         }
 
-        assert.throws(fn1, /Cannot combine 'exact match' operator with other operators on attribute 'firstName'/);
-        assert.throws(fn2, /Cannot combine 'exact match' operator with other operators on attribute 'firstName'/);
+        expect(fn1).toThrowErrorMatchingSnapshot();
+        expect(fn2).toThrowErrorMatchingSnapshot();
 
       })
 

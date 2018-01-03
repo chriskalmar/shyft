@@ -1,5 +1,4 @@
 
-import { assert } from 'chai';
 import ProtocolType, { isProtocolType } from './ProtocolType';
 import {
   DataTypeID,
@@ -44,8 +43,8 @@ describe('ProtocolType', () => {
       })
     }
 
-    assert.throws(fn1, /Missing protocol type name/);
-    assert.throws(fn2, /Missing description/);
+    expect(fn1).toThrowErrorMatchingSnapshot();
+    expect(fn2).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -59,7 +58,7 @@ describe('ProtocolType', () => {
       })
     }
 
-    assert.throws(fn, /needs to implement isProtocolDataType/);
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -67,7 +66,7 @@ describe('ProtocolType', () => {
   it('should recognize object of type ProtocolType', () => {
 
     const result = isProtocolType(ProtocolTypeREST)
-    assert.isTrue(result)
+    expect(result).toBe(true)
   })
 
 
@@ -77,9 +76,9 @@ describe('ProtocolType', () => {
     const result2 = isProtocolType(123)
     const result3 = isProtocolType('test')
 
-    assert.isFalse(result1)
-    assert.isFalse(result2)
-    assert.isFalse(result3)
+    expect(result1).toBe(false)
+    expect(result2).toBe(false)
+    expect(result3).toBe(false)
   })
 
 
@@ -106,9 +105,9 @@ describe('ProtocolType', () => {
       ProtocolTypeREST.addDataTypeMap(DataTypeString, {})
     }
 
-    assert.throws(fn1, /not a valid data type/);
-    assert.throws(fn2, /not a valid protocol data type/);
-    assert.throws(fn3, /not a valid protocol data type/);
+    expect(fn1).toThrowErrorMatchingSnapshot();
+    expect(fn2).toThrowErrorMatchingSnapshot();
+    expect(fn3).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -121,7 +120,7 @@ describe('ProtocolType', () => {
       ProtocolTypeREST.addDataTypeMap(DataTypeInteger, ProtocolDataTypeInteger)
     }
 
-    assert.throws(fn, /already registered with protocol type/);
+    expect(fn).toThrowErrorMatchingSnapshot();
   })
 
 
@@ -132,9 +131,9 @@ describe('ProtocolType', () => {
     const result2 = ProtocolTypeREST.convertToProtocolDataType(DataTypeString)
     const result3 = ProtocolTypeREST.convertToProtocolDataType(DataTypeInteger)
 
-    assert.deepEqual(result1, ProtocolDataTypeID)
-    assert.deepEqual(result2, ProtocolDataTypeString)
-    assert.deepEqual(result3, ProtocolDataTypeInteger)
+    expect(result1).toEqual(ProtocolDataTypeID)
+    expect(result2).toEqual(ProtocolDataTypeString)
+    expect(result3).toEqual(ProtocolDataTypeInteger)
 
   })
 
@@ -149,8 +148,8 @@ describe('ProtocolType', () => {
       ProtocolTypeREST.convertToProtocolDataType(DataTypeBoolean)
     }
 
-    assert.throws(fn1, /not a valid data type/);
-    assert.throws(fn2, /No data type mapping found/);
+    expect(fn1).toThrowErrorMatchingSnapshot();
+    expect(fn2).toThrowErrorMatchingSnapshot();
 
   })
 
