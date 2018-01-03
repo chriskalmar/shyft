@@ -1,5 +1,4 @@
 
-import { assert } from 'chai';
 import Action, {
   isAction,
 } from './Action';
@@ -21,7 +20,7 @@ describe('Action', () => {
       new Action() // eslint-disable-line no-new
     }
 
-    assert.throws(fn, /Missing action name/);
+    expect(fn).toThrow();
 
   })
 
@@ -34,7 +33,7 @@ describe('Action', () => {
       })
     }
 
-    assert.throws(fn, /Missing description for action/);
+    expect(fn).toThrow();
 
   })
 
@@ -48,7 +47,7 @@ describe('Action', () => {
       })
     }
 
-    assert.throws(fn, /Missing input definition for action/);
+    expect(fn).toThrow();
 
   })
 
@@ -64,7 +63,7 @@ describe('Action', () => {
       })
     }
 
-    assert.throws(fn, /needs an input definition as a map or a function/);
+    expect(fn).toThrow();
 
   })
 
@@ -79,7 +78,7 @@ describe('Action', () => {
       })
     }
 
-    assert.throws(fn, /Missing output definition for action/);
+    expect(fn).toThrow();
 
   })
 
@@ -95,7 +94,7 @@ describe('Action', () => {
       })
     }
 
-    assert.throws(fn, /needs an output definition as a map or a function/);
+    expect(fn).toThrow();
 
   })
 
@@ -120,8 +119,8 @@ describe('Action', () => {
       action.getOutput()
     }
 
-    assert.throws(fn1, /does not return a map/);
-    assert.throws(fn2, /does not return a map/);
+    expect(fn1).toThrow();
+    expect(fn2).toThrow();
 
   })
 
@@ -142,7 +141,7 @@ describe('Action', () => {
       action.getInput()
     }
 
-    assert.throws(fn, /has invalid data type/);
+    expect(fn).toThrow();
 
   })
 
@@ -163,7 +162,7 @@ describe('Action', () => {
       action.getOutput()
     }
 
-    assert.throws(fn, /has invalid data type/);
+    expect(fn).toThrow();
 
   })
 
@@ -187,7 +186,7 @@ describe('Action', () => {
       action.getInput()
     }
 
-    assert.throws(fn, /has an invalid defaultValue function/);
+    expect(fn).toThrow();
 
   })
 
@@ -203,7 +202,7 @@ describe('Action', () => {
       })
     }
 
-    assert.throws(fn, /needs a resolve function/);
+    expect(fn).toThrow();
 
   })
 
@@ -218,8 +217,8 @@ describe('Action', () => {
       resolve() {},
     })
 
-    assert.strictEqual(action.name, 'example');
-    assert.strictEqual(String(action), 'example');
+    expect(action.name).toBe('example');
+    expect(String(action)).toBe('example');
 
   })
 
@@ -237,14 +236,14 @@ describe('Action', () => {
     const input1 = action1.getInput()
     const output1 = action1.getOutput()
 
-    assert.deepEqual(input1, {});
-    assert.deepEqual(output1, {});
+    expect(input1).toEqual({});
+    expect(output1).toEqual({});
 
     const hasInputParams1 = action1.hasInputParams()
     const hasOutputParams1 = action1.hasOutputParams()
 
-    assert.isFalse(hasInputParams1);
-    assert.isFalse(hasOutputParams1);
+    expect(hasInputParams1).toBe(false);
+    expect(hasOutputParams1).toBe(false);
 
 
     const action2 = new Action({
@@ -284,22 +283,22 @@ describe('Action', () => {
     const input2 = action2.getInput()
     const output2 = action2.getOutput()
 
-    assert.strictEqual(String(input2.firstName.type), 'DataTypeString');
-    assert.strictEqual(String(input2.lastName.type), 'DataTypeString');
-    assert.isFalse(input2.firstName.required);
-    assert.isTrue(input2.lastName.required);
-    assert.isFunction(input2.firstName.defaultValue);
+    expect(String(input2.firstName.type)).toBe('DataTypeString');
+    expect(String(input2.lastName.type)).toBe('DataTypeString');
+    expect(input2.firstName.required).toBe(false);
+    expect(input2.lastName.required).toBe(true);
+    expect(typeof input2.firstName.defaultValue).toBe('function');
 
     const nestedInput2 = input2.about.type.getAttributes()
-    assert.strictEqual(String(nestedInput2.favouriteActor.type), 'DataTypeString')
+    expect(String(nestedInput2.favouriteActor.type)).toBe('DataTypeString')
 
-    assert.strictEqual(String(output2.luckyNumber.type), 'DataTypeString');
+    expect(String(output2.luckyNumber.type)).toBe('DataTypeString');
 
     const hasInputParams2 = action2.hasInputParams()
     const hasOutputParams2 = action2.hasOutputParams()
 
-    assert.isTrue(hasInputParams2);
-    assert.isTrue(hasOutputParams2);
+    expect(hasInputParams2).toBe(true);
+    expect(hasOutputParams2).toBe(true);
 
   })
 
@@ -323,7 +322,7 @@ describe('Action', () => {
         )
       }
 
-      assert.doesNotThrow(fn)
+      expect(fn).not.toThrow()
 
     })
 
@@ -334,12 +333,12 @@ describe('Action', () => {
         passOrThrow(
           isAction({}) ||
           isAction(function test() {}) ||
-          isAction(assert),
+          isAction(Error),
           () => 'Not a Action object'
         )
       }
 
-      assert.throws(fn, /Not a Action object/);
+      expect(fn).toThrow();
 
     })
 

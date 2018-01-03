@@ -1,5 +1,4 @@
 
-import { assert } from 'chai';
 import Entity, { isEntity } from './Entity';
 import Index, {
   INDEX_UNIQUE,
@@ -27,7 +26,7 @@ describe('Entity', () => {
       new Entity() // eslint-disable-line no-new
     }
 
-    assert.throws(fn, /Missing entity name/);
+    expect(fn).toThrow();
 
   })
 
@@ -40,7 +39,7 @@ describe('Entity', () => {
       })
     }
 
-    assert.throws(fn, /Missing description for entity/);
+    expect(fn).toThrow();
 
   })
 
@@ -54,7 +53,7 @@ describe('Entity', () => {
       })
     }
 
-    assert.throws(fn, /Missing attributes for entity/);
+    expect(fn).toThrow();
 
   })
 
@@ -67,8 +66,8 @@ describe('Entity', () => {
       attributes: () => {}
     })
 
-    assert.strictEqual(entity.name, 'SomeEntityName');
-    assert.strictEqual(String(entity), 'SomeEntityName');
+    expect(entity.name).toBe('SomeEntityName');
+    expect(String(entity)).toBe('SomeEntityName');
 
   })
 
@@ -83,7 +82,7 @@ describe('Entity', () => {
       })
     }
 
-    assert.throws(fn, /attribute definition as a map or a function/);
+    expect(fn).toThrow();
 
   })
 
@@ -102,7 +101,7 @@ describe('Entity', () => {
       entity.getAttributes()
     }
 
-    assert.throws(fn, /does not return a map/);
+    expect(fn).toThrow();
 
   })
 
@@ -133,8 +132,8 @@ describe('Entity', () => {
 
       const attributes = entity.getAttributes()
 
-      assert.strictEqual(attributes.id.type, DataTypeID);
-      assert.strictEqual(attributes.name.type, DataTypeString);
+      expect(attributes.id.type).toBe(DataTypeID);
+      expect(attributes.name.type).toBe(DataTypeString);
 
     })
 
@@ -161,8 +160,8 @@ describe('Entity', () => {
 
       const attributes = entity.getAttributes()
 
-      assert.strictEqual(attributes.id.type, DataTypeID);
-      assert.strictEqual(attributes.name.type, DataTypeString);
+      expect(attributes.id.type).toBe(DataTypeID);
+      expect(attributes.name.type).toBe(DataTypeString);
 
     })
 
@@ -187,7 +186,7 @@ describe('Entity', () => {
 
     }
 
-    assert.throws(fn, /needs a valid storage type/);
+    expect(fn).toThrow();
 
   })
 
@@ -210,7 +209,7 @@ describe('Entity', () => {
         )
       }
 
-      assert.doesNotThrow(fn)
+      expect(fn).not.toThrow()
 
     })
 
@@ -221,13 +220,13 @@ describe('Entity', () => {
         passOrThrow(
           isEntity({}) ||
           isEntity(function test() {}) ||
-          isEntity(assert),
+          isEntity(Error),
           () => 'Not an Entity object'
         )
       }
 
 
-      assert.throws(fn, /Not an Entity object/);
+      expect(fn).toThrow();
 
     })
 
@@ -254,7 +253,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      assert.throws(fn, /Invalid attribute name/);
+      expect(fn).toThrow();
 
     })
 
@@ -271,7 +270,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      assert.throws(fn, /has no attributes defined/);
+      expect(fn).toThrow();
 
     })
 
@@ -290,7 +289,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      assert.throws(fn, /Missing description for/);
+      expect(fn).toThrow();
 
     })
 
@@ -311,7 +310,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      assert.throws(fn, /has invalid data type/);
+      expect(fn).toThrow();
 
     })
 
@@ -346,8 +345,8 @@ describe('Entity', () => {
 
       const attributes = City.getAttributes()
 
-      assert.strictEqual(String(attributes.name.type), 'DataTypeString')
-      assert.strictEqual(String(attributes.country.type), 'Country')
+      expect(String(attributes.name.type)).toBe('DataTypeString')
+      expect(String(attributes.country.type)).toBe('Country')
 
     })
 
@@ -370,7 +369,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      assert.throws(fn, /has an invalid resolve function/);
+      expect(fn).toThrow();
 
     })
 
@@ -393,7 +392,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      assert.throws(fn, /has an invalid defaultValue function/);
+      expect(fn).toThrow();
 
     })
 
@@ -416,7 +415,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      assert.throws(fn, /has an invalid validate function/);
+      expect(fn).toThrow();
 
     })
 
@@ -449,7 +448,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      assert.throws(fn, /cannot be set as primary attribute/);
+      expect(fn).toThrow();
 
     })
 
@@ -483,7 +482,7 @@ describe('Entity', () => {
         City.getAttributes()
       }
 
-      assert.throws(fn, /has invalid data type/);
+      expect(fn).toThrow();
 
     })
 
@@ -508,7 +507,7 @@ describe('Entity', () => {
 
       const countryName = Country.referenceAttribute('name')
 
-      assert.strictEqual(String(countryName.type), 'DataTypeString')
+      expect(String(countryName.type)).toBe('DataTypeString')
     })
 
 
@@ -518,7 +517,7 @@ describe('Entity', () => {
         Country.referenceAttribute('notHere')
       }
 
-      assert.throws(fn, /Cannot reference attribute \'Country.notHere\'/);
+      expect(fn).toThrow();
     })
 
   })
@@ -543,8 +542,8 @@ describe('Entity', () => {
 
       const attributes = Country.getAttributes()
 
-      assert.strictEqual(String(attributes.createdAt.type), 'DataTypeTimestampTz')
-      assert.strictEqual(String(attributes.updatedAt.type), 'DataTypeTimestampTz')
+      expect(String(attributes.createdAt.type)).toBe('DataTypeTimestampTz')
+      expect(String(attributes.updatedAt.type)).toBe('DataTypeTimestampTz')
 
     })
 
@@ -565,8 +564,8 @@ describe('Entity', () => {
 
       const attributes = Country.getAttributes()
 
-      assert.strictEqual(String(attributes.createdBy.type), 'DataTypeUserID')
-      assert.strictEqual(String(attributes.updatedBy.type), 'DataTypeUserID')
+      expect(String(attributes.createdBy.type)).toBe('DataTypeUserID')
+      expect(String(attributes.updatedBy.type)).toBe('DataTypeUserID')
 
     })
 
@@ -589,7 +588,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      assert.throws(fn, /Attribute name collision with system attribute \'updatedAt\'/);
+      expect(fn).toThrow();
 
     })
 
@@ -648,10 +647,10 @@ describe('Entity', () => {
       entity.getIndexes()
       const attributes = entity.getAttributes()
 
-      assert.strictEqual(attributes.loginName.isUnique, true);
-      assert.isNotTrue(attributes.firstName.isUnique);
-      assert.isNotTrue(attributes.lastName.isUnique);
-      assert.strictEqual(attributes.email.isUnique, true);
+      expect(attributes.loginName.isUnique).toBe(true);
+      expect(attributes.firstName.isUnique).not.toBe(true);
+      expect(attributes.lastName.isUnique).not.toBe(true);
+      expect(attributes.email.isUnique).toBe(true);
 
     })
 
@@ -680,8 +679,8 @@ describe('Entity', () => {
       entity.getAttributes()
       const indexes = entity.getIndexes()
 
-      assert.isArray(indexes)
-      assert.isTrue(isIndex(indexes[0]));
+      expect(Array.isArray(indexes)).toBe(true)
+      expect(isIndex(indexes[0])).toBe(true);
 
     })
 
@@ -716,8 +715,8 @@ describe('Entity', () => {
 
       const mutations = entity.getMutations()
 
-      assert.isArray(mutations)
-      assert.isTrue(isMutation(mutations[0]));
+      expect(Array.isArray(mutations)).toBe(true)
+      expect(isMutation(mutations[0])).toBe(true);
 
     })
 
@@ -747,9 +746,9 @@ describe('Entity', () => {
 
       entity.getAttributes()
 
-      assert.isTrue(isMutation(entity.getMutationByName('create')));
-      assert.isTrue(isMutation(entity.getMutationByName('update')));
-      assert.isTrue(isMutation(entity.getMutationByName('delete')));
+      expect(isMutation(entity.getMutationByName('create'))).toBe(true);
+      expect(isMutation(entity.getMutationByName('update'))).toBe(true);
+      expect(isMutation(entity.getMutationByName('delete'))).toBe(true);
 
     })
 
@@ -778,7 +777,7 @@ describe('Entity', () => {
 
       const permissions = entity.getPermissions()
 
-      assert.isTrue(isPermission(permissions.read));
+      expect(isPermission(permissions.read)).toBe(true);
 
     })
 
@@ -816,7 +815,7 @@ describe('Entity', () => {
 
       const theStates = entity.getStates()
 
-      assert.deepEqual(states, theStates)
+      expect(states).toEqual(theStates)
 
     })
 
@@ -832,7 +831,7 @@ describe('Entity', () => {
         entity.getStates()
       }
 
-      assert.throws(fn, /states definition needs to be a map/);
+      expect(fn).toThrow();
 
     })
 
@@ -850,7 +849,7 @@ describe('Entity', () => {
         entity.getStates()
       }
 
-      assert.throws(fn, /Invalid state name/);
+      expect(fn).toThrow();
 
     })
 
@@ -868,7 +867,7 @@ describe('Entity', () => {
         entity.getStates()
       }
 
-      assert.throws(fn1, /has an invalid unique ID/);
+      expect(fn1).toThrow();
 
 
       function fn2() {
@@ -882,7 +881,7 @@ describe('Entity', () => {
         entity.getStates()
       }
 
-      assert.throws(fn2, /has an invalid unique ID/);
+      expect(fn2).toThrow();
 
 
       function fn3() {
@@ -896,7 +895,7 @@ describe('Entity', () => {
         entity.getStates()
       }
 
-      assert.throws(fn3, /has an invalid unique ID/);
+      expect(fn3).toThrow();
 
 
       function fn4() {
@@ -910,7 +909,7 @@ describe('Entity', () => {
         entity.getStates()
       }
 
-      assert.throws(fn4, /has an invalid unique ID/);
+      expect(fn4).toThrow();
 
     })
 
@@ -929,7 +928,7 @@ describe('Entity', () => {
         entity.getStates()
       }
 
-      assert.throws(fn, /needs to have a unique ID/);
+      expect(fn).toThrow();
 
     })
 

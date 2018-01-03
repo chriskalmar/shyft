@@ -1,5 +1,4 @@
 
-import { assert } from 'chai';
 import Entity from '../entity/Entity';
 import Schema from './Schema';
 
@@ -72,9 +71,9 @@ describe('Schema', () => {
       schema.addEntity('so-wrong')
     }
 
-    assert.throws(fn1, /is not an entity/);
-    assert.throws(fn2, /is not an entity/);
-    assert.throws(fn3, /is not an entity/);
+    expect(fn1).toThrow();
+    expect(fn2).toThrow();
+    expect(fn3).toThrow();
 
   })
 
@@ -115,10 +114,10 @@ describe('Schema', () => {
       })
     }
 
-    assert.throws(fn1, /to be an array of type Entity/);
-    assert.throws(fn2, /to be an array of type Entity/);
-    assert.throws(fn3, /to be an array of type Entity/);
-    assert.throws(fn4, /is not an entity/);
+    expect(fn1).toThrow();
+    expect(fn2).toThrow();
+    expect(fn3).toThrow();
+    expect(fn4).toThrow();
 
   })
 
@@ -134,7 +133,7 @@ describe('Schema', () => {
       schema.addEntity(FirstEntity)
     }
 
-    assert.throws(fn, /already registered with this schema/);
+    expect(fn).toThrow();
 
   })
 

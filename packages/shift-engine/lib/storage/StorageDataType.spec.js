@@ -1,5 +1,4 @@
 
-import { assert } from 'chai';
 import StorageDataType, { isStorageDataType } from './StorageDataType';
 
 import {
@@ -15,7 +14,7 @@ describe('StorageDataType', () => {
       new StorageDataType() // eslint-disable-line no-new
     }
 
-    assert.throws(fn, /Missing storage data type name/);
+    expect(fn).toThrow();
 
   })
 
@@ -28,7 +27,7 @@ describe('StorageDataType', () => {
       })
     }
 
-    assert.throws(fn, /Missing description for storage data type/);
+    expect(fn).toThrow();
 
   })
 
@@ -42,7 +41,7 @@ describe('StorageDataType', () => {
       })
     }
 
-    assert.throws(fn, /Missing native data type for storage data type/);
+    expect(fn).toThrow();
 
   })
 
@@ -57,7 +56,7 @@ describe('StorageDataType', () => {
       })
     }
 
-    assert.throws(fn, /has an invalid serialize function/);
+    expect(fn).toThrow();
 
   })
 
@@ -74,7 +73,7 @@ describe('StorageDataType', () => {
       })
     }
 
-    assert.throws(fn, /has an invalid parse function/);
+    expect(fn).toThrow();
 
   })
 
@@ -91,7 +90,7 @@ describe('StorageDataType', () => {
       })
     }
 
-    assert.throws(fn, /has an invalid list of capabilities/);
+    expect(fn).toThrow();
 
   })
 
@@ -111,7 +110,7 @@ describe('StorageDataType', () => {
       })
     }
 
-    assert.throws(fn, /has an unknown capability/);
+    expect(fn).toThrow();
 
   })
 
@@ -130,7 +129,7 @@ describe('StorageDataType', () => {
       ],
     })
 
-    assert.deepEqual(storageDataType.capabilities, [ 'in', 'not', 'contains' ]);
+    expect(storageDataType.capabilities).toEqual([ 'in', 'not', 'contains' ]);
 
   })
 
@@ -147,8 +146,8 @@ describe('StorageDataType', () => {
     const parsed1 = storageDataType.parse(123)
     const parsed2 = storageDataType.parse('Hello there!')
 
-    assert.strictEqual(parsed1, 123);
-    assert.strictEqual(parsed2, 'Hello there!');
+    expect(parsed1).toBe(123);
+    expect(parsed2).toBe('Hello there!');
 
   })
 
@@ -162,8 +161,8 @@ describe('StorageDataType', () => {
       serialize() {},
     })
 
-    assert.strictEqual(storageDataType.name, 'someStorageDataType');
-    assert.strictEqual(String(storageDataType), 'someStorageDataType');
+    expect(storageDataType.name).toBe('someStorageDataType');
+    expect(String(storageDataType)).toBe('someStorageDataType');
 
   })
 
@@ -191,7 +190,7 @@ describe('StorageDataType', () => {
         )
       }
 
-      assert.doesNotThrow(fn)
+      expect(fn).not.toThrow()
 
     })
 
@@ -202,13 +201,13 @@ describe('StorageDataType', () => {
         passOrThrow(
           isStorageDataType({}) ||
           isStorageDataType(function test() {}) ||
-          isStorageDataType(assert),
+          isStorageDataType(Error),
           () => 'Not a StorageDataType object'
         )
       }
 
 
-      assert.throws(fn, /Not a StorageDataType object/);
+      expect(fn).toThrow();
 
     })
 

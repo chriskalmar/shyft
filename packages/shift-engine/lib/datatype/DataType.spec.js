@@ -1,5 +1,4 @@
 
-import { assert } from 'chai';
 import DataType, { isDataType } from './DataType';
 
 import {
@@ -20,7 +19,7 @@ describe('DataType', () => {
       new DataType() // eslint-disable-line no-new
     }
 
-    assert.throws(fn, /Missing data type name/);
+    expect(fn).toThrow();
 
   })
 
@@ -33,7 +32,7 @@ describe('DataType', () => {
       })
     }
 
-    assert.throws(fn, /Missing description for data type/);
+    expect(fn).toThrow();
 
   })
 
@@ -47,7 +46,7 @@ describe('DataType', () => {
       })
     }
 
-    assert.throws(fn, /Missing mock function for data type/);
+    expect(fn).toThrow();
 
   })
 
@@ -60,8 +59,8 @@ describe('DataType', () => {
       mock () {},
     })
 
-    assert.strictEqual(dataType.name, 'someDataTypeName');
-    assert.strictEqual(String(dataType), 'someDataTypeName');
+    expect(dataType.name).toBe('someDataTypeName');
+    expect(String(dataType)).toBe('someDataTypeName');
 
   })
 
@@ -83,7 +82,7 @@ describe('DataType', () => {
         )
       }
 
-      assert.doesNotThrow(fn)
+      expect(fn).not.toThrow()
 
     })
 
@@ -94,13 +93,13 @@ describe('DataType', () => {
         passOrThrow(
           isDataType({}) ||
           isDataType(function test() {}) ||
-          isDataType(assert),
+          isDataType(Error),
           () => 'Not a DataType object'
         )
       }
 
 
-      assert.throws(fn, /Not a DataType object/);
+      expect(fn).toThrow();
 
     })
 

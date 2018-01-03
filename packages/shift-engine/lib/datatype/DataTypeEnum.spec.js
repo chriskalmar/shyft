@@ -1,5 +1,4 @@
 
-import { assert } from 'chai';
 import DataTypeEnum, { isDataTypeEnum } from './DataTypeEnum';
 
 import {
@@ -18,7 +17,7 @@ describe('DataTypeEnum', () => {
       new DataTypeEnum() // eslint-disable-line no-new
     }
 
-    assert.throws(fn, /Missing enum values/);
+    expect(fn).toThrow();
 
 
     fn = () => {
@@ -27,7 +26,7 @@ describe('DataTypeEnum', () => {
       })
     }
 
-    assert.throws(fn, /Missing enum values/);
+    expect(fn).toThrow();
 
   })
 
@@ -42,7 +41,7 @@ describe('DataTypeEnum', () => {
       })
     }
 
-    assert.throws(fn, /Invalid enum value \'8\' for data type \'undefined\'/);
+    expect(fn).toThrow();
 
     fn = () => {
       new DataTypeEnum({ // eslint-disable-line no-new
@@ -51,7 +50,7 @@ describe('DataTypeEnum', () => {
       })
     }
 
-    assert.throws(fn, /Invalid enum value \' abc \' for data type \'test\'/);
+    expect(fn).toThrow();
 
     fn = () => {
       new DataTypeEnum({ // eslint-disable-line no-new
@@ -60,7 +59,7 @@ describe('DataTypeEnum', () => {
       })
     }
 
-    assert.throws(fn, /Invalid enum value \'hello-there\' for data type \'another\'/);
+    expect(fn).toThrow();
 
   })
 
@@ -73,7 +72,7 @@ describe('DataTypeEnum', () => {
       })
     }
 
-    assert.throws(fn, /Missing data type name/);
+    expect(fn).toThrow();
 
   })
 
@@ -86,8 +85,8 @@ describe('DataTypeEnum', () => {
       values: [ 'item' ],
     })
 
-    assert.strictEqual(dataType.name, 'someDataTypeName');
-    assert.strictEqual(String(dataType), 'someDataTypeName');
+    expect(dataType.name).toBe('someDataTypeName');
+    expect(String(dataType)).toBe('someDataTypeName');
 
   })
 
@@ -99,7 +98,7 @@ describe('DataTypeEnum', () => {
       values: [ 'ACTION', 'COMEDY', 'DRAMA' ],
     })
 
-    assert.strictEqual(dataType.description, 'Enumeration set: ACTION, COMEDY, DRAMA');
+    expect(dataType.description).toBe('Enumeration set: ACTION, COMEDY, DRAMA');
   })
 
 
@@ -111,7 +110,7 @@ describe('DataTypeEnum', () => {
       values,
     })
 
-    assert.oneOf(dataType.mock(), values);
+    expect(values.includes(dataType.mock())).toBe(true)
   })
 
 
@@ -138,7 +137,7 @@ describe('DataTypeEnum', () => {
         )
       }
 
-      assert.doesNotThrow(fn)
+      expect(fn).not.toThrow()
 
     })
 
@@ -149,13 +148,13 @@ describe('DataTypeEnum', () => {
         passOrThrow(
           isDataTypeEnum({}) ||
           isDataTypeEnum(function test() {}) ||
-          isDataTypeEnum(assert),
+          isDataTypeEnum(Error),
           () => 'Not a DataTypeEnum object'
         )
       }
 
 
-      assert.throws(fn, /Not a DataTypeEnum object/);
+      expect(fn).toThrow();
 
     })
 
