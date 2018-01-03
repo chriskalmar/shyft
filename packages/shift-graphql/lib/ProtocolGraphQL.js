@@ -14,6 +14,7 @@ import {
   isDataTypeState,
   isDataTypeEnum,
   isObjectDataType,
+  isListDataType,
 } from 'shift-engine';
 
 import {
@@ -162,3 +163,35 @@ ProtocolGraphQL.addDynamicDataTypeMap(isObjectDataType, (attributeType, sourceNa
 });
 
 
+
+ProtocolGraphQL.addDynamicDataTypeMap(isListDataType, (attributeType, sourceName, asInput) => {
+
+  const name = attributeType.name
+  const uniqueName = `${name}-${sourceName}-${asInput ? 'Input' : 'Output'}`
+
+  // hack: wrap list type into an object data type and extract later that single field
+  // to reuse the same input / ouput logic as with object data types
+  const params = {
+    wrapped: {
+      type: attributeType
+    }
+  }
+
+
+  if (asInput) {
+    if (!dataTypesRegistry.object[uniqueName]) {
+      const dataInputType = generateDataInput(name, params)
+      dataTypesRegistry.object[uniqueName] = dataInputType.getFields().wrapped.type
+    }
+
+    return dataTypesRegistry.object[uniqueName]
+  }
+
+
+  if (!dataTypesRegistry.object[uniqueName]) {
+    const dataOutputType = generateDataOutput(name, params)
+    dataTypesRegistry.object[uniqueName] = dataOutputType.getFields().wrapped.type
+  }
+
+  return dataTypesRegistry.object[uniqueName]
+});
