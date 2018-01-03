@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataTypeEnum isDataTypeEnum should recognize non-DataTypeEnum objects 1`] = `"Not a DataTypeEnum object"`;
+
+exports[`DataTypeEnum should have a name 1`] = `"Missing data type name"`;
+
+exports[`DataTypeEnum should have a set of valid values 1`] = `"Invalid enum value '8' for data type 'undefined' (Regex: /^[_a-zA-Z][_a-zA-Z0-9]*$/)"`;
+
+exports[`DataTypeEnum should have a set of valid values 2`] = `"Invalid enum value ' abc ' for data type 'test' (Regex: /^[_a-zA-Z][_a-zA-Z0-9]*$/)"`;
+
+exports[`DataTypeEnum should have a set of valid values 3`] = `"Invalid enum value 'hello-there' for data type 'another' (Regex: /^[_a-zA-Z][_a-zA-Z0-9]*$/)"`;
+
+exports[`DataTypeEnum should have a set of values 1`] = `"'Missing enum values for data type 'undefined'"`;
+
+exports[`DataTypeEnum should have a set of values 2`] = `"'Missing enum values for data type 'undefined'"`;

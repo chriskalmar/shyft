@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`util filter processFilterLevel should throw if exact match operators is used with another operator on the same attribute 1`] = `"Cannot combine 'exact match' operator with other operators on attribute 'firstName' used in filter"`;
+
+exports[`util filter processFilterLevel should throw if exact match operators is used with another operator on the same attribute 2`] = `"Cannot combine 'exact match' operator with other operators on attribute 'firstName' used in filter"`;
+
+exports[`util filter processFilterLevel should throw if invalid attributes are used in filter 1`] = `"Unknown attribute name 'something' used in filter"`;
+
+exports[`util filter processFilterLevel should throw if invalid attributes are used in filter 2`] = `"Unknown attribute name 'anything_here' used in filter"`;
+
+exports[`util filter processFilterLevel should throw if invalid attributes are used in filter 3`] = `"Unknown attribute name 'anything_here' used in filter at 'just.here'"`;
+
+exports[`util filter processFilterLevel should throw if invalid operators are used in filter 1`] = `"Unknown or incompatible operator 'ends_with' used on 'isActive' in filter"`;
+
+exports[`util filter processFilterLevel should throw if invalid operators are used in filter 2`] = `"Unknown or incompatible operator 'anything' used on 'firstName' in filter"`;
+
+exports[`util filter processFilterLevel should throw if provided params are invalid 1`] = `"filter needs to be an object of filter criteria"`;
+
+exports[`util filter processFilterLevel should throw if provided params are invalid 2`] = `"optional path in processFilterLevel() needs to be an array"`;
+
+exports[`util filter processFilterLevel should throw if provided params are invalid 3`] = `"filter at 'somewhere' needs to be an object of filter criteria"`;
+
+exports[`util filter processFilterLevel should throw if provided params are invalid 4`] = `"filter at 'somewhere.deeply.nested' needs to be an object of filter criteria"`;
+
+exports[`util filter processFilterLevel should throw if provided params are invalid 5`] = `"processFilterLevel() expects an attribute map"`;
+
+exports[`util filter splitAttributeAndFilterOperator should fail on wrong inputs 1`] = `"invalid filter 'undefined'"`;
+
+exports[`util filter splitAttributeAndFilterOperator should fail on wrong inputs 2`] = `"invalid filter ''"`;
+
+exports[`util filter splitAttributeAndFilterOperator should fail on wrong inputs 3`] = `"invalid filter '[object Object]'"`;
+
+exports[`util filter splitAttributeAndFilterOperator should fail on wrong inputs 4`] = `"invalid filter 'name__'"`;
+
+exports[`util filter splitAttributeAndFilterOperator should fail on wrong inputs 5`] = `"invalid filter 'name___'"`;
+
+exports[`util mapOverProperties should throw if iteratee is not a function 1`] = `"Provided iteratee is not a function"`;
+
+exports[`util mapOverProperties should throw if iteratee is not a function 2`] = `"Provided iteratee is not a function"`;
+
+exports[`util mapOverProperties should throw if iteratee is not a function 3`] = `"Provided iteratee is not a function"`;
+
+exports[`util mapOverProperties should throw if non-maps are provided 1`] = `"Provided object is not a map"`;
+
+exports[`util mapOverProperties should throw if non-maps are provided 2`] = `"Provided object is not a map"`;
+
+exports[`util mapOverProperties should throw if non-maps are provided 3`] = `"Provided object is not a map"`;
+
+exports[`util mergeMaps should throw if non-maps are provided 1`] = `"mergeMaps() expects 2 maps for a merge to work"`;
+
+exports[`util mergeMaps should throw if non-maps are provided 2`] = `"mergeMaps() expects 2 maps for a merge to work"`;
+
+exports[`util mergeMaps should throw if non-maps are provided 3`] = `"mergeMaps() expects 2 maps for a merge to work"`;
+
+exports[`util passOrThrow should throw if message is not a function 1`] = `"passOrThrow() expects messageFn to be a function"`;
+
+exports[`util passOrThrow should throw on negative condition 1`] = `"This is the very very super important error"`;
+
+exports[`util processCursor should throw if an attribute is used which the data set is not sorted by 1`] = `"orderBy needs to be an array of order definitions"`;
+
+exports[`util processCursor should throw if an attribute is used which the data set is not sorted by 2`] = `"Cursor works only on sorted attributes (check: 'loginName')"`;
+
+exports[`util processCursor should throw if an attribute is used which the data set is not sorted by 3`] = `"Cursor works only on sorted attributes (check: 'email')"`;
+
+exports[`util processCursor should throw if cursor is malformed 1`] = `"Cursor malformed"`;
+
+exports[`util processCursor should throw if cursor is malformed 2`] = `"Cursor malformed"`;
+
+exports[`util processCursor should throw if cursor is malformed 3`] = `"Cursor malformed"`;
+
+exports[`util processCursor should throw if incompatible cursor provided 1`] = `"Incompatible cursor for this entity"`;
+
+exports[`util processCursor should throw if none of the attributes are defined as unique 1`] = `"Cursor needs to have at least one attribute defined as unique"`;
+
+exports[`util processCursor should throw if none of the attributes are defined as unique 2`] = `"Cursor needs to have at least one attribute defined as unique"`;
+
+exports[`util processCursor should throw if unknown attribute is used 1`] = `"Unknown attribute 'iDontKnow' used in cursor"`;

@@ -19,7 +19,7 @@ describe('ObjectDataType', () => {
       new ObjectDataType() // eslint-disable-line no-new
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -32,7 +32,7 @@ describe('ObjectDataType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -46,7 +46,7 @@ describe('ObjectDataType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -76,7 +76,7 @@ describe('ObjectDataType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -95,7 +95,7 @@ describe('ObjectDataType', () => {
       objectDataType.getAttributes()
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -112,7 +112,7 @@ describe('ObjectDataType', () => {
       objectDataType.getAttributes()
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -133,7 +133,7 @@ describe('ObjectDataType', () => {
       objectDataType.getAttributes()
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -155,7 +155,7 @@ describe('ObjectDataType', () => {
       objectDataType.getAttributes()
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -178,7 +178,7 @@ describe('ObjectDataType', () => {
       objectDataType.getAttributes()
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -201,7 +201,7 @@ describe('ObjectDataType', () => {
       objectDataType.getAttributes()
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -363,7 +363,7 @@ describe('ObjectDataType', () => {
       }
 
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

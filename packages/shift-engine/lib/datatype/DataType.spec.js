@@ -19,7 +19,7 @@ describe('DataType', () => {
       new DataType() // eslint-disable-line no-new
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -32,7 +32,7 @@ describe('DataType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -46,7 +46,7 @@ describe('DataType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -99,7 +99,7 @@ describe('DataType', () => {
       }
 
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

@@ -20,7 +20,7 @@ describe('Action', () => {
       new Action() // eslint-disable-line no-new
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -33,7 +33,7 @@ describe('Action', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -47,7 +47,7 @@ describe('Action', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -63,7 +63,7 @@ describe('Action', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -78,7 +78,7 @@ describe('Action', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -94,7 +94,7 @@ describe('Action', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -119,8 +119,8 @@ describe('Action', () => {
       action.getOutput()
     }
 
-    expect(fn1).toThrow();
-    expect(fn2).toThrow();
+    expect(fn1).toThrowErrorMatchingSnapshot();
+    expect(fn2).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -141,7 +141,7 @@ describe('Action', () => {
       action.getInput()
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -162,7 +162,7 @@ describe('Action', () => {
       action.getOutput()
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -186,7 +186,7 @@ describe('Action', () => {
       action.getInput()
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -202,7 +202,7 @@ describe('Action', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -338,7 +338,7 @@ describe('Action', () => {
         )
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

@@ -14,7 +14,7 @@ describe('StorageDataType', () => {
       new StorageDataType() // eslint-disable-line no-new
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -27,7 +27,7 @@ describe('StorageDataType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -41,7 +41,7 @@ describe('StorageDataType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -56,7 +56,7 @@ describe('StorageDataType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -73,7 +73,7 @@ describe('StorageDataType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -90,7 +90,7 @@ describe('StorageDataType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -110,7 +110,7 @@ describe('StorageDataType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -207,7 +207,7 @@ describe('StorageDataType', () => {
       }
 
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

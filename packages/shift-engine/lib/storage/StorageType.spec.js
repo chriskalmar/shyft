@@ -21,7 +21,7 @@ describe('StorageType', () => {
       new StorageType() // eslint-disable-line no-new
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -34,7 +34,7 @@ describe('StorageType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -68,7 +68,7 @@ describe('StorageType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
 
     fn = () => {
@@ -79,7 +79,7 @@ describe('StorageType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
 
     fn = () => {
@@ -91,7 +91,7 @@ describe('StorageType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
 
     fn = () => {
@@ -104,7 +104,7 @@ describe('StorageType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
 
     fn = () => {
@@ -118,7 +118,7 @@ describe('StorageType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -158,7 +158,7 @@ describe('StorageType', () => {
         SomeStorageType.addDataTypeMap({ some: 'thing' }, StorageDataTypeText)
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -169,7 +169,7 @@ describe('StorageType', () => {
         SomeStorageType.addDataTypeMap(DataTypeString, { someThing: 'else' })
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -180,7 +180,7 @@ describe('StorageType', () => {
         SomeStorageType.addDataTypeMap(DataTypeID, StorageDataTypeText)
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -226,7 +226,7 @@ describe('StorageType', () => {
       }
 
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

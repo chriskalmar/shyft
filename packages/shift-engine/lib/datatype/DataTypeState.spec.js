@@ -19,7 +19,7 @@ describe('DataTypeState', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
 
     fn = () => {
@@ -29,7 +29,7 @@ describe('DataTypeState', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -47,7 +47,7 @@ describe('DataTypeState', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
     fn = () => {
       new DataTypeState({ // eslint-disable-line no-new
@@ -58,7 +58,7 @@ describe('DataTypeState', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
     fn = () => {
       new DataTypeState({ // eslint-disable-line no-new
@@ -71,7 +71,7 @@ describe('DataTypeState', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -86,7 +86,7 @@ describe('DataTypeState', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -200,7 +200,7 @@ describe('DataTypeState', () => {
       }
 
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

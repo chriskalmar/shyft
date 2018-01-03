@@ -43,8 +43,8 @@ describe('ProtocolType', () => {
       })
     }
 
-    expect(fn1).toThrow();
-    expect(fn2).toThrow();
+    expect(fn1).toThrowErrorMatchingSnapshot();
+    expect(fn2).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -58,7 +58,7 @@ describe('ProtocolType', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -105,9 +105,9 @@ describe('ProtocolType', () => {
       ProtocolTypeREST.addDataTypeMap(DataTypeString, {})
     }
 
-    expect(fn1).toThrow();
-    expect(fn2).toThrow();
-    expect(fn3).toThrow();
+    expect(fn1).toThrowErrorMatchingSnapshot();
+    expect(fn2).toThrowErrorMatchingSnapshot();
+    expect(fn3).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -120,7 +120,7 @@ describe('ProtocolType', () => {
       ProtocolTypeREST.addDataTypeMap(DataTypeInteger, ProtocolDataTypeInteger)
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
   })
 
 
@@ -148,8 +148,8 @@ describe('ProtocolType', () => {
       ProtocolTypeREST.convertToProtocolDataType(DataTypeBoolean)
     }
 
-    expect(fn1).toThrow();
-    expect(fn2).toThrow();
+    expect(fn1).toThrowErrorMatchingSnapshot();
+    expect(fn2).toThrowErrorMatchingSnapshot();
 
   })
 

@@ -81,7 +81,7 @@ describe('Permission', () => {
         .everyone()
     }
 
-    expect(fn1).toThrow();
+    expect(fn1).toThrowErrorMatchingSnapshot();
 
 
     function fn2() {
@@ -90,7 +90,7 @@ describe('Permission', () => {
         .authenticated()
     }
 
-    expect(fn2).toThrow();
+    expect(fn2).toThrowErrorMatchingSnapshot();
 
 
     function fn3() {
@@ -99,7 +99,7 @@ describe('Permission', () => {
         .authenticated()
     }
 
-    expect(fn3).toThrow();
+    expect(fn3).toThrowErrorMatchingSnapshot();
 
 
   })
@@ -115,7 +115,7 @@ describe('Permission', () => {
           .role()
       }
 
-      expect(fn1).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -128,7 +128,7 @@ describe('Permission', () => {
           .role('manager')
       }
 
-      expect(fn1).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -144,7 +144,7 @@ describe('Permission', () => {
           .ownerAttribute()
       }
 
-      expect(fn1).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -156,7 +156,7 @@ describe('Permission', () => {
           .ownerAttribute('profile')
       }
 
-      expect(fn1).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -172,7 +172,7 @@ describe('Permission', () => {
           .lookup()
       }
 
-      expect(fn1).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -184,7 +184,7 @@ describe('Permission', () => {
           .lookup(Language)
       }
 
-      expect(fn1).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -200,7 +200,7 @@ describe('Permission', () => {
           .value()
       }
 
-      expect(fn1).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -212,7 +212,7 @@ describe('Permission', () => {
           .value('someAttribute')
       }
 
-      expect(fn1).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -251,7 +251,7 @@ describe('Permission', () => {
       }
 
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -311,9 +311,9 @@ describe('Permission', () => {
         findInvalidPermissionAttributes(permission, User)
       }
 
-      expect(fn1).toThrow();
-      expect(fn2).toThrow();
-      expect(fn3).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
+      expect(fn2).toThrowErrorMatchingSnapshot();
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -390,7 +390,7 @@ describe('Permission', () => {
         generatePermissionDescription({foo: 'bar'})
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -481,7 +481,7 @@ describe('Permission', () => {
         checkPermissionSimple({})
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -492,7 +492,7 @@ describe('Permission', () => {
         checkPermissionSimple(new Permission(), null, {bad: 'roles'})
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -579,7 +579,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions)
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -594,7 +594,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions)
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -609,7 +609,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions1)
       }
 
-      expect(fn1).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
 
       const permissions2 = {
@@ -620,7 +620,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions2)
       }
 
-      expect(fn2).toThrow();
+      expect(fn2).toThrowErrorMatchingSnapshot();
 
 
       const permissions3 = {
@@ -635,7 +635,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions3)
       }
 
-      expect(fn3).toThrow();
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -650,7 +650,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions1)
       }
 
-      expect(fn1).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
 
       const permissions2 = {
@@ -662,7 +662,7 @@ describe('Permission', () => {
       }
 
 
-      expect(fn2).toThrow();
+      expect(fn2).toThrowErrorMatchingSnapshot();
 
 
       const permissions3 = {
@@ -675,7 +675,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions3)
       }
 
-      expect(fn3).toThrow();
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -690,7 +690,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions)
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -707,7 +707,7 @@ describe('Permission', () => {
         processEntityPermissions(entity, permissions)
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

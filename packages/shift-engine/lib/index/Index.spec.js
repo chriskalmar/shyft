@@ -20,7 +20,7 @@ describe('Index', () => {
       new Index() // eslint-disable-line no-new
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -33,7 +33,7 @@ describe('Index', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -46,7 +46,7 @@ describe('Index', () => {
       })
     }
 
-    expect(fn1).toThrow();
+    expect(fn1).toThrowErrorMatchingSnapshot();
 
     function fn2() {
       new Index({ // eslint-disable-line no-new
@@ -55,7 +55,7 @@ describe('Index', () => {
       })
     }
 
-    expect(fn2).toThrow();
+    expect(fn2).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -70,7 +70,7 @@ describe('Index', () => {
       })
     }
 
-    expect(fn1).toThrow();
+    expect(fn1).toThrowErrorMatchingSnapshot();
 
     function fn2() {
       new Index({ // eslint-disable-line no-new
@@ -79,7 +79,7 @@ describe('Index', () => {
       })
     }
 
-    expect(fn2).toThrow();
+    expect(fn2).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -93,7 +93,7 @@ describe('Index', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -153,7 +153,7 @@ describe('Index', () => {
       }
 
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -186,7 +186,7 @@ describe('Index', () => {
         processEntityIndexes(entity, indexes)
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -201,7 +201,7 @@ describe('Index', () => {
         processEntityIndexes(entity, indexes)
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -222,7 +222,7 @@ describe('Index', () => {
         processEntityIndexes(entity, indexes)
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

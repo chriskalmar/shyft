@@ -71,9 +71,9 @@ describe('Schema', () => {
       schema.addEntity('so-wrong')
     }
 
-    expect(fn1).toThrow();
-    expect(fn2).toThrow();
-    expect(fn3).toThrow();
+    expect(fn1).toThrowErrorMatchingSnapshot();
+    expect(fn2).toThrowErrorMatchingSnapshot();
+    expect(fn3).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -114,10 +114,10 @@ describe('Schema', () => {
       })
     }
 
-    expect(fn1).toThrow();
-    expect(fn2).toThrow();
-    expect(fn3).toThrow();
-    expect(fn4).toThrow();
+    expect(fn1).toThrowErrorMatchingSnapshot();
+    expect(fn2).toThrowErrorMatchingSnapshot();
+    expect(fn3).toThrowErrorMatchingSnapshot();
+    expect(fn4).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -133,7 +133,7 @@ describe('Schema', () => {
       schema.addEntity(FirstEntity)
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 

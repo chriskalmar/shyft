@@ -17,7 +17,7 @@ describe('DataTypeEnum', () => {
       new DataTypeEnum() // eslint-disable-line no-new
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
 
     fn = () => {
@@ -26,7 +26,7 @@ describe('DataTypeEnum', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -41,7 +41,7 @@ describe('DataTypeEnum', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
     fn = () => {
       new DataTypeEnum({ // eslint-disable-line no-new
@@ -50,7 +50,7 @@ describe('DataTypeEnum', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
     fn = () => {
       new DataTypeEnum({ // eslint-disable-line no-new
@@ -59,7 +59,7 @@ describe('DataTypeEnum', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -72,7 +72,7 @@ describe('DataTypeEnum', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -154,7 +154,7 @@ describe('DataTypeEnum', () => {
       }
 
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

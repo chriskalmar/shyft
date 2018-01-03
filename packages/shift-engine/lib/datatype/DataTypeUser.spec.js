@@ -43,7 +43,7 @@ describe('DataTypeUser', () => {
       }
 
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Action isAction should recognize non-Action objects 1`] = `"Not a Action object"`;
+
+exports[`Action should have a description 1`] = `"Missing description for action 'example'"`;
+
+exports[`Action should have a name 1`] = `"Missing action name"`;
+
+exports[`Action should have a valid input definition 1`] = `"Action 'example' needs an input definition as a map or a function returning such a map"`;
+
+exports[`Action should have a valid output definition 1`] = `"Action 'example' needs an output definition as a map or a function returning such a map"`;
+
+exports[`Action should have a valid resolve function 1`] = `"Action 'example' needs a resolve function"`;
+
+exports[`Action should have an input definition 1`] = `"Missing input definition for action 'example'"`;
+
+exports[`Action should have an output definition 1`] = `"Missing output definition for action 'example'"`;
+
+exports[`Action should have valid input and output definitions when generated via a function 1`] = `"Input definition function for action 'example' does not return a map"`;
+
+exports[`Action should have valid input and output definitions when generated via a function 2`] = `"Output definition function for action 'example' does not return a map"`;
+
+exports[`Action should have valid input attributes if valid defaultValue functions 1`] = `"'example.someAttr' has an invalid defaultValue function'"`;
+
+exports[`Action should have valid input data types 1`] = `"'example.someAttr' has invalid data type 'undefined'"`;
+
+exports[`Action should have valid output data types 1`] = `"'example.someAttr' has invalid data type 'undefined'"`;

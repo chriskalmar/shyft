@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Index isIndex should recognize non-Index objects 1`] = `"Not an Index object"`;
+
+exports[`Index processEntityIndexes should throw if attribute used in index does not exist 1`] = `"Cannot use attribute 'SomeEntityName.notHere' in index as it does not exist"`;
+
+exports[`Index processEntityIndexes should throw if provided with an invalid index 1`] = `"Invalid index definition for entity 'SomeEntityName' at position '0'"`;
+
+exports[`Index processEntityIndexes should throw if provided with an invalid list of indexes 1`] = `"Entity 'SomeEntityName' indexes definition needs to be an array of indexes"`;
+
+exports[`Index should accept attribute names only 1`] = `"Index definition of type 'unique' needs to have a list of attribute names"`;
+
+exports[`Index should accept attribute names only 2`] = `"Index definition of type 'unique' needs to have a list of attribute names"`;
+
+exports[`Index should accept unique attribute names only 1`] = `"Index definition of type 'unique' needs to have a list of unique attribute names"`;
+
+exports[`Index should have a list of attributes 1`] = `"Index definition of type 'unique' needs to have a list of attributes"`;
+
+exports[`Index should have a list of attributes 2`] = `"Index definition of type 'unique' needs to have a list of attributes"`;
+
+exports[`Index should have a type 1`] = `"Missing index type"`;
+
+exports[`Index should have a valid type 1`] = `"Unknown index type 'something' used, try one of these: 'unique'"`;

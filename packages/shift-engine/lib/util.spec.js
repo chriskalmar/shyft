@@ -57,7 +57,7 @@ describe('util', () => {
       }
 
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -72,7 +72,7 @@ describe('util', () => {
       }
 
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -225,9 +225,9 @@ describe('util', () => {
         mergeMaps('string', {})
       }
 
-      expect(fn1).toThrow();
-      expect(fn2).toThrow();
-      expect(fn3).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
+      expect(fn2).toThrowErrorMatchingSnapshot();
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -275,9 +275,9 @@ describe('util', () => {
         mapOverProperties('string')
       }
 
-      expect(fn1).toThrow();
-      expect(fn2).toThrow();
-      expect(fn3).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
+      expect(fn2).toThrowErrorMatchingSnapshot();
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -296,9 +296,9 @@ describe('util', () => {
         mapOverProperties({}, 'string')
       }
 
-      expect(fn1).toThrow();
-      expect(fn2).toThrow();
-      expect(fn3).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
+      expect(fn2).toThrowErrorMatchingSnapshot();
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -458,7 +458,7 @@ describe('util', () => {
         processCursor({}, { a: 'b' })
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -477,9 +477,9 @@ describe('util', () => {
         processCursor(SomeEntity, { 'SomeEntity': [ {} ] }, [])
       }
 
-      expect(fn1).toThrow();
-      expect(fn2).toThrow();
-      expect(fn3).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
+      expect(fn2).toThrowErrorMatchingSnapshot();
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -495,7 +495,7 @@ describe('util', () => {
         }, [])
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -537,9 +537,9 @@ describe('util', () => {
         ])
       }
 
-      expect(fn1).toThrow();
-      expect(fn2).toThrow();
-      expect(fn3).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
+      expect(fn2).toThrowErrorMatchingSnapshot();
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -577,8 +577,8 @@ describe('util', () => {
         ])
       }
 
-      expect(fn1).toThrow();
-      expect(fn2).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
+      expect(fn2).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -1334,11 +1334,11 @@ describe('util', () => {
           splitAttributeAndFilterOperator('name___')
         }
 
-        expect(fn1).toThrow();
-        expect(fn2).toThrow();
-        expect(fn3).toThrow();
-        expect(fn4).toThrow();
-        expect(fn5).toThrow();
+        expect(fn1).toThrowErrorMatchingSnapshot();
+        expect(fn2).toThrowErrorMatchingSnapshot();
+        expect(fn3).toThrowErrorMatchingSnapshot();
+        expect(fn4).toThrowErrorMatchingSnapshot();
+        expect(fn5).toThrowErrorMatchingSnapshot();
 
       })
 
@@ -1491,11 +1491,11 @@ describe('util', () => {
           processFilterLevel({}, null, ['somewhere', 'deeply', 'nested'], SomeStorageType)
         }
 
-        expect(fn1).toThrow();
-        expect(fn2).toThrow();
-        expect(fn3).toThrow();
-        expect(fn4).toThrow();
-        expect(fn5).toThrow();
+        expect(fn1).toThrowErrorMatchingSnapshot();
+        expect(fn2).toThrowErrorMatchingSnapshot();
+        expect(fn3).toThrowErrorMatchingSnapshot();
+        expect(fn4).toThrowErrorMatchingSnapshot();
+        expect(fn5).toThrowErrorMatchingSnapshot();
 
       })
 
@@ -1527,9 +1527,9 @@ describe('util', () => {
           processFilterLevel(badFilter2, filteredEntity.getAttributes(), ['just', 'here'], SomeStorageType)
         }
 
-        expect(fn1).toThrow();
-        expect(fn2).toThrow();
-        expect(fn3).toThrow();
+        expect(fn1).toThrowErrorMatchingSnapshot();
+        expect(fn2).toThrowErrorMatchingSnapshot();
+        expect(fn3).toThrowErrorMatchingSnapshot();
       })
 
 
@@ -1554,8 +1554,8 @@ describe('util', () => {
           processFilterLevel(badFilter2, filteredEntity.getAttributes(), null, SomeStorageType)
         }
 
-        expect(fn1).toThrow();
-        expect(fn2).toThrow();
+        expect(fn1).toThrowErrorMatchingSnapshot();
+        expect(fn2).toThrowErrorMatchingSnapshot();
       })
 
 
@@ -1585,8 +1585,8 @@ describe('util', () => {
           processFilterLevel(badFilter2, filteredEntity.getAttributes(), null, SomeStorageType)
         }
 
-        expect(fn1).toThrow();
-        expect(fn2).toThrow();
+        expect(fn1).toThrowErrorMatchingSnapshot();
+        expect(fn2).toThrowErrorMatchingSnapshot();
 
       })
 

@@ -40,7 +40,7 @@ describe('Mutation', () => {
       new Mutation() // eslint-disable-line no-new
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -53,7 +53,7 @@ describe('Mutation', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -67,7 +67,7 @@ describe('Mutation', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -81,7 +81,7 @@ describe('Mutation', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -124,7 +124,7 @@ describe('Mutation', () => {
       processEntityMutations(entity, [ mutation ])
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -158,7 +158,7 @@ describe('Mutation', () => {
       processEntityMutations(entity, [ mutation ])
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -193,7 +193,7 @@ describe('Mutation', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -213,7 +213,7 @@ describe('Mutation', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -232,7 +232,7 @@ describe('Mutation', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -251,7 +251,7 @@ describe('Mutation', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -270,7 +270,7 @@ describe('Mutation', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -289,7 +289,7 @@ describe('Mutation', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -308,7 +308,7 @@ describe('Mutation', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -348,7 +348,7 @@ describe('Mutation', () => {
         )
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -389,7 +389,7 @@ describe('Mutation', () => {
         processEntityMutations(entity, mutations)
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -404,7 +404,7 @@ describe('Mutation', () => {
         processEntityMutations(entity, mutations)
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -441,7 +441,7 @@ describe('Mutation', () => {
         otherEntity.getMutationByName('build')
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -471,7 +471,7 @@ describe('Mutation', () => {
         processEntityMutations(entity, mutations)
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -493,7 +493,7 @@ describe('Mutation', () => {
         processEntityMutations(entity, mutations)
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -528,7 +528,7 @@ describe('Mutation', () => {
         processEntityMutations(entity, mutations1)
       }
 
-      expect(fn1).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
 
       const mutations2 = [
@@ -542,7 +542,7 @@ describe('Mutation', () => {
         processEntityMutations(entity, mutations2)
       }
 
-      expect(fn2).toThrow();
+      expect(fn2).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -579,7 +579,7 @@ describe('Mutation', () => {
         processEntityMutations(someEntity, mutations1)
       }
 
-      expect(fn1).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
 
       const mutations2 = [
@@ -594,7 +594,7 @@ describe('Mutation', () => {
         processEntityMutations(someEntity, mutations2)
       }
 
-      expect(fn2).toThrow();
+      expect(fn2).toThrowErrorMatchingSnapshot();
 
 
       function fn3() {
@@ -626,7 +626,7 @@ describe('Mutation', () => {
         processEntityMutations(anotherEntity, mutations3)
       }
 
-      expect(fn3).toThrow();
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
 
       const mutations4 = [
@@ -640,7 +640,7 @@ describe('Mutation', () => {
         processEntityMutations(someEntity, mutations4)
       }
 
-      expect(fn4).toThrow();
+      expect(fn4).toThrowErrorMatchingSnapshot();
 
     })
 

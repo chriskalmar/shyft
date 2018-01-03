@@ -26,7 +26,7 @@ describe('Entity', () => {
       new Entity() // eslint-disable-line no-new
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -39,7 +39,7 @@ describe('Entity', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -53,7 +53,7 @@ describe('Entity', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -82,7 +82,7 @@ describe('Entity', () => {
       })
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -101,7 +101,7 @@ describe('Entity', () => {
       entity.getAttributes()
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -186,7 +186,7 @@ describe('Entity', () => {
 
     }
 
-    expect(fn).toThrow();
+    expect(fn).toThrowErrorMatchingSnapshot();
 
   })
 
@@ -226,7 +226,7 @@ describe('Entity', () => {
       }
 
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -253,7 +253,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -270,7 +270,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -289,7 +289,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -310,7 +310,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -369,7 +369,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -392,7 +392,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -415,7 +415,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -448,7 +448,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -482,7 +482,7 @@ describe('Entity', () => {
         City.getAttributes()
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -517,7 +517,7 @@ describe('Entity', () => {
         Country.referenceAttribute('notHere')
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
     })
 
   })
@@ -588,7 +588,7 @@ describe('Entity', () => {
         entity.getAttributes()
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -831,7 +831,7 @@ describe('Entity', () => {
         entity.getStates()
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -849,7 +849,7 @@ describe('Entity', () => {
         entity.getStates()
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -867,7 +867,7 @@ describe('Entity', () => {
         entity.getStates()
       }
 
-      expect(fn1).toThrow();
+      expect(fn1).toThrowErrorMatchingSnapshot();
 
 
       function fn2() {
@@ -881,7 +881,7 @@ describe('Entity', () => {
         entity.getStates()
       }
 
-      expect(fn2).toThrow();
+      expect(fn2).toThrowErrorMatchingSnapshot();
 
 
       function fn3() {
@@ -895,7 +895,7 @@ describe('Entity', () => {
         entity.getStates()
       }
 
-      expect(fn3).toThrow();
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
 
       function fn4() {
@@ -909,7 +909,7 @@ describe('Entity', () => {
         entity.getStates()
       }
 
-      expect(fn4).toThrow();
+      expect(fn4).toThrowErrorMatchingSnapshot();
 
     })
 
@@ -928,7 +928,7 @@ describe('Entity', () => {
         entity.getStates()
       }
 
-      expect(fn).toThrow();
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
