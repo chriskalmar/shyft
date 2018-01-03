@@ -28,6 +28,7 @@ import {
 import { isDataType } from '../datatype/DataType';
 import { isStorageType } from '../storage/StorageType';
 import { StorageTypeNull } from '../storage/StorageTypeNull';
+import { isComplexDataType } from '../datatype/ComplexDataType';
 
 import {
   systemAttributePrimary,
@@ -297,7 +298,7 @@ class Entity {
     }
 
     passOrThrow(
-      isDataType(attribute.type) || (attribute.type instanceof Entity),
+      isDataType(attribute.type) || (attribute.type instanceof Entity) || isComplexDataType(attribute.type),
       () => `'${this.name}.${attributeName}' has invalid data type '${String(attribute.type)}'`
     )
 

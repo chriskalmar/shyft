@@ -12,6 +12,7 @@ import ProtocolGraphQL from './ProtocolGraphQL';
 import {
   isEntity,
   constants,
+  isComplexDataType,
 } from 'shift-engine';
 
 
@@ -50,6 +51,10 @@ export const generateFilterInput = (entity) => {
 
         let attributeType = attribute.type
 
+        if (isComplexDataType(attributeType)) {
+          return;
+        }
+
         // it's a reference
         if (isEntity(attributeType)) {
           const targetEntity = attributeType
@@ -57,7 +62,7 @@ export const generateFilterInput = (entity) => {
           attributeType = primaryAttribute.type
         }
 
-        const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType)
+        const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, entity.name, true)
 
         const storageDataType = storageType.convertToStorageDataType(attributeType)
 

@@ -95,8 +95,8 @@ class StorageType {
     )
 
     passOrThrow(
-      isStorageDataType(storageDataType),
-      () => `Provided storageDataType for '${String(schemaDataTypeDetector)}' is not a valid storage data type in '${this.name}', ` +
+      isStorageDataType(storageDataType) || isFunction(storageDataType),
+      () => `Provided storageDataType for '${String(schemaDataTypeDetector)}' is not a valid storage data type or function in '${this.name}', ` +
         `got this instead: ${String(storageDataType)}`
     )
 
@@ -112,7 +112,14 @@ class StorageType {
 
     const foundDynamicDataType = this._dynamicDataTypeMap.find(({schemaDataTypeDetector}) => schemaDataTypeDetector(schemaDataType))
     if (foundDynamicDataType) {
-      return foundDynamicDataType.storageDataType
+      const storageDataType = foundDynamicDataType.storageDataType
+
+      if (isFunction(storageDataType)) {
+        const attributeType = schemaDataType
+        return storageDataType(attributeType)
+      }
+
+      return storageDataType
     }
 
     passOrThrow(

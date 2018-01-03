@@ -233,7 +233,7 @@ const generateInstanceQueries = (idFetcher) => {
       const primaryAttribute = attributes[ primaryAttributeName ]
 
       const fieldName = primaryAttribute.gqlFieldName
-      const graphqlDataType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type)
+      const graphqlDataType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type, entity.name, false)
       const queryNamePrimaryAttribute = _.camelCase(`${typeName}_by_${fieldName}`)
 
       instanceQueries[ queryNamePrimaryAttribute ] = {
@@ -421,7 +421,7 @@ export const generateGraphQLSchema = (schema) => {
 
           }
 
-          const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType)
+          const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, entity.name, false)
 
           // make it non-nullable if it's required
           if (attribute.required) {
