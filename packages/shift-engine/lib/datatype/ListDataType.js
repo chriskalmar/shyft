@@ -19,6 +19,8 @@ class ListDataType extends ComplexDataType {
       name,
       description,
       itemType,
+      minItems,
+      maxItems,
     } = setup
 
     passOrThrow(name, () => 'Missing list data type name')
@@ -30,9 +32,33 @@ class ListDataType extends ComplexDataType {
       () => `List data type '${name}' has invalid item type '${String(itemType)}'`
     )
 
+    const _minItems = minItems || 0
+    const _maxItems = maxItems || 0
+
+    if (_minItems) {
+      passOrThrow(
+        Number.isInteger(_minItems) && _minItems >= 0,
+        () => `List data type '${name}' has invalid minItems setting '${_minItems}'`
+      )
+    }
+
+    if (_maxItems) {
+      passOrThrow(
+        Number.isInteger(_maxItems) && _maxItems >= 0,
+        () => `List data type '${name}' has invalid maxItems setting '${_maxItems}'`
+      )
+    }
+
+    passOrThrow(
+      (_minItems <= _maxItems) || _maxItems === 0,
+      () => `List data type '${name}' has a bigger minItems than the maxItems setting`
+    )
+
     this.name = name
     this.description = description
     this.itemType = itemType
+    this.minItems = _minItems
+    this.maxItems = _maxItems
   }
 
 

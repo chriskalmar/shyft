@@ -115,6 +115,95 @@ describe('ListDataType', () => {
 
 
 
+  it('should accept only valid item lenght ranges', () => {
+
+    const definition = {
+      name: 'Example',
+      description: 'Just some description',
+      itemType: DataTypeString,
+    }
+
+    new ListDataType({ // eslint-disable-line no-new
+      ...definition,
+      minItems: 0,
+    })
+
+    new ListDataType({ // eslint-disable-line no-new
+      ...definition,
+      minItems: 1,
+    })
+
+    new ListDataType({ // eslint-disable-line no-new
+      ...definition,
+      minItems: 0,
+      maxItems: 0,
+    })
+
+    new ListDataType({ // eslint-disable-line no-new
+      ...definition,
+      minItems: 0,
+      maxItems: 1,
+    })
+
+    new ListDataType({ // eslint-disable-line no-new
+      ...definition,
+      minItems: 3,
+      maxItems: 100,
+    })
+
+    new ListDataType({ // eslint-disable-line no-new
+      ...definition,
+      minItems: 10,
+      maxItems: 10,
+    })
+
+    new ListDataType({ // eslint-disable-line no-new
+      ...definition,
+      minItems: 10,
+      maxItems: 0,
+    })
+
+    new ListDataType({ // eslint-disable-line no-new
+      ...definition,
+      maxItems: 0,
+    })
+
+    new ListDataType({ // eslint-disable-line no-new
+      ...definition,
+      maxItems: 1,
+    })
+
+
+    function fn1() {
+      new ListDataType({ // eslint-disable-line no-new
+        ...definition,
+        minItems: -1,
+      })
+    }
+
+    function fn2() {
+      new ListDataType({ // eslint-disable-line no-new
+        ...definition,
+        maxItems: -1,
+      })
+    }
+
+    function fn3() {
+      new ListDataType({ // eslint-disable-line no-new
+        ...definition,
+        minItems: 2,
+        maxItems: 1,
+      })
+    }
+
+    expect(fn1).toThrowErrorMatchingSnapshot();
+    expect(fn2).toThrowErrorMatchingSnapshot();
+    expect(fn3).toThrowErrorMatchingSnapshot();
+
+  })
+
+
+
   it('should accept valid dynamic item types', () => {
 
     const list1 = new ListDataType({ // eslint-disable-line no-new
@@ -166,16 +255,28 @@ describe('ListDataType', () => {
 
   it('should cache the dynamic item type after initial processing', () => {
 
-    const list = new ListDataType({
+    const list1 = new ListDataType({
       name: 'SomeName',
       description: 'Just some description',
       itemType: () => DataTypeString,
     })
 
-    const itemType = list.getItemType()
-    const itemTypeAgain = list.getItemType()
+    const itemType1 = list1.getItemType()
+    const itemType1Again = list1.getItemType()
 
-    expect(itemType).toEqual(itemTypeAgain)
+    expect(itemType1).toEqual(itemType1Again)
+
+
+    const list2 = new ListDataType({
+      name: 'SomeName',
+      description: 'Just some description',
+      itemType: DataTypeString,
+    })
+
+    const itemType2 = list2.getItemType()
+    const itemType2Again = list2.getItemType()
+
+    expect(itemType2).toEqual(itemType2Again)
 
   })
 
