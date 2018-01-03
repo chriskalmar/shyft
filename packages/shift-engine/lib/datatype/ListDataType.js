@@ -37,12 +37,21 @@ class ListDataType extends ComplexDataType {
 
 
   _processItemType() {
-    return isFunction(this.itemType)
-      ? this.itemType({
+    if (isFunction(this.itemType)) {
+      const itemType = this.itemType({
         name: this.name,
         description: this.description
       })
-      : this.itemType
+
+      passOrThrow(
+        isDataType(itemType) || isEntity(itemType) || isComplexDataType(itemType),
+        () => `List data type '${this.name}' has invalid dynamic item type '${String(itemType)}'`
+      )
+
+      return itemType
+    }
+
+    return this.itemType
   }
 
 
