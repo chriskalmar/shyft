@@ -53,8 +53,9 @@ Object {
     "type": "String",
   },
   "data": Object {
+    "description": undefined,
     "name": "data",
-    "type": "NewSimpleActionDataInput!",
+    "type": "NewSimpleActionDataInput",
   },
 }
 `;
@@ -84,6 +85,7 @@ Object {
   },
   "result": Object {
     "args": Array [],
+    "description": undefined,
     "isDeprecated": false,
     "name": "result",
     "type": "NewSimpleActionDataOutput",
@@ -105,10 +107,24 @@ Object {
 
 exports[`io should handle nested input and output definitions 1`] = `
 Object {
+  "clientMutationId": Object {
+    "name": "clientMutationId",
+    "type": "String",
+  },
+  "data": Object {
+    "description": undefined,
+    "name": "data",
+    "type": "BuildTeamDataInput",
+  },
+}
+`;
+
+exports[`io should handle nested input and output definitions 2`] = `
+Object {
   "players": Object {
     "description": "List of player",
     "name": "players",
-    "type": "BuildTeamPlayersDataInput",
+    "type": "BuildTeamPlayersL2DataInput",
   },
   "teamName": Object {
     "description": "Name of the team",
@@ -118,126 +134,17 @@ Object {
 }
 `;
 
-exports[`io should handle nested input and output definitions 2`] = `
-Object {
-  "defence": Object {
-    "description": "Defence players",
-    "name": "defence",
-    "type": "[BuildTeamDefenceL2DataInput]",
-  },
-  "offense": Object {
-    "description": "Offense players",
-    "name": "offense",
-    "type": "[BuildTeamOffenseL2DataInput]",
-  },
-}
-`;
-
 exports[`io should handle nested input and output definitions 3`] = `
 Object {
-  "firstName": Object {
-    "description": "First name",
-    "name": "firstName",
-    "type": "String",
-  },
-  "lastName": Object {
-    "description": "Last name",
-    "name": "lastName",
-    "type": "String!",
-  },
-  "number": Object {
-    "description": "Number on the shirt",
-    "name": "number",
-    "type": "Int!",
-  },
-}
-`;
-
-exports[`io should handle nested input and output definitions 4`] = `
-Object {
-  "firstName": Object {
-    "description": "First name",
-    "name": "firstName",
-    "type": "String",
-  },
-  "lastName": Object {
-    "description": "Last name",
-    "name": "lastName",
-    "type": "String!",
-  },
-  "number": Object {
-    "description": "Number on the shirt",
-    "name": "number",
-    "type": "Int!",
-  },
-}
-`;
-
-exports[`io should handle nested input and output definitions 5`] = `
-Object {
-  "result": Object {
-    "args": Array [],
-    "description": "List of player",
-    "isDeprecated": false,
-    "name": "result",
-    "type": "BuildTeamResultDataOutput",
-  },
-}
-`;
-
-exports[`io should handle nested input and output definitions 6`] = `
-Object {
   "defence": Object {
-    "args": Array [],
     "description": "Defence players",
-    "isDeprecated": false,
     "name": "defence",
-    "type": "[BuildTeamDefenceL2DataOutput]",
+    "type": "[BuildTeamDefenceL3DataInput]",
   },
   "offense": Object {
-    "args": Array [],
     "description": "Offense players",
-    "isDeprecated": false,
     "name": "offense",
-    "type": "[BuildTeamOffenseL2DataOutput]",
-  },
-}
-`;
-
-exports[`io should handle nested input and output definitions 7`] = `
-Object {
-  "lockerId": Object {
-    "args": Array [],
-    "description": "Assigned locker",
-    "isDeprecated": false,
-    "name": "lockerId",
-    "type": "Int",
-  },
-  "playerId": Object {
-    "args": Array [],
-    "description": "ID of the player",
-    "isDeprecated": false,
-    "name": "playerId",
-    "type": "Int",
-  },
-}
-`;
-
-exports[`io should handle nested input and output definitions 8`] = `
-Object {
-  "lockerId": Object {
-    "args": Array [],
-    "description": "Assigned locker",
-    "isDeprecated": false,
-    "name": "lockerId",
-    "type": "Int",
-  },
-  "playerId": Object {
-    "args": Array [],
-    "description": "ID of the player",
-    "isDeprecated": false,
-    "name": "playerId",
-    "type": "Int",
+    "type": "[BuildTeamOffenseL3DataInput]",
   },
 }
 `;
