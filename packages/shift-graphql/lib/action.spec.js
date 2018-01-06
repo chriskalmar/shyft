@@ -18,21 +18,30 @@ describe('action', () => {
     name: 'newSimpleAction',
     description: 'do something',
     input: {
-      firstName: {
-        type: DataTypeString,
-        description: 'First name',
-      },
-      lastName: {
-        type: DataTypeString,
-        description: 'Last name',
-        required: true,
-      },
+      required: true,
+      type: buildObjectDataType({
+        attributes: {
+          firstName: {
+            type: DataTypeString,
+            description: 'First name',
+          },
+          lastName: {
+            type: DataTypeString,
+            description: 'Last name',
+            required: true,
+          },
+        },
+      }),
     },
     output: {
-      luckyNumber: {
-        type: DataTypeInteger,
-        description: 'The perfect lucky number for the given name'
-      }
+      type: buildObjectDataType({
+        attributes: {
+          luckyNumber: {
+            type: DataTypeInteger,
+            description: 'The perfect lucky number for the given name'
+          }
+        }
+      })
     },
     resolve() { },
   })
@@ -40,12 +49,15 @@ describe('action', () => {
   const noInputAction = new Action({
     name: 'noInputAction',
     description: 'do something',
-    input: {},
     output: {
-      luckyNumber: {
-        type: DataTypeInteger,
-        description: 'The perfect lucky number for the given name'
-      }
+      type: buildObjectDataType({
+        attributes: {
+          luckyNumber: {
+            type: DataTypeInteger,
+            description: 'The perfect lucky number for the given name'
+          }
+        }
+      })
     },
     resolve() { },
   })
@@ -55,17 +67,21 @@ describe('action', () => {
     name: 'noOutputAction',
     description: 'do something',
     input: {
-      firstName: {
-        type: DataTypeString,
-        description: 'First name',
-      },
-      lastName: {
-        type: DataTypeString,
-        description: 'Last name',
-        required: true,
-      },
+      required: true,
+      type: buildObjectDataType({
+        attributes: {
+          firstName: {
+            type: DataTypeString,
+            description: 'First name',
+          },
+          lastName: {
+            type: DataTypeString,
+            description: 'Last name',
+            required: true,
+          },
+        },
+      }),
     },
-    output: {},
     resolve() { },
   })
 
@@ -106,50 +122,59 @@ describe('action', () => {
     name: 'buildTeam',
     description: 'build a team',
     input: {
-      teamName: {
-        type: DataTypeString,
-        description: 'Name of the team',
-      },
-      players: {
-        type: buildObjectDataType({
-          attributes: {
-            offense: {
-              type: buildListDataType({
-                itemType: player,
-              }),
-              description: 'Offense players',
-            },
-            defence: {
-              type: buildListDataType({
-                itemType: player,
-              }),
-              description: 'Defence players',
-            },
+      required: true,
+      type: buildObjectDataType({
+        attributes: {
+          teamName: {
+            type: DataTypeString,
+            description: 'Name of the team',
           },
-        }),
-        description: 'List of player',
-      }
+          players: {
+            type: buildObjectDataType({
+              attributes: {
+                offense: {
+                  type: buildListDataType({
+                    itemType: player,
+                  }),
+                  description: 'Offense players',
+                },
+                defence: {
+                  type: buildListDataType({
+                    itemType: player,
+                  }),
+                  description: 'Defence players',
+                },
+              },
+            }),
+            description: 'List of player',
+          }
+        }
+      })
     },
     output: {
-      result: {
-        type: buildObjectDataType({
-          attributes: {
-            offense: {
-              type: buildListDataType({
-                itemType: returnedPlayer,
-              }),
-              description: 'Offense players',
-            },
-            defence: {
-              type: buildListDataType({
-                itemType: returnedPlayer,
-              }),
-              description: 'Defence players',
-            },
-          },
-        }),
-        description: 'List of player',
-      }
+      type: buildObjectDataType({
+        attributes: {
+          result: {
+            type: buildObjectDataType({
+              attributes: {
+                offense: {
+                  type: buildListDataType({
+                    itemType: returnedPlayer,
+                  }),
+                  description: 'Offense players',
+                },
+                defence: {
+                  type: buildListDataType({
+                    itemType: returnedPlayer,
+                  }),
+                  description: 'Defence players',
+                },
+              },
+            }),
+            description: 'List of player',
+          }
+        }
+      })
     },
     resolve() { },
   })
@@ -181,6 +206,7 @@ describe('action', () => {
     actionNames.map(actionName => {
       const action = generatedActions[ actionName ]
       const outputType = action.type
+
       const outputFields = outputType.getFields()
       expect(outputFields).toMatchSnapshot();
 
@@ -190,7 +216,7 @@ describe('action', () => {
         expect(outputResultFields).toMatchSnapshot();
       }
 
-      const inputType = action.args.input.type.ofType
+      const inputType = action.args.input.type.ofType || action.args.input.type
       const inputFields = inputType.getFields()
       expect(inputFields).toMatchSnapshot();
 

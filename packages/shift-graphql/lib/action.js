@@ -25,15 +25,15 @@ export const generateActions = (graphRegistry) => {
     let actionDataOutputType
 
     if (action.hasInputParams()) {
-      actionDataInputType = generateDataInput(actionName, action.getInput())
+      actionDataInputType = generateDataInput(actionName, action.getInput(), true)
     }
 
     if (action.hasOutputParams()) {
-      actionDataOutputType = generateDataOutput(actionName, action.getOutput(), graphRegistry)
+      actionDataOutputType = generateDataOutput(actionName, action.getOutput(), graphRegistry, true)
     }
 
-    const actionInputType = generateInput(actionName, actionDataInputType)
-    const actionOutputType = generateOutput(actionName, actionDataOutputType)
+    const actionInputType = generateInput(actionName, actionDataInputType, true)
+    const actionOutputType = generateOutput(actionName, actionDataOutputType, true)
 
     actions[ queryName ] = {
       type: actionOutputType,

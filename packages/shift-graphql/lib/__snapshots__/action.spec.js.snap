@@ -59,6 +59,7 @@ Object {
   },
   "result": Object {
     "args": Array [],
+    "description": undefined,
     "isDeprecated": false,
     "name": "result",
     "type": "NewSimpleActionDataOutput",
@@ -85,6 +86,7 @@ Object {
     "type": "String",
   },
   "data": Object {
+    "description": undefined,
     "name": "data",
     "type": "NewSimpleActionDataInput!",
   },
@@ -116,6 +118,7 @@ Object {
   },
   "result": Object {
     "args": Array [],
+    "description": undefined,
     "isDeprecated": false,
     "name": "result",
     "type": "NoInputActionDataOutput",
@@ -162,6 +165,7 @@ Object {
     "type": "String",
   },
   "data": Object {
+    "description": undefined,
     "name": "data",
     "type": "NoOutputActionDataInput!",
   },
@@ -193,6 +197,7 @@ Object {
   },
   "result": Object {
     "args": Array [],
+    "description": undefined,
     "isDeprecated": false,
     "name": "result",
     "type": "BuildTeamDataOutput",
@@ -207,7 +212,7 @@ Object {
     "description": "List of player",
     "isDeprecated": false,
     "name": "result",
-    "type": "BuildTeamResultDataOutput",
+    "type": "BuildTeamResultL2DataOutput",
   },
 }
 `;
@@ -219,6 +224,7 @@ Object {
     "type": "String",
   },
   "data": Object {
+    "description": undefined,
     "name": "data",
     "type": "BuildTeamDataInput!",
   },
@@ -230,7 +236,7 @@ Object {
   "players": Object {
     "description": "List of player",
     "name": "players",
-    "type": "BuildTeamPlayersDataInput",
+    "type": "BuildTeamPlayersL2DataInput",
   },
   "teamName": Object {
     "description": "Name of the team",
