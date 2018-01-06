@@ -57,9 +57,6 @@ class ObjectDataType extends ComplexDataType {
       })
     }
 
-    if (isComplexDataType(rawAttribute.type)) {
-      return rawAttribute
-    }
 
     const attribute = {
       ...rawAttribute,
@@ -70,7 +67,7 @@ class ObjectDataType extends ComplexDataType {
     passOrThrow(attribute.description, () => `Missing description for '${this.name}.${attributeName}'`)
 
     passOrThrow(
-      isDataType(attribute.type) || isEntity(attribute.type),
+      isDataType(attribute.type) || isComplexDataType(attribute.type) || isEntity(attribute.type),
       () => `'${this.name}.${attributeName}' has invalid data type '${String(attribute.type)}'`
     )
 

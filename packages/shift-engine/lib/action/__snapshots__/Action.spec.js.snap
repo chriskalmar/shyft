@@ -103,7 +103,6 @@ Object {
       "mock": [Function],
       "name": "DataTypeString",
     },
-    "x": 123,
   },
   "lastName": Object {
     "description": "Last name",
