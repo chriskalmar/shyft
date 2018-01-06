@@ -1,14 +1,10 @@
 
 import {
   passOrThrow,
-  resolveFunctionMap,
   isMap,
   isFunction,
 } from '../util';
 
-import { isDataType } from '../datatype/DataType';
-import { isEntity } from '../entity/Entity';
-import { isComplexDataType } from '../datatype/ComplexDataType';
 
 
 class Action {
@@ -25,17 +21,15 @@ class Action {
 
     passOrThrow(name, () => 'Missing action name')
     passOrThrow(description, () => `Missing description for action '${name}'`)
-    passOrThrow(input, () => `Missing input definition for action '${name}'`)
-    passOrThrow(output, () => `Missing output definition for action '${name}'`)
 
     passOrThrow(
-      isMap(input) || isFunction(input),
-      () => `Action '${name}' needs an input definition as a map or a function returning such a map`
+      !input || isMap(input) || isFunction(input),
+      () => `Action '${name}' has an invalid input definition`
     )
 
     passOrThrow(
-      isMap(output) || isFunction(output),
-      () => `Action '${name}' needs an output definition as a map or a function returning such a map`
+      !output || isMap(output) || isFunction(output),
+      () => `Action '${name}' has an invalid output definition`
     )
 
     passOrThrow(
@@ -45,91 +39,92 @@ class Action {
 
     this.name = name
     this.description = description
-    this._inputMap = input
-    this._outputMap = output
+    this.input = input
+    this.output = output
     this.resolve = resolve
   }
 
 
 
   getInput () {
+    if (!this.hasInputParams()) {
+      return null
+    }
+
     if (this._input) {
       return this._input
     }
 
-    const ret = this._input = this._processParamMap(this._inputMap, true)
-    return ret
+    if (isFunction(this.input)) {
+      this.input = this.input()
+
+      passOrThrow(
+        isMap(this.input),
+        () => `Input definition function for action '${this.name}' does not return a map`
+      )
+    }
+
+    passOrThrow(
+      this.input.type,
+      () => `Missing input type for action '${this.name}'`
+    )
+
+    if (isFunction(this.input.type)) {
+      this.input.type = this.input.type({
+        name: 'input',
+        description: this.input.description || this.description,
+      })
+    }
+
+    this._input = this.input
+
+    return this._input
   }
 
 
   hasInputParams () {
-    return isMap(this.getInput(), true)
+    return !!this.input
   }
 
 
   getOutput () {
+    if (!this.hasOutputParams()) {
+      return null
+    }
+
     if (this._output) {
       return this._output
     }
 
-    const ret = this._output = this._processParamMap(this._outputMap, false)
-    return ret
+    if (isFunction(this.output)) {
+      this.output = this.output()
+
+      passOrThrow(
+        isMap(this.output),
+        () => `Output definition function for action '${this.name}' does not return a map`
+      )
+    }
+
+    passOrThrow(
+      this.output.type,
+      () => `Missing output type for action '${this.name}'`
+    )
+
+    if (isFunction(this.output.type)) {
+      this.output.type = this.output.type({
+        name: 'output',
+        description: this.output.description || this.description,
+      })
+    }
+
+    this._output = this.output
+
+    return this._output
   }
 
 
   hasOutputParams () {
-    return isMap(this.getOutput(), true)
-  }
-
-
-
-  _processParam(rawParam, paramName) {
-
-    if (isFunction(rawParam.type)) {
-      rawParam.type = rawParam.type({
-        name: paramName,
-        description: rawParam.description,
-      })
-    }
-
-    const param = {
-      ...rawParam,
-      required: !!rawParam.required,
-      name: paramName
-    }
-
-    passOrThrow(
-      isDataType(param.type) || isComplexDataType(param.type) || isEntity(param.type),
-      () => `'${this.name}.${paramName}' has invalid data type '${String(param.type)}'`
-    )
-
-    passOrThrow(
-      !param.defaultValue || isFunction(param.defaultValue),
-      () => `'${this.name}.${paramName}' has an invalid defaultValue function'`
-    )
-
-    return param
-  }
-
-
-  _processParamMap (_paramMap, isInput=true) {
-
-    // if it's a function, resolve it to get that map
-    const paramMap = resolveFunctionMap(_paramMap);
-
-    passOrThrow(
-      isMap(paramMap),
-      () => `${isInput ? 'Input' : 'Output'} definition function for action '${this.name}' does not return a map`
-    )
-
-    const paramNames = Object.keys(paramMap);
-    const resultParams = {}
-
-    paramNames.forEach((paramName) => {
-      resultParams[ paramName ] = this._processParam(paramMap[ paramName ], paramName)
-    })
-
-    return resultParams
+    return !!this.output
   }
 
 
