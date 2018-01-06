@@ -76,9 +76,24 @@ class ObjectDataType extends ComplexDataType {
       () => `'${this.name}.${attributeName}' has an invalid resolve function'`
     )
 
+    if (attribute.defaultValue) {
+      // enforce mandatory param if defaultValue provided
+      attribute.required = true
+
+      passOrThrow(
+        isFunction(attribute.defaultValue),
+        () => `'${this.name}.${attributeName}' has an invalid defaultValue function'`
+      )
+
+      passOrThrow(
+        !isComplexDataType(attribute.type),
+        () => `Complex data type '${this.name}.${attributeName}' cannot have a defaultValue function'`
+      )
+    }
+
     passOrThrow(
-      !attribute.defaultValue || isFunction(attribute.defaultValue),
-      () => `'${this.name}.${attributeName}' has an invalid defaultValue function'`
+      !attribute.validate || isFunction(attribute.validate),
+      () => `'${this.name}.${attributeName}' has an invalid validate function'`
     )
 
     return attribute
