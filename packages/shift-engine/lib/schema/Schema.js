@@ -171,6 +171,8 @@ class Schema {
 
       const attributeNames = Object.keys(attributes);
 
+      entity.getPermissions();
+
       attributeNames.forEach((attributeName) => {
 
         const attribute = attributes[ attributeName ]
