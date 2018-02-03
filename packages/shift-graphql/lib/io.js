@@ -55,7 +55,7 @@ export const generateNestedDataInput = (baseName, nestedParam, nestedParamName, 
 
     fields: () => {
       const inputParams = nestedParam.getAttributes()
-      return generateDataInputFields(inputParams, baseName, level) // eslint-disable-line no-use-before-define
+      return generateDataInputFields(inputParams, `${baseName}-${nestedParamName}`, level) // eslint-disable-line no-use-before-define
     }
   })
 
@@ -179,7 +179,7 @@ export const generateNestedDataOutput = (baseName, nestedParam, nestedParamName,
 
     fields: () => {
       const outputParams = nestedParam.getAttributes()
-      return generateDataOutputFields(outputParams, baseName, graphRegistry, level) // eslint-disable-line no-use-before-define
+      return generateDataOutputFields(outputParams, `${baseName}-${nestedParamName}`, graphRegistry, level) // eslint-disable-line no-use-before-define
     }
   })
 
