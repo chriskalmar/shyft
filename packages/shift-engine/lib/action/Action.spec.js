@@ -235,11 +235,11 @@ describe('Action', () => {
     expect(input1).toEqual(null);
     expect(output1).toEqual(null);
 
-    const hasInputParams1 = action1.hasInputParams()
-    const hasOutputParams1 = action1.hasOutputParams()
+    const hasInput1 = action1.hasInput()
+    const hasOutput1 = action1.hasOutput()
 
-    expect(hasInputParams1).toBe(false);
-    expect(hasOutputParams1).toBe(false);
+    expect(hasInput1).toBe(false);
+    expect(hasOutput1).toBe(false);
 
 
     const action2 = new Action({
@@ -301,11 +301,11 @@ describe('Action', () => {
     const nestedAttributes2 = attributes2.about.type.getAttributes()
     expect(nestedAttributes2).toMatchSnapshot()
 
-    const hasInputParams2 = action2.hasInputParams()
-    const hasOutputParams2 = action2.hasOutputParams()
+    const hasInput2 = action2.hasInput()
+    const hasOutput2 = action2.hasOutput()
 
-    expect(hasInputParams2).toBe(true);
-    expect(hasOutputParams2).toBe(true);
+    expect(hasInput2).toBe(true);
+    expect(hasOutput2).toBe(true);
 
   })
 

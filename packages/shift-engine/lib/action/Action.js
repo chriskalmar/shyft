@@ -47,7 +47,7 @@ class Action {
 
 
   getInput () {
-    if (!this.hasInputParams()) {
+    if (!this.hasInput()) {
       return null
     }
 
@@ -82,13 +82,13 @@ class Action {
   }
 
 
-  hasInputParams () {
+  hasInput () {
     return !!this.input
   }
 
 
   getOutput () {
-    if (!this.hasOutputParams()) {
+    if (!this.hasOutput()) {
       return null
     }
 
@@ -123,7 +123,7 @@ class Action {
   }
 
 
-  hasOutputParams () {
+  hasOutput () {
     return !!this.output
   }
 

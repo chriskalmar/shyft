@@ -80,11 +80,11 @@ export const generateActions = (graphRegistry) => {
     let actionDataInputType
     let actionDataOutputType
 
-    if (action.hasInputParams()) {
+    if (action.hasInput()) {
       actionDataInputType = generateDataInput(actionName, action.getInput(), true)
     }
 
-    if (action.hasOutputParams()) {
+    if (action.hasOutput()) {
       actionDataOutputType = generateDataOutput(actionName, action.getOutput(), graphRegistry, true)
     }
 
@@ -103,7 +103,7 @@ export const generateActions = (graphRegistry) => {
       },
 
       resolve: async (source, args, context, info) => {
-        if (action.hasInputParams()) {
+        if (action.hasInput()) {
           args.input.data = fillDefaultValues(action.getInput(), args.input.data, context)
         }
 
