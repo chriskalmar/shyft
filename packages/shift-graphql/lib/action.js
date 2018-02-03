@@ -12,6 +12,62 @@ import {
   generateDataOutput,
 } from './io';
 
+import {
+  isObjectDataType,
+  isListDataType,
+} from 'shift-engine';
+
+
+
+const fillSingleDefaultValues = (param, payload, context) => {
+
+  let ret = payload
+
+  if (typeof payload === 'undefined') {
+    if (param.required && param.defaultValue) {
+      ret = param.defaultValue({}, context)
+    }
+  }
+
+  if (isObjectDataType(param.type)) {
+    const attributes = param.type.getAttributes()
+    ret = fillNestedDefaultValues(attributes, ret, context) // eslint-disable-line no-use-before-define
+  }
+
+  if (isListDataType(param.type) && payload) {
+    ret = payload.map(itemPayload => {
+      const paramType = param.type.getItemType()
+
+      if (isObjectDataType(paramType)) {
+        const attributes = paramType.getAttributes()
+        return fillNestedDefaultValues(attributes, itemPayload, context) // eslint-disable-line no-use-before-define
+      }
+
+      return fillSingleDefaultValues(paramType, itemPayload, context)
+    })
+  }
+
+  return ret
+}
+
+
+const fillNestedDefaultValues = (params, payload, context) => {
+
+  const ret = {
+    ...payload
+  }
+
+  _.forEach(params, (param, paramName) => {
+    ret[paramName] = fillSingleDefaultValues(param, ret[paramName], context)
+  })
+
+  return ret
+}
+
+
+const fillDefaultValues = (param, payload, context) => fillSingleDefaultValues(param, payload, context)
+
+
 
 export const generateActions = (graphRegistry) => {
 
@@ -38,13 +94,19 @@ export const generateActions = (graphRegistry) => {
     actions[ queryName ] = {
       type: actionOutputType,
       description: action.description,
+
       args: {
         input: {
           description: 'Input argument for this action',
           type: new GraphQLNonNull( actionInputType ),
         },
       },
+
       resolve: async (source, args, context, info) => {
+        if (action.hasInputParams()) {
+          args.input.data = fillDefaultValues(action.getInput(), args.input.data, context)
+        }
+
         const result = await action.resolve(source, args.input.data, context, info)
         return {
           result,
