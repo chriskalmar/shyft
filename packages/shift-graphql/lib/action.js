@@ -35,8 +35,9 @@ const fillSingleDefaultValues = (param, payload, context) => {
   }
 
   if (isListDataType(param.type) && payload) {
+    const paramType = param.type.getItemType()
+
     ret = payload.map(itemPayload => {
-      const paramType = param.type.getItemType()
 
       if (isObjectDataType(paramType)) {
         const attributes = paramType.getAttributes()
@@ -66,6 +67,44 @@ const fillNestedDefaultValues = (params, payload, context) => {
 
 
 const fillDefaultValues = (param, payload, context) => fillSingleDefaultValues(param, payload, context)
+
+
+
+const validateActionPayload = (param, payload, context) => {
+
+  if (typeof payload !== 'undefined') {
+    const paramType = isListDataType(param.type)
+      ? param.type.getItemType()
+      : param.type
+
+    const dataTypeValidator = isListDataType(param.type)
+      ? param.type.validate
+      : paramType.validate
+
+    if (dataTypeValidator) {
+      dataTypeValidator(payload, context)
+    }
+
+    if (isObjectDataType(paramType)) {
+      const attributes = paramType.getAttributes()
+      _.forEach(attributes, (attribute, attributeName) => {
+        validateActionPayload(attribute, payload[attributeName], context)
+      })
+    }
+
+    if (isListDataType(param.type)) {
+      payload.map(itemPayload => {
+        if (isObjectDataType(paramType)) {
+          const attributes = paramType.getAttributes()
+          _.forEach(attributes, (attribute, attributeName) => {
+            validateActionPayload(attribute, itemPayload[attributeName], context)
+          })
+        }
+      })
+    }
+
+  }
+}
 
 
 
@@ -104,7 +143,9 @@ export const generateActions = (graphRegistry) => {
 
       resolve: async (source, args, context, info) => {
         if (action.hasInput()) {
-          args.input.data = fillDefaultValues(action.getInput(), args.input.data, context)
+          const input = action.getInput()
+          args.input.data = fillDefaultValues(input, args.input.data, context)
+          validateActionPayload(input, args.input.data, context)
         }
 
         const result = await action.resolve(source, args.input.data, context, info)
