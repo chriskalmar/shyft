@@ -91,6 +91,20 @@ class ListDataType extends ComplexDataType {
   }
 
 
+  validate = (payload) => {
+
+    passOrThrow(
+      payload && payload.length >= this.minItems,
+      () => `List data type '${this.name}' requires a minimum of ${this.minItems} items`
+    )
+
+    passOrThrow(
+      payload && (this.maxItems === 0 || payload.length <= this.maxItems),
+      () => `List data type '${this.name}' requires a maximum of ${this.maxItems} items`
+    )
+  }
+
+
   toString() {
     return this.name
   }
