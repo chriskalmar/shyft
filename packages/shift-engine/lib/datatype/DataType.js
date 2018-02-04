@@ -13,6 +13,7 @@ class DataType {
       name,
       description,
       mock,
+      validate,
     } = setup
 
     passOrThrow(name, () => 'Missing data type name')
@@ -23,9 +24,24 @@ class DataType {
       () => `'Missing mock function for data type '${name}'`
     )
 
+    if (validate) {
+      passOrThrow(
+        isFunction(validate),
+        () => `'Invalid validate function for data type '${name}'`
+      )
+    }
+
     this.name = name
     this.description = description
     this.mock = mock
+    this.validate = validate
+  }
+
+
+  validate = (payload, context) => {
+    if (payload && this.validate) {
+      this.validate(payload, context)
+    }
   }
 
 
