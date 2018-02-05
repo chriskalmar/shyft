@@ -139,12 +139,12 @@ Object {
   "defence": Object {
     "description": "Defence players",
     "name": "defence",
-    "type": "[BuildTeamDefenceL3DataInput]",
+    "type": "[BuildTeamPlayersDefenceL3DataInput]",
   },
   "offense": Object {
     "description": "Offense players",
     "name": "offense",
-    "type": "[BuildTeamOffenseL3DataInput]",
+    "type": "[BuildTeamPlayersOffenseL3DataInput]",
   },
 }
 `;
