@@ -8,7 +8,7 @@ import {
 
 
 
-export const validateActionPayload = (param, payload, context) => {
+const validatePayload = (param, payload, source, context) => {
 
   if (typeof payload !== 'undefined') {
     const paramType = isListDataType(param.type)
@@ -26,7 +26,7 @@ export const validateActionPayload = (param, payload, context) => {
     if (isObjectDataType(paramType)) {
       const attributes = paramType.getAttributes()
       _.forEach(attributes, (attribute, attributeName) => {
-        validateActionPayload(attribute, payload[attributeName], context)
+        validatePayload(attribute, payload[attributeName], source, context)
       })
     }
 
@@ -35,12 +35,21 @@ export const validateActionPayload = (param, payload, context) => {
         if (isObjectDataType(paramType)) {
           const attributes = paramType.getAttributes()
           _.forEach(attributes, (attribute, attributeName) => {
-            validateActionPayload(attribute, itemPayload[attributeName], context)
+            validatePayload(attribute, itemPayload[attributeName], source, context)
           })
         }
       })
     }
 
   }
+}
+
+
+  }
+}
+
+
+export const validateActionPayload = (param, payload, action, context) => {
+  validatePayload(param, payload, { action }, context)
 }
 

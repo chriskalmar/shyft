@@ -111,7 +111,7 @@ export const generateActions = (graphRegistry) => {
         if (action.hasInput()) {
           const input = action.getInput()
           args.input.data = fillDefaultValues(input, args.input.data, context)
-          validateActionPayload(input, args.input.data, context)
+          validateActionPayload(input, args.input.data, action, context)
         }
 
         const result = await action.resolve(source, args.input.data, context, info)
