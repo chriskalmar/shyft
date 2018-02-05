@@ -29,18 +29,19 @@ class DataType {
         isFunction(validate),
         () => `'Invalid validate function for data type '${name}'`
       )
+
+      this.validator = validate
     }
 
     this.name = name
     this.description = description
     this.mock = mock
-    this.validate = validate
   }
 
 
   validate = (payload, context) => {
-    if (payload && this.validate) {
-      this.validate(payload, context)
+    if (payload && this.validator) {
+      this.validator(payload, context)
     }
   }
 
