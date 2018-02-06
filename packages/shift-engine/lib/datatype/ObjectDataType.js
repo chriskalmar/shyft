@@ -127,6 +127,16 @@ class ObjectDataType extends ComplexDataType {
   }
 
 
+  validate = (value) => {
+    if (value) {
+      passOrThrow(
+        isMap(value),
+        () => `Invalid value for object data type '${this.name}'`
+      )
+    }
+  }
+
+
   toString() {
     return this.name
   }

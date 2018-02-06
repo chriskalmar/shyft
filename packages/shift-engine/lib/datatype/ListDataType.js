@@ -2,6 +2,7 @@
 import {
   passOrThrow,
   isFunction,
+  isArray,
 } from '../util';
 
 import { isEntity } from '../entity/Entity';
@@ -93,15 +94,22 @@ class ListDataType extends ComplexDataType {
 
   validate = (payload) => {
 
-    passOrThrow(
-      payload && payload.length >= this.minItems,
-      () => `List data type '${this.name}' requires a minimum of ${this.minItems} items`
-    )
+    if (payload) {
+      passOrThrow(
+        isArray(payload),
+        () => `List data type '${this.name}' expects an array of items`
+      )
 
-    passOrThrow(
-      payload && (this.maxItems === 0 || payload.length <= this.maxItems),
-      () => `List data type '${this.name}' requires a maximum of ${this.maxItems} items`
-    )
+      passOrThrow(
+        payload.length >= this.minItems,
+        () => `List data type '${this.name}' requires a minimum of ${this.minItems} items`
+      )
+
+      passOrThrow(
+        (this.maxItems === 0 || payload.length <= this.maxItems),
+        () => `List data type '${this.name}' requires a maximum of ${this.maxItems} items`
+      )
+    }
   }
 
 

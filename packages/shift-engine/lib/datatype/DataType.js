@@ -39,9 +39,9 @@ class DataType {
   }
 
 
-  validate = (payload, context) => {
-    if (payload && this.validator) {
-      this.validator(payload, context)
+  validate = (value, context) => {
+    if (value && this.validator) {
+      this.validator(value, context)
     }
   }
 
