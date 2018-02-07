@@ -131,7 +131,7 @@ class ObjectDataType extends ComplexDataType {
     if (value) {
       passOrThrow(
         isMap(value),
-        () => `Invalid value for object data type '${this.name}'`
+        () => `Object data type '${this.name}' expects an object`
       )
     }
   }
