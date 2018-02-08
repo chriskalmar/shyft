@@ -3,6 +3,7 @@ import {
   DataTypeString,
   DataTypeInteger,
   Entity,
+  Action,
   buildObjectDataType,
   buildListDataType,
   Mutation,
@@ -112,6 +113,16 @@ describe('validation', () => {
     attributes: ['someAttribute', 'team']
   })
 
+  const action = new Action({
+    name: 'displayTeam',
+    description: 'do something',
+    input: {
+      type: team
+    },
+    output: {},
+    resolve() { },
+  })
+
 
   const context = {
     lorem: 'impsum'
@@ -119,14 +130,30 @@ describe('validation', () => {
 
   it('should accept valid mutation payloads', () => {
 
-    const payload = {
+    const payload1 = {
       someAttribute: 'Lorem',
       team: {
         teamName: 'Falcons United Team'
       }
     }
 
-    validateMutationPayload(entity, mutation, payload, context)
+    validateMutationPayload(entity, mutation, payload1, context)
+
+
+    const payload2 = {
+      someAttribute: 'Lorem',
+      team: {
+        teamName: 'Falcons United Team',
+        players: {
+          offense: [{
+            number: 2,
+            lastName: 'Iverson',
+          }]
+        }
+      }
+    }
+
+    validateMutationPayload(entity, mutation, payload2, context)
   })
 
 
@@ -221,6 +248,30 @@ describe('validation', () => {
 
     const fn2 = () => validateMutationPayload(entity, mutation, payload2, context)
     expect(fn2).toThrowErrorMatchingSnapshot();
+  })
+
+
+
+  it('should accept valid action payloads', () => {
+
+    const payload1 = {
+      teamName: 'Falcons United Team'
+    }
+
+    validateActionPayload(action.getInput(), payload1, action, context)
+
+
+    const payload2 = {
+      teamName: 'Falcons United Team',
+      players: {
+        offense: [{
+          number: 2,
+          lastName: 'Iverson',
+        }]
+      }
+    }
+
+    validateActionPayload(action.getInput(), payload2, action, context)
   })
 
 })

@@ -71,7 +71,18 @@ const validatePayload = (param, payload, source, context) => {
 
 
 export const validateActionPayload = (param, payload, action, context) => {
-  validatePayload(param, payload, { action }, context)
+  const newParam = {
+    ...param,
+    name: 'input'
+  }
+
+  const newPayload = {
+    input: {
+      ...payload
+    }
+  }
+
+  validatePayload(newParam, newPayload, { action }, context)
 }
 
 
