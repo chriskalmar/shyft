@@ -113,11 +113,30 @@ describe('validation', () => {
     attributes: ['someAttribute', 'team']
   })
 
-  const action = new Action({
+  const action1 = new Action({
     name: 'displayTeam',
     description: 'do something',
     input: {
       type: team
+    },
+    output: {},
+    resolve() { },
+  })
+
+  const action2 = new Action({
+    name: 'setPercentage',
+    description: 'set a percentage',
+    input: {
+      type: DataTypeString,
+      description: 'percentage value',
+      validate(value, row, source, context) {
+        if (value <= 0.0 || value >= 1.0) {
+          throw new Error(`Value needs to be between 0.0 and 1.0 (got: ${value})`)
+        }
+        if (!context) {
+          throw new Error('Missing context')
+        }
+      }
     },
     output: {},
     resolve() { },
@@ -184,6 +203,12 @@ describe('validation', () => {
 
     const fn3 = () => validateMutationPayload(entity, mutation, payload3)
     expect(fn3).toThrowErrorMatchingSnapshot();
+
+
+    const payload4 = 4.7
+
+    const fn4 = () => validateActionPayload(action2.getInput(), payload4, action2, context)
+    expect(fn4).toThrowErrorMatchingSnapshot();
   })
 
 
@@ -258,7 +283,7 @@ describe('validation', () => {
       teamName: 'Falcons United Team'
     }
 
-    validateActionPayload(action.getInput(), payload1, action, context)
+    validateActionPayload(action1.getInput(), payload1, action1, context)
 
 
     const payload2 = {
@@ -271,7 +296,12 @@ describe('validation', () => {
       }
     }
 
-    validateActionPayload(action.getInput(), payload2, action, context)
+    validateActionPayload(action1.getInput(), payload2, action1, context)
+
+
+    const payload3 = 0.6
+
+    validateActionPayload(action2.getInput(), payload3, action2, context)
   })
 
 })

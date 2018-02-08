@@ -5,6 +5,7 @@ import {
   isObjectDataType,
   isListDataType,
   isComplexDataType,
+  isMap,
 } from 'shift-engine';
 
 
@@ -80,6 +81,10 @@ export const validateActionPayload = (param, payload, action, context) => {
     input: {
       ...payload
     }
+  }
+
+  if (!isMap(payload)) {
+    newPayload.input = payload
   }
 
   validatePayload(newParam, newPayload, { action }, context)

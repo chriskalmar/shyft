@@ -6,6 +6,8 @@ exports[`validation should reject payloads based on attribute level validation 2
 
 exports[`validation should reject payloads based on attribute level validation 3`] = `"Missing context"`;
 
+exports[`validation should reject payloads based on attribute level validation 4`] = `"Value needs to be between 0.0 and 1.0 (got: 4.7)"`;
+
 exports[`validation should reject payloads based on attribute level validation of nested attributes 1`] = `"Missing \\"Team\\" in team name"`;
 
 exports[`validation should reject payloads based on attribute level validation of nested attributes 2`] = `"Players need to have even numbers (got 5)"`;
