@@ -143,6 +143,20 @@ describe('validation', () => {
   })
 
 
+  const action3 = new Action({
+    name: 'setPlayers',
+    description: 'set a list of players',
+    input: {
+      type: buildListDataType({
+        itemType: player,
+      }),
+      description: 'players',
+    },
+    output: {},
+    resolve() { },
+  })
+
+
   const context = {
     lorem: 'impsum'
   }
@@ -240,6 +254,15 @@ describe('validation', () => {
 
     const fn2 = () => validateMutationPayload(entity, mutation, payload2, context)
     expect(fn2).toThrowErrorMatchingSnapshot();
+
+
+    const payload3 = [{
+      number: 9,
+      lastName: 'Iverson',
+    }]
+
+    const fn3 = () => validateActionPayload(action3.getInput(), payload3, action3, context)
+    expect(fn3).toThrowErrorMatchingSnapshot();
   })
 
 
@@ -302,6 +325,14 @@ describe('validation', () => {
     const payload3 = 0.6
 
     validateActionPayload(action2.getInput(), payload3, action2, context)
+
+
+    const payload4 = [{
+      number: 8,
+      lastName: 'Iverson',
+    }]
+
+    validateActionPayload(action3.getInput(), payload4, action3, context)
   })
 
 })
