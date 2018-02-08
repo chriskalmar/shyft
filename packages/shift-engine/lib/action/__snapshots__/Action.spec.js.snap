@@ -6,22 +6,138 @@ exports[`Action should have a description 1`] = `"Missing description for action
 
 exports[`Action should have a name 1`] = `"Missing action name"`;
 
-exports[`Action should have a valid input definition 1`] = `"Action 'example' needs an input definition as a map or a function returning such a map"`;
+exports[`Action should have a valid input definition 1`] = `"Action 'example' has an invalid input definition"`;
 
-exports[`Action should have a valid output definition 1`] = `"Action 'example' needs an output definition as a map or a function returning such a map"`;
+exports[`Action should have a valid output definition 1`] = `"Action 'example' has an invalid output definition"`;
 
 exports[`Action should have a valid resolve function 1`] = `"Action 'example' needs a resolve function"`;
-
-exports[`Action should have an input definition 1`] = `"Missing input definition for action 'example'"`;
-
-exports[`Action should have an output definition 1`] = `"Missing output definition for action 'example'"`;
 
 exports[`Action should have valid input and output definitions when generated via a function 1`] = `"Input definition function for action 'example' does not return a map"`;
 
 exports[`Action should have valid input and output definitions when generated via a function 2`] = `"Output definition function for action 'example' does not return a map"`;
 
-exports[`Action should have valid input attributes if valid defaultValue functions 1`] = `"'example.someAttr' has an invalid defaultValue function'"`;
+exports[`Action should have valid input data types 1`] = `"Missing input type for action 'example'"`;
 
-exports[`Action should have valid input data types 1`] = `"'example.someAttr' has invalid data type 'undefined'"`;
+exports[`Action should have valid output data types 1`] = `"Missing output type for action 'example'"`;
 
-exports[`Action should have valid output data types 1`] = `"'example.someAttr' has invalid data type 'undefined'"`;
+exports[`Action should return input and output params 1`] = `
+Object {
+  "type": ObjectDataType {
+    "_attributesMap": Object {
+      "about": Object {
+        "description": "Just some description",
+        "type": [Function],
+      },
+      "firstName": Object {
+        "defaultValue": [Function],
+        "description": "First name",
+        "type": DataType {
+          "description": "Data type representing text values",
+          "mock": [Function],
+          "name": "DataTypeString",
+          "validate": [Function],
+        },
+      },
+      "lastName": Object {
+        "description": "Last name",
+        "required": true,
+        "type": DataType {
+          "description": "Data type representing text values",
+          "mock": [Function],
+          "name": "DataTypeString",
+          "validate": [Function],
+        },
+      },
+    },
+    "description": "do something",
+    "name": "input",
+    "validate": [Function],
+  },
+}
+`;
+
+exports[`Action should return input and output params 2`] = `
+Object {
+  "type": ObjectDataType {
+    "_attributesMap": Object {
+      "luckyNumber": Object {
+        "description": "Lucky number",
+        "type": DataType {
+          "description": "Data type representing text values",
+          "mock": [Function],
+          "name": "DataTypeString",
+          "validate": [Function],
+        },
+      },
+    },
+    "description": "do something",
+    "name": "output",
+    "validate": [Function],
+  },
+}
+`;
+
+exports[`Action should return input and output params 3`] = `
+Object {
+  "about": Object {
+    "description": "Just some description",
+    "name": "about",
+    "required": false,
+    "type": ObjectDataType {
+      "_attributesMap": Object {
+        "favouriteActor": Object {
+          "description": "One more description",
+          "type": DataType {
+            "description": "Data type representing text values",
+            "mock": [Function],
+            "name": "DataTypeString",
+            "validate": [Function],
+          },
+        },
+      },
+      "description": "Just some description",
+      "name": "about",
+      "validate": [Function],
+    },
+  },
+  "firstName": Object {
+    "defaultValue": [Function],
+    "description": "First name",
+    "name": "firstName",
+    "required": true,
+    "type": DataType {
+      "description": "Data type representing text values",
+      "mock": [Function],
+      "name": "DataTypeString",
+      "validate": [Function],
+    },
+  },
+  "lastName": Object {
+    "description": "Last name",
+    "name": "lastName",
+    "required": true,
+    "type": DataType {
+      "description": "Data type representing text values",
+      "mock": [Function],
+      "name": "DataTypeString",
+      "validate": [Function],
+    },
+  },
+}
+`;
+
+exports[`Action should return input and output params 4`] = `
+Object {
+  "favouriteActor": Object {
+    "description": "One more description",
+    "name": "favouriteActor",
+    "required": false,
+    "type": DataType {
+      "description": "Data type representing text values",
+      "mock": [Function],
+      "name": "DataTypeString",
+      "validate": [Function],
+    },
+  },
+}
+`;

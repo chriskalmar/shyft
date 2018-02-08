@@ -29,6 +29,11 @@ import {
   generateTypeNamePascalCase,
 } from './util';
 
+import {
+  validateMutationPayload,
+} from './validation';
+
+
 
 export const generateMutationInstanceInput = (entity, entityMutation) => {
 
@@ -598,28 +603,6 @@ const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) 
   }
 }
 
-
-const validateMutationPayload = (entity, entityMutation, payload, context) => {
-
-  const attributes = entity.getAttributes()
-  const systemAttributes = _.filter(
-    attributes,
-    attribute => attribute.isSystemAttribute && attribute.defaultValue
-  ).map(attribute => attribute.name)
-
-  const attributesToValidate = systemAttributes.concat(entityMutation.attributes || [])
-
-  attributesToValidate.map(attributeName => {
-    const attribute = attributes[ attributeName ]
-
-    if (attribute.validate) {
-      const result = attribute.validate(payload[ attributeName ], payload, entityMutation, entity, context)
-      if (result instanceof Error) {
-        throw result
-      }
-    }
-  })
-}
 
 
 const getMutationResolver = (entity, entityMutation, typeName, storageType, graphRegistry, nested) => {

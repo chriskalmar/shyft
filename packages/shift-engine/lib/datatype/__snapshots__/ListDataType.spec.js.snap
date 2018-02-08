@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ListDataType isListDataType should recognize non-ListDataType objects 1`] = `"Not a ListDataType object"`;
+
+exports[`ListDataType should accept only valid item lenght ranges 1`] = `"List data type 'Example' has invalid minItems setting '-1'"`;
+
+exports[`ListDataType should accept only valid item lenght ranges 2`] = `"List data type 'Example' has invalid maxItems setting '-1'"`;
+
+exports[`ListDataType should accept only valid item lenght ranges 3`] = `"List data type 'Example' has a bigger minItems than the maxItems setting"`;
+
+exports[`ListDataType should accept only valid item types 1`] = `"List data type 'Example' has invalid item type '2,7,13'"`;
+
+exports[`ListDataType should have a description 1`] = `"Missing description for list data type 'example'"`;
+
+exports[`ListDataType should have a name 1`] = `"Missing list data type name"`;
+
+exports[`ListDataType should have an item type 1`] = `"Missing item type for list data type 'Example'"`;
+
+exports[`ListDataType should reject invalid dynamic item types 1`] = `"List data type 'Example' has invalid dynamic item type 'test'"`;

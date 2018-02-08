@@ -57,9 +57,6 @@ class ObjectDataType extends ComplexDataType {
       })
     }
 
-    if (isComplexDataType(rawAttribute.type)) {
-      return rawAttribute
-    }
 
     const attribute = {
       ...rawAttribute,
@@ -70,7 +67,7 @@ class ObjectDataType extends ComplexDataType {
     passOrThrow(attribute.description, () => `Missing description for '${this.name}.${attributeName}'`)
 
     passOrThrow(
-      isDataType(attribute.type) || isEntity(attribute.type),
+      isDataType(attribute.type) || isComplexDataType(attribute.type) || isEntity(attribute.type),
       () => `'${this.name}.${attributeName}' has invalid data type '${String(attribute.type)}'`
     )
 
@@ -79,9 +76,24 @@ class ObjectDataType extends ComplexDataType {
       () => `'${this.name}.${attributeName}' has an invalid resolve function'`
     )
 
+    if (attribute.defaultValue) {
+      // enforce mandatory param if defaultValue provided
+      attribute.required = true
+
+      passOrThrow(
+        isFunction(attribute.defaultValue),
+        () => `'${this.name}.${attributeName}' has an invalid defaultValue function'`
+      )
+
+      passOrThrow(
+        !isComplexDataType(attribute.type),
+        () => `Complex data type '${this.name}.${attributeName}' cannot have a defaultValue function'`
+      )
+    }
+
     passOrThrow(
-      !attribute.defaultValue || isFunction(attribute.defaultValue),
-      () => `'${this.name}.${attributeName}' has an invalid defaultValue function'`
+      !attribute.validate || isFunction(attribute.validate),
+      () => `'${this.name}.${attributeName}' has an invalid validate function'`
     )
 
     return attribute
@@ -112,6 +124,16 @@ class ObjectDataType extends ComplexDataType {
     })
 
     return resultAttributes
+  }
+
+
+  validate = (value) => {
+    if (value) {
+      passOrThrow(
+        isMap(value),
+        () => `Object data type '${this.name}' expects an object`
+      )
+    }
   }
 
 

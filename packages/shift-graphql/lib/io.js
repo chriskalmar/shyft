@@ -24,7 +24,11 @@ import {
 
 
 
-export const generateDataInput = (baseName, inputParams) => {
+export const generateDataInput = (baseName, inputParams, singleParam) => {
+
+  if (singleParam) {
+    return generateDataInputField(inputParams, inputParams.name || '', baseName) // eslint-disable-line no-use-before-define
+  }
 
   const dataInputType = new GraphQLInputObjectType({
     name: generateTypeNamePascalCase(`${baseName}DataInput`),
@@ -51,7 +55,7 @@ export const generateNestedDataInput = (baseName, nestedParam, nestedParamName, 
 
     fields: () => {
       const inputParams = nestedParam.getAttributes()
-      return generateDataInputFields(inputParams, baseName, level) // eslint-disable-line no-use-before-define
+      return generateDataInputFields(inputParams, `${baseName}-${nestedParamName}`, level) // eslint-disable-line no-use-before-define
     }
   })
 
@@ -59,57 +63,61 @@ export const generateNestedDataInput = (baseName, nestedParam, nestedParamName, 
 }
 
 
+const generateDataInputField = (param, paramName, baseName, level = 0) => {
+
+  let paramType = param.type
+  let baseFieldType
+  let isList = false
+
+  if (!paramType) {
+    throw new Error(`Param '${baseName}.${paramName}' in generateDataInputField() has no type`)
+  }
+
+
+  if (isListDataType(paramType)) {
+    isList = true
+    paramType = paramType.getItemType()
+  }
+
+
+  if (isObjectDataType(paramType)) {
+    baseFieldType = generateNestedDataInput(baseName, paramType, paramName, level + 1)
+  }
+  else if (isEntity(paramType)) {
+    const targetEntity = paramType
+    const primaryAttribute = targetEntity.getPrimaryAttribute()
+    baseFieldType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type, baseName, true)
+  }
+  else {
+    baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType, baseName, true)
+  }
+
+  const fieldType = isList
+    ? new GraphQLList(baseFieldType)
+    : baseFieldType
+
+  return {
+    type: param.required && !param.defaultValue
+      ? new GraphQLNonNull(fieldType)
+      : fieldType,
+    description: param.description,
+  }
+}
+
+
 const generateDataInputFields = (inputParams, baseName, level = 0) => {
   const fields = {}
 
   _.forEach(inputParams, (param, paramName) => {
-
-    let paramType = param.type
-    let baseFieldType
-    let isList = false
-
-    if (!paramType) {
-      throw new Error(`Param '${baseName}.${paramName}' in generateDataInputFields() has no type`)
-    }
-
-
-    if (isListDataType(paramType)) {
-      isList = true
-      paramType = paramType.getItemType()
-    }
-
-
-    if (isObjectDataType(paramType)) {
-      baseFieldType = generateNestedDataInput(baseName, paramType, paramName, level + 1)
-    }
-    else if (isEntity(paramType)) {
-      const targetEntity = paramType
-      const primaryAttribute = targetEntity.getPrimaryAttribute()
-      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type, baseName, true)
-    }
-    else {
-      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType, baseName, true)
-    }
-
-    const fieldType = isList
-      ? new GraphQLList(baseFieldType)
-      : baseFieldType
-
-
-    fields[ paramName ] = {
-      type: param.required
-        ? new GraphQLNonNull(fieldType)
-        : fieldType,
-      description: param.description,
-    }
-
+    fields[paramName] = generateDataInputField(param, paramName, baseName, level)
   });
 
   return fields
 }
 
 
-export const generateInput = (baseName, dataInputType) => {
+
+export const generateInput = (baseName, dataInputType, isField) => {
 
   const inputType = new GraphQLInputObjectType({
 
@@ -124,9 +132,11 @@ export const generateInput = (baseName, dataInputType) => {
       }
 
       if (dataInputType) {
-        fields.data = {
-          type: new GraphQLNonNull(dataInputType)
-        }
+        fields.data = isField
+          ? dataInputType
+          : {
+            type: new GraphQLNonNull(dataInputType)
+          }
       }
 
       return fields
@@ -138,7 +148,11 @@ export const generateInput = (baseName, dataInputType) => {
 
 
 
-export const generateDataOutput = (baseName, outputParams, graphRegistry) => {
+export const generateDataOutput = (baseName, outputParams, graphRegistry, singleParam) => {
+
+  if (singleParam) {
+    return generateDataOutputField(outputParams, outputParams.name || '', baseName, graphRegistry) // eslint-disable-line no-use-before-define
+  }
 
   const actionDataOutputType = new GraphQLObjectType({
     name: generateTypeNamePascalCase(`${baseName}DataOutput`),
@@ -165,7 +179,7 @@ export const generateNestedDataOutput = (baseName, nestedParam, nestedParamName,
 
     fields: () => {
       const outputParams = nestedParam.getAttributes()
-      return generateDataOutputFields(outputParams, baseName, graphRegistry, level) // eslint-disable-line no-use-before-define
+      return generateDataOutputFields(outputParams, `${baseName}-${nestedParamName}`, graphRegistry, level) // eslint-disable-line no-use-before-define
     }
   })
 
@@ -173,47 +187,52 @@ export const generateNestedDataOutput = (baseName, nestedParam, nestedParamName,
 }
 
 
+const generateDataOutputField = (param, paramName, baseName, graphRegistry, level = 0) => {
+
+  let paramType = param.type
+  let baseFieldType
+  let isList = false
+
+  if (!paramType) {
+    throw new Error(`Param '${baseName}.${paramName}' in generateDataOutputField() has no type`)
+  }
+
+  if (isListDataType(paramType)) {
+    isList = true
+    paramType = paramType.getItemType()
+  }
+
+
+  if (isObjectDataType(paramType)) {
+    baseFieldType = generateNestedDataOutput(baseName, paramType, paramName, graphRegistry, level + 1)
+  }
+  else if (isEntity(paramType)) {
+    const targetEntity = paramType
+    const targetTypeName = targetEntity.graphql.typeName
+    baseFieldType = graphRegistry.types[ targetTypeName ]
+  }
+  else {
+    baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType, baseName, false)
+  }
+
+  const fieldType = isList
+    ? new GraphQLList(baseFieldType)
+    : baseFieldType
+
+
+  return {
+    type: fieldType,
+    description: param.description,
+  }
+}
+
+
+
 const generateDataOutputFields = (outputParams, baseName, graphRegistry, level = 0) => {
   const fields = {}
 
   _.forEach(outputParams, (param, paramName) => {
-
-    let paramType = param.type
-    let baseFieldType
-    let isList = false
-
-    if (!paramType) {
-      throw new Error(`Param '${baseName}.${paramName}' in generateDataOutputFields() has no type`)
-    }
-
-    if (isListDataType(paramType)) {
-      isList = true
-      paramType = paramType.getItemType()
-    }
-
-
-    if (isObjectDataType(paramType)) {
-      baseFieldType = generateNestedDataOutput(baseName, paramType, paramName, graphRegistry, level + 1)
-    }
-    else if (isEntity(paramType)) {
-      const targetEntity = paramType
-      const targetTypeName = targetEntity.graphql.typeName
-      baseFieldType = graphRegistry.types[ targetTypeName ]
-    }
-    else {
-      baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType, baseName, false)
-    }
-
-    const fieldType = isList
-      ? new GraphQLList(baseFieldType)
-      : baseFieldType
-
-
-    fields[ paramName ] = {
-      type: fieldType,
-      description: param.description,
-    }
-
+    fields[paramName] = generateDataOutputField(param, paramName, baseName, graphRegistry, level)
   });
 
   return fields
@@ -221,7 +240,7 @@ const generateDataOutputFields = (outputParams, baseName, graphRegistry, level =
 
 
 
-export const generateOutput = (baseName, dataOutputType) => {
+export const generateOutput = (baseName, dataOutputType, isField) => {
 
   const outputType = new GraphQLObjectType({
 
@@ -236,9 +255,11 @@ export const generateOutput = (baseName, dataOutputType) => {
       }
 
       if (dataOutputType) {
-        fields.result = {
-          type: dataOutputType
-        }
+        fields.result = isField
+          ? dataOutputType
+          : {
+            type: dataOutputType
+          }
       }
 
       return fields

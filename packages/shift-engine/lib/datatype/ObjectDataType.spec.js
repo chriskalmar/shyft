@@ -242,6 +242,7 @@ describe('ObjectDataType', () => {
           description: 'Just another description'
         },
         nested: {
+          description: 'Just some description',
           type: new ObjectDataType({
             name: 'SomeNestedName',
             description: 'Just some description',
