@@ -6,8 +6,8 @@ import Permission, {
   generatePermissionDescription,
   checkPermissionSimple,
   buildUserAttributesPermissionFilter,
-  buildPermissionFilter,
   buildStatesPermissionFilter,
+  buildPermissionFilterSingle,
   processEntityPermissions,
 } from './Permission';
 import Entity from '../entity/Entity';
@@ -560,7 +560,7 @@ describe('Permission', () => {
   describe.only('build permission filter', () => {
 
     const userId = 123
-    // const userRoles = ['manager', 'reviewer']
+    const userRoles = ['manager', 'reviewer']
 
     const someEntity = new Entity({
       name: 'SomeEntityName',
@@ -579,7 +579,8 @@ describe('Permission', () => {
       },
     })
 
-    describe.only('build permission filter for user attributes', () => {
+
+    describe.only('userAttributes', () => {
 
       it('should reject if userId is not provided', () => {
 
@@ -630,7 +631,7 @@ describe('Permission', () => {
     })
 
 
-    describe.only('build permission filter for states', () => {
+    describe.only('states', () => {
 
       it('should reject if entity is not provided', () => {
 
@@ -693,27 +694,46 @@ describe('Permission', () => {
     })
 
 
-    // it('should reject if userId is not provided but `userAttribute` is used', () => {
+    describe.only('all permission types', () => {
 
-    //   function fn() {
-    //     const permission = new Permission()
-    //       .userAttribute('author')
-    //     buildPermissionFilter(permission)
-    //   }
+      it('should return undefined filters if no permission type is used', () => {
 
-    //   expect(fn).toThrowErrorMatchingSnapshot();
+        const permission = new Permission()
 
-    // })
+        const filter = buildPermissionFilterSingle(permission, userId, userRoles, someEntity)
+
+        expect(filter).toBeUndefined()
+      })
 
 
-    // it('should always give access if permission mode is `everyone`', () => {
+      it('should generate filters for single permission types', () => {
 
-    //   const permission = new Permission()
-    //     .userAttribute('author')
-    //   const filter = buildPermissionFilter(permission, userId)
+        const permission = new Permission()
+          .authenticated()
+          .userAttribute('author')
+          // .state('open')
+          // .state('inTransfer')
 
-    //   console.log(JSON.stringify(filter, null, 2));
-    // })
+        const filter = buildPermissionFilterSingle(permission, userId, userRoles, someEntity)
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate filters for multiple permission types', () => {
+
+        const permission = new Permission()
+          .authenticated()
+          .userAttribute('author')
+          .state('open')
+          .state('inTransfer')
+
+        const filter = buildPermissionFilterSingle(permission, userId, userRoles, someEntity)
+
+        expect(filter).toMatchSnapshot();
+      })
+
+    })
 
   })
 

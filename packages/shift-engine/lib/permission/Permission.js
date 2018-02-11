@@ -421,54 +421,22 @@ export const buildStatesPermissionFilter = (permission, entity) => {
 
 
 
-export const buildPermissionFilter = (permission, userId, userRoles, entity) => {
+export const buildPermissionFilterSingle = (permission, userId, userRoles, entity) => {
 
   let where
 
-  if (permission.userAttributes.length > 0) {
+  const permissionFilters = [
+    buildUserAttributesPermissionFilter(permission, userId),
+    buildStatesPermissionFilter(permission, entity),
+  ]
 
-    passOrThrow(
-      userId,
-      () => 'missing userId in permission object'
-    )
-
-    where = where || {}
-    where.$or = where.$or || []
-
-    permission.userAttributes.map((attributeName) => {
-      where.$or.push({
-        [ attributeName ]: userId
-      })
-    })
-  }
-
-  if (permission.states.length > 0) {
-
-    where = where || {}
-    where.$or = where.$or || []
-
-    const states = entity.getStates()
-    const stateIds = permission.states.map((stateName) => {
-      const state = states[ stateName ]
-
-      passOrThrow(
-        state,
-        () => `unknown state name '${stateName}' used in permission object`
-      )
-
-      return state
-    })
-
-    where.$or.push({
-      state: {
-        $in: stateIds
-      }
-    })
-
-  }
-
-  // TODO: other permission types as well
-
+  permissionFilters.map(permissionFilter => {
+    if (permissionFilter) {
+      where = where || {}
+      where.$and = where.$and || []
+      where.$and.push(permissionFilter)
+    }
+  })
 
   return where
 }

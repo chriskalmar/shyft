@@ -1,6 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Permission build permission filter build permission filter for states should generate filters for multiple entries 1`] = `
+exports[`Permission build permission filter all permission types should generate filters for multiple permission types 1`] = `
+Object {
+  "$and": Array [
+    Object {
+      "$or": Array [
+        Object {
+          "author": 123,
+        },
+      ],
+    },
+    Object {
+      "$or": Array [
+        Object {
+          "state": Object {
+            "$in": Array [
+              10,
+              40,
+            ],
+          },
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter all permission types should generate filters for single permission types 1`] = `
+Object {
+  "$and": Array [
+    Object {
+      "$or": Array [
+        Object {
+          "author": 123,
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter states should generate filters for multiple entries 1`] = `
 Object {
   "$or": Array [
     Object {
@@ -15,7 +55,7 @@ Object {
 }
 `;
 
-exports[`Permission build permission filter build permission filter for states should generate filters for single entries 1`] = `
+exports[`Permission build permission filter states should generate filters for single entries 1`] = `
 Object {
   "$or": Array [
     Object {
@@ -29,11 +69,11 @@ Object {
 }
 `;
 
-exports[`Permission build permission filter build permission filter for states should reject if entity is not provided 1`] = `"missing entity in permission object"`;
+exports[`Permission build permission filter states should reject if entity is not provided 1`] = `"missing entity in permission object"`;
 
-exports[`Permission build permission filter build permission filter for states should reject if invalid state is used 1`] = `"unknown state name 'completed' used in permission object"`;
+exports[`Permission build permission filter states should reject if invalid state is used 1`] = `"unknown state name 'completed' used in permission object"`;
 
-exports[`Permission build permission filter build permission filter for user attributes should generate filters for multiple entries 1`] = `
+exports[`Permission build permission filter userAttributes should generate filters for multiple entries 1`] = `
 Object {
   "$or": Array [
     Object {
@@ -46,7 +86,7 @@ Object {
 }
 `;
 
-exports[`Permission build permission filter build permission filter for user attributes should generate filters for single entries 1`] = `
+exports[`Permission build permission filter userAttributes should generate filters for single entries 1`] = `
 Object {
   "$or": Array [
     Object {
@@ -56,7 +96,7 @@ Object {
 }
 `;
 
-exports[`Permission build permission filter build permission filter for user attributes should reject if userId is not provided 1`] = `"missing userId in permission object"`;
+exports[`Permission build permission filter userAttributes should reject if userId is not provided 1`] = `"missing userId in permission object"`;
 
 exports[`Permission isPermission should recognize non-Permission objects 1`] = `"Not a Permission object"`;
 
