@@ -80,6 +80,7 @@ export const systemAttributeState = {
   description: 'State of record',
   type: (attribute, entity) => new DataTypeState({
     ...attribute,
+    validate: undefined, // delete from props as it would be handled as a data type validator
     name: _.camelCase(`${entity.name}-instance-state`),
     states: entity.states,
   }),
