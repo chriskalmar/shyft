@@ -1,5 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Permission build permission filter build permission filter for states should generate filters for multiple entries 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "state": Object {
+        "$in": Array [
+          10,
+          40,
+        ],
+      },
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter build permission filter for states should generate filters for single entries 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "state": Object {
+        "$in": Array [
+          10,
+        ],
+      },
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter build permission filter for states should reject if entity is not provided 1`] = `"missing entity in permission object"`;
+
+exports[`Permission build permission filter build permission filter for states should reject if invalid state is used 1`] = `"unknown state name 'completed' used in permission object"`;
+
 exports[`Permission build permission filter build permission filter for user attributes should generate filters for multiple entries 1`] = `
 Object {
   "$or": Array [

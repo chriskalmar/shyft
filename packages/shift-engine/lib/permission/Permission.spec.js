@@ -7,6 +7,7 @@ import Permission, {
   checkPermissionSimple,
   buildUserAttributesPermissionFilter,
   buildPermissionFilter,
+  buildStatesPermissionFilter,
   processEntityPermissions,
 } from './Permission';
 import Entity from '../entity/Entity';
@@ -559,8 +560,24 @@ describe('Permission', () => {
   describe.only('build permission filter', () => {
 
     const userId = 123
-    const userRoles = ['manager', 'reviewer']
+    // const userRoles = ['manager', 'reviewer']
 
+    const someEntity = new Entity({
+      name: 'SomeEntityName',
+      description: 'Just some description',
+      attributes: {
+        someAttribute: {
+          type: DataTypeString,
+          description: 'Just some description',
+        },
+      },
+      states: {
+        open: 10,
+        closed: 20,
+        inTransfer: 40,
+        onHold: 50,
+      },
+    })
 
     describe.only('build permission filter for user attributes', () => {
 
@@ -606,6 +623,69 @@ describe('Permission', () => {
           .userAttribute('reviewer')
 
         const filter = buildUserAttributesPermissionFilter(permission, userId)
+
+        expect(filter).toMatchSnapshot();
+      })
+
+    })
+
+
+    describe.only('build permission filter for states', () => {
+
+      it('should reject if entity is not provided', () => {
+
+        function fn() {
+          const permission = new Permission()
+            .state('completed')
+          buildStatesPermissionFilter(permission)
+        }
+
+        expect(fn).toThrowErrorMatchingSnapshot();
+      })
+
+
+      it('should reject if invalid state is used', () => {
+
+        function fn() {
+          const permission = new Permission()
+            .state('completed')
+          buildStatesPermissionFilter(permission, someEntity)
+        }
+
+        expect(fn).toThrowErrorMatchingSnapshot();
+      })
+
+
+      it('should return undefined filters if permission type is not used', () => {
+
+        const permission = new Permission()
+          .userAttribute('reviewer')
+
+        const filter = buildStatesPermissionFilter(permission, someEntity)
+
+        expect(filter).toBeUndefined()
+      })
+
+
+      it('should generate filters for single entries', () => {
+
+        const permission = new Permission()
+          .state('open')
+
+        const filter = buildStatesPermissionFilter(permission, someEntity)
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate filters for multiple entries', () => {
+
+        const permission = new Permission()
+          .authenticated()
+          .state('open')
+          .state('inTransfer')
+
+        const filter = buildStatesPermissionFilter(permission, someEntity)
 
         expect(filter).toMatchSnapshot();
       })
