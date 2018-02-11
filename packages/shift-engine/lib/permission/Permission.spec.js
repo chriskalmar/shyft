@@ -86,8 +86,8 @@ describe('Permission', () => {
 
     function fn2() {
       new Permission()
-        .value('someAttribute', 987)
-        .authenticated()
+        .userAttribute('author')
+        .everyone()
     }
 
     expect(fn2).toThrowErrorMatchingSnapshot();

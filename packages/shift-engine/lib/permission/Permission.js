@@ -16,9 +16,9 @@ import _ from 'lodash';
 
 
 const compatibilityList = [
-  [ 'everyone', ],
-  [ 'authenticated', ],
-  [ 'role', 'userAttribute', 'lookup', 'value', 'state' ],
+  ['everyone', 'lookup', 'value', 'state'],
+  ['authenticated', 'role', 'userAttribute', 'lookup', 'value', 'state'],
+  ['role', 'userAttribute', 'lookup', 'value', 'state'],
 ]
 
 
@@ -44,26 +44,25 @@ class Permission {
 
 
   _checkCompatibility(type) {
+
     this.types[ type ] = true
 
-    compatibilityList.map(list => {
-      let found = 0
-      let notFound = 0
+    const found = compatibilityList.find(list => {
+      let allFound = true
 
       Object.keys(this.types).map(key => {
-        if (list.includes(key)) {
-          found++
-        }
-        else {
-          notFound++
+        if (!list.includes(key)) {
+          allFound = false
         }
       })
 
-      passOrThrow(
-        (found > 0 && notFound === 0) || (found === 0 && notFound > 0),
-        () => `Permission type '${type}' is incompatible with other types`
-      )
+      return allFound
     })
+
+    passOrThrow(
+      found,
+      () => `Permission type '${type}' is incompatible with other types`
+    )
   }
 
 
@@ -86,7 +85,7 @@ class Permission {
 
     passOrThrow(
       name,
-      () => 'Permission type \'role\' expects an role name'
+      () => 'Permission type \'role\' expects a role name'
     )
 
     this.roles.push(name)

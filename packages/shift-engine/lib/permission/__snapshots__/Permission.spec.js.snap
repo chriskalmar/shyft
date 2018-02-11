@@ -6,10 +6,6 @@ exports[`Permission lookup permissions should reject if entity is missing 1`] = 
 
 exports[`Permission lookup permissions should reject if lookupMap is missing 1`] = `"Permission type 'lookup' expects a lookupMap"`;
 
-exports[`Permission userAttribute permissions should reject if attribute name is missing 1`] = `"Permission type 'userAttribute' expects an attribute name"`;
-
-exports[`Permission userAttribute permissions should reject if duplicate attribute names are provided 1`] = `"Duplicate attribute name 'profile' for permission type 'userAttribute'"`;
-
 exports[`Permission permission attributes should reject if userAttribute is not a reference to the user entity 1`] = `"Cannot use attribute 'any' in 'City.permissions' as 'userAttribute' as it is not a reference to the User entity"`;
 
 exports[`Permission permission attributes should reject if userAttribute is not a reference to the user entity 2`] = `"Cannot use attribute 'cityName' in 'City.permissions' as 'userAttribute' as it is not a reference to the User entity"`;
@@ -44,13 +40,17 @@ exports[`Permission processEntityPermissions should throw if provided with an in
 
 exports[`Permission role permissions should reject if duplicate roles are provided 1`] = `"Duplicate role 'manager' for permission type 'role'"`;
 
-exports[`Permission role permissions should reject if role name is missing 1`] = `"Permission type 'role' expects an role name"`;
+exports[`Permission role permissions should reject if role name is missing 1`] = `"Permission type 'role' expects a role name"`;
 
 exports[`Permission should reject incompatible permission types 1`] = `"Permission type 'everyone' is incompatible with other types"`;
 
-exports[`Permission should reject incompatible permission types 2`] = `"Permission type 'authenticated' is incompatible with other types"`;
+exports[`Permission should reject incompatible permission types 2`] = `"Permission type 'everyone' is incompatible with other types"`;
 
 exports[`Permission should reject incompatible permission types 3`] = `"Permission type 'authenticated' is incompatible with other types"`;
+
+exports[`Permission userAttribute permissions should reject if attribute name is missing 1`] = `"Permission type 'userAttribute' expects an attribute name"`;
+
+exports[`Permission userAttribute permissions should reject if duplicate attribute names are provided 1`] = `"Duplicate attribute name 'profile' for permission type 'userAttribute'"`;
 
 exports[`Permission value permissions should reject if attribute name is missing 1`] = `"Permission type 'value' expects an attribute name"`;
 
