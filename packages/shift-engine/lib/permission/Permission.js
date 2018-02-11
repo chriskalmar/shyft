@@ -323,6 +323,10 @@ export const checkPermissionSimple = (permission, userId = null, userRoles = [])
     () => 'checkPermissionSimple needs a valid list of assigned user roles'
   )
 
+  if (!permission.everyoneCanAccess && !permission.authenticatedCanAccess && !permission.roles.length) {
+    return true
+  }
+
   if (permission.everyoneCanAccess) {
     return true
   }

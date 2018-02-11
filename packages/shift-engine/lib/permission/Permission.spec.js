@@ -541,6 +541,16 @@ describe('Permission', () => {
       )).toBe(false)
     })
 
+
+    it('should default to give access if neither `everyone`, `authenticated` or `role` is defined', () => {
+
+      expect(checkPermissionSimple(
+        new Permission(),
+        userId,
+        userRoles,
+      )).toBe(true)
+    })
+
   })
 
 
