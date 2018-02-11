@@ -5,6 +5,8 @@ import Permission, {
   findMissingPermissionAttributes,
   generatePermissionDescription,
   checkPermissionSimple,
+  buildUserAttributesPermissionFilter,
+  buildPermissionFilter,
   processEntityPermissions,
 } from './Permission';
 import Entity from '../entity/Entity';
@@ -550,6 +552,88 @@ describe('Permission', () => {
         userRoles,
       )).toBe(true)
     })
+
+  })
+
+
+  describe.only('build permission filter', () => {
+
+    const userId = 123
+    const userRoles = ['manager', 'reviewer']
+
+
+    describe.only('build permission filter for user attributes', () => {
+
+      it('should reject if userId is not provided', () => {
+
+        function fn() {
+          const permission = new Permission()
+            .userAttribute('author')
+          buildUserAttributesPermissionFilter(permission)
+        }
+
+        expect(fn).toThrowErrorMatchingSnapshot();
+      })
+
+
+      it('should return undefined filters if permission type is not used', () => {
+
+        const permission = new Permission()
+          .state('completed')
+
+        const filter = buildUserAttributesPermissionFilter(permission, userId)
+
+        expect(filter).toBeUndefined()
+      })
+
+
+      it('should generate filters for single entries', () => {
+
+        const permission = new Permission()
+          .userAttribute('author')
+
+        const filter = buildUserAttributesPermissionFilter(permission, userId)
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate filters for multiple entries', () => {
+
+        const permission = new Permission()
+          .authenticated()
+          .userAttribute('author')
+          .userAttribute('reviewer')
+
+        const filter = buildUserAttributesPermissionFilter(permission, userId)
+
+        expect(filter).toMatchSnapshot();
+      })
+
+    })
+
+
+    // it('should reject if userId is not provided but `userAttribute` is used', () => {
+
+    //   function fn() {
+    //     const permission = new Permission()
+    //       .userAttribute('author')
+    //     buildPermissionFilter(permission)
+    //   }
+
+    //   expect(fn).toThrowErrorMatchingSnapshot();
+
+    // })
+
+
+    // it('should always give access if permission mode is `everyone`', () => {
+
+    //   const permission = new Permission()
+    //     .userAttribute('author')
+    //   const filter = buildPermissionFilter(permission, userId)
+
+    //   console.log(JSON.stringify(filter, null, 2));
+    // })
 
   })
 

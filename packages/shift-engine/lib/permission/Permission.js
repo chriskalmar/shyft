@@ -11,7 +11,10 @@ import _ from 'lodash';
 
 
 /*
-  all permission rules are combined with OR
+  all permission rules are ...
+  - combined with OR on the same type level
+  - combined with AND among all types
+  - combined with OR among Permission objects
 */
 
 
@@ -353,29 +356,29 @@ export const checkPermissionSimple = (permission, userId = null, userRoles = [])
 
 
 
-export const checkPermissionAdvanced = (data, permission, userId = null) => {
+export const buildUserAttributesPermissionFilter = (permission, userId) => {
 
-  passOrThrow(
-    isPermission(permission),
-    () => 'checkPermissionAdvanced needs a valid permission object'
-  )
+  let where
 
   if (permission.userAttributes.length > 0) {
 
-    if (!userId) {
-      return false
-    }
+    passOrThrow(
+      userId,
+      () => 'missing userId in permission object'
+    )
 
-    const matchesUser = permission.userAttributes.find((attributeName) => {
-      return data[attributeName] === userId
+    where = where || {}
+    where.$or = where.$or || []
+
+    permission.userAttributes.map((attributeName) => {
+      where.$or.push({
+        [ attributeName ]: userId
+      })
     })
-
-    return matchesUser
   }
 
-  return false
+  return where
 }
-
 
 
 export const buildPermissionFilter = (permission, userId, userRoles, entity) => {
@@ -383,6 +386,11 @@ export const buildPermissionFilter = (permission, userId, userRoles, entity) => 
   let where
 
   if (permission.userAttributes.length > 0) {
+
+    passOrThrow(
+      userId,
+      () => 'missing userId in permission object'
+    )
 
     where = where || {}
     where.$or = where.$or || []
@@ -424,6 +432,32 @@ export const buildPermissionFilter = (permission, userId, userRoles, entity) => 
 
   return where
 }
+
+
+
+export const checkPermissionAdvanced = (data, permission, userId = null) => {
+
+  passOrThrow(
+    isPermission(permission),
+    () => 'checkPermissionAdvanced needs a valid permission object'
+  )
+
+  if (permission.userAttributes.length > 0) {
+
+    if (!userId) {
+      return false
+    }
+
+    const matchesUser = permission.userAttributes.find((attributeName) => {
+      return data[attributeName] === userId
+    })
+
+    return matchesUser
+  }
+
+  return false
+}
+
 
 
 const validatePermissionAttributes = (entity, permission, mutationName) => {
