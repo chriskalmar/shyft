@@ -18,7 +18,7 @@ import _ from 'lodash';
 const compatibilityList = [
   [ 'everyone', ],
   [ 'authenticated', ],
-  [ 'role', 'ownerAttribute', 'lookup', 'value', 'state' ],
+  [ 'role', 'userAttribute', 'lookup', 'value', 'state' ],
 ]
 
 
@@ -32,7 +32,7 @@ class Permission {
   authenticatedCanAccess = false
   types = {}
   roles = []
-  ownerAttributes = []
+  userAttributes = []
   lookups = []
   values = []
   states = []
@@ -101,19 +101,19 @@ class Permission {
 
 
 
-  ownerAttribute (attributeName) {
-    this._checkCompatibility('ownerAttribute')
+  userAttribute (attributeName) {
+    this._checkCompatibility('userAttribute')
 
     passOrThrow(
       attributeName,
-      () => 'Permission type \'ownerAttribute\' expects an attribute name'
+      () => 'Permission type \'userAttribute\' expects an attribute name'
     )
 
-    this.ownerAttributes.push(attributeName)
+    this.userAttributes.push(attributeName)
 
     passOrThrow(
-      this.ownerAttributes.length === _.uniq(this.ownerAttributes).length,
-      () => `Duplicate attribute name '${attributeName}' for permission type \'ownerAttribute\'`
+      this.userAttributes.length === _.uniq(this.userAttributes).length,
+      () => `Duplicate attribute name '${attributeName}' for permission type \'userAttribute\'`
     )
 
     return this
@@ -196,15 +196,15 @@ export const findInvalidPermissionAttributes = (permission, entity) => {
 
   const attributes = entity.getAttributes()
 
-  permission.ownerAttributes.map(ownerAttribute => {
-    const attribute = attributes[ ownerAttribute ]
+  permission.userAttributes.map(userAttribute => {
+    const attribute = attributes[ userAttribute ]
 
     passOrThrow(
       attribute && (
         isDataTypeUser(attribute.type) ||
         ( isEntity(attribute.type) && attribute.type.isUserEntity )
       ),
-      () => `Cannot use attribute '${ownerAttribute}' in '${entity.name}.permissions' as 'ownerAttribute' as it is not a reference to the User entity`
+      () => `Cannot use attribute '${userAttribute}' in '${entity.name}.permissions' as 'userAttribute' as it is not a reference to the User entity`
     )
   })
 
@@ -215,9 +215,9 @@ export const findMissingPermissionAttributes = (permission, permissionEntity) =>
 
   const entityAttributeNames = Object.keys(permissionEntity.getAttributes())
 
-  const missingOwnerAttribute = permission.ownerAttributes.find(ownerAttribute => !entityAttributeNames.includes(ownerAttribute))
-  if (missingOwnerAttribute) {
-    return missingOwnerAttribute
+  const missinguserAttribute = permission.userAttributes.find(userAttribute => !entityAttributeNames.includes(userAttribute))
+  if (missinguserAttribute) {
+    return missinguserAttribute
   }
 
   let missingLookupAttribute
@@ -270,8 +270,8 @@ export const generatePermissionDescription = (permission) => {
     lines.push(`roles: ${permission.roles.join(', ')}`)
   }
 
-  if (permission.ownerAttributes.length > 0) {
-    lines.push(`ownerAttributes: ${permission.ownerAttributes.join(', ')}`)
+  if (permission.userAttributes.length > 0) {
+    lines.push(`userAttributes: ${permission.userAttributes.join(', ')}`)
   }
 
   if (permission.states.length > 0) {
@@ -350,16 +350,41 @@ export const checkPermissionSimple = (permission, userId = null, userRoles = [])
 
 
 
+export const checkPermissionAdvanced = (data, permission, userId = null) => {
+
+  passOrThrow(
+    isPermission(permission),
+    () => 'checkPermissionAdvanced needs a valid permission object'
+  )
+
+  if (permission.userAttributes.length > 0) {
+
+    if (!userId) {
+      return false
+    }
+
+    const matchesUser = permission.userAttributes.find((attributeName) => {
+      return data[attributeName] === userId
+    })
+
+    return matchesUser
+  }
+
+  return false
+}
+
+
+
 export const buildPermissionFilter = (permission, userId, userRoles, entity) => {
 
   let where
 
-  if (permission.ownerAttributes.length > 0) {
+  if (permission.userAttributes.length > 0) {
 
     where = where || {}
     where.$or = where.$or || []
 
-    permission.ownerAttributes.map((attributeName) => {
+    permission.userAttributes.map((attributeName) => {
       where.$or.push({
         [ attributeName ]: userId
       })

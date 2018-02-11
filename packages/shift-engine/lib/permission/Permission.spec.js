@@ -135,13 +135,13 @@ describe('Permission', () => {
   })
 
 
-  describe('ownerAttribute permissions', () => {
+  describe('userAttribute permissions', () => {
 
     it('should reject if attribute name is missing', () => {
 
       function fn1() {
         new Permission()
-          .ownerAttribute()
+          .userAttribute()
       }
 
       expect(fn1).toThrowErrorMatchingSnapshot();
@@ -152,8 +152,8 @@ describe('Permission', () => {
 
       function fn1() {
         new Permission()
-          .ownerAttribute('profile')
-          .ownerAttribute('profile')
+          .userAttribute('profile')
+          .userAttribute('profile')
       }
 
       expect(fn1).toThrowErrorMatchingSnapshot();
@@ -288,25 +288,25 @@ describe('Permission', () => {
     })
 
 
-    it('should reject if ownerAttribute is not a reference to the user entity', () => {
+    it('should reject if userAttribute is not a reference to the user entity', () => {
 
       function fn1() {
         const permission = new Permission()
-          .ownerAttribute('any')
+          .userAttribute('any')
 
         findInvalidPermissionAttributes(permission, City)
       }
 
       function fn2() {
         const permission = new Permission()
-          .ownerAttribute('cityName')
+          .userAttribute('cityName')
 
         findInvalidPermissionAttributes(permission, City)
       }
 
       function fn3() {
         const permission = new Permission()
-          .ownerAttribute('city')
+          .userAttribute('city')
 
         findInvalidPermissionAttributes(permission, User)
       }
@@ -322,7 +322,7 @@ describe('Permission', () => {
 
       {
         const permission = new Permission()
-          .ownerAttribute('wrong')
+          .userAttribute('wrong')
 
         const missing = findMissingPermissionAttributes(permission, City)
 
@@ -366,7 +366,7 @@ describe('Permission', () => {
     it('should accept correctly defined permission attributes', () => {
 
       const permission = new Permission()
-        .ownerAttribute('id')
+        .userAttribute('id')
         .lookup(User, {
           id: 'city'
         })
@@ -411,8 +411,8 @@ describe('Permission', () => {
           '\n***\nPermissions:\n\n- roles: manager'
         ],
         [
-          new Permission().ownerAttribute('publisher'),
-          '\n***\nPermissions:\n\n- ownerAttributes: publisher'
+          new Permission().userAttribute('publisher'),
+          '\n***\nPermissions:\n\n- userAttributes: publisher'
         ],
         [
           new Permission().lookup(Language, { createdBy: 'someAttribute' }),
@@ -426,8 +426,8 @@ describe('Permission', () => {
           new Permission()
             .role('manager')
             .role('admin')
-            .ownerAttribute('publisher')
-            .ownerAttribute('organizer')
+            .userAttribute('publisher')
+            .userAttribute('organizer')
             .lookup(Language, { createdBy: 'someAttribute' })
             .lookup(Language, { updatedAt: 'anotherAttribute' })
             .lookup(Language, { source: 'lorem', mainContinent: 'ipsum' })
@@ -435,7 +435,7 @@ describe('Permission', () => {
             .value('anotherAttribute', 'hello'),
           '\n***\nPermissions:\n\n' +
             '- roles: manager, admin\n' +
-            '- ownerAttributes: publisher, organizer\n' +
+            '- userAttributes: publisher, organizer\n' +
             '- lookups: \n' +
             '  - Entity: Language \n' +
             '    - createdBy -> someAttribute\n' +
@@ -643,7 +643,7 @@ describe('Permission', () => {
     it('should throw if permissions have unknown attributes defined', () => {
 
       const permissions1 = {
-        read: new Permission().ownerAttribute('notHere')
+        read: new Permission().userAttribute('notHere')
       }
 
       function fn1() {
@@ -667,7 +667,7 @@ describe('Permission', () => {
 
       const permissions3 = {
         mutations: {
-          update: new Permission().ownerAttribute('notHere')
+          update: new Permission().userAttribute('notHere')
         }
       }
 
@@ -683,7 +683,7 @@ describe('Permission', () => {
     it('should throw if permissions have invalid attributes defined', () => {
 
       const permissions = {
-        read: new Permission().ownerAttribute('someAttribute')
+        read: new Permission().userAttribute('someAttribute')
       }
 
       function fn() {
@@ -699,7 +699,7 @@ describe('Permission', () => {
 
       const permissions = {
         mutations: {
-          noSuchMutation: new Permission().ownerAttribute('someAttribute')
+          noSuchMutation: new Permission().userAttribute('someAttribute')
         }
       }
 

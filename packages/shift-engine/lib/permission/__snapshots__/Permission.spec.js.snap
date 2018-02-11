@@ -6,15 +6,15 @@ exports[`Permission lookup permissions should reject if entity is missing 1`] = 
 
 exports[`Permission lookup permissions should reject if lookupMap is missing 1`] = `"Permission type 'lookup' expects a lookupMap"`;
 
-exports[`Permission ownerAttribute permissions should reject if attribute name is missing 1`] = `"Permission type 'ownerAttribute' expects an attribute name"`;
+exports[`Permission userAttribute permissions should reject if attribute name is missing 1`] = `"Permission type 'userAttribute' expects an attribute name"`;
 
-exports[`Permission ownerAttribute permissions should reject if duplicate attribute names are provided 1`] = `"Duplicate attribute name 'profile' for permission type 'ownerAttribute'"`;
+exports[`Permission userAttribute permissions should reject if duplicate attribute names are provided 1`] = `"Duplicate attribute name 'profile' for permission type 'userAttribute'"`;
 
-exports[`Permission permission attributes should reject if ownerAttribute is not a reference to the user entity 1`] = `"Cannot use attribute 'any' in 'City.permissions' as 'ownerAttribute' as it is not a reference to the User entity"`;
+exports[`Permission permission attributes should reject if userAttribute is not a reference to the user entity 1`] = `"Cannot use attribute 'any' in 'City.permissions' as 'userAttribute' as it is not a reference to the User entity"`;
 
-exports[`Permission permission attributes should reject if ownerAttribute is not a reference to the user entity 2`] = `"Cannot use attribute 'cityName' in 'City.permissions' as 'ownerAttribute' as it is not a reference to the User entity"`;
+exports[`Permission permission attributes should reject if userAttribute is not a reference to the user entity 2`] = `"Cannot use attribute 'cityName' in 'City.permissions' as 'userAttribute' as it is not a reference to the User entity"`;
 
-exports[`Permission permission attributes should reject if ownerAttribute is not a reference to the user entity 3`] = `"Cannot use attribute 'city' in 'User.permissions' as 'ownerAttribute' as it is not a reference to the User entity"`;
+exports[`Permission permission attributes should reject if userAttribute is not a reference to the user entity 3`] = `"Cannot use attribute 'city' in 'User.permissions' as 'userAttribute' as it is not a reference to the User entity"`;
 
 exports[`Permission permissions check simple should reject if non-Permission object is provided 1`] = `"checkPermissionSimple needs a valid permission object"`;
 
@@ -24,7 +24,7 @@ exports[`Permission permissions description should reject if non-Permission obje
 
 exports[`Permission processEntityPermissions should throw if permissions are assigned to unknown mutations 1`] = `"Unknown mutation 'noSuchMutation' used for permissions in entity 'SomeEntityName'"`;
 
-exports[`Permission processEntityPermissions should throw if permissions have invalid attributes defined 1`] = `"Cannot use attribute 'someAttribute' in 'SomeEntityName.permissions' as 'ownerAttribute' as it is not a reference to the User entity"`;
+exports[`Permission processEntityPermissions should throw if permissions have invalid attributes defined 1`] = `"Cannot use attribute 'someAttribute' in 'SomeEntityName.permissions' as 'userAttribute' as it is not a reference to the User entity"`;
 
 exports[`Permission processEntityPermissions should throw if permissions have unknown attributes defined 1`] = `"Cannot use attribute 'notHere' in 'SomeEntityName.permissions' for 'read' as it does not exist"`;
 
