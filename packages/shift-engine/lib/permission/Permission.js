@@ -443,6 +443,37 @@ export const buildPermissionFilterSingle = (permission, userId, userRoles, entit
 
 
 
+export const buildPermissionFilter = (_permissions, userId, userRoles, entity) => {
+
+  let where
+
+  if (!_permissions) {
+    return where
+  }
+
+  const permissions = isArray(_permissions)
+    ? _permissions
+    : [_permissions]
+
+  permissions.map(permission => {
+    const initialPass = checkPermissionSimple(permission, userId, userRoles)
+
+    if (initialPass) {
+      const permissionFilter = buildPermissionFilterSingle(permission, userId, userRoles, entity)
+
+      if (permissionFilter) {
+        where = where || {}
+        where.$or = where.$or || []
+        where.$or.push(permissionFilter)
+      }
+    }
+  })
+
+  return where
+}
+
+
+
 export const checkPermissionAdvanced = (data, permission, userId = null) => {
 
   passOrThrow(

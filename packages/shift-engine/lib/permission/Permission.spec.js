@@ -8,6 +8,7 @@ import Permission, {
   buildUserAttributesPermissionFilter,
   buildStatesPermissionFilter,
   buildPermissionFilterSingle,
+  buildPermissionFilter,
   processEntityPermissions,
 } from './Permission';
 import Entity from '../entity/Entity';
@@ -563,7 +564,7 @@ describe('Permission', () => {
   })
 
 
-  describe.only('build permission filter', () => {
+  describe('build permission filter', () => {
 
     const userId = 123
     const userRoles = ['manager', 'reviewer']
@@ -586,7 +587,7 @@ describe('Permission', () => {
     })
 
 
-    describe.only('userAttributes', () => {
+    describe('userAttributes', () => {
 
       it('should reject if userId is not provided', () => {
 
@@ -637,7 +638,7 @@ describe('Permission', () => {
     })
 
 
-    describe.only('states', () => {
+    describe('states', () => {
 
       it('should reject if entity is not provided', () => {
 
@@ -700,7 +701,7 @@ describe('Permission', () => {
     })
 
 
-    describe.only('all permission types', () => {
+    describe('all permission types', () => {
 
       it('should return undefined filters if no permission type is used', () => {
 
@@ -717,8 +718,6 @@ describe('Permission', () => {
         const permission = new Permission()
           .authenticated()
           .userAttribute('author')
-          // .state('open')
-          // .state('inTransfer')
 
         const filter = buildPermissionFilterSingle(permission, userId, userRoles, someEntity)
 
@@ -735,6 +734,118 @@ describe('Permission', () => {
           .state('inTransfer')
 
         const filter = buildPermissionFilterSingle(permission, userId, userRoles, someEntity)
+
+        expect(filter).toMatchSnapshot();
+      })
+
+    })
+
+
+    describe('combine multiple permissions', () => {
+
+      it('should return undefined filters if no permission type is used', () => {
+
+        const permission = new Permission()
+
+        const filter = buildPermissionFilter(permission, userId, userRoles, someEntity)
+
+        expect(filter).toBeUndefined()
+      })
+
+
+      it('should return undefined filters if request does not pass simple permission checks', () => {
+
+        const permission1 = new Permission()
+          .authenticated()
+          .state('open')
+          .state('inTransfer')
+
+        const filter1 = buildPermissionFilter(permission1, null, null, someEntity)
+
+        expect(filter1).toBeUndefined()
+
+
+        const permission2 = new Permission()
+          .authenticated()
+          .role('customer')
+          .state('open')
+          .state('inTransfer')
+
+        const filter2 = buildPermissionFilter(permission2, userId, userRoles, someEntity)
+
+        expect(filter2).toBeUndefined()
+
+
+        const multiPermissions = [
+          new Permission()
+            .authenticated()
+            .role('customer')
+            .state('open')
+            .state('inTransfer'),
+          new Permission()
+            .role('agent')
+            .userAttribute('createdBy')
+        ]
+
+        const filter3 = buildPermissionFilter(multiPermissions, userId, userRoles, someEntity)
+
+        expect(filter3).toBeUndefined()
+      })
+
+
+      it('should generate filters for single permissions', () => {
+
+        const permission = new Permission()
+          .authenticated()
+          .userAttribute('author')
+          .state('open')
+
+        const filter = buildPermissionFilter(permission, userId, userRoles, someEntity)
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate filters for multiple permissions', () => {
+
+        const multiPermissions = [
+          new Permission()
+            .authenticated()
+            .userAttribute('author')
+            .state('open')
+            .state('inTransfer'),
+          new Permission()
+            .role('reviewer')
+            .userAttribute('createdBy')
+        ]
+
+        const filter = buildPermissionFilter(multiPermissions, userId, userRoles, someEntity)
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate filters for eligible permissions only', () => {
+
+        const multiPermissions = [
+          new Permission()
+            .authenticated()
+            .role('customer')
+            .state('open'),
+          new Permission()
+            .authenticated()
+            .userAttribute('author')
+            .state('open')
+            .state('inTransfer'),
+          new Permission()
+            .role('reviewer')
+            .userAttribute('createdBy'),
+          new Permission()
+            .role('admin')
+            .userAttribute('author')
+        ]
+
+        const filter = buildPermissionFilter(multiPermissions, userId, userRoles, someEntity)
 
         expect(filter).toMatchSnapshot();
       })

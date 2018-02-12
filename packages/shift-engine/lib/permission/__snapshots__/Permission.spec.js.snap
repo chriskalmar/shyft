@@ -40,6 +40,117 @@ Object {
 }
 `;
 
+exports[`Permission build permission filter combine multiple permissions should generate filters for eligible permissions only 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "$and": Array [
+        Object {
+          "$or": Array [
+            Object {
+              "author": 123,
+            },
+          ],
+        },
+        Object {
+          "$or": Array [
+            Object {
+              "state": Object {
+                "$in": Array [
+                  10,
+                  40,
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+    Object {
+      "$and": Array [
+        Object {
+          "$or": Array [
+            Object {
+              "createdBy": 123,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter combine multiple permissions should generate filters for multiple permissions 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "$and": Array [
+        Object {
+          "$or": Array [
+            Object {
+              "author": 123,
+            },
+          ],
+        },
+        Object {
+          "$or": Array [
+            Object {
+              "state": Object {
+                "$in": Array [
+                  10,
+                  40,
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+    Object {
+      "$and": Array [
+        Object {
+          "$or": Array [
+            Object {
+              "createdBy": 123,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter combine multiple permissions should generate filters for single permissions 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "$and": Array [
+        Object {
+          "$or": Array [
+            Object {
+              "author": 123,
+            },
+          ],
+        },
+        Object {
+          "$or": Array [
+            Object {
+              "state": Object {
+                "$in": Array [
+                  10,
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}
+`;
+
 exports[`Permission build permission filter states should generate filters for multiple entries 1`] = `
 Object {
   "$or": Array [
