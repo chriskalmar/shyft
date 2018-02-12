@@ -542,6 +542,12 @@ describe('Permission', () => {
         userId,
         userRoles,
       )).toBe(false)
+
+      expect(checkPermissionSimple(
+        new Permission().authenticated().role('admin'),
+        userId,
+        userRoles,
+      )).toBe(false)
     })
 
 

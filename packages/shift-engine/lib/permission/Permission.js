@@ -330,14 +330,6 @@ export const checkPermissionSimple = (permission, userId = null, userRoles = [])
     return true
   }
 
-  if (permission.everyoneCanAccess) {
-    return true
-  }
-
-  if (permission.authenticatedCanAccess && userId) {
-    return true
-  }
-
   if (userId && userRoles) {
     let foundRole = false
     permission.roles.map(role => {
@@ -349,6 +341,14 @@ export const checkPermissionSimple = (permission, userId = null, userRoles = [])
     if (foundRole) {
       return true
     }
+  }
+
+  if (permission.authenticatedCanAccess && userId && !permission.roles.length) {
+    return true
+  }
+
+  if (permission.everyoneCanAccess) {
+    return true
   }
 
   return false
