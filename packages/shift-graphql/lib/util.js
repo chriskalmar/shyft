@@ -1,7 +1,7 @@
 
 import _ from 'lodash';
 import pluralize from 'pluralize';
-
+import constants from './constants';
 
 
 export function generateTypeName(name) {
@@ -59,6 +59,32 @@ export const deserializeCursor = (cursor) => {
     return new Error('Invalid cursor provided')
   }
 }
+
+
+
+export const addRelayTypePromoterToInstance = (typeName, instance) => {
+  instance[constants.RELAY_TYPE_PROMOTER_FIELD] = typeName
+  return instance
+}
+
+export const addRelayTypePromoterToList = (typeName, list) => {
+  return list.map(instance => {
+    return addRelayTypePromoterToInstance(typeName, instance)
+  })
+}
+
+export const addRelayTypePromoterToInstanceFn = (typeName) => {
+  return (instance) => {
+    return addRelayTypePromoterToInstance(typeName, instance)
+  }
+}
+
+export const addRelayTypePromoterToListFn = (typeName) => {
+  return (list) => {
+    return addRelayTypePromoterToList(typeName, list)
+  }
+}
+
 
 
 export default {

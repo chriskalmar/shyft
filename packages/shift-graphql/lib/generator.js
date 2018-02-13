@@ -1,5 +1,8 @@
 
-import util from './util';
+import util, {
+  addRelayTypePromoterToList,
+  addRelayTypePromoterToInstanceFn,
+} from './util';
 import _ from 'lodash';
 import constants from './constants';
 import ProtocolGraphQL from './ProtocolGraphQL';
@@ -103,7 +106,8 @@ const getNodeDefinitions = () => {
 
     if (entity) {
       const storageType = entity.storageType
-      return storageType.findOne(entity, id, null, context, constants.RELAY_TYPE_PROMOTER_FIELD)
+      return storageType.findOne(entity, id, null, context)
+        .then(addRelayTypePromoterToInstanceFn(entity.name))
         .then(entity.graphql.dataShaper)
     }
 
@@ -176,9 +180,11 @@ const generateListQueries = () => {
         const {
           data,
           pageInfo,
-        } = await storageType.find(entity, args, context, constants.RELAY_TYPE_PROMOTER_FIELD)
+        } = await storageType.find(entity, args, context)
 
-        const transformedData = entity.graphql.dataSetShaper(data)
+        const transformedData = entity.graphql.dataSetShaper(
+          addRelayTypePromoterToList(entity.name, data)
+        )
 
         return connectionFromData(
           {
@@ -245,7 +251,8 @@ const generateInstanceQueries = (idFetcher) => {
           }
         },
         resolve: (source, args, context) => {
-          return storageType.findOne(entity, args[ fieldName ], args, context, constants.RELAY_TYPE_PROMOTER_FIELD)
+          return storageType.findOne(entity, args[ fieldName ], args, context)
+            .then(addRelayTypePromoterToInstanceFn(entity.name))
             .then(entity.graphql.dataShaper)
         },
       }
@@ -298,9 +305,11 @@ const generateReverseConnections = (entity) => {
         const {
           data,
           pageInfo,
-        } = await storageType.find(sourceEntity, args, context, constants.RELAY_TYPE_PROMOTER_FIELD, parentConnection)
+        } = await storageType.find(sourceEntity, args, context, parentConnection)
 
-        const transformedData = sourceEntity.graphql.dataSetShaper(data)
+        const transformedData = sourceEntity.graphql.dataSetShaper(
+          addRelayTypePromoterToList(sourceEntity.name, data)
+        )
 
         return connectionFromData(
           {
@@ -412,7 +421,8 @@ export const generateGraphQLSchema = (schema) => {
                 return Promise.resolve(null)
               }
 
-              return storageType.findOne(targetEntity, referenceId, args, context, constants.RELAY_TYPE_PROMOTER_FIELD)
+              return storageType.findOne(targetEntity, referenceId, args, context)
+                .then(addRelayTypePromoterToInstanceFn(targetEntity.name))
                 .then(targetEntity.graphql.dataShaper)
             }
 

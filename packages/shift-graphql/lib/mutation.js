@@ -18,7 +18,6 @@ import ProtocolGraphQL from './ProtocolGraphQL';
 
 import {
   isEntity,
-  constants,
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
   INDEX_UNIQUE,
@@ -31,6 +30,8 @@ import {
 
 import {
   generateTypeNamePascalCase,
+  addRelayTypePromoterToInstance,
+  addRelayTypePromoterToInstanceFn,
 } from './util';
 
 
@@ -499,7 +500,8 @@ const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) 
               const nestedPayloadResolver = getNestedPayloadResolver(targetEntity, uniquenessAttributes, storageType, newPath)
               args[ foundInput ] = await nestedPayloadResolver(source, args[ foundInput ], context, info)
 
-              result = await storageType.findOneByValues(targetEntity, args[ foundInput ], context, constants.RELAY_TYPE_PROMOTER_FIELD)
+              result = await storageType.findOneByValues(targetEntity, args[ foundInput ], context)
+                .then(addRelayTypePromoterToInstanceFn(targetEntity.name))
                 .then(targetEntity.graphql.dataShaper)
 
               if (!result) {
@@ -507,7 +509,8 @@ const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) 
               }
             }
             else {
-              result = await storageType.findOne(targetEntity, args[ foundInput ], args[ foundInput ], context, constants.RELAY_TYPE_PROMOTER_FIELD)
+              result = await storageType.findOne(targetEntity, args[ foundInput ], args[ foundInput ], context)
+                .then(addRelayTypePromoterToInstanceFn(targetEntity.name))
                 .then(targetEntity.graphql.dataShaper)
             }
 
@@ -545,7 +548,7 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
     const id = extractIdFromNodeId(graphRegistry, entity.name, args.input.nodeId)
 
     if (entityMutation.preProcessor) {
-      args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+      args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
     }
 
     if (entityMutation.type === MUTATION_TYPE_CREATE) {
@@ -560,9 +563,11 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
 
     args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
 
-    let result = await storageType.mutate(entity, id, args.input[typeName], entityMutation, context, constants.RELAY_TYPE_PROMOTER_FIELD)
+    let result = await storageType.mutate(entity, id, args.input[typeName], entityMutation, context)
     if (result) {
-      result = entity.graphql.dataShaper(result)
+      result = entity.graphql.dataShaper(
+        addRelayTypePromoterToInstance(entity.name, result)
+      )
     }
 
     return {
@@ -579,7 +584,7 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
     const id = args.input[ fieldName ]
 
     if (entityMutation.preProcessor) {
-      args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+      args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
     }
 
     if (entityMutation.type === MUTATION_TYPE_UPDATE) {
@@ -590,9 +595,11 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
 
     args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
 
-    let result = await storageType.mutate(entity, id, args.input[typeName], entityMutation, context, constants.RELAY_TYPE_PROMOTER_FIELD)
+    let result = await storageType.mutate(entity, id, args.input[typeName], entityMutation, context)
     if (result) {
-      result = entity.graphql.dataShaper(result)
+      result = entity.graphql.dataShaper(
+        addRelayTypePromoterToInstance(entity.name, result)
+      )
     }
     return {
       [typeName]: result,
