@@ -560,12 +560,13 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
 
     args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
 
-    const result = await storageType.mutate(entity, id, args.input, typeName, entityMutation, context, constants.RELAY_TYPE_PROMOTER_FIELD)
-    if (result[ typeName ]) {
-      result[ typeName ] = entity.graphql.dataShaper(result[ typeName ])
+    let result = await storageType.mutate(entity, id, args.input[typeName], entityMutation, context, constants.RELAY_TYPE_PROMOTER_FIELD)
+    if (result) {
+      result = entity.graphql.dataShaper(result)
     }
+
     return {
-      ...result,
+      [typeName]: result,
       clientMutationId: args.input.clientMutationId,
     }
   }
@@ -589,12 +590,12 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
 
     args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
 
-    const result = await storageType.mutate(entity, id, args.input, typeName, entityMutation, context, constants.RELAY_TYPE_PROMOTER_FIELD)
-    if (result[ typeName ]) {
-      result[ typeName ] = entity.graphql.dataShaper(result[ typeName ])
+    let result = await storageType.mutate(entity, id, args.input[typeName], entityMutation, context, constants.RELAY_TYPE_PROMOTER_FIELD)
+    if (result) {
+      result = entity.graphql.dataShaper(result)
     }
     return {
-      ...result,
+      [typeName]: result,
       clientMutationId: args.input.clientMutationId,
     }
   }
