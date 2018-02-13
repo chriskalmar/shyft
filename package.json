@@ -4,8 +4,10 @@
   "description": "Postgres connector for shift",
   "main": "dist/",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "jest --testPathPattern lib",
+    "test:watch": "jest --testPathPattern lib --watch",
+    "test:integration": "jest --testPathPattern test",
+    "test:integration:watch": "jest  --testPathPattern test --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint-staged": "lint-staged",
