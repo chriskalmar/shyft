@@ -41,6 +41,11 @@ import {
 } from './helpers';
 
 import {
+  validateMutationPayload,
+  validateActionPayload,
+} from './validation';
+
+import {
   DataTypeUserID,
   DataTypeID,
   DataTypeInteger,
@@ -134,6 +139,9 @@ export {
   fillDefaultValues,
   serializeValues,
 
+  validateMutationPayload,
+  validateActionPayload,
+
   coreModels,
 
   Index,
@@ -209,6 +217,9 @@ export default {
   fillSystemAttributesDefaultValues,
   fillDefaultValues,
   serializeValues,
+
+  validateMutationPayload,
+  validateActionPayload,
 
   coreModels,
 

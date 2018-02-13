@@ -26,15 +26,12 @@ import {
   fillSystemAttributesDefaultValues,
   fillDefaultValues,
   serializeValues,
+  validateMutationPayload,
 } from 'shift-engine';
 
 import {
   generateTypeNamePascalCase,
 } from './util';
-
-import {
-  validateMutationPayload,
-} from './validation';
 
 
 

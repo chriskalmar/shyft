@@ -2,13 +2,17 @@
 import {
   DataTypeString,
   DataTypeInteger,
-  Entity,
-  Action,
-  buildObjectDataType,
-  buildListDataType,
-  Mutation,
+} from './datatype/dataTypes';
+
+import Entity from './entity/Entity';
+import Action from './action/Action';
+import Mutation, {
   MUTATION_TYPE_CREATE,
-} from 'shift-engine';
+} from './mutation/Mutation';
+
+import { buildObjectDataType, } from './datatype/ObjectDataType';
+import { buildListDataType, } from './datatype/ListDataType';
+
 
 import {
   validateActionPayload,

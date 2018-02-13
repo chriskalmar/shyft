@@ -13,12 +13,9 @@ import {
 } from './io';
 
 import {
-  validateActionPayload,
-} from './validation';
-
-import {
   isObjectDataType,
   isListDataType,
+  validateActionPayload,
 } from 'shift-engine';
 
 
