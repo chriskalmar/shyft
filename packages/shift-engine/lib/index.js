@@ -35,6 +35,12 @@ import {
 } from './util';
 
 import {
+  fillSystemAttributesDefaultValues,
+  fillDefaultValues,
+  serializeValues,
+} from './helpers';
+
+import {
   DataTypeUserID,
   DataTypeID,
   DataTypeInteger,
@@ -124,6 +130,10 @@ export {
   processFilter,
   deleteUndefinedProps,
 
+  fillSystemAttributesDefaultValues,
+  fillDefaultValues,
+  serializeValues,
+
   coreModels,
 
   Index,
@@ -195,6 +205,10 @@ export default {
   processCursors,
   processFilter,
   deleteUndefinedProps,
+
+  fillSystemAttributesDefaultValues,
+  fillDefaultValues,
+  serializeValues,
 
   coreModels,
 
