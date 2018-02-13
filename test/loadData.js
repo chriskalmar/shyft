@@ -1,22 +1,28 @@
 
-import { mutate } from './db';
 
+import { readRows } from './testingData';
 import { Profile } from './models/Profile';
+import {
+  mutate,
+} from './db';
+import {
+  asAdmin,
+  asyncForEach,
+} from './testUtils';
 
 
-const buildArray = (length, value=1) => {
-  return (new Array(length)).fill(value)
-}
 
 export const loadData = async (context) => {
 
-  return Promise.all(buildArray(10).map(async (item, idx) => {
+  const profiles = readRows('profiles')
+
+  await asyncForEach(profiles, async ([ username, password]) => {
     const payload = {
-      username: `user${idx}`,
-      password: `pa$$${idx}`,
+      username,
+      password,
     }
 
-    await mutate(Profile, 'signup', payload, null, context)
-  }))
+    await mutate(Profile, 'signup', payload, null, asAdmin(context))
+  })
 
 }
