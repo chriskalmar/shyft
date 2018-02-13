@@ -231,7 +231,7 @@ export const connectionFromData = ({transformedData, originalData}, entity, sour
     edges,
     totalCount: async () => {
       const storageType = entity.storageType
-      return await storageType.count(entity, source, args, context, info, parentConnection)
+      return await storageType.count(entity, args, context, parentConnection)
     },
     pageInfo: {
       startCursor: firstNode ? firstNode.cursor : null,

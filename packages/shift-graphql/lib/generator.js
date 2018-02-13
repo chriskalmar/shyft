@@ -89,7 +89,7 @@ const extendModelsForGql = (entities) => {
 // get node definitions for relay
 const getNodeDefinitions = () => {
 
-  const idFetcher = (globalId, context, info) => {
+  const idFetcher = (globalId, context) => {
     const {
       type,
       id
@@ -103,7 +103,7 @@ const getNodeDefinitions = () => {
 
     if (entity) {
       const storageType = entity.storageType
-      return storageType.findOne(entity, id, null, null, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+      return storageType.findOne(entity, id, null, context, constants.RELAY_TYPE_PROMOTER_FIELD)
         .then(entity.graphql.dataShaper)
     }
 
@@ -176,7 +176,7 @@ const generateListQueries = () => {
         const {
           data,
           pageInfo,
-        } = await storageType.find(entity, source, args, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+        } = await storageType.find(entity, args, context, constants.RELAY_TYPE_PROMOTER_FIELD)
 
         const transformedData = entity.graphql.dataSetShaper(data)
 
@@ -244,8 +244,8 @@ const generateInstanceQueries = (idFetcher) => {
             type: new GraphQLNonNull( graphqlDataType )
           }
         },
-        resolve: (source, args, context, info) => {
-          return storageType.findOne(entity, args[ fieldName ], source, args, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+        resolve: (source, args, context) => {
+          return storageType.findOne(entity, args[ fieldName ], args, context, constants.RELAY_TYPE_PROMOTER_FIELD)
             .then(entity.graphql.dataShaper)
         },
       }
@@ -298,7 +298,7 @@ const generateReverseConnections = (entity) => {
         const {
           data,
           pageInfo,
-        } = await storageType.find(sourceEntity, source, args, context, info, constants.RELAY_TYPE_PROMOTER_FIELD, parentConnection)
+        } = await storageType.find(sourceEntity, args, context, constants.RELAY_TYPE_PROMOTER_FIELD, parentConnection)
 
         const transformedData = sourceEntity.graphql.dataSetShaper(data)
 
@@ -405,14 +405,14 @@ export const generateGraphQLSchema = (schema) => {
             const targetTypeName = targetEntity.graphql.typeName
 
             reference.type = graphRegistry.types[ targetTypeName ].type
-            reference.resolve = (source, args, context, info) => {
+            reference.resolve = (source, args, context) => {
               const referenceId = source[ attribute.gqlFieldName ]
 
               if (referenceId === null) {
                 return Promise.resolve(null)
               }
 
-              return storageType.findOne(targetEntity, referenceId, source, args, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+              return storageType.findOne(targetEntity, referenceId, args, context, constants.RELAY_TYPE_PROMOTER_FIELD)
                 .then(targetEntity.graphql.dataShaper)
             }
 

@@ -499,7 +499,7 @@ const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) 
               const nestedPayloadResolver = getNestedPayloadResolver(targetEntity, uniquenessAttributes, storageType, newPath)
               args[ foundInput ] = await nestedPayloadResolver(source, args[ foundInput ], context, info)
 
-              result = await storageType.findOneByValues(targetEntity, source, args[ foundInput ], context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+              result = await storageType.findOneByValues(targetEntity, args[ foundInput ], context, constants.RELAY_TYPE_PROMOTER_FIELD)
                 .then(targetEntity.graphql.dataShaper)
 
               if (!result) {
@@ -507,7 +507,7 @@ const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) 
               }
             }
             else {
-              result = await storageType.findOne(targetEntity, args[ foundInput ], source, args[ foundInput ], context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+              result = await storageType.findOne(targetEntity, args[ foundInput ], args[ foundInput ], context, constants.RELAY_TYPE_PROMOTER_FIELD)
                 .then(targetEntity.graphql.dataShaper)
             }
 
@@ -560,7 +560,7 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
 
     args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
 
-    const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+    const result = await storageType.mutate(entity, id, args.input, typeName, entityMutation, context, constants.RELAY_TYPE_PROMOTER_FIELD)
     if (result[ typeName ]) {
       result[ typeName ] = entity.graphql.dataShaper(result[ typeName ])
     }
@@ -589,7 +589,7 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
 
     args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
 
-    const result = await storageType.mutate(entity, id, source, args.input, typeName, entityMutation, context, info, constants.RELAY_TYPE_PROMOTER_FIELD)
+    const result = await storageType.mutate(entity, id, args.input, typeName, entityMutation, context, constants.RELAY_TYPE_PROMOTER_FIELD)
     if (result[ typeName ]) {
       result[ typeName ] = entity.graphql.dataShaper(result[ typeName ])
     }
