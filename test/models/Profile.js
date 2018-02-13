@@ -81,11 +81,6 @@ export const Profile = new Entity({
       hidden: true,
     },
 
-    avatar: {
-      type: DataTypeString,
-      description: 'Image identifier of the avatar',
-    },
-
     registeredAt: {
       type: DataTypeTimestampTz,
       description: 'Time of user registration',
