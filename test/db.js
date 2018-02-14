@@ -22,7 +22,8 @@ import {
 
 
 import { Profile } from './models/Profile';
-import { ProfileRole } from './models/ProfileRole';
+import { Message } from './models/Message';
+import { Participant } from './models/Participant';
 
 
 const schema = new Schema({
@@ -31,7 +32,8 @@ const schema = new Schema({
 
   entities: [
     Profile,
-    ProfileRole,
+    Message,
+    Participant,
   ],
 })
 
