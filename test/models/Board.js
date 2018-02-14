@@ -7,6 +7,8 @@ import {
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
   Permission,
+  Index,
+  INDEX_UNIQUE,
 } from 'shift-engine';
 
 
@@ -21,6 +23,13 @@ export const Board = new Entity({
 
   includeUserTracking: true,
   includeTimeTracking: true,
+
+  indexes: [
+    new Index({
+      type: INDEX_UNIQUE,
+      attributes: ['name'],
+    }),
+  ],
 
 
   mutations: [

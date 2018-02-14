@@ -5,6 +5,8 @@ import {
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
   Permission,
+  Index,
+  INDEX_UNIQUE,
 } from 'shift-engine';
 
 import { Profile } from './Profile';
@@ -18,6 +20,13 @@ export const Participant = new Entity({
   description: 'Participant of a private board',
 
   includeTimeTracking: true,
+
+  indexes: [
+    new Index({
+      type: INDEX_UNIQUE,
+      attributes: ['board', 'inviter', 'invitee'],
+    }),
+  ],
 
   states: {
     invited: 10,
