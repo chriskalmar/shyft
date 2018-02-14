@@ -14,10 +14,10 @@ import { Profile } from './Profile';
 
 
 
-export const Group = new Entity({
-  name: 'Group',
+export const Board = new Entity({
+  name: 'Board',
   domain: 'test',
-  description: 'A chat group',
+  description: 'A chat board',
 
   includeUserTracking: true,
   includeTimeTracking: true,
@@ -26,7 +26,7 @@ export const Group = new Entity({
   mutations: [
     new Mutation({
       name: 'build',
-      description: 'build a new group',
+      description: 'build a new board',
       type: MUTATION_TYPE_CREATE,
       attributes: [
         'name',
@@ -35,7 +35,7 @@ export const Group = new Entity({
     }),
     new Mutation({
       name: 'update',
-      description: 'update a group',
+      description: 'update a board',
       type: MUTATION_TYPE_UPDATE,
       attributes: [
         'name',
@@ -79,13 +79,13 @@ export const Group = new Entity({
 
     name: {
       type: DataTypeString,
-      description: 'Name of the group',
+      description: 'Name of the board',
       required: true,
     },
 
     owner: {
       type: Profile,
-      description: 'Owner of the group',
+      description: 'Owner of the board',
       required: true,
       defaultValue(payload, mutation, entity, { req }) {
         return req.user.id
@@ -94,7 +94,7 @@ export const Group = new Entity({
 
     isPrivate: {
       type: DataTypeBoolean,
-      description: 'It is a private group',
+      description: 'It is a private board',
     },
 
   }

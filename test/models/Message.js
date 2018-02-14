@@ -8,14 +8,14 @@ import {
 } from 'shift-engine';
 
 import { Profile } from './Profile';
-import { Group } from './Group';
+import { Board } from './Board';
 
 
 
 export const Message = new Entity({
   name: 'Message',
   domain: 'test',
-  description: 'Chat message in a group',
+  description: 'Chat message in a board',
 
   includeTimeTracking: true,
 
@@ -25,7 +25,7 @@ export const Message = new Entity({
       description: 'write a message',
       type: MUTATION_TYPE_CREATE,
       attributes: [
-        'group',
+        'board',
         'content',
       ],
     }),
@@ -49,9 +49,9 @@ export const Message = new Entity({
 
   attributes: {
 
-    group: {
-      type: Group,
-      description: 'Reference to the group',
+    board: {
+      type: Board,
+      description: 'Reference to the board',
       required: true,
     },
 

@@ -8,14 +8,14 @@ import {
 } from 'shift-engine';
 
 import { Profile } from './Profile';
-import { Group } from './Group';
+import { Board } from './Board';
 
 
 
 export const Participant = new Entity({
   name: 'Participant',
   domain: 'test',
-  description: 'Participant of a private group',
+  description: 'Participant of a private board',
 
   includeTimeTracking: true,
 
@@ -28,27 +28,27 @@ export const Participant = new Entity({
   mutations: [
     new Mutation({
       name: 'join',
-      description: 'join an open group',
+      description: 'join an open board',
       type: MUTATION_TYPE_CREATE,
       toState: 'joined',
       attributes: [
-        'group',
+        'board',
       ],
     }),
 
     new Mutation({
       name: 'invite',
-      description: 'invite a user to a private group',
+      description: 'invite a user to a private board',
       type: MUTATION_TYPE_CREATE,
       toState: 'invited',
       attributes: [
-        'group',
+        'board',
         'invitee',
       ],
     }),
     new Mutation({
       name: 'accept',
-      description: 'accept an invitation to a private group',
+      description: 'accept an invitation to a private board',
       type: MUTATION_TYPE_UPDATE,
       fromState: 'invited',
       toState: 'accepted',
@@ -83,15 +83,15 @@ export const Participant = new Entity({
 
   attributes: {
 
-    group: {
-      type: Group,
-      description: 'Reference to the group',
+    board: {
+      type: Board,
+      description: 'Reference to the board',
       required: true,
     },
 
     inviter: {
       type: Profile,
-      description: 'The user that invites to a group',
+      description: 'The user that invites to a board',
       required: true,
       defaultValue(payload, mutation, entity, { req }) {
         return req.user.id
@@ -100,7 +100,7 @@ export const Participant = new Entity({
 
     invitee: {
       type: Profile,
-      description: 'The user that participates in the group',
+      description: 'The user that participates in the board',
       required: true,
       defaultValue(payload, mutation, entity, { req }) {
         if (mutation.name === 'join') {
