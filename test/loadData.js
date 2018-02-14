@@ -5,12 +5,14 @@ import { Profile } from './models/Profile';
 import { Board } from './models/Board';
 import {
   mutate,
+  findOneByValue,
 } from './db';
 import {
   asAdmin,
   asUser,
   asyncForEach,
 } from './testUtils';
+import { Participant } from './models/Participant';
 
 
 
@@ -37,6 +39,52 @@ export const loadData = async (context) => {
     }
 
     await mutate(Board, 'build', payload, null, asUser(context, userId))
+  })
+
+
+
+  const boardsCache = {}
+
+  const getBoardIdByName = async(name, userId) => {
+    if (!boardsCache[name]) {
+      const payload = {
+        name,
+      }
+
+      const board = await findOneByValue(Board, payload, asUser(context, userId))
+      boardsCache[name] = board.id
+    }
+
+    return boardsCache[name]
+  }
+
+
+  const joins = readRows('joins')
+
+  await asyncForEach(joins, async ([ name, userId]) => {
+
+    const payload = {
+      board: await getBoardIdByName(name, userId),
+    }
+
+    await mutate(Participant, 'join', payload, null, asUser(context, userId))
+  })
+
+
+  const invites = readRows('invites')
+
+  await asyncForEach(invites, async ([name, inviter, invitee, accept]) => {
+
+    const payload = {
+      board: await getBoardIdByName(name, inviter),
+      invitee,
+    }
+
+    const invitation = await mutate(Participant, 'invite', payload, null, asUser(context, inviter))
+
+    if (accept === '1') {
+      await mutate(Participant, 'accept', {}, invitation.id, asUser(context, invitee))
+    }
   })
 
 }

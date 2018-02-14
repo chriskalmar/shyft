@@ -14,12 +14,16 @@ export const readRows = (fileName) => {
 }
 
 
+export const writeTestDataFile = (fileName, content) => {
+  const filePath = `${__dirname}/data/${fileName}.csv`
+  fs.writeFileSync(filePath, content.join('\n') + '\n', 'utf8')
+}
+
 export const generateRows = (count, fileName, generator) => {
   const content = buildArray(count).map((item, idx) => {
     return generator(idx).join(',')
   })
 
-  const filePath = `${__dirname}/data/${fileName}.csv`
-  fs.writeFileSync(filePath, content.join('\n') + '\n', 'utf8')
+  writeTestDataFile(fileName, content)
 }
 

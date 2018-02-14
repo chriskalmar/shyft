@@ -105,3 +105,8 @@ export const mutate = async (entity, mutationName, payload, id, context) => {
 
   return await StorageTypePostgres.mutate(entity, id, args.input[typeName], entityMutation, context)
 }
+
+
+export const findOneByValue = async (entity, payload,  context) => {
+  return await StorageTypePostgres.findOneByValues(entity, payload, context)
+}
