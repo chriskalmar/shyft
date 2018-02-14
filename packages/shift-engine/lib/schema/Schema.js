@@ -171,7 +171,9 @@ class Schema {
 
       const attributeNames = Object.keys(attributes);
 
+      // trigger validation and generation of permissions and indexes
       entity.getPermissions();
+      entity.getIndexes();
 
       attributeNames.forEach((attributeName) => {
 
