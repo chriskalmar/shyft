@@ -41,3 +41,10 @@ export const removeDynamicData = (entity, payload) => {
 
   return ret
 }
+
+
+export const removeListDynamicData = (entity, payloadList) => {
+  return payloadList.map(payload => {
+    return removeDynamicData(entity, payload)
+  })
+}
