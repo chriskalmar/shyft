@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest --testPathIgnorePatterns test/",
     "test:watch": "jest --testPathIgnorePatterns test/ --watch",
-    "test:integration": "jest",
-    "test:integration:watch": "jest --watch",
+    "test:integration": "jest --runInBand",
+    "test:integration:watch": "jest --runInBand --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint-staged": "lint-staged",
