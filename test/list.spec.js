@@ -68,4 +68,48 @@ describe('list', () => {
     expect(profiles).toMatchSnapshot()
   })
 
+
+  it('orderBy + offset', async () => {
+    const profiles = await find(Profile, { ...orderByIdAsc, offset: 5}, asAdmin())
+    profiles.data = removeListDynamicData(Profile, profiles.data)
+    expect(profiles).toMatchSnapshot()
+  })
+
+
+  it('orderBy + first + offset', async () => {
+    const profiles = await find(Profile, { ...orderByIdAsc, first: 3, offset: 5 }, asAdmin())
+    profiles.data = removeListDynamicData(Profile, profiles.data)
+    expect(profiles).toMatchSnapshot()
+  })
+
+
+  it('orderBy + last + offset', async () => {
+    const profiles = await find(Profile, { ...orderByIdAsc, last: 3, offset: 5 }, asAdmin())
+    profiles.data = removeListDynamicData(Profile, profiles.data)
+    expect(profiles).toMatchSnapshot()
+  })
+
+
+  it('descending orderBy + offset', async () => {
+    const profiles = await find(Profile, { ...orderByIdDesc, offset: 5 }, asAdmin())
+    profiles.data = removeListDynamicData(Profile, profiles.data)
+    expect(profiles).toMatchSnapshot()
+  })
+
+
+  it('descending orderBy + first + offset', async () => {
+    const profiles = await find(Profile, { ...orderByIdDesc, first: 3, offset: 5 }, asAdmin())
+    profiles.data = removeListDynamicData(Profile, profiles.data)
+    expect(profiles).toMatchSnapshot()
+  })
+
+
+  it('descending orderBy + last + offset', async () => {
+    const profiles = await find(Profile, { ...orderByIdDesc, last: 3, offset: 5 }, asAdmin())
+    profiles.data = removeListDynamicData(Profile, profiles.data)
+    expect(profiles).toMatchSnapshot()
+  })
+
+
+
 })
