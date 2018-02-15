@@ -89,3 +89,50 @@ Object {
   "state": 20,
 }
 `;
+
+exports[`postgres should fetch instances by value 1`] = `
+Object {
+  "confirmedAt": null,
+  "id": "20",
+  "password": "bcee72e6df5d56319125920f6c69d8001e938e122cd14597e547d49cc9126e42",
+  "username": "katrina560",
+}
+`;
+
+exports[`postgres should fetch instances by value 2`] = `
+Object {
+  "confirmedAt": null,
+  "id": "14",
+  "password": "87ba65bd3e47783927b0035d5537c2bfc92362955d3a6fe39289ab03075b5b7c",
+  "username": "clark218",
+}
+`;
+
+exports[`postgres should fetch instances by value 3`] = `
+Object {
+  "confirmedAt": null,
+  "id": "1",
+  "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
+  "username": "annabel711",
+}
+`;
+
+exports[`postgres should fetch instances by value 4`] = `
+Object {
+  "board": "9",
+  "id": "202",
+  "invitee": "7",
+  "inviter": "52",
+  "state": 20,
+}
+`;
+
+exports[`postgres should fetch instances by value 5`] = `
+Object {
+  "board": "41",
+  "id": "1",
+  "invitee": "95",
+  "inviter": "95",
+  "state": 50,
+}
+`;

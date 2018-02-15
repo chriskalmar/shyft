@@ -3,6 +3,7 @@ import {
   initDB,
   count,
   findOne,
+  findOneByValue,
 } from './db';
 
 import {
@@ -81,5 +82,35 @@ describe('postgres', () => {
     participant = await findOne(Participant, 202, {}, asAdmin(context))
     expect(removeDynamicData(Participant, participant)).toMatchSnapshot()
   })
+
+
+  it('should fetch instances by value', async () => {
+    let profile
+
+    profile = await findOneByValue(Profile, { username: '----unknown----' }, asAdmin(context))
+    expect(profile).toBeUndefined()
+
+    profile = await findOneByValue(Profile, { username: 'katrina560' }, asAdmin(context))
+    expect(removeDynamicData(Profile, profile)).toMatchSnapshot()
+
+    profile = await findOneByValue(Profile, { username: 'clark218' }, asAdmin(context))
+    expect(removeDynamicData(Profile, profile)).toMatchSnapshot()
+
+    profile = await findOneByValue(Profile, { }, asAdmin(context))
+    expect(removeDynamicData(Profile, profile)).toMatchSnapshot()
+
+    let participant
+
+    participant = await findOneByValue(Participant, { board: 9999 }, asAdmin(context))
+    expect(participant).toBeUndefined()
+
+    participant = await findOneByValue(Participant, { board: 9, invitee: 7, inviter: 52 }, asAdmin(context))
+    expect(removeDynamicData(Participant, participant)).toMatchSnapshot()
+
+    participant = await findOneByValue(Participant, { }, asAdmin(context))
+    expect(removeDynamicData(Participant, participant)).toMatchSnapshot()
+
+  })
+
 
 })
