@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint-staged": "lint-staged",
-    "coverage": "NODE_ENV=test jest --coverage",
+    "coverage": "NODE_ENV=test jest --runInBand --coverage",
     "coverage-ci": "npm run coverage && cat ./coverage/lcov.info | codecov",
     "babel": "babel --presets es2015,stage-0 --ignore node_modules,coverage",
     "build": "mkdir dist; npm run test && NODE_ENV=build babel lib -d dist",
@@ -47,7 +47,7 @@
     "codecov": "^2.1.0",
     "eslint": "^3.12.1",
     "eslint-plugin-mocha": "^4.7.0",
-    "jest": "^22.2.2",
+    "jest": "^22.3.0",
     "lint-staged": "^3.2.2",
     "pre-commit": "^1.2.1"
   },
