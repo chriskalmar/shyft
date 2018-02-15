@@ -5,10 +5,8 @@ import {
   Schema,
 } from 'shift-engine';
 
-import {
-  loadModels,
-  StorageTypePostgres,
-} from '../';
+import { loadModels } from '../lib/generator';
+import { StorageTypePostgres } from '../lib/StorageTypePostgres';
 
 import {
   fillSystemAttributesDefaultValues,
