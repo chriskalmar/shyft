@@ -6,30 +6,31 @@ import {
   writeTestDataFile,
 } from './testingData';
 
-const profileCount = 110
-
-generateRows(profileCount, 'profiles', () => {
-  return [
-    casual.first_name.toLowerCase() + casual.integer(100, 999),
-    casual.word,
-  ]
-})
 
 
-const boardCount = 50
+const mockProfiles = (profileCount) => {
+  generateRows(profileCount, 'profiles', () => {
+    return [
+      casual.first_name.toLowerCase() + casual.integer(100, 999),
+      casual.word,
+    ]
+  })
+}
 
-generateRows(boardCount, 'boards', () => {
-  return [
-    casual.title,
-    casual.integer(5, profileCount-20),
-    casual.integer(0, 1),
-  ]
-})
+
+const mockBoards = (boardCount, profileCount) => {
+  generateRows(boardCount, 'boards', () => {
+    return [
+      casual.title,
+      casual.integer(5, profileCount-20),
+      casual.integer(0, 1),
+    ]
+  })
+}
 
 
-const inviteCount = 100
 
-const generateInvites = () => {
+const mockInvites = (inviteCount, profileCount) => {
   const uniqnessCache = []
   const boards = readRows('boards')
   const invites = []
@@ -52,15 +53,12 @@ const generateInvites = () => {
     }
   }
 
-  return invites
+  writeTestDataFile('invites', invites)
 }
 
-writeTestDataFile('invites', generateInvites())
 
 
-const joinCount = 200
-
-const generateJoins = () => {
+const mockJoins = (joinCount, profileCount) => {
   const uniqnessCache = []
   const boards = readRows('boards')
   const joins = []
@@ -82,9 +80,28 @@ const generateJoins = () => {
     }
   }
 
-  return joins
+  writeTestDataFile('joins', joins)
 }
 
-writeTestDataFile('joins', generateJoins())
+
+const profileCount = 110
+const boardCount = 50
+const inviteCount = 100
+const joinCount = 200
 
 
+export const generateMockData = () => {
+  mockProfiles(profileCount)
+  mockBoards(boardCount, profileCount)
+  mockInvites(inviteCount, profileCount)
+  mockJoins(joinCount, profileCount)
+}
+
+
+
+export const counts = {
+  profileCount,
+  boardCount,
+  joinCount,
+  inviteCount,
+}
