@@ -84,4 +84,9 @@ describe('postgres', () => {
   })
 
 
+  it('should return null when instance is not found', async () => {
+    const profile = await findOne(Profile, 10000, {}, asAdmin())
+    expect(profile).toBeNull()
+  })
+
 })

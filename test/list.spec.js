@@ -27,42 +27,42 @@ const orderByIdDesc = {
 
 describe('list', () => {
 
-  it('should fetch lists', async () => {
+  it('orderBy', async () => {
     const profiles = await find(Profile, { ...orderByIdAsc }, asAdmin())
     profiles.data = removeListDynamicData(Profile, profiles.data)
     expect(profiles).toMatchSnapshot()
   })
 
 
-  it('should fetch lists using `first`', async () => {
+  it('orderBy + first', async () => {
     const profiles = await find(Profile, { ...orderByIdAsc, first: 3 }, asAdmin())
     profiles.data = removeListDynamicData(Profile, profiles.data)
     expect(profiles).toMatchSnapshot()
   })
 
 
-  it('should fetch lists using `last`', async () => {
+  it('orderBy + last', async () => {
     const profiles = await find(Profile, { ...orderByIdAsc, last: 3 }, asAdmin())
     profiles.data = removeListDynamicData(Profile, profiles.data)
     expect(profiles).toMatchSnapshot()
   })
 
 
-  it('should fetch lists with descending sort', async () => {
+  it('descending orderBy', async () => {
     const profiles = await find(Profile, { ...orderByIdDesc }, asAdmin())
     profiles.data = removeListDynamicData(Profile, profiles.data)
     expect(profiles).toMatchSnapshot()
   })
 
 
-  it('should fetch lists using `first` with descending sort', async () => {
+  it('descending orderBy + first', async () => {
     const profiles = await find(Profile, { ...orderByIdDesc, first: 3 }, asAdmin())
     profiles.data = removeListDynamicData(Profile, profiles.data)
     expect(profiles).toMatchSnapshot()
   })
 
 
-  it('should fetch lists using `last` with descending sort', async () => {
+  it('descending orderBy + last', async () => {
     const profiles = await find(Profile, { ...orderByIdDesc, last: 3 }, asAdmin())
     profiles.data = removeListDynamicData(Profile, profiles.data)
     expect(profiles).toMatchSnapshot()

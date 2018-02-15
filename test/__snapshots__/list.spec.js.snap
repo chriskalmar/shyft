@@ -1,106 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`list should fetch lists 1`] = `
-Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "id": "1",
-      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
-      "username": "annabel711",
-    },
-    Object {
-      "confirmedAt": null,
-      "id": "2",
-      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
-      "username": "anya543",
-    },
-    Object {
-      "confirmedAt": null,
-      "id": "3",
-      "password": "d36dc0a7b548fe7a1e0da69049ea1b14db66b6ea408e297c8f700e666843b020",
-      "username": "fleta342",
-    },
-    Object {
-      "confirmedAt": null,
-      "id": "4",
-      "password": "94b5f0fa59e958580234a46304f711dbf0276bcee26ce8ef14e9c750fcaa5a2b",
-      "username": "victor821",
-    },
-    Object {
-      "confirmedAt": null,
-      "id": "5",
-      "password": "7679f40138809eb3e012b29a46160f797b3afd72227099bde320fbc7e725e59d",
-      "username": "griffin807",
-    },
-    Object {
-      "confirmedAt": null,
-      "id": "6",
-      "password": "bbd72dedbd01e6593f9bdb72cb6372f299c686e922fc992aafbe820985dce209",
-      "username": "jeremy386",
-    },
-    Object {
-      "confirmedAt": null,
-      "id": "7",
-      "password": "a71d5794449a7019156a0a06fccf3e5ef522fc8767edee6b08292050c52c25d3",
-      "username": "autumn520",
-    },
-    Object {
-      "confirmedAt": null,
-      "id": "8",
-      "password": "5f53b0a2be22e28dc4b056f663910c046a33f9b2d779eaf997ea771fe1881a13",
-      "username": "edward969",
-    },
-    Object {
-      "confirmedAt": null,
-      "id": "9",
-      "password": "913a5aa81861da1fe643478d72c343152b38d0fe841a6b02bbe74bab7004a2de",
-      "username": "omari409",
-    },
-    Object {
-      "confirmedAt": null,
-      "id": "10",
-      "password": "16149626b0365e04a9a52d02e17ca8aeb63680b9f5ee2ba334b0b1a38a833cfe",
-      "username": "leon807",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
-  },
-}
-`;
-
-exports[`list should fetch lists using \`first\` 1`] = `
-Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "id": "1",
-      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
-      "username": "annabel711",
-    },
-    Object {
-      "confirmedAt": null,
-      "id": "2",
-      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
-      "username": "anya543",
-    },
-    Object {
-      "confirmedAt": null,
-      "id": "3",
-      "password": "d36dc0a7b548fe7a1e0da69049ea1b14db66b6ea408e297c8f700e666843b020",
-      "username": "fleta342",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
-  },
-}
-`;
-
-exports[`list should fetch lists using \`first\` with descending sort 1`] = `
+exports[`list descending orderBy + first 1`] = `
 Object {
   "data": Array [
     Object {
@@ -129,36 +29,7 @@ Object {
 }
 `;
 
-exports[`list should fetch lists using \`last\` 1`] = `
-Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "id": "108",
-      "password": "b00046da5a1751e46b557fab4edb5d91e13c44c8a0205fc2d89275d422df49ad",
-      "username": "tianna226",
-    },
-    Object {
-      "confirmedAt": null,
-      "id": "109",
-      "password": "bf94deb712f9040ba1effa106091e0a1ca330f4b1f311e44b021e955ad203100",
-      "username": "muriel707",
-    },
-    Object {
-      "confirmedAt": null,
-      "id": "110",
-      "password": "e97188c43aaf749ffa43df9286c35eb150174bb7bfe69dc6df7689fb782b976a",
-      "username": "krystel170",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": true,
-  },
-}
-`;
-
-exports[`list should fetch lists using \`last\` with descending sort 1`] = `
+exports[`list descending orderBy + last 1`] = `
 Object {
   "data": Array [
     Object {
@@ -187,7 +58,7 @@ Object {
 }
 `;
 
-exports[`list should fetch lists with descending sort 1`] = `
+exports[`list descending orderBy 1`] = `
 Object {
   "data": Array [
     Object {
@@ -249,6 +120,135 @@ Object {
       "id": "101",
       "password": "e44591879052d99a7509f498e6e65985123b34c9b69ff6eafacb9b05f9deb1eb",
       "username": "isidro418",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list orderBy + first 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "id": "1",
+      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
+      "username": "annabel711",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "2",
+      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
+      "username": "anya543",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "3",
+      "password": "d36dc0a7b548fe7a1e0da69049ea1b14db66b6ea408e297c8f700e666843b020",
+      "username": "fleta342",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list orderBy + last 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "id": "108",
+      "password": "b00046da5a1751e46b557fab4edb5d91e13c44c8a0205fc2d89275d422df49ad",
+      "username": "tianna226",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "109",
+      "password": "bf94deb712f9040ba1effa106091e0a1ca330f4b1f311e44b021e955ad203100",
+      "username": "muriel707",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "110",
+      "password": "e97188c43aaf749ffa43df9286c35eb150174bb7bfe69dc6df7689fb782b976a",
+      "username": "krystel170",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`list orderBy 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "id": "1",
+      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
+      "username": "annabel711",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "2",
+      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
+      "username": "anya543",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "3",
+      "password": "d36dc0a7b548fe7a1e0da69049ea1b14db66b6ea408e297c8f700e666843b020",
+      "username": "fleta342",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "4",
+      "password": "94b5f0fa59e958580234a46304f711dbf0276bcee26ce8ef14e9c750fcaa5a2b",
+      "username": "victor821",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "5",
+      "password": "7679f40138809eb3e012b29a46160f797b3afd72227099bde320fbc7e725e59d",
+      "username": "griffin807",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "6",
+      "password": "bbd72dedbd01e6593f9bdb72cb6372f299c686e922fc992aafbe820985dce209",
+      "username": "jeremy386",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "7",
+      "password": "a71d5794449a7019156a0a06fccf3e5ef522fc8767edee6b08292050c52c25d3",
+      "username": "autumn520",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "8",
+      "password": "5f53b0a2be22e28dc4b056f663910c046a33f9b2d779eaf997ea771fe1881a13",
+      "username": "edward969",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "9",
+      "password": "913a5aa81861da1fe643478d72c343152b38d0fe841a6b02bbe74bab7004a2de",
+      "username": "omari409",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "10",
+      "password": "16149626b0365e04a9a52d02e17ca8aeb63680b9f5ee2ba334b0b1a38a833cfe",
+      "username": "leon807",
     },
   ],
   "pageInfo": Object {
