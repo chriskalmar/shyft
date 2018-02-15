@@ -107,6 +107,21 @@ export const mutate = async (entity, mutationName, payload, id, context) => {
 }
 
 
-export const findOneByValue = async (entity, payload,  context) => {
+export const findOne = async (entity, id, payload, context) => {
+  return await StorageTypePostgres.findOne(entity, id, payload, context)
+}
+
+
+export const findOneByValue = async (entity, payload, context) => {
   return await StorageTypePostgres.findOneByValues(entity, payload, context)
+}
+
+
+export const find = async (entity, payload, context, parentConnection) => {
+  return await StorageTypePostgres.find(entity, payload, context, parentConnection)
+}
+
+
+export const count = async (entity, payload, context, parentConnection) => {
+  return await StorageTypePostgres.count(entity, payload, context, parentConnection)
 }
