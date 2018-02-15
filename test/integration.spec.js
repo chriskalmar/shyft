@@ -1,6 +1,5 @@
-
+import './beforeAll';
 import {
-  initDB,
   count,
   findOne,
   findOneByValue,
@@ -12,24 +11,10 @@ import {
 } from './testUtils';
 
 import { counts } from './testSetGenerator';
-import { loadData } from './loadData';
 
 import { Profile } from './models/Profile';
 import { Board } from './models/Board';
 import { Participant } from './models/Participant';
-
-const context = {
-  loaders: {},
-}
-
-
-beforeAll(() => {
-  return initDB()
-    .then(async (db) => {
-      context.postgresDB = db
-      await loadData(context)
-    })
-})
 
 
 describe('postgres', () => {
