@@ -16,7 +16,7 @@ import { Participant } from './models/Participant';
 
 
 
-export const loadData = async (context) => {
+export const loadData = async () => {
 
   const profiles = readRows('profiles')
 
@@ -26,7 +26,7 @@ export const loadData = async (context) => {
       password,
     }
 
-    await mutate(Profile, 'signup', payload, null, asAdmin(context))
+    await mutate(Profile, 'signup', payload, null, asAdmin())
   })
 
 
@@ -38,7 +38,7 @@ export const loadData = async (context) => {
       isPrivate: isPrivate === '1',
     }
 
-    await mutate(Board, 'build', payload, null, asUser(context, userId))
+    await mutate(Board, 'build', payload, null, asUser(userId))
   })
 
 
@@ -51,7 +51,7 @@ export const loadData = async (context) => {
         name,
       }
 
-      const board = await findOneByValue(Board, payload, asUser(context, userId))
+      const board = await findOneByValue(Board, payload, asUser(userId))
       boardsCache[name] = board.id
     }
 
@@ -67,7 +67,7 @@ export const loadData = async (context) => {
       board: await getBoardIdByName(name, userId),
     }
 
-    await mutate(Participant, 'join', payload, null, asUser(context, userId))
+    await mutate(Participant, 'join', payload, null, asUser(userId))
   })
 
 
@@ -80,10 +80,10 @@ export const loadData = async (context) => {
       invitee,
     }
 
-    const invitation = await mutate(Participant, 'invite', payload, null, asUser(context, inviter))
+    const invitation = await mutate(Participant, 'invite', payload, null, asUser(inviter))
 
     if (accept === '1') {
-      await mutate(Participant, 'accept', {}, invitation.id, asUser(context, invitee))
+      await mutate(Participant, 'accept', {}, invitation.id, asUser(invitee))
     }
   })
 

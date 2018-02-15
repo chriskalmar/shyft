@@ -20,13 +20,13 @@ import { Participant } from './models/Participant';
 describe('postgres', () => {
 
   it('test data imported correctly', async () => {
-    const profileCount = await count(Profile, {}, asAdmin(context))
+    const profileCount = await count(Profile, {}, asAdmin())
     expect(profileCount).toEqual(counts.profileCount)
 
-    const boardCount = await count(Board, {}, asAdmin(context))
+    const boardCount = await count(Board, {}, asAdmin())
     expect(boardCount).toEqual(counts.boardCount)
 
-    const participantCount = await count(Participant, {}, asAdmin(context))
+    const participantCount = await count(Participant, {}, asAdmin())
     expect(participantCount).toEqual(counts.joinCount + counts.inviteCount)
   })
 
@@ -34,37 +34,37 @@ describe('postgres', () => {
   it('should fetch instances by ID', async () => {
     let profile
 
-    profile = await findOne(Profile, 10, {}, asAdmin(context))
+    profile = await findOne(Profile, 10, {}, asAdmin())
     expect(removeDynamicData(Profile, profile)).toMatchSnapshot()
 
-    profile = await findOne(Profile, 20, {}, asAdmin(context))
+    profile = await findOne(Profile, 20, {}, asAdmin())
     expect(removeDynamicData(Profile, profile)).toMatchSnapshot()
 
-    profile = await findOne(Profile, 30, {}, asAdmin(context))
+    profile = await findOne(Profile, 30, {}, asAdmin())
     expect(removeDynamicData(Profile, profile)).toMatchSnapshot()
 
 
     let board
 
-    board = await findOne(Board, 10, {}, asAdmin(context))
+    board = await findOne(Board, 10, {}, asAdmin())
     expect(removeDynamicData(Board, board)).toMatchSnapshot()
 
-    board = await findOne(Board, 20, {}, asAdmin(context))
+    board = await findOne(Board, 20, {}, asAdmin())
     expect(removeDynamicData(Board, board)).toMatchSnapshot()
 
-    board = await findOne(Board, 30, {}, asAdmin(context))
+    board = await findOne(Board, 30, {}, asAdmin())
     expect(removeDynamicData(Board, board)).toMatchSnapshot()
 
 
     let participant
 
-    participant = await findOne(Participant, 200, {}, asAdmin(context))
+    participant = await findOne(Participant, 200, {}, asAdmin())
     expect(removeDynamicData(Participant, participant)).toMatchSnapshot()
 
-    participant = await findOne(Participant, 201, {}, asAdmin(context))
+    participant = await findOne(Participant, 201, {}, asAdmin())
     expect(removeDynamicData(Participant, participant)).toMatchSnapshot()
 
-    participant = await findOne(Participant, 202, {}, asAdmin(context))
+    participant = await findOne(Participant, 202, {}, asAdmin())
     expect(removeDynamicData(Participant, participant)).toMatchSnapshot()
   })
 
@@ -72,27 +72,27 @@ describe('postgres', () => {
   it('should fetch instances by value', async () => {
     let profile
 
-    profile = await findOneByValue(Profile, { username: '----unknown----' }, asAdmin(context))
+    profile = await findOneByValue(Profile, { username: '----unknown----' }, asAdmin())
     expect(profile).toBeUndefined()
 
-    profile = await findOneByValue(Profile, { username: 'katrina560' }, asAdmin(context))
+    profile = await findOneByValue(Profile, { username: 'katrina560' }, asAdmin())
     expect(removeDynamicData(Profile, profile)).toMatchSnapshot()
 
-    profile = await findOneByValue(Profile, { username: 'clark218' }, asAdmin(context))
+    profile = await findOneByValue(Profile, { username: 'clark218' }, asAdmin())
     expect(removeDynamicData(Profile, profile)).toMatchSnapshot()
 
-    profile = await findOneByValue(Profile, { }, asAdmin(context))
+    profile = await findOneByValue(Profile, { }, asAdmin())
     expect(removeDynamicData(Profile, profile)).toMatchSnapshot()
 
     let participant
 
-    participant = await findOneByValue(Participant, { board: 9999 }, asAdmin(context))
+    participant = await findOneByValue(Participant, { board: 9999 }, asAdmin())
     expect(participant).toBeUndefined()
 
-    participant = await findOneByValue(Participant, { board: 9, invitee: 7, inviter: 52 }, asAdmin(context))
+    participant = await findOneByValue(Participant, { board: 9, invitee: 7, inviter: 52 }, asAdmin())
     expect(removeDynamicData(Participant, participant)).toMatchSnapshot()
 
-    participant = await findOneByValue(Participant, { }, asAdmin(context))
+    participant = await findOneByValue(Participant, { }, asAdmin())
     expect(removeDynamicData(Participant, participant)).toMatchSnapshot()
 
   })
