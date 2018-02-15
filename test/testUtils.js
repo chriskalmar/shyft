@@ -24,3 +24,19 @@ export const asyncForEach = async (array, callback) => {
     await callback(array[index], index, array)
   }
 }
+
+
+export const removeDynamicData = (entity, payload) => {
+  const ret = {
+    ...payload
+  }
+
+  delete ret.createdAt
+  delete ret.updatedAt
+
+  if (entity.name === 'Profile') {
+    delete ret.registeredAt
+  }
+
+  return ret
+}
