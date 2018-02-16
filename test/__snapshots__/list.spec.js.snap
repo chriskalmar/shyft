@@ -277,6 +277,230 @@ Object {
 
 exports[`list filter with invalid attributes (reject) 1`] = `[Error: Unknown attribute name 'someAttributes' used in filter]`;
 
+exports[`list filter with logical operators AND AND + last 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "32",
+      "id": "241",
+      "invitee": "68",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "39",
+      "id": "232",
+      "invitee": "38",
+      "inviter": "61",
+      "state": 20,
+    },
+    Object {
+      "board": "32",
+      "id": "220",
+      "invitee": "21",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "38",
+      "id": "104",
+      "invitee": "61",
+      "inviter": "61",
+      "state": 50,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`list filter with logical operators AND AND + offset 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "39",
+      "id": "232",
+      "invitee": "38",
+      "inviter": "61",
+      "state": 20,
+    },
+    Object {
+      "board": "32",
+      "id": "220",
+      "invitee": "21",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "38",
+      "id": "104",
+      "invitee": "61",
+      "inviter": "61",
+      "state": 50,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter with logical operators AND AND + orderBy 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "32",
+      "id": "265",
+      "invitee": "36",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "32",
+      "id": "247",
+      "invitee": "107",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "32",
+      "id": "242",
+      "invitee": "61",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "32",
+      "id": "241",
+      "invitee": "68",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "39",
+      "id": "232",
+      "invitee": "38",
+      "inviter": "61",
+      "state": 20,
+    },
+    Object {
+      "board": "32",
+      "id": "220",
+      "invitee": "21",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "38",
+      "id": "104",
+      "invitee": "61",
+      "inviter": "61",
+      "state": 50,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter with logical operators OR OR + last 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "id": "37",
+      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
+      "username": "joe656",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "21",
+      "password": "95c8cee20eec57331edfd8bae64e2066c2f9b6231480df20362669d7fe65c52a",
+      "username": "weston422",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "13",
+      "password": "3256618f4558bee91e9b096351ef86e6e1eb84cb7be7eece6031d7174f321a93",
+      "username": "dana768",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`list filter with logical operators OR OR + offset 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "id": "37",
+      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
+      "username": "joe656",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "21",
+      "password": "95c8cee20eec57331edfd8bae64e2066c2f9b6231480df20362669d7fe65c52a",
+      "username": "weston422",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "13",
+      "password": "3256618f4558bee91e9b096351ef86e6e1eb84cb7be7eece6031d7174f321a93",
+      "username": "dana768",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter with logical operators OR OR + orderBy 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "id": "95",
+      "password": "c6520201ad739678e8e86c983c072c1fd95dba3b98d5023e40a8d895924b429f",
+      "username": "joel356",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "37",
+      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
+      "username": "joe656",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "21",
+      "password": "95c8cee20eec57331edfd8bae64e2066c2f9b6231480df20362669d7fe65c52a",
+      "username": "weston422",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "13",
+      "password": "3256618f4558bee91e9b096351ef86e6e1eb84cb7be7eece6031d7174f321a93",
+      "username": "dana768",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`list filter with mutliple attributes 1`] = `
 Object {
   "data": Array [

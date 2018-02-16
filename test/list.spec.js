@@ -10,6 +10,7 @@ import {
 
 import { Profile } from './models/Profile';
 import { Board } from './models/Board';
+import { Participant } from './models/Participant';
 
 
 const orderByIdAsc = {
@@ -164,5 +165,105 @@ describe('list', () => {
   })
 
 
+  describe('filter with logical operators', () => {
 
+    describe('OR', () => {
+
+      const orderBy = [{
+        attribute: 'registeredAt',
+        direction: 'DESC'
+      }]
+
+      const filter = {
+        OR: [
+          {
+            username: 'dana768'
+          },
+          {
+            username: 'weston422'
+          },
+          {
+            username__starts_with: 'jo',
+            username__ends_with: '56'
+          },
+        ]
+      }
+
+
+      it('OR + orderBy', async () => {
+        const result = await find(Profile, { orderBy, filter }, asAdmin())
+        result.data = removeListDynamicData(Profile, result.data)
+        expect(result).toMatchSnapshot()
+      })
+
+
+      it('OR + offset', async () => {
+        const result = await find(Profile, { orderBy, filter, offset: 1 }, asAdmin())
+        result.data = removeListDynamicData(Profile, result.data)
+        expect(result).toMatchSnapshot()
+      })
+
+
+      it('OR + last', async () => {
+        const result = await find(Profile, { orderBy, filter, last: 3 }, asAdmin())
+        result.data = removeListDynamicData(Profile, result.data)
+        expect(result).toMatchSnapshot()
+      })
+
+    })
+
+
+    describe('AND', () => {
+
+      const orderBy = [{
+        attribute: 'createdAt',
+        direction: 'DESC'
+      }]
+
+      const filter = {
+        AND: [
+          {
+            board__gt: 30,
+            board__lt: 40
+          },
+          {
+            state__in: [
+              20,
+              50
+            ]
+          },
+          {
+            inviter__in: [
+              61,
+              78
+            ]
+          }
+        ]
+      }
+
+
+      it('AND + orderBy', async () => {
+        const result = await find(Participant, { orderBy, filter }, asAdmin())
+        result.data = removeListDynamicData(Participant, result.data)
+        expect(result).toMatchSnapshot()
+      })
+
+
+      it('AND + offset', async () => {
+        const result = await find(Participant, { orderBy, filter, offset: 4 }, asAdmin())
+        result.data = removeListDynamicData(Participant, result.data)
+        expect(result).toMatchSnapshot()
+      })
+
+
+      it('AND + last', async () => {
+        const result = await find(Participant, { orderBy, filter, last: 4 }, asAdmin())
+        result.data = removeListDynamicData(Participant, result.data)
+        expect(result).toMatchSnapshot()
+      })
+
+    })
+
+
+  })
 })
