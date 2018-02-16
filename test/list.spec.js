@@ -9,6 +9,7 @@ import {
 } from './testUtils';
 
 import { Profile } from './models/Profile';
+import { Board } from './models/Board';
 
 
 const orderByIdAsc = {
@@ -114,6 +115,52 @@ describe('list', () => {
     const profiles = await find(Profile, { ...orderByIdDesc, last: 3, offset: 5 }, asAdmin())
     profiles.data = removeListDynamicData(Profile, profiles.data)
     expect(profiles).toMatchSnapshot()
+  })
+
+
+  it('filter', async () => {
+    const filter = {
+      username: 'hazel528'
+    }
+
+    const result = await find(Profile, { ...orderByIdAsc, filter }, asAdmin())
+    result.data = removeListDynamicData(Profile, result.data)
+    expect(result).toMatchSnapshot()
+  })
+
+
+  it('filter with no results', async () => {
+    const filter = {
+      username: '---not-found---'
+    }
+
+    const result = await find(Profile, { ...orderByIdAsc, filter }, asAdmin())
+    result.data = removeListDynamicData(Profile, result.data)
+    expect(result).toMatchSnapshot()
+  })
+
+
+  it('filter with mutliple attributes', async () => {
+    const filter = {
+      name: 'Veritatis nihil cum',
+      isPrivate: true,
+    }
+
+    const result = await find(Board, { ...orderByIdAsc, filter }, asAdmin())
+    result.data = removeListDynamicData(Board, result.data)
+    expect(result).toMatchSnapshot()
+  })
+
+
+  it('filter with invalid attributes (reject)', async () => {
+    const filter = {
+      someAttributes: 'Veritatis nihil cum',
+    }
+
+    await find(Board, { ...orderByIdAsc, filter }, asAdmin())
+      .catch(e => {
+        expect(e).toMatchSnapshot()
+      })
   })
 
 

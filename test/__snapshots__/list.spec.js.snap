@@ -258,6 +258,54 @@ Object {
 }
 `;
 
+exports[`list filter 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "id": "11",
+      "password": "70e88c7a26a5e6daca0dc1c611bbf05e26b7e1d645faeaa30c1d316c67ed9869",
+      "username": "hazel528",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter with invalid attributes (reject) 1`] = `[Error: Unknown attribute name 'someAttributes' used in filter]`;
+
+exports[`list filter with mutliple attributes 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "52",
+      "id": "9",
+      "isPrivate": true,
+      "name": "Veritatis nihil cum",
+      "owner": "52",
+      "updatedBy": "52",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter with no results 1`] = `
+Object {
+  "data": Array [],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`list orderBy + first + offset 1`] = `
 Object {
   "data": Array [
