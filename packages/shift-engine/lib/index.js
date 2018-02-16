@@ -30,9 +30,12 @@ import {
   mapOverProperties,
   sortDataByKeys,
   processCursors,
-  processFilter,
   deleteUndefinedProps,
 } from './util';
+
+import {
+  processFilter,
+} from './filter';
 
 import {
   fillSystemAttributesDefaultValues,
@@ -132,8 +135,9 @@ export {
   mapOverProperties,
   sortDataByKeys,
   processCursors,
-  processFilter,
   deleteUndefinedProps,
+
+  processFilter,
 
   fillSystemAttributesDefaultValues,
   fillDefaultValues,
@@ -211,8 +215,9 @@ export default {
   mapOverProperties,
   sortDataByKeys,
   processCursors,
-  processFilter,
   deleteUndefinedProps,
+
+  processFilter,
 
   fillSystemAttributesDefaultValues,
   fillDefaultValues,
