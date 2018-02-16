@@ -1,5 +1,9 @@
 
 import {
+  isEntity,
+} from './entity/Entity';
+
+import {
   passOrThrow,
   isMap,
   isArray,
@@ -118,7 +122,16 @@ export const processFilterLevel = (filters, attributes, path, storageType) => {
       )
 
 
-      const storageDataType = storageType.convertToStorageDataType(attribute.type)
+      let storageDataType
+
+      if (isEntity(attribute.type)) {
+        const primaryAttribute = attribute.type.getPrimaryAttribute()
+        storageDataType = storageType.convertToStorageDataType(primaryAttribute.type)
+      }
+      else {
+        storageDataType = storageType.convertToStorageDataType(attribute.type)
+      }
+
 
       passOrThrow(
         storageDataType.capabilities.indexOf(operator) >= 0,
