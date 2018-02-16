@@ -287,6 +287,16 @@ Object {
 }
 `;
 
+exports[`list orderBy + first 0 1`] = `
+Object {
+  "data": Array [],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`list orderBy + first 1`] = `
 Object {
   "data": Array [

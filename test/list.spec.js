@@ -41,6 +41,12 @@ describe('list', () => {
   })
 
 
+  it('orderBy + first 0', async () => {
+    const profiles = await find(Profile, { ...orderByIdAsc, first: 0 }, asAdmin())
+    expect(profiles).toMatchSnapshot()
+  })
+
+
   it('orderBy + last', async () => {
     const profiles = await find(Profile, { ...orderByIdAsc, last: 3 }, asAdmin())
     profiles.data = removeListDynamicData(Profile, profiles.data)
