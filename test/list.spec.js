@@ -265,5 +265,60 @@ describe('list', () => {
     })
 
 
+
+    describe('filter with nested logical operators', () => {
+
+      const orderBy = [{
+        attribute: 'board',
+        direction: 'ASC'
+      }]
+
+      const filter = {
+        AND: [
+          {
+            board__gt: 30,
+            board__lt: 40
+          },
+          {
+            state__in: [
+              20,
+              50
+            ]
+          },
+          {
+            inviter__in: [
+              61,
+              78
+            ]
+          },
+          {
+            OR: [
+              {
+                invitee: 107
+              },
+              {
+                invitee: 21
+              },
+              {
+                invitee: 38
+              },
+              {
+                invitee__gt: 60,
+                invitee__lt: 62
+              }
+            ]
+          }
+        ]
+      }
+
+
+      it('AND + OR', async () => {
+        const result = await find(Participant, { orderBy, filter }, asAdmin())
+        result.data = removeListDynamicData(Participant, result.data)
+        expect(result).toMatchSnapshot()
+      })
+
+    })
+
   })
 })

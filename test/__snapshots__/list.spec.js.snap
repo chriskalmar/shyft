@@ -501,6 +501,52 @@ Object {
 }
 `;
 
+exports[`list filter with logical operators filter with nested logical operators AND + OR 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "32",
+      "id": "220",
+      "invitee": "21",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "32",
+      "id": "242",
+      "invitee": "61",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "32",
+      "id": "247",
+      "invitee": "107",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "38",
+      "id": "104",
+      "invitee": "61",
+      "inviter": "61",
+      "state": 50,
+    },
+    Object {
+      "board": "39",
+      "id": "232",
+      "invitee": "38",
+      "inviter": "61",
+      "state": 20,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`list filter with mutliple attributes 1`] = `
 Object {
   "data": Array [
