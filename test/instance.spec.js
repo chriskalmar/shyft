@@ -7,6 +7,7 @@ import {
 import {
   asAdmin,
   removeDynamicData,
+  removeListDynamicData,
 } from './testUtils';
 
 
@@ -81,6 +82,22 @@ describe('postgres', () => {
     participant = await findOneByValue(Participant, { }, asAdmin())
     expect(removeDynamicData(Participant, participant)).toMatchSnapshot()
 
+  })
+
+
+
+  it('should utilize data loader', async () => {
+    const context = asAdmin()
+
+    const result = await Promise.all([
+      findOne(Profile, 10, {}, context),
+      findOne(Profile, 20, {}, context),
+      findOne(Profile, 30, {}, context),
+      findOne(Profile, 20, {}, context),
+      findOne(Profile, 10, {}, context)
+    ])
+
+    expect(removeListDynamicData(Profile, result)).toMatchSnapshot()
   })
 
 

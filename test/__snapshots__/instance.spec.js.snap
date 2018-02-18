@@ -136,3 +136,38 @@ Object {
   "state": 50,
 }
 `;
+
+exports[`postgres should utilize data loader 1`] = `
+Array [
+  Object {
+    "confirmedAt": null,
+    "id": "10",
+    "password": "16149626b0365e04a9a52d02e17ca8aeb63680b9f5ee2ba334b0b1a38a833cfe",
+    "username": "leon807",
+  },
+  Object {
+    "confirmedAt": null,
+    "id": "20",
+    "password": "bcee72e6df5d56319125920f6c69d8001e938e122cd14597e547d49cc9126e42",
+    "username": "katrina560",
+  },
+  Object {
+    "confirmedAt": null,
+    "id": "30",
+    "password": "c6520201ad739678e8e86c983c072c1fd95dba3b98d5023e40a8d895924b429f",
+    "username": "carissa722",
+  },
+  Object {
+    "confirmedAt": null,
+    "id": "20",
+    "password": "bcee72e6df5d56319125920f6c69d8001e938e122cd14597e547d49cc9126e42",
+    "username": "katrina560",
+  },
+  Object {
+    "confirmedAt": null,
+    "id": "10",
+    "password": "16149626b0365e04a9a52d02e17ca8aeb63680b9f5ee2ba334b0b1a38a833cfe",
+    "username": "leon807",
+  },
+]
+`;
