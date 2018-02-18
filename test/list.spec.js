@@ -321,4 +321,44 @@ describe('list', () => {
     })
 
   })
+
+
+  it('parentConnection', async () => {
+    const parentConnection = {
+      id: 60,
+      attribute: 'inviter'
+    }
+
+    const result = await find(Participant, { ...orderByIdAsc }, asAdmin(), parentConnection)
+    result.data = removeListDynamicData(Participant, result.data)
+    expect(result).toMatchSnapshot()
+  })
+
+
+  it('parentConnection + first', async () => {
+    const parentConnection = {
+      id: 60,
+      attribute: 'inviter'
+    }
+
+    const result = await find(Participant, { ...orderByIdAsc, first: 1 }, asAdmin(), parentConnection)
+    result.data = removeListDynamicData(Participant, result.data)
+    expect(result).toMatchSnapshot()
+  })
+
+
+  it('parentConnection with invalid attribute (reject)', async () => {
+    const parentConnection = {
+      id: 60,
+      attribute: 'invalidAttributeName'
+    }
+
+    await await find(Participant, { ...orderByIdAsc }, asAdmin(), parentConnection)
+      .catch(e => {
+        expect(e).toMatchSnapshot()
+      })
+  })
+
+
+
 })

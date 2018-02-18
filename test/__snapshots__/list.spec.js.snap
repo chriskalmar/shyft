@@ -843,3 +843,48 @@ Object {
   },
 }
 `;
+
+exports[`list parentConnection + first 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "41",
+      "id": "80",
+      "invitee": "60",
+      "inviter": "60",
+      "state": 50,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list parentConnection 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "41",
+      "id": "80",
+      "invitee": "60",
+      "inviter": "60",
+      "state": 50,
+    },
+    Object {
+      "board": "47",
+      "id": "109",
+      "invitee": "60",
+      "inviter": "60",
+      "state": 50,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list parentConnection with invalid attribute (reject) 1`] = `[SequelizeDatabaseError: column Participant.invalidAttributeName does not exist]`;
