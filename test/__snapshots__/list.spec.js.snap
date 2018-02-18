@@ -275,6 +275,215 @@ Object {
 }
 `;
 
+exports[`list filter variants $in 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "42",
+      "id": "6",
+      "isPrivate": true,
+      "name": "Ut et",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "48",
+      "id": "19",
+      "isPrivate": false,
+      "name": "Rerum ad",
+      "owner": "48",
+      "updatedBy": "48",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $not 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "79",
+      "id": "3",
+      "isPrivate": true,
+      "name": "Occaecati adipisci vel",
+      "owner": "79",
+      "updatedBy": "79",
+    },
+    Object {
+      "createdBy": "42",
+      "id": "4",
+      "isPrivate": false,
+      "name": "Delectus qui maxime",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "55",
+      "id": "5",
+      "isPrivate": true,
+      "name": "Cumque impedit est",
+      "owner": "55",
+      "updatedBy": "55",
+    },
+    Object {
+      "createdBy": "42",
+      "id": "6",
+      "isPrivate": true,
+      "name": "Ut et",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "72",
+      "id": "7",
+      "isPrivate": true,
+      "name": "Vel ullam",
+      "owner": "72",
+      "updatedBy": "72",
+    },
+    Object {
+      "createdBy": "59",
+      "id": "8",
+      "isPrivate": true,
+      "name": "Illo sit quia",
+      "owner": "59",
+      "updatedBy": "59",
+    },
+    Object {
+      "createdBy": "52",
+      "id": "9",
+      "isPrivate": true,
+      "name": "Veritatis nihil cum",
+      "owner": "52",
+      "updatedBy": "52",
+    },
+    Object {
+      "createdBy": "71",
+      "id": "10",
+      "isPrivate": true,
+      "name": "Sit aut",
+      "owner": "71",
+      "updatedBy": "71",
+    },
+    Object {
+      "createdBy": "81",
+      "id": "11",
+      "isPrivate": false,
+      "name": "Aut incidunt consequatur",
+      "owner": "81",
+      "updatedBy": "81",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $not_in 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "55",
+      "id": "5",
+      "isPrivate": true,
+      "name": "Cumque impedit est",
+      "owner": "55",
+      "updatedBy": "55",
+    },
+    Object {
+      "createdBy": "72",
+      "id": "7",
+      "isPrivate": true,
+      "name": "Vel ullam",
+      "owner": "72",
+      "updatedBy": "72",
+    },
+    Object {
+      "createdBy": "59",
+      "id": "8",
+      "isPrivate": true,
+      "name": "Illo sit quia",
+      "owner": "59",
+      "updatedBy": "59",
+    },
+    Object {
+      "createdBy": "52",
+      "id": "9",
+      "isPrivate": true,
+      "name": "Veritatis nihil cum",
+      "owner": "52",
+      "updatedBy": "52",
+    },
+    Object {
+      "createdBy": "71",
+      "id": "10",
+      "isPrivate": true,
+      "name": "Sit aut",
+      "owner": "71",
+      "updatedBy": "71",
+    },
+    Object {
+      "createdBy": "81",
+      "id": "11",
+      "isPrivate": false,
+      "name": "Aut incidunt consequatur",
+      "owner": "81",
+      "updatedBy": "81",
+    },
+    Object {
+      "createdBy": "23",
+      "id": "12",
+      "isPrivate": false,
+      "name": "Tenetur porro",
+      "owner": "23",
+      "updatedBy": "23",
+    },
+    Object {
+      "createdBy": "84",
+      "id": "13",
+      "isPrivate": false,
+      "name": "Suscipit aut cum",
+      "owner": "84",
+      "updatedBy": "84",
+    },
+    Object {
+      "createdBy": "26",
+      "id": "14",
+      "isPrivate": false,
+      "name": "Id cum",
+      "owner": "26",
+      "updatedBy": "26",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`list filter with invalid attributes (reject) 1`] = `[Error: Unknown attribute name 'someAttributes' used in filter]`;
 
 exports[`list filter with logical operators AND AND + last 1`] = `

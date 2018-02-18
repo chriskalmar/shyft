@@ -374,4 +374,46 @@ describe('list', () => {
   })
 
 
+
+  describe('filter variants', () => {
+
+    const runVariant = async (filter) => {
+      const result = await find(Board, { ...orderByIdAsc, filter }, asAdmin())
+      result.data = removeListDynamicData(Board, result.data)
+      return result
+    }
+
+
+    it('$not', async () => {
+      const result = await runVariant({
+        name: {
+          $not: 'Reiciendis quaerat'
+        }
+      })
+      // console.log(JSON.stringify(result, null, 2));
+      expect(result).toMatchSnapshot()
+    })
+
+    it('$in', async () => {
+      const result = await runVariant({
+        name: {
+          $in: ['Ut et', 'Rerum ad']
+        }
+      })
+      // console.log(JSON.stringify(result, null, 2));
+      expect(result).toMatchSnapshot()
+    })
+
+    it('$not_in', async () => {
+      const result = await runVariant({
+        owner: {
+          $not_in: [37, 79, 42]
+        }
+      })
+      // console.log(JSON.stringify(result, null, 2));
+      expect(result).toMatchSnapshot()
+    })
+
+  })
+
 })
