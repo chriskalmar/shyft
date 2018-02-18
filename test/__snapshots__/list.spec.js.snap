@@ -1443,6 +1443,52 @@ Object {
 }
 `;
 
+exports[`list multi-key orderBy + first + offset 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "2",
+      "id": "214",
+      "invitee": "92",
+      "inviter": "46",
+      "state": 20,
+    },
+    Object {
+      "board": "2",
+      "id": "281",
+      "invitee": "40",
+      "inviter": "46",
+      "state": 10,
+    },
+    Object {
+      "board": "3",
+      "id": "207",
+      "invitee": "61",
+      "inviter": "79",
+      "state": 10,
+    },
+    Object {
+      "board": "3",
+      "id": "262",
+      "invitee": "38",
+      "inviter": "79",
+      "state": 10,
+    },
+    Object {
+      "board": "3",
+      "id": "264",
+      "invitee": "24",
+      "inviter": "79",
+      "state": 10,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`list orderBy + first + offset 1`] = `
 Object {
   "data": Array [

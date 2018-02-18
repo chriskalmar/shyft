@@ -119,6 +119,25 @@ describe('list', () => {
   })
 
 
+  it('multi-key orderBy + first + offset', async () => {
+    const orderByDesc = {
+      orderBy: [
+        {
+          attribute: 'board',
+          direction: 'ASC'
+        },
+        {
+          attribute: 'invitee',
+          direction: 'DESC'
+        }
+      ]
+    }
+    const result = await find(Participant, { ...orderByDesc, first: 5, offset: 5 }, asAdmin())
+    result.data = removeListDynamicData(Profile, result.data)
+    expect(result).toMatchSnapshot()
+  })
+
+
   it('filter', async () => {
     const filter = {
       username: 'hazel528'
