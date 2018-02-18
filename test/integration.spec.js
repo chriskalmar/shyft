@@ -1,4 +1,4 @@
-import './beforeAll';
+import './setupAndTearDown';
 import {
   count,
 } from './db';

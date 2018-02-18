@@ -1,4 +1,4 @@
-import './beforeAll';
+import './setupAndTearDown';
 import {
   find,
 } from './db';

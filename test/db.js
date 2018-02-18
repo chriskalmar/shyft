@@ -36,8 +36,10 @@ const schema = new Schema({
 })
 
 
+let sequelize
+
 export const initDB = async () => {
-  const sequelize = new Sequelize(
+  sequelize = new Sequelize(
     process.env.SHIFT_TEST_DB || 'shift_tests',
     process.env.PGUSER || 'postgres',
     process.env.PGPASSWORD || null, {
@@ -68,6 +70,11 @@ export const initDB = async () => {
     sequelize,
   }
 
+}
+
+
+export const disconnectDB = async () => {
+  sequelize.close()
 }
 
 
