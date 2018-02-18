@@ -414,6 +414,46 @@ describe('list', () => {
       expect(result).toMatchSnapshot()
     })
 
+    it('$lt', async () => {
+      const result = await runVariant({
+        id: {
+          $lt: 4
+        }
+      })
+      // console.log(JSON.stringify(result, null, 2));
+      expect(result).toMatchSnapshot()
+    })
+
+    it('$lte', async () => {
+      const result = await runVariant({
+        id: {
+          $lte: 4
+        }
+      })
+      // console.log(JSON.stringify(result, null, 2));
+      expect(result).toMatchSnapshot()
+    })
+
+    it('$gt', async () => {
+      const result = await runVariant({
+        id: {
+          $gt: 47
+        }
+      })
+      // console.log(JSON.stringify(result, null, 2));
+      expect(result).toMatchSnapshot()
+    })
+
+    it('$gte', async () => {
+      const result = await runVariant({
+        id: {
+          $gte: 47
+        }
+      })
+      // console.log(JSON.stringify(result, null, 2));
+      expect(result).toMatchSnapshot()
+    })
+
   })
 
 })

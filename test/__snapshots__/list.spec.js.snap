@@ -275,6 +275,84 @@ Object {
 }
 `;
 
+exports[`list filter variants $gt 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "41",
+      "id": "48",
+      "isPrivate": true,
+      "name": "Nobis totam",
+      "owner": "41",
+      "updatedBy": "41",
+    },
+    Object {
+      "createdBy": "26",
+      "id": "49",
+      "isPrivate": true,
+      "name": "Odit qui",
+      "owner": "26",
+      "updatedBy": "26",
+    },
+    Object {
+      "createdBy": "84",
+      "id": "50",
+      "isPrivate": true,
+      "name": "Sed assumenda repellendus",
+      "owner": "84",
+      "updatedBy": "84",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $gte 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "23",
+      "id": "47",
+      "isPrivate": false,
+      "name": "Accusamus sequi",
+      "owner": "23",
+      "updatedBy": "23",
+    },
+    Object {
+      "createdBy": "41",
+      "id": "48",
+      "isPrivate": true,
+      "name": "Nobis totam",
+      "owner": "41",
+      "updatedBy": "41",
+    },
+    Object {
+      "createdBy": "26",
+      "id": "49",
+      "isPrivate": true,
+      "name": "Odit qui",
+      "owner": "26",
+      "updatedBy": "26",
+    },
+    Object {
+      "createdBy": "84",
+      "id": "50",
+      "isPrivate": true,
+      "name": "Sed assumenda repellendus",
+      "owner": "84",
+      "updatedBy": "84",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`list filter variants $in 1`] = `
 Object {
   "data": Array [
@@ -293,6 +371,84 @@ Object {
       "name": "Rerum ad",
       "owner": "48",
       "updatedBy": "48",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $lt 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "37",
+      "id": "1",
+      "isPrivate": false,
+      "name": "Reiciendis quaerat",
+      "owner": "37",
+      "updatedBy": "37",
+    },
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "79",
+      "id": "3",
+      "isPrivate": true,
+      "name": "Occaecati adipisci vel",
+      "owner": "79",
+      "updatedBy": "79",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $lte 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "37",
+      "id": "1",
+      "isPrivate": false,
+      "name": "Reiciendis quaerat",
+      "owner": "37",
+      "updatedBy": "37",
+    },
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "79",
+      "id": "3",
+      "isPrivate": true,
+      "name": "Occaecati adipisci vel",
+      "owner": "79",
+      "updatedBy": "79",
+    },
+    Object {
+      "createdBy": "42",
+      "id": "4",
+      "isPrivate": false,
+      "name": "Delectus qui maxime",
+      "owner": "42",
+      "updatedBy": "42",
     },
   ],
   "pageInfo": Object {
