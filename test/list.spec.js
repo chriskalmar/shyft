@@ -390,9 +390,10 @@ describe('list', () => {
           $not: 'Reiciendis quaerat'
         }
       })
-      // console.log(JSON.stringify(result, null, 2));
+
       expect(result).toMatchSnapshot()
     })
+
 
     it('$in', async () => {
       const result = await runVariant({
@@ -400,9 +401,10 @@ describe('list', () => {
           $in: ['Ut et', 'Rerum ad']
         }
       })
-      // console.log(JSON.stringify(result, null, 2));
+
       expect(result).toMatchSnapshot()
     })
+
 
     it('$not_in', async () => {
       const result = await runVariant({
@@ -410,9 +412,10 @@ describe('list', () => {
           $not_in: [37, 79, 42]
         }
       })
-      // console.log(JSON.stringify(result, null, 2));
+
       expect(result).toMatchSnapshot()
     })
+
 
     it('$lt', async () => {
       const result = await runVariant({
@@ -420,9 +423,10 @@ describe('list', () => {
           $lt: 4
         }
       })
-      // console.log(JSON.stringify(result, null, 2));
+
       expect(result).toMatchSnapshot()
     })
+
 
     it('$lte', async () => {
       const result = await runVariant({
@@ -430,9 +434,10 @@ describe('list', () => {
           $lte: 4
         }
       })
-      // console.log(JSON.stringify(result, null, 2));
+
       expect(result).toMatchSnapshot()
     })
+
 
     it('$gt', async () => {
       const result = await runVariant({
@@ -440,9 +445,10 @@ describe('list', () => {
           $gt: 47
         }
       })
-      // console.log(JSON.stringify(result, null, 2));
+
       expect(result).toMatchSnapshot()
     })
+
 
     it('$gte', async () => {
       const result = await runVariant({
@@ -450,9 +456,10 @@ describe('list', () => {
           $gte: 47
         }
       })
-      // console.log(JSON.stringify(result, null, 2));
+
       expect(result).toMatchSnapshot()
     })
+
 
     it('$contains', async () => {
       const result = await runVariant({
@@ -460,9 +467,10 @@ describe('list', () => {
           $contains: 'quia'
         }
       })
-      // console.log(JSON.stringify(result, null, 2));
+
       expect(result).toMatchSnapshot()
     })
+
 
     it('$starts_with', async () => {
       const result = await runVariant({
@@ -470,9 +478,10 @@ describe('list', () => {
           $starts_with: 'est'
         }
       })
-      // console.log(JSON.stringify(result, null, 2));
+
       expect(result).toMatchSnapshot()
     })
+
 
     it('$ends_with', async () => {
       const result = await runVariant({
@@ -480,9 +489,10 @@ describe('list', () => {
           $ends_with: 'et'
         }
       })
-      // console.log(JSON.stringify(result, null, 2));
+
       expect(result).toMatchSnapshot()
     })
+
 
     it('$contains + $starts_with + $ends_with', async () => {
       const result = await runVariant({
@@ -492,7 +502,77 @@ describe('list', () => {
           $ends_with: 'e',
         }
       })
-      // console.log(JSON.stringify(result, null, 2));
+
+      expect(result).toMatchSnapshot()
+    })
+
+
+    it('$not_contains', async () => {
+      const result = await runVariant({
+        name: {
+          $not_contains: 'e'
+        }
+      })
+
+      expect(result).toMatchSnapshot()
+    })
+
+
+    it('$not_starts_with', async () => {
+      const result = await runVariant({
+        name: {
+          $not_starts_with: 've'
+        }
+      })
+
+      expect(result).toMatchSnapshot()
+    })
+
+
+    it('$not_ends_with', async () => {
+      const result = await runVariant({
+        name: {
+          $not_ends_with: 't'
+        }
+      })
+
+      expect(result).toMatchSnapshot()
+    })
+
+
+    it('$not_contains + $not_starts_with + $not_ends_with', async () => {
+      const result = await runVariant({
+        name: {
+          $not_starts_with: 'r',
+          $not_contains: 'i',
+          $not_ends_with: 'e',
+        }
+      })
+
+      expect(result).toMatchSnapshot()
+    })
+
+
+    it('$contains + $not_contains', async () => {
+      const result = await runVariant({
+        name: {
+          $contains: 'r',
+          $not_contains: 'e',
+        }
+      })
+
+      expect(result).toMatchSnapshot()
+    })
+
+
+    it('$starts_with + $not_ends_with', async () => {
+      const result = await runVariant({
+        name: {
+          $starts_with: 'su',
+          $not_ends_with: 's',
+        }
+      })
+
       expect(result).toMatchSnapshot()
     })
 
