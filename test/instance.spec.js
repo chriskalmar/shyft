@@ -94,7 +94,10 @@ describe('postgres', () => {
       findOne(Profile, 20, {}, context),
       findOne(Profile, 30, {}, context),
       findOne(Profile, 20, {}, context),
-      findOne(Profile, 10, {}, context)
+      findOne(Profile, 10, {}, context),
+      findOneByValue(Profile, { username: 'katrina560' }, context),
+      findOneByValue(Profile, { username: 'clark218' }, context),
+      findOneByValue(Profile, { username: 'katrina560' }, context),
     ])
 
     expect(removeListDynamicData(Profile, result)).toMatchSnapshot()

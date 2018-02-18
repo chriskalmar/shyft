@@ -888,3 +888,36 @@ Object {
 `;
 
 exports[`list parentConnection with invalid attribute (reject) 1`] = `[SequelizeDatabaseError: column Participant.invalidAttributeName does not exist]`;
+
+exports[`list should utilize data loader 1`] = `
+Array [
+  Array [
+    Object {
+      "confirmedAt": null,
+      "id": "1",
+      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
+      "username": "annabel711",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "2",
+      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
+      "username": "anya543",
+    },
+  ],
+  Array [
+    Object {
+      "confirmedAt": null,
+      "id": "1",
+      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
+      "username": "annabel711",
+    },
+    Object {
+      "confirmedAt": null,
+      "id": "2",
+      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
+      "username": "anya543",
+    },
+  ],
+]
+`;

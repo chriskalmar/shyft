@@ -360,5 +360,18 @@ describe('list', () => {
   })
 
 
+  it('should utilize data loader', async () => {
+    const context = asAdmin()
+
+    const result = await Promise.all([
+      find(Profile, { ...orderByIdAsc, first: 2 }, context),
+      find(Profile, { ...orderByIdAsc, first: 2 }, context),
+    ])
+
+    expect(
+      result.map(profile => removeListDynamicData(Profile, profile.data))
+    ).toMatchSnapshot()
+  })
+
 
 })
