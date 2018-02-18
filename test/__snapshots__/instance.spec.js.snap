@@ -3,7 +3,9 @@
 exports[`postgres should fetch instances by ID 1`] = `
 Object {
   "confirmedAt": null,
+  "firstname": "Leon",
   "id": "10",
+  "lastname": "Smitham",
   "password": "16149626b0365e04a9a52d02e17ca8aeb63680b9f5ee2ba334b0b1a38a833cfe",
   "username": "leon807",
 }
@@ -12,7 +14,9 @@ Object {
 exports[`postgres should fetch instances by ID 2`] = `
 Object {
   "confirmedAt": null,
+  "firstname": "Katrina",
   "id": "20",
+  "lastname": "Roob",
   "password": "bcee72e6df5d56319125920f6c69d8001e938e122cd14597e547d49cc9126e42",
   "username": "katrina560",
 }
@@ -21,7 +25,9 @@ Object {
 exports[`postgres should fetch instances by ID 3`] = `
 Object {
   "confirmedAt": null,
+  "firstname": "Carissa",
   "id": "30",
+  "lastname": "Nitzsche",
   "password": "c6520201ad739678e8e86c983c072c1fd95dba3b98d5023e40a8d895924b429f",
   "username": "carissa722",
 }
@@ -93,7 +99,9 @@ Object {
 exports[`postgres should fetch instances by value 1`] = `
 Object {
   "confirmedAt": null,
+  "firstname": "Katrina",
   "id": "20",
+  "lastname": "Roob",
   "password": "bcee72e6df5d56319125920f6c69d8001e938e122cd14597e547d49cc9126e42",
   "username": "katrina560",
 }
@@ -102,7 +110,9 @@ Object {
 exports[`postgres should fetch instances by value 2`] = `
 Object {
   "confirmedAt": null,
+  "firstname": "Clark",
   "id": "14",
+  "lastname": "Abshire",
   "password": "87ba65bd3e47783927b0035d5537c2bfc92362955d3a6fe39289ab03075b5b7c",
   "username": "clark218",
 }
@@ -111,7 +121,9 @@ Object {
 exports[`postgres should fetch instances by value 3`] = `
 Object {
   "confirmedAt": null,
+  "firstname": "Annabel",
   "id": "1",
+  "lastname": "Bergstrom",
   "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
   "username": "annabel711",
 }
@@ -141,49 +153,65 @@ exports[`postgres should utilize data loader 1`] = `
 Array [
   Object {
     "confirmedAt": null,
+    "firstname": "Leon",
     "id": "10",
+    "lastname": "Smitham",
     "password": "16149626b0365e04a9a52d02e17ca8aeb63680b9f5ee2ba334b0b1a38a833cfe",
     "username": "leon807",
   },
   Object {
     "confirmedAt": null,
+    "firstname": "Katrina",
     "id": "20",
+    "lastname": "Roob",
     "password": "bcee72e6df5d56319125920f6c69d8001e938e122cd14597e547d49cc9126e42",
     "username": "katrina560",
   },
   Object {
     "confirmedAt": null,
+    "firstname": "Carissa",
     "id": "30",
+    "lastname": "Nitzsche",
     "password": "c6520201ad739678e8e86c983c072c1fd95dba3b98d5023e40a8d895924b429f",
     "username": "carissa722",
   },
   Object {
     "confirmedAt": null,
+    "firstname": "Katrina",
     "id": "20",
+    "lastname": "Roob",
     "password": "bcee72e6df5d56319125920f6c69d8001e938e122cd14597e547d49cc9126e42",
     "username": "katrina560",
   },
   Object {
     "confirmedAt": null,
+    "firstname": "Leon",
     "id": "10",
+    "lastname": "Smitham",
     "password": "16149626b0365e04a9a52d02e17ca8aeb63680b9f5ee2ba334b0b1a38a833cfe",
     "username": "leon807",
   },
   Object {
     "confirmedAt": null,
+    "firstname": "Katrina",
     "id": "20",
+    "lastname": "Roob",
     "password": "bcee72e6df5d56319125920f6c69d8001e938e122cd14597e547d49cc9126e42",
     "username": "katrina560",
   },
   Object {
     "confirmedAt": null,
+    "firstname": "Clark",
     "id": "14",
+    "lastname": "Abshire",
     "password": "87ba65bd3e47783927b0035d5537c2bfc92362955d3a6fe39289ab03075b5b7c",
     "username": "clark218",
   },
   Object {
     "confirmedAt": null,
+    "firstname": "Katrina",
     "id": "20",
+    "lastname": "Roob",
     "password": "bcee72e6df5d56319125920f6c69d8001e938e122cd14597e547d49cc9126e42",
     "username": "katrina560",
   },
