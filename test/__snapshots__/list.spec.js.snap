@@ -275,6 +275,79 @@ Object {
 }
 `;
 
+exports[`list filter variants $contains + $starts_with + $ends_with 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "27",
+      "id": "41",
+      "isPrivate": false,
+      "name": "Enim dolore",
+      "owner": "27",
+      "updatedBy": "27",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $contains 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "59",
+      "id": "8",
+      "isPrivate": true,
+      "name": "Illo sit quia",
+      "owner": "59",
+      "updatedBy": "59",
+    },
+    Object {
+      "createdBy": "62",
+      "id": "21",
+      "isPrivate": false,
+      "name": "Quia sapiente",
+      "owner": "62",
+      "updatedBy": "62",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $ends_with 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "42",
+      "id": "6",
+      "isPrivate": true,
+      "name": "Ut et",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "24",
+      "id": "17",
+      "isPrivate": false,
+      "name": "Est et",
+      "owner": "24",
+      "updatedBy": "24",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`list filter variants $gt 1`] = `
 Object {
   "data": Array [
@@ -635,6 +708,33 @@ Object {
   ],
   "pageInfo": Object {
     "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $starts_with 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "73",
+      "id": "16",
+      "isPrivate": false,
+      "name": "Est adipisci inventore",
+      "owner": "73",
+      "updatedBy": "73",
+    },
+    Object {
+      "createdBy": "24",
+      "id": "17",
+      "isPrivate": false,
+      "name": "Est et",
+      "owner": "24",
+      "updatedBy": "24",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
     "hasPreviousPage": false,
   },
 }

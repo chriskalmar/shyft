@@ -454,6 +454,48 @@ describe('list', () => {
       expect(result).toMatchSnapshot()
     })
 
+    it('$contains', async () => {
+      const result = await runVariant({
+        name: {
+          $contains: 'quia'
+        }
+      })
+      // console.log(JSON.stringify(result, null, 2));
+      expect(result).toMatchSnapshot()
+    })
+
+    it('$starts_with', async () => {
+      const result = await runVariant({
+        name: {
+          $starts_with: 'est'
+        }
+      })
+      // console.log(JSON.stringify(result, null, 2));
+      expect(result).toMatchSnapshot()
+    })
+
+    it('$ends_with', async () => {
+      const result = await runVariant({
+        name: {
+          $ends_with: 'et'
+        }
+      })
+      // console.log(JSON.stringify(result, null, 2));
+      expect(result).toMatchSnapshot()
+    })
+
+    it('$contains + $starts_with + $ends_with', async () => {
+      const result = await runVariant({
+        name: {
+          $starts_with: 'e',
+          $contains: 'dol',
+          $ends_with: 'e',
+        }
+      })
+      // console.log(JSON.stringify(result, null, 2));
+      expect(result).toMatchSnapshot()
+    })
+
   })
 
 })
