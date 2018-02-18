@@ -20,10 +20,12 @@ export const loadData = async () => {
 
   const profiles = readRows('profiles')
 
-  await asyncForEach(profiles, async ([ username, password]) => {
+  await asyncForEach(profiles, async ([ username, password, firstname, lastname]) => {
     const payload = {
       username,
       password,
+      firstname,
+      lastname,
     }
 
     await mutate(Profile, 'signup', payload, null, asAdmin())

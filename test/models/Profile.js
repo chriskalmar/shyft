@@ -40,6 +40,8 @@ export const Profile = new Entity({
       attributes: [
         'username',
         'password',
+        'firstname',
+        'lastname',
       ],
       preProcessor(entity, id, source, input) {
         input.username = input.username.toLowerCase()
@@ -79,6 +81,18 @@ export const Profile = new Entity({
       description: 'The password of the user',
       required: true,
       hidden: true,
+    },
+
+    firstname: {
+      type: DataTypeString,
+      description: 'First name',
+      required: true,
+    },
+
+    lastname: {
+      type: DataTypeString,
+      description: 'Last name',
+      required: true,
     },
 
     registeredAt: {

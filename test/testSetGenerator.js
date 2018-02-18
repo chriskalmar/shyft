@@ -10,9 +10,12 @@ import {
 
 const mockProfiles = (profileCount) => {
   generateRows(profileCount, 'profiles', () => {
+    const firstName = casual.first_name
     return [
-      casual.first_name.toLowerCase() + casual.integer(100, 999),
+      firstName.toLowerCase() + casual.integer(100, 999),
       casual.word,
+      firstName,
+      casual.last_name,
     ]
   })
 }
