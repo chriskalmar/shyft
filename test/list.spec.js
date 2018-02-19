@@ -372,7 +372,7 @@ describe('list', () => {
       attribute: 'invalidAttributeName'
     }
 
-    await await find(Participant, { ...orderByIdAsc }, asAdmin(), parentConnection)
+    await find(Participant, { ...orderByIdAsc }, asAdmin(), parentConnection)
       .catch(e => {
         expect(e).toMatchSnapshot()
       })
