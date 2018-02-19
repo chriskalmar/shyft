@@ -1,0 +1,1994 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`list descending orderBy + first + offset 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Brandi",
+      "id": "105",
+      "lastname": "Grimes",
+      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
+      "username": "brandi646",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Joe",
+      "id": "104",
+      "lastname": "Ratke",
+      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
+      "username": "joe154",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Ella",
+      "id": "103",
+      "lastname": "Roberts",
+      "password": "f056b8cae37dc3ed60ee52da9a2951f8a6c531fe3222a3ad6835dbdd905c7d2a",
+      "username": "ella377",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list descending orderBy + first 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Krystel",
+      "id": "110",
+      "lastname": "Bauch",
+      "password": "e97188c43aaf749ffa43df9286c35eb150174bb7bfe69dc6df7689fb782b976a",
+      "username": "krystel170",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Muriel",
+      "id": "109",
+      "lastname": "Howe",
+      "password": "bf94deb712f9040ba1effa106091e0a1ca330f4b1f311e44b021e955ad203100",
+      "username": "muriel707",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Tianna",
+      "id": "108",
+      "lastname": "Kulas",
+      "password": "b00046da5a1751e46b557fab4edb5d91e13c44c8a0205fc2d89275d422df49ad",
+      "username": "tianna226",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list descending orderBy + last + offset 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Edward",
+      "id": "8",
+      "lastname": "Dach",
+      "password": "5f53b0a2be22e28dc4b056f663910c046a33f9b2d779eaf997ea771fe1881a13",
+      "username": "edward969",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Autumn",
+      "id": "7",
+      "lastname": "Ullrich",
+      "password": "a71d5794449a7019156a0a06fccf3e5ef522fc8767edee6b08292050c52c25d3",
+      "username": "autumn520",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Jeremy",
+      "id": "6",
+      "lastname": "Larkin",
+      "password": "bbd72dedbd01e6593f9bdb72cb6372f299c686e922fc992aafbe820985dce209",
+      "username": "jeremy386",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`list descending orderBy + last 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Fleta",
+      "id": "3",
+      "lastname": "Williamson",
+      "password": "d36dc0a7b548fe7a1e0da69049ea1b14db66b6ea408e297c8f700e666843b020",
+      "username": "fleta342",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Anya",
+      "id": "2",
+      "lastname": "Conn",
+      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
+      "username": "anya543",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Annabel",
+      "id": "1",
+      "lastname": "Bergstrom",
+      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
+      "username": "annabel711",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`list descending orderBy + offset 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Brandi",
+      "id": "105",
+      "lastname": "Grimes",
+      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
+      "username": "brandi646",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Joe",
+      "id": "104",
+      "lastname": "Ratke",
+      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
+      "username": "joe154",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Ella",
+      "id": "103",
+      "lastname": "Roberts",
+      "password": "f056b8cae37dc3ed60ee52da9a2951f8a6c531fe3222a3ad6835dbdd905c7d2a",
+      "username": "ella377",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Garfield",
+      "id": "102",
+      "lastname": "Langosh",
+      "password": "e97188c43aaf749ffa43df9286c35eb150174bb7bfe69dc6df7689fb782b976a",
+      "username": "garfield347",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Isidro",
+      "id": "101",
+      "lastname": "Heaney",
+      "password": "e44591879052d99a7509f498e6e65985123b34c9b69ff6eafacb9b05f9deb1eb",
+      "username": "isidro418",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Vernice",
+      "id": "100",
+      "lastname": "Sipes",
+      "password": "dadc57fdb1d64a471dddbae70acc7fe56e3865a8e7249771c8f2f3c36c2b6283",
+      "username": "vernice306",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Antonina",
+      "id": "99",
+      "lastname": "Lesch",
+      "password": "863a6b632034d24c2d404f944dde121158683787b89cd065fd00d5fa76f68853",
+      "username": "antonina448",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Elza",
+      "id": "98",
+      "lastname": "Gorczany",
+      "password": "c632a6ac63ec64dd2bec50c1535e96d21c7ab3335eb7a5c488326a3ec6c6e430",
+      "username": "elza510",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Xander",
+      "id": "97",
+      "lastname": "Sipes",
+      "password": "dc8129307ca44153649c267e2bedd7bf4b02d72bca9370074b10005899a527a5",
+      "username": "xander627",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Faustino",
+      "id": "96",
+      "lastname": "Bartell",
+      "password": "a56145270ce6b3bebd1dd012b73948677dd618d496488bc608a3cb43ce3547dd",
+      "username": "faustino795",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list descending orderBy 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Krystel",
+      "id": "110",
+      "lastname": "Bauch",
+      "password": "e97188c43aaf749ffa43df9286c35eb150174bb7bfe69dc6df7689fb782b976a",
+      "username": "krystel170",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Muriel",
+      "id": "109",
+      "lastname": "Howe",
+      "password": "bf94deb712f9040ba1effa106091e0a1ca330f4b1f311e44b021e955ad203100",
+      "username": "muriel707",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Tianna",
+      "id": "108",
+      "lastname": "Kulas",
+      "password": "b00046da5a1751e46b557fab4edb5d91e13c44c8a0205fc2d89275d422df49ad",
+      "username": "tianna226",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Leanna",
+      "id": "107",
+      "lastname": "Leuschke",
+      "password": "f735b74ca8ad9b0f7ae8190fa71acfa15f6a5a4f5b7a8ac2ef790c59eb185e3c",
+      "username": "leanna128",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Stan",
+      "id": "106",
+      "lastname": "VonRueden",
+      "password": "507b91e6b0ae6ea80e7c0d1642304ce8cd713527d36db297fef1504598ecd79c",
+      "username": "stan321",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Brandi",
+      "id": "105",
+      "lastname": "Grimes",
+      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
+      "username": "brandi646",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Joe",
+      "id": "104",
+      "lastname": "Ratke",
+      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
+      "username": "joe154",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Ella",
+      "id": "103",
+      "lastname": "Roberts",
+      "password": "f056b8cae37dc3ed60ee52da9a2951f8a6c531fe3222a3ad6835dbdd905c7d2a",
+      "username": "ella377",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Garfield",
+      "id": "102",
+      "lastname": "Langosh",
+      "password": "e97188c43aaf749ffa43df9286c35eb150174bb7bfe69dc6df7689fb782b976a",
+      "username": "garfield347",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Isidro",
+      "id": "101",
+      "lastname": "Heaney",
+      "password": "e44591879052d99a7509f498e6e65985123b34c9b69ff6eafacb9b05f9deb1eb",
+      "username": "isidro418",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Hazel",
+      "id": "11",
+      "lastname": "King",
+      "password": "70e88c7a26a5e6daca0dc1c611bbf05e26b7e1d645faeaa30c1d316c67ed9869",
+      "username": "hazel528",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $contains + $not_contains 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "71",
+      "id": "34",
+      "isPrivate": false,
+      "name": "Voluptas dolor",
+      "owner": "71",
+      "updatedBy": "71",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $contains + $starts_with + $ends_with 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "27",
+      "id": "41",
+      "isPrivate": false,
+      "name": "Enim dolore",
+      "owner": "27",
+      "updatedBy": "27",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $contains 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "59",
+      "id": "8",
+      "isPrivate": true,
+      "name": "Illo sit quia",
+      "owner": "59",
+      "updatedBy": "59",
+    },
+    Object {
+      "createdBy": "62",
+      "id": "21",
+      "isPrivate": false,
+      "name": "Quia sapiente",
+      "owner": "62",
+      "updatedBy": "62",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $ends_with 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "42",
+      "id": "6",
+      "isPrivate": true,
+      "name": "Ut et",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "24",
+      "id": "17",
+      "isPrivate": false,
+      "name": "Est et",
+      "owner": "24",
+      "updatedBy": "24",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $gt 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "41",
+      "id": "48",
+      "isPrivate": true,
+      "name": "Nobis totam",
+      "owner": "41",
+      "updatedBy": "41",
+    },
+    Object {
+      "createdBy": "26",
+      "id": "49",
+      "isPrivate": true,
+      "name": "Odit qui",
+      "owner": "26",
+      "updatedBy": "26",
+    },
+    Object {
+      "createdBy": "84",
+      "id": "50",
+      "isPrivate": true,
+      "name": "Sed assumenda repellendus",
+      "owner": "84",
+      "updatedBy": "84",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $gte 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "23",
+      "id": "47",
+      "isPrivate": false,
+      "name": "Accusamus sequi",
+      "owner": "23",
+      "updatedBy": "23",
+    },
+    Object {
+      "createdBy": "41",
+      "id": "48",
+      "isPrivate": true,
+      "name": "Nobis totam",
+      "owner": "41",
+      "updatedBy": "41",
+    },
+    Object {
+      "createdBy": "26",
+      "id": "49",
+      "isPrivate": true,
+      "name": "Odit qui",
+      "owner": "26",
+      "updatedBy": "26",
+    },
+    Object {
+      "createdBy": "84",
+      "id": "50",
+      "isPrivate": true,
+      "name": "Sed assumenda repellendus",
+      "owner": "84",
+      "updatedBy": "84",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $in 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "42",
+      "id": "6",
+      "isPrivate": true,
+      "name": "Ut et",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "48",
+      "id": "19",
+      "isPrivate": false,
+      "name": "Rerum ad",
+      "owner": "48",
+      "updatedBy": "48",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $lt 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "37",
+      "id": "1",
+      "isPrivate": false,
+      "name": "Reiciendis quaerat",
+      "owner": "37",
+      "updatedBy": "37",
+    },
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "79",
+      "id": "3",
+      "isPrivate": true,
+      "name": "Occaecati adipisci vel",
+      "owner": "79",
+      "updatedBy": "79",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $lte 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "37",
+      "id": "1",
+      "isPrivate": false,
+      "name": "Reiciendis quaerat",
+      "owner": "37",
+      "updatedBy": "37",
+    },
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "79",
+      "id": "3",
+      "isPrivate": true,
+      "name": "Occaecati adipisci vel",
+      "owner": "79",
+      "updatedBy": "79",
+    },
+    Object {
+      "createdBy": "42",
+      "id": "4",
+      "isPrivate": false,
+      "name": "Delectus qui maxime",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $not 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "79",
+      "id": "3",
+      "isPrivate": true,
+      "name": "Occaecati adipisci vel",
+      "owner": "79",
+      "updatedBy": "79",
+    },
+    Object {
+      "createdBy": "42",
+      "id": "4",
+      "isPrivate": false,
+      "name": "Delectus qui maxime",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "55",
+      "id": "5",
+      "isPrivate": true,
+      "name": "Cumque impedit est",
+      "owner": "55",
+      "updatedBy": "55",
+    },
+    Object {
+      "createdBy": "42",
+      "id": "6",
+      "isPrivate": true,
+      "name": "Ut et",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "72",
+      "id": "7",
+      "isPrivate": true,
+      "name": "Vel ullam",
+      "owner": "72",
+      "updatedBy": "72",
+    },
+    Object {
+      "createdBy": "59",
+      "id": "8",
+      "isPrivate": true,
+      "name": "Illo sit quia",
+      "owner": "59",
+      "updatedBy": "59",
+    },
+    Object {
+      "createdBy": "52",
+      "id": "9",
+      "isPrivate": true,
+      "name": "Veritatis nihil cum",
+      "owner": "52",
+      "updatedBy": "52",
+    },
+    Object {
+      "createdBy": "71",
+      "id": "10",
+      "isPrivate": true,
+      "name": "Sit aut",
+      "owner": "71",
+      "updatedBy": "71",
+    },
+    Object {
+      "createdBy": "81",
+      "id": "11",
+      "isPrivate": false,
+      "name": "Aut incidunt consequatur",
+      "owner": "81",
+      "updatedBy": "81",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $not_contains + $not_starts_with + $not_ends_with 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "42",
+      "id": "6",
+      "isPrivate": true,
+      "name": "Ut et",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "72",
+      "id": "7",
+      "isPrivate": true,
+      "name": "Vel ullam",
+      "owner": "72",
+      "updatedBy": "72",
+    },
+    Object {
+      "createdBy": "23",
+      "id": "12",
+      "isPrivate": false,
+      "name": "Tenetur porro",
+      "owner": "23",
+      "updatedBy": "23",
+    },
+    Object {
+      "createdBy": "24",
+      "id": "17",
+      "isPrivate": false,
+      "name": "Est et",
+      "owner": "24",
+      "updatedBy": "24",
+    },
+    Object {
+      "createdBy": "10",
+      "id": "20",
+      "isPrivate": false,
+      "name": "Sunt quo",
+      "owner": "10",
+      "updatedBy": "10",
+    },
+    Object {
+      "createdBy": "71",
+      "id": "34",
+      "isPrivate": false,
+      "name": "Voluptas dolor",
+      "owner": "71",
+      "updatedBy": "71",
+    },
+    Object {
+      "createdBy": "37",
+      "id": "42",
+      "isPrivate": true,
+      "name": "Quo ut rerum",
+      "owner": "37",
+      "updatedBy": "37",
+    },
+    Object {
+      "createdBy": "84",
+      "id": "50",
+      "isPrivate": true,
+      "name": "Sed assumenda repellendus",
+      "owner": "84",
+      "updatedBy": "84",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $not_contains 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "59",
+      "id": "8",
+      "isPrivate": true,
+      "name": "Illo sit quia",
+      "owner": "59",
+      "updatedBy": "59",
+    },
+    Object {
+      "createdBy": "71",
+      "id": "10",
+      "isPrivate": true,
+      "name": "Sit aut",
+      "owner": "71",
+      "updatedBy": "71",
+    },
+    Object {
+      "createdBy": "84",
+      "id": "13",
+      "isPrivate": false,
+      "name": "Suscipit aut cum",
+      "owner": "84",
+      "updatedBy": "84",
+    },
+    Object {
+      "createdBy": "26",
+      "id": "14",
+      "isPrivate": false,
+      "name": "Id cum",
+      "owner": "26",
+      "updatedBy": "26",
+    },
+    Object {
+      "createdBy": "60",
+      "id": "15",
+      "isPrivate": false,
+      "name": "Sunt nobis",
+      "owner": "60",
+      "updatedBy": "60",
+    },
+    Object {
+      "createdBy": "10",
+      "id": "20",
+      "isPrivate": false,
+      "name": "Sunt quo",
+      "owner": "10",
+      "updatedBy": "10",
+    },
+    Object {
+      "createdBy": "14",
+      "id": "27",
+      "isPrivate": false,
+      "name": "Mollitia qui",
+      "owner": "14",
+      "updatedBy": "14",
+    },
+    Object {
+      "createdBy": "20",
+      "id": "31",
+      "isPrivate": false,
+      "name": "Culpa facilis",
+      "owner": "20",
+      "updatedBy": "20",
+    },
+    Object {
+      "createdBy": "47",
+      "id": "33",
+      "isPrivate": true,
+      "name": "Suscipit quas",
+      "owner": "47",
+      "updatedBy": "47",
+    },
+    Object {
+      "createdBy": "71",
+      "id": "34",
+      "isPrivate": false,
+      "name": "Voluptas dolor",
+      "owner": "71",
+      "updatedBy": "71",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $not_ends_with 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "79",
+      "id": "3",
+      "isPrivate": true,
+      "name": "Occaecati adipisci vel",
+      "owner": "79",
+      "updatedBy": "79",
+    },
+    Object {
+      "createdBy": "42",
+      "id": "4",
+      "isPrivate": false,
+      "name": "Delectus qui maxime",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "72",
+      "id": "7",
+      "isPrivate": true,
+      "name": "Vel ullam",
+      "owner": "72",
+      "updatedBy": "72",
+    },
+    Object {
+      "createdBy": "59",
+      "id": "8",
+      "isPrivate": true,
+      "name": "Illo sit quia",
+      "owner": "59",
+      "updatedBy": "59",
+    },
+    Object {
+      "createdBy": "52",
+      "id": "9",
+      "isPrivate": true,
+      "name": "Veritatis nihil cum",
+      "owner": "52",
+      "updatedBy": "52",
+    },
+    Object {
+      "createdBy": "81",
+      "id": "11",
+      "isPrivate": false,
+      "name": "Aut incidunt consequatur",
+      "owner": "81",
+      "updatedBy": "81",
+    },
+    Object {
+      "createdBy": "23",
+      "id": "12",
+      "isPrivate": false,
+      "name": "Tenetur porro",
+      "owner": "23",
+      "updatedBy": "23",
+    },
+    Object {
+      "createdBy": "84",
+      "id": "13",
+      "isPrivate": false,
+      "name": "Suscipit aut cum",
+      "owner": "84",
+      "updatedBy": "84",
+    },
+    Object {
+      "createdBy": "26",
+      "id": "14",
+      "isPrivate": false,
+      "name": "Id cum",
+      "owner": "26",
+      "updatedBy": "26",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $not_in 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "55",
+      "id": "5",
+      "isPrivate": true,
+      "name": "Cumque impedit est",
+      "owner": "55",
+      "updatedBy": "55",
+    },
+    Object {
+      "createdBy": "72",
+      "id": "7",
+      "isPrivate": true,
+      "name": "Vel ullam",
+      "owner": "72",
+      "updatedBy": "72",
+    },
+    Object {
+      "createdBy": "59",
+      "id": "8",
+      "isPrivate": true,
+      "name": "Illo sit quia",
+      "owner": "59",
+      "updatedBy": "59",
+    },
+    Object {
+      "createdBy": "52",
+      "id": "9",
+      "isPrivate": true,
+      "name": "Veritatis nihil cum",
+      "owner": "52",
+      "updatedBy": "52",
+    },
+    Object {
+      "createdBy": "71",
+      "id": "10",
+      "isPrivate": true,
+      "name": "Sit aut",
+      "owner": "71",
+      "updatedBy": "71",
+    },
+    Object {
+      "createdBy": "81",
+      "id": "11",
+      "isPrivate": false,
+      "name": "Aut incidunt consequatur",
+      "owner": "81",
+      "updatedBy": "81",
+    },
+    Object {
+      "createdBy": "23",
+      "id": "12",
+      "isPrivate": false,
+      "name": "Tenetur porro",
+      "owner": "23",
+      "updatedBy": "23",
+    },
+    Object {
+      "createdBy": "84",
+      "id": "13",
+      "isPrivate": false,
+      "name": "Suscipit aut cum",
+      "owner": "84",
+      "updatedBy": "84",
+    },
+    Object {
+      "createdBy": "26",
+      "id": "14",
+      "isPrivate": false,
+      "name": "Id cum",
+      "owner": "26",
+      "updatedBy": "26",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $not_starts_with 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "37",
+      "id": "1",
+      "isPrivate": false,
+      "name": "Reiciendis quaerat",
+      "owner": "37",
+      "updatedBy": "37",
+    },
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "79",
+      "id": "3",
+      "isPrivate": true,
+      "name": "Occaecati adipisci vel",
+      "owner": "79",
+      "updatedBy": "79",
+    },
+    Object {
+      "createdBy": "42",
+      "id": "4",
+      "isPrivate": false,
+      "name": "Delectus qui maxime",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "55",
+      "id": "5",
+      "isPrivate": true,
+      "name": "Cumque impedit est",
+      "owner": "55",
+      "updatedBy": "55",
+    },
+    Object {
+      "createdBy": "42",
+      "id": "6",
+      "isPrivate": true,
+      "name": "Ut et",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "59",
+      "id": "8",
+      "isPrivate": true,
+      "name": "Illo sit quia",
+      "owner": "59",
+      "updatedBy": "59",
+    },
+    Object {
+      "createdBy": "71",
+      "id": "10",
+      "isPrivate": true,
+      "name": "Sit aut",
+      "owner": "71",
+      "updatedBy": "71",
+    },
+    Object {
+      "createdBy": "81",
+      "id": "11",
+      "isPrivate": false,
+      "name": "Aut incidunt consequatur",
+      "owner": "81",
+      "updatedBy": "81",
+    },
+    Object {
+      "createdBy": "23",
+      "id": "12",
+      "isPrivate": false,
+      "name": "Tenetur porro",
+      "owner": "23",
+      "updatedBy": "23",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $starts_with + $not_ends_with 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "84",
+      "id": "13",
+      "isPrivate": false,
+      "name": "Suscipit aut cum",
+      "owner": "84",
+      "updatedBy": "84",
+    },
+    Object {
+      "createdBy": "10",
+      "id": "20",
+      "isPrivate": false,
+      "name": "Sunt quo",
+      "owner": "10",
+      "updatedBy": "10",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $starts_with 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "73",
+      "id": "16",
+      "isPrivate": false,
+      "name": "Est adipisci inventore",
+      "owner": "73",
+      "updatedBy": "73",
+    },
+    Object {
+      "createdBy": "24",
+      "id": "17",
+      "isPrivate": false,
+      "name": "Est et",
+      "owner": "24",
+      "updatedBy": "24",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter with invalid attributes (reject) 1`] = `[Error: Unknown attribute name 'someAttributes' used in filter]`;
+
+exports[`list filter with logical operators AND AND + last 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "32",
+      "id": "241",
+      "invitee": "68",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "39",
+      "id": "232",
+      "invitee": "38",
+      "inviter": "61",
+      "state": 20,
+    },
+    Object {
+      "board": "32",
+      "id": "220",
+      "invitee": "21",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "38",
+      "id": "104",
+      "invitee": "61",
+      "inviter": "61",
+      "state": 50,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`list filter with logical operators AND AND + offset 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "39",
+      "id": "232",
+      "invitee": "38",
+      "inviter": "61",
+      "state": 20,
+    },
+    Object {
+      "board": "32",
+      "id": "220",
+      "invitee": "21",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "38",
+      "id": "104",
+      "invitee": "61",
+      "inviter": "61",
+      "state": 50,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter with logical operators AND AND + orderBy 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "32",
+      "id": "265",
+      "invitee": "36",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "32",
+      "id": "247",
+      "invitee": "107",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "32",
+      "id": "242",
+      "invitee": "61",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "32",
+      "id": "241",
+      "invitee": "68",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "39",
+      "id": "232",
+      "invitee": "38",
+      "inviter": "61",
+      "state": 20,
+    },
+    Object {
+      "board": "32",
+      "id": "220",
+      "invitee": "21",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "38",
+      "id": "104",
+      "invitee": "61",
+      "inviter": "61",
+      "state": 50,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter with logical operators OR OR + last 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Joe",
+      "id": "37",
+      "lastname": "Quitzon",
+      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
+      "username": "joe656",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Weston",
+      "id": "21",
+      "lastname": "Borer",
+      "password": "95c8cee20eec57331edfd8bae64e2066c2f9b6231480df20362669d7fe65c52a",
+      "username": "weston422",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Dana",
+      "id": "13",
+      "lastname": "Thiel",
+      "password": "3256618f4558bee91e9b096351ef86e6e1eb84cb7be7eece6031d7174f321a93",
+      "username": "dana768",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`list filter with logical operators OR OR + offset 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Joe",
+      "id": "37",
+      "lastname": "Quitzon",
+      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
+      "username": "joe656",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Weston",
+      "id": "21",
+      "lastname": "Borer",
+      "password": "95c8cee20eec57331edfd8bae64e2066c2f9b6231480df20362669d7fe65c52a",
+      "username": "weston422",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Dana",
+      "id": "13",
+      "lastname": "Thiel",
+      "password": "3256618f4558bee91e9b096351ef86e6e1eb84cb7be7eece6031d7174f321a93",
+      "username": "dana768",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter with logical operators OR OR + orderBy 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Joel",
+      "id": "95",
+      "lastname": "Lakin",
+      "password": "c6520201ad739678e8e86c983c072c1fd95dba3b98d5023e40a8d895924b429f",
+      "username": "joel356",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Joe",
+      "id": "37",
+      "lastname": "Quitzon",
+      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
+      "username": "joe656",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Weston",
+      "id": "21",
+      "lastname": "Borer",
+      "password": "95c8cee20eec57331edfd8bae64e2066c2f9b6231480df20362669d7fe65c52a",
+      "username": "weston422",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Dana",
+      "id": "13",
+      "lastname": "Thiel",
+      "password": "3256618f4558bee91e9b096351ef86e6e1eb84cb7be7eece6031d7174f321a93",
+      "username": "dana768",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter with logical operators filter with nested logical operators AND + OR 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "32",
+      "id": "220",
+      "invitee": "21",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "32",
+      "id": "242",
+      "invitee": "61",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "32",
+      "id": "247",
+      "invitee": "107",
+      "inviter": "78",
+      "state": 20,
+    },
+    Object {
+      "board": "38",
+      "id": "104",
+      "invitee": "61",
+      "inviter": "61",
+      "state": 50,
+    },
+    Object {
+      "board": "39",
+      "id": "232",
+      "invitee": "38",
+      "inviter": "61",
+      "state": 20,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter with mutliple attributes 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "52",
+      "id": "9",
+      "isPrivate": true,
+      "name": "Veritatis nihil cum",
+      "owner": "52",
+      "updatedBy": "52",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter with no results 1`] = `
+Object {
+  "data": Array [],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list multi-key orderBy + first + offset 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "2",
+      "id": "214",
+      "invitee": "92",
+      "inviter": "46",
+      "state": 20,
+    },
+    Object {
+      "board": "2",
+      "id": "281",
+      "invitee": "40",
+      "inviter": "46",
+      "state": 10,
+    },
+    Object {
+      "board": "3",
+      "id": "207",
+      "invitee": "61",
+      "inviter": "79",
+      "state": 10,
+    },
+    Object {
+      "board": "3",
+      "id": "262",
+      "invitee": "38",
+      "inviter": "79",
+      "state": 10,
+    },
+    Object {
+      "board": "3",
+      "id": "264",
+      "invitee": "24",
+      "inviter": "79",
+      "state": 10,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list orderBy + first + offset 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Jeremy",
+      "id": "6",
+      "lastname": "Larkin",
+      "password": "bbd72dedbd01e6593f9bdb72cb6372f299c686e922fc992aafbe820985dce209",
+      "username": "jeremy386",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Autumn",
+      "id": "7",
+      "lastname": "Ullrich",
+      "password": "a71d5794449a7019156a0a06fccf3e5ef522fc8767edee6b08292050c52c25d3",
+      "username": "autumn520",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Edward",
+      "id": "8",
+      "lastname": "Dach",
+      "password": "5f53b0a2be22e28dc4b056f663910c046a33f9b2d779eaf997ea771fe1881a13",
+      "username": "edward969",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list orderBy + first 0 1`] = `
+Object {
+  "data": Array [],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list orderBy + first 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Annabel",
+      "id": "1",
+      "lastname": "Bergstrom",
+      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
+      "username": "annabel711",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Anya",
+      "id": "2",
+      "lastname": "Conn",
+      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
+      "username": "anya543",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Fleta",
+      "id": "3",
+      "lastname": "Williamson",
+      "password": "d36dc0a7b548fe7a1e0da69049ea1b14db66b6ea408e297c8f700e666843b020",
+      "username": "fleta342",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list orderBy + last + offset 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Ella",
+      "id": "103",
+      "lastname": "Roberts",
+      "password": "f056b8cae37dc3ed60ee52da9a2951f8a6c531fe3222a3ad6835dbdd905c7d2a",
+      "username": "ella377",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Joe",
+      "id": "104",
+      "lastname": "Ratke",
+      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
+      "username": "joe154",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Brandi",
+      "id": "105",
+      "lastname": "Grimes",
+      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
+      "username": "brandi646",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`list orderBy + last 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Tianna",
+      "id": "108",
+      "lastname": "Kulas",
+      "password": "b00046da5a1751e46b557fab4edb5d91e13c44c8a0205fc2d89275d422df49ad",
+      "username": "tianna226",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Muriel",
+      "id": "109",
+      "lastname": "Howe",
+      "password": "bf94deb712f9040ba1effa106091e0a1ca330f4b1f311e44b021e955ad203100",
+      "username": "muriel707",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Krystel",
+      "id": "110",
+      "lastname": "Bauch",
+      "password": "e97188c43aaf749ffa43df9286c35eb150174bb7bfe69dc6df7689fb782b976a",
+      "username": "krystel170",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`list orderBy + offset 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Jeremy",
+      "id": "6",
+      "lastname": "Larkin",
+      "password": "bbd72dedbd01e6593f9bdb72cb6372f299c686e922fc992aafbe820985dce209",
+      "username": "jeremy386",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Autumn",
+      "id": "7",
+      "lastname": "Ullrich",
+      "password": "a71d5794449a7019156a0a06fccf3e5ef522fc8767edee6b08292050c52c25d3",
+      "username": "autumn520",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Edward",
+      "id": "8",
+      "lastname": "Dach",
+      "password": "5f53b0a2be22e28dc4b056f663910c046a33f9b2d779eaf997ea771fe1881a13",
+      "username": "edward969",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Omari",
+      "id": "9",
+      "lastname": "White",
+      "password": "913a5aa81861da1fe643478d72c343152b38d0fe841a6b02bbe74bab7004a2de",
+      "username": "omari409",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Leon",
+      "id": "10",
+      "lastname": "Smitham",
+      "password": "16149626b0365e04a9a52d02e17ca8aeb63680b9f5ee2ba334b0b1a38a833cfe",
+      "username": "leon807",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Hazel",
+      "id": "11",
+      "lastname": "King",
+      "password": "70e88c7a26a5e6daca0dc1c611bbf05e26b7e1d645faeaa30c1d316c67ed9869",
+      "username": "hazel528",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Emmet",
+      "id": "12",
+      "lastname": "Boyle",
+      "password": "8405ae6de3ebde2abffb2531d437a163a31dc42a109c7369b66b93258c7e1d67",
+      "username": "emmet741",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Dana",
+      "id": "13",
+      "lastname": "Thiel",
+      "password": "3256618f4558bee91e9b096351ef86e6e1eb84cb7be7eece6031d7174f321a93",
+      "username": "dana768",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Clark",
+      "id": "14",
+      "lastname": "Abshire",
+      "password": "87ba65bd3e47783927b0035d5537c2bfc92362955d3a6fe39289ab03075b5b7c",
+      "username": "clark218",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Athena",
+      "id": "15",
+      "lastname": "Stamm",
+      "password": "09b47655056ff5f96694fd9ea16b86998c853046ca7adc60587fa152c02f7b4b",
+      "username": "athena557",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list orderBy 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Annabel",
+      "id": "1",
+      "lastname": "Bergstrom",
+      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
+      "username": "annabel711",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Anya",
+      "id": "2",
+      "lastname": "Conn",
+      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
+      "username": "anya543",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Fleta",
+      "id": "3",
+      "lastname": "Williamson",
+      "password": "d36dc0a7b548fe7a1e0da69049ea1b14db66b6ea408e297c8f700e666843b020",
+      "username": "fleta342",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Victor",
+      "id": "4",
+      "lastname": "Keeling",
+      "password": "94b5f0fa59e958580234a46304f711dbf0276bcee26ce8ef14e9c750fcaa5a2b",
+      "username": "victor821",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Griffin",
+      "id": "5",
+      "lastname": "Frami",
+      "password": "7679f40138809eb3e012b29a46160f797b3afd72227099bde320fbc7e725e59d",
+      "username": "griffin807",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Jeremy",
+      "id": "6",
+      "lastname": "Larkin",
+      "password": "bbd72dedbd01e6593f9bdb72cb6372f299c686e922fc992aafbe820985dce209",
+      "username": "jeremy386",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Autumn",
+      "id": "7",
+      "lastname": "Ullrich",
+      "password": "a71d5794449a7019156a0a06fccf3e5ef522fc8767edee6b08292050c52c25d3",
+      "username": "autumn520",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Edward",
+      "id": "8",
+      "lastname": "Dach",
+      "password": "5f53b0a2be22e28dc4b056f663910c046a33f9b2d779eaf997ea771fe1881a13",
+      "username": "edward969",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Omari",
+      "id": "9",
+      "lastname": "White",
+      "password": "913a5aa81861da1fe643478d72c343152b38d0fe841a6b02bbe74bab7004a2de",
+      "username": "omari409",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Leon",
+      "id": "10",
+      "lastname": "Smitham",
+      "password": "16149626b0365e04a9a52d02e17ca8aeb63680b9f5ee2ba334b0b1a38a833cfe",
+      "username": "leon807",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list parentConnection + first 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "41",
+      "id": "80",
+      "invitee": "60",
+      "inviter": "60",
+      "state": 50,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list parentConnection 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "41",
+      "id": "80",
+      "invitee": "60",
+      "inviter": "60",
+      "state": 50,
+    },
+    Object {
+      "board": "47",
+      "id": "109",
+      "invitee": "60",
+      "inviter": "60",
+      "state": 50,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list parentConnection with invalid attribute (reject) 1`] = `[SequelizeDatabaseError: column Participant.invalidAttributeName does not exist]`;
+
+exports[`list should utilize data loader 1`] = `
+Array [
+  Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Annabel",
+      "id": "1",
+      "lastname": "Bergstrom",
+      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
+      "username": "annabel711",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Anya",
+      "id": "2",
+      "lastname": "Conn",
+      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
+      "username": "anya543",
+    },
+  ],
+  Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Annabel",
+      "id": "1",
+      "lastname": "Bergstrom",
+      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
+      "username": "annabel711",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Anya",
+      "id": "2",
+      "lastname": "Conn",
+      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
+      "username": "anya543",
+    },
+  ],
+]
+`;
