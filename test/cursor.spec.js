@@ -101,7 +101,7 @@ describe('cursor', () => {
 
     const result = await find(Profile, { ...orderByUsernameAsc, ...cursor, filter, first: 4 }, asAdmin())
     result.data = removeListDynamicData(Profile, result.data)
-    // console.log(JSON.stringify(result, null, 2));
+
     expect(result).toMatchSnapshot()
   })
 
@@ -132,7 +132,7 @@ describe('cursor', () => {
 
     const result = await find(Profile, { ...orderByUsernameAsc, ...cursor, filter, first: 4 }, asAdmin())
     result.data = removeListDynamicData(Profile, result.data)
-    // console.log(JSON.stringify(result, null, 2));
+
     expect(result).toMatchSnapshot()
   })
 
@@ -180,6 +180,73 @@ describe('cursor', () => {
     expect(result).toMatchSnapshot()
 
     result = await find(Profile, { ...orderByUsernameDesc, ...cursor, filter, offset: 3, last: 2 }, asAdmin())
+    result.data = removeListDynamicData(Profile, result.data)
+    expect(result).toMatchSnapshot()
+  })
+
+
+  it('mutli-key after + before', async () => {
+
+    const orderByNames = {
+      orderBy: [
+        {
+          attribute: 'firstname',
+          direction: 'ASC'
+        },
+        {
+          attribute: 'lastname',
+          direction: 'DESC'
+        },
+        {
+          attribute: 'id',
+          direction: 'ASC'
+        },
+      ]
+    }
+
+
+    const cursor = {
+      after: {
+        Profile: [
+          [
+            'firstname',
+            'Joe'
+          ],
+          [
+            'lastname',
+            'Ratke'
+          ],
+          [
+            'id',
+            104
+          ]
+        ]
+      },
+      before: {
+        Profile: [
+          [
+            'firstname',
+            'Jose'
+          ],
+          [
+            'lastname',
+            'Leffler'
+          ],
+          [
+            'id',
+            71
+          ]
+        ]
+      }
+    }
+
+    const filter = {
+      username: {
+        $starts_with: 'jo',
+      }
+    }
+
+    const result = await find(Profile, { ...orderByNames, ...cursor, filter }, asAdmin())
     result.data = removeListDynamicData(Profile, result.data)
     expect(result).toMatchSnapshot()
   })

@@ -273,3 +273,30 @@ Object {
   },
 }
 `;
+
+exports[`cursor mutli-key after + before 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Joel",
+      "id": "95",
+      "lastname": "Lakin",
+      "password": "c6520201ad739678e8e86c983c072c1fd95dba3b98d5023e40a8d895924b429f",
+      "username": "joel356",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Jonathon",
+      "id": "67",
+      "lastname": "Gusikowski",
+      "password": "11e91a3f6d8635f3d7aa79678c64bde99e94d2a5f8276403e7e1917e0118fb1c",
+      "username": "jonathon586",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
