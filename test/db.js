@@ -15,6 +15,7 @@ import {
   validateMutationPayload,
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
+  MUTATION_TYPE_DELETE,
 } from 'shift-engine';
 
 
@@ -106,7 +107,9 @@ export const mutate = async (entity, mutationName, payload, id, context) => {
 
   validateMutationPayload(entity, entityMutation, args.input[typeName], context)
 
-  args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
+  if (entityMutation.type !== MUTATION_TYPE_DELETE) {
+    args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
+  }
 
   return await StorageTypePostgres.mutate(entity, id, args.input[typeName], entityMutation, context)
 }
