@@ -3,6 +3,7 @@
 import { readRows } from './testingData';
 import { Profile } from './models/Profile';
 import { Board } from './models/Board';
+import { Participant } from './models/Participant';
 import {
   mutate,
   findOneByValue,
@@ -12,7 +13,6 @@ import {
   asUser,
   asyncForEach,
 } from './testUtils';
-import { Participant } from './models/Participant';
 
 
 

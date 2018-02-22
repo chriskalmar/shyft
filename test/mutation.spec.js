@@ -11,7 +11,7 @@ import {
 import { Participant } from './models/Participant';
 
 
-describe.only('mutation', () => {
+describe('mutation', () => {
 
   it('reject mutations without state transitions on stateful entities', async () => {
 
