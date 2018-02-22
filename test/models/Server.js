@@ -4,7 +4,7 @@ import {
   DataTypeString,
 } from 'shift-engine';
 
-import { Cluster } from './Cluster';
+import { ClusterZone } from './ClusterZone';
 
 
 export const Server = new Entity({
@@ -14,9 +14,9 @@ export const Server = new Entity({
 
   attributes: {
 
-    cluster: {
-      type: Cluster,
-      description: 'Server cluster',
+    clusterZone: {
+      type: ClusterZone,
+      description: 'Server cluster zone',
       required: true,
     },
 
