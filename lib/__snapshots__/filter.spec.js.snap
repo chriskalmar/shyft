@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`filter buildWhereQuery empty filter 1`] = `
+Array [
+  "SELECT \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\", \\"Server\\".\\"id\\" AS \\"Server_id\\" FROM \\"server\\" \\"Server\\"",
+  Array [],
+]
+`;
