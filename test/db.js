@@ -1,5 +1,7 @@
 
-import Sequelize from 'sequelize';
+
+import { createConnection } from 'typeorm';
+
 
 import {
   Schema,
@@ -37,45 +39,39 @@ const schema = new Schema({
 })
 
 
-let sequelize
+
+let connection
 
 export const initDB = async () => {
-  sequelize = new Sequelize(
-    process.env.SHIFT_TEST_DB || 'shift_tests',
-    process.env.PGUSER || 'postgres',
-    process.env.PGPASSWORD || null, {
-      host: process.env.PGHOST || 'localhost',
-      port: parseInt(process.env.PGPORT || 5432, 10),
-      dialect: 'postgres',
-      logging: false,
-      pool: {
-        max: 5,
-        min: 0,
-        idle: 10000
-      },
-    }
-  );
+
+  const modelRegistry = loadModels(schema)
+
+  const entitySchemas = Object.keys(modelRegistry).map(entityName => {
+    return modelRegistry[entityName].model
+  })
 
 
-  await sequelize.authenticate()
+  connection = await createConnection({
+    type: 'postgres',
+    host: process.env.PGHOST || 'localhost',
+    port: parseInt(process.env.PGPORT || 5432, 10),
+    username: process.env.PGUSER || 'postgres',
+    password: process.env.PGPASSWORD || null,
+    database: process.env.SHIFT_TEST_DB || 'shift_tests',
+    logging: true,
+    synchronize: true,
+    dropSchema: true,
+    entitySchemas
+  })
 
-  const modelRegistry = loadModels(sequelize, schema)
 
-  await sequelize.sync({ force: true })
-
-  StorageTypePostgres.setStorageInstance(sequelize)
+  StorageTypePostgres.setStorageInstance(connection)
   StorageTypePostgres.setStorageModels(modelRegistry)
-
-  return {
-    modelRegistry,
-    sequelize,
-  }
-
 }
 
 
 export const disconnectDB = async () => {
-  sequelize.close()
+  connection.close()
 }
 
 
