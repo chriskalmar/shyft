@@ -58,6 +58,8 @@ exports[`filter buildWhereQuery reject if AND is not provided with an array 1`] 
 
 exports[`filter buildWhereQuery reject if OR is not provided with an array 1`] = `"$or expects an array of filters"`;
 
+exports[`filter buildWhereQuery reject if operator is used without an attribute 1`] = `"missing attribute name for filter operator"`;
+
 exports[`filter buildWhereQuery reject if unknown operators are used 1`] = `"Unknown filter operator: $unknownOp"`;
 
 exports[`filter buildWhereQuery simple properties filter 1`] = `
