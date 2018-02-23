@@ -24,6 +24,34 @@ Array [
 ]
 `;
 
+exports[`filter buildWhereQuery complex and nested filter with various operators 1`] = `
+Array [
+  "SELECT \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\", \\"Server\\".\\"id\\" AS \\"Server_id\\" FROM \\"server\\" \\"Server\\" WHERE (((\\"Server\\".\\"ip\\" IN ($1, $2) AND \\"Server\\".\\"name\\" ILIKE $3) OR (\\"Server\\".\\"ip\\" = $4) OR (\\"Server\\".\\"name\\" ILIKE $5 AND \\"Server\\".\\"name\\" ILIKE $6 AND \\"Server\\".\\"name\\" ILIKE $7 AND ((\\"Server\\".\\"cluster_zone\\" IN ($8, $9)) OR (\\"Server\\".\\"cluster_zone\\" > $10 AND \\"Server\\".\\"cluster_zone\\" < $11 AND \\"Server\\".\\"cluster_zone\\" <> $12 AND \\"Server\\".\\"cluster_zone\\" NOT IN ($13))) AND (((\\"Server\\".\\"cluster_zone\\" = $14) OR (\\"Server\\".\\"cluster_zone\\" <= $15 AND \\"Server\\".\\"cluster_zone\\" >= $16))) AND (\\"Server\\".\\"name\\" NOT ILIKE $17 AND \\"Server\\".\\"name\\" NOT ILIKE $18 AND \\"Server\\".\\"name\\" NOT ILIKE $19))) AND (\\"Server\\".\\"name\\" = $20))",
+  Array [
+    "127.0.0.1",
+    "192.168.0.1",
+    "test-%",
+    "10.0.0.1",
+    "%open%",
+    "demo%",
+    "%server",
+    6,
+    7,
+    10,
+    100,
+    50,
+    44,
+    88,
+    40,
+    30,
+    "%open%",
+    "demo%",
+    "%server",
+    "secret-server",
+  ],
+]
+`;
+
 exports[`filter buildWhereQuery empty filter 1`] = `
 Array [
   "SELECT \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\", \\"Server\\".\\"id\\" AS \\"Server_id\\" FROM \\"server\\" \\"Server\\"",
