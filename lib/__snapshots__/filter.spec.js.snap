@@ -64,7 +64,7 @@ Array [
 ]
 `;
 
-exports[`purifyFilter should clean empty filter bocks 1`] = `
+exports[`filter purifyFilter should clean empty filter bocks 1`] = `
 Object {
   "$and": Array [
     Object {
