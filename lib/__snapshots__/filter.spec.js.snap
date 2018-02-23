@@ -54,6 +54,12 @@ Array [
 ]
 `;
 
+exports[`filter buildWhereQuery reject if AND is not provided with an array 1`] = `"$and expects an array of filters"`;
+
+exports[`filter buildWhereQuery reject if OR is not provided with an array 1`] = `"$or expects an array of filters"`;
+
+exports[`filter buildWhereQuery reject if unknown operators are used 1`] = `"Unknown filter operator: $unknownOp"`;
+
 exports[`filter buildWhereQuery simple properties filter 1`] = `
 Array [
   "SELECT \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\", \\"Server\\".\\"id\\" AS \\"Server_id\\" FROM \\"server\\" \\"Server\\" WHERE (\\"Server\\".\\"ip\\" = $1 AND \\"Server\\".\\"name\\" = $2)",
