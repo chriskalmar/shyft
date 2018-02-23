@@ -1,8 +1,106 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`filter buildWhereQuery combined logical AND/OR filter 1`] = `
+Array [
+  "SELECT \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\", \\"Server\\".\\"id\\" AS \\"Server_id\\" FROM \\"server\\" \\"Server\\" WHERE ((\\"Server\\".\\"ip\\" = $1 AND ((\\"Server\\".\\"cluster_zone\\" = $2) OR (\\"Server\\".\\"cluster_zone\\" = $3))) AND (\\"Server\\".\\"name\\" = $4))",
+  Array [
+    "127.0.0.1",
+    1,
+    7,
+    "test-server-1",
+  ],
+]
+`;
+
+exports[`filter buildWhereQuery combined logical AND/OR filter 2`] = `
+Array [
+  "SELECT \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\", \\"Server\\".\\"id\\" AS \\"Server_id\\" FROM \\"server\\" \\"Server\\" WHERE (((\\"Server\\".\\"ip\\" = $1 AND (\\"Server\\".\\"cluster_zone\\" = $2) AND (\\"Server\\".\\"name\\" = $3)) OR (\\"Server\\".\\"name\\" = $4)))",
+  Array [
+    "127.0.0.1",
+    1,
+    "test-server-110",
+    "test-server-1",
+  ],
+]
+`;
+
 exports[`filter buildWhereQuery empty filter 1`] = `
 Array [
   "SELECT \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\", \\"Server\\".\\"id\\" AS \\"Server_id\\" FROM \\"server\\" \\"Server\\"",
   Array [],
 ]
+`;
+
+exports[`filter buildWhereQuery logical AND filter 1`] = `
+Array [
+  "SELECT \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\", \\"Server\\".\\"id\\" AS \\"Server_id\\" FROM \\"server\\" \\"Server\\" WHERE ((\\"Server\\".\\"ip\\" = $1 AND \\"Server\\".\\"name\\" = $2) AND (\\"Server\\".\\"cluster_zone\\" = $3))",
+  Array [
+    "127.0.0.1",
+    "test-server-1",
+    4,
+  ],
+]
+`;
+
+exports[`filter buildWhereQuery logical OR filter 1`] = `
+Array [
+  "SELECT \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\", \\"Server\\".\\"id\\" AS \\"Server_id\\" FROM \\"server\\" \\"Server\\" WHERE (((\\"Server\\".\\"ip\\" = $1 AND \\"Server\\".\\"name\\" = $2) OR (\\"Server\\".\\"ip\\" = $3 AND \\"Server\\".\\"name\\" = $4)))",
+  Array [
+    "127.0.0.1",
+    "test-server-1",
+    "127.0.0.1",
+    "test-server-2",
+  ],
+]
+`;
+
+exports[`filter buildWhereQuery simple properties filter 1`] = `
+Array [
+  "SELECT \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\", \\"Server\\".\\"id\\" AS \\"Server_id\\" FROM \\"server\\" \\"Server\\" WHERE (\\"Server\\".\\"ip\\" = $1 AND \\"Server\\".\\"name\\" = $2)",
+  Array [
+    "127.0.0.1",
+    "test-server-1",
+  ],
+]
+`;
+
+exports[`purifyFilter should clean empty filter bocks 1`] = `
+Object {
+  "$and": Array [
+    Object {
+      "$or": Array [
+        Object {
+          "LookupEntity.role": 1,
+        },
+        Object {
+          "accessLevel": 1,
+        },
+      ],
+      "language": Object {
+        "$gte": 1,
+        "$lt": 5,
+      },
+      "username": Object {
+        "$contains": "bot",
+        "$startsWith": "_system_%",
+      },
+    },
+    Object {
+      "$or": Array [
+        Object {
+          "$and": Array [
+            Object {
+              "username": "hallo",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  "$or": Array [
+    Object {
+      "lastname": "smith",
+    },
+  ],
+}
 `;
