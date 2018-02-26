@@ -4,6 +4,7 @@ import {
   Mutation,
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
+  MUTATION_TYPE_DELETE,
   Permission,
   Index,
   INDEX_UNIQUE,
@@ -61,6 +62,12 @@ export const Participant = new Entity({
       type: MUTATION_TYPE_UPDATE,
       fromState: 'invited',
       toState: 'accepted',
+    }),
+    new Mutation({
+      name: 'remove',
+      description: 'remove a user from a private board',
+      type: MUTATION_TYPE_DELETE,
+      fromState: [ 'joined', 'invited', 'accepted'],
     }),
   ],
 

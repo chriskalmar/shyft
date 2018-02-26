@@ -12,6 +12,22 @@ Object {
 }
 `;
 
+exports[`mutation perform delete mutations 1`] = `
+Object {
+  "board": "50",
+  "id": "303",
+  "invitee": "80",
+  "inviter": "65",
+  "state": 10,
+}
+`;
+
+exports[`mutation perform delete mutations 2`] = `
+Object {
+  "deleteRowCount": 1,
+}
+`;
+
 exports[`mutation perform update mutations 1`] = `
 Object {
   "board": "50",

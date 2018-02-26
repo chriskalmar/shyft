@@ -69,4 +69,21 @@ describe('mutation', () => {
         expect(e).toMatchSnapshot()
       })
   })
+
+
+  it('perform delete mutations', async () => {
+
+    const payload = {
+      board: 50,
+      invitee: 80,
+    }
+
+    let result = await mutate(Participant, 'invite', payload, null, asUser(65))
+    const inviteId = result.id
+    expect(removeDynamicData(Participant, result)).toMatchSnapshot()
+
+    result = await mutate(Participant, 'remove', {}, inviteId, asUser(80))
+    expect(removeDynamicData(Participant, result)).toMatchSnapshot()
+  })
+
 })
