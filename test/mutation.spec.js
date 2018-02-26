@@ -27,7 +27,6 @@ describe('mutation', () => {
   })
 
 
-  // let joinId
 
   it('perform create mutations', async () => {
 
@@ -36,21 +35,37 @@ describe('mutation', () => {
     }
 
     const result = await mutate(Participant, 'join', payload, null, asUser(99))
-    // joinId = result.dataValues.id
-    expect(removeDynamicData(Participant, result.dataValues)).toMatchSnapshot()
+    expect(removeDynamicData(Participant, result)).toMatchSnapshot()
   })
 
-  it('handle uniqueness constraints', async () => {
+
+  it('perform update mutations', async () => {
 
     const payload = {
       board: 50,
+      invitee: 80,
     }
 
-    await mutate(Participant, 'join', payload, null, asUser(99))
-      .catch(e => {
-        expect(e).toMatchSnapshot()
-      })
+    let result = await mutate(Participant, 'invite', payload, null, asUser(84))
+    const inviteId = result.id
+    expect(removeDynamicData(Participant, result)).toMatchSnapshot()
+
+    result = await mutate(Participant, 'accept', {}, inviteId, asUser(80))
+    expect(removeDynamicData(Participant, result)).toMatchSnapshot()
   })
+
+
+  // it('handle uniqueness constraints', async () => {
+
+  //   const payload = {
+  //     board: 50,
+  //   }
+
+  //   await mutate(Participant, 'join', payload, null, asUser(99))
+  //     .catch(e => {
+  //       expect(e).toMatchSnapshot()
+  //     })
+  // })
 
 
 })
