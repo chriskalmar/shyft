@@ -58,7 +58,7 @@ export const initDB = async () => {
     username: process.env.PGUSER || 'postgres',
     password: process.env.PGPASSWORD || null,
     database: process.env.SHIFT_TEST_DB || 'shift_tests',
-    logging: true,
+    // logging: true,
     synchronize: true,
     dropSchema: true,
     entitySchemas
