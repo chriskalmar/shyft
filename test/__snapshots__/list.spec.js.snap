@@ -616,7 +616,7 @@ Object {
 }
 `;
 
-exports[`list filter variants $not 1`] = `
+exports[`list filter variants $ne 1`] = `
 Object {
   "data": Array [
     Object {
