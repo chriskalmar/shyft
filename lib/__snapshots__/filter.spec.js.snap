@@ -82,6 +82,8 @@ Array [
 ]
 `;
 
+exports[`filter buildWhereQuery reject if $not operator is used without a filter 1`] = `"$not expects a filter"`;
+
 exports[`filter buildWhereQuery reject if AND is not provided with an array 1`] = `"$and expects an array of filters"`;
 
 exports[`filter buildWhereQuery reject if OR is not provided with an array 1`] = `"$or expects an array of filters"`;
