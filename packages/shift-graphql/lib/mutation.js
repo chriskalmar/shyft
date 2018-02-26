@@ -20,6 +20,7 @@ import {
   isEntity,
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
+  MUTATION_TYPE_DELETE,
   INDEX_UNIQUE,
   CustomError,
   fillSystemAttributesDefaultValues,
@@ -561,7 +562,9 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
 
     validateMutationPayload(entity, entityMutation, args.input[ typeName ], context)
 
-    args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
+    if (entityMutation.type !== MUTATION_TYPE_DELETE) {
+      args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
+    }
 
     let result = await storageType.mutate(entity, id, args.input[typeName], entityMutation, context)
     if (result) {
@@ -593,7 +596,9 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
 
     validateMutationPayload(entity, entityMutation, args.input[ typeName ], context)
 
-    args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
+    if (entityMutation.type !== MUTATION_TYPE_DELETE) {
+      args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
+    }
 
     let result = await storageType.mutate(entity, id, args.input[typeName], entityMutation, context)
     if (result) {
