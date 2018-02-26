@@ -95,4 +95,13 @@ describe('mutation', () => {
       })
   })
 
+
+  it('reject unknown mutations', async () => {
+
+    await mutate(Participant, 'findInnerPeace', {}, 1, asUser(80))
+      .catch(e => {
+        expect(e).toMatchSnapshot()
+      })
+  })
+
 })
