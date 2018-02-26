@@ -302,6 +302,16 @@ class Entity {
       () => `'${this.name}.${attributeName}' has invalid data type '${String(attribute.type)}'`
     )
 
+    if (isDataType(attribute.type)) {
+      if (attribute.type.enforceRequired) {
+        attribute.required = true
+      }
+
+      if (attribute.type.defaultValue) {
+        attribute.defaultValue = attribute.type.defaultValue
+      }
+    }
+
     if (attribute.targetAttributesMap) {
       passOrThrow(
         attribute.type instanceof Entity,

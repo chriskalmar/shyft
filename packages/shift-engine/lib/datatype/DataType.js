@@ -14,6 +14,8 @@ class DataType {
       description,
       mock,
       validate,
+      enforceRequired,
+      defaultValue,
     } = setup
 
     passOrThrow(name, () => 'Missing data type name')
@@ -33,9 +35,22 @@ class DataType {
       this.validator = validate
     }
 
+    if (defaultValue) {
+      passOrThrow(
+        isFunction(defaultValue),
+        () => `'Invalid defaultValue function for data type '${name}'`
+      )
+
+      this.defaultValue = defaultValue
+    }
+
     this.name = name
     this.description = description
     this.mock = mock
+
+    if (enforceRequired) {
+      this.enforceRequired = enforceRequired
+    }
   }
 
 
