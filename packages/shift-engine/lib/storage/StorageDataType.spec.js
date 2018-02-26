@@ -104,7 +104,7 @@ describe('StorageDataType', () => {
         serialize() {},
         capabilities: [
           'in',
-          'not',
+          'ne',
           'magic_unicorn_filter',
         ],
       })
@@ -124,12 +124,12 @@ describe('StorageDataType', () => {
       serialize() {},
       capabilities: [
         'in',
-        'not',
+        'ne',
         'contains',
       ],
     })
 
-    expect(storageDataType.capabilities).toEqual([ 'in', 'not', 'contains' ]);
+    expect(storageDataType.capabilities).toEqual([ 'in', 'ne', 'contains' ]);
 
   })
 

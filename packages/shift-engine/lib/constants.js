@@ -26,7 +26,7 @@ export const storageDataTypeCapabilities = {
   contains: sdtcVALUE,
   starts_with: sdtcVALUE,
   ends_with: sdtcVALUE,
-  not: sdtcVALUE,
+  ne: sdtcVALUE,
   not_in: sdtcLIST,
   not_contains: sdtcVALUE,
   not_starts_with: sdtcVALUE,
