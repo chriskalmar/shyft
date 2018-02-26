@@ -60,7 +60,5 @@
     "toposort": "^1.0.3",
     "typeorm": "^0.1.12"
   },
-  "peerDependencies": {
-    "sequelize": "^4.15.2"
-  }
+  "peerDependencies": {}
 }
