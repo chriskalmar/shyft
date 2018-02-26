@@ -89,22 +89,24 @@ export const mutate = async (entity, mutationName, payload, id, context) => {
   }
 
 
-  if (entityMutation.preProcessor) {
-    args.input[typeName] = await entityMutation.preProcessor(entity, id, source, args.input[typeName], typeName, entityMutation, context)
-  }
+  if (entityMutation) {
+    if (entityMutation.preProcessor) {
+      args.input[typeName] = await entityMutation.preProcessor(entity, id, source, args.input[typeName], typeName, entityMutation, context)
+    }
 
-  if (entityMutation.type === MUTATION_TYPE_CREATE) {
-    args.input[typeName] = fillDefaultValues(entity, entityMutation, args.input[typeName], context)
-  }
+    if (entityMutation.type === MUTATION_TYPE_CREATE) {
+      args.input[typeName] = fillDefaultValues(entity, entityMutation, args.input[typeName], context)
+    }
 
-  if (entityMutation.type === MUTATION_TYPE_CREATE || entityMutation.type === MUTATION_TYPE_UPDATE) {
-    args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
-  }
+    if (entityMutation.type === MUTATION_TYPE_CREATE || entityMutation.type === MUTATION_TYPE_UPDATE) {
+      args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
+    }
 
-  validateMutationPayload(entity, entityMutation, args.input[typeName], context)
+    validateMutationPayload(entity, entityMutation, args.input[typeName], context)
 
-  if (entityMutation.type !== MUTATION_TYPE_DELETE) {
-    args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
+    if (entityMutation.type !== MUTATION_TYPE_DELETE) {
+      args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
+    }
   }
 
   return await StorageTypePostgres.mutate(entity, id, args.input[typeName], entityMutation, context)
