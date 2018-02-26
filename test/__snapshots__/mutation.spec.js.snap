@@ -12,4 +12,24 @@ Object {
 }
 `;
 
+exports[`mutation perform update mutations 1`] = `
+Object {
+  "board": "50",
+  "id": "302",
+  "invitee": "80",
+  "inviter": "84",
+  "state": 10,
+}
+`;
+
+exports[`mutation perform update mutations 2`] = `
+Object {
+  "board": "50",
+  "id": "302",
+  "invitee": "80",
+  "inviter": "84",
+  "state": 20,
+}
+`;
+
 exports[`mutation reject mutations without state transitions on stateful entities 1`] = `[Error: State transition (toState) not defined]`;

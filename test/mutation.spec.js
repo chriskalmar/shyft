@@ -9,6 +9,7 @@ import {
 } from './testUtils';
 
 import { Participant } from './models/Participant';
+import { Board } from './models/Board';
 
 
 describe('mutation', () => {
@@ -55,17 +56,17 @@ describe('mutation', () => {
   })
 
 
-  // it('handle uniqueness constraints', async () => {
+  it('handle uniqueness constraints', async () => {
 
-  //   const payload = {
-  //     board: 50,
-  //   }
+    const payload = {
+      name: 'New Board',
+    }
 
-  //   await mutate(Participant, 'join', payload, null, asUser(99))
-  //     .catch(e => {
-  //       expect(e).toMatchSnapshot()
-  //     })
-  // })
+    await mutate(Board, 'build', payload, null, asUser(99))
 
-
+    await mutate(Board, 'build', payload, null, asUser(99))
+      .catch(e => {
+        expect(e).toMatchSnapshot()
+      })
+  })
 })
