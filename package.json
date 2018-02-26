@@ -57,8 +57,9 @@
     "json-shaper": "^1.2.0",
     "lodash": "^4.17.4",
     "pg": "6.4.2",
-    "toposort": "^1.0.3",
-    "typeorm": "^0.1.12"
+    "toposort": "^1.0.3"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "typeorm": "^0.1.13"
+  }
 }
