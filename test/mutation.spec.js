@@ -86,4 +86,13 @@ describe('mutation', () => {
     expect(removeDynamicData(Participant, result)).toMatchSnapshot()
   })
 
+
+  it('reject mutations if ID not found', async () => {
+
+    await mutate(Participant, 'remove', {}, 99999, asUser(80))
+      .catch(e => {
+        expect(e).toMatchSnapshot()
+      })
+  })
+
 })

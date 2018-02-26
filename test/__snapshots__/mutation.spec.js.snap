@@ -48,4 +48,6 @@ Object {
 }
 `;
 
+exports[`mutation reject mutations if ID not found 1`] = `[Error: Instance with ID '99999' not found]`;
+
 exports[`mutation reject mutations without state transitions on stateful entities 1`] = `[Error: State transition (toState) not defined]`;
