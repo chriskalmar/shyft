@@ -52,6 +52,10 @@ export const DataTypeBoolean = new DataType({
   description: 'Data type representing boolean values',
   mock: /* istanbul ignore next */
     () => casual.boolean,
+  enforceRequired: true,
+  defaultValue() {
+    return false
+  }
 })
 
 
