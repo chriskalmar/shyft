@@ -1,6 +1,7 @@
 
 import Permission, {
   isPermission,
+  isPermissionsArray,
   findInvalidPermissionAttributes,
   findMissingPermissionAttributes,
   generatePermissionDescription,
@@ -254,6 +255,54 @@ describe('Permission', () => {
         )
       }
 
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+
+    })
+
+  })
+
+  describe('isPermissionsArray', () => {
+
+
+    it('should recognize a list of objects of type Permission', () => {
+
+      const permission = new Permission()
+
+      function fn() {
+        passOrThrow(
+          isPermissionsArray([permission]) &&
+          isPermissionsArray([permission, permission]) &&
+          isPermissionsArray([permission, permission, permission]),
+          () => 'This error will never happen'
+        )
+      }
+
+      expect(fn).not.toThrow()
+
+    })
+
+
+    it('should recognize non-Permission objects', () => {
+
+      const permission = new Permission()
+
+      function fn() {
+        passOrThrow(
+          isPermissionsArray() ||
+          isPermissionsArray(null) ||
+          isPermissionsArray([]) ||
+          isPermissionsArray({}) ||
+          isPermissionsArray(function test() {}) ||
+          isPermissionsArray(Error) ||
+          isPermissionsArray([{}]) ||
+          isPermissionsArray([function test() {}]) ||
+          isPermissionsArray([Error]) ||
+          isPermissionsArray([permission, null]) ||
+          isPermissionsArray([permission, {}, permission]),
+          () => 'Not a Permissions array'
+        )
+      }
 
       expect(fn).toThrowErrorMatchingSnapshot();
 

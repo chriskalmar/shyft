@@ -211,6 +211,8 @@ exports[`Permission build permission filter userAttributes should reject if user
 
 exports[`Permission isPermission should recognize non-Permission objects 1`] = `"Not a Permission object"`;
 
+exports[`Permission isPermissionsArray should recognize non-Permission objects 1`] = `"Not a Permissions array"`;
+
 exports[`Permission lookup permissions should reject if entity is missing 1`] = `"Permission type 'lookup' expects an entity"`;
 
 exports[`Permission lookup permissions should reject if lookupMap is missing 1`] = `"Permission type 'lookup' expects a lookupMap"`;

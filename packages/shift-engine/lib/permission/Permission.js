@@ -193,6 +193,13 @@ export const isPermission = (obj) => {
   return (obj instanceof Permission)
 }
 
+export const isPermissionsArray = (obj) => {
+  if (isArray(obj, true)) {
+    return obj.reduce((prev, permission) => prev && isPermission(permission), true)
+  }
+  return false
+}
+
 
 export const findInvalidPermissionAttributes = (permission, entity) => {
 
