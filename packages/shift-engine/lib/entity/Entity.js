@@ -478,7 +478,11 @@ class Entity {
 
   _processPermissions () {
     if (this._permissions) {
-      return processEntityPermissions(this, this._permissions)
+      const permissions = isFunction(this._permissions)
+        ? this._permissions()
+        : this._permissions
+
+      return processEntityPermissions(this, permissions)
     }
 
     return null
