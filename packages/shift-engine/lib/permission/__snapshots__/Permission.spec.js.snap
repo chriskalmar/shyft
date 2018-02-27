@@ -338,6 +338,14 @@ exports[`Permission permissions description should generate a description based 
 
 exports[`Permission permissions description should reject if non-Permission object is provided 1`] = `"generatePermissionDescription needs a valid permission object"`;
 
+exports[`Permission processEntityPermissions should throw if permission is used on a create type mutation and using data-bound permission types 1`] = `"Create type mutation permission 'create' in 'SomeEntityName.permissions' can only be of type 'authenticated', 'everyone' or 'role'"`;
+
+exports[`Permission processEntityPermissions should throw if permission is used on a create type mutation and using data-bound permission types 2`] = `"Create type mutation permission 'create' in 'SomeEntityName.permissions' can only be of type 'authenticated', 'everyone' or 'role'"`;
+
+exports[`Permission processEntityPermissions should throw if permission is used on a create type mutation and using data-bound permission types 3`] = `"Create type mutation permission 'create' in 'SomeEntityName.permissions' can only be of type 'authenticated', 'everyone' or 'role'"`;
+
+exports[`Permission processEntityPermissions should throw if permission is used on a create type mutation and using data-bound permission types 4`] = `"Create type mutation permission 'create' in 'SomeEntityName.permissions' can only be of type 'authenticated', 'everyone' or 'role'"`;
+
 exports[`Permission processEntityPermissions should throw if permissions are assigned to unknown mutations 1`] = `"Unknown mutation 'noSuchMutation' used for permissions in entity 'SomeEntityName'"`;
 
 exports[`Permission processEntityPermissions should throw if permissions have invalid attributes defined 1`] = `"Cannot use attribute 'someAttribute' in 'SomeEntityName.permissions' as 'userAttribute' as it is not a reference to the User entity"`;

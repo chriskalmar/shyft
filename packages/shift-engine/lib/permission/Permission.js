@@ -7,6 +7,7 @@ import {
 
 import { isEntity } from '../entity/Entity';
 import { isDataTypeUser } from '../datatype/DataTypeUser';
+import { MUTATION_TYPE_CREATE } from '../mutation/Mutation';
 import _ from 'lodash';
 
 
@@ -582,6 +583,27 @@ const validatePermissionAttributesAndStates = (entity, permissions, mutationName
 }
 
 
+const validatePermissionMutationTypes = (entity, permissions, mutation) => {
+
+  if (mutation.type === MUTATION_TYPE_CREATE) {
+
+    const permissionsArray = isArray(permissions)
+      ? permissions
+      : [permissions]
+
+    permissionsArray.map(permission => {
+      passOrThrow(
+        !permission.userAttributes.length &&
+        !permission.states.length &&
+        !permission.lookups.length &&
+        !permission.values.length,
+        () => `Create type mutation permission '${mutation.name}' in '${entity.name}.permissions' can only be of type 'authenticated', 'everyone' or 'role'`
+      )
+    })
+  }
+}
+
+
 export const processEntityPermissions = (entity, permissions) => {
 
   passOrThrow(
@@ -649,6 +671,7 @@ export const processEntityPermissions = (entity, permissions) => {
       const permission = permissions.mutations[ mutationName ]
 
       if (permission) {
+        validatePermissionMutationTypes(entity, permission, mutation)
         validatePermissionAttributesAndStates(entity, permission, mutationName)
       }
     })

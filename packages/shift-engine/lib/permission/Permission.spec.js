@@ -1074,6 +1074,61 @@ describe('Permission', () => {
 
     })
 
+    it('should throw if permission is used on a create type mutation and using data-bound permission types', () => {
+
+      const permissions1 = {
+        mutations: {
+          create: new Permission().state('someState')
+        }
+      }
+
+      function fn1() {
+        processEntityPermissions(entity, permissions1)
+      }
+
+      expect(fn1).toThrowErrorMatchingSnapshot();
+
+
+      const permissions2 = {
+        mutations: {
+          create: new Permission().userAttribute('someAttribute')
+        }
+      }
+
+      function fn2() {
+        processEntityPermissions(entity, permissions2)
+      }
+
+      expect(fn2).toThrowErrorMatchingSnapshot();
+
+
+      const permissions3 = {
+        mutations: {
+          create: new Permission().value('someAttribute', 10)
+        }
+      }
+
+      function fn3() {
+        processEntityPermissions(entity, permissions3)
+      }
+
+      expect(fn3).toThrowErrorMatchingSnapshot();
+
+
+      const permissions4 = {
+        mutations: {
+          create: new Permission().lookup(Language, { id: 'someAttribute'} )
+        }
+      }
+
+      function fn4() {
+        processEntityPermissions(entity, permissions4)
+      }
+
+      expect(fn4).toThrowErrorMatchingSnapshot();
+
+    })
+
   })
 
 })
