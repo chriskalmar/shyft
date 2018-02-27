@@ -227,6 +227,77 @@ exports[`Permission permissions check simple should reject if non-Permission obj
 
 exports[`Permission permissions check simple should reject if user roles are not provided as an array 1`] = `"checkPermissionSimple needs a valid list of assigned user roles"`;
 
+exports[`Permission permissions description should generate a description based on defined permissions: authenticated 1`] = `
+"
+***
+**Permissions:**
+
+- authenticated"
+`;
+
+exports[`Permission permissions description should generate a description based on defined permissions: everyone 1`] = `
+"
+***
+**Permissions:**
+
+- everyone"
+`;
+
+exports[`Permission permissions description should generate a description based on defined permissions: lookup Language someAttribute 1`] = `
+"
+***
+**Permissions:**
+
+- lookups: 
+  - Entity: Language 
+    - createdBy -> someAttribute"
+`;
+
+exports[`Permission permissions description should generate a description based on defined permissions: mixed 1 1`] = `
+"
+***
+**Permissions:**
+
+- roles: manager, admin
+- userAttributes: publisher, organizer
+- lookups: 
+  - Entity: Language 
+    - createdBy -> someAttribute
+  - Entity: Language 
+    - updatedAt -> anotherAttribute
+  - Entity: Language 
+    - source -> lorem
+    - mainContinent -> ipsum
+- values: 
+  - someAttribute = 123
+  - anotherAttribute = hello"
+`;
+
+exports[`Permission permissions description should generate a description based on defined permissions: role manager 1`] = `
+"
+***
+**Permissions:**
+
+- roles: manager"
+`;
+
+exports[`Permission permissions description should generate a description based on defined permissions: userAttributes publisher 1`] = `
+"
+***
+**Permissions:**
+
+- userAttributes: publisher"
+`;
+
+exports[`Permission permissions description should generate a description based on defined permissions: value someAttribute 1`] = `
+"
+***
+**Permissions:**
+
+- values: 
+  - someAttribute = 123"
+`;
+
 exports[`Permission permissions description should reject if non-Permission object is provided 1`] = `"generatePermissionDescription needs a valid permission object"`;
 
 exports[`Permission processEntityPermissions should throw if permissions are assigned to unknown mutations 1`] = `"Unknown mutation 'noSuchMutation' used for permissions in entity 'SomeEntityName'"`;

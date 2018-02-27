@@ -453,27 +453,27 @@ describe('Permission', () => {
       const tests = [
         [
           new Permission().everyone(),
-          '\n***\nPermissions:\n\n- everyone'
+          'everyone'
         ],
         [
           new Permission().authenticated(),
-          '\n***\nPermissions:\n\n- authenticated'
+          'authenticated'
         ],
         [
           new Permission().role('manager'),
-          '\n***\nPermissions:\n\n- roles: manager'
+          'role manager'
         ],
         [
           new Permission().userAttribute('publisher'),
-          '\n***\nPermissions:\n\n- userAttributes: publisher'
+          'userAttributes publisher'
         ],
         [
           new Permission().lookup(Language, { createdBy: 'someAttribute' }),
-          '\n***\nPermissions:\n\n- lookups: \n  - Entity: Language \n    - createdBy -> someAttribute'
+          'lookup Language someAttribute'
         ],
         [
           new Permission().value('someAttribute', 123),
-          '\n***\nPermissions:\n\n- values: \n  - someAttribute = 123'
+          'value someAttribute'
         ],
         [
           new Permission()
@@ -486,26 +486,12 @@ describe('Permission', () => {
             .lookup(Language, { source: 'lorem', mainContinent: 'ipsum' })
             .value('someAttribute', 123)
             .value('anotherAttribute', 'hello'),
-          '\n***\nPermissions:\n\n' +
-            '- roles: manager, admin\n' +
-            '- userAttributes: publisher, organizer\n' +
-            '- lookups: \n' +
-            '  - Entity: Language \n' +
-            '    - createdBy -> someAttribute\n' +
-            '  - Entity: Language \n' +
-            '    - updatedAt -> anotherAttribute\n' +
-            '  - Entity: Language \n' +
-            '    - source -> lorem\n' +
-            '    - mainContinent -> ipsum\n' +
-            '- values: \n' +
-            '  - someAttribute = 123\n' +
-            '  - anotherAttribute = hello'
+          'mixed 1'
         ],
       ]
 
-
-      tests.map(([ permission, resultText ]) => {
-        expect(generatePermissionDescription(permission)).toBe(resultText)
+      tests.map(([ permission, testName ]) => {
+        expect(generatePermissionDescription(permission)).toMatchSnapshot(testName)
       })
 
     })
