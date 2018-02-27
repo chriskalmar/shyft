@@ -488,6 +488,19 @@ describe('Permission', () => {
             .value('anotherAttribute', 'hello'),
           'mixed 1'
         ],
+        [
+          [
+            new Permission()
+              .lookup(Language, { createdBy: 'someAttribute' }),
+            new Permission()
+              .role('manager')
+              .userAttribute('publisher'),
+            new Permission()
+              .value('someAttribute', 123),
+          ],
+          'permissions array'
+        ],
+
       ]
 
       tests.map(([ permission, testName ]) => {

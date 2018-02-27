@@ -273,6 +273,24 @@ exports[`Permission permissions description should generate a description based 
   - anotherAttribute = hello"
 `;
 
+exports[`Permission permissions description should generate a description based on defined permissions: permissions array 1`] = `
+"
+***
+**Permissions:**
+
+- lookups: 
+  - Entity: Language 
+    - createdBy -> someAttribute
+
+---
+- roles: manager
+- userAttributes: publisher
+
+---
+- values: 
+  - someAttribute = 123"
+`;
+
 exports[`Permission permissions description should generate a description based on defined permissions: role manager 1`] = `
 "
 ***
