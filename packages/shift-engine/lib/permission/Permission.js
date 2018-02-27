@@ -258,6 +258,21 @@ export const findMissingPermissionAttributes = (permission, permissionEntity) =>
 }
 
 
+export const findMissingPermissionStates = (permission, permissionEntity) => {
+
+  const entityStates = permissionEntity.getStates()
+
+  if (entityStates) {
+    const missingState = permission.states.find(state => !entityStates[state])
+    if (missingState) {
+      return missingState
+    }
+  }
+
+  return false
+}
+
+
 export const generatePermissionDescription = (permissions) => {
 
   const descriptions = []
@@ -534,6 +549,13 @@ const validatePermissionAttributes = (entity, permissions, mutationName) => {
     )
 
     findInvalidPermissionAttributes(permission, entity)
+
+    const invalidState = findMissingPermissionStates(permission, entity)
+
+    passOrThrow(
+      !invalidState,
+      () => `Cannot use state '${invalidState}' in '${entity.name}.permissions' for '${mutationName}' as it does not exist`
+    )
   })
 }
 
