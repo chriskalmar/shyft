@@ -529,14 +529,14 @@ export const processEntityPermissions = (entity, permissions) => {
 
   if (permissions.read) {
     passOrThrow(
-      isPermission(permissions.read),
+      isPermission(permissions.read) || isPermissionsArray(permissions.read),
       () => `Invalid 'read' permission definition for entity '${entity.name}'`
     )
   }
 
   if (permissions.find) {
     passOrThrow(
-      isPermission(permissions.find),
+      isPermission(permissions.find) || isPermissionsArray(permissions.find),
       () => `Invalid 'find' permission definition for entity '${entity.name}'`
     )
   }
@@ -550,7 +550,7 @@ export const processEntityPermissions = (entity, permissions) => {
     const mutationNames = Object.keys(permissions.mutations);
     mutationNames.map((mutationName, idx) => {
       passOrThrow(
-        isPermission(permissions.mutations[ mutationName ]),
+        isPermission(permissions.mutations[mutationName]) || isPermissionsArray(permissions.mutations[mutationName]),
         () => `Invalid mutation permission definition for entity '${entity.name}' at position '${idx}'`
       )
 
