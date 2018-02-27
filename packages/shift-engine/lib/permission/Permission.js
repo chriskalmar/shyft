@@ -258,62 +258,75 @@ export const findMissingPermissionAttributes = (permission, permissionEntity) =>
 }
 
 
-export const generatePermissionDescription = (permission) => {
+export const generatePermissionDescription = (permissions) => {
 
-  const lines = []
+  const descriptions = []
 
-  passOrThrow(
-    isPermission(permission),
-    () => 'generatePermissionDescription needs a valid permission object'
-  )
+  const permissionsArray = isArray(permissions)
+    ? permissions
+    : [permissions]
 
-  if (permission.everyoneCanAccess) {
-    lines.push('everyone')
-  }
+  permissionsArray.map(permission => {
 
-  if (permission.authenticatedCanAccess) {
-    lines.push('authenticated')
-  }
+    const lines = []
 
-  if (permission.roles.length > 0) {
-    lines.push(`roles: ${permission.roles.join(', ')}`)
-  }
+    passOrThrow(
+      isPermission(permission),
+      () => 'generatePermissionDescription needs a valid permission object'
+    )
 
-  if (permission.userAttributes.length > 0) {
-    lines.push(`userAttributes: ${permission.userAttributes.join(', ')}`)
-  }
+    if (permission.everyoneCanAccess) {
+      lines.push('everyone')
+    }
 
-  if (permission.states.length > 0) {
-    lines.push(`states: ${permission.states.join(', ')}`)
-  }
+    if (permission.authenticatedCanAccess) {
+      lines.push('authenticated')
+    }
 
-  if (permission.lookups.length > 0) {
-    const lookupBullets = permission.lookups.reduce((lprev, {entity, lookupMap}) => {
+    if (permission.roles.length > 0) {
+      lines.push(`roles: ${permission.roles.join(', ')}`)
+    }
 
-      const attributeBullets = _.reduce(lookupMap, (aprev, target, source) => {
-        return `${aprev}\n    - ${source} -> ${target}`
+    if (permission.userAttributes.length > 0) {
+      lines.push(`userAttributes: ${permission.userAttributes.join(', ')}`)
+    }
+
+    if (permission.states.length > 0) {
+      lines.push(`states: ${permission.states.join(', ')}`)
+    }
+
+    if (permission.lookups.length > 0) {
+      const lookupBullets = permission.lookups.reduce((lprev, {entity, lookupMap}) => {
+
+        const attributeBullets = _.reduce(lookupMap, (aprev, target, source) => {
+          return `${aprev}\n    - ${source} -> ${target}`
+        }, '')
+
+        return `${lprev}\n  - Entity: ${entity} ${attributeBullets}`
       }, '')
 
-      return `${lprev}\n  - Entity: ${entity} ${attributeBullets}`
-    }, '')
+      lines.push(`lookups: ${lookupBullets}`)
+    }
 
-    lines.push(`lookups: ${lookupBullets}`)
-  }
+    if (permission.values.length > 0) {
+      const valueBullets = permission.values.reduce((prev, {attributeName, value}) => {
+        return `${prev}\n  - ${attributeName} = ${value}`
+      }, '')
+      lines.push(`values: ${valueBullets}`)
+    }
 
-  if (permission.values.length > 0) {
-    const valueBullets = permission.values.reduce((prev, {attributeName, value}) => {
-      return `${prev}\n  - ${attributeName} = ${value}`
-    }, '')
-    lines.push(`values: ${valueBullets}`)
-  }
+    if (lines.length > 0) {
+      const bullets = lines.reduce((prev, next) => {
+        return `${prev}\n- ${next}`
+      }, '')
 
-  if (lines.length > 0) {
-    const text = '\n***\nPermissions:\n'
-    const bullets = lines.reduce((prev, next) => {
-      return `${prev}\n- ${next}`
-    }, '')
+      descriptions.push(bullets)
+    }
+  })
 
-    return text + bullets
+  if (descriptions.length > 0) {
+    const text = '\n***\n**Permissions:**\n'
+    return text + descriptions.join('\n\n---')
   }
 
   return false
