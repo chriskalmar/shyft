@@ -456,6 +456,27 @@ export const buildStatesPermissionFilter = (permission, entity) => {
 
 
 
+export const buildValuesPermissionFilter = (permission) => {
+
+  let where
+
+  if (permission.values.length > 0) {
+
+    where = where || {}
+    where.$or = where.$or || []
+
+    permission.values.map(({attributeName, value}) => {
+      where.$or.push({
+        [attributeName]: value
+      })
+    })
+  }
+
+  return where
+}
+
+
+
 export const buildPermissionFilterSingle = (permission, userId, userRoles, entity) => {
 
   let where
@@ -463,6 +484,7 @@ export const buildPermissionFilterSingle = (permission, userId, userRoles, entit
   const permissionFilters = [
     buildUserAttributesPermissionFilter(permission, userId),
     buildStatesPermissionFilter(permission, entity),
+    buildValuesPermissionFilter(permission, entity),
   ]
 
   permissionFilters.map(permissionFilter => {

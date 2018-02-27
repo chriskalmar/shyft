@@ -766,6 +766,7 @@ describe('Permission', () => {
         const permission = new Permission()
           .authenticated()
           .userAttribute('author')
+          .value('something', 23)
 
         const filter = buildPermissionFilterSingle(permission, userId, userRoles, someEntity)
 
@@ -780,6 +781,9 @@ describe('Permission', () => {
           .userAttribute('author')
           .state('open')
           .state('inTransfer')
+          .value('something', 23)
+          .value('something', 80)
+          .value('somethingElse', 4)
 
         const filter = buildPermissionFilterSingle(permission, userId, userRoles, someEntity)
 

@@ -22,6 +22,19 @@ Object {
         },
       ],
     },
+    Object {
+      "$or": Array [
+        Object {
+          "something": 23,
+        },
+        Object {
+          "something": 80,
+        },
+        Object {
+          "somethingElse": 4,
+        },
+      ],
+    },
   ],
 }
 `;
@@ -33,6 +46,13 @@ Object {
       "$or": Array [
         Object {
           "author": 123,
+        },
+      ],
+    },
+    Object {
+      "$or": Array [
+        Object {
+          "something": 23,
         },
       ],
     },
