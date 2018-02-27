@@ -506,16 +506,22 @@ export const checkPermissionAdvanced = (data, permission, userId = null) => {
 
 
 
-const validatePermissionAttributes = (entity, permission, mutationName) => {
+const validatePermissionAttributes = (entity, permissions, mutationName) => {
 
-  const invalidAttribute = findMissingPermissionAttributes(permission, entity)
+  const permissionsArray = isArray(permissions)
+    ? permissions
+    : [permissions]
 
-  passOrThrow(
-    !invalidAttribute,
-    () => `Cannot use attribute '${invalidAttribute}' in '${entity.name}.permissions' for '${mutationName}' as it does not exist`
-  )
+  permissionsArray.map(permission => {
+    const invalidAttribute = findMissingPermissionAttributes(permission, entity)
 
-  findInvalidPermissionAttributes(permission, entity)
+    passOrThrow(
+      !invalidAttribute,
+      () => `Cannot use attribute '${invalidAttribute}' in '${entity.name}.permissions' for '${mutationName}' as it does not exist`
+    )
+
+    findInvalidPermissionAttributes(permission, entity)
+  })
 }
 
 
