@@ -556,7 +556,7 @@ export const checkPermissionAdvanced = (data, permission, userId = null) => {
 
 
 
-const validatePermissionAttributes = (entity, permissions, mutationName) => {
+const validatePermissionAttributesAndStates = (entity, permissions, mutationName) => {
 
   const permissionsArray = isArray(permissions)
     ? permissions
@@ -622,11 +622,11 @@ export const processEntityPermissions = (entity, permissions) => {
 
 
   if (permissions.find) {
-    validatePermissionAttributes(entity, permissions.find, 'find')
+    validatePermissionAttributesAndStates(entity, permissions.find, 'find')
   }
 
   if (permissions.read) {
-    validatePermissionAttributes(entity, permissions.read, 'read')
+    validatePermissionAttributesAndStates(entity, permissions.read, 'read')
   }
 
 
@@ -649,7 +649,7 @@ export const processEntityPermissions = (entity, permissions) => {
       const permission = permissions.mutations[ mutationName ]
 
       if (permission) {
-        validatePermissionAttributes(entity, permission, mutationName)
+        validatePermissionAttributesAndStates(entity, permission, mutationName)
       }
     })
   }
