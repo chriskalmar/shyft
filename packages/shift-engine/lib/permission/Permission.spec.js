@@ -421,7 +421,8 @@ describe('Permission', () => {
       const permission = new Permission()
         .userAttribute('id')
         .lookup(User, {
-          city: 'id'
+          city: 'id',
+          id: userId => userId,
         })
         // https://en.wikipedia.org/wiki/Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu
         .value('cityName', 'Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu')
