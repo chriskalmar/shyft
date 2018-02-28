@@ -3,6 +3,7 @@ import {
   passOrThrow,
   isMap,
   isArray,
+  isFunction,
 } from '../util';
 
 import { isEntity } from '../entity/Entity';
@@ -235,8 +236,8 @@ export const findMissingPermissionAttributes = (permission, permissionEntity) =>
     const lookupEntityAttributes = entity.getAttributes()
     const lookupEntityAttributeNames = Object.keys(lookupEntityAttributes)
 
-      if (!entityAttributeNames.includes(sourceAttribute)) {
     _.forEach(lookupMap, (sourceAttribute, targetAttribute) => {
+      if (!isFunction(sourceAttribute) && !entityAttributeNames.includes(sourceAttribute)) {
         missingLookupAttribute = sourceAttribute
         return
       }
