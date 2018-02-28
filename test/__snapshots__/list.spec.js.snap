@@ -1950,7 +1950,7 @@ Object {
 }
 `;
 
-exports[`list parentConnection with invalid attribute (reject) 1`] = `[QueryFailedError: invalid reference to FROM-clause entry for table "participant"]`;
+exports[`list parentConnection with invalid attribute (reject) 1`] = `[QueryFailedError: column "invalidattributename" does not exist]`;
 
 exports[`list should utilize data loader 1`] = `
 Array [
