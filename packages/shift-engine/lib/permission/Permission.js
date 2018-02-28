@@ -595,9 +595,8 @@ const validatePermissionMutationTypes = (entity, permissions, mutation) => {
       passOrThrow(
         !permission.userAttributes.length &&
         !permission.states.length &&
-        !permission.lookups.length &&
         !permission.values.length,
-        () => `Create type mutation permission '${mutation.name}' in '${entity.name}.permissions' can only be of type 'authenticated', 'everyone' or 'role'`
+        () => `Create type mutation permission '${mutation.name}' in '${entity.name}.permissions' can only be of type 'authenticated', 'everyone', 'role' or 'lookup'`
       )
     })
   }

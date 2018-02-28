@@ -1114,19 +1114,6 @@ describe('Permission', () => {
 
       expect(fn3).toThrowErrorMatchingSnapshot();
 
-
-      const permissions4 = {
-        mutations: {
-          create: new Permission().lookup(Language, { id: 'someAttribute'} )
-        }
-      }
-
-      function fn4() {
-        processEntityPermissions(entity, permissions4)
-      }
-
-      expect(fn4).toThrowErrorMatchingSnapshot();
-
     })
 
   })
