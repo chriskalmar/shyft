@@ -566,17 +566,31 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
       args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
     }
 
-    let result = await storageType.mutate(entity, id, args.input[typeName], entityMutation, context)
-    if (result) {
-      result = entity.graphql.dataShaper(
-        addRelayTypePromoterToInstance(entity.name, result)
-      )
-    }
-
-    return {
-      [typeName]: result,
+    let ret = {
       clientMutationId: args.input.clientMutationId,
     }
+
+    let result = await storageType.mutate(entity, id, args.input[typeName], entityMutation, context)
+
+    if (result) {
+      if (entityMutation.type !== MUTATION_TYPE_DELETE) {
+        result = entity.graphql.dataShaper(
+          addRelayTypePromoterToInstance(entity.name, result)
+        )
+      }
+    }
+
+    if (entityMutation.type === MUTATION_TYPE_DELETE) {
+      ret = {
+        ...ret,
+        ...result,
+      }
+    }
+    else {
+      ret[typeName] = result
+    }
+
+    return ret
   }
 }
 
@@ -600,16 +614,31 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
       args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
     }
 
-    let result = await storageType.mutate(entity, id, args.input[typeName], entityMutation, context)
-    if (result) {
-      result = entity.graphql.dataShaper(
-        addRelayTypePromoterToInstance(entity.name, result)
-      )
-    }
-    return {
-      [typeName]: result,
+    let ret = {
       clientMutationId: args.input.clientMutationId,
     }
+
+    let result = await storageType.mutate(entity, id, args.input[typeName], entityMutation, context)
+
+    if (result) {
+      if (entityMutation.type !== MUTATION_TYPE_DELETE) {
+        result = entity.graphql.dataShaper(
+          addRelayTypePromoterToInstance(entity.name, result)
+        )
+      }
+    }
+
+    if (entityMutation.type === MUTATION_TYPE_DELETE) {
+      ret = {
+        ...ret,
+        ...result,
+      }
+    }
+    else {
+      ret[typeName] = result
+    }
+
+    return ret
   }
 }
 
