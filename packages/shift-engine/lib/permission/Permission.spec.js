@@ -385,7 +385,7 @@ describe('Permission', () => {
       {
         const permission = new Permission()
           .lookup(User, {
-            id: 'wrong'
+            wrong: 'id'
           })
 
         const missing = findMissingPermissionAttributes(permission, City)
@@ -396,7 +396,7 @@ describe('Permission', () => {
       {
         const permission = new Permission()
           .lookup(User, {
-            hello: 'city'
+            city: 'hello'
           })
 
         const missing = findMissingPermissionAttributes(permission, City)
@@ -421,7 +421,7 @@ describe('Permission', () => {
       const permission = new Permission()
         .userAttribute('id')
         .lookup(User, {
-          id: 'city'
+          city: 'id'
         })
         // https://en.wikipedia.org/wiki/Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu
         .value('cityName', 'Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu')

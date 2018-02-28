@@ -235,8 +235,8 @@ export const findMissingPermissionAttributes = (permission, permissionEntity) =>
     const lookupEntityAttributes = entity.getAttributes()
     const lookupEntityAttributeNames = Object.keys(lookupEntityAttributes)
 
-    _.forEach(lookupMap, (targetAttribute, sourceAttribute) => {
       if (!entityAttributeNames.includes(sourceAttribute)) {
+    _.forEach(lookupMap, (sourceAttribute, targetAttribute) => {
         missingLookupAttribute = sourceAttribute
         return
       }
