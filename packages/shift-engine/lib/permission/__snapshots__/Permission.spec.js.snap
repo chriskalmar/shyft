@@ -60,6 +60,8 @@ Object {
 }
 `;
 
+exports[`Permission build permission filter combine multiple permissions should generate empty filter if a simple permission applies 1`] = `Object {}`;
+
 exports[`Permission build permission filter combine multiple permissions should generate filters for eligible permissions only 1`] = `
 Object {
   "$or": Array [

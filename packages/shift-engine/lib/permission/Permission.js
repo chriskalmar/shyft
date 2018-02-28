@@ -392,6 +392,19 @@ export const checkPermissionSimple = (permission, userId = null, userRoles = [])
 }
 
 
+export const isPermissionSimple = (permission) => {
+  passOrThrow(
+    isPermission(permission),
+    () => 'isPermissionSimple needs a valid permission object'
+  )
+
+  return !permission.userAttributes.length &&
+    !permission.states.length &&
+    !permission.lookups.length &&
+    !permission.values.length
+}
+
+
 
 export const buildUserAttributesPermissionFilter = (permission, userId) => {
 
@@ -514,10 +527,25 @@ export const buildPermissionFilter = (_permissions, userId, userRoles, entity) =
     ? _permissions
     : [_permissions]
 
+  let foundSimplePermission = false
+
   permissions.map(permission => {
+
+    if (foundSimplePermission) {
+      return
+    }
+
     const initialPass = checkPermissionSimple(permission, userId, userRoles)
 
     if (initialPass) {
+
+      // it's a simple permission and permission check passed so let's skip any further checks and give direct access
+      if (isPermissionSimple(permission)) {
+        foundSimplePermission = true
+        where = {}
+        return
+      }
+
       const permissionFilter = buildPermissionFilterSingle(permission, userId, userRoles, entity)
 
       if (permissionFilter) {
