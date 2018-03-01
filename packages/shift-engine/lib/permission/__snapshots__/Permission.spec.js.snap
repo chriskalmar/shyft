@@ -231,6 +231,29 @@ Object {
 
 exports[`Permission build permission filter userAttributes should reject if userId is not provided 1`] = `"missing userId in permission object"`;
 
+exports[`Permission build permission filter values should generate filters for multiple entries 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "someAttribute": "lorem",
+    },
+    Object {
+      "someAttribute": "ipsum",
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter values should generate filters for single entries 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "someAttribute": "lorem",
+    },
+  ],
+}
+`;
+
 exports[`Permission isPermission should recognize non-Permission objects 1`] = `"Not a Permission object"`;
 
 exports[`Permission isPermissionsArray should recognize non-Permission objects 1`] = `"Not a Permissions array"`;

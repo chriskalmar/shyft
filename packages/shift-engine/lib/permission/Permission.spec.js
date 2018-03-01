@@ -8,6 +8,7 @@ import Permission, {
   checkPermissionSimple,
   buildUserAttributesPermissionFilter,
   buildStatesPermissionFilter,
+  buildValuesPermissionFilter,
   buildPermissionFilterSingle,
   buildPermissionFilter,
   processEntityPermissions,
@@ -710,6 +711,7 @@ describe('Permission', () => {
         function fn() {
           const permission = new Permission()
             .state('completed')
+
           buildStatesPermissionFilter({permission})
         }
 
@@ -722,6 +724,7 @@ describe('Permission', () => {
         function fn() {
           const permission = new Permission()
             .state('completed')
+
           buildStatesPermissionFilter({ permission, entity: someEntity})
         }
 
@@ -759,6 +762,45 @@ describe('Permission', () => {
           .state('inTransfer')
 
         const filter = buildStatesPermissionFilter({ permission, entity: someEntity})
+
+        expect(filter).toMatchSnapshot();
+      })
+
+    })
+
+
+    describe('values', () => {
+
+      it('should return undefined filters if permission type is not used', () => {
+
+        const permission = new Permission()
+          .userAttribute('reviewer')
+
+        const filter = buildValuesPermissionFilter({ permission, entity: someEntity})
+
+        expect(filter).toBeUndefined()
+      })
+
+
+      it('should generate filters for single entries', () => {
+
+        const permission = new Permission()
+          .value('someAttribute', 'lorem')
+
+        const filter = buildValuesPermissionFilter({ permission, entity: someEntity})
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate filters for multiple entries', () => {
+
+        const permission = new Permission()
+          .authenticated()
+          .value('someAttribute', 'lorem')
+          .value('someAttribute', 'ipsum')
+
+        const filter = buildValuesPermissionFilter({ permission, entity: someEntity})
 
         expect(filter).toMatchSnapshot();
       })
