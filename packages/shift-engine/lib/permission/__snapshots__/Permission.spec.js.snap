@@ -245,6 +245,8 @@ exports[`Permission permission attributes should reject if userAttribute is not 
 
 exports[`Permission permission attributes should reject if userAttribute is not a reference to the user entity 3`] = `"Cannot use attribute 'city' in 'User.permissions' as 'userAttribute' as it is not a reference to the User entity"`;
 
+exports[`Permission permission attributes should reject lookup mappings other than value functions when used with a create type mutation 1`] = `"'lookup' type permission used in 'create' type mutation 'create' can only have mappings to value functions"`;
+
 exports[`Permission permissions check simple should reject if non-Permission object is provided 1`] = `"checkPermissionSimple needs a valid permission object"`;
 
 exports[`Permission permissions check simple should reject if user roles are not provided as an array 1`] = `"checkPermissionSimple needs a valid list of assigned user roles"`;

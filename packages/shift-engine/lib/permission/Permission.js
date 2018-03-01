@@ -8,7 +8,10 @@ import {
 
 import { isEntity } from '../entity/Entity';
 import { isDataTypeUser } from '../datatype/DataTypeUser';
-import { MUTATION_TYPE_CREATE } from '../mutation/Mutation';
+import {
+  MUTATION_TYPE_CREATE,
+  isMutation,
+} from '../mutation/Mutation';
 import _ from 'lodash';
 
 
@@ -222,7 +225,7 @@ export const findInvalidPermissionAttributes = (permission, entity) => {
 }
 
 
-export const findMissingPermissionAttributes = (permission, permissionEntity) => {
+export const findMissingPermissionAttributes = (permission, permissionEntity, mutation) => {
 
   const entityAttributeNames = Object.keys(permissionEntity.getAttributes())
 
@@ -244,6 +247,10 @@ export const findMissingPermissionAttributes = (permission, permissionEntity) =>
       else if (!lookupEntityAttributeNames.includes(targetAttribute)) {
         missingLookupAttribute = `${entity.name}.${targetAttribute}`
         return
+      }
+
+      if (isMutation(mutation) && mutation.type === MUTATION_TYPE_CREATE && !isFunction(sourceAttribute)) {
+        throw new Error(`'lookup' type permission used in 'create' type mutation '${mutation.name}' can only have mappings to value functions`)
       }
     })
   })

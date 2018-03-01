@@ -433,6 +433,21 @@ describe('Permission', () => {
     })
 
 
+    it('should reject lookup mappings other than value functions when used with a create type mutation', () => {
+
+      const permission = new Permission()
+        .userAttribute('id')
+        .lookup(User, {
+          city: 'id',
+          id: userId => userId,
+        })
+
+      const createMutation = User.getMutationByName('create')
+
+      const fn = () => findMissingPermissionAttributes(permission, City, createMutation)
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+    })
   })
 
 
