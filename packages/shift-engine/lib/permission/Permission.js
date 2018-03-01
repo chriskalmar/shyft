@@ -413,7 +413,7 @@ export const isPermissionSimple = (permission) => {
 
 
 
-export const buildUserAttributesPermissionFilter = (permission, userId) => {
+export const buildUserAttributesPermissionFilter = ({permission, userId}) => {
 
   let where
 
@@ -439,7 +439,7 @@ export const buildUserAttributesPermissionFilter = (permission, userId) => {
 
 
 
-export const buildStatesPermissionFilter = (permission, entity) => {
+export const buildStatesPermissionFilter = ({permission, entity}) => {
 
   let where
 
@@ -478,7 +478,7 @@ export const buildStatesPermissionFilter = (permission, entity) => {
 
 
 
-export const buildValuesPermissionFilter = (permission) => {
+export const buildValuesPermissionFilter = ({permission}) => {
 
   let where
 
@@ -503,10 +503,13 @@ export const buildPermissionFilterSingle = (permission, userId, userRoles, entit
 
   let where
 
+  const params = { permission, userId, userRoles, entity, mutationData }
+
   const permissionFilters = [
-    buildUserAttributesPermissionFilter(permission, userId),
-    buildStatesPermissionFilter(permission, entity),
-    buildValuesPermissionFilter(permission, entity),
+    buildUserAttributesPermissionFilter(params),
+    buildStatesPermissionFilter(params),
+    buildValuesPermissionFilter(params),
+    buildLookupsPermissionFilter(params),
   ]
 
   permissionFilters.map(permissionFilter => {

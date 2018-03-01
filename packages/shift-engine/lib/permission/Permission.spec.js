@@ -658,7 +658,8 @@ describe('Permission', () => {
         function fn() {
           const permission = new Permission()
             .userAttribute('author')
-          buildUserAttributesPermissionFilter(permission)
+
+          buildUserAttributesPermissionFilter({permission})
         }
 
         expect(fn).toThrowErrorMatchingSnapshot();
@@ -670,7 +671,7 @@ describe('Permission', () => {
         const permission = new Permission()
           .state('completed')
 
-        const filter = buildUserAttributesPermissionFilter(permission, userId)
+        const filter = buildUserAttributesPermissionFilter({permission, userId})
 
         expect(filter).toBeUndefined()
       })
@@ -681,7 +682,7 @@ describe('Permission', () => {
         const permission = new Permission()
           .userAttribute('author')
 
-        const filter = buildUserAttributesPermissionFilter(permission, userId)
+        const filter = buildUserAttributesPermissionFilter({permission, userId})
 
         expect(filter).toMatchSnapshot();
       })
@@ -694,7 +695,7 @@ describe('Permission', () => {
           .userAttribute('author')
           .userAttribute('reviewer')
 
-        const filter = buildUserAttributesPermissionFilter(permission, userId)
+        const filter = buildUserAttributesPermissionFilter({permission, userId})
 
         expect(filter).toMatchSnapshot();
       })
@@ -709,7 +710,7 @@ describe('Permission', () => {
         function fn() {
           const permission = new Permission()
             .state('completed')
-          buildStatesPermissionFilter(permission)
+          buildStatesPermissionFilter({permission})
         }
 
         expect(fn).toThrowErrorMatchingSnapshot();
@@ -721,7 +722,7 @@ describe('Permission', () => {
         function fn() {
           const permission = new Permission()
             .state('completed')
-          buildStatesPermissionFilter(permission, someEntity)
+          buildStatesPermissionFilter({ permission, entity: someEntity})
         }
 
         expect(fn).toThrowErrorMatchingSnapshot();
@@ -733,7 +734,7 @@ describe('Permission', () => {
         const permission = new Permission()
           .userAttribute('reviewer')
 
-        const filter = buildStatesPermissionFilter(permission, someEntity)
+        const filter = buildStatesPermissionFilter({ permission, entity: someEntity})
 
         expect(filter).toBeUndefined()
       })
@@ -744,7 +745,7 @@ describe('Permission', () => {
         const permission = new Permission()
           .state('open')
 
-        const filter = buildStatesPermissionFilter(permission, someEntity)
+        const filter = buildStatesPermissionFilter({ permission, entity: someEntity})
 
         expect(filter).toMatchSnapshot();
       })
@@ -757,7 +758,7 @@ describe('Permission', () => {
           .state('open')
           .state('inTransfer')
 
-        const filter = buildStatesPermissionFilter(permission, someEntity)
+        const filter = buildStatesPermissionFilter({ permission, entity: someEntity})
 
         expect(filter).toMatchSnapshot();
       })
