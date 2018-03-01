@@ -498,8 +498,64 @@ export const buildValuesPermissionFilter = ({permission}) => {
 }
 
 
+export const buildLookupsPermissionFilter = ({ permission, userId, userRoles, mutationData }) => {
 
-export const buildPermissionFilterSingle = (permission, userId, userRoles, entity) => {
+  let where
+
+  if (permission.lookups.length > 0) {
+
+    where = where || {}
+    where.$or = where.$or || []
+
+    permission.lookups.map(({entity, lookupMap}) => {
+      const condition = []
+
+      _.forEach(lookupMap, (sourceAttribute, targetAttribute) => {
+        if (isFunction(sourceAttribute)) {
+          const value = sourceAttribute({ userId, userRoles, mutationData })
+          const operator = '$in'
+
+          if (isArray(value)) {
+            condition.push({
+              targetAttribute,
+              operator,
+              value
+            })
+          }
+          else {
+            condition.push({
+              targetAttribute,
+              operator,
+              value
+            })
+          }
+        }
+        else {
+          const operator = '$eq'
+
+          condition.push({
+            targetAttribute,
+            operator,
+            sourceAttribute
+          })
+        }
+      })
+
+      where.$or.push({
+        $sub: {
+          entity: entity.name,
+          condition
+        }
+      })
+    })
+  }
+
+  return where
+}
+
+
+
+export const buildPermissionFilterSingle = (permission, userId, userRoles, entity, mutationData) => {
 
   let where
 
@@ -525,7 +581,7 @@ export const buildPermissionFilterSingle = (permission, userId, userRoles, entit
 
 
 
-export const buildPermissionFilter = (_permissions, userId, userRoles, entity) => {
+export const buildPermissionFilter = (_permissions, userId, userRoles, entity, mutationData) => {
 
   let where
 
@@ -556,7 +612,7 @@ export const buildPermissionFilter = (_permissions, userId, userRoles, entity) =
         return
       }
 
-      const permissionFilter = buildPermissionFilterSingle(permission, userId, userRoles, entity)
+      const permissionFilter = buildPermissionFilterSingle(permission, userId, userRoles, entity, mutationData)
 
       if (permissionFilter) {
         where = where || {}
@@ -596,14 +652,22 @@ export const checkPermissionAdvanced = (data, permission, userId = null) => {
 
 
 
-const validatePermissionAttributesAndStates = (entity, permissions, mutationName) => {
+const validatePermissionAttributesAndStates = (entity, permissions, _mutation) => {
 
   const permissionsArray = isArray(permissions)
     ? permissions
     : [permissions]
 
+  const mutation = isMutation(_mutation)
+    ? _mutation
+    : null
+
+  const mutationName = isMutation(_mutation)
+    ? _mutation.name
+    : String(_mutation)
+
   permissionsArray.map(permission => {
-    const invalidAttribute = findMissingPermissionAttributes(permission, entity)
+    const invalidAttribute = findMissingPermissionAttributes(permission, entity, mutation)
 
     passOrThrow(
       !invalidAttribute,
@@ -710,7 +774,7 @@ export const processEntityPermissions = (entity, permissions) => {
 
       if (permission) {
         validatePermissionMutationTypes(entity, permission, mutation)
-        validatePermissionAttributesAndStates(entity, permission, mutationName)
+        validatePermissionAttributesAndStates(entity, permission, mutation)
       }
     })
   }
