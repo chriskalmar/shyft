@@ -11,6 +11,7 @@ import Permission, {
   buildValuesPermissionFilter,
   buildPermissionFilterSingle,
   buildPermissionFilter,
+  buildLookupsPermissionFilter,
   processEntityPermissions,
 } from './Permission';
 import Entity from '../entity/Entity';
@@ -776,7 +777,7 @@ describe('Permission', () => {
         const permission = new Permission()
           .userAttribute('reviewer')
 
-        const filter = buildValuesPermissionFilter({ permission, entity: someEntity})
+        const filter = buildValuesPermissionFilter({ permission })
 
         expect(filter).toBeUndefined()
       })
@@ -787,7 +788,7 @@ describe('Permission', () => {
         const permission = new Permission()
           .value('someAttribute', 'lorem')
 
-        const filter = buildValuesPermissionFilter({ permission, entity: someEntity})
+        const filter = buildValuesPermissionFilter({ permission })
 
         expect(filter).toMatchSnapshot();
       })
@@ -800,7 +801,79 @@ describe('Permission', () => {
           .value('someAttribute', 'lorem')
           .value('someAttribute', 'ipsum')
 
-        const filter = buildValuesPermissionFilter({ permission, entity: someEntity})
+        const filter = buildValuesPermissionFilter({ permission })
+
+        expect(filter).toMatchSnapshot();
+      })
+
+    })
+
+
+    describe('lookups', () => {
+
+      it('should return undefined filters if permission type is not used', () => {
+
+        const permission = new Permission()
+          .userAttribute('reviewer')
+
+        const filter = buildLookupsPermissionFilter({ permission })
+
+        expect(filter).toBeUndefined()
+      })
+
+
+      it('should generate filters for single entries', () => {
+
+        const permission = new Permission()
+          .lookup(someEntity, {
+            id: 'reference',
+            district: 'district',
+          })
+
+
+        const filter = buildLookupsPermissionFilter({ permission })
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate filters for multiple entries', () => {
+
+        const permission = new Permission()
+          .authenticated()
+          .lookup(someEntity, {
+            id: 'reference',
+            district: 'district',
+          })
+          .lookup(someEntity, {
+            id: 'reference',
+            district: 'district',
+            open: () => false,
+          })
+
+        const filter = buildLookupsPermissionFilter({ permission })
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate filter values from functions and provided mutation data', () => {
+
+        const permission = new Permission()
+        .lookup(someEntity, {
+          id: 'reference',
+          district: ({mutationData}) => mutationData.district,
+          open: () => true,
+          owner: ({userId}) => userId, // eslint-disable-line no-shadow
+          state: () => ['defined', 'approved']
+        })
+
+        const mutationData = {
+          name: 'lorem',
+          district: 188,
+        }
+
+        const filter = buildLookupsPermissionFilter({ permission, userId: 123, mutationData })
 
         expect(filter).toMatchSnapshot();
       })

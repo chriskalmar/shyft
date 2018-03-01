@@ -173,6 +173,118 @@ Object {
 }
 `;
 
+exports[`Permission build permission filter lookups should generate filter values from functions and provided mutation data 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "$sub": Object {
+        "condition": Array [
+          Object {
+            "operator": "$eq",
+            "sourceAttribute": "reference",
+            "targetAttribute": "id",
+          },
+          Object {
+            "operator": "$eq",
+            "targetAttribute": "district",
+            "value": 188,
+          },
+          Object {
+            "operator": "$eq",
+            "targetAttribute": "open",
+            "value": true,
+          },
+          Object {
+            "operator": "$eq",
+            "targetAttribute": "owner",
+            "value": 123,
+          },
+          Object {
+            "operator": "$in",
+            "targetAttribute": "state",
+            "value": Array [
+              "defined",
+              "approved",
+            ],
+          },
+        ],
+        "entity": "SomeEntityName",
+      },
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter lookups should generate filters for multiple entries 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "$sub": Object {
+        "condition": Array [
+          Object {
+            "operator": "$eq",
+            "sourceAttribute": "reference",
+            "targetAttribute": "id",
+          },
+          Object {
+            "operator": "$eq",
+            "sourceAttribute": "district",
+            "targetAttribute": "district",
+          },
+        ],
+        "entity": "SomeEntityName",
+      },
+    },
+    Object {
+      "$sub": Object {
+        "condition": Array [
+          Object {
+            "operator": "$eq",
+            "sourceAttribute": "reference",
+            "targetAttribute": "id",
+          },
+          Object {
+            "operator": "$eq",
+            "sourceAttribute": "district",
+            "targetAttribute": "district",
+          },
+          Object {
+            "operator": "$eq",
+            "targetAttribute": "open",
+            "value": false,
+          },
+        ],
+        "entity": "SomeEntityName",
+      },
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter lookups should generate filters for single entries 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "$sub": Object {
+        "condition": Array [
+          Object {
+            "operator": "$eq",
+            "sourceAttribute": "reference",
+            "targetAttribute": "id",
+          },
+          Object {
+            "operator": "$eq",
+            "sourceAttribute": "district",
+            "targetAttribute": "district",
+          },
+        ],
+        "entity": "SomeEntityName",
+      },
+    },
+  ],
+}
+`;
+
 exports[`Permission build permission filter states should generate filters for multiple entries 1`] = `
 Object {
   "$or": Array [
