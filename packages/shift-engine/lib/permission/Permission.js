@@ -511,28 +511,22 @@ export const buildLookupsPermissionFilter = ({ permission, userId, userRoles, mu
       const condition = []
 
       _.forEach(lookupMap, (sourceAttribute, targetAttribute) => {
+        let operator = '$eq'
+
         if (isFunction(sourceAttribute)) {
           const value = sourceAttribute({ userId, userRoles, mutationData })
-          const operator = '$in'
 
           if (isArray(value)) {
-            condition.push({
-              targetAttribute,
-              operator,
-              value
-            })
+            operator = '$in'
           }
-          else {
-            condition.push({
-              targetAttribute,
-              operator,
-              value
-            })
-          }
+
+          condition.push({
+            targetAttribute,
+            operator,
+            value
+          })
         }
         else {
-          const operator = '$eq'
-
           condition.push({
             targetAttribute,
             operator,
