@@ -9,7 +9,40 @@ import {
 
 import { Profile } from './Profile';
 import { Board } from './Board';
+import { Participant } from './Participant';
 
+
+const readPermissions = [
+  new Permission()
+    .role('admin'),
+  new Permission()
+    .userAttribute('author'),
+  new Permission()
+    .lookup(Participant, {
+      board: 'board',
+      invitee: ({ userId }) => userId,
+      state: () => ['joined', 'accepted'],
+    })
+    .lookup(Board, {
+      id: 'board',
+      owner: ({ userId }) => userId,
+    }),
+]
+
+const writePermissions = [
+  new Permission()
+    .role('admin'),
+  new Permission()
+    .lookup(Participant, {
+      board: ({ mutationData }) => mutationData.board,
+      invitee: ({ userId }) => userId,
+      state: () => ['joined', 'accepted'],
+    })
+    .lookup(Board, {
+      id: ({ mutationData }) => mutationData.board,
+      owner: ({ userId }) => userId,
+    }),
+]
 
 
 export const Message = new Entity({
@@ -33,16 +66,10 @@ export const Message = new Entity({
 
 
   permissions: {
+    read: readPermissions,
+    find: readPermissions,
     mutations: {
-      create:
-        new Permission()
-          .role('admin'),
-      update:
-        new Permission()
-          .role('admin'),
-      delete:
-        new Permission()
-          .role('admin'),
+      write: writePermissions,
     }
   },
 

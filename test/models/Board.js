@@ -15,6 +15,15 @@ import {
 import { Profile } from './Profile';
 
 
+const readPermissions = [
+  new Permission()
+    .role('admin'),
+  new Permission()
+    .value('isPrivate', false),
+  new Permission()
+    .userAttribute('owner'),
+]
+
 
 export const Board = new Entity({
   name: 'Board',
@@ -55,32 +64,10 @@ export const Board = new Entity({
 
 
   permissions: {
-
-    read:
-      new Permission()
-        .userAttribute('owner'),
-
-    find:
-      new Permission()
-        .userAttribute('owner'),
-
-
+    read: readPermissions,
+    find: readPermissions,
     mutations: {
-
       build: Permission.AUTHENTICATED,
-
-      create:
-        new Permission()
-          .role('admin'),
-
-      delete:
-        new Permission()
-          .userAttribute('owner'),
-
-      update:
-        new Permission()
-          .userAttribute('owner'),
-
     }
   },
 

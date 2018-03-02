@@ -14,6 +14,19 @@ import { Profile } from './Profile';
 import { Board } from './Board';
 
 
+const readPermissions = [
+  new Permission()
+    .role('admin'),
+  new Permission()
+    .userAttribute('inviter')
+    .userAttribute('invitee'),
+  new Permission()
+    .lookup(Board, {
+      id: 'board',
+      owner: ({ userId }) => userId,
+    }),
+]
+
 
 export const Participant = new Entity({
   name: 'Participant',
@@ -73,26 +86,27 @@ export const Participant = new Entity({
 
 
   permissions: {
-    read:
-      new Permission()
-        .userAttribute('inviter')
-        .userAttribute('invitee'),
-
-    find:
-      new Permission()
-        .userAttribute('inviter')
-        .userAttribute('invitee'),
-
+    read: readPermissions,
+    find: readPermissions,
     mutations: {
-      create:
+      join: [
         new Permission()
           .role('admin'),
-      update:
         new Permission()
-          .role('admin'),
-      delete:
-        new Permission()
-          .role('admin'),
+          .lookup(Board, {
+            id: ({ mutationData }) => mutationData.board,
+            isPrivate: () => false,
+          }),
+      ],
+      // accept: [
+      //   new Permission()
+      //     .role('admin'),
+      //   new Permission()
+      //     .lookup(Board, {
+      //       id: 'board',
+      //       isPrivate: () => false,
+      //     }),
+      // ]
     }
   },
 
