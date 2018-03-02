@@ -15,14 +15,20 @@ import {
 import { Profile } from './Profile';
 
 
-const readPermissions = [
+const readPermissions = () => ([
   new Permission()
     .role('admin'),
   new Permission()
     .value('isPrivate', false),
   new Permission()
     .userAttribute('owner'),
-]
+  new Permission()
+    .lookup(require('./Participant').Participant, {
+      board: 'id',
+      invitee: ({ userId }) => userId,
+      state: () => ['invited', 'accepted'],
+    })
+])
 
 
 export const Board = new Entity({
@@ -63,13 +69,13 @@ export const Board = new Entity({
   ],
 
 
-  permissions: {
-    read: readPermissions,
-    find: readPermissions,
+  permissions: () => ({
+    read: readPermissions(),
+    find: readPermissions(),
     mutations: {
       build: Permission.AUTHENTICATED,
     }
-  },
+  }),
 
   attributes: {
 
