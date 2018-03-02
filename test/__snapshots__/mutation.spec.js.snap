@@ -4,7 +4,7 @@ exports[`mutation handle uniqueness constraints 1`] = `[Error: Uniqueness constr
 
 exports[`mutation perform create mutations 1`] = `
 Object {
-  "board": "50",
+  "board": "47",
   "id": "301",
   "invitee": "99",
   "inviter": "99",

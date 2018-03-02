@@ -32,7 +32,7 @@ describe('mutation', () => {
   it('perform create mutations', async () => {
 
     const payload = {
-      board: 50,
+      board: 47,
     }
 
     const result = await mutate(Participant, 'join', payload, null, asUser(99))
