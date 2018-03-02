@@ -7,10 +7,12 @@ import {
 import {
   asUser,
   removeListDynamicData,
+  asyncForEach,
 } from './testUtils';
 
 
 import { Board } from './models/Board';
+
 
 
 const orderByIdAsc = {
@@ -25,12 +27,18 @@ describe('permission', () => {
   describe('story', () => {
 
     it('a user should only see public boards and boards the user was invited to', async () => {
-      const result = await find(Board, { ...orderByIdAsc }, asUser(46))
-      result.data = removeListDynamicData(Board, result.data)
-      expect(result).toMatchSnapshot('list')
 
-      const rowCount = await count(Board, {}, asUser(46))
-      expect(rowCount).toMatchSnapshot('count')
+      const userIds = [46, 69, 40]
+
+      await asyncForEach(userIds, async userId => {
+        const result = await find(Board, { ...orderByIdAsc }, asUser(userId))
+        result.data = removeListDynamicData(Board, result.data)
+        expect(result).toMatchSnapshot('list')
+
+        const rowCount = await count(Board, { }, asUser(userId))
+        expect(rowCount).toMatchSnapshot('count')
+        console.log(JSON.stringify(rowCount, null, 2));
+      })
     })
 
 
