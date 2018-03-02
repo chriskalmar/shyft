@@ -12,6 +12,7 @@ import {
   MUTATION_TYPE_CREATE,
   isMutation,
 } from '../mutation/Mutation';
+import { isDataTypeState } from '../datatype/DataTypeState';
 import _ from 'lodash';
 
 
@@ -507,14 +508,23 @@ export const buildLookupsPermissionFilter = ({ permission, userId, userRoles, mu
     where = where || {}
     where.$or = where.$or || []
 
-    permission.lookups.map(({entity, lookupMap}) => {
+    permission.lookups.map(({ entity, lookupMap }) => {
       const condition = []
 
       _.forEach(lookupMap, (sourceAttribute, targetAttribute) => {
         let operator = '$eq'
 
         if (isFunction(sourceAttribute)) {
-          const value = sourceAttribute({ userId, userRoles, mutationData })
+          let value = sourceAttribute({ userId, userRoles, mutationData })
+          const attr = entity.getAttributes()[targetAttribute]
+
+          if (isDataTypeState(attr.type)) {
+            const states = entity.getStates()
+
+            value = isArray(value)
+              ? value.map(stateName => states[stateName] || stateName)
+              : states[value] || value
+          }
 
           if (isArray(value)) {
             operator = '$in'
