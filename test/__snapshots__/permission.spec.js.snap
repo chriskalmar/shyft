@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`permission story a user should only see public boards and boards the user was invited to: count 1`] = `31`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: list 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "37",
+      "id": "1",
+      "isPrivate": false,
+      "name": "Reiciendis quaerat",
+      "owner": "37",
+      "updatedBy": "37",
+    },
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "42",
+      "id": "4",
+      "isPrivate": false,
+      "name": "Delectus qui maxime",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "81",
+      "id": "11",
+      "isPrivate": false,
+      "name": "Aut incidunt consequatur",
+      "owner": "81",
+      "updatedBy": "81",
+    },
+    Object {
+      "createdBy": "23",
+      "id": "12",
+      "isPrivate": false,
+      "name": "Tenetur porro",
+      "owner": "23",
+      "updatedBy": "23",
+    },
+    Object {
+      "createdBy": "84",
+      "id": "13",
+      "isPrivate": false,
+      "name": "Suscipit aut cum",
+      "owner": "84",
+      "updatedBy": "84",
+    },
+    Object {
+      "createdBy": "26",
+      "id": "14",
+      "isPrivate": false,
+      "name": "Id cum",
+      "owner": "26",
+      "updatedBy": "26",
+    },
+    Object {
+      "createdBy": "60",
+      "id": "15",
+      "isPrivate": false,
+      "name": "Sunt nobis",
+      "owner": "60",
+      "updatedBy": "60",
+    },
+    Object {
+      "createdBy": "73",
+      "id": "16",
+      "isPrivate": false,
+      "name": "Est adipisci inventore",
+      "owner": "73",
+      "updatedBy": "73",
+    },
+    Object {
+      "createdBy": "24",
+      "id": "17",
+      "isPrivate": false,
+      "name": "Est et",
+      "owner": "24",
+      "updatedBy": "24",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
