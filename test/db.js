@@ -1,5 +1,7 @@
 
-import Sequelize from 'sequelize';
+
+import { createConnection } from 'typeorm';
+
 
 import {
   Schema,
@@ -37,45 +39,39 @@ const schema = new Schema({
 })
 
 
-let sequelize
+
+let connection
 
 export const initDB = async () => {
-  sequelize = new Sequelize(
-    process.env.SHIFT_TEST_DB || 'shift_tests',
-    process.env.PGUSER || 'postgres',
-    process.env.PGPASSWORD || null, {
-      host: process.env.PGHOST || 'localhost',
-      port: parseInt(process.env.PGPORT || 5432, 10),
-      dialect: 'postgres',
-      logging: false,
-      pool: {
-        max: 5,
-        min: 0,
-        idle: 10000
-      },
-    }
-  );
+
+  const modelRegistry = loadModels(schema)
+
+  const entitySchemas = Object.keys(modelRegistry).map(entityName => {
+    return modelRegistry[entityName].model
+  })
 
 
-  await sequelize.authenticate()
+  connection = await createConnection({
+    type: 'postgres',
+    host: process.env.PGHOST || 'localhost',
+    port: parseInt(process.env.PGPORT || 5432, 10),
+    username: process.env.PGUSER || 'postgres',
+    password: process.env.PGPASSWORD || null,
+    database: process.env.SHIFT_TEST_DB || 'shift_tests',
+    // logging: true,
+    synchronize: true,
+    dropSchema: true,
+    entitySchemas
+  })
 
-  const modelRegistry = loadModels(sequelize, schema)
 
-  await sequelize.sync({ force: true })
-
-  StorageTypePostgres.setStorageInstance(sequelize)
+  StorageTypePostgres.setStorageInstance(connection)
   StorageTypePostgres.setStorageModels(modelRegistry)
-
-  return {
-    modelRegistry,
-    sequelize,
-  }
-
 }
 
 
 export const disconnectDB = async () => {
-  sequelize.close()
+  connection.close()
 }
 
 
@@ -93,22 +89,24 @@ export const mutate = async (entity, mutationName, payload, id, context) => {
   }
 
 
-  if (entityMutation.preProcessor) {
-    args.input[typeName] = await entityMutation.preProcessor(entity, id, source, args.input[typeName], typeName, entityMutation, context)
-  }
+  if (entityMutation) {
+    if (entityMutation.preProcessor) {
+      args.input[typeName] = await entityMutation.preProcessor(entity, id, source, args.input[typeName], typeName, entityMutation, context)
+    }
 
-  if (entityMutation.type === MUTATION_TYPE_CREATE) {
-    args.input[typeName] = fillDefaultValues(entity, entityMutation, args.input[typeName], context)
-  }
+    if (entityMutation.type === MUTATION_TYPE_CREATE) {
+      args.input[typeName] = fillDefaultValues(entity, entityMutation, args.input[typeName], context)
+    }
 
-  if (entityMutation.type === MUTATION_TYPE_CREATE || entityMutation.type === MUTATION_TYPE_UPDATE) {
-    args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
-  }
+    if (entityMutation.type === MUTATION_TYPE_CREATE || entityMutation.type === MUTATION_TYPE_UPDATE) {
+      args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
+    }
 
-  validateMutationPayload(entity, entityMutation, args.input[typeName], context)
+    validateMutationPayload(entity, entityMutation, args.input[typeName], context)
 
-  if (entityMutation.type !== MUTATION_TYPE_DELETE) {
-    args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
+    if (entityMutation.type !== MUTATION_TYPE_DELETE) {
+      args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
+    }
   }
 
   return await StorageTypePostgres.mutate(entity, id, args.input[typeName], entityMutation, context)

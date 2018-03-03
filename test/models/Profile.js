@@ -13,6 +13,13 @@ import {
 import crypto from 'crypto';
 
 
+const readPermissions = [
+  new Permission()
+    .role('admin'),
+  // new Permission()
+  //   .userAttribute('id'),
+]
+
 export const Profile = new Entity({
   name: 'Profile',
   domain: 'test',
@@ -54,16 +61,10 @@ export const Profile = new Entity({
 
 
   permissions: {
+    read: readPermissions,
+    find: readPermissions,
     mutations: {
-      create:
-        new Permission()
-          .role('admin'),
-      update:
-        new Permission()
-          .role('admin'),
-      delete:
-        new Permission()
-          .role('admin'),
+      signup: Permission.EVERYONE
     }
   },
 

@@ -4,14 +4,34 @@ import {
   Mutation,
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
+  MUTATION_TYPE_DELETE,
   Permission,
   Index,
   INDEX_UNIQUE,
+  INDEX_GENERIC,
 } from 'shift-engine';
 
 import { Profile } from './Profile';
 import { Board } from './Board';
 
+
+const readPermissions = () => ([
+  new Permission()
+    .role('admin'),
+  new Permission()
+    .userAttribute('inviter')
+    .userAttribute('invitee'),
+  new Permission()
+    .lookup(Board, {
+      id: 'board',
+      owner: ({ userId }) => userId,
+    }),
+  new Permission()
+    .lookup(Participant, { // eslint-disable-line no-use-before-define
+      board: 'board',
+      invitee: ({ userId }) => userId,
+    }),
+])
 
 
 export const Participant = new Entity({
@@ -25,6 +45,10 @@ export const Participant = new Entity({
     new Index({
       type: INDEX_UNIQUE,
       attributes: ['board', 'inviter', 'invitee'],
+    }),
+    new Index({
+      type: INDEX_GENERIC,
+      attributes: ['board', 'invitee'],
     }),
   ],
 
@@ -62,32 +86,39 @@ export const Participant = new Entity({
       fromState: 'invited',
       toState: 'accepted',
     }),
+    new Mutation({
+      name: 'remove',
+      description: 'remove a user from a private board',
+      type: MUTATION_TYPE_DELETE,
+      fromState: [ 'joined', 'invited', 'accepted'],
+    }),
   ],
 
 
-  permissions: {
-    read:
-      new Permission()
-        .userAttribute('inviter')
-        .userAttribute('invitee'),
-
-    find:
-      new Permission()
-        .userAttribute('inviter')
-        .userAttribute('invitee'),
-
+  permissions: () => ({
+    read: readPermissions(),
+    find: readPermissions(),
     mutations: {
-      create:
+      join: [
         new Permission()
           .role('admin'),
-      update:
         new Permission()
-          .role('admin'),
-      delete:
-        new Permission()
-          .role('admin'),
+          .lookup(Board, {
+            id: ({ mutationData }) => mutationData.board,
+            isPrivate: () => false,
+          }),
+      ],
+      // accept: [
+      //   new Permission()
+      //     .role('admin'),
+      //   new Permission()
+      //     .lookup(Board, {
+      //       id: 'board',
+      //       isPrivate: () => false,
+      //     }),
+      // ]
     }
-  },
+  }),
 
 
   attributes: {

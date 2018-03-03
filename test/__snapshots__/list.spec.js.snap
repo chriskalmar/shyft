@@ -616,7 +616,7 @@ Object {
 }
 `;
 
-exports[`list filter variants $not 1`] = `
+exports[`list filter variants $ne 1`] = `
 Object {
   "data": Array [
     Object {
@@ -1950,7 +1950,7 @@ Object {
 }
 `;
 
-exports[`list parentConnection with invalid attribute (reject) 1`] = `[SequelizeDatabaseError: column Participant.invalidAttributeName does not exist]`;
+exports[`list parentConnection with invalid attribute (reject) 1`] = `[QueryFailedError: column "invalidattributename" does not exist]`;
 
 exports[`list should utilize data loader 1`] = `
 Array [

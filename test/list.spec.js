@@ -196,7 +196,7 @@ describe('list', () => {
       const filter = {
         OR: [
           {
-            username: 'dana768'
+            username: 'dana768',
           },
           {
             username: 'weston422'
@@ -403,10 +403,10 @@ describe('list', () => {
     }
 
 
-    it('$not', async () => {
+    it('$ne', async () => {
       const result = await runVariant({
         name: {
-          $not: 'Reiciendis quaerat'
+          $ne: 'Reiciendis quaerat'
         }
       })
 

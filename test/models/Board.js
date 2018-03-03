@@ -9,11 +9,27 @@ import {
   Permission,
   Index,
   INDEX_UNIQUE,
+  INDEX_GENERIC,
 } from 'shift-engine';
 
 
 import { Profile } from './Profile';
 
+
+const readPermissions = () => ([
+  new Permission()
+    .role('admin'),
+  new Permission()
+    .value('isPrivate', false),
+  new Permission()
+    .userAttribute('owner'),
+  new Permission()
+    .lookup(require('./Participant').Participant, {
+      board: 'id',
+      invitee: ({ userId }) => userId,
+      state: () => ['invited', 'accepted'],
+    })
+])
 
 
 export const Board = new Entity({
@@ -28,6 +44,14 @@ export const Board = new Entity({
     new Index({
       type: INDEX_UNIQUE,
       attributes: ['name'],
+    }),
+    new Index({
+      type: INDEX_GENERIC,
+      attributes: ['isPrivate'],
+    }),
+    new Index({
+      type: INDEX_GENERIC,
+      attributes: ['owner'],
     }),
   ],
 
@@ -54,35 +78,13 @@ export const Board = new Entity({
   ],
 
 
-  permissions: {
-
-    read:
-      new Permission()
-        .userAttribute('owner'),
-
-    find:
-      new Permission()
-        .userAttribute('owner'),
-
-
+  permissions: () => ({
+    read: readPermissions(),
+    find: readPermissions(),
     mutations: {
-
       build: Permission.AUTHENTICATED,
-
-      create:
-        new Permission()
-          .role('admin'),
-
-      delete:
-        new Permission()
-          .userAttribute('owner'),
-
-      update:
-        new Permission()
-          .userAttribute('owner'),
-
     }
-  },
+  }),
 
   attributes: {
 
