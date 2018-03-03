@@ -14,7 +14,7 @@ import { Profile } from './Profile';
 import { Board } from './Board';
 
 
-const readPermissions = [
+const readPermissions = () => ([
   new Permission()
     .role('admin'),
   new Permission()
@@ -25,7 +25,12 @@ const readPermissions = [
       id: 'board',
       owner: ({ userId }) => userId,
     }),
-]
+  new Permission()
+    .lookup(Participant, { // eslint-disable-line no-use-before-define
+      board: 'board',
+      invitee: ({ userId }) => userId,
+    }),
+])
 
 
 export const Participant = new Entity({
@@ -85,9 +90,9 @@ export const Participant = new Entity({
   ],
 
 
-  permissions: {
-    read: readPermissions,
-    find: readPermissions,
+  permissions: () => ({
+    read: readPermissions(),
+    find: readPermissions(),
     mutations: {
       join: [
         new Permission()
@@ -108,7 +113,7 @@ export const Participant = new Entity({
       //     }),
       // ]
     }
-  },
+  }),
 
 
   attributes: {
