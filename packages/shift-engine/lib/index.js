@@ -63,6 +63,7 @@ import {
   DataTypeTimestamp,
   DataTypeTimestampTz,
   DataTypeDate,
+  DataTypeUUID,
 } from './datatype/dataTypes';
 
 
@@ -114,6 +115,7 @@ export {
   DataTypeTimestamp,
   DataTypeTimestampTz,
   DataTypeDate,
+  DataTypeUUID,
 
   DataTypeState,
   isDataTypeState,
@@ -194,6 +196,7 @@ export default {
   DataTypeTimestamp,
   DataTypeTimestampTz,
   DataTypeDate,
+  DataTypeUUID,
 
   DataTypeState,
   isDataTypeState,
