@@ -63,6 +63,10 @@ export const deserializeCursor = (cursor) => {
 
 
 export const addRelayTypePromoterToInstance = (typeName, instance) => {
+  if (!instance) {
+    return instance
+  }
+
   instance[constants.RELAY_TYPE_PROMOTER_FIELD] = typeName
   return instance
 }
