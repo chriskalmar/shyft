@@ -516,9 +516,9 @@ export const buildLookupsPermissionFilter = ({ permission, userId, userRoles, mu
 
         if (isFunction(sourceAttribute)) {
           let value = sourceAttribute({ userId, userRoles, mutationData })
-          const attr = entity.getAttributes()[targetAttribute]
+          const attr = entity.getAttributes()
 
-          if (isDataTypeState(attr.type)) {
+          if (attr && attr[targetAttribute] && isDataTypeState(attr[targetAttribute].type)) {
             const states = entity.getStates()
 
             value = isArray(value)
