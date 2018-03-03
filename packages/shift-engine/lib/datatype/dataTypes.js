@@ -52,6 +52,10 @@ export const DataTypeBoolean = new DataType({
   description: 'Data type representing boolean values',
   mock: /* istanbul ignore next */
     () => casual.boolean,
+  enforceRequired: true,
+  defaultValue() {
+    return false
+  }
 })
 
 
@@ -86,11 +90,20 @@ export const DataTypeTimestampTz = new DataType({
     () => new Date(casual.unix_time * 1000),
 })
 
+
 export const DataTypeDate = new DataType({
   name: 'DataTypeDate',
   description: 'Data type representing a date',
   mock: /* istanbul ignore next */
     () => new Date(casual.unix_time * 1000),
+})
+
+
+export const DataTypeUUID = new DataType({
+  name: 'DataTypeUUID',
+  description: 'Data type representing a UUID',
+  mock: /* istanbul ignore next */
+    () => casual.uuid,
 })
 
 

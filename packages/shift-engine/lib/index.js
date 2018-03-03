@@ -6,7 +6,10 @@ import Schema from './schema/Schema';
 import StorageType from './storage/StorageType';
 import StorageDataType from './storage/StorageDataType';
 import ProtocolType from './protocol/ProtocolType';
-import Index, { INDEX_UNIQUE } from './index/Index';
+import Index, {
+  INDEX_UNIQUE,
+  INDEX_GENERIC,
+} from './index/Index';
 import Action, { isAction } from './action/Action';
 import Mutation, {
   MUTATION_TYPE_CREATE,
@@ -60,6 +63,7 @@ import {
   DataTypeTimestamp,
   DataTypeTimestampTz,
   DataTypeDate,
+  DataTypeUUID,
 } from './datatype/dataTypes';
 
 
@@ -111,6 +115,7 @@ export {
   DataTypeTimestamp,
   DataTypeTimestampTz,
   DataTypeDate,
+  DataTypeUUID,
 
   DataTypeState,
   isDataTypeState,
@@ -150,6 +155,7 @@ export {
 
   Index,
   INDEX_UNIQUE,
+  INDEX_GENERIC,
 
   Action,
   isAction,
@@ -190,6 +196,7 @@ export default {
   DataTypeTimestamp,
   DataTypeTimestampTz,
   DataTypeDate,
+  DataTypeUUID,
 
   DataTypeState,
   isDataTypeState,
@@ -230,6 +237,7 @@ export default {
 
   Index,
   INDEX_UNIQUE,
+  INDEX_GENERIC,
 
   Action,
   isAction,

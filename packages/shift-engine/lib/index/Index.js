@@ -7,8 +7,10 @@ import {
 import _ from 'lodash';
 
 export const INDEX_UNIQUE = 'unique';
+export const INDEX_GENERIC = 'generic';
 export const indexTypes = [
   INDEX_UNIQUE,
+  INDEX_GENERIC,
 ]
 
 

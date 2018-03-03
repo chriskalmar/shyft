@@ -1,10 +1,17 @@
 
 import Permission, {
   isPermission,
+  isPermissionsArray,
   findInvalidPermissionAttributes,
   findMissingPermissionAttributes,
   generatePermissionDescription,
   checkPermissionSimple,
+  buildUserAttributesPermissionFilter,
+  buildStatesPermissionFilter,
+  buildValuesPermissionFilter,
+  buildPermissionFilterSingle,
+  buildPermissionFilter,
+  buildLookupsPermissionFilter,
   processEntityPermissions,
 } from './Permission';
 import Entity from '../entity/Entity';
@@ -86,8 +93,8 @@ describe('Permission', () => {
 
     function fn2() {
       new Permission()
-        .value('someAttribute', 987)
-        .authenticated()
+        .userAttribute('author')
+        .everyone()
     }
 
     expect(fn2).toThrowErrorMatchingSnapshot();
@@ -135,13 +142,13 @@ describe('Permission', () => {
   })
 
 
-  describe('ownerAttribute permissions', () => {
+  describe('userAttribute permissions', () => {
 
     it('should reject if attribute name is missing', () => {
 
       function fn1() {
         new Permission()
-          .ownerAttribute()
+          .userAttribute()
       }
 
       expect(fn1).toThrowErrorMatchingSnapshot();
@@ -152,8 +159,8 @@ describe('Permission', () => {
 
       function fn1() {
         new Permission()
-          .ownerAttribute('profile')
-          .ownerAttribute('profile')
+          .userAttribute('profile')
+          .userAttribute('profile')
       }
 
       expect(fn1).toThrowErrorMatchingSnapshot();
@@ -257,6 +264,54 @@ describe('Permission', () => {
 
   })
 
+  describe('isPermissionsArray', () => {
+
+
+    it('should recognize a list of objects of type Permission', () => {
+
+      const permission = new Permission()
+
+      function fn() {
+        passOrThrow(
+          isPermissionsArray([permission]) &&
+          isPermissionsArray([permission, permission]) &&
+          isPermissionsArray([permission, permission, permission]),
+          () => 'This error will never happen'
+        )
+      }
+
+      expect(fn).not.toThrow()
+
+    })
+
+
+    it('should recognize non-Permission objects', () => {
+
+      const permission = new Permission()
+
+      function fn() {
+        passOrThrow(
+          isPermissionsArray() ||
+          isPermissionsArray(null) ||
+          isPermissionsArray([]) ||
+          isPermissionsArray({}) ||
+          isPermissionsArray(function test() {}) ||
+          isPermissionsArray(Error) ||
+          isPermissionsArray([{}]) ||
+          isPermissionsArray([function test() {}]) ||
+          isPermissionsArray([Error]) ||
+          isPermissionsArray([permission, null]) ||
+          isPermissionsArray([permission, {}, permission]),
+          () => 'Not a Permissions array'
+        )
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+
+    })
+
+  })
+
 
   describe('permission attributes', () => {
 
@@ -288,25 +343,25 @@ describe('Permission', () => {
     })
 
 
-    it('should reject if ownerAttribute is not a reference to the user entity', () => {
+    it('should reject if userAttribute is not a reference to the user entity', () => {
 
       function fn1() {
         const permission = new Permission()
-          .ownerAttribute('any')
+          .userAttribute('any')
 
         findInvalidPermissionAttributes(permission, City)
       }
 
       function fn2() {
         const permission = new Permission()
-          .ownerAttribute('cityName')
+          .userAttribute('cityName')
 
         findInvalidPermissionAttributes(permission, City)
       }
 
       function fn3() {
         const permission = new Permission()
-          .ownerAttribute('city')
+          .userAttribute('city')
 
         findInvalidPermissionAttributes(permission, User)
       }
@@ -322,7 +377,7 @@ describe('Permission', () => {
 
       {
         const permission = new Permission()
-          .ownerAttribute('wrong')
+          .userAttribute('wrong')
 
         const missing = findMissingPermissionAttributes(permission, City)
 
@@ -332,7 +387,7 @@ describe('Permission', () => {
       {
         const permission = new Permission()
           .lookup(User, {
-            id: 'wrong'
+            wrong: 'id'
           })
 
         const missing = findMissingPermissionAttributes(permission, City)
@@ -343,7 +398,7 @@ describe('Permission', () => {
       {
         const permission = new Permission()
           .lookup(User, {
-            hello: 'city'
+            city: 'hello'
           })
 
         const missing = findMissingPermissionAttributes(permission, City)
@@ -366,9 +421,10 @@ describe('Permission', () => {
     it('should accept correctly defined permission attributes', () => {
 
       const permission = new Permission()
-        .ownerAttribute('id')
+        .userAttribute('id')
         .lookup(User, {
-          id: 'city'
+          city: 'id',
+          id: userId => userId,
         })
         // https://en.wikipedia.org/wiki/Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu
         .value('cityName', 'Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu')
@@ -379,6 +435,21 @@ describe('Permission', () => {
     })
 
 
+    it('should reject lookup mappings other than value functions when used with a create type mutation', () => {
+
+      const permission = new Permission()
+        .userAttribute('id')
+        .lookup(User, {
+          city: 'id',
+          id: userId => userId,
+        })
+
+      const createMutation = User.getMutationByName('create')
+
+      const fn = () => findMissingPermissionAttributes(permission, City, createMutation)
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+    })
   })
 
 
@@ -400,59 +471,58 @@ describe('Permission', () => {
       const tests = [
         [
           new Permission().everyone(),
-          '\n***\nPermissions:\n\n- everyone'
+          'everyone'
         ],
         [
           new Permission().authenticated(),
-          '\n***\nPermissions:\n\n- authenticated'
+          'authenticated'
         ],
         [
           new Permission().role('manager'),
-          '\n***\nPermissions:\n\n- roles: manager'
+          'role manager'
         ],
         [
-          new Permission().ownerAttribute('publisher'),
-          '\n***\nPermissions:\n\n- ownerAttributes: publisher'
+          new Permission().userAttribute('publisher'),
+          'userAttributes publisher'
         ],
         [
           new Permission().lookup(Language, { createdBy: 'someAttribute' }),
-          '\n***\nPermissions:\n\n- lookups: \n  - Entity: Language \n    - createdBy -> someAttribute'
+          'lookup Language someAttribute'
         ],
         [
           new Permission().value('someAttribute', 123),
-          '\n***\nPermissions:\n\n- values: \n  - someAttribute = 123'
+          'value someAttribute'
         ],
         [
           new Permission()
             .role('manager')
             .role('admin')
-            .ownerAttribute('publisher')
-            .ownerAttribute('organizer')
+            .userAttribute('publisher')
+            .userAttribute('organizer')
             .lookup(Language, { createdBy: 'someAttribute' })
             .lookup(Language, { updatedAt: 'anotherAttribute' })
             .lookup(Language, { source: 'lorem', mainContinent: 'ipsum' })
             .value('someAttribute', 123)
             .value('anotherAttribute', 'hello'),
-          '\n***\nPermissions:\n\n' +
-            '- roles: manager, admin\n' +
-            '- ownerAttributes: publisher, organizer\n' +
-            '- lookups: \n' +
-            '  - Entity: Language \n' +
-            '    - createdBy -> someAttribute\n' +
-            '  - Entity: Language \n' +
-            '    - updatedAt -> anotherAttribute\n' +
-            '  - Entity: Language \n' +
-            '    - source -> lorem\n' +
-            '    - mainContinent -> ipsum\n' +
-            '- values: \n' +
-            '  - someAttribute = 123\n' +
-            '  - anotherAttribute = hello'
+          'mixed 1'
         ],
+        [
+          [
+            new Permission()
+              .lookup(Language, { createdBy: 'someAttribute' }),
+            new Permission()
+              .role('manager')
+              .userAttribute('publisher'),
+            new Permission()
+              .value('someAttribute', 123),
+          ],
+          'permissions array'
+        ],
+
       ]
 
-
-      tests.map(([ permission, resultText ]) => {
-        expect(generatePermissionDescription(permission)).toBe(resultText)
+      tests.map(([ permission, testName ]) => {
+        expect(generatePermissionDescription(permission)).toMatchSnapshot(testName)
       })
 
     })
@@ -539,6 +609,435 @@ describe('Permission', () => {
         userId,
         userRoles,
       )).toBe(false)
+
+      expect(checkPermissionSimple(
+        new Permission().authenticated().role('admin'),
+        userId,
+        userRoles,
+      )).toBe(false)
+    })
+
+
+    it('should default to give access if neither `everyone`, `authenticated` or `role` is defined', () => {
+
+      expect(checkPermissionSimple(
+        new Permission(),
+        userId,
+        userRoles,
+      )).toBe(true)
+    })
+
+  })
+
+
+  describe('build permission filter', () => {
+
+    const userId = 123
+    const userRoles = ['manager', 'reviewer']
+
+    const someEntity = new Entity({
+      name: 'SomeEntityName',
+      description: 'Just some description',
+      attributes: {
+        someAttribute: {
+          type: DataTypeString,
+          description: 'Just some description',
+        },
+      },
+      states: {
+        open: 10,
+        closed: 20,
+        inTransfer: 40,
+        onHold: 50,
+      },
+    })
+
+
+    describe('userAttributes', () => {
+
+      it('should reject if userId is not provided', () => {
+
+        function fn() {
+          const permission = new Permission()
+            .userAttribute('author')
+
+          buildUserAttributesPermissionFilter({permission})
+        }
+
+        expect(fn).toThrowErrorMatchingSnapshot();
+      })
+
+
+      it('should return undefined filters if permission type is not used', () => {
+
+        const permission = new Permission()
+          .state('completed')
+
+        const filter = buildUserAttributesPermissionFilter({permission, userId})
+
+        expect(filter).toBeUndefined()
+      })
+
+
+      it('should generate filters for single entries', () => {
+
+        const permission = new Permission()
+          .userAttribute('author')
+
+        const filter = buildUserAttributesPermissionFilter({permission, userId})
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate filters for multiple entries', () => {
+
+        const permission = new Permission()
+          .authenticated()
+          .userAttribute('author')
+          .userAttribute('reviewer')
+
+        const filter = buildUserAttributesPermissionFilter({permission, userId})
+
+        expect(filter).toMatchSnapshot();
+      })
+
+    })
+
+
+    describe('states', () => {
+
+      it('should reject if entity is not provided', () => {
+
+        function fn() {
+          const permission = new Permission()
+            .state('completed')
+
+          buildStatesPermissionFilter({permission})
+        }
+
+        expect(fn).toThrowErrorMatchingSnapshot();
+      })
+
+
+      it('should reject if invalid state is used', () => {
+
+        function fn() {
+          const permission = new Permission()
+            .state('completed')
+
+          buildStatesPermissionFilter({ permission, entity: someEntity})
+        }
+
+        expect(fn).toThrowErrorMatchingSnapshot();
+      })
+
+
+      it('should return undefined filters if permission type is not used', () => {
+
+        const permission = new Permission()
+          .userAttribute('reviewer')
+
+        const filter = buildStatesPermissionFilter({ permission, entity: someEntity})
+
+        expect(filter).toBeUndefined()
+      })
+
+
+      it('should generate filters for single entries', () => {
+
+        const permission = new Permission()
+          .state('open')
+
+        const filter = buildStatesPermissionFilter({ permission, entity: someEntity})
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate filters for multiple entries', () => {
+
+        const permission = new Permission()
+          .authenticated()
+          .state('open')
+          .state('inTransfer')
+
+        const filter = buildStatesPermissionFilter({ permission, entity: someEntity})
+
+        expect(filter).toMatchSnapshot();
+      })
+
+    })
+
+
+    describe('values', () => {
+
+      it('should return undefined filters if permission type is not used', () => {
+
+        const permission = new Permission()
+          .userAttribute('reviewer')
+
+        const filter = buildValuesPermissionFilter({ permission })
+
+        expect(filter).toBeUndefined()
+      })
+
+
+      it('should generate filters for single entries', () => {
+
+        const permission = new Permission()
+          .value('someAttribute', 'lorem')
+
+        const filter = buildValuesPermissionFilter({ permission })
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate filters for multiple entries', () => {
+
+        const permission = new Permission()
+          .authenticated()
+          .value('someAttribute', 'lorem')
+          .value('someAttribute', 'ipsum')
+
+        const filter = buildValuesPermissionFilter({ permission })
+
+        expect(filter).toMatchSnapshot();
+      })
+
+    })
+
+
+    describe('lookups', () => {
+
+      it('should return undefined filters if permission type is not used', () => {
+
+        const permission = new Permission()
+          .userAttribute('reviewer')
+
+        const filter = buildLookupsPermissionFilter({ permission })
+
+        expect(filter).toBeUndefined()
+      })
+
+
+      it('should generate filters for single entries', () => {
+
+        const permission = new Permission()
+          .lookup(someEntity, {
+            id: 'reference',
+            district: 'district',
+          })
+
+
+        const filter = buildLookupsPermissionFilter({ permission })
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate filters for multiple entries', () => {
+
+        const permission = new Permission()
+          .authenticated()
+          .lookup(someEntity, {
+            id: 'reference',
+            district: 'district',
+          })
+          .lookup(someEntity, {
+            id: 'reference',
+            district: 'district',
+            open: () => false,
+          })
+
+        const filter = buildLookupsPermissionFilter({ permission })
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate filter values from functions and provided mutation data', () => {
+
+        const permission = new Permission()
+        .lookup(someEntity, {
+          id: 'reference',
+          district: ({mutationData}) => mutationData.district,
+          open: () => true,
+          owner: ({userId}) => userId, // eslint-disable-line no-shadow
+          state: () => ['defined', 'approved']
+        })
+
+        const mutationData = {
+          name: 'lorem',
+          district: 188,
+        }
+
+        const filter = buildLookupsPermissionFilter({ permission, userId: 123, mutationData })
+
+        expect(filter).toMatchSnapshot();
+      })
+
+    })
+
+
+    describe('all permission types', () => {
+
+      it('should generate filters for single permission types', () => {
+
+        const permission = new Permission()
+          .authenticated()
+          .userAttribute('author')
+          .value('something', 23)
+
+        const filter = buildPermissionFilterSingle(permission, userId, userRoles, someEntity)
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate filters for multiple permission types', () => {
+
+        const permission = new Permission()
+          .authenticated()
+          .userAttribute('author')
+          .state('open')
+          .state('inTransfer')
+          .value('something', 23)
+          .value('something', 80)
+          .value('somethingElse', 4)
+
+        const filter = buildPermissionFilterSingle(permission, userId, userRoles, someEntity)
+
+        expect(filter).toMatchSnapshot();
+      })
+
+    })
+
+
+    describe('combine multiple permissions', () => {
+
+      it('should return undefined filters if request does not pass simple permission checks', () => {
+
+        const permission1 = new Permission()
+          .authenticated()
+          .state('open')
+          .state('inTransfer')
+
+        const filter1 = buildPermissionFilter(permission1, null, null, someEntity)
+
+        expect(filter1).toBeUndefined()
+
+
+        const permission2 = new Permission()
+          .authenticated()
+          .role('customer')
+          .state('open')
+          .state('inTransfer')
+
+        const filter2 = buildPermissionFilter(permission2, userId, userRoles, someEntity)
+
+        expect(filter2).toBeUndefined()
+
+
+        const multiPermissions = [
+          new Permission()
+            .authenticated()
+            .role('customer')
+            .state('open')
+            .state('inTransfer'),
+          new Permission()
+            .role('agent')
+            .userAttribute('createdBy')
+        ]
+
+        const filter3 = buildPermissionFilter(multiPermissions, userId, userRoles, someEntity)
+
+        expect(filter3).toBeUndefined()
+      })
+
+
+      it('should generate filters for single permissions', () => {
+
+        const permission = new Permission()
+          .authenticated()
+          .userAttribute('author')
+          .state('open')
+
+        const filter = buildPermissionFilter(permission, userId, userRoles, someEntity)
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate filters for multiple permissions', () => {
+
+        const multiPermissions = [
+          new Permission()
+            .authenticated()
+            .userAttribute('author')
+            .state('open')
+            .state('inTransfer'),
+          new Permission()
+            .role('reviewer')
+            .userAttribute('createdBy')
+        ]
+
+        const filter = buildPermissionFilter(multiPermissions, userId, userRoles, someEntity)
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate filters for eligible permissions only', () => {
+
+        const multiPermissions = [
+          new Permission()
+            .authenticated()
+            .role('customer')
+            .state('open'),
+          new Permission()
+            .authenticated()
+            .userAttribute('author')
+            .state('open')
+            .state('inTransfer'),
+          new Permission()
+            .role('reviewer')
+            .userAttribute('createdBy'),
+          new Permission()
+            .role('admin')
+            .userAttribute('author')
+        ]
+
+        const filter = buildPermissionFilter(multiPermissions, userId, userRoles, someEntity)
+
+        expect(filter).toMatchSnapshot();
+      })
+
+
+      it('should generate empty filter if a simple permission applies', () => {
+
+        const multiPermissions = [
+          new Permission()
+            .authenticated()
+            .role('customer')
+            .state('open'),
+          new Permission()
+            .authenticated()
+            .userAttribute('author')
+            .state('open')
+            .state('inTransfer'),
+          new Permission()
+            .role('reviewer')
+            .userAttribute('createdBy'),
+          new Permission()
+            .role('manager')
+        ]
+
+        const filter = buildPermissionFilter(multiPermissions, userId, userRoles, someEntity)
+        expect(filter).toMatchSnapshot();
+      })
+
     })
 
   })
@@ -643,7 +1142,7 @@ describe('Permission', () => {
     it('should throw if permissions have unknown attributes defined', () => {
 
       const permissions1 = {
-        read: new Permission().ownerAttribute('notHere')
+        read: new Permission().userAttribute('notHere')
       }
 
       function fn1() {
@@ -667,7 +1166,7 @@ describe('Permission', () => {
 
       const permissions3 = {
         mutations: {
-          update: new Permission().ownerAttribute('notHere')
+          update: new Permission().userAttribute('notHere')
         }
       }
 
@@ -683,7 +1182,7 @@ describe('Permission', () => {
     it('should throw if permissions have invalid attributes defined', () => {
 
       const permissions = {
-        read: new Permission().ownerAttribute('someAttribute')
+        read: new Permission().userAttribute('someAttribute')
       }
 
       function fn() {
@@ -699,7 +1198,7 @@ describe('Permission', () => {
 
       const permissions = {
         mutations: {
-          noSuchMutation: new Permission().ownerAttribute('someAttribute')
+          noSuchMutation: new Permission().userAttribute('someAttribute')
         }
       }
 
@@ -708,6 +1207,48 @@ describe('Permission', () => {
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
+
+    })
+
+    it('should throw if permission is used on a create type mutation and using data-bound permission types', () => {
+
+      const permissions1 = {
+        mutations: {
+          create: new Permission().state('someState')
+        }
+      }
+
+      function fn1() {
+        processEntityPermissions(entity, permissions1)
+      }
+
+      expect(fn1).toThrowErrorMatchingSnapshot();
+
+
+      const permissions2 = {
+        mutations: {
+          create: new Permission().userAttribute('someAttribute')
+        }
+      }
+
+      function fn2() {
+        processEntityPermissions(entity, permissions2)
+      }
+
+      expect(fn2).toThrowErrorMatchingSnapshot();
+
+
+      const permissions3 = {
+        mutations: {
+          create: new Permission().value('someAttribute', 10)
+        }
+      }
+
+      function fn3() {
+        processEntityPermissions(entity, permissions3)
+      }
+
+      expect(fn3).toThrowErrorMatchingSnapshot();
 
     })
 

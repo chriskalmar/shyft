@@ -99,11 +99,11 @@ describe('filter', () => {
       expect(splitAttributeAndFilterOperator('__test')).toEqual({ attributeName: '__test' })
       expect(splitAttributeAndFilterOperator('login__lt')).toEqual({ attributeName: 'login', operator: 'lt' })
       expect(splitAttributeAndFilterOperator('firstName__gte')).toEqual({ attributeName: 'firstName', operator: 'gte' })
-      expect(splitAttributeAndFilterOperator('last_name__not')).toEqual({ attributeName: 'last_name', operator: 'not' })
+      expect(splitAttributeAndFilterOperator('last_name__ne')).toEqual({ attributeName: 'last_name', operator: 'ne' })
       expect(splitAttributeAndFilterOperator('some__long_attribute__name__lte')).toEqual({ attributeName: 'some__long_attribute__name', operator: 'lte' })
-      expect(splitAttributeAndFilterOperator('__some_name__not')).toEqual({ attributeName: '__some_name', operator: 'not' })
-      expect(splitAttributeAndFilterOperator('___some_name__not')).toEqual({ attributeName: '___some_name', operator: 'not' })
-      expect(splitAttributeAndFilterOperator('___some_name___not')).toEqual({ attributeName: '___some_name_', operator: 'not' })
+      expect(splitAttributeAndFilterOperator('__some_name__ne')).toEqual({ attributeName: '__some_name', operator: 'ne' })
+      expect(splitAttributeAndFilterOperator('___some_name__ne')).toEqual({ attributeName: '___some_name', operator: 'ne' })
+      expect(splitAttributeAndFilterOperator('___some_name___ne')).toEqual({ attributeName: '___some_name_', operator: 'ne' })
 
     })
 
@@ -302,7 +302,7 @@ describe('filter', () => {
       const badFilter1 = {
         lastName: 'Doe',
         firstName__gte: 'J',
-        something__not: true,
+        something__ne: true,
       }
 
       const badFilter2 = {
