@@ -9,6 +9,7 @@ import {
   Permission,
   Index,
   INDEX_UNIQUE,
+  INDEX_GENERIC,
 } from 'shift-engine';
 
 
@@ -43,6 +44,14 @@ export const Board = new Entity({
     new Index({
       type: INDEX_UNIQUE,
       attributes: ['name'],
+    }),
+    new Index({
+      type: INDEX_GENERIC,
+      attributes: ['isPrivate'],
+    }),
+    new Index({
+      type: INDEX_GENERIC,
+      attributes: ['owner'],
     }),
   ],
 

@@ -8,6 +8,7 @@ import {
   Permission,
   Index,
   INDEX_UNIQUE,
+  INDEX_GENERIC,
 } from 'shift-engine';
 
 import { Profile } from './Profile';
@@ -44,6 +45,10 @@ export const Participant = new Entity({
     new Index({
       type: INDEX_UNIQUE,
       attributes: ['board', 'inviter', 'invitee'],
+    }),
+    new Index({
+      type: INDEX_GENERIC,
+      attributes: ['board', 'invitee'],
     }),
   ],
 
