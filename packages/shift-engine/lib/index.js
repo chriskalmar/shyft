@@ -6,7 +6,10 @@ import Schema from './schema/Schema';
 import StorageType from './storage/StorageType';
 import StorageDataType from './storage/StorageDataType';
 import ProtocolType from './protocol/ProtocolType';
-import Index, { INDEX_UNIQUE } from './index/Index';
+import Index, {
+  INDEX_UNIQUE,
+  INDEX_GENERIC,
+} from './index/Index';
 import Action, { isAction } from './action/Action';
 import Mutation, {
   MUTATION_TYPE_CREATE,
@@ -150,6 +153,7 @@ export {
 
   Index,
   INDEX_UNIQUE,
+  INDEX_GENERIC,
 
   Action,
   isAction,
@@ -230,6 +234,7 @@ export default {
 
   Index,
   INDEX_UNIQUE,
+  INDEX_GENERIC,
 
   Action,
   isAction,
