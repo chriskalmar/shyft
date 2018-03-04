@@ -20,7 +20,7 @@ import {
 
 
 
-const fillSingleDefaultValues = (param, payload, context) => {
+const fillSingleDefaultValues = async (param, payload, context) => {
 
   let ret = payload
 
@@ -38,36 +38,36 @@ const fillSingleDefaultValues = (param, payload, context) => {
   if (isListDataType(param.type) && payload) {
     const paramType = param.type.getItemType()
 
-    ret = payload.map(itemPayload => {
+    ret = await Promise.all(payload.map(async itemPayload => {
 
       if (isObjectDataType(paramType)) {
         const attributes = paramType.getAttributes()
         return fillNestedDefaultValues(attributes, itemPayload, context) // eslint-disable-line no-use-before-define
       }
 
-      return fillSingleDefaultValues(paramType, itemPayload, context)
-    })
+      return await fillSingleDefaultValues(paramType, itemPayload, context)
+    }))
   }
 
   return ret
 }
 
 
-const fillNestedDefaultValues = (params, payload, context) => {
+const fillNestedDefaultValues = async (params, payload, context) => {
 
   const ret = {
     ...payload
   }
 
-  _.forEach(params, (param, paramName) => {
-    ret[paramName] = fillSingleDefaultValues(param, ret[paramName], context)
-  })
+  await Promise.all(_.forEach(params, async (param, paramName) => {
+    ret[paramName] = await fillSingleDefaultValues(param, ret[paramName], context)
+  }))
 
   return ret
 }
 
 
-const fillDefaultValues = (param, payload, context) => fillSingleDefaultValues(param, payload, context)
+const fillDefaultValues = async (param, payload, context) => fillSingleDefaultValues(param, payload, context)
 
 
 

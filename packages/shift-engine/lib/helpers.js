@@ -30,7 +30,7 @@ export const fillSystemAttributesDefaultValues = (entity, entityMutation, payloa
 
 
 
-export const fillDefaultValues = (entity, entityMutation, payload, context) => {
+export const fillDefaultValues = async (entity, entityMutation, payload, context) => {
 
   const ret = {
     ...payload
@@ -42,14 +42,14 @@ export const fillDefaultValues = (entity, entityMutation, payload, context) => {
     attribute => attribute.required && !attribute.isSystemAttribute
   )
 
-  requiredAttributes.map((attribute) => {
+  await Promise.all(requiredAttributes.map(async (attribute) => {
     const attributeName = attribute.name
     if (!entityMutation.attributes.includes(attributeName)) {
       if (attribute.defaultValue) {
-        ret[attributeName] = attribute.defaultValue(ret, entityMutation, entity, context)
+        ret[attributeName] = await attribute.defaultValue(ret, entityMutation, entity, context)
       }
     }
-  })
+  }))
 
   return ret
 }
