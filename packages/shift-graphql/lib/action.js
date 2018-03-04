@@ -59,7 +59,9 @@ const fillNestedDefaultValues = async (params, payload, context) => {
     ...payload
   }
 
-  await Promise.all(_.forEach(params, async (param, paramName) => {
+  const paramNames = Object.keys(params)
+  await Promise.all(paramNames.map(async (paramName) => {
+    const param = params[paramName]
     ret[paramName] = await fillSingleDefaultValues(param, ret[paramName], context)
   }))
 
@@ -107,7 +109,7 @@ export const generateActions = (graphRegistry) => {
       resolve: async (source, args, context, info) => {
         if (action.hasInput()) {
           const input = action.getInput()
-          args.input.data = fillDefaultValues(input, args.input.data, context)
+          args.input.data = await fillDefaultValues(input, args.input.data, context)
           validateActionPayload(input, args.input.data, action, context)
         }
 
