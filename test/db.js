@@ -95,7 +95,7 @@ export const mutate = async (entity, mutationName, payload, id, context) => {
     }
 
     if (entityMutation.type === MUTATION_TYPE_CREATE) {
-      args.input[typeName] = fillDefaultValues(entity, entityMutation, args.input[typeName], context)
+      args.input[typeName] = await fillDefaultValues(entity, entityMutation, args.input[typeName], context)
     }
 
     if (entityMutation.type === MUTATION_TYPE_CREATE || entityMutation.type === MUTATION_TYPE_UPDATE) {
