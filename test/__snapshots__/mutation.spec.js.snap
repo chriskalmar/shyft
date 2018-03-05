@@ -16,8 +16,8 @@ exports[`mutation perform delete mutations 1`] = `
 Object {
   "board": "50",
   "id": "303",
-  "invitee": "80",
-  "inviter": "65",
+  "invitee": "81",
+  "inviter": "84",
   "state": 10,
 }
 `;
@@ -48,7 +48,7 @@ Object {
 }
 `;
 
-exports[`mutation reject mutations if ID not found 1`] = `[Error: Instance with ID '99999' not found]`;
+exports[`mutation reject mutations if ID not found 1`] = `[Error: Instance with ID '99999' not found or access denied]`;
 
 exports[`mutation reject mutations without state transitions on stateful entities 1`] = `[Error: State transition (toState) not defined]`;
 

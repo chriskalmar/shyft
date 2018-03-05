@@ -1,5 +1,105 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`permission story a user should be able to accept invitations to private boards 1`] = `
+Object {
+  "board": "45",
+  "id": "304",
+  "invitee": "30",
+  "inviter": "85",
+  "state": 20,
+}
+`;
+
+exports[`permission story a user should be able to invite users to an owned boards 1`] = `
+Object {
+  "board": "45",
+  "id": "304",
+  "invitee": "30",
+  "inviter": "85",
+  "state": 10,
+}
+`;
+
+exports[`permission story a user should be able to invite users to an owned boards 2`] = `
+Object {
+  "board": "45",
+  "id": "305",
+  "invitee": "33",
+  "inviter": "85",
+  "state": 10,
+}
+`;
+
+exports[`permission story a user should be able to invite users to an owned boards 3`] = `
+Object {
+  "board": "45",
+  "id": "306",
+  "invitee": "79",
+  "inviter": "85",
+  "state": 10,
+}
+`;
+
+exports[`permission story a user should be able to join public boards 1`] = `
+Object {
+  "board": "11",
+  "id": "301",
+  "invitee": "30",
+  "inviter": "30",
+  "state": 50,
+}
+`;
+
+exports[`permission story a user should be able to join public boards 2`] = `
+Object {
+  "board": "11",
+  "id": "302",
+  "invitee": "33",
+  "inviter": "33",
+  "state": 50,
+}
+`;
+
+exports[`permission story a user should be able to join public boards 3`] = `
+Object {
+  "board": "11",
+  "id": "303",
+  "invitee": "79",
+  "inviter": "79",
+  "state": 50,
+}
+`;
+
+exports[`permission story a user should be able to leave public boards 1`] = `
+Object {
+  "deleteRowCount": 1,
+}
+`;
+
+exports[`permission story a user should be able to remove a user from a group as owner 1`] = `
+Object {
+  "deleteRowCount": 1,
+}
+`;
+
+exports[`permission story a user should not be able to accept invitations to private boards on someone's behalf 1`] = `[Error: Instance with ID '302' not found or access denied]`;
+
+exports[`permission story a user should not be able to invite users to others boards 1`] = `[Error: Mutation 'invite' denied]`;
+
+exports[`permission story a user should not be able to invite users to others boards 2`] = `[Error: Mutation 'invite' denied]`;
+
+exports[`permission story a user should not be able to invite users to others boards 3`] = `[Error: Mutation 'invite' denied]`;
+
+exports[`permission story a user should not be able to join private boards 1`] = `[Error: Mutation 'join' denied]`;
+
+exports[`permission story a user should not be able to join private boards 2`] = `[Error: Mutation 'join' denied]`;
+
+exports[`permission story a user should not be able to join private boards 3`] = `[Error: Mutation 'join' denied]`;
+
+exports[`permission story a user should not be able to leave public boards on someone's behalf 1`] = `[Error: Instance with ID '302' not found or access denied]`;
+
+exports[`permission story a user should not be able to remove a user from a group as a non-owner 1`] = `[Error: Instance with ID '302' not found or access denied]`;
+
 exports[`permission story a user should only see participants of boards the user is part of: count 1`] = `23`;
 
 exports[`permission story a user should only see participants of boards the user is part of: count 2`] = `15`;
