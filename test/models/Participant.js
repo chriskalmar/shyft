@@ -92,6 +92,12 @@ export const Participant = new Entity({
       type: MUTATION_TYPE_DELETE,
       fromState: [ 'joined', 'invited', 'accepted'],
     }),
+    new Mutation({
+      name: 'leave',
+      description: 'leave a board',
+      type: MUTATION_TYPE_DELETE,
+      fromState: [ 'joined', 'invited', 'accepted'],
+    }),
   ],
 
 
@@ -101,22 +107,34 @@ export const Participant = new Entity({
     mutations: {
       join: [
         new Permission()
-          .role('admin'),
-        new Permission()
           .lookup(Board, {
             id: ({ mutationData }) => mutationData.board,
             isPrivate: () => false,
           }),
       ],
-      // accept: [
-      //   new Permission()
-      //     .role('admin'),
-      //   new Permission()
-      //     .lookup(Board, {
-      //       id: 'board',
-      //       isPrivate: () => false,
-      //     }),
-      // ]
+      invite: [
+        new Permission()
+          .lookup(Board, {
+            id: ({ mutationData }) => mutationData.board,
+            owner: ({ userId }) => userId,
+            isPrivate: () => true,
+          }),
+      ],
+      remove: [
+        new Permission()
+          .lookup(Board, {
+            id: 'board',
+            owner: ({ userId }) => userId,
+          }),
+      ],
+      leave: [
+        new Permission()
+          .userAttribute('invitee'),
+      ],
+      accept: [
+        new Permission()
+          .userAttribute('invitee'),
+      ]
     }
   }),
 
