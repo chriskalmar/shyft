@@ -56,10 +56,10 @@
     "dataloader": "^1.4.0",
     "json-shaper": "^1.2.0",
     "lodash": "^4.17.4",
-    "pg": "6.4.2",
     "toposort": "^1.0.3"
   },
   "peerDependencies": {
+    "pg": "^7.3.0",
     "typeorm": "^0.1.13"
   }
 }
