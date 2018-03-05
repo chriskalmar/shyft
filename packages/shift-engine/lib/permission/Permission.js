@@ -324,7 +324,7 @@ export const generatePermissionDescription = (permissions) => {
       const lookupBullets = permission.lookups.reduce((lprev, {entity, lookupMap}) => {
 
         const attributeBullets = _.reduce(lookupMap, (aprev, target, source) => {
-          return `${aprev}\n    - ${source} -> ${target}`
+          return `${aprev}\n    - ${source} -> ${isFunction(target) ? 'λ' : target}`
         }, '')
 
         return `${lprev}\n  - Entity: ${entity} ${attributeBullets}`
