@@ -132,7 +132,7 @@ class Permission {
     this._checkCompatibility('lookup')
 
     passOrThrow(
-      isEntity(entity),
+      isFunction(entity) || isEntity(entity),
       () => 'Permission type \'lookup\' expects an entity'
     )
     passOrThrow(
@@ -236,7 +236,14 @@ export const findMissingPermissionAttributes = (permission, permissionEntity, mu
   }
 
   let missingLookupAttribute
-  permission.lookups.map(({entity, lookupMap}) => {
+  permission.lookups.map((lookup) => {
+    const { entity: _entity, lookupMap } = lookup
+    let entity = _entity
+
+    if (isFunction(_entity)) {
+      entity = lookup.entity = _entity()
+    }
+
     const lookupEntityAttributes = entity.getAttributes()
     const lookupEntityAttributeNames = Object.keys(lookupEntityAttributes)
 
