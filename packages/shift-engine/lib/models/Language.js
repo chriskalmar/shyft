@@ -6,7 +6,6 @@ import Index, { INDEX_UNIQUE } from '../index/Index';
 
 export const Language = new Entity({
   name: 'Language',
-  domain: 'core',
   description: 'A language',
 
   indexes: [

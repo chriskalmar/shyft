@@ -8,7 +8,6 @@ import { Language } from './Language';
 
 export const User = new Entity({
   name: 'User',
-  domain: 'core',
   description: 'A user',
 
   // isUserTable: true,

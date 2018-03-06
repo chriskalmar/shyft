@@ -106,9 +106,6 @@ describe('Entity', () => {
   })
 
 
-  it.skip('should have a unique name-domain combination', () => {
-  })
-
 
   describe('should have a list of attributes', () => {
 
