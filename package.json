@@ -59,7 +59,8 @@
     "toposort": "^1.0.3"
   },
   "peerDependencies": {
-    "pg": "^7.3.0",
-    "typeorm": "^0.1.13"
+    "pg": "^7.4.1",
+    "shift-engine": "^1.0.0",
+    "typeorm": "^0.1.16"
   }
 }
