@@ -110,8 +110,11 @@ export const generateData = (memoryDB) => {
         if (memoryDB[ type.name ]) {
           const referencingData = memoryDB[ type.name ].data
 
+          const primaryAttribute = type.getPrimaryAttribute()
+          const primaryAttributeName = primaryAttribute.gqlFieldName
+
           data.map((item) => {
-            item[ name ] = _.sample(referencingData).id
+            item[name] = _.sample(referencingData)[primaryAttributeName]
           })
         }
         else {
@@ -148,7 +151,10 @@ function generateItem(entity) {
     }
   })
 
-  item.id = nextId
+  const primaryAttribute = model.getPrimaryAttribute()
+  const primaryAttributeName = primaryAttribute.gqlFieldName
+
+  item[primaryAttributeName] = nextId
 
   entity.data.push(item)
 
