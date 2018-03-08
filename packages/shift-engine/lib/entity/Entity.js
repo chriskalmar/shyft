@@ -349,6 +349,7 @@ class Entity {
         () => `Primary attribute '${this.name}.${attributeName}' has invalid data type '${String(attribute.type)}'`
       )
 
+      attribute.isSystemAttribute = true
       this._primaryAttribute = attribute
     }
 
