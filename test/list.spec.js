@@ -194,7 +194,7 @@ describe('list', () => {
       }]
 
       const filter = {
-        OR: [
+        $or: [
           {
             username: 'dana768',
           },
@@ -202,8 +202,10 @@ describe('list', () => {
             username: 'weston422'
           },
           {
-            username__starts_with: 'jo',
-            username__ends_with: '56'
+            username: {
+              $starts_with: 'jo',
+              $ends_with: '56'
+            },
           },
         ]
       }
@@ -240,22 +242,28 @@ describe('list', () => {
       }]
 
       const filter = {
-        AND: [
+        $and: [
           {
-            board__gt: 30,
-            board__lt: 40
+            board: {
+              $gt: 30,
+              $lt: 40,
+            }
           },
           {
-            state__in: [
-              20,
-              50
-            ]
+            state: {
+              $in: [
+                20,
+                50
+              ]
+            }
           },
           {
-            inviter__in: [
-              61,
-              78
-            ]
+            inviter: {
+              $in: [
+                61,
+                78
+              ]
+            }
           }
         ]
       }
@@ -293,25 +301,31 @@ describe('list', () => {
       }]
 
       const filter = {
-        AND: [
+        $and: [
           {
-            board__gt: 30,
-            board__lt: 40
+            board: {
+              $gt: 30,
+              $lt: 40,
+            }
           },
           {
-            state__in: [
-              20,
-              50
-            ]
+            state: {
+              $in: [
+                20,
+                50
+              ]
+            }
           },
           {
-            inviter__in: [
-              61,
-              78
-            ]
+            inviter: {
+              $in: [
+                61,
+                78
+              ]
+            }
           },
           {
-            OR: [
+            $or: [
               {
                 invitee: 107
               },
@@ -322,8 +336,10 @@ describe('list', () => {
                 invitee: 38
               },
               {
-                invitee__gt: 60,
-                invitee__lt: 62
+                invitee: {
+                  $gt: 60,
+                  $lt: 62,
+                }
               }
             ]
           }
