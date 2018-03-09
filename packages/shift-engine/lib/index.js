@@ -38,6 +38,7 @@ import {
 
 import {
   processFilter,
+  convertFilterLevel,
 } from './filter';
 
 import {
@@ -143,6 +144,7 @@ export {
   deleteUndefinedProps,
 
   processFilter,
+  convertFilterLevel,
 
   fillSystemAttributesDefaultValues,
   fillDefaultValues,
@@ -225,6 +227,7 @@ export default {
   deleteUndefinedProps,
 
   processFilter,
+  convertFilterLevel,
 
   fillSystemAttributesDefaultValues,
   fillDefaultValues,

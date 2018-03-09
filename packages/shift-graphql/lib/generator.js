@@ -44,6 +44,10 @@ import {
   generateActions,
 } from './action';
 
+import {
+  transformFilterLevel,
+} from './filter';
+
 
 // collect object types, connections ... for each entity
 const graphRegistry = {
@@ -53,7 +57,7 @@ const graphRegistry = {
 
 
 // prepare models for graphql
-const extendModelsForGql = (entities) => {
+export const extendModelsForGql = (entities) => {
 
   _.forEach(entities, (entity) => {
 
@@ -69,7 +73,9 @@ const extendModelsForGql = (entities) => {
     const dataShaperMap = {}
 
     _.forEach(entity.getAttributes(), (attribute) => {
-      attribute.gqlFieldName = _.camelCase(attribute.name)
+      attribute.gqlFieldName = attribute.isPrimary
+        ? 'id'
+        : _.camelCase(attribute.name)
       dataShaperMap[ attribute.gqlFieldName ] = attribute.name
     })
 
@@ -176,6 +182,7 @@ const generateListQueries = () => {
 
         validateConnectionArgs(args)
         forceSortByUnique(args.orderBy, entity)
+        args.filter = transformFilterLevel(args.filter, entity.getAttributes())
 
         const {
           data,
@@ -291,6 +298,7 @@ const generateReverseConnections = (entity) => {
 
         validateConnectionArgs(args)
         forceSortByUnique(args.orderBy, sourceEntity)
+        args.filter = transformFilterLevel(args.filter, entity.getAttributes())
 
         const parentEntityTypeName = util.generateTypeName(info.parentType.name)
         const parentEntity = graphRegistry.types[ parentEntityTypeName ].entity

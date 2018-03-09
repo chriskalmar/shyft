@@ -11,55 +11,17 @@ import {
 } from './util';
 
 
-const AND_OPERATOR = 'AND'
-const OR_OPERATOR = 'OR'
+const logicFilters = ['$and', '$or']
 
 
-export const splitAttributeAndFilterOperator = (str) => {
-
-  let ret
-
-  if (typeof str === 'string') {
-
-    const splitPos = str.lastIndexOf('__')
-
-    if (splitPos > 0) {
-      const operator = str.substr(splitPos + 2)
-      const attributeName = str.substring(0, splitPos)
-
-      if (operator.length > 0 && attributeName.length > 0) {
-        ret = {
-          operator,
-          attributeName,
-        }
-      }
-    }
-    else {
-      ret = {
-        attributeName: str,
-      }
-    }
-  }
-
-  passOrThrow(
-    ret,
-    () => {
-      return `invalid filter '${str}'`
-    }
-  )
-
-  return ret
-}
-
-
-export const processFilterLevel = (filters, attributes, path, storageType) => {
+export const validateFilterLevel = (filters, attributes, path, storageType) => {
 
   const ret = {}
 
   passOrThrow(
     !path || isArray(path, true),
     () => {
-      return 'optional path in processFilterLevel() needs to be an array'
+      return 'optional path in validateFilterLevel() needs to be an array'
     }
   )
 
@@ -75,32 +37,28 @@ export const processFilterLevel = (filters, attributes, path, storageType) => {
   passOrThrow(
     isMap(attributes, true),
     () => {
-      return 'processFilterLevel() expects an attribute map'
+      return 'validateFilterLevel() expects an attribute map'
     }
   )
 
 
   mapOverProperties(filters, (value, filter) => {
 
-    if (filter === AND_OPERATOR || filter === OR_OPERATOR) {
-      const logicalKey = `\$${filter.toLocaleLowerCase()}`
+    if (logicFilters.includes(filter)) {
       const newPath = path
         ? path.slice()
         : []
 
       newPath.push(filter)
-
-      ret[logicalKey] = value.map(newFilter => processFilterLevel(newFilter, attributes, path, storageType))
+      value.map(newFilter => validateFilterLevel(newFilter, attributes, path, storageType))
 
       return
     }
 
-    const {
-      operator,
-      attributeName,
-    } = splitAttributeAndFilterOperator(filter)
 
+    const attributeName = filter
     const attribute = attributes[attributeName]
+
 
     passOrThrow(
       attribute,
@@ -110,17 +68,7 @@ export const processFilterLevel = (filters, attributes, path, storageType) => {
     )
 
 
-    if (operator) {
-
-      ret[attributeName] = ret[attributeName] || {}
-
-      passOrThrow(
-        isMap(ret[attributeName]),
-        () => {
-          return `Cannot combine 'exact match' operator with other operators on attribute '${attributeName}' used in filter${errorLocation}`
-        }
-      )
-
+    if (isMap(value)) {
 
       let storageDataType
 
@@ -132,28 +80,17 @@ export const processFilterLevel = (filters, attributes, path, storageType) => {
         storageDataType = storageType.convertToStorageDataType(attribute.type)
       }
 
+      const operators = Object.keys(value)
 
-      passOrThrow(
-        storageDataType.capabilities.indexOf(operator) >= 0,
-        () => {
-          return `Unknown or incompatible operator '${operator}' used on '${attributeName}' in filter${errorLocation}`
-        }
-      )
-
-      const operatorKey = `\$${operator}`
-
-      ret[attributeName][operatorKey] = value
-    }
-    else {
-
-      passOrThrow(
-        !isMap(ret[attributeName]),
-        () => {
-          return `Cannot combine 'exact match' operator with other operators on attribute '${attributeName}' used in filter${errorLocation}`
-        }
-      )
-
-      ret[attributeName] = value
+      operators.map(operator => {
+        const operatorCapabilityName = operator.replace('\$', '')
+        passOrThrow(
+          storageDataType.capabilities.indexOf(operatorCapabilityName) >= 0,
+          () => {
+            return `Unknown or incompatible operator '${operator}' used on '${attributeName}' in filter${errorLocation}`
+          }
+        )
+      })
     }
 
   })
@@ -174,9 +111,45 @@ export const processFilter = (entity, args, storageType) => {
     return {}
   }
 
+  validateFilterLevel(filter, entity.getAttributes(), null, storageType)
+
   const where = {
-    ...processFilterLevel(filter, entity.getAttributes(), null, storageType)
+    ...filter
   }
 
   return where
+}
+
+
+
+export const convertFilterLevel = (filterShaper, filterLevel) => {
+
+  const converted = filterShaper(filterLevel)
+  const filterLevelKeys = Object.keys(converted)
+  const ret = {}
+
+  filterLevelKeys.map(key => {
+    const filter = filterLevel[key]
+
+    if (filter) {
+      if (isMap(filter)) {
+        ret[key] = convertFilterLevel(filterShaper, filter)
+      }
+      else if (logicFilters.includes(key)) {
+        ret[key] = filter.map(item => convertFilterLevel(filterShaper, item))
+      }
+      else {
+        ret[key] = converted[key]
+      }
+    }
+  })
+
+
+  filterLevelKeys.map(key => {
+    if (typeof converted[key] !== 'undefined' && typeof ret[key] === 'undefined') {
+      ret[key] = converted[key]
+    }
+  })
+
+  return ret
 }
