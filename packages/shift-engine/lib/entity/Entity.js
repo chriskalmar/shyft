@@ -282,6 +282,14 @@ class Entity {
       () => `Invalid attribute name '${attributeName}' in entity '${this.name}' (Regex: /${ATTRIBUTE_NAME_PATTERN}/)`
     )
 
+
+    Object.keys(rawAttribute).map(prop => {
+      passOrThrow(
+        attributePropertiesWhitelist.includes(prop),
+        () => `Invalid attribute property '${prop}' in entity '${this.name}' (use 'meta' for custom data)`
+      )
+    })
+
     const attribute = {
       ...rawAttribute,
       isPrimary: !!rawAttribute.isPrimary,

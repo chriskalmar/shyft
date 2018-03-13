@@ -30,22 +30,17 @@ export const User = new Entity({
     username: {
       type: DataTypeString,
       description: 'Username',
-      pattern: '^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+$',
-      minLength: 3,
-      maxLength: 30,
       required: true
     },
 
     firstName: {
       type: DataTypeString,
       description: 'First name',
-      maxLength: 30
     },
 
     lastName: {
       type: DataTypeString,
       description: 'Last name',
-      maxLength: 30
     },
 
     language: {

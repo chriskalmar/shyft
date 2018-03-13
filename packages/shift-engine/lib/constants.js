@@ -34,9 +34,27 @@ export const storageDataTypeCapabilities = {
 }
 
 
+export const attributePropertiesWhitelist = [
+  'name',
+  'description',
+  'type',
+  'required',
+  'isPrimary',
+  'isUnique',
+  'resolve',
+  'defaultValue',
+  'serialize',
+  'validate',
+  'hidden',
+  'i18n',
+  'mock',
+]
+
+
 export default {
   ATTRIBUTE_NAME_PATTERN,
   attributeNameRegex,
   storageDataTypeCapabilityType,
   storageDataTypeCapabilities,
+  attributePropertiesWhitelist,
 }
