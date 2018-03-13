@@ -36,6 +36,7 @@ import {
   systemAttributesTimeTracking,
   systemAttributesUserTracking,
   systemAttributeState,
+  systemAttributeI18n,
 } from './systemAttributes';
 
 import _ from 'lodash';
@@ -267,6 +268,15 @@ class Entity {
       list.push(name)
     }
 
+
+    const attributeNames = Object.keys(attributeMap)
+    const i18nAttributeNames = attributeNames.filter(attributeName => attributeMap[attributeName].i18n)
+
+    if (i18nAttributeNames.length) {
+      const { name } = systemAttributeI18n
+      this._checkSystemAttributeNameCollision(attributeMap, name)
+      attributeMap[name] = systemAttributeI18n
+      list.push(name)
     }
 
     return list
@@ -304,6 +314,7 @@ class Entity {
       required: !!rawAttribute.required,
       hidden: !!rawAttribute.hidden,
       index: !!rawAttribute.index,
+      i18n: !!rawAttribute.i18n,
       name: attributeName
     }
 
