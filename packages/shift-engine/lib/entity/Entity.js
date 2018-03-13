@@ -10,6 +10,7 @@ import {
 import {
   ATTRIBUTE_NAME_PATTERN,
   attributeNameRegex,
+  attributePropertiesWhitelist,
   STATE_NAME_PATTERN,
   stateNameRegex,
 } from '../constants';
@@ -235,31 +236,37 @@ class Entity {
     const list = []
 
     if (!this.getPrimaryAttribute()) {
-      this._checkSystemAttributeNameCollision(attributeMap, systemAttributePrimary.name)
-      attributeMap[ systemAttributePrimary.name ] = systemAttributePrimary
-      list.push(systemAttributePrimary.name)
+      const { name } = systemAttributePrimary
+      this._checkSystemAttributeNameCollision(attributeMap, name)
+      attributeMap[name] = systemAttributePrimary
+      list.push(name)
     }
 
     if (this.includeTimeTracking) {
       systemAttributesTimeTracking.map(attribute => {
-        this._checkSystemAttributeNameCollision(attributeMap, attribute.name)
-        attributeMap[ attribute.name ] = attribute
-        list.push(attribute.name)
+        const { name } = attribute
+        this._checkSystemAttributeNameCollision(attributeMap, name)
+        attributeMap[name] = attribute
+        list.push(name)
       })
     }
 
     if (this.includeUserTracking && !this.isUserEntity) {
       systemAttributesUserTracking.map(attribute => {
-        this._checkSystemAttributeNameCollision(attributeMap, attribute.name)
-        attributeMap[ attribute.name ] = attribute
-        list.push(attribute.name)
+        const { name } = attribute
+        this._checkSystemAttributeNameCollision(attributeMap, name)
+        attributeMap[name] = attribute
+        list.push(name)
       })
     }
 
     if (this.hasStates()) {
-      this._checkSystemAttributeNameCollision(attributeMap, systemAttributeState.name)
-      attributeMap[ systemAttributeState.name ] = systemAttributeState
-      list.push(systemAttributeState.name)
+      const { name } = systemAttributeState
+      this._checkSystemAttributeNameCollision(attributeMap, name)
+      attributeMap[name] = systemAttributeState
+      list.push(name)
+    }
+
     }
 
     return list
