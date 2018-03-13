@@ -224,7 +224,7 @@ describe('filter', () => {
     it('should throw if provided params are invalid', () => {
 
       function fn1() {
-        transformFilterLevel()
+        transformFilterLevel('a')
       }
 
       function fn2() {

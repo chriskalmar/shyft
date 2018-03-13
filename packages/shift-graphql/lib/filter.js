@@ -145,7 +145,7 @@ export const splitAttributeAndFilterOperator = (str) => {
 
 
 
-export const transformFilterLevel = (filters, attributes, path) => {
+export const transformFilterLevel = (filters = {}, attributes, path) => {
 
   const ret = {}
 
