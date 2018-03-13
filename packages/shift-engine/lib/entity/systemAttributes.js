@@ -3,6 +3,7 @@ import {
   DataTypeID,
   DataTypeUserID,
   DataTypeTimestampTz,
+  DataTypeJson,
 } from '../datatype/dataTypes';
 
 import CustomError from '../CustomError'
@@ -117,6 +118,25 @@ export const systemAttributeState = {
         }
       }
     }
+  },
+}
+
+
+export const systemAttributeI18n = {
+  name: 'i18n',
+  description: 'Translations of record',
+  type: DataTypeJson,
+  hidden: true,
+  meta: {
+    storageAttributeName: 'i18n',
+  },
+  defaultValue: (data, mutation) => {
+    if (mutation.isTypeCreate || mutation.isTypeUpdate) {
+      if (typeof mutation.toState === 'string') {
+        return mutation.toState
+      }
+    }
+    return undefined
   },
 }
 
