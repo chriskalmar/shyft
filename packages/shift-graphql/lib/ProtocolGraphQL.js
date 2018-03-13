@@ -11,6 +11,7 @@ import {
   DataTypeTimestamp,
   DataTypeTimestampTz,
   DataTypeDate,
+  DataTypeUUID,
   isDataTypeState,
   isDataTypeEnum,
   isObjectDataType,
@@ -62,6 +63,7 @@ ProtocolGraphQL.addDataTypeMap(DataTypeJson, GraphQLJSON);
 ProtocolGraphQL.addDataTypeMap(DataTypeTimestamp, GraphQLDateTime);
 ProtocolGraphQL.addDataTypeMap(DataTypeTimestampTz, GraphQLDateTime);
 ProtocolGraphQL.addDataTypeMap(DataTypeDate, GraphQLDate);
+ProtocolGraphQL.addDataTypeMap(DataTypeUUID, GraphQLID);
 
 
 
