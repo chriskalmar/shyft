@@ -8,6 +8,7 @@ import {
 } from '../util';
 
 import {
+  entityPropertiesWhitelist,
   ATTRIBUTE_NAME_PATTERN,
   attributeNameRegex,
   attributePropertiesWhitelist,
@@ -45,6 +46,16 @@ import _ from 'lodash';
 class Entity {
 
   constructor (setup = {}) {
+
+    passOrThrow(isMap(setup), () => 'Entity requires a setup object')
+
+    Object.keys(setup).map(prop => {
+      passOrThrow(
+        entityPropertiesWhitelist.includes(prop),
+        () => `Invalid setup property '${prop}' in entity '${this.name}'`
+      )
+    })
+
 
     const {
       name,

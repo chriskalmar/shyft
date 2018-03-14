@@ -34,6 +34,21 @@ export const storageDataTypeCapabilities = {
 }
 
 
+export const entityPropertiesWhitelist = [
+  'name',
+  'description',
+  'attributes',
+  'storageType',
+  'isUserEntity',
+  'includeTimeTracking',
+  'includeUserTracking',
+  'indexes',
+  'mutations',
+  'permissions',
+  'states',
+]
+
+
 export const attributePropertiesWhitelist = [
   'name',
   'description',
