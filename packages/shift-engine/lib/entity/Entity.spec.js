@@ -604,18 +604,22 @@ describe('Entity', () => {
           loginName: {
             type: DataTypeString,
             description: 'Just some description',
+            required: true,
           },
           firstName: {
             type: DataTypeString,
             description: 'Just some description',
+            required: true,
           },
           lastName: {
             type: DataTypeString,
             description: 'Just some description',
+            required: true,
           },
           email: {
             type: DataTypeString,
             description: 'Just some description',
+            required: true,
           },
         },
         indexes: [
@@ -661,6 +665,7 @@ describe('Entity', () => {
           someAttribute: {
             type: DataTypeString,
             description: 'Just some description',
+            required: true,
           }
         },
         indexes: [
