@@ -94,6 +94,11 @@ export const processEntityIndexes = (entity, indexes) => {
         () => `Cannot use attribute '${entity.name}.${attributeName}' in index as it does not exist`
       )
 
+      passOrThrow(
+        entityAttributes[ attributeName ].required,
+        () => `Cannot use attribute '${entity.name}.${attributeName}' in index as it is nullable`
+      )
+
       if (index.type === INDEX_UNIQUE && index.attributes.length === 1) {
         entityAttributes[ attributeName ].isUnique = true
       }

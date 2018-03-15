@@ -399,18 +399,22 @@ describe('util', () => {
         loginName: {
           type: DataTypeString,
           description: 'Just some description',
+          required: true,
         },
         firstName: {
           type: DataTypeString,
           description: 'Just some description',
+          required: true,
         },
         lastName: {
           type: DataTypeString,
           description: 'Just some description',
+          required: true,
         },
         email: {
           type: DataTypeString,
           description: 'Just some description',
+          required: true,
         },
       },
       indexes: [

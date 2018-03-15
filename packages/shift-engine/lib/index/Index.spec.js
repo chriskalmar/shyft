@@ -169,6 +169,7 @@ describe('Index', () => {
         someAttribute: {
           type: DataTypeString,
           description: 'Just some description',
+          required: true,
         }
       }
     })
