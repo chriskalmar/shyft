@@ -34,7 +34,6 @@ const readPermissions = [
 
 export const Board = new Entity({
   name: 'Board',
-  domain: 'test',
   description: 'A chat board',
 
   includeUserTracking: true,

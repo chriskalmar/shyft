@@ -9,7 +9,6 @@ import { ClusterZone } from './ClusterZone';
 
 export const Server = new Entity({
   name: 'Server',
-  domain: 'test',
   description: 'A server',
 
   attributes: {

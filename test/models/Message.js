@@ -47,7 +47,6 @@ const writePermissions = [
 
 export const Message = new Entity({
   name: 'Message',
-  domain: 'test',
   description: 'Chat message in a board',
 
   includeTimeTracking: true,

@@ -22,7 +22,6 @@ const readPermissions = [
 
 export const Profile = new Entity({
   name: 'Profile',
-  domain: 'test',
   description: 'A user profile',
 
   isUserEntity: true,

@@ -7,7 +7,6 @@ import {
 
 export const ClusterZone = new Entity({
   name: 'ClusterZone',
-  domain: 'test',
   description: 'A server cluster zone',
 
   attributes: {

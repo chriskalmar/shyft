@@ -36,7 +36,6 @@ const readPermissions = () => ([
 
 export const Participant = new Entity({
   name: 'Participant',
-  domain: 'test',
   description: 'Participant of a private board',
 
   includeTimeTracking: true,
