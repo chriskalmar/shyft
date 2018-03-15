@@ -340,6 +340,15 @@ class Entity {
       () => `'${this.name}.${attributeName}' has invalid data type '${String(attribute.type)}'`
     )
 
+
+    if (attribute.i18n) {
+      passOrThrow(
+        isDataType(attribute.type),
+        () => `'${this.name}.${attributeName}' cannot be translatable as it is not a simple data type`
+      )
+    }
+
+
     if (isDataType(attribute.type)) {
       if (attribute.type.enforceRequired) {
         attribute.required = true
