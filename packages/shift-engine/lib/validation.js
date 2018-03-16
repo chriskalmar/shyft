@@ -69,7 +69,7 @@ const validatePayload = (param, payload, source, context) => {
 
       if (attributeValidator) {
         const attributeName = param.name
-        const result = attributeValidator(payload[attributeName], payload, source, context)
+        const result = attributeValidator(payload[attributeName], attributeName, payload, source, context)
         if (result instanceof Error) {
           throw result
         }

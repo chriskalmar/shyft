@@ -51,7 +51,7 @@ describe('validation', () => {
       teamName: {
         type: DataTypeString,
         description: 'Name of the team',
-        validate(value, row, source, context) {
+        validate(value, attributeName, row, source, context) {
           if (value.indexOf('Team') === -1) {
             throw new Error('Missing "Team" in team name')
           }
@@ -91,7 +91,7 @@ describe('validation', () => {
       someAttribute: {
         type: DataTypeString,
         description: 'Just some description',
-        validate(value, row, source, context) {
+        validate(value, attributeName, row, source, context) {
           if (value.length < 3) {
             throw new Error('Too short')
           }
@@ -133,7 +133,7 @@ describe('validation', () => {
     input: {
       type: DataTypeString,
       description: 'percentage value',
-      validate(value, row, source, context) {
+      validate(value, attributeName, row, source, context) {
         if (value <= 0.0 || value >= 1.0) {
           throw new Error(`Value needs to be between 0.0 and 1.0 (got: ${value})`)
         }

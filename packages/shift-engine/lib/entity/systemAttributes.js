@@ -104,7 +104,7 @@ export const systemAttributeState = {
 
     return state
   },
-  validate: (value, data, { mutation }) => {
+  validate: (value, attributeName, data, { mutation }) => {
     if (mutation.isTypeCreate || mutation.isTypeUpdate) {
       if (typeof mutation.toState !== 'string') {
 
