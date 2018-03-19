@@ -1,3 +1,6 @@
+import casual from 'casual';
+import _ from 'lodash';
+
 
 
 export const deleteUndefinedProps = (obj) =>
@@ -314,4 +317,22 @@ export const reverseString = (str) => {
     .split('')
     .reverse()
     .join('');
+}
+
+
+
+export const randomJson = () => {
+  const ret = {}
+  const count = casual.integer(1, 5)
+
+  _.times(count, () => {
+    const key = _.camelCase(casual.words(2))
+    const value = Math.random() > 0.5
+      ? casual.title
+      : casual.integer
+
+    ret[key] = value
+  })
+
+  return ret
 }

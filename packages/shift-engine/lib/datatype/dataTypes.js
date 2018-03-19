@@ -1,9 +1,8 @@
 
 import DataType from './DataType';
 import DataTypeUser from './DataTypeUser';
-
+import { randomJson } from '../util';
 import casual from 'casual';
-import _ from 'lodash';
 
 
 export const DataTypeUserID = new DataTypeUser({
@@ -105,21 +104,3 @@ export const DataTypeUUID = new DataType({
   mock: /* istanbul ignore next */
     () => casual.uuid,
 })
-
-
-/* istanbul ignore next */
-function randomJson() {
-  const ret = {}
-  const count = casual.integer(1, 5)
-
-  _.times(count, () => {
-    const key = _.camelCase( casual.words(2) )
-    const value = Math.random() > 0.5
-      ? casual.title
-      : casual.integer
-
-    ret[ key ] = value
-  })
-
-  return ret
-}
