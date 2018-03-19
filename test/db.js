@@ -46,7 +46,7 @@ export const initDB = async () => {
 
   const modelRegistry = loadModels(schema)
 
-  const entitySchemas = Object.keys(modelRegistry).map(entityName => {
+  const entities = Object.keys(modelRegistry).map(entityName => {
     return modelRegistry[entityName].model
   })
 
@@ -61,7 +61,7 @@ export const initDB = async () => {
     // logging: true,
     synchronize: true,
     dropSchema: true,
-    entitySchemas
+    entities
   })
 
 

@@ -4,9 +4,9 @@ import {
 } from './db';
 import { loadData } from './loadData';
 
-beforeAll(() => {
-  return initDB()
-    .then(loadData)
+beforeAll(async () => {
+  await initDB()
+  await loadData()
 })
 
 
