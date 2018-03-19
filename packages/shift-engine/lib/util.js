@@ -329,7 +329,7 @@ export const randomJson = () => {
     const key = _.camelCase(casual.words(2))
     const value = Math.random() > 0.5
       ? casual.title
-      : casual.integer
+      : casual.integer()
 
     ret[key] = value
   })
