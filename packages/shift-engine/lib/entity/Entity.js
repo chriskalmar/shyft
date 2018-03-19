@@ -322,7 +322,7 @@ class Entity {
       ...rawAttribute,
       isPrimary: !!rawAttribute.isPrimary,
       isUnique: !!rawAttribute.isPrimary,
-      required: !!rawAttribute.required,
+      required: !!rawAttribute.required || !!rawAttribute.isPrimary,
       hidden: !!rawAttribute.hidden,
       index: !!rawAttribute.index,
       i18n: !!rawAttribute.i18n,
@@ -475,7 +475,23 @@ class Entity {
       resultAttributes[ attributeName ].isSystemAttribute = true
     })
 
-    return resultAttributes
+
+    const rankedResultAttributes = {}
+
+    Object.keys(resultAttributes).map(attributeName => {
+      const attribute = resultAttributes[attributeName]
+      if (attribute.isPrimary) {
+        rankedResultAttributes[attributeName] = attribute
+      }
+    })
+    Object.keys(resultAttributes).map(attributeName => {
+      const attribute = resultAttributes[attributeName]
+      if (!attribute.isPrimary) {
+        rankedResultAttributes[attributeName] = attribute
+      }
+    })
+
+    return rankedResultAttributes
   }
 
 
