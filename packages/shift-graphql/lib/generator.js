@@ -1,6 +1,5 @@
 
 import util, {
-  addRelayTypePromoterToList,
   addRelayTypePromoterToInstanceFn,
 } from './util';
 import _ from 'lodash';
@@ -29,11 +28,8 @@ import {
 } from 'graphql-relay';
 
 import {
-  generateConnectionArgs,
-  validateConnectionArgs,
-  forceSortByUnique,
-  generateConnectionType,
-  connectionFromData,
+  registerConnection,
+  generateReverseConnections,
 } from './connection';
 
 import {
@@ -49,9 +45,6 @@ import {
   generateActions,
 } from './action';
 
-import {
-  transformFilterLevel,
-} from './filter';
 
 
 // collect object types, connections ... for each entity
@@ -142,96 +135,6 @@ const getNodeDefinitions = () => {
     ...nodeDefinitions(idFetcher, typeResolver),
     idFetcher,
   }
-}
-
-
-
-// register a new connection
-const registerConnection = (entity) => {
-
-  const typeName = entity.graphql.typeName
-  const type = graphRegistry.types[ typeName ].type
-
-  const { connectionType } = generateConnectionType({
-    nodeType: type,
-    entity,
-  })
-
-  const connectionArgs = generateConnectionArgs(entity, type)
-
-  graphRegistry.types[ typeName ].connection = connectionType
-  graphRegistry.types[ typeName ].connectionArgs = connectionArgs
-
-}
-
-
-
-const generateReverseConnections = (entity) => {
-
-  const fields = {}
-
-  const typeNamePascalCase = entity.graphql.typeNamePascalCase
-
-  entity.referencedByEntities.map(({sourceEntityName, sourceAttributeName}) => {
-
-    const sourceEntityTypeName = util.generateTypeName(sourceEntityName)
-    const sourceType = graphRegistry.types[ sourceEntityTypeName ]
-    const sourceEntity = sourceType.entity
-
-    const storageType = sourceEntity.storageType
-
-    const fieldName = util.generateTypeName(`${sourceEntity.graphql.typeNamePlural}-by-${sourceAttributeName}`)
-
-    const typeNamePluralListName = sourceEntity.graphql.typeNamePluralPascalCase
-
-    fields[ fieldName ] = {
-      type: graphRegistry.types[ sourceEntityTypeName ].connection,
-      description: `Fetch a list of **\`${typeNamePluralListName}\`** for a given **\`${typeNamePascalCase}\`**\n${sourceEntity.descriptionPermissionsFind || ''}`,
-      args: graphRegistry.types[ sourceEntityTypeName ].connectionArgs,
-      resolve: async (source, args, context, info) => {
-
-        validateConnectionArgs(args)
-        forceSortByUnique(args.orderBy, sourceEntity)
-        args.filter = transformFilterLevel(args.filter, entity.getAttributes())
-
-        const parentEntityTypeName = util.generateTypeName(info.parentType.name)
-        const parentEntity = graphRegistry.types[ parentEntityTypeName ].entity
-        const parentAttribute = parentEntity.getPrimaryAttribute()
-
-        const parentConnection = {
-          id: source[ parentAttribute.gqlFieldName ],
-          attribute: sourceAttributeName
-        }
-
-
-        const {
-          data,
-          pageInfo,
-        } = await storageType.find(sourceEntity, args, context, parentConnection)
-
-        const transformedData = sourceEntity.graphql.dataSetShaper(
-          addRelayTypePromoterToList(sourceEntity.name, data)
-        )
-
-        return connectionFromData(
-          {
-            transformedData,
-            originalData: data,
-          },
-          sourceEntity,
-          source,
-          args,
-          context,
-          info,
-          parentConnection,
-          pageInfo,
-        )
-      },
-    }
-
-  })
-
-  return fields
 }
 
 
@@ -352,7 +255,7 @@ export const generateGraphQLSchema = (schema) => {
 
         });
 
-        Object.assign(fields, generateReverseConnections(entity))
+        Object.assign(fields, generateReverseConnections(graphRegistry, entity))
 
         return fields
       }
@@ -363,7 +266,7 @@ export const generateGraphQLSchema = (schema) => {
       type: objectType
     }
 
-    registerConnection(entity)
+    registerConnection(graphRegistry, entity)
   })
 
 
