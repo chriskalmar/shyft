@@ -7,6 +7,7 @@ import StorageType from './storage/StorageType';
 import StorageDataType from './storage/StorageDataType';
 import ProtocolType from './protocol/ProtocolType';
 import Configuration, { isConfiguration } from './configuration/Configuration';
+import ProtocolConfiguration, { isProtocolConfiguration } from './protocol/ProtocolConfiguration';
 import Index, {
   INDEX_UNIQUE,
   INDEX_GENERIC,
@@ -174,6 +175,8 @@ export {
 
   Configuration,
   isConfiguration,
+  ProtocolConfiguration,
+  isProtocolConfiguration,
 }
 
 
@@ -260,5 +263,7 @@ export default {
 
   Configuration,
   isConfiguration,
+  ProtocolConfiguration,
+  isProtocolConfiguration,
 }
 
