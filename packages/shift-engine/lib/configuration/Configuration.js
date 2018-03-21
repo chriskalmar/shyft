@@ -8,6 +8,10 @@ import {
   isSchema,
 } from '../schema/Schema';
 
+import {
+  isProtocolConfiguration,
+} from '../protocol/ProtocolConfiguration';
+
 
 class Configuration {
 
@@ -16,12 +20,17 @@ class Configuration {
     const {
       languages,
       schema,
+      protocolConfiguration,
     } = setup
 
     this.setLanguages(languages || ['en'])
 
     if (schema) {
       this.setSchema(schema)
+    }
+
+    if (protocolConfiguration) {
+      this.setProtocolConfiguration(protocolConfiguration)
     }
   }
 
@@ -64,6 +73,25 @@ class Configuration {
     )
 
     return this.schema
+  }
+
+
+  setProtocolConfiguration (protocolConfiguration) {
+    passOrThrow(
+      isProtocolConfiguration(protocolConfiguration),
+      () => 'Configuration expects a valid protocolConfiguration'
+    )
+
+    this.protocolConfiguration = protocolConfiguration
+  }
+
+  getProtocolConfiguration () {
+    passOrThrow(
+      this.protocolConfiguration,
+      () => 'Configuration is missing a valid protocolConfiguration'
+    )
+
+    return this.protocolConfiguration
   }
 }
 
