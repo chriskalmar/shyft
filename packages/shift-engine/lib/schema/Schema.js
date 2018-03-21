@@ -238,3 +238,8 @@ class Schema {
 
 
 export default Schema
+
+
+export const isSchema = (obj) => {
+  return (obj instanceof Schema)
+}

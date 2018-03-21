@@ -4,6 +4,10 @@ import {
   isArray,
 } from '../util';
 
+import {
+  isSchema,
+} from '../schema/Schema';
+
 
 class Configuration {
 
@@ -11,9 +15,14 @@ class Configuration {
 
     const {
       languages,
+      schema,
     } = setup
 
     this.setLanguages(languages || ['en'])
+
+    if (schema) {
+      this.setSchema(schema)
+    }
   }
 
 
@@ -34,6 +43,28 @@ class Configuration {
     this.languages = languages
   }
 
+  getLanguages() {
+    return this.languages
+  }
+
+
+  setSchema (schema) {
+    passOrThrow(
+      isSchema(schema),
+      () => 'Configuration expects a valid schema'
+    )
+
+    this.schema = schema
+  }
+
+  getSchema () {
+    passOrThrow(
+      this.schema,
+      () => 'Configuration is missing a valid schema'
+    )
+
+    return this.schema
+  }
 }
 
 
