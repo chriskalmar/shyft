@@ -8,6 +8,7 @@ import ProtocolGraphQL from './ProtocolGraphQL';
 
 import {
   isEntity,
+  isConfiguration,
 } from 'shift-engine';
 
 import {
@@ -153,7 +154,13 @@ export const registerActions = (actions) => {
 
 
 
-export const generateGraphQLSchema = (schema) => {
+export const generateGraphQLSchema = (configuration) => {
+
+  if (!isConfiguration(configuration)) {
+    throw new Error('Invalid configuration object provided to generateGraphQLSchema()')
+  }
+
+  const schema = configuration.getSchema()
 
   const {
     nodeInterface,
