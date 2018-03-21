@@ -49,6 +49,8 @@ export const isArray = (set, nonEmpty) => {
 }
 
 
+export const isString = (str) => (typeof str === 'string')
+
 
 export const mergeMaps = (first, second) => {
   if (!isMap(first) || !isMap(second)) {
