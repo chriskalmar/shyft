@@ -270,7 +270,11 @@ export const registerConnection = (graphRegistry, entity) => {
 }
 
 
-export const generateReverseConnections = (graphRegistry, entity) => {
+export const generateReverseConnections = (configuration, graphRegistry, entity) => {
+
+  const schema = configuration.getSchema()
+  const protocolConfiguration = configuration.getProtocolConfiguration()
+  const schemaEntities = schema.getEntities()
 
   const fields = {}
 
@@ -278,9 +282,12 @@ export const generateReverseConnections = (graphRegistry, entity) => {
 
   entity.referencedByEntities.map(({ sourceEntityName, sourceAttributeName }) => {
 
-    const sourceEntityTypeName = util.generateTypeName(sourceEntityName)
-    const sourceType = graphRegistry.types[sourceEntityTypeName]
-    const sourceEntity = sourceType.entity
+    const sourceEntity = schemaEntities[sourceEntityName]
+    if (!sourceEntity) {
+      throw new Error(`Failed to create reverse connection for entity '${sourceEntityName}' as it was not found`)
+    }
+
+    const sourceEntityTypeName = protocolConfiguration.generateEntityTypeName(sourceEntity)
 
     const storageType = sourceEntity.storageType
 

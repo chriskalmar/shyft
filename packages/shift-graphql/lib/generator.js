@@ -56,17 +56,18 @@ const graphRegistry = {
 
 
 // prepare models for graphql
-export const extendModelsForGql = (entities) => {
+export const extendModelsForGql = (configuration, entities) => {
+
+  const protocolConfiguration = configuration.getProtocolConfiguration()
 
   _.forEach(entities, (entity) => {
 
     entity.graphql = entity.graphql || {}
-
     // generate type names for various cases
-    entity.graphql.typeName = util.generateTypeName(entity.name)
-    entity.graphql.typeNamePlural = util.generateTypeNamePlural(entity.name)
-    entity.graphql.typeNamePascalCase = util.generateTypeNamePascalCase(entity.name)
-    entity.graphql.typeNamePluralPascalCase = util.generateTypeNamePluralPascalCase(entity.name)
+    entity.graphql.typeName = protocolConfiguration.generateEntityTypeName(entity)
+    entity.graphql.typeNamePlural = protocolConfiguration.generateEntityTypeNamePlural(entity)
+    entity.graphql.typeNamePascalCase = protocolConfiguration.generateEntityTypeNamePascalCase(entity)
+    entity.graphql.typeNamePluralPascalCase = protocolConfiguration.generateEntityTypeNamePluralPascalCase(entity)
 
 
     const dataShaperMap = {}
@@ -171,7 +172,7 @@ export const generateGraphQLSchema = (configuration) => {
   registerActions(schema.getActions())
 
   // prepare models for graphql
-  extendModelsForGql(schema.getEntities())
+  extendModelsForGql(configuration, schema.getEntities())
 
   _.forEach(schema.getEntities(), (entity) => {
 
@@ -262,7 +263,7 @@ export const generateGraphQLSchema = (configuration) => {
 
         });
 
-        Object.assign(fields, generateReverseConnections(graphRegistry, entity))
+        Object.assign(fields, generateReverseConnections(configuration, graphRegistry, entity))
 
         return fields
       }
