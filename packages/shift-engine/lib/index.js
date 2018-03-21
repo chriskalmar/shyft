@@ -6,6 +6,7 @@ import Schema from './schema/Schema';
 import StorageType from './storage/StorageType';
 import StorageDataType from './storage/StorageDataType';
 import ProtocolType from './protocol/ProtocolType';
+import Configuration, { isConfiguration } from './configuration/Configuration';
 import Index, {
   INDEX_UNIQUE,
   INDEX_GENERIC,
@@ -170,6 +171,9 @@ export {
   Permission,
   checkPermissionSimple,
   buildPermissionFilter,
+
+  Configuration,
+  isConfiguration,
 }
 
 
@@ -253,5 +257,8 @@ export default {
   Permission,
   checkPermissionSimple,
   buildPermissionFilter,
+
+  Configuration,
+  isConfiguration,
 }
 
