@@ -248,7 +248,7 @@ export const generateGraphQLSchema = (configuration) => {
                 .then(targetEntity.graphql.dataShaper)
             }
 
-            const referenceFieldName = util.generateTypeName(`${reference.type.name}-by-${attribute.gqlFieldName}`)
+            const referenceFieldName = protocolConfiguration.generateReferenceFieldName(targetEntity, attribute)
             fields[ referenceFieldName ] = reference;
 
           }

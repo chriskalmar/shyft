@@ -26,20 +26,29 @@ class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     ], true)
   }
 
-  generateEntityTypeName (entity) {
+  generateEntityTypeName(entity) {
     return generateTypeName(entity.name)
   }
 
-  generateEntityTypeNamePlural (entity) {
+  generateEntityTypeNamePlural(entity) {
     return generateTypeNamePlural(entity.name)
   }
 
-  generateEntityTypeNamePascalCase (entity) {
+  generateEntityTypeNamePascalCase(entity) {
     return generateTypeNamePascalCase(entity.name)
   }
 
-  generateEntityTypeNamePluralPascalCase (entity) {
+  generateEntityTypeNamePluralPascalCase(entity) {
     return generateTypeNamePluralPascalCase(entity.name)
+  }
+
+  generateReverseConnectionFieldName(sourceEntity, sourceAttributeName) {
+    const typeNamePlural = this.generateEntityTypeNamePlural(sourceEntity)
+    return generateTypeName(`${typeNamePlural}-by-${sourceAttributeName}`)
+  }
+
+  generateReferenceFieldName(referenceEntity, attribute) {
+    return generateTypeName(`${referenceEntity.name}-by-${attribute.gqlFieldName}`)
   }
 
 

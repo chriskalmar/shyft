@@ -11,7 +11,7 @@ import {
   GraphQLCursor,
 } from './dataTypes';
 
-import util, {
+import {
   addRelayTypePromoterToList,
 } from './util';
 
@@ -291,7 +291,7 @@ export const generateReverseConnections = (configuration, graphRegistry, entity)
 
     const storageType = sourceEntity.storageType
 
-    const fieldName = util.generateTypeName(`${sourceEntity.graphql.typeNamePlural}-by-${sourceAttributeName}`)
+    const fieldName = protocolConfiguration.generateReverseConnectionFieldName(sourceEntity, sourceAttributeName)
 
     const typeNamePluralListName = sourceEntity.graphql.typeNamePluralPascalCase
 
@@ -305,7 +305,7 @@ export const generateReverseConnections = (configuration, graphRegistry, entity)
         forceSortByUnique(args.orderBy, sourceEntity)
         args.filter = transformFilterLevel(args.filter, entity.getAttributes())
 
-        const parentEntityTypeName = util.generateTypeName(info.parentType.name)
+        const parentEntityTypeName = protocolConfiguration.generateEntityTypeName(info.parentType)
         const parentEntity = graphRegistry.types[parentEntityTypeName].entity
         const parentAttribute = parentEntity.getPrimaryAttribute()
 
