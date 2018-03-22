@@ -5,19 +5,17 @@ import {
   DataTypeInteger,
   buildObjectDataType,
   buildListDataType,
-  Configuration,
 } from 'shift-engine';
 
 import {
   generateActions,
 } from './action';
 
+import ProtocolGraphQL from './ProtocolGraphQL';
 import ProtocolGraphQLConfiguration from './ProtocolGraphQLConfiguration';
 
 
-const configuration = new Configuration({
-  protocolConfiguration: new ProtocolGraphQLConfiguration()
-})
+ProtocolGraphQL.setProtocolConfiguration(new ProtocolGraphQLConfiguration())
 
 
 describe('action', () => {
@@ -205,7 +203,7 @@ describe('action', () => {
 
   it('should generate actions', () => {
 
-    const generatedActions = generateActions(configuration, graphRegistry)
+    const generatedActions = generateActions(graphRegistry)
     expect(generatedActions).toMatchSnapshot();
 
     const actionNames = Object.keys(generatedActions)

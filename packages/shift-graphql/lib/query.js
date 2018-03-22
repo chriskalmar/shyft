@@ -21,9 +21,9 @@ import {
 } from './filter';
 
 
-export const generateListQueries = (configuration, graphRegistry) => {
+export const generateListQueries = (graphRegistry) => {
 
-  const protocolConfiguration = configuration.getProtocolConfiguration()
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
   const listQueries = {}
 
   _.forEach(graphRegistry.types, ({ type, entity }, typeName) => {
@@ -78,9 +78,9 @@ export const generateListQueries = (configuration, graphRegistry) => {
 
 
 
-export const generateInstanceQueries = (configuration, graphRegistry, idFetcher) => {
+export const generateInstanceQueries = (graphRegistry, idFetcher) => {
 
-  const protocolConfiguration = configuration.getProtocolConfiguration()
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
   const instanceQueries = {}
 
   _.forEach(graphRegistry.types, ({ type, entity }) => {

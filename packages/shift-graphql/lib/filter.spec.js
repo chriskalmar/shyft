@@ -13,10 +13,13 @@ import {
   DataTypeBoolean,
   DataTypeString,
   DataTypeInteger,
-  Configuration,
 } from 'shift-engine';
 
+import ProtocolGraphQL from './ProtocolGraphQL';
 import ProtocolGraphQLConfiguration from './ProtocolGraphQLConfiguration';
+
+
+ProtocolGraphQL.setProtocolConfiguration(new ProtocolGraphQLConfiguration())
 
 
 describe('filter', () => {
@@ -45,11 +48,8 @@ describe('filter', () => {
     }
   })
 
-  const configuration = new Configuration({
-    protocolConfiguration: new ProtocolGraphQLConfiguration()
-  })
 
-  extendModelsForGql(configuration, [filteredEntity])
+  extendModelsForGql([filteredEntity])
 
 
   describe('splitAttributeAndFilterOperator', () => {

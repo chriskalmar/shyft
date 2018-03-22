@@ -19,10 +19,9 @@ import {
   transformFilterLevel,
 } from './filter';
 
+import ProtocolGraphQL from './ProtocolGraphQL';
 import constants from './constants';
-
 import { generateSortInput } from './sort';
-
 import { generateFilterInput } from './filter';
 
 import _ from 'lodash';
@@ -273,8 +272,8 @@ export const registerConnection = (graphRegistry, entity) => {
 export const generateReverseConnections = (configuration, graphRegistry, entity) => {
 
   const schema = configuration.getSchema()
-  const protocolConfiguration = configuration.getProtocolConfiguration()
   const schemaEntities = schema.getEntities()
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
 
   const fields = {}
 

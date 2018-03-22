@@ -5,6 +5,7 @@ import {
 } from '../util';
 
 import { isDataType } from '../datatype/DataType';
+import { isProtocolConfiguration } from './ProtocolConfiguration';
 
 
 class ProtocolType {
@@ -103,6 +104,25 @@ class ProtocolType {
     )
 
     return this._dataTypeMap[ schemaDataType.name ]
+  }
+
+
+  setProtocolConfiguration(protocolConfiguration) {
+    passOrThrow(
+      isProtocolConfiguration(protocolConfiguration),
+      () => 'ProtocolType expects a valid protocolConfiguration'
+    )
+
+    this.protocolConfiguration = protocolConfiguration
+  }
+
+  getProtocolConfiguration() {
+    passOrThrow(
+      this.protocolConfiguration,
+      () => 'ProtocolType is missing a valid protocolConfiguration'
+    )
+
+    return this.protocolConfiguration
   }
 
 

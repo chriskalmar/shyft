@@ -16,6 +16,11 @@ import {
   generateNestedDataOutput,
 } from './io';
 
+import ProtocolGraphQL from './ProtocolGraphQL';
+import ProtocolGraphQLConfiguration from './ProtocolGraphQLConfiguration';
+
+
+ProtocolGraphQL.setProtocolConfiguration(new ProtocolGraphQLConfiguration())
 
 describe('io', () => {
 

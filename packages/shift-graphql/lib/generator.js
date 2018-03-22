@@ -56,9 +56,9 @@ const graphRegistry = {
 
 
 // prepare models for graphql
-export const extendModelsForGql = (configuration, entities) => {
+export const extendModelsForGql = (entities) => {
 
-  const protocolConfiguration = configuration.getProtocolConfiguration()
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
 
   _.forEach(entities, (entity) => {
 
@@ -96,9 +96,9 @@ export const extendModelsForGql = (configuration, entities) => {
 
 
 // get node definitions for relay
-const getNodeDefinitions = (configuration) => {
+const getNodeDefinitions = () => {
 
-  const protocolConfiguration = configuration.getProtocolConfiguration()
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
 
   const idFetcher = (globalId, context) => {
     const {
@@ -168,16 +168,18 @@ export const generateGraphQLSchema = (configuration) => {
   const schema = configuration.getSchema()
   const protocolConfiguration = configuration.getProtocolConfiguration()
 
+  ProtocolGraphQL.setProtocolConfiguration(protocolConfiguration)
+
   const {
     nodeInterface,
     nodeField,
     idFetcher,
-  } = getNodeDefinitions(configuration)
+  } = getNodeDefinitions()
 
   registerActions(schema.getActions())
 
   // prepare models for graphql
-  extendModelsForGql(configuration, schema.getEntities())
+  extendModelsForGql(schema.getEntities())
 
   _.forEach(schema.getEntities(), (entity) => {
 
@@ -295,8 +297,8 @@ export const generateGraphQLSchema = (configuration) => {
 
     fields: () => {
 
-      const listQueries = generateListQueries(configuration, graphRegistry)
-      const instanceQueries = generateInstanceQueries(configuration, graphRegistry, idFetcher)
+      const listQueries = generateListQueries(graphRegistry)
+      const instanceQueries = generateInstanceQueries(graphRegistry, idFetcher)
 
       // override args.id of relay to args.nodeId
       nodeField.args.nodeId = nodeField.args.id
@@ -319,8 +321,8 @@ export const generateGraphQLSchema = (configuration) => {
 
     fields: () => {
 
-      const mutations = generateMutations(configuration, graphRegistry)
-      const actions = generateActions(configuration, graphRegistry)
+      const mutations = generateMutations(graphRegistry)
+      const actions = generateActions(graphRegistry)
 
       return {
         ...mutations,

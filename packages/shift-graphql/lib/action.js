@@ -18,6 +18,7 @@ import {
   validateActionPayload,
 } from 'shift-engine';
 
+import ProtocolGraphQL from './ProtocolGraphQL';
 
 
 const fillSingleDefaultValues = async (param, payload, context) => {
@@ -73,9 +74,9 @@ const fillDefaultValues = async (param, payload, context) => fillSingleDefaultVa
 
 
 
-export const generateActions = (configuration, graphRegistry) => {
+export const generateActions = (graphRegistry) => {
 
-  const protocolConfiguration = configuration.getProtocolConfiguration()
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
 
   const actions = {}
 
