@@ -73,17 +73,17 @@ class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   }
 
 
-  generateMutationInstanceInputName(entity, mutation) {
+  generateMutationInstanceInputTypeName(entity, mutation) {
     const typeName = this.generateEntityTypeName(entity)
     return generateTypeNamePascalCase(`${mutation.name}-${typeName}-instance-input`)
   }
 
-  generateMutationInputName(entity, mutation) {
+  generateMutationInputTypeName(entity, mutation) {
     const typeName = this.generateEntityTypeName(entity)
     return generateTypeNamePascalCase(`${mutation.name}-${typeName}-input`)
   }
 
-  generateMutationByPrimaryAttributeInputName(entity, mutation, attribute) {
+  generateMutationByPrimaryAttributeInputTypeName(entity, mutation, attribute) {
     const typeName = this.generateEntityTypeName(entity)
     const fieldName = this.generateFieldName(attribute)
     return generateTypeNamePascalCase(`${mutation.name}-${typeName}-by-${fieldName}-input`)
@@ -94,24 +94,24 @@ class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     return generateTypeName(attributes.join('-and-'))
   }
 
-  generateInstanceUniquenessInputName(entity, uniquenessAttributesName) {
+  generateInstanceUniquenessInputTypeName(entity, uniquenessAttributesName) {
     const typeName = this.generateEntityTypeName(entity)
     return generateTypeNamePascalCase(`${typeName}-instance-uniqueness-on-${uniquenessAttributesName}-input`)
   }
 
 
-  generateMutationInstanceNestedInputName(entity, mutation) {
+  generateMutationInstanceNestedInputTypeName(entity, mutation) {
     const typeName = this.generateEntityTypeName(entity)
     return generateTypeNamePascalCase(`${mutation.name}-${typeName}-instance-nested-input`)
   }
 
-  generateMutationNestedInputName(entity, mutation) {
+  generateMutationNestedInputTypeName(entity, mutation) {
     const typeName = this.generateEntityTypeName(entity)
     return generateTypeNamePascalCase(`${mutation.name}-${typeName}-nested-input`)
   }
 
 
-  generateMutationOutputName(entity, mutation) {
+  generateMutationOutputTypeName(entity, mutation) {
     const typeName = this.generateEntityTypeName(entity)
     return generateTypeNamePascalCase(`${mutation.name}-${typeName}-output`)
   }
