@@ -16,6 +16,7 @@ class DataType {
       validate,
       enforceRequired,
       defaultValue,
+      enforceIndex,
     } = setup
 
     passOrThrow(name, () => 'Missing data type name')
@@ -50,6 +51,10 @@ class DataType {
 
     if (enforceRequired) {
       this.enforceRequired = enforceRequired
+    }
+
+    if (enforceIndex) {
+      this.enforceIndex = enforceIndex
     }
   }
 

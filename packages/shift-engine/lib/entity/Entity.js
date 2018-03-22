@@ -288,6 +288,7 @@ class Entity {
       isUnique: !!rawAttribute.isPrimary,
       required: !!rawAttribute.required,
       hidden: !!rawAttribute.hidden,
+      index: !!rawAttribute.index,
       name: attributeName
     }
 
@@ -309,6 +310,10 @@ class Entity {
 
       if (attribute.type.defaultValue) {
         attribute.defaultValue = attribute.type.defaultValue
+      }
+
+      if (attribute.type.enforceIndex) {
+        attribute.index = true
       }
     }
 
