@@ -30,19 +30,20 @@ import {
 } from 'shift-engine';
 
 import {
-  generateTypeNamePascalCase,
   addRelayTypePromoterToInstance,
   addRelayTypePromoterToInstanceFn,
 } from './util';
 
 
 
-export const generateMutationInstanceInput = (entity, entityMutation) => {
+export const generateMutationInstanceInput = (configuration, entity, entityMutation) => {
+
+  const protocolConfiguration = configuration.getProtocolConfiguration()
 
   const typeNamePascalCase = entity.graphql.typeNamePascalCase
 
   const entityMutationInstanceInputType = new GraphQLInputObjectType({
-    name: generateTypeNamePascalCase(`${entityMutation.name}_${typeNamePascalCase}InstanceInput`),
+    name: protocolConfiguration.generateMutationInstanceInputName(entity, entityMutation),
     description: `**\`${entityMutation.name}\`** mutation input type for **\`${typeNamePascalCase}\`**`,
 
     fields: () => {
@@ -82,13 +83,15 @@ export const generateMutationInstanceInput = (entity, entityMutation) => {
 
 
 
-export const generateMutationInput = (entity, typeName, entityMutation, entityMutationInstanceInputType) => {
+export const generateMutationInput = (configuration, entity, typeName, entityMutation, entityMutationInstanceInputType) => {
+
+  const protocolConfiguration = configuration.getProtocolConfiguration()
 
   const typeNamePascalCase = entity.graphql.typeNamePascalCase
 
   const entityMutationInputType = new GraphQLInputObjectType({
 
-    name: generateTypeNamePascalCase(`${entityMutation.name}_${typeNamePascalCase}Input`),
+    name: protocolConfiguration.generateMutationInputName(entity, entityMutation),
     description: `Mutation input type for **\`${typeNamePascalCase}\`**`,
 
     fields: () => {
@@ -119,7 +122,9 @@ export const generateMutationInput = (entity, typeName, entityMutation, entityMu
 
 
 
-export const generateMutationByPrimaryAttributeInput = (entity, typeName, entityMutation, entityMutationInstanceInputType, primaryAttribute) => {
+export const generateMutationByPrimaryAttributeInput = (configuration, entity, typeName, entityMutation, entityMutationInstanceInputType, primaryAttribute) => {
+
+  const protocolConfiguration = configuration.getProtocolConfiguration()
 
   const fieldName = primaryAttribute.gqlFieldName
   const fieldType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type, entity.name, true)
@@ -127,7 +132,7 @@ export const generateMutationByPrimaryAttributeInput = (entity, typeName, entity
 
   const entityMutationInputType = new GraphQLInputObjectType({
 
-    name: generateTypeNamePascalCase(`${entityMutation.name}_${typeNamePascalCase}_by_${fieldName}_Input`),
+    name: protocolConfiguration.generateMutationByPrimaryAttributeInputName(entity, entityMutation, primaryAttribute),
     description: `Mutation input type for **\`${typeNamePascalCase}\`** using the **\`${fieldName}\`**`,
 
     fields: () => {
@@ -158,7 +163,9 @@ export const generateMutationByPrimaryAttributeInput = (entity, typeName, entity
 
 
 
-const getEntityUniquenessAttributes = (entity) => {
+const getEntityUniquenessAttributes = (configuration, entity) => {
+
+  const protocolConfiguration = configuration.getProtocolConfiguration()
 
   const ret = []
   const entityIndexes = entity.getIndexes()
@@ -167,7 +174,7 @@ const getEntityUniquenessAttributes = (entity) => {
     entityIndexes.map(({type, attributes}) => {
       if (type === INDEX_UNIQUE) {
         ret.push({
-          uniquenessName: _.camelCase(attributes.join('-and-')),
+          uniquenessName: protocolConfiguration.generateUniquenessAttributesName(entity, attributes),
           attributes,
         })
       }
@@ -179,12 +186,14 @@ const getEntityUniquenessAttributes = (entity) => {
 
 
 
-export const generateInstanceUniquenessInput = (entity, uniquenessAttributes, graphRegistry) => {
+export const generateInstanceUniquenessInput = (configuration, entity, uniquenessAttributes, graphRegistry) => {
+
+  const protocolConfiguration = configuration.getProtocolConfiguration()
 
   const typeNamePascalCase = entity.graphql.typeNamePascalCase
 
   const entityInstanceInputType = new GraphQLInputObjectType({
-    name: generateTypeNamePascalCase(`${typeNamePascalCase}InstanceUniquenessOn-${uniquenessAttributes.uniquenessName}Input`),
+    name: protocolConfiguration.generateInstanceUniquenessInputName(entity, uniquenessAttributes.uniquenessName),
     description: `Input type for **\`${typeNamePascalCase}\`** using data uniqueness (${uniquenessAttributes.attributes}) to resolve the ID`,
 
     fields: () => {
@@ -206,7 +215,7 @@ export const generateInstanceUniquenessInput = (entity, uniquenessAttributes, gr
           attributeType = primaryAttribute.type
           const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, entity.name, true)
 
-          const uniquenessAttributesList = getEntityUniquenessAttributes(targetEntity)
+          const uniquenessAttributesList = getEntityUniquenessAttributes(configuration, targetEntity)
 
           if (uniquenessAttributesList.length === 0) {
             fields[ attribute.gqlFieldName ] = {
@@ -251,17 +260,17 @@ export const generateInstanceUniquenessInput = (entity, uniquenessAttributes, gr
 
 
 
-export const generateInstanceUniquenessInputs = (graphRegistry) => {
+export const generateInstanceUniquenessInputs = (configuration, graphRegistry) => {
 
   _.forEach(graphRegistry.types, ( { type, entity }, typeName) => {
 
-    const uniquenessAttributesList = getEntityUniquenessAttributes(entity)
+    const uniquenessAttributesList = getEntityUniquenessAttributes(configuration, entity)
 
     const registryType = graphRegistry.types[ typeName ]
     registryType.instanceUniquenessInputs = registryType.instanceUniquenessInputs || {}
 
     uniquenessAttributesList.map((uniquenessAttributes) => {
-      const instanceUniquenessInput = generateInstanceUniquenessInput(entity, uniquenessAttributes, graphRegistry)
+      const instanceUniquenessInput = generateInstanceUniquenessInput(configuration, entity, uniquenessAttributes, graphRegistry)
       registryType.instanceUniquenessInputs[ uniquenessAttributes.uniquenessName ] = instanceUniquenessInput
     })
 
@@ -271,12 +280,14 @@ export const generateInstanceUniquenessInputs = (graphRegistry) => {
 
 
 
-export const generateMutationInstanceNestedInput = (entity, entityMutation, graphRegistry) => {
+export const generateMutationInstanceNestedInput = (configuration, entity, entityMutation, graphRegistry) => {
+
+  const protocolConfiguration = configuration.getProtocolConfiguration()
 
   const typeNamePascalCase = entity.graphql.typeNamePascalCase
 
   const entityMutationInstanceInputType = new GraphQLInputObjectType({
-    name: generateTypeNamePascalCase(`${entityMutation.name}_${typeNamePascalCase}InstanceNestedInput`),
+    name: protocolConfiguration.generateMutationInstanceNestedInputName(entity, entityMutation),
     description: `**\`${entityMutation.name}\`** mutation input type for **\`${typeNamePascalCase}\`** using data uniqueness to resolve references`,
 
     fields: () => {
@@ -298,7 +309,7 @@ export const generateMutationInstanceNestedInput = (entity, entityMutation, grap
           attributeType = primaryAttribute.type
           const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, entity.name, true)
 
-          const uniquenessAttributesList = getEntityUniquenessAttributes(targetEntity)
+          const uniquenessAttributesList = getEntityUniquenessAttributes(configuration, targetEntity)
 
           if (uniquenessAttributesList.length === 0) {
             fields[ attribute.gqlFieldName ] = {
@@ -345,13 +356,14 @@ export const generateMutationInstanceNestedInput = (entity, entityMutation, grap
 
 
 
-export const generateMutationNestedInput = (entity, typeName, entityMutation, entityMutationInstanceUniquenessInputType) => {
+export const generateMutationNestedInput = (configuration, entity, typeName, entityMutation, entityMutationInstanceUniquenessInputType) => {
+
+  const protocolConfiguration = configuration.getProtocolConfiguration()
 
   const typeNamePascalCase = entity.graphql.typeNamePascalCase
 
   const entityMutationInputType = new GraphQLInputObjectType({
-
-    name: generateTypeNamePascalCase(`${entityMutation.name}_${typeNamePascalCase}NestedInput`),
+    name: protocolConfiguration.generateMutationNestedInputName(entity, entityMutation),
     description: `Mutation input type for **\`${typeNamePascalCase}\`** using data uniqueness to resolve references`,
 
     fields: () => {
@@ -382,13 +394,15 @@ export const generateMutationNestedInput = (entity, typeName, entityMutation, en
 
 
 
-export const generateMutationOutput = (entity, typeName, type, entityMutation) => {
+export const generateMutationOutput = (configuration, entity, typeName, type, entityMutation) => {
+
+  const protocolConfiguration = configuration.getProtocolConfiguration()
 
   const typeNamePascalCase = entity.graphql.typeNamePascalCase
 
   const entityMutationOutputType = new GraphQLObjectType({
 
-    name: generateTypeNamePascalCase(`${entityMutation.name}_${typeNamePascalCase}Output`),
+    name: protocolConfiguration.generateMutationOutputName(entity, entityMutation),
     description: `Mutation output type for **\`${typeNamePascalCase}\`**`,
 
     fields: () => {
@@ -460,7 +474,7 @@ const getNestedPayloadResolver = (configuration, entity, attributeNames, storage
 
       if (isEntity(attributeType)) {
         const targetEntity = attributeType
-        const uniquenessAttributesList = getEntityUniquenessAttributes(targetEntity)
+        const uniquenessAttributesList = getEntityUniquenessAttributes(configuration, targetEntity)
 
         if (uniquenessAttributesList.length > 0) {
           const uniquenessFieldNames = [ attribute.gqlFieldName ]
@@ -667,7 +681,7 @@ export const generateMutations = (configuration, graphRegistry) => {
 
   const mutations = {}
 
-  generateInstanceUniquenessInputs(graphRegistry)
+  generateInstanceUniquenessInputs(configuration, graphRegistry)
 
   _.forEach(graphRegistry.types, ( { type, entity }, typeName) => {
 
@@ -686,11 +700,11 @@ export const generateMutations = (configuration, graphRegistry) => {
       let entityMutationInstanceInputType
 
       if (entityMutation.attributes) {
-        entityMutationInstanceInputType = generateMutationInstanceInput(entity, entityMutation)
+        entityMutationInstanceInputType = generateMutationInstanceInput(configuration, entity, entityMutation)
       }
 
-      const mutationInputType = generateMutationInput(entity, typeName, entityMutation, entityMutationInstanceInputType)
-      const mutationOutputType = generateMutationOutput(entity, typeName, type, entityMutation)
+      const mutationInputType = generateMutationInput(configuration, entity, typeName, entityMutation, entityMutationInstanceInputType)
+      const mutationOutputType = generateMutationOutput(configuration, entity, typeName, type, entityMutation)
 
       mutations[ mutationName ] = {
         type: mutationOutputType,
@@ -711,10 +725,10 @@ export const generateMutations = (configuration, graphRegistry) => {
         let entityMutationInstanceNestedInputType
 
         if (entityMutation.attributes) {
-          entityMutationInstanceNestedInputType = generateMutationInstanceNestedInput(entity, entityMutation, graphRegistry)
+          entityMutationInstanceNestedInputType = generateMutationInstanceNestedInput(configuration, entity, entityMutation, graphRegistry)
         }
 
-        const mutationInputNestedType = generateMutationNestedInput(entity, typeName, entityMutation, entityMutationInstanceNestedInputType)
+        const mutationInputNestedType = generateMutationNestedInput(configuration, entity, typeName, entityMutation, entityMutationInstanceNestedInputType)
         mutations[ nestedMutationName ] = {
           type: mutationOutputType,
           description: entityMutation.description,
@@ -735,7 +749,7 @@ export const generateMutations = (configuration, graphRegistry) => {
 
         if (primaryAttribute) {
           const fieldName = primaryAttribute.gqlFieldName
-          const mutationByPrimaryAttributeInputType = generateMutationByPrimaryAttributeInput(entity, typeName, entityMutation, entityMutationInstanceInputType, primaryAttribute)
+          const mutationByPrimaryAttributeInputType = generateMutationByPrimaryAttributeInput(configuration, entity, typeName, entityMutation, entityMutationInstanceInputType, primaryAttribute)
           const mutationByPrimaryAttributeName = _.camelCase(`${entityMutation.name}_${typeName}_by_${fieldName}`)
 
           mutations[ mutationByPrimaryAttributeName ] = {
