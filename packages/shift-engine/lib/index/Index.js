@@ -76,6 +76,8 @@ export const processEntityIndexes = (entity, indexes) => {
   )
 
 
+  const singleAttributeIndexes = []
+
   const entityAttributes = entity.getAttributes()
 
   indexes.map((index, idx) => {
@@ -96,7 +98,23 @@ export const processEntityIndexes = (entity, indexes) => {
         entityAttributes[ attributeName ].isUnique = true
       }
 
+      if (index.attributes.length === 1) {
+        singleAttributeIndexes.push(attributeName)
+      }
+
     })
+  })
+
+  // add new index for single attributes with the 'index' flag set but not defined in an index object by the user
+  Object.keys(entityAttributes).map(attributeName => {
+    if (entityAttributes[attributeName].index) {
+      if (!singleAttributeIndexes.includes(attributeName)) {
+        indexes.push(new Index({
+          type: INDEX_GENERIC,
+          attributes: [attributeName]
+        }))
+      }
+    }
   })
 
   return indexes
