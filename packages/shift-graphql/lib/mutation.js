@@ -679,6 +679,7 @@ const getMutationByFieldNameResolver = (configuration, entity, entityMutation, t
 
 export const generateMutations = (configuration, graphRegistry) => {
 
+  const protocolConfiguration = configuration.getProtocolConfiguration()
   const mutations = {}
 
   generateInstanceUniquenessInputs(configuration, graphRegistry)
@@ -695,7 +696,7 @@ export const generateMutations = (configuration, graphRegistry) => {
 
     entityMutations.map(entityMutation => {
 
-      const mutationName = _.camelCase(`${entityMutation.name}_${typeName}`)
+      const mutationName = protocolConfiguration.generateMutationTypeName(entity, entityMutation)
 
       let entityMutationInstanceInputType
 
@@ -720,7 +721,7 @@ export const generateMutations = (configuration, graphRegistry) => {
 
 
       if (entityMutation.isTypeCreate || entityMutation.isTypeUpdate) {
-        const nestedMutationName = _.camelCase(`${entityMutation.name}_${typeName}_Nested`)
+        const mutationNestedName = protocolConfiguration.generateMutationNestedTypeName(entity, entityMutation)
 
         let entityMutationInstanceNestedInputType
 
@@ -729,7 +730,7 @@ export const generateMutations = (configuration, graphRegistry) => {
         }
 
         const mutationInputNestedType = generateMutationNestedInput(configuration, entity, typeName, entityMutation, entityMutationInstanceNestedInputType)
-        mutations[ nestedMutationName ] = {
+        mutations[ mutationNestedName ] = {
           type: mutationOutputType,
           description: entityMutation.description,
           args: {
@@ -750,7 +751,7 @@ export const generateMutations = (configuration, graphRegistry) => {
         if (primaryAttribute) {
           const fieldName = primaryAttribute.gqlFieldName
           const mutationByPrimaryAttributeInputType = generateMutationByPrimaryAttributeInput(configuration, entity, typeName, entityMutation, entityMutationInstanceInputType, primaryAttribute)
-          const mutationByPrimaryAttributeName = _.camelCase(`${entityMutation.name}_${typeName}_by_${fieldName}`)
+          const mutationByPrimaryAttributeName = protocolConfiguration.generateMutationByPrimaryAttributeTypeName(entity, entityMutation, primaryAttribute)
 
           mutations[ mutationByPrimaryAttributeName ] = {
             type: mutationOutputType,

@@ -123,6 +123,22 @@ class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   }
 
 
+  generateMutationTypeName(entity, mutation) {
+    const typeName = this.generateEntityTypeName(entity)
+    return generateTypeName(`${mutation.name}-${typeName}`)
+  }
+
+  generateMutationNestedTypeName(entity, mutation) {
+    const typeName = this.generateEntityTypeName(entity)
+    return generateTypeName(`${mutation.name}-${typeName}-nested`)
+  }
+
+  generateMutationByPrimaryAttributeTypeName(entity, mutation, attribute) {
+    const typeName = this.generateEntityTypeName(entity)
+    const fieldName = this.generateFieldName(attribute)
+    return generateTypeName(`${mutation.name}-${typeName}-by-${fieldName}`)
+  }
+
 }
 
 
