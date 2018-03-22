@@ -43,6 +43,11 @@ export function generateTypeNamePluralPascalCase(name) {
 }
 
 
+export function generateTypeNameUpperCase(name) {
+  return _.snakeCase(name).toUpperCase()
+}
+
+
 export const toBase64 = (value) => new Buffer(value.toString()).toString('base64')
 export const fromBase64 = (value) => new Buffer(value.toString(), 'base64').toString()
 

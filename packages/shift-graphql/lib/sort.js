@@ -7,12 +7,12 @@ import {
 import _ from 'lodash';
 
 import { isEntity } from 'shift-engine';
+import ProtocolGraphQL from './ProtocolGraphQL';
 
 
 export const generateSortInput = (entity) => {
 
-  const typeNamePascalCase = entity.graphql.typeNamePascalCase
-
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
   const storageType = entity.storageType
 
   const sortNames = {}
@@ -31,8 +31,8 @@ export const generateSortInput = (entity) => {
     }
 
 
-    const keyAsc = `${_.snakeCase(attribute.name).toUpperCase()}_ASC`
-    const keyDesc = `${_.snakeCase(attribute.name).toUpperCase()}_DESC`
+    const keyAsc = protocolConfiguration.generateSortKeyName(attribute, true)
+    const keyDesc = protocolConfiguration.generateSortKeyName(attribute, false)
 
     // add ascending key
     sortNames[ keyAsc ] = {
@@ -66,7 +66,7 @@ export const generateSortInput = (entity) => {
 
 
   const sortInputType = new GraphQLEnumType({
-    name: `${typeNamePascalCase}OrderBy`,
+    name: protocolConfiguration.generateSortInputTypeName(entity),
     values: sortNames
   });
 

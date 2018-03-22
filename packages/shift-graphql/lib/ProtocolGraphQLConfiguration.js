@@ -8,6 +8,7 @@ import {
   generateTypeNamePlural,
   generateTypeNamePascalCase,
   generateTypeNamePluralPascalCase,
+  generateTypeNameUpperCase,
 } from './util';
 
 
@@ -180,6 +181,18 @@ class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   }
 
 
+  generateSortKeyName(attribute, ascending) {
+    const direction = ascending
+      ? 'ASC'
+      : 'DESC'
+
+    return `${generateTypeNameUpperCase(attribute.name)}_${direction}`
+  }
+
+  generateSortInputTypeName(entity) {
+    const typeName = this.generateEntityTypeName(entity)
+    return generateTypeNamePascalCase(`${typeName}-order-by`)
+  }
 }
 
 
