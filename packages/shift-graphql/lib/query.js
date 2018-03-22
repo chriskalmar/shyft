@@ -21,8 +21,9 @@ import {
 } from './filter';
 
 
-export const generateListQueries = (graphRegistry) => {
+export const generateListQueries = (configuration, graphRegistry) => {
 
+  const protocolConfiguration = configuration.getProtocolConfiguration()
   const listQueries = {}
 
   _.forEach(graphRegistry.types, ({ type, entity }, typeName) => {
@@ -50,7 +51,10 @@ export const generateListQueries = (graphRegistry) => {
         } = await storageType.find(entity, args, context)
 
         const transformedData = entity.graphql.dataSetShaper(
-          addRelayTypePromoterToList(entity.name, data)
+          addRelayTypePromoterToList(
+            protocolConfiguration.generateEntityTypeName(entity),
+            data
+          )
         )
 
         return connectionFromData(
@@ -75,7 +79,9 @@ export const generateListQueries = (graphRegistry) => {
 
 
 
-export const generateInstanceQueries = (graphRegistry, idFetcher) => {
+export const generateInstanceQueries = (configuration, graphRegistry, idFetcher) => {
+
+  const protocolConfiguration = configuration.getProtocolConfiguration()
   const instanceQueries = {}
 
   _.forEach(graphRegistry.types, ({ type, entity }, typeName) => {
@@ -119,7 +125,11 @@ export const generateInstanceQueries = (graphRegistry, idFetcher) => {
         },
         resolve: (source, args, context) => {
           return storageType.findOne(entity, args[fieldName], args, context)
-            .then(addRelayTypePromoterToInstanceFn(entity.name))
+            .then(
+              addRelayTypePromoterToInstanceFn(
+                protocolConfiguration.generateEntityTypeName(entity)
+              )
+            )
             .then(entity.graphql.dataShaper)
         },
       }

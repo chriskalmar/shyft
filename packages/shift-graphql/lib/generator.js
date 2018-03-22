@@ -1,5 +1,5 @@
 
-import util, {
+import {
   addRelayTypePromoterToInstanceFn,
 } from './util';
 import _ from 'lodash';
@@ -96,7 +96,9 @@ export const extendModelsForGql = (configuration, entities) => {
 
 
 // get node definitions for relay
-const getNodeDefinitions = () => {
+const getNodeDefinitions = (configuration) => {
+
+  const protocolConfiguration = configuration.getProtocolConfiguration()
 
   const idFetcher = (globalId, context) => {
     const {
@@ -113,7 +115,11 @@ const getNodeDefinitions = () => {
     if (entity) {
       const storageType = entity.storageType
       return storageType.findOne(entity, id, null, context)
-        .then(addRelayTypePromoterToInstanceFn(entity.name))
+        .then(
+          addRelayTypePromoterToInstanceFn(
+            protocolConfiguration.generateEntityTypeName(entity)
+          )
+        )
         .then(entity.graphql.dataShaper)
     }
 
@@ -162,12 +168,13 @@ export const generateGraphQLSchema = (configuration) => {
   }
 
   const schema = configuration.getSchema()
+  const protocolConfiguration = configuration.getProtocolConfiguration()
 
   const {
     nodeInterface,
     nodeField,
     idFetcher,
-  } = getNodeDefinitions()
+  } = getNodeDefinitions(configuration)
 
   registerActions(schema.getActions())
 
@@ -235,7 +242,11 @@ export const generateGraphQLSchema = (configuration) => {
               }
 
               return storageType.findOne(targetEntity, referenceId, args, context)
-                .then(addRelayTypePromoterToInstanceFn(targetEntity.name))
+                .then(
+                  addRelayTypePromoterToInstanceFn(
+                    protocolConfiguration.generateEntityTypeName(targetEntity)
+                  )
+                )
                 .then(targetEntity.graphql.dataShaper)
             }
 
@@ -286,8 +297,8 @@ export const generateGraphQLSchema = (configuration) => {
 
     fields: () => {
 
-      const listQueries = generateListQueries(graphRegistry)
-      const instanceQueries = generateInstanceQueries(graphRegistry, idFetcher)
+      const listQueries = generateListQueries(configuration, graphRegistry)
+      const instanceQueries = generateInstanceQueries(configuration, graphRegistry, idFetcher)
 
       // override args.id of relay to args.nodeId
       nodeField.args.nodeId = nodeField.args.id

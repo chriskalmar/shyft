@@ -321,7 +321,10 @@ export const generateReverseConnections = (configuration, graphRegistry, entity)
         } = await storageType.find(sourceEntity, args, context, parentConnection)
 
         const transformedData = sourceEntity.graphql.dataSetShaper(
-          addRelayTypePromoterToList(sourceEntity.name, data)
+          addRelayTypePromoterToList(
+            protocolConfiguration.generateEntityTypeName(sourceEntity),
+            data
+          )
         )
 
         return connectionFromData(
