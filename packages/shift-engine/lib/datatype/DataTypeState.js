@@ -56,6 +56,7 @@ class DataTypeState extends DataType {
     super({
       ...setup,
       description: description || `States: ${stateNames.join(', ')}`,
+      enforceIndex: true,
       mock() {
         const randomPos = Math.floor( Math.random() * uniqueIds.length )
         return uniqueIds[ randomPos ]
