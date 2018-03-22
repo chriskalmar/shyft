@@ -139,6 +139,11 @@ class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     return generateTypeName(`${mutation.name}-${typeName}-by-${fieldName}`)
   }
 
+
+  generateActionTypeName(action) {
+    return generateTypeName(action.name)
+  }
+
 }
 
 

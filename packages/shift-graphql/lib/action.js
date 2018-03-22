@@ -73,13 +73,15 @@ const fillDefaultValues = async (param, payload, context) => fillSingleDefaultVa
 
 
 
-export const generateActions = (graphRegistry) => {
+export const generateActions = (configuration, graphRegistry) => {
+
+  const protocolConfiguration = configuration.getProtocolConfiguration()
 
   const actions = {}
 
   _.forEach(graphRegistry.actions, ( { action }, actionName) => {
 
-    const queryName = _.camelCase(actionName)
+    const queryName = protocolConfiguration.generateActionTypeName(action)
 
     let actionDataInputType
     let actionDataOutputType

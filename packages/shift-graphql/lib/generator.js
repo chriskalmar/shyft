@@ -320,7 +320,7 @@ export const generateGraphQLSchema = (configuration) => {
     fields: () => {
 
       const mutations = generateMutations(configuration, graphRegistry)
-      const actions = generateActions(graphRegistry)
+      const actions = generateActions(configuration, graphRegistry)
 
       return {
         ...mutations,
