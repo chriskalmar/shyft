@@ -132,17 +132,17 @@ const pageInfoType = new GraphQLObjectType({
 
 export const generateConnectionType = (config) => {
 
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
+
   const {
     nodeType,
     entity,
   } = config
 
-  const name = config.name || nodeType.name;
-
   const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase
 
   const edgeType = new GraphQLObjectType({
-    name: `${name}Edge`,
+    name: protocolConfiguration.generateConnectionEdgeTypeName(entity),
     description: 'An edge in a connection.',
     fields: () => ({
       node: {
@@ -157,7 +157,7 @@ export const generateConnectionType = (config) => {
   });
 
   const connectionType = new GraphQLObjectType({
-    name: name + 'Connection',
+    name: protocolConfiguration.generateConnectionTypeName(entity),
     description: 'A connection to a list of items.',
     fields: () => ({
       pageInfo: {

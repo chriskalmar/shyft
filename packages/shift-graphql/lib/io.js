@@ -243,7 +243,6 @@ export const generateOutput = (baseName, dataOutputType, isField) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
 
   const outputType = new GraphQLObjectType({
-
     name: protocolConfiguration.generateOutPutTypeName(baseName),
     description: `Mutation output type for **\`${baseName}\`**`,
 

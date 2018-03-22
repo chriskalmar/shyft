@@ -188,8 +188,7 @@ export const generateGraphQLSchema = (configuration) => {
     const storageType = entity.storageType
 
     const objectType = new GraphQLObjectType({
-
-      name: entity.graphql.typeNamePascalCase,
+      name: protocolConfiguration.generateEntityTypeNamePascalCase(entity),
       description: entity.description,
       interfaces: [ nodeInterface ],
 
