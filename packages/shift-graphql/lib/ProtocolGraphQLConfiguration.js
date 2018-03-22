@@ -144,6 +144,42 @@ class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     return generateTypeName(action.name)
   }
 
+
+
+  generateDataInputTypeName(baseName) {
+    return generateTypeNamePascalCase(`${baseName}-data-input`)
+  }
+
+  generateNestedDataInputTypeName(baseName, nestedParamName, level) {
+    const levelStr = level > 1
+      ? `L${level}`
+      : ''
+
+    return generateTypeNamePascalCase(`${baseName}-${nestedParamName}-${levelStr}-data-input`)
+  }
+
+  generateInputTypeName(baseName) {
+    return generateTypeNamePascalCase(`${baseName}-input`)
+  }
+
+
+  generateDataOutPutTypeName(baseName) {
+    return generateTypeNamePascalCase(`${baseName}-data-output`)
+  }
+
+  generateNestedDataOutPutTypeName(baseName, nestedParamName, level) {
+    const levelStr = level > 1
+      ? `L${level}`
+      : ''
+
+    return generateTypeNamePascalCase(`${baseName}-${nestedParamName}-${levelStr}-data-output`)
+  }
+
+  generateOutPutTypeName(baseName) {
+    return generateTypeNamePascalCase(`${baseName}-output`)
+  }
+
+
 }
 
 

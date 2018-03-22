@@ -18,20 +18,18 @@ import {
   isListDataType,
 } from 'shift-engine';
 
-import {
-  generateTypeNamePascalCase,
-} from './util';
-
 
 
 export const generateDataInput = (baseName, inputParams, singleParam) => {
+
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
 
   if (singleParam) {
     return generateDataInputField(inputParams, inputParams.name || '', baseName) // eslint-disable-line no-use-before-define
   }
 
   const dataInputType = new GraphQLInputObjectType({
-    name: generateTypeNamePascalCase(`${baseName}DataInput`),
+    name: protocolConfiguration.generateDataInputTypeName(baseName),
     description: `Mutation data input type for **\`${baseName}\`**`,
 
     fields: () => {
@@ -45,12 +43,10 @@ export const generateDataInput = (baseName, inputParams, singleParam) => {
 
 export const generateNestedDataInput = (baseName, nestedParam, nestedParamName, level = 1) => {
 
-  const levelStr = level > 1
-    ? `L${level}`
-    : ''
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
 
   const dataInputType = new GraphQLInputObjectType({
-    name: generateTypeNamePascalCase(`${baseName}-${nestedParamName}-${levelStr}DataInput`),
+    name: protocolConfiguration.generateNestedDataInputTypeName(baseName, nestedParamName, level),
     description: nestedParam.description,
 
     fields: () => {
@@ -119,9 +115,11 @@ const generateDataInputFields = (inputParams, baseName, level = 0) => {
 
 export const generateInput = (baseName, dataInputType, isField) => {
 
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
+
   const inputType = new GraphQLInputObjectType({
 
-    name: generateTypeNamePascalCase(`${baseName}Input`),
+    name: protocolConfiguration.generateInputTypeName(baseName),
     description: `Mutation input type for **\`${baseName}\`**`,
 
     fields: () => {
@@ -150,12 +148,14 @@ export const generateInput = (baseName, dataInputType, isField) => {
 
 export const generateDataOutput = (baseName, outputParams, graphRegistry, singleParam) => {
 
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
+
   if (singleParam) {
     return generateDataOutputField(outputParams, outputParams.name || '', baseName, graphRegistry) // eslint-disable-line no-use-before-define
   }
 
   const actionDataOutputType = new GraphQLObjectType({
-    name: generateTypeNamePascalCase(`${baseName}DataOutput`),
+    name: protocolConfiguration.generateDataOutPutTypeName(baseName),
     description: `Mutation data output type for **\`${baseName}\`**`,
 
     fields: () => {
@@ -169,12 +169,10 @@ export const generateDataOutput = (baseName, outputParams, graphRegistry, single
 
 export const generateNestedDataOutput = (baseName, nestedParam, nestedParamName, graphRegistry, level = 1) => {
 
-  const levelStr = level > 1
-    ? `L${level}`
-    : ''
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
 
   const dataOutputType = new GraphQLObjectType({
-    name: generateTypeNamePascalCase(`${baseName}-${nestedParamName}-${levelStr}DataOutput`),
+    name: protocolConfiguration.generateNestedDataOutPutTypeName(baseName, nestedParamName, level),
     description: nestedParam.description,
 
     fields: () => {
@@ -242,9 +240,11 @@ const generateDataOutputFields = (outputParams, baseName, graphRegistry, level =
 
 export const generateOutput = (baseName, dataOutputType, isField) => {
 
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
+
   const outputType = new GraphQLObjectType({
 
-    name: generateTypeNamePascalCase(`${baseName}Output`),
+    name: protocolConfiguration.generateOutPutTypeName(baseName),
     description: `Mutation output type for **\`${baseName}\`**`,
 
     fields: () => {
