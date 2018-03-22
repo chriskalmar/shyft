@@ -30,9 +30,8 @@ export const generateListQueries = (configuration, graphRegistry) => {
 
     const storageType = entity.storageType
 
-    const typeNamePlural = entity.graphql.typeNamePlural
     const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase
-    const queryName = _.camelCase(`all_${typeNamePlural}`)
+    const queryName = protocolConfiguration.generateListQueryTypeName(entity)
 
 
     listQueries[queryName] = {
@@ -84,12 +83,12 @@ export const generateInstanceQueries = (configuration, graphRegistry, idFetcher)
   const protocolConfiguration = configuration.getProtocolConfiguration()
   const instanceQueries = {}
 
-  _.forEach(graphRegistry.types, ({ type, entity }, typeName) => {
+  _.forEach(graphRegistry.types, ({ type, entity }) => {
 
     const storageType = entity.storageType
 
     const typeNamePascalCase = entity.graphql.typeNamePascalCase
-    const queryName = typeName
+    const queryName = protocolConfiguration.generateInstanceQueryTypeName(entity)
 
     instanceQueries[queryName] = {
       type: type,
@@ -113,7 +112,7 @@ export const generateInstanceQueries = (configuration, graphRegistry, idFetcher)
 
       const fieldName = primaryAttribute.gqlFieldName
       const graphqlDataType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type, entity.name, false)
-      const queryNamePrimaryAttribute = _.camelCase(`${typeName}_by_${fieldName}`)
+      const queryNamePrimaryAttribute = protocolConfiguration.generateInstanceByUniqueQueryTypeName(entity, primaryAttribute)
 
       instanceQueries[queryNamePrimaryAttribute] = {
         type: type,

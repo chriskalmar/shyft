@@ -75,7 +75,7 @@ export const extendModelsForGql = (configuration, entities) => {
     _.forEach(entity.getAttributes(), (attribute) => {
       attribute.gqlFieldName = attribute.isPrimary
         ? 'id'
-        : _.camelCase(attribute.name)
+        : protocolConfiguration.generateFieldName(attribute)
       dataShaperMap[ attribute.gqlFieldName ] = attribute.name
     })
 

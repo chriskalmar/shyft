@@ -52,6 +52,25 @@ class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   }
 
 
+  generateFieldName(attribute) {
+    return generateTypeName(attribute.name)
+  }
+
+  generateListQueryTypeName(entity) {
+    const typeNamePlural = this.generateEntityTypeNamePlural(entity)
+    return generateTypeName(`all-${typeNamePlural}`)
+  }
+
+  generateInstanceQueryTypeName(entity) {
+    return this.generateEntityTypeName(entity)
+  }
+
+  generateInstanceByUniqueQueryTypeName(entity, attribute) {
+    const typeName = this.generateEntityTypeName(entity)
+    const fieldName = this.generateFieldName(attribute)
+    return generateTypeName(`${typeName}-by-${fieldName}`)
+  }
+
 }
 
 
