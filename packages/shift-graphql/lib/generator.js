@@ -129,12 +129,10 @@ const getNodeDefinitions = (configuration) => {
 
 
   const typeResolver = (obj) => {
+    const typeName = obj[constants.RELAY_TYPE_PROMOTER_FIELD]
 
-    const type = util.generateTypeName( obj[ constants.RELAY_TYPE_PROMOTER_FIELD ] )
-
-    // return the graphql type definition
-    return graphRegistry.types[ type ]
-      ? graphRegistry.types[ type ].type
+    return graphRegistry.types[typeName]
+      ? graphRegistry.types[typeName].type
       : null
   }
 
@@ -321,7 +319,7 @@ export const generateGraphQLSchema = (configuration) => {
 
     fields: () => {
 
-      const mutations = generateMutations(graphRegistry)
+      const mutations = generateMutations(configuration, graphRegistry)
       const actions = generateActions(graphRegistry)
 
       return {

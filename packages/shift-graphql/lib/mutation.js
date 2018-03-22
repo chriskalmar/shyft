@@ -444,7 +444,9 @@ const extractIdFromNodeId = (graphRegistry, sourceEntityName, nodeId) => {
 
 
 
-const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) => {
+const getNestedPayloadResolver = (configuration, entity, attributeNames, storageType, path=[]) => {
+
+  const protocolConfiguration = configuration.getProtocolConfiguration()
 
   return async (source, args, context, info) => {
 
@@ -498,11 +500,15 @@ const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) 
             if (uniquenessAttributes) {
 
               const newPath = path.concat(foundInput)
-              const nestedPayloadResolver = getNestedPayloadResolver(targetEntity, uniquenessAttributes, storageType, newPath)
+              const nestedPayloadResolver = getNestedPayloadResolver(configuration, targetEntity, uniquenessAttributes, storageType, newPath)
               args[ foundInput ] = await nestedPayloadResolver(source, args[ foundInput ], context, info)
 
               result = await storageType.findOneByValues(targetEntity, args[ foundInput ], context)
-                .then(addRelayTypePromoterToInstanceFn(targetEntity.name))
+                .then(
+                  addRelayTypePromoterToInstanceFn(
+                    protocolConfiguration.generateEntityTypeName(targetEntity)
+                  )
+                )
                 .then(targetEntity.graphql.dataShaper)
 
               if (!result) {
@@ -511,7 +517,11 @@ const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) 
             }
             else {
               result = await storageType.findOne(targetEntity, args[ foundInput ], args[ foundInput ], context)
-                .then(addRelayTypePromoterToInstanceFn(targetEntity.name))
+                .then(
+                  addRelayTypePromoterToInstanceFn(
+                    protocolConfiguration.generateEntityTypeName(targetEntity)
+                  )
+                )
                 .then(targetEntity.graphql.dataShaper)
             }
 
@@ -536,9 +546,10 @@ const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) 
 
 
 
-const getMutationResolver = (entity, entityMutation, typeName, storageType, graphRegistry, nested) => {
+const getMutationResolver = (configuration, entity, entityMutation, typeName, storageType, graphRegistry, nested) => {
 
-  const nestedPayloadResolver = getNestedPayloadResolver(entity, entityMutation.attributes, storageType)
+  const protocolConfiguration = configuration.getProtocolConfiguration()
+  const nestedPayloadResolver = getNestedPayloadResolver(configuration, entity, entityMutation.attributes, storageType)
 
   return async (source, args, context, info) => {
 
@@ -575,7 +586,10 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
     if (result) {
       if (entityMutation.type !== MUTATION_TYPE_DELETE) {
         result = entity.graphql.dataShaper(
-          addRelayTypePromoterToInstance(entity.name, result)
+          addRelayTypePromoterToInstance(
+            protocolConfiguration.generateEntityTypeName(entity),
+            result
+          )
         )
       }
     }
@@ -595,7 +609,10 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
 }
 
 
-const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storageType, fieldName) => {
+const getMutationByFieldNameResolver = (configuration, entity, entityMutation, typeName, storageType, fieldName) => {
+
+  const protocolConfiguration = configuration.getProtocolConfiguration()
+
   return async (source, args, context, info) => {
 
     const id = args.input[ fieldName ]
@@ -623,7 +640,10 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
     if (result) {
       if (entityMutation.type !== MUTATION_TYPE_DELETE) {
         result = entity.graphql.dataShaper(
-          addRelayTypePromoterToInstance(entity.name, result)
+          addRelayTypePromoterToInstance(
+            protocolConfiguration.generateEntityTypeName(entity),
+            result
+          )
         )
       }
     }
@@ -643,7 +663,7 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
 }
 
 
-export const generateMutations = (graphRegistry) => {
+export const generateMutations = (configuration, graphRegistry) => {
 
   const mutations = {}
 
@@ -681,7 +701,7 @@ export const generateMutations = (graphRegistry) => {
             type: new GraphQLNonNull( mutationInputType ),
           },
         },
-        resolve: getMutationResolver(entity, entityMutation, typeName, storageType, graphRegistry),
+        resolve: getMutationResolver(configuration, entity, entityMutation, typeName, storageType, graphRegistry),
       }
 
 
@@ -704,7 +724,7 @@ export const generateMutations = (graphRegistry) => {
               type: new GraphQLNonNull( mutationInputNestedType ),
             },
           },
-          resolve: getMutationResolver(entity, entityMutation, typeName, storageType, graphRegistry, true),
+          resolve: getMutationResolver(configuration, entity, entityMutation, typeName, storageType, graphRegistry, true),
         }
       }
 
@@ -727,7 +747,7 @@ export const generateMutations = (graphRegistry) => {
                 type: new GraphQLNonNull( mutationByPrimaryAttributeInputType ),
               },
             },
-            resolve: getMutationByFieldNameResolver(entity, entityMutation, typeName, storageType, fieldName),
+            resolve: getMutationByFieldNameResolver(configuration, entity, entityMutation, typeName, storageType, fieldName),
           }
         }
       }
