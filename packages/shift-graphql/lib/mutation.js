@@ -233,7 +233,7 @@ export const generateInstanceUniquenessInput = (configuration, entity, uniquenes
             registryType.instanceUniquenessInputs = registryType.instanceUniquenessInputs || {}
 
             uniquenessAttributesList.map(({uniquenessName}) => {
-              const fieldName = _.camelCase(`${attribute.gqlFieldName}_by_unique_${uniquenessName}`)
+              const fieldName = protocolConfiguration.generateUniquenessAttributesFieldName(entity, attribute, uniquenessName)
               fields[ fieldName ] = {
                 type: registryType.instanceUniquenessInputs[ uniquenessName ]
               }
@@ -327,7 +327,7 @@ export const generateMutationInstanceNestedInput = (configuration, entity, entit
             registryType.instanceUniquenessInputs = registryType.instanceUniquenessInputs || {}
 
             uniquenessAttributesList.map(({uniquenessName}) => {
-              const fieldName = _.camelCase(`${attribute.gqlFieldName}_by_unique_${uniquenessName}`)
+              const fieldName = protocolConfiguration.generateUniquenessAttributesFieldName(entity, attribute, uniquenessName)
               fields[ fieldName ] = {
                 type: registryType.instanceUniquenessInputs[ uniquenessName ]
               }
@@ -481,7 +481,7 @@ const getNestedPayloadResolver = (configuration, entity, attributeNames, storage
           const fieldNameToUniquenessAttributesMap = {}
 
           uniquenessAttributesList.map(({uniquenessName, attributes}) => {
-            const fieldName = _.camelCase(`${attribute.gqlFieldName}_by_unique_${uniquenessName}`)
+            const fieldName = protocolConfiguration.generateUniquenessAttributesFieldName(entity, attribute, uniquenessName)
             uniquenessFieldNames.push(fieldName)
             fieldNameToUniquenessAttributesMap[ fieldName ] = attributes
           })

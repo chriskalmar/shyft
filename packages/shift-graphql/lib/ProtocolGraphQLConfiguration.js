@@ -94,6 +94,12 @@ class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     return generateTypeName(attributes.join('-and-'))
   }
 
+  generateUniquenessAttributesFieldName(entity, attribute, uniquenessAttributesName) {
+    const fieldName = this.generateFieldName(attribute)
+    return generateTypeName(`${fieldName}-by-unique-${uniquenessAttributesName}`)
+  }
+
+
   generateInstanceUniquenessInputTypeName(entity, uniquenessAttributesName) {
     const typeName = this.generateEntityTypeName(entity)
     return generateTypeNamePascalCase(`${typeName}-instance-uniqueness-on-${uniquenessAttributesName}-input`)
