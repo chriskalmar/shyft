@@ -35,25 +35,25 @@ const logicalKeysMap = {
 
 export const generateFilterInput = (entity) => {
 
-  const typeNamePascalCase = entity.graphql.typeNamePascalCase
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
   const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase
 
   const storageType = entity.storageType
 
 
+  const filterInputTypeName = protocolConfiguration.generateFilterInputTypeName(entity)
   const entityFilterType = new GraphQLInputObjectType({
-
-    name: `${typeNamePascalCase}Filter`,
+    name: filterInputTypeName,
     description: `Filter **\`${typeNamePluralListName}\`** by various criteria`,
 
     fields: () => {
       const fields = {
         [AND_OPERATOR]: {
-          description: `Combine **\`${typeNamePascalCase}Filter\`** by a logical **AND**`,
+          description: `Combine **\`${filterInputTypeName}\`** by a logical **AND**`,
           type: new GraphQLList( new GraphQLNonNull( entityFilterType )),
         },
         [OR_OPERATOR]: {
-          description: `Combine **\`${typeNamePascalCase}Filter\`** by a logical **OR**`,
+          description: `Combine **\`${filterInputTypeName}\`** by a logical **OR**`,
           type: new GraphQLList( new GraphQLNonNull( entityFilterType )),
         },
       }

@@ -193,6 +193,12 @@ class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     const typeName = this.generateEntityTypeName(entity)
     return generateTypeNamePascalCase(`${typeName}-order-by`)
   }
+
+
+  generateFilterInputTypeName(entity) {
+    const typeName = this.generateEntityTypeName(entity)
+    return generateTypeNamePascalCase(`${typeName}-filter`)
+  }
 }
 
 
