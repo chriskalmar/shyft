@@ -8,6 +8,9 @@ export const enumValueRegex = new RegExp(ENUM_VALUE_PATTERN);
 export const STATE_NAME_PATTERN = '^[a-zA-Z][_a-zA-Z0-9]*$';
 export const stateNameRegex = new RegExp(STATE_NAME_PATTERN);
 
+export const LANGUAGE_ISO_CODE_PATTERN = '^[a-z]+$';
+export const languageIsoCodeRegex = new RegExp(LANGUAGE_ISO_CODE_PATTERN);
+
 
 export const storageDataTypeCapabilityType = {
   VALUE: 1,

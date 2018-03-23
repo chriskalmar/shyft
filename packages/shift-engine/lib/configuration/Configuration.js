@@ -1,7 +1,7 @@
 
 import {
   passOrThrow,
-  isArray,
+  isMap,
 } from '../util';
 
 import {
@@ -9,8 +9,15 @@ import {
 } from '../schema/Schema';
 
 import {
+  languageIsoCodeRegex,
+  LANGUAGE_ISO_CODE_PATTERN,
+} from '../constants';
+
+import {
   isProtocolConfiguration,
 } from '../protocol/ProtocolConfiguration';
+
+import _ from 'lodash';
 
 
 class Configuration {
@@ -23,7 +30,7 @@ class Configuration {
       protocolConfiguration,
     } = setup
 
-    this.setLanguages(languages || ['en'])
+    this.setLanguages(languages || { en: 1 })
 
     if (schema) {
       this.setSchema(schema)
@@ -38,22 +45,42 @@ class Configuration {
   setLanguages (languages) {
 
     passOrThrow(
-      isArray(languages, true),
-      () => 'Configuration expects an array of language codes'
+      isMap(languages, true),
+      () => 'Configuration expects a mapping of language codes and IDs'
     )
 
-    languages.map(language => {
+    const languageCodes = Object.keys(languages)
+    const uniqueIds = []
+
+    languageCodes.map(languageCode => {
       passOrThrow(
-        typeof language === 'string',
-        () => 'Configuration expects an array of language codes'
+        languageIsoCodeRegex.test(languageCode),
+        () => `Invalid language iso code '${languageCode}' provided (Regex: /${LANGUAGE_ISO_CODE_PATTERN}/)`
+      )
+
+      const languageId = languages[ languageCode ]
+      uniqueIds.push(languageId)
+
+      passOrThrow(
+        languageId === parseInt(languageId, 10) && languageId > 0,
+        () => `Language code '${languageCode}' has an invalid unique ID (needs to be a positive integer)`
       )
     })
+
+    passOrThrow(
+      uniqueIds.length === _.uniq(uniqueIds).length,
+      () => 'Each defined language code needs to have a unique ID'
+    )
 
     this.languages = languages
   }
 
   getLanguages() {
     return this.languages
+  }
+
+  getLanguageCodes() {
+    return Object.keys(this.languages)
   }
 
 
