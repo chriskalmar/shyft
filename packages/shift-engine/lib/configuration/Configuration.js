@@ -16,6 +16,9 @@ import {
 import {
   isProtocolConfiguration,
 } from '../protocol/ProtocolConfiguration';
+import {
+  isStorageConfiguration,
+} from '../storage/StorageConfiguration';
 
 import _ from 'lodash';
 
@@ -28,6 +31,7 @@ class Configuration {
       languages,
       schema,
       protocolConfiguration,
+      storageConfiguration,
     } = setup
 
     this.setLanguages(languages || { en: 1 })
@@ -38,6 +42,10 @@ class Configuration {
 
     if (protocolConfiguration) {
       this.setProtocolConfiguration(protocolConfiguration)
+    }
+
+    if (storageConfiguration) {
+      this.setStorageConfiguration(storageConfiguration)
     }
   }
 
@@ -119,6 +127,25 @@ class Configuration {
     )
 
     return this.protocolConfiguration
+  }
+
+
+  setStorageConfiguration(storageConfiguration) {
+    passOrThrow(
+      isStorageConfiguration(storageConfiguration),
+      () => 'Configuration expects a valid storageConfiguration'
+    )
+
+    this.storageConfiguration = storageConfiguration
+  }
+
+  getStorageConfiguration() {
+    passOrThrow(
+      this.storageConfiguration,
+      () => 'Configuration is missing a valid storageConfiguration'
+    )
+
+    return this.storageConfiguration
   }
 }
 
