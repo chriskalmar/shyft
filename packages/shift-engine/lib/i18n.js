@@ -2,7 +2,8 @@
 import { randomJson } from './util';
 import _ from 'lodash';
 
-export const i18nMockGenerator = (entity, name, languages=[]) => {
+export const i18nMockGenerator = (entity, name, languages={}) => {
+
   if (entity) {
     const content = {}
 
@@ -14,12 +15,12 @@ export const i18nMockGenerator = (entity, name, languages=[]) => {
 
         const attributeContent = content[attributeName] = {}
 
-        languages.map((language, idx) => {
+        Object.values(languages).map((languageId, idx) => {
           if (idx === 0 || Math.random() > 0.5) {
             return
           }
 
-          attributeContent[language] = mock
+          attributeContent[ languageId ] = mock
             ? mock()
             : type.mock()
         })
