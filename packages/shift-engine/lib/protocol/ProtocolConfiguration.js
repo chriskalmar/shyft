@@ -8,7 +8,18 @@ import {
 
 class ProtocolConfiguration {
 
-  features = {}
+  constructor(setup = {}) {
+    this.features = []
+
+    const {
+      features,
+    } = setup
+
+    if (features) {
+      this.enableFeatures(features)
+    }
+  }
+
 
   enableFeature(feature, enable=true) {
     passOrThrow(
