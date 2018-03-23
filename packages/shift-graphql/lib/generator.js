@@ -76,7 +76,13 @@ export const extendModelsForGql = (entities) => {
       attribute.gqlFieldName = attribute.isPrimary
         ? 'id'
         : protocolConfiguration.generateFieldName(attribute)
+
       dataShaperMap[ attribute.gqlFieldName ] = attribute.name
+
+      if (attribute.i18n) {
+        attribute.gqlFieldNameI18n = protocolConfiguration.generateI18nFieldName(attribute)
+        dataShaperMap[ attribute.gqlFieldNameI18n ] = `${attribute.name}.i18n`
+      }
     })
 
     // forward relay type promoter field as well
