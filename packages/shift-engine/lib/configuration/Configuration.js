@@ -118,6 +118,8 @@ class Configuration {
     )
 
     this.protocolConfiguration = protocolConfiguration
+
+    protocolConfiguration.getParentConfiguration = () => this
   }
 
   getProtocolConfiguration () {
@@ -137,6 +139,8 @@ class Configuration {
     )
 
     this.storageConfiguration = storageConfiguration
+
+    storageConfiguration.getParentConfiguration = () => this
   }
 
   getStorageConfiguration() {
