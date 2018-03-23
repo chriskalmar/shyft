@@ -277,6 +277,35 @@ export const generateGraphQLSchema = (configuration) => {
 
           fields[ attribute.gqlFieldName ] = field;
 
+          if (attribute.i18n) {
+            const i18nFieldType = new GraphQLObjectType({
+              name: protocolConfiguration.generateI18nFieldTypeName(entity, attribute),
+              description: `Translations of **\`${attribute.gqlFieldName}\`**`,
+
+              fields: () => {
+                const languages = configuration.getLanguageCodes()
+                const i18nFields = {}
+
+                languages.map((language, idx) => {
+                  const type = (idx === 0 && attribute.required)
+                    ? new GraphQLNonNull(fieldType)
+                    : fieldType
+
+                  i18nFields[ language ] = {
+                    type,
+                  }
+                })
+
+                return i18nFields
+              }
+            })
+
+            fields[ attribute.gqlFieldNameI18n ] = {
+              type: attribute.required
+                ? new GraphQLNonNull(i18nFieldType)
+                : i18nFieldType
+            };
+          }
         });
 
         Object.assign(fields, generateReverseConnections(configuration, graphRegistry, entity))
