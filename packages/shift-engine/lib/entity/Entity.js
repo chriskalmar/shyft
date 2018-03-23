@@ -512,6 +512,17 @@ class Entity {
   }
 
 
+  getI18nAttributeNames() {
+    const attributes = this.getAttributes()
+    const attributeNames = Object.keys(attributes)
+    const i18nAttributeNames = attributeNames.filter(attributeName => attributes[attributeName].i18n)
+
+    return i18nAttributeNames.length
+      ? i18nAttributeNames
+      : null
+  }
+
+
 
   _addDefaultMutations () {
 
