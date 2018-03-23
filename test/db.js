@@ -5,6 +5,8 @@ import { createConnection } from 'typeorm';
 
 import {
   Schema,
+  Configuration,
+  StorageConfiguration,
 } from 'shift-engine';
 
 import { loadModels } from '../lib/generator';
@@ -39,12 +41,19 @@ const schema = new Schema({
 })
 
 
+const storageConfiguration = new StorageConfiguration()
+
+const configuration = new Configuration({
+  schema,
+  storageConfiguration,
+})
+
 
 let connection
 
 export const initDB = async () => {
 
-  const modelRegistry = loadModels(schema)
+  const modelRegistry = loadModels(configuration)
 
   const entities = Object.keys(modelRegistry).map(entityName => {
     return modelRegistry[entityName].model
@@ -64,9 +73,8 @@ export const initDB = async () => {
     entities
   })
 
-
-  StorageTypePostgres.setStorageInstance(connection)
-  StorageTypePostgres.setStorageModels(modelRegistry)
+  storageConfiguration.setStorageInstance(connection)
+  storageConfiguration.setStorageModels(modelRegistry)
 }
 
 
