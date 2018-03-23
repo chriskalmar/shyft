@@ -6,6 +6,8 @@ import {
 
 import { isDataType } from '../datatype/DataType';
 import { isStorageDataType } from './StorageDataType';
+import { isStorageConfiguration } from './StorageConfiguration';
+
 
 class StorageType {
 
@@ -137,33 +139,30 @@ class StorageType {
   }
 
 
-  setStorageInstance (storageInstance) {
-    this.storageInstance = storageInstance
+  setStorageConfiguration(storageConfiguration) {
+    passOrThrow(
+      isStorageConfiguration(storageConfiguration),
+      () => 'StorageType expects a valid storageConfiguration'
+    )
+
+    this.storageConfiguration = storageConfiguration
   }
 
+  getStorageConfiguration() {
+    passOrThrow(
+      this.storageConfiguration,
+      () => 'StorageType is missing a valid storageConfiguration'
+    )
+
+    return this.storageConfiguration
+  }
 
   getStorageInstance () {
-    passOrThrow(
-      this.storageInstance,
-      () => `Storage instance not set for storage type '${this.name}'`
-    )
-
-    return this.storageInstance
+    return this.getStorageConfiguration().getStorageInstance()
   }
-
-
-  setStorageModels (storageModels) {
-    this.storageModels = storageModels
-  }
-
 
   getStorageModels () {
-    passOrThrow(
-      this.storageModels,
-      () => `Storage models not set for storage type '${this.name}'`
-    )
-
-    return this.storageModels
+    return this.getStorageConfiguration().getStorageModels()
   }
 
 
