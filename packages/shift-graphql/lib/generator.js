@@ -97,6 +97,11 @@ export const extendModelsForGql = (entities) => {
       return set.map(entity.graphql.dataShaper)
     }
 
+    const reverseDataShaper = shaper(_.invert(dataShaperMap))
+    entity.graphql.reverseDataShaper = (data) => {
+      return data ? reverseDataShaper(data) : data
+    }
+
   })
 }
 

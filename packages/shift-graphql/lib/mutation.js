@@ -682,7 +682,8 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
       clientMutationId: args.input.clientMutationId,
     }
 
-    let result = await storageType.mutate(entity, id, args.input[typeName], entityMutation, context)
+    const input = entity.graphql.reverseDataShaper(args.input[ typeName ])
+    let result = await storageType.mutate(entity, id, input, entityMutation, context)
 
     if (result) {
       if (entityMutation.type !== MUTATION_TYPE_DELETE) {
@@ -738,7 +739,8 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
       clientMutationId: args.input.clientMutationId,
     }
 
-    let result = await storageType.mutate(entity, id, args.input[typeName], entityMutation, context)
+    const input = entity.graphql.reverseDataShaper(args.input[ typeName ])
+    let result = await storageType.mutate(entity, id, input, entityMutation, context)
 
     if (result) {
       if (entityMutation.type !== MUTATION_TYPE_DELETE) {
