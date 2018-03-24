@@ -631,6 +631,10 @@ const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) 
       }
       else {
         resultPayload[ attribute.gqlFieldName ] = args[ attribute.gqlFieldName ]
+
+        if (attribute.i18n) {
+          resultPayload[ attribute.gqlFieldNameI18n ] = args[ attribute.gqlFieldNameI18n ]
+        }
       }
 
     }));
