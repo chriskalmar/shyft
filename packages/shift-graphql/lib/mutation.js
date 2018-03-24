@@ -35,6 +35,47 @@ import {
 } from './util';
 
 
+const i18nInputFieldTypesCache = {}
+
+const generateI18nInputFieldType = (entity, entityMutation, attribute) => {
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
+  const i18nFieldTypeName = protocolConfiguration.generateMutationI18nAttributeInputTypeName(entity, entityMutation, attribute)
+
+  if (i18nInputFieldTypesCache[ i18nFieldTypeName ]) {
+    return i18nInputFieldTypesCache[ i18nFieldTypeName ]
+  }
+
+  const attributeType = attribute.type
+  const typeNamePascalCase = entity.graphql.typeNamePascalCase
+  const languages = protocolConfiguration.getParentConfiguration().getLanguageCodes()
+  const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, entity.name, true)
+
+  const i18nFieldType = new GraphQLInputObjectType({
+    name: i18nFieldTypeName,
+    description: `**\`${entityMutation.name}\`** mutation translations input type for **\`${typeNamePascalCase}.${attribute.gqlFieldName}\`**`,
+
+    fields: () => {
+      const i18nFields = {}
+
+      languages.map((language, idx) => {
+        const type = (idx === 0 && attribute.required && !entityMutation.ignoreRequired)
+          ? new GraphQLNonNull(fieldType)
+          : fieldType
+
+        i18nFields[ language ] = {
+          type,
+        }
+      })
+
+      return i18nFields
+    }
+  })
+
+  i18nInputFieldTypesCache[ i18nFieldTypeName ] = i18nFieldType
+
+  return i18nFieldType
+}
+
 
 export const generateMutationInstanceInput = (entity, entityMutation) => {
 
@@ -71,6 +112,14 @@ export const generateMutationInstanceInput = (entity, entityMutation) => {
             ? new GraphQLNonNull(fieldType)
             : fieldType
         };
+
+        if (attribute.i18n) {
+          const i18nFieldType = generateI18nInputFieldType(entity, entityMutation, attribute)
+
+          fields[ attribute.gqlFieldNameI18n ] = {
+            type: i18nFieldType
+          };
+        }
 
       });
 
