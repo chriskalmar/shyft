@@ -392,6 +392,14 @@ export const generateMutationInstanceNestedInput = (entity, entityMutation, grap
               ? new GraphQLNonNull(fieldType)
               : fieldType
           };
+
+          if (attribute.i18n) {
+            const i18nFieldType = generateI18nInputFieldType(entity, entityMutation, attribute)
+
+            fields[ attribute.gqlFieldNameI18n ] = {
+              type: i18nFieldType
+            };
+          }
         }
 
       });
