@@ -69,6 +69,12 @@ class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     return generateTypeNamePascalCase(`${typeName}-${fieldName}-i18n`)
   }
 
+  generateMutationI18nAttributeInputTypeName(entity, mutation, attribute) {
+    const typeName = this.generateEntityTypeName(entity)
+    const fieldName = this.generateFieldName(attribute)
+    return generateTypeNamePascalCase(`${mutation.name}-${typeName}-${fieldName}-i18n-input`)
+  }
+
 
   generateListQueryTypeName(entity) {
     const typeNamePlural = this.generateEntityTypeNamePlural(entity)
