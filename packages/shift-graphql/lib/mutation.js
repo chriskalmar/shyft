@@ -77,6 +77,31 @@ const generateI18nInputFieldType = (entity, entityMutation, attribute) => {
 }
 
 
+const checkRequiredI18nInputs = (entity, entityMutation, input) => {
+  const entityAttributes = entity.getAttributes()
+
+  _.forEach(entityMutation.attributes, (attributeName) => {
+
+    const attribute = entityAttributes[ attributeName ]
+    const { gqlFieldName, gqlFieldNameI18n } = attribute
+
+    if (attribute.i18n) {
+      if (input[ gqlFieldName ] && input[ gqlFieldNameI18n ] && input[ gqlFieldNameI18n ]) {
+        throw new CustomError(`Only one of these fields may be used: ${gqlFieldName}, ${gqlFieldNameI18n}`, 'AmbigiousI18nInputError')
+      }
+
+      if (attribute.required && !entityMutation.ignoreRequired) {
+        if (!input[ gqlFieldName ] && !input[ gqlFieldNameI18n ]) {
+          throw new CustomError(`Provide one of these fields: ${gqlFieldName}, ${gqlFieldNameI18n}`, 'MissingI18nInputError')
+        }
+      }
+    }
+
+  })
+}
+
+
+
 export const generateMutationInstanceInput = (entity, entityMutation) => {
 
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
@@ -108,7 +133,7 @@ export const generateMutationInstanceInput = (entity, entityMutation) => {
         const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, entity.name, true)
 
         fields[ attribute.gqlFieldName ] = {
-          type: attribute.required && !entityMutation.ignoreRequired
+          type: attribute.required && !entityMutation.ignoreRequired && !attribute.i18n
             ? new GraphQLNonNull(fieldType)
             : fieldType
         };
@@ -388,7 +413,7 @@ export const generateMutationInstanceNestedInput = (entity, entityMutation, grap
           const fieldType = ProtocolGraphQL.convertToProtocolDataType(attributeType, entity.name, true)
 
           fields[ attribute.gqlFieldName ] = {
-            type: attribute.required && !entityMutation.ignoreRequired
+            type: attribute.required && !entityMutation.ignoreRequired && !attribute.i18n
               ? new GraphQLNonNull(fieldType)
               : fieldType
           };
@@ -623,6 +648,8 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
 
   return async (source, args, context, info) => {
 
+    checkRequiredI18nInputs(entity, entityMutation, args.input[ typeName ], context)
+
     if (nested) {
       args.input[ typeName ] = await nestedPayloadResolver(source, args.input[ typeName ], context, info)
     }
@@ -684,6 +711,8 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
 
   return async (source, args, context, info) => {
+
+    checkRequiredI18nInputs(entity, entityMutation, args.input[ typeName ], context)
 
     const id = args.input[ fieldName ]
 
