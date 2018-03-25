@@ -18,6 +18,7 @@ class StorageDataType {
       nativeDataType,
       isSortable,
       serialize,
+      enforceSerialize,
       parse,
       capabilities,
     } = setup
@@ -55,6 +56,7 @@ class StorageDataType {
     this.nativeDataType = nativeDataType
     this.isSortable = !!isSortable
     this.serialize = serialize
+    this.enforceSerialize = !!enforceSerialize
     this.parse = parse || (value => value)
     this.capabilities = capabilities || []
   }
