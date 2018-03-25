@@ -104,3 +104,11 @@ export const DataTypeUUID = new DataType({
   mock: /* istanbul ignore next */
     () => casual.uuid,
 })
+
+
+export const DataTypeI18n = new DataType({
+  name: 'DataTypeI18n',
+  description: 'Data type representing translation objects',
+  mock: /* istanbul ignore next */
+    randomJson,
+})
