@@ -3,12 +3,14 @@ import {
   DataTypeID,
   DataTypeUserID,
   DataTypeTimestampTz,
-  DataTypeJson,
+  DataTypeI18n,
 } from '../datatype/dataTypes';
 
 import CustomError from '../CustomError'
 import DataTypeState from '../datatype/DataTypeState.js';
-import { i18nMockGenerator } from '../i18n';
+import {
+  i18nMockGenerator,
+} from '../i18n';
 
 import _ from 'lodash';
 
@@ -125,18 +127,11 @@ export const systemAttributeState = {
 export const systemAttributeI18n = {
   name: 'i18n',
   description: 'Translations of record',
-  type: DataTypeJson,
+  type: DataTypeI18n,
   hidden: true,
+  required: true,
   meta: {
     storageAttributeName: 'i18n',
-  },
-  defaultValue: (data, mutation) => {
-    if (mutation.isTypeCreate || mutation.isTypeUpdate) {
-      if (typeof mutation.toState === 'string') {
-        return mutation.toState
-      }
-    }
-    return undefined
   },
   mock: i18nMockGenerator,
 }
