@@ -27,7 +27,7 @@ describe('i18n', () => {
   })
 
 
-  it('should ignore translations for unknown languages', async () => {
+  it('should reject translations of unknown languages', async () => {
 
     const payload = {
       title: 'War and Peace',
@@ -38,8 +38,10 @@ describe('i18n', () => {
       author: 'Leo Tolstoy',
     }
 
-    const result = await mutate(Book, 'create', payload, null, asAdmin())
-    expect(result).toMatchSnapshot()
+    await mutate(Book, 'create', payload, null, asAdmin())
+      .catch(e => {
+        expect(e).toMatchSnapshot()
+      })
   })
 
 
