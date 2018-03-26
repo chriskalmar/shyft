@@ -26,6 +26,14 @@ const orderByUsernameDesc = {
   }]
 }
 
+
+const orderByWrittenAtAsc = {
+  orderBy: [{
+    attribute: 'writtenAt',
+    direction: 'ASC'
+  }]
+}
+
 const orderByWrittenAtDesc = {
   orderBy: [{
     attribute: 'writtenAt',
@@ -262,7 +270,7 @@ describe('cursor', () => {
 
 
 
-  it('time-based after', async () => {
+  it('time-based after + first', async () => {
 
     const differentiatorId = [7, 40, 20]
 
@@ -286,6 +294,36 @@ describe('cursor', () => {
 
 
       const result = await find(Message, { ...orderByWrittenAtDesc, ...cursor, first: 6 }, asAdmin())
+      result.data = removeListDynamicData(Message, result.data)
+      expect(result).toMatchSnapshot(`id: ${id}`)
+    }))
+  })
+
+
+  it('time-based before + last', async () => {
+
+    const differentiatorId = [7, 40, 20]
+
+    await Promise.all(differentiatorId.map(async (id) => {
+
+
+      const cursor = {
+        before: {
+          Message: [
+            [
+              'writtenAt',
+              '2018-03-26 20:47:46.578Z'
+            ],
+            [
+              'id',
+              id
+            ]
+          ]
+        }
+      }
+
+
+      const result = await find(Message, { ...orderByWrittenAtAsc, ...cursor, last: 6 }, asAdmin())
       result.data = removeListDynamicData(Message, result.data)
       expect(result).toMatchSnapshot(`id: ${id}`)
     }))

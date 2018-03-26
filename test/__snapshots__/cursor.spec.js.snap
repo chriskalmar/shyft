@@ -301,7 +301,7 @@ Object {
 }
 `;
 
-exports[`cursor time-based after: id: 7 1`] = `
+exports[`cursor time-based after + first: id: 7 1`] = `
 Object {
   "data": Array [
     Object {
@@ -354,7 +354,7 @@ Object {
 }
 `;
 
-exports[`cursor time-based after: id: 20 1`] = `
+exports[`cursor time-based after + first: id: 20 1`] = `
 Object {
   "data": Array [
     Object {
@@ -407,7 +407,7 @@ Object {
 }
 `;
 
-exports[`cursor time-based after: id: 40 1`] = `
+exports[`cursor time-based after + first: id: 40 1`] = `
 Object {
   "data": Array [
     Object {
@@ -456,6 +456,165 @@ Object {
   "pageInfo": Object {
     "hasNextPage": true,
     "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`cursor time-based before + last: id: 7 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "author": "1",
+      "board": "47",
+      "content": "voluptatum eius deleniti et consequatur qui architecto 😀",
+      "id": "12",
+      "writtenAt": 2018-03-26T20:47:45.854Z,
+    },
+    Object {
+      "author": "1",
+      "board": "37",
+      "content": "voluptatem vero optio mollitia et qui nihil",
+      "id": "11",
+      "writtenAt": 2018-03-26T20:47:46.084Z,
+    },
+    Object {
+      "author": "1",
+      "board": "12",
+      "content": "ut distinctio sint dolores ut est corrupti",
+      "id": "29",
+      "writtenAt": 2018-03-26T20:47:46.422Z,
+    },
+    Object {
+      "author": "1",
+      "board": "13",
+      "content": "et ut qui eum et consequatur numquam 😆",
+      "id": "47",
+      "writtenAt": 2018-03-26T20:47:46.480Z,
+    },
+    Object {
+      "author": "1",
+      "board": "48",
+      "content": "deserunt voluptates eum aut libero nam sit 🚀",
+      "id": "48",
+      "writtenAt": 2018-03-26T20:47:46.519Z,
+    },
+    Object {
+      "author": "1",
+      "board": "26",
+      "content": "enim vel et rem labore amet recusandae 🙌",
+      "id": "38",
+      "writtenAt": 2018-03-26T20:47:46.556Z,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`cursor time-based before + last: id: 20 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "author": "1",
+      "board": "37",
+      "content": "voluptatem vero optio mollitia et qui nihil",
+      "id": "11",
+      "writtenAt": 2018-03-26T20:47:46.084Z,
+    },
+    Object {
+      "author": "1",
+      "board": "12",
+      "content": "ut distinctio sint dolores ut est corrupti",
+      "id": "29",
+      "writtenAt": 2018-03-26T20:47:46.422Z,
+    },
+    Object {
+      "author": "1",
+      "board": "13",
+      "content": "et ut qui eum et consequatur numquam 😆",
+      "id": "47",
+      "writtenAt": 2018-03-26T20:47:46.480Z,
+    },
+    Object {
+      "author": "1",
+      "board": "48",
+      "content": "deserunt voluptates eum aut libero nam sit 🚀",
+      "id": "48",
+      "writtenAt": 2018-03-26T20:47:46.519Z,
+    },
+    Object {
+      "author": "1",
+      "board": "26",
+      "content": "enim vel et rem labore amet recusandae 🙌",
+      "id": "38",
+      "writtenAt": 2018-03-26T20:47:46.556Z,
+    },
+    Object {
+      "author": "1",
+      "board": "26",
+      "content": "velit magnam nobis aspernatur corporis voluptas sed 😀",
+      "id": "7",
+      "writtenAt": 2018-03-26T20:47:46.578Z,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`cursor time-based before + last: id: 40 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "author": "1",
+      "board": "12",
+      "content": "ut distinctio sint dolores ut est corrupti",
+      "id": "29",
+      "writtenAt": 2018-03-26T20:47:46.422Z,
+    },
+    Object {
+      "author": "1",
+      "board": "13",
+      "content": "et ut qui eum et consequatur numquam 😆",
+      "id": "47",
+      "writtenAt": 2018-03-26T20:47:46.480Z,
+    },
+    Object {
+      "author": "1",
+      "board": "48",
+      "content": "deserunt voluptates eum aut libero nam sit 🚀",
+      "id": "48",
+      "writtenAt": 2018-03-26T20:47:46.519Z,
+    },
+    Object {
+      "author": "1",
+      "board": "26",
+      "content": "enim vel et rem labore amet recusandae 🙌",
+      "id": "38",
+      "writtenAt": 2018-03-26T20:47:46.556Z,
+    },
+    Object {
+      "author": "1",
+      "board": "26",
+      "content": "velit magnam nobis aspernatur corporis voluptas sed 😀",
+      "id": "7",
+      "writtenAt": 2018-03-26T20:47:46.578Z,
+    },
+    Object {
+      "author": "1",
+      "board": "43",
+      "content": "fugiat quis a a debitis et culpa",
+      "id": "20",
+      "writtenAt": 2018-03-26T20:47:46.578Z,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
   },
 }
 `;
