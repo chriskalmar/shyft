@@ -9,6 +9,7 @@ import {
 } from './testUtils';
 
 import { Profile } from './models/Profile';
+import { Message } from './models/Message';
 
 
 const orderByUsernameAsc = {
@@ -24,6 +25,14 @@ const orderByUsernameDesc = {
     direction: 'DESC'
   }]
 }
+
+const orderByWrittenAtDesc = {
+  orderBy: [{
+    attribute: 'writtenAt',
+    direction: 'DESC'
+  }]
+}
+
 
 describe('cursor', () => {
 
@@ -249,6 +258,37 @@ describe('cursor', () => {
     const result = await find(Profile, { ...orderByNames, ...cursor, filter }, asAdmin())
     result.data = removeListDynamicData(Profile, result.data)
     expect(result).toMatchSnapshot()
+  })
+
+
+
+  it('time-based after', async () => {
+
+    const differentiatorId = [7, 40, 20]
+
+    await Promise.all(differentiatorId.map(async (id) => {
+
+
+      const cursor = {
+        after: {
+          Message: [
+            [
+              'writtenAt',
+              '2018-03-26 20:47:46.578Z'
+            ],
+            [
+              'id',
+              id
+            ]
+          ]
+        }
+      }
+
+
+      const result = await find(Message, { ...orderByWrittenAtDesc, ...cursor, first: 6 }, asAdmin())
+      result.data = removeListDynamicData(Message, result.data)
+      expect(result).toMatchSnapshot(`id: ${id}`)
+    }))
   })
 
 
