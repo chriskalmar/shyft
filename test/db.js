@@ -27,6 +27,7 @@ import {
 import { Profile } from './models/Profile';
 import { Message } from './models/Message';
 import { Participant } from './models/Participant';
+import { Book } from './models/Book';
 
 
 const schema = new Schema({
@@ -37,13 +38,21 @@ const schema = new Schema({
     Profile,
     Message,
     Participant,
+    Book,
   ],
 })
+
+
+const languages = {
+  en: 1,
+  de: 2,
+}
 
 
 const storageConfiguration = new StorageConfiguration()
 
 const configuration = new Configuration({
+  languages,
   schema,
   storageConfiguration,
 })
