@@ -10,6 +10,7 @@ import {
   generateTypeNamePluralPascalCase,
   generateTypeNameUpperCase,
 } from './util';
+import { MAX_PAGE_SIZE } from './constants';
 
 
 class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
@@ -26,6 +27,12 @@ class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
       'mutationByUniqueness',
     ], true)
   }
+
+  getMaxPageSize() {
+    return Number(process.env.MAX_PAGE_SIZE) || MAX_PAGE_SIZE
+  }
+
+  /* name generators */
 
   generateEntityTypeName(entity) {
     return generateTypeName(entity.name)
