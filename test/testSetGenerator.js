@@ -87,10 +87,32 @@ const mockJoins = (joinCount, profileCount) => {
 }
 
 
+
+const emojiList = '😎 😀 🤘 😆 🙌 🍕 🍪 😂 😜 😊 😍 💩 ✅ 👌 🚀'.split(' ')
+
+const mockMessages = (messageCount, boardCount, profileCount) => {
+  generateRows(messageCount, 'messages', () => {
+    const now = new Date().getTime()
+    const randomFuture = now + casual.integer(0, 10000)
+    const emoji = casual.coin_flip
+      ? ' ' + emojiList[ casual.integer(0, emojiList.length-1) ]
+      : ''
+
+    return [
+      casual.string + emoji,
+      casual.integer(5, profileCount - 20),
+      casual.integer(1, boardCount-1),
+      new Date(randomFuture).toISOString(),
+    ]
+  })
+}
+
+
 const profileCount = 110
 const boardCount = 50
 const inviteCount = 100
 const joinCount = 200
+const messageCount = 50
 
 
 export const generateMockData = () => {
@@ -98,6 +120,7 @@ export const generateMockData = () => {
   mockBoards(boardCount, profileCount)
   mockInvites(inviteCount, profileCount)
   mockJoins(joinCount, profileCount)
+  mockMessages(messageCount, boardCount, profileCount)
 }
 
 
@@ -107,4 +130,5 @@ export const counts = {
   boardCount,
   joinCount,
   inviteCount,
+  messageCount,
 }

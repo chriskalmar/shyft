@@ -4,6 +4,7 @@ import { readRows } from './testingData';
 import { Profile } from './models/Profile';
 import { Board } from './models/Board';
 import { Participant } from './models/Participant';
+import { Message } from './models/Message';
 import {
   mutate,
   findOneByValue,
@@ -88,5 +89,21 @@ export const loadData = async () => {
       await mutate(Participant, 'accept', {}, invitation.id, asUser(invitee))
     }
   })
+
+
+
+  const messages = readRows('messages')
+
+  await asyncForEach(messages, async ([ content, author, board, writtenAt ]) => {
+    const payload = {
+      content,
+      author,
+      board,
+      writtenAt,
+    }
+
+    await mutate(Message, 'write', payload, null, asAdmin())
+  })
+
 
 }

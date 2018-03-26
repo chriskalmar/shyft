@@ -5,6 +5,7 @@ import {
   MUTATION_TYPE_CREATE,
   Permission,
   DataTypeString,
+  DataTypeTimestampTz,
 } from 'shift-engine';
 
 import { Profile } from './Profile';
@@ -59,6 +60,7 @@ export const Message = new Entity({
       attributes: [
         'board',
         'content',
+        'writtenAt',
       ],
     }),
   ],
@@ -93,6 +95,12 @@ export const Message = new Entity({
     content: {
       type: DataTypeString,
       description: 'Message content',
+      required: true,
+    },
+
+    writtenAt: {
+      type: DataTypeTimestampTz,
+      description: 'Message timestamp',
       required: true,
     },
 
