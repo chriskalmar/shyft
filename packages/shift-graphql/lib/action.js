@@ -74,13 +74,17 @@ const fillDefaultValues = async (param, payload, context) => fillSingleDefaultVa
 
 
 
-export const generateActions = (graphRegistry) => {
+export const generateActions = (graphRegistry, actionTypeFilter) => {
 
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
 
   const actions = {}
 
   _.forEach(graphRegistry.actions, ( { action }, actionName) => {
+
+    if (action.type !== actionTypeFilter) {
+      return
+    }
 
     const queryName = protocolConfiguration.generateActionTypeName(action)
 

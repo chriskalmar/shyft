@@ -5,6 +5,7 @@ import {
   DataTypeInteger,
   buildObjectDataType,
   buildListDataType,
+  ACTION_TYPE_MUTATION,
 } from 'shift-engine';
 
 import {
@@ -203,7 +204,7 @@ describe('action', () => {
 
   it('should generate actions', () => {
 
-    const generatedActions = generateActions(graphRegistry)
+    const generatedActions = generateActions(graphRegistry, ACTION_TYPE_MUTATION)
     expect(generatedActions).toMatchSnapshot();
 
     const actionNames = Object.keys(generatedActions)

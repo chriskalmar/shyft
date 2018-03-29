@@ -9,6 +9,8 @@ import ProtocolGraphQL from './ProtocolGraphQL';
 import {
   isEntity,
   isConfiguration,
+  ACTION_TYPE_QUERY,
+  ACTION_TYPE_MUTATION,
 } from 'shift-engine';
 
 import {
@@ -338,6 +340,7 @@ export const generateGraphQLSchema = (configuration) => {
 
       const listQueries = generateListQueries(graphRegistry)
       const instanceQueries = generateInstanceQueries(graphRegistry, idFetcher)
+      const actions = generateActions(graphRegistry, ACTION_TYPE_QUERY)
 
       // override args.id of relay to args.nodeId
       nodeField.args.nodeId = nodeField.args.id
@@ -348,6 +351,7 @@ export const generateGraphQLSchema = (configuration) => {
         node: nodeField,
         ...instanceQueries,
         ...listQueries,
+        ...actions,
       };
     },
   });
@@ -361,7 +365,7 @@ export const generateGraphQLSchema = (configuration) => {
     fields: () => {
 
       const mutations = generateMutations(graphRegistry)
-      const actions = generateActions(graphRegistry)
+      const actions = generateActions(graphRegistry, ACTION_TYPE_MUTATION)
 
       return {
         ...mutations,
