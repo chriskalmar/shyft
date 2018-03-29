@@ -6,6 +6,12 @@ import {
 } from '../util';
 
 
+export const ACTION_TYPE_MUTATION = 'mutation';
+export const ACTION_TYPE_QUERY = 'query';
+export const actionTypes = [
+  ACTION_TYPE_MUTATION,
+  ACTION_TYPE_QUERY,
+]
 
 class Action {
 
@@ -17,6 +23,7 @@ class Action {
       input,
       output,
       resolve,
+      type,
     } = setup
 
     passOrThrow(name, () => 'Missing action name')
@@ -37,11 +44,17 @@ class Action {
       () => `Action '${name}' needs a resolve function`
     )
 
+    passOrThrow(
+      !type || actionTypes.indexOf(type) >= 0,
+      () => `Unknown action type '${type}' used in action '${name}', try one of these: '${actionTypes.join(', ')}'`
+    )
+
     this.name = name
     this.description = description
     this.input = input
     this.output = output
     this.resolve = resolve
+    this.type = type || ACTION_TYPE_MUTATION
   }
 
 

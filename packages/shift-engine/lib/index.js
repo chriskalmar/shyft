@@ -13,7 +13,11 @@ import Index, {
   INDEX_UNIQUE,
   INDEX_GENERIC,
 } from './index/Index';
-import Action, { isAction } from './action/Action';
+import Action, {
+  isAction,
+  ACTION_TYPE_MUTATION,
+  ACTION_TYPE_QUERY,
+} from './action/Action';
 import Mutation, {
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
@@ -166,6 +170,8 @@ export {
 
   Action,
   isAction,
+  ACTION_TYPE_MUTATION,
+  ACTION_TYPE_QUERY,
 
   Mutation,
   MUTATION_TYPE_CREATE,
@@ -257,6 +263,8 @@ export default {
 
   Action,
   isAction,
+  ACTION_TYPE_MUTATION,
+  ACTION_TYPE_QUERY,
 
   Mutation,
   MUTATION_TYPE_CREATE,
