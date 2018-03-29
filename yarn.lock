@@ -3692,9 +3692,9 @@ pn@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.0.0.tgz#1cf5a30b0d806cd18f88fc41a6b5d4ad615b3ba9"
 
-pre-commit@^1.2.1:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/pre-commit/-/pre-commit-1.2.2.tgz#dbcee0ee9de7235e57f79c56d7ce94641a69eec6"
+pre-commit@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/pre-commit/-/pre-commit-1.2.1.tgz#6c591d1af460b41b36d136a0fe0ff9570b3c5473"
   dependencies:
     cross-spawn "^5.0.1"
     spawn-sync "^1.0.15"

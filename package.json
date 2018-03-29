@@ -33,7 +33,7 @@
     "jest": "^22.0.4",
     "lerna": "^2.0.0-rc.4",
     "lint-staged": "^3.2.2",
-    "pre-commit": "^1.2.1"
+    "pre-commit": "1.2.1"
   },
   "dependencies": {
     "casual": "^1.5.14"
