@@ -16,6 +16,7 @@ import {
   isObjectDataType,
   isListDataType,
   validateActionPayload,
+  ACTION_TYPE_MUTATION,
 } from 'shift-engine';
 
 import ProtocolGraphQL from './ProtocolGraphQL';
@@ -87,43 +88,65 @@ export const generateActions = (graphRegistry, actionTypeFilter) => {
     }
 
     const queryName = protocolConfiguration.generateActionTypeName(action)
+    const isMutation = (action.type === ACTION_TYPE_MUTATION)
 
     let actionDataInputType
     let actionDataOutputType
+    let actionInputType
+    let inputArgs
 
     if (action.hasInput()) {
       actionDataInputType = generateDataInput(actionName, action.getInput(), true)
+    }
+
+    if (action.hasInput() || isMutation) {
+      actionInputType = generateInput(actionName, actionDataInputType, true, isMutation)
+
+      inputArgs = {
+        input: {
+          description: 'Input argument for this action',
+          type: action.hasInput()
+            ? new GraphQLNonNull(actionInputType)
+            : actionInputType
+        },
+      }
     }
 
     if (action.hasOutput()) {
       actionDataOutputType = generateDataOutput(actionName, action.getOutput(), graphRegistry, true)
     }
 
-    const actionInputType = generateInput(actionName, actionDataInputType, true)
-    const actionOutputType = generateOutput(actionName, actionDataOutputType, true)
+    const actionOutputType = generateOutput(actionName, actionDataOutputType, true, isMutation)
 
     actions[ queryName ] = {
       type: actionOutputType,
       description: action.description,
 
-      args: {
-        input: {
-          description: 'Input argument for this action',
-          type: new GraphQLNonNull( actionInputType ),
-        },
-      },
+      args: inputArgs,
 
       resolve: async (source, args, context, info) => {
+        let payload
+        let clientMutationId
+
         if (action.hasInput()) {
           const input = action.getInput()
-          args.input.data = await fillDefaultValues(input, args.input.data, context)
-          validateActionPayload(input, args.input.data, action, context)
+          payload = args.input.data
+          clientMutationId = args.input.clientMutationId
+
+          args.input.data = await fillDefaultValues(input, payload, context)
+          validateActionPayload(input, payload, action, context)
         }
 
-        const result = await action.resolve(source, args.input.data, context, info)
+        if (isMutation) {
+          clientMutationId = args.input
+            ? args.input.clientMutationId
+            : undefined
+        }
+
+        const result = await action.resolve(source, payload, context, info)
         return {
           result,
-          clientMutationId: args.input.clientMutationId,
+          clientMutationId,
         }
       }
     }
