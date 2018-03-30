@@ -28,7 +28,7 @@ Object {
     "args": Object {
       "input": Object {
         "description": "Input argument for this action",
-        "type": "NoInputActionInput!",
+        "type": "NoInputActionInput",
       },
     },
     "description": "do something",

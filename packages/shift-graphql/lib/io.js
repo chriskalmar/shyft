@@ -113,7 +113,7 @@ const generateDataInputFields = (inputParams, baseName, level = 0) => {
 
 
 
-export const generateInput = (baseName, dataInputType, isField) => {
+export const generateInput = (baseName, dataInputType, isField, includeClientMutationId=false) => {
 
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
 
@@ -123,8 +123,9 @@ export const generateInput = (baseName, dataInputType, isField) => {
     description: `Mutation input type for **\`${baseName}\`**`,
 
     fields: () => {
-      const fields = {
-        clientMutationId: {
+      const fields = {}
+      if (includeClientMutationId) {
+        fields.clientMutationId = {
           type: GraphQLString,
         }
       }
@@ -238,7 +239,7 @@ const generateDataOutputFields = (outputParams, baseName, graphRegistry, level =
 
 
 
-export const generateOutput = (baseName, dataOutputType, isField) => {
+export const generateOutput = (baseName, dataOutputType, isField, includeClientMutationId=false) => {
 
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
 
@@ -247,8 +248,9 @@ export const generateOutput = (baseName, dataOutputType, isField) => {
     description: `Mutation output type for **\`${baseName}\`**`,
 
     fields: () => {
-      const fields = {
-        clientMutationId: {
+      const fields = {}
+      if (includeClientMutationId) {
+        fields.clientMutationId = {
           type: GraphQLString,
         }
       }

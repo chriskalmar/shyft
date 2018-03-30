@@ -91,7 +91,7 @@ describe('io', () => {
   it('should generate an input type', () => {
 
     const inputDataInputType = generateDataInput(simpleAction.name, simpleAction.getInput(), true)
-    const type = generateInput(simpleAction.name, inputDataInputType, true)
+    const type = generateInput(simpleAction.name, inputDataInputType, true, true)
     expect(type.name).toEqual('NewSimpleActionInput');
 
     const inputFields = type.getFields()
@@ -116,7 +116,7 @@ describe('io', () => {
   it('should generate an output type', () => {
 
     const outputDataOutputType = generateDataOutput(simpleAction.name, simpleAction.getOutput(), null, true)
-    const type = generateOutput(simpleAction.name, outputDataOutputType, true)
+    const type = generateOutput(simpleAction.name, outputDataOutputType, true, true)
     expect(type.name).toEqual('NewSimpleActionOutput');
 
     const outputFields = type.getFields()
@@ -225,7 +225,7 @@ describe('io', () => {
 
 
     const inputDataInputType = generateDataInput(complexAction.name, complexAction.getInput(), true)
-    const type = generateInput(complexAction.name, inputDataInputType, true)
+    const type = generateInput(complexAction.name, inputDataInputType, true, true)
     expect(type.name).toEqual('BuildTeamInput');
 
     const inputFields = type.getFields()
