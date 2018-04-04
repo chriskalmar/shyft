@@ -108,7 +108,7 @@ describe('filter', () => {
   describe('transformFilterLevel', () => {
 
 
-    it('should process filter level', () => {
+    it('should process filter level', async () => {
 
       const goodFilter1 = {
         lastName: 'Doe',
@@ -143,17 +143,17 @@ describe('filter', () => {
 
 
       expect(
-        transformFilterLevel(goodFilter1, filteredEntity.getAttributes(), ['somewhere'])
+        await transformFilterLevel(goodFilter1, filteredEntity.getAttributes(), {}, ['somewhere'])
       ).toEqual(result1)
 
       expect(
-        transformFilterLevel(goodFilter2, filteredEntity.getAttributes(), ['somewhere'])
+        await transformFilterLevel(goodFilter2, filteredEntity.getAttributes(), {}, ['somewhere'])
       ).toEqual(result2)
 
     })
 
 
-    it('should process nested filter levels', () => {
+    it('should process nested filter levels', async () => {
 
       const goodFilter1 = {
         lastName: 'Doe',
@@ -218,48 +218,41 @@ describe('filter', () => {
 
 
       expect(
-        transformFilterLevel(goodFilter1, filteredEntity.getAttributes(), ['somewhere'])
+        await transformFilterLevel(goodFilter1, filteredEntity.getAttributes(), {}, ['somewhere'])
       ).toEqual(result1)
 
       expect(
-        transformFilterLevel(goodFilter2, filteredEntity.getAttributes(), ['somewhere'])
+        await transformFilterLevel(goodFilter2, filteredEntity.getAttributes(), {}, ['somewhere'])
       ).toEqual(result2)
 
     })
 
 
-    it('should throw if provided params are invalid', () => {
+    it('should throw if provided params are invalid', async () => {
 
-      function fn1() {
+      expect(
         transformFilterLevel('a')
-      }
+      ).rejects.toThrowErrorMatchingSnapshot();
 
-      function fn2() {
-        transformFilterLevel([], null, [])
-      }
+      expect(
+        transformFilterLevel([], null, {}, [])
+      ).rejects.toThrowErrorMatchingSnapshot();
 
-      function fn3() {
-        transformFilterLevel([], null, ['somewhere'])
-      }
+      expect(
+        transformFilterLevel([], null, {}, ['somewhere'])
+      ).rejects.toThrowErrorMatchingSnapshot();
 
-      function fn4() {
-        transformFilterLevel([], null, ['somewhere', 'deeply', 'nested'])
-      }
+      expect(
+        transformFilterLevel([], null, {}, ['somewhere', 'deeply', 'nested'])
+      ).rejects.toThrowErrorMatchingSnapshot();
 
-      function fn5() {
-        transformFilterLevel({}, null, ['somewhere', 'deeply', 'nested'])
-      }
-
-      expect(fn1).toThrowErrorMatchingSnapshot();
-      expect(fn2).toThrowErrorMatchingSnapshot();
-      expect(fn3).toThrowErrorMatchingSnapshot();
-      expect(fn4).toThrowErrorMatchingSnapshot();
-      expect(fn5).toThrowErrorMatchingSnapshot();
-
+      expect(
+        transformFilterLevel({}, null, {}, ['somewhere', 'deeply', 'nested'])
+      ).rejects.toThrowErrorMatchingSnapshot();
     })
 
 
-    it('should throw if invalid attributes are used in filter', () => {
+    it('should throw if invalid attributes are used in filter', async () => {
 
       const badFilter1 = {
         lastName: 'Doe',
@@ -274,26 +267,22 @@ describe('filter', () => {
       }
 
 
-      function fn1() {
-        transformFilterLevel(badFilter1, filteredEntity.getAttributes(), null)
-      }
+      expect(
+        transformFilterLevel(badFilter1, filteredEntity.getAttributes(), {}, null)
+      ).rejects.toThrowErrorMatchingSnapshot();
 
-      function fn2() {
-        transformFilterLevel(badFilter2, filteredEntity.getAttributes(), null)
-      }
+      expect(
+        transformFilterLevel(badFilter2, filteredEntity.getAttributes(), {}, null)
+      ).rejects.toThrowErrorMatchingSnapshot();
 
-      function fn3() {
-        transformFilterLevel(badFilter2, filteredEntity.getAttributes(), ['just', 'here'])
-      }
-
-      expect(fn1).toThrowErrorMatchingSnapshot();
-      expect(fn2).toThrowErrorMatchingSnapshot();
-      expect(fn3).toThrowErrorMatchingSnapshot();
+      expect(
+        transformFilterLevel(badFilter2, filteredEntity.getAttributes(), {}, ['just', 'here'])
+      ).rejects.toThrowErrorMatchingSnapshot();
     })
 
 
 
-    it('should throw if exact match operators is used with another operator on the same attribute', () => {
+    it('should throw if exact match operators is used with another operator on the same attribute', async () => {
 
       const badFilter1 = {
         lastName__in: ['Doe', 'Smith'],
@@ -311,16 +300,13 @@ describe('filter', () => {
         isActive: true,
       }
 
-      function fn1() {
-        transformFilterLevel(badFilter1, filteredEntity.getAttributes(), null)
-      }
+      expect(
+        transformFilterLevel(badFilter1, filteredEntity.getAttributes(), {}, null)
+      ).rejects.toThrowErrorMatchingSnapshot();
 
-      function fn2() {
-        transformFilterLevel(badFilter2, filteredEntity.getAttributes(), null)
-      }
-
-      expect(fn1).toThrowErrorMatchingSnapshot();
-      expect(fn2).toThrowErrorMatchingSnapshot();
+      expect(
+        transformFilterLevel(badFilter2, filteredEntity.getAttributes(), {}, null)
+      ).rejects.toThrowErrorMatchingSnapshot();
 
     })
 
