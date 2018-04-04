@@ -151,10 +151,25 @@ export const splitAttributeAndFilterOperator = (str) => {
 }
 
 
+const deepFilterResolver = async (entity, filter, context, path) => {
+  const storageType = entity.storageType
 
-export const transformFilterLevel = (filters = {}, attributes, path) => {
+  const transformedFilter = await transformFilterLevel(filter, entity.getAttributes(), context, path) // eslint-disable-line no-use-before-define
+  const { data } = await storageType.find(entity, { filter: transformedFilter }, context)
+  const ids = data.map(({ id }) => id)
+
+  if (ids.length < 1) {
+    return null
+  }
+
+  return ids
+}
+
+
+export const transformFilterLevel = async (filters = {}, attributes, context, path) => {
 
   const ret = {}
+  const hasFilter = {}
 
   if (path && !isArray(path, true)) {
     throw new Error('optional path in transformFilterLevel() needs to be an array')
@@ -175,17 +190,23 @@ export const transformFilterLevel = (filters = {}, attributes, path) => {
   }
 
 
-  mapOverProperties(filters, (value, filter) => {
+  const filterKeys = Object.keys(filters);
+  await Promise.all(filterKeys.map(async (filter) => {
 
+    const value = filters[filter]
     if (filter === AND_OPERATOR || filter === OR_OPERATOR) {
       const logicalKey = logicalKeysMap[filter]
       const newPath = path
         ? path.slice()
         : []
 
-      newPath.push(filter)
-
-      ret[logicalKey] = value.map(newFilter => transformFilterLevel(newFilter, attributes, path))
+      ret[ logicalKey ] = await Promise.all(
+        value.map(async (newFilter, idx) => {
+          const idxPath = newPath.slice()
+          idxPath.push(`${filter}[${idx}]`)
+          return await transformFilterLevel(newFilter, attributes, context, idxPath)
+        })
+      )
 
       return
     }
@@ -211,27 +232,59 @@ export const transformFilterLevel = (filters = {}, attributes, path) => {
       throw new Error(`Unknown attribute name '${attributeName}' used in filter${errorLocation}`)
     }
 
+    hasFilter[ attributeName ] = hasFilter[ attributeName ] || {}
+
+    if (operator) {
+      if (operator === DEEP_FILTER_OPERATOR) {
+        hasFilter[ attributeName ].hasDeepFilter = true
+      }
+      else {
+        hasFilter[ attributeName ].hasComplexFilter = true
+      }
+    }
+    else {
+      hasFilter[ attributeName ].hasExactMatchFilter = true
+    }
+
     const realAttributeName = attribute.name
+
+    if (hasFilter[ attributeName ].hasDeepFilter && (hasFilter[ attributeName ].hasComplexFilter || hasFilter[ attributeName ].hasExactMatchFilter)) {
+      throw new Error(`Cannot combine 'filter' operator with other operators on attribute '${attributeName}' used in filter${errorLocation}`)
+    }
+
+    if (hasFilter[ attributeName ].hasExactMatchFilter && (hasFilter[ attributeName ].hasComplexFilter || hasFilter[ attributeName ].hasDeepFilter)) {
+      throw new Error(`Cannot combine 'exact match' operator with other operators on attribute '${attributeName}' used in filter${errorLocation}`)
+    }
+
 
     if (operator) {
       ret[realAttributeName] = ret[realAttributeName] || {}
 
-      if (!isMap(ret[realAttributeName])) {
-        throw new Error(`Cannot combine 'exact match' operator with other operators on attribute '${attributeName}' used in filter${errorLocation}`)
-      }
+      if (operator === DEEP_FILTER_OPERATOR) {
+        const newPath = path
+          ? path.slice()
+          : []
 
-      const operatorKey = `\$${operator}`
-      ret[realAttributeName][operatorKey] = value
+        newPath.push(filter)
+
+        const targetEntity = attributes[ attributeName ].type
+        const resolvedList = await deepFilterResolver(targetEntity, value, context, newPath)
+        if (resolvedList) {
+          ret[ realAttributeName ].$in = resolvedList
+        }
+        else {
+          ret[ realAttributeName ].$noResult = true
+        }
+      }
+      else {
+        const operatorKey = `\$${operator}`
+        ret[realAttributeName][operatorKey] = value
+      }
     }
     else {
-      if (isMap(ret[realAttributeName])) {
-        throw new Error(`Cannot combine 'exact match' operator with other operators on attribute '${attributeName}' used in filter${errorLocation}`)
-      }
-
       ret[realAttributeName] = value
     }
-
-  })
+  }))
 
   return ret
 }
