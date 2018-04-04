@@ -11,6 +11,7 @@ import {
   isConfiguration,
   ACTION_TYPE_QUERY,
   ACTION_TYPE_MUTATION,
+  DataTypeI18n,
 } from 'shift-engine';
 
 import {
@@ -84,6 +85,9 @@ export const extendModelsForGql = (entities) => {
       if (attribute.i18n) {
         attribute.gqlFieldNameI18n = protocolConfiguration.generateI18nFieldName(attribute)
         dataShaperMap[ attribute.gqlFieldNameI18n ] = `${attribute.name}.i18n`
+
+        attribute.gqlFieldNameI18nJson = protocolConfiguration.generateI18nJsonFieldName(attribute)
+        dataShaperMap[ attribute.gqlFieldNameI18nJson ] = `${attribute.name}.i18n`
       }
     })
 
@@ -285,6 +289,21 @@ export const generateGraphQLSchema = (configuration) => {
           fields[ attribute.gqlFieldName ] = field;
 
           if (attribute.i18n) {
+
+            // JSON i18n output
+            const i18nJsonFieldType = ProtocolGraphQL.convertToProtocolDataType(DataTypeI18n, entity.name, false)
+
+            const i18nJsonField = {
+              type: attribute.required
+                ? new GraphQLNonNull(i18nJsonFieldType)
+                : i18nJsonFieldType,
+              description: `Translations of **\`${attribute.gqlFieldName}\`** in JSON format`,
+            }
+
+            fields[ attribute.gqlFieldNameI18nJson ] = i18nJsonField;
+
+
+            // Object Type i18n output
             const i18nFieldType = new GraphQLObjectType({
               name: protocolConfiguration.generateI18nFieldTypeName(entity, attribute),
               description: `Translations of **\`${attribute.gqlFieldName}\`**`,

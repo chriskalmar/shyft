@@ -65,6 +65,12 @@ class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     return generateTypeName(attribute.name)
   }
 
+
+  generateI18nJsonFieldName(attribute) {
+    const fieldName = this.generateFieldName(attribute)
+    return `${fieldName}_i18nJson`
+  }
+
   generateI18nFieldName(attribute) {
     const fieldName = this.generateFieldName(attribute)
     return `${fieldName}_i18n`
