@@ -217,6 +217,7 @@ export const findInvalidPermissionAttributes = (permission, entity) => {
     passOrThrow(
       attribute && (
         isDataTypeUser(attribute.type) ||
+        (entity.isUserEntity && entity.getPrimaryAttribute() === attribute) ||
         ( isEntity(attribute.type) && attribute.type.isUserEntity )
       ),
       () => `Cannot use attribute '${userAttribute}' in '${entity.name}.permissions' as 'userAttribute' as it is not a reference to the User entity`
