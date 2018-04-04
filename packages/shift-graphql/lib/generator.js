@@ -103,6 +103,13 @@ export const extendModelsForGql = (entities) => {
       return set.map(entity.graphql.dataShaper)
     }
 
+    // remove i18n JSON output mapping so it doesn't overwrite values in mutation inputs
+    _.forEach(entity.getAttributes(), (attribute) => {
+      if (attribute.i18n) {
+        delete dataShaperMap[ attribute.gqlFieldNameI18nJson ]
+      }
+    })
+
     const reverseDataShaper = shaper(_.invert(dataShaperMap))
     entity.graphql.reverseDataShaper = (data) => {
       return data ? reverseDataShaper(data) : data
