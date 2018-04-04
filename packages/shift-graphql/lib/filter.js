@@ -15,7 +15,6 @@ import {
   isComplexDataType,
   isArray,
   isMap,
-  mapOverProperties,
 } from 'shift-engine';
 
 
@@ -31,9 +30,10 @@ const logicalKeysMap = {
   [OR_OPERATOR]: '$or',
 }
 
+const DEEP_FILTER_OPERATOR = 'filter'
 
 
-export const generateFilterInput = (entity) => {
+export const generateFilterInput = (entity, graphRegistry) => {
 
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
   const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase
@@ -69,6 +69,13 @@ export const generateFilterInput = (entity) => {
         // it's a reference
         if (isEntity(attributeType)) {
           const targetEntity = attributeType
+          const targetTypeName = targetEntity.graphql.typeName
+          const targetRegistryType = graphRegistry.types[ targetTypeName ]
+          const targetConnectionArgs = targetRegistryType.connectionArgs
+
+          const fieldName = `${attribute.gqlFieldName}__${DEEP_FILTER_OPERATOR}`
+          fields[ fieldName ] = targetConnectionArgs.filter
+
           const primaryAttribute = targetEntity.getPrimaryAttribute()
           attributeType = primaryAttribute.type
         }
