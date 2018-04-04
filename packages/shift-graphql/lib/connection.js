@@ -26,10 +26,10 @@ import { generateFilterInput } from './filter';
 import _ from 'lodash';
 
 
-export const generateConnectionArgs = (entity, type) => {
+export const generateConnectionArgs = (entity, graphRegistry) => {
 
   const sortInput = generateSortInput(entity)
-  const filterInput = generateFilterInput(entity, type)
+  const filterInput = generateFilterInput(entity, graphRegistry)
 
   return {
 
@@ -264,7 +264,7 @@ export const registerConnection = (graphRegistry, entity) => {
     entity,
   })
 
-  const connectionArgs = generateConnectionArgs(entity, type)
+  const connectionArgs = generateConnectionArgs(entity, graphRegistry)
 
   graphRegistry.types[typeName].connection = connectionType
   graphRegistry.types[typeName].connectionArgs = connectionArgs
@@ -305,7 +305,7 @@ export const generateReverseConnections = (configuration, graphRegistry, entity)
 
         validateConnectionArgs(args)
         forceSortByUnique(args.orderBy, sourceEntity)
-        args.filter = transformFilterLevel(args.filter, entity.getAttributes())
+        args.filter = await transformFilterLevel(args.filter, entity.getAttributes(), context)
 
         const parentEntityTypeName = protocolConfiguration.generateEntityTypeName(info.parentType)
         const parentEntity = graphRegistry.types[parentEntityTypeName].entity

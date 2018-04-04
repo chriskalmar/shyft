@@ -42,7 +42,8 @@ export const generateListQueries = (graphRegistry) => {
 
         validateConnectionArgs(args)
         forceSortByUnique(args.orderBy, entity)
-        args.filter = transformFilterLevel(args.filter, entity.getAttributes())
+
+        args.filter = await transformFilterLevel(args.filter, entity.getAttributes(), context)
 
         const {
           data,
