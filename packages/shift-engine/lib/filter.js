@@ -12,6 +12,8 @@ import {
 
 
 const logicFilters = ['$and', '$or']
+const deepFilter = '$filter'
+const noResultFilter = '$noResult'
 
 
 export const validateFilterLevel = (filters, attributes, path, storageType) => {
@@ -55,6 +57,21 @@ export const validateFilterLevel = (filters, attributes, path, storageType) => {
       return
     }
 
+    if (filter.indexOf(deepFilter) === 0) {
+      const newPath = path
+        ? path.slice()
+        : []
+
+      newPath.push(filter)
+
+      const attributeName = filter.replace(`${deepFilter}.`, '')
+      const targetEntity = attributes[ attributeName ].type
+
+      validateFilterLevel(value, targetEntity.getAttributes(), path, storageType)
+
+      return
+    }
+
 
     const attributeName = filter
     const attribute = attributes[attributeName]
@@ -83,6 +100,11 @@ export const validateFilterLevel = (filters, attributes, path, storageType) => {
       const operators = Object.keys(value)
 
       operators.map(operator => {
+
+        if (operator === noResultFilter) {
+          return
+        }
+
         const operatorCapabilityName = operator.replace('\$', '')
         passOrThrow(
           storageDataType.capabilities.indexOf(operatorCapabilityName) >= 0,
