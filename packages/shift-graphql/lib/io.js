@@ -208,7 +208,7 @@ const generateDataOutputField = (param, paramName, baseName, graphRegistry, leve
   else if (isEntity(paramType)) {
     const targetEntity = paramType
     const targetTypeName = targetEntity.graphql.typeName
-    baseFieldType = graphRegistry.types[ targetTypeName ]
+    baseFieldType = graphRegistry.types[ targetTypeName ].type
   }
   else {
     baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType, baseName, false)
