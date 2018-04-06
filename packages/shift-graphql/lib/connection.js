@@ -305,7 +305,7 @@ export const generateReverseConnections = (configuration, graphRegistry, entity)
 
         validateConnectionArgs(args)
         forceSortByUnique(args.orderBy, sourceEntity)
-        args.filter = await transformFilterLevel(args.filter, entity.getAttributes(), context)
+        args.filter = await transformFilterLevel(args.filter, sourceEntity.getAttributes(), context)
 
         const parentEntityTypeName = protocolConfiguration.generateEntityTypeName(info.parentType)
         const parentEntity = graphRegistry.types[parentEntityTypeName].entity
