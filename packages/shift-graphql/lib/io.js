@@ -18,6 +18,9 @@ import {
   isListDataType,
 } from 'shift-engine';
 
+import {
+  addRelayTypePromoterToInstanceFn,
+} from './util';
 
 
 export const generateDataInput = (baseName, inputParams, singleParam) => {
@@ -188,6 +191,8 @@ export const generateNestedDataOutput = (baseName, nestedParam, nestedParamName,
 
 const generateDataOutputField = (param, paramName, baseName, graphRegistry, level = 0) => {
 
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
+
   let paramType = param.type
   let baseFieldType
   let isList = false
@@ -207,8 +212,33 @@ const generateDataOutputField = (param, paramName, baseName, graphRegistry, leve
   }
   else if (isEntity(paramType)) {
     const targetEntity = paramType
+
+    const reference = {
+      description: param.description,
+    };
+
     const targetTypeName = targetEntity.graphql.typeName
-    baseFieldType = graphRegistry.types[ targetTypeName ].type
+
+    reference.type = graphRegistry.types[ targetTypeName ].type
+    reference.resolve = (source, args, context) => {
+      const referenceId = source[ paramName ]
+
+      if (referenceId === null) {
+        return Promise.resolve(null)
+      }
+
+      const storageType = targetEntity.storageType
+
+      return storageType.findOne(targetEntity, referenceId, args, context)
+        .then(
+          addRelayTypePromoterToInstanceFn(
+            protocolConfiguration.generateEntityTypeName(targetEntity)
+          )
+        )
+        .then(targetEntity.graphql.dataShaper)
+    }
+
+    return reference
   }
   else {
     baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType, baseName, false)

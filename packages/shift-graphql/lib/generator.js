@@ -209,8 +209,6 @@ export const generateGraphQLSchema = (configuration) => {
 
     const typeName = entity.graphql.typeName
 
-    const storageType = entity.storageType
-
     const objectType = new GraphQLObjectType({
       name: protocolConfiguration.generateEntityTypeNamePascalCase(entity),
       description: entity.description,
@@ -263,6 +261,8 @@ export const generateGraphQLSchema = (configuration) => {
               if (referenceId === null) {
                 return Promise.resolve(null)
               }
+
+              const storageType = targetEntity.storageType
 
               return storageType.findOne(targetEntity, referenceId, args, context)
                 .then(
