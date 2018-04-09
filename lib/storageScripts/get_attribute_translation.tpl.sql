@@ -13,12 +13,7 @@ BEGIN
   -- This is an auto-generated function
   -- Template (get_attribute_translation.tpl.sql)
 
-  languages := '<%=
-    JSON
-      .stringify(languages, null, 2)
-      .split("\n")
-      .join("\n  ")
-  %>';
+  languages := '<%= languages %>';
 
   data := to_json(rec);
   i18n := (data->'i18n')::JSON;

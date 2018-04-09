@@ -10,12 +10,7 @@ BEGIN
   -- This is an auto-generated function
   -- Template (get_state_id.tpl.sql)
 
-  statesMap := '<%=
-    JSON
-      .stringify(statesMap, null, 2)
-      .split("\n")
-      .join("\n  ")
-  %>';
+  statesMap := '<%= statesMap %>';
 
   IF (statesMap->entity IS NOT NULL) THEN
     IF (statesMap->entity->state_name IS NOT NULL) THEN

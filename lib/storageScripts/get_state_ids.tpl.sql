@@ -13,12 +13,7 @@ BEGIN
   -- This is an auto-generated function
   -- Template (get_state_ids.tpl.sql)
 
-  statesMap := '<%=
-    JSON
-      .stringify(statesMap, null, 2)
-      .split("\n")
-      .join("\n  ")
-  %>';
+  statesMap := '<%= statesMap %>';
 
   IF (statesMap->entity IS NOT NULL) THEN
     FOREACH stateName IN ARRAY state_names LOOP
