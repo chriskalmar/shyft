@@ -7,7 +7,7 @@ DECLARE
 BEGIN
 
   -- This is an auto-generated function
-  -- Template (get_state_map.sql.tpl)
+  -- Template (get_state_map.tpl.sql)
 
   statesMap := '<%=
     JSON
