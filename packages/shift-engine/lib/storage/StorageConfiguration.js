@@ -10,6 +10,12 @@ class StorageConfiguration {
     const {
       storageInstance,
       storageModels,
+      host,
+      port,
+      username,
+      password,
+      database,
+      logging,
     } = setup
 
     if (storageInstance) {
@@ -19,6 +25,13 @@ class StorageConfiguration {
     if (storageModels) {
       this.setStorageModels(storageModels)
     }
+
+    this.host = host
+    this.port = port
+    this.username = username
+    this.password = password
+    this.database = database
+    this.logging = logging
   }
 
 
