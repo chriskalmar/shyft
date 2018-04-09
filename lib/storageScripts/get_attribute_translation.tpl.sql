@@ -5,7 +5,7 @@ CREATE OR REPLACE FUNCTION <%= functionName %>(
 ) RETURNS TEXT AS $$
 DECLARE
   languages JSON;
-  language_id TEXT;
+  languageId TEXT;
   data JSONB;
   i18n JSON;
 BEGIN
@@ -22,11 +22,11 @@ BEGIN
 
   data := to_json(rec);
   i18n := (data->'i18n')::JSON;
-  language_id := languages->language;
+  languageId := languages->language;
 
-  IF (language_id IS NOT NULL) THEN
+  IF (languageId IS NOT NULL) THEN
     IF (i18n->attribute IS NOT NULL) THEN
-      RETURN COALESCE(i18n->attribute->>language_id, data->>attribute);
+      RETURN COALESCE(i18n->attribute->>languageId, data->>attribute);
     END IF;
 
     IF (data ? attribute) THEN

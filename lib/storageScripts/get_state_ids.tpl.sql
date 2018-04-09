@@ -5,8 +5,8 @@ CREATE OR REPLACE FUNCTION <%= functionName %>(
 ) RETURNS INTEGER[] AS $$
 DECLARE
   statesMap JSON;
-  state_name TEXT;
-  state_id INTEGER;
+  stateName TEXT;
+  stateId INTEGER;
   result INTEGER[] DEFAULT '{}';
 BEGIN
 
@@ -21,12 +21,12 @@ BEGIN
   %>';
 
   IF (statesMap->entity IS NOT NULL) THEN
-    FOREACH state_name IN ARRAY state_names LOOP
-      IF (statesMap->entity->state_name IS NOT NULL) THEN
-        state_id := statesMap->entity->state_name;
-        result := result || state_id;
+    FOREACH stateName IN ARRAY state_names LOOP
+      IF (statesMap->entity->stateName IS NOT NULL) THEN
+        stateId := statesMap->entity->stateName;
+        result := result || stateId;
       ELSE
-        RAISE EXCEPTION 'Unknown state name used in <%= functionName %>(): %.%', entity, state_name;
+        RAISE EXCEPTION 'Unknown state name used in <%= functionName %>(): %.%', entity, stateName;
       END IF;
     END LOOP;
   ELSE
