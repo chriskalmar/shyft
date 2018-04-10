@@ -44,7 +44,7 @@ const schema = new Schema({
 
 
 const languages = {
-  en: 1,
+  default: 1,
   de: 2,
 }
 
