@@ -54,7 +54,12 @@ class Configuration {
 
     passOrThrow(
       isMap(languages, true),
-      () => 'Configuration expects a mapping of language codes and IDs'
+      () => 'Configuration.setLanguages() expects a mapping of language codes and IDs'
+    )
+
+    passOrThrow(
+      languages.default,
+      () => 'Configuration.setLanguages() expects `default` language to be defined'
     )
 
     const languageCodes = Object.keys(languages)
