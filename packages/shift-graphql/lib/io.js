@@ -16,6 +16,7 @@ import {
   isEntity,
   isObjectDataType,
   isListDataType,
+  isArray,
 } from 'shift-engine';
 
 import {
@@ -220,10 +221,10 @@ const generateDataOutputField = (param, paramName, baseName, graphRegistry, leve
     const targetTypeName = targetEntity.graphql.typeName
 
     reference.type = graphRegistry.types[ targetTypeName ].type
-    reference.resolve = (source, args, context) => {
+    reference.resolve = async (source, args, context) => {
       const referenceId = source[ paramName ]
 
-      if (referenceId === null) {
+      if (referenceId === null || typeof referenceId === 'undefined') {
         return Promise.resolve(null)
       }
 
@@ -236,6 +237,23 @@ const generateDataOutputField = (param, paramName, baseName, graphRegistry, leve
           )
         )
         .then(targetEntity.graphql.dataShaper)
+    }
+
+    if (isList) {
+      return {
+        type: new GraphQLList(reference.type),
+        resolve: (source, args, context) => {
+          const referenceIds = source[ paramName ]
+
+          if (!isArray(referenceIds)) {
+            return Promise.resolve(null)
+          }
+
+          return referenceIds.map(referenceId => {
+            return reference.resolve({ [ paramName ]: referenceId }, args, context)
+          })
+        }
+      }
     }
 
     return reference
