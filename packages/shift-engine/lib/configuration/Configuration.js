@@ -34,7 +34,7 @@ class Configuration {
       storageConfiguration,
     } = setup
 
-    this.setLanguages(languages || { en: 1 })
+    this.setLanguages(languages || { default: 1 })
 
     if (schema) {
       this.setSchema(schema)
