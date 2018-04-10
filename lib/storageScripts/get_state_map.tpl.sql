@@ -1,6 +1,6 @@
 
 CREATE OR REPLACE FUNCTION <%= functionName %>(
-  entity text
+  entity TEXT
 ) RETURNS JSON AS $$
 DECLARE
   statesMap JSON;

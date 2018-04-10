@@ -1,5 +1,5 @@
 CREATE OR REPLACE FUNCTION <%= functionName %>(
-  rec anyelement,
+  rec ANYELEMENT,
   attribute TEXT
 ) RETURNS TEXT AS $$
 DECLARE

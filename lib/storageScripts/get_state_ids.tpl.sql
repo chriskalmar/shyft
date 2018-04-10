@@ -1,7 +1,7 @@
 
 CREATE OR REPLACE FUNCTION <%= functionName %>(
-  entity text,
-  state_names text[]
+  entity TEXT,
+  state_names TEXT[]
 ) RETURNS INTEGER[] AS $$
 DECLARE
   statesMap JSON;
