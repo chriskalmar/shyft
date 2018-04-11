@@ -34,5 +34,5 @@ BEGIN
   RAISE EXCEPTION 'Unknown language used in <%= functionName %>(): %', language;
 END;
 $$
-LANGUAGE plpgsql;
+LANGUAGE plpgsql STABLE;
 
