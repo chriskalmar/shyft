@@ -10,12 +10,12 @@ Object {
   "shortSummary": null,
   "shortSummary.i18n": Object {
     "de": undefined,
-    "en": null,
+    "default": null,
   },
   "title": "War and Peace",
   "title.i18n": Object {
     "de": "Krieg und Frieden",
-    "en": "War and Peace",
+    "default": "War and Peace",
   },
 }
 `;
@@ -28,12 +28,12 @@ Object {
   "shortSummary": "The novel chronicles the history of ...",
   "shortSummary.i18n": Object {
     "de": "Krieg und Frieden ist ein historischer Roman des ...",
-    "en": "The novel chronicles the history of ...",
+    "default": "The novel chronicles the history of ...",
   },
   "title": "War and Peace",
   "title.i18n": Object {
     "de": "Krieg und Frieden",
-    "en": "War and Peace",
+    "default": "War and Peace",
   },
 }
 `;
@@ -46,12 +46,12 @@ Object {
   "shortSummary": null,
   "shortSummary.i18n": Object {
     "de": undefined,
-    "en": null,
+    "default": null,
   },
   "title": "War and Peace",
   "title.i18n": Object {
     "de": "Krieg und Frieden",
-    "en": "War and Peace",
+    "default": "War and Peace",
   },
 }
 `;

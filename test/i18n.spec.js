@@ -49,7 +49,7 @@ describe('i18n', () => {
 
     const payload = {
       'title.i18n': {
-        en: 'War and Peace',
+        default: 'War and Peace',
         de: 'Krieg und Frieden',
       },
       author: 'Leo Tolstoy',
@@ -64,7 +64,7 @@ describe('i18n', () => {
 
     const payload = {
       'title.i18n': {
-        en: 'War and Peace',
+        default: 'War and Peace',
         de: 'Krieg und Frieden',
       },
       shortSummary: 'The novel chronicles the history of ...',
