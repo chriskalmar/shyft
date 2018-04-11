@@ -84,6 +84,8 @@ export const disconnectDB = async () => {
 
 export const mutate = async (entity, mutationName, payload, id, context) => {
 
+  const modelRegistry = StorageTypePostgres.getStorageModels()
+
   const typeName = entity.name
   const entityMutation = entity.getMutationByName(mutationName)
   const source = {}
@@ -111,7 +113,7 @@ export const mutate = async (entity, mutationName, payload, id, context) => {
     validateMutationPayload(entity, entityMutation, args.input[typeName], context)
 
     if (entityMutation.type !== MUTATION_TYPE_DELETE) {
-      args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
+      args.input[ typeName ] = serializeValues(entity, entityMutation, args.input[ typeName ], modelRegistry[ typeName ], context)
     }
   }
 
