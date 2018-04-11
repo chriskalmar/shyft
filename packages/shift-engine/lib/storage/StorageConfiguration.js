@@ -10,12 +10,7 @@ class StorageConfiguration {
     const {
       storageInstance,
       storageModels,
-      host,
-      port,
-      username,
-      password,
-      database,
-      logging,
+      connectionConfig,
     } = setup
 
     if (storageInstance) {
@@ -26,12 +21,9 @@ class StorageConfiguration {
       this.setStorageModels(storageModels)
     }
 
-    this.host = host
-    this.port = port
-    this.username = username
-    this.password = password
-    this.database = database
-    this.logging = logging
+    if (connectionConfig) {
+      this.setConnectionConfig(connectionConfig)
+    }
   }
 
 
@@ -62,6 +54,21 @@ class StorageConfiguration {
     )
 
     return this.storageModels
+  }
+
+
+  setConnectionConfig(connectionConfig) {
+    this.connectionConfig = connectionConfig
+  }
+
+
+  getConnectionConfig() {
+    passOrThrow(
+      this.connectionConfig,
+      () => `Connection config not set for storage type '${this.name}'`
+    )
+
+    return this.connectionConfig
   }
 }
 
