@@ -1,16 +1,16 @@
 
 
-import { createConnection } from 'typeorm';
-
-
 import {
   Schema,
   Configuration,
-  StorageConfiguration,
 } from 'shift-engine';
 
-import { loadModels } from '../lib/generator';
+import {
+  connectStorage,
+  disconnectStorage,
+} from '../lib/generator';
 import { StorageTypePostgres } from '../lib/StorageTypePostgres';
+import StoragePostgresConfiguration from '../lib/StoragePostgresConfiguration';
 
 import {
   fillSystemAttributesDefaultValues,
@@ -49,46 +49,35 @@ const languages = {
 }
 
 
-const storageConfiguration = new StorageConfiguration()
 
 const configuration = new Configuration({
   languages,
   schema,
-  storageConfiguration,
 })
 
 
-let connection
 
 export const initDB = async () => {
 
-  const modelRegistry = loadModels(configuration)
-
-  const entities = Object.keys(modelRegistry).map(entityName => {
-    return modelRegistry[entityName].model
+  const storageConfiguration = new StoragePostgresConfiguration({
+    connectionConfig: {
+      host: process.env.PGHOST || 'localhost',
+      port: parseInt(process.env.PGPORT || 5432, 10),
+      username: process.env.PGUSER || 'postgres',
+      password: process.env.PGPASSWORD || null,
+      database: process.env.SHIFT_TEST_DB || 'shift_tests',
+      // logging: true,
+    }
   })
 
+  configuration.setStorageConfiguration(storageConfiguration)
 
-  connection = await createConnection({
-    type: 'postgres',
-    host: process.env.PGHOST || 'localhost',
-    port: parseInt(process.env.PGPORT || 5432, 10),
-    username: process.env.PGUSER || 'postgres',
-    password: process.env.PGPASSWORD || null,
-    database: process.env.SHIFT_TEST_DB || 'shift_tests',
-    // logging: true,
-    synchronize: true,
-    dropSchema: true,
-    entities
-  })
-
-  storageConfiguration.setStorageInstance(connection)
-  storageConfiguration.setStorageModels(modelRegistry)
+  await connectStorage(configuration, true)
 }
 
 
 export const disconnectDB = async () => {
-  connection.close()
+  await disconnectStorage()
 }
 
 
