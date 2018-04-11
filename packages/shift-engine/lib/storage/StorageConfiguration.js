@@ -8,10 +8,15 @@ class StorageConfiguration {
 
   constructor(setup = {}) {
     const {
+      name,
       storageInstance,
       storageModels,
       connectionConfig,
     } = setup
+
+    if (name) {
+      this.name = name
+    }
 
     if (storageInstance) {
       this.setStorageInstance(storageInstance)
