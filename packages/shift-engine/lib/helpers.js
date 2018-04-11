@@ -56,7 +56,7 @@ export const fillDefaultValues = async (entity, entityMutation, payload, context
 }
 
 
-export const serializeValues = (entity, entityMutation, payload, context) => {
+export const serializeValues = (entity, entityMutation, payload, model, context) => {
 
   const ret = {
     ...payload
@@ -67,7 +67,7 @@ export const serializeValues = (entity, entityMutation, payload, context) => {
   _.forEach(entityAttributes, (attribute) => {
     const attributeName = attribute.name
     if (attribute.serialize) {
-      ret[attributeName] = attribute.serialize(ret[attributeName], ret, entityMutation, entity, context)
+      ret[ attributeName ] = attribute.serialize(ret[ attributeName ], ret, entityMutation, entity, model, context)
     }
   })
 
