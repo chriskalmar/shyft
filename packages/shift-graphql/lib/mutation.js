@@ -57,8 +57,8 @@ const generateI18nInputFieldType = (entity, entityMutation, attribute) => {
     fields: () => {
       const i18nFields = {}
 
-      languages.map((language, idx) => {
-        const type = (idx === 0 && attribute.required && !entityMutation.ignoreRequired)
+      languages.map((language) => {
+        const type = (language === 'default' && attribute.required && !entityMutation.ignoreRequired)
           ? new GraphQLNonNull(fieldType)
           : fieldType
 
