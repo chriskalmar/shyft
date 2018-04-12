@@ -59,6 +59,7 @@ export const attributePropertiesWhitelist = [
   'required',
   'isPrimary',
   'isUnique',
+  'index',
   'resolve',
   'defaultValue',
   'serialize',
