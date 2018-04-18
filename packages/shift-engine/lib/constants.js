@@ -67,6 +67,7 @@ export const attributePropertiesWhitelist = [
   'hidden',
   'i18n',
   'mock',
+  'mutationInput',
   'meta',
 ]
 

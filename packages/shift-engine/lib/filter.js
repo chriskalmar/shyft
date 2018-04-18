@@ -85,6 +85,14 @@ export const validateFilterLevel = (filters, attributes, path, storageType) => {
     )
 
 
+    passOrThrow(
+      !attribute.mutationInput,
+      () => {
+        return `Mutation input attribute '${attributeName}' not allowed in filter${errorLocation}`
+      }
+    )
+
+
     if (isMap(value)) {
 
       let storageDataType

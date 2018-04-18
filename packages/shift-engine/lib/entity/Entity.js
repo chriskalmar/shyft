@@ -326,6 +326,7 @@ class Entity {
       hidden: !!rawAttribute.hidden,
       index: !!rawAttribute.index,
       i18n: !!rawAttribute.i18n,
+      mutationInput: !!rawAttribute.mutationInput,
       name: attributeName
     }
 

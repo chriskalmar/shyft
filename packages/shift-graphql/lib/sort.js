@@ -20,7 +20,7 @@ export const generateSortInput = (entity) => {
 
   _.forEach(entity.getAttributes(), (attribute) => {
 
-    if (isEntity(attribute.type)) {
+    if (isEntity(attribute.type) || attribute.hidden || attribute.mutationInput) {
       return
     }
 

@@ -62,7 +62,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
 
         let attributeType = attribute.type
 
-        if (isComplexDataType(attributeType)) {
+        if (isComplexDataType(attributeType) || attribute.mutationInput) {
           return;
         }
 
