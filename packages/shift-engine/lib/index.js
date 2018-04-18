@@ -59,6 +59,11 @@ import {
   validateActionPayload,
 } from './validation';
 
+import DataType, {
+  isDataType,
+}
+from './datatype/DataType';
+
 import {
   DataTypeUserID,
   DataTypeID,
@@ -112,6 +117,9 @@ export {
   StorageDataType,
 
   ProtocolType,
+
+  DataType,
+  isDataType,
 
   DataTypeUserID,
   DataTypeID,
@@ -204,6 +212,9 @@ export default {
   StorageDataType,
 
   ProtocolType,
+
+  DataType,
+  isDataType,
 
   DataTypeUserID,
   DataTypeID,
