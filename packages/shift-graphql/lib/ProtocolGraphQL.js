@@ -150,7 +150,7 @@ ProtocolGraphQL.addDynamicDataTypeMap(isObjectDataType, (attributeType, sourceNa
 
   if (asInput) {
     if (!dataTypesRegistry.object[ uniqueName ]) {
-      const dataInputType = generateDataInput(name, attributeType.getAttributes())
+      const dataInputType = generateDataInput(`${sourceName}-${name}`, attributeType.getAttributes())
       dataTypesRegistry.object[ uniqueName ] = dataInputType
     }
 
@@ -159,7 +159,7 @@ ProtocolGraphQL.addDynamicDataTypeMap(isObjectDataType, (attributeType, sourceNa
 
 
   if (!dataTypesRegistry.object[ uniqueName ]) {
-    const dataOutputType = generateDataOutput(name, attributeType.getAttributes())
+    const dataOutputType = generateDataOutput(`${sourceName}-${name}`, attributeType.getAttributes())
     dataTypesRegistry.object[ uniqueName ] = dataOutputType
   }
 
@@ -184,7 +184,7 @@ ProtocolGraphQL.addDynamicDataTypeMap(isListDataType, (attributeType, sourceName
 
   if (asInput) {
     if (!dataTypesRegistry.object[uniqueName]) {
-      const dataInputType = generateDataInput(name, params)
+      const dataInputType = generateDataInput(`${sourceName}-${name}`, params)
       dataTypesRegistry.object[uniqueName] = dataInputType.getFields().wrapped.type
     }
 
@@ -193,7 +193,7 @@ ProtocolGraphQL.addDynamicDataTypeMap(isListDataType, (attributeType, sourceName
 
 
   if (!dataTypesRegistry.object[uniqueName]) {
-    const dataOutputType = generateDataOutput(name, params)
+    const dataOutputType = generateDataOutput(`${sourceName}-${name}`, params)
     dataTypesRegistry.object[uniqueName] = dataOutputType.getFields().wrapped.type
   }
 
