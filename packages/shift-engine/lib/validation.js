@@ -29,7 +29,7 @@ const validateDataTypePayload = (paramType, payload, context) => {
 
 const validatePayload = (param, payload, source, context) => {
 
-  if (typeof payload !== 'undefined') {
+  if (typeof payload !== 'undefined' && payload !== null) {
 
     const paramName = param.name
 
