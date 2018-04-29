@@ -34,6 +34,8 @@ exports[`Mutation should have a name 1`] = `"Missing mutation name"`;
 
 exports[`Mutation should have a type 1`] = `"Missing type for mutation 'example'"`;
 
+exports[`Mutation should have a valid postProcessor function 1`] = `"postProcessor of mutation 'example' needs to be a valid function"`;
+
 exports[`Mutation should have a valid preProcessor function 1`] = `"preProcessor of mutation 'example' needs to be a valid function"`;
 
 exports[`Mutation should have a valid type 1`] = `"Unknown mutation type '12346' used, try one of these: 'create, update, delete'"`;

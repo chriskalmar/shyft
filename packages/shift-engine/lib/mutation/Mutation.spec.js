@@ -198,6 +198,25 @@ describe('Mutation', () => {
   })
 
 
+  it('should have a valid postProcessor function', () => {
+
+    function fn() {
+      new Mutation({ // eslint-disable-line no-new
+        name: 'example',
+        type: MUTATION_TYPE_CREATE,
+        description: 'mutate the world',
+        attributes: [
+          'anything',
+        ],
+        postProcessor: 'not-a-function'
+      })
+    }
+
+    expect(fn).toThrowErrorMatchingSnapshot();
+
+  })
+
+
 
   it('should reject invalid fromState settings', () => {
 
@@ -320,7 +339,8 @@ describe('Mutation', () => {
       type: MUTATION_TYPE_UPDATE,
       description: 'mutate the world',
       attributes: [ 'anything' ],
-      preProcessor() {}
+      preProcessor() {},
+      postProcessor() {},
     })
 
     it('should recognize objects of type Mutation', () => {

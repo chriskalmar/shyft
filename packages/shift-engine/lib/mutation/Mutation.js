@@ -49,6 +49,7 @@ class Mutation {
       description,
       attributes,
       preProcessor,
+      postProcessor,
       fromState,
       toState,
     } = setup
@@ -96,6 +97,15 @@ class Mutation {
       )
 
       this.preProcessor = preProcessor
+    }
+
+    if (postProcessor) {
+      passOrThrow(
+        isFunction(postProcessor),
+        () => `postProcessor of mutation '${name}' needs to be a valid function`
+      )
+
+      this.postProcessor = postProcessor
     }
 
 

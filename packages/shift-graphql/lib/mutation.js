@@ -660,53 +660,66 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
 
     const id = extractIdFromNodeId(graphRegistry, entity.name, args.input.nodeId)
 
-    if (entityMutation.preProcessor) {
-      args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
-    }
+    try {
+      if (entityMutation.preProcessor) {
+        args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
+      }
 
-    if (entityMutation.type === MUTATION_TYPE_CREATE) {
-      args.input[typeName] = await fillDefaultValues(entity, entityMutation, args.input[typeName], context)
-    }
+      if (entityMutation.type === MUTATION_TYPE_CREATE) {
+        args.input[typeName] = await fillDefaultValues(entity, entityMutation, args.input[typeName], context)
+      }
 
-    if (entityMutation.type === MUTATION_TYPE_CREATE || entityMutation.type === MUTATION_TYPE_UPDATE) {
-      args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
-    }
+      if (entityMutation.type === MUTATION_TYPE_CREATE || entityMutation.type === MUTATION_TYPE_UPDATE) {
+        args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
+      }
 
-    validateMutationPayload(entity, entityMutation, args.input[ typeName ], context)
+      validateMutationPayload(entity, entityMutation, args.input[ typeName ], context)
 
-    if (entityMutation.type !== MUTATION_TYPE_DELETE) {
-      args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
-    }
-
-    let ret = {
-      clientMutationId: args.input.clientMutationId,
-    }
-
-    const input = entity.graphql.reverseDataShaper(args.input[ typeName ])
-    let result = await storageType.mutate(entity, id, input, entityMutation, context)
-
-    if (result) {
       if (entityMutation.type !== MUTATION_TYPE_DELETE) {
-        result = entity.graphql.dataShaper(
-          addRelayTypePromoterToInstance(
-            protocolConfiguration.generateEntityTypeName(entity),
-            result
+        args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
+      }
+
+      let ret = {
+        clientMutationId: args.input.clientMutationId,
+      }
+
+      const input = entity.graphql.reverseDataShaper(args.input[ typeName ])
+      let result = await storageType.mutate(entity, id, input, entityMutation, context)
+
+      if (result) {
+        if (entityMutation.type !== MUTATION_TYPE_DELETE) {
+          result = entity.graphql.dataShaper(
+            addRelayTypePromoterToInstance(
+              protocolConfiguration.generateEntityTypeName(entity),
+              result
+            )
           )
-        )
+        }
       }
-    }
 
-    if (entityMutation.type === MUTATION_TYPE_DELETE) {
-      ret = {
-        ...ret,
-        ...result,
+      if (entityMutation.type === MUTATION_TYPE_DELETE) {
+        ret = {
+          ...ret,
+          ...result,
+        }
       }
-    }
-    else {
-      ret[typeName] = result
-    }
+      else {
+        ret[typeName] = result
+      }
 
-    return ret
+      if (entityMutation.postProcessor) {
+        await entityMutation.postProcessor(null, entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
+      }
+
+      return ret
+    }
+    catch(error) {
+      if (entityMutation.postProcessor) {
+        await entityMutation.postProcessor(error, entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
+      }
+
+      throw error
+    }
   }
 }
 
@@ -721,49 +734,63 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
 
     const id = args.input[ fieldName ]
 
-    if (entityMutation.preProcessor) {
-      args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
-    }
+    try {
+      if (entityMutation.preProcessor) {
+        args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
+      }
 
-    if (entityMutation.type === MUTATION_TYPE_UPDATE) {
-      args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
-    }
+      if (entityMutation.type === MUTATION_TYPE_UPDATE) {
+        args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
+      }
 
-    validateMutationPayload(entity, entityMutation, args.input[ typeName ], context)
+      validateMutationPayload(entity, entityMutation, args.input[ typeName ], context)
 
-    if (entityMutation.type !== MUTATION_TYPE_DELETE) {
-      args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
-    }
-
-    let ret = {
-      clientMutationId: args.input.clientMutationId,
-    }
-
-    const input = entity.graphql.reverseDataShaper(args.input[ typeName ])
-    let result = await storageType.mutate(entity, id, input, entityMutation, context)
-
-    if (result) {
       if (entityMutation.type !== MUTATION_TYPE_DELETE) {
-        result = entity.graphql.dataShaper(
-          addRelayTypePromoterToInstance(
-            protocolConfiguration.generateEntityTypeName(entity),
-            result
+        args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
+      }
+
+      let ret = {
+        clientMutationId: args.input.clientMutationId,
+      }
+
+      const input = entity.graphql.reverseDataShaper(args.input[ typeName ])
+      let result = await storageType.mutate(entity, id, input, entityMutation, context)
+
+      if (result) {
+        if (entityMutation.type !== MUTATION_TYPE_DELETE) {
+          result = entity.graphql.dataShaper(
+            addRelayTypePromoterToInstance(
+              protocolConfiguration.generateEntityTypeName(entity),
+              result
+            )
           )
-        )
+        }
       }
-    }
 
-    if (entityMutation.type === MUTATION_TYPE_DELETE) {
-      ret = {
-        ...ret,
-        ...result,
+      if (entityMutation.type === MUTATION_TYPE_DELETE) {
+        ret = {
+          ...ret,
+          ...result,
+        }
       }
-    }
-    else {
-      ret[typeName] = result
-    }
+      else {
+        ret[typeName] = result
+      }
 
-    return ret
+
+      if (entityMutation.postProcessor) {
+        await entityMutation.postProcessor(null, entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
+      }
+
+      return ret
+    }
+    catch (error) {
+      if (entityMutation.postProcessor) {
+        await entityMutation.postProcessor(error, entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
+      }
+
+      throw error
+    }
   }
 }
 
