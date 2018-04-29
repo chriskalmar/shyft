@@ -128,6 +128,17 @@ class Entity {
   }
 
 
+  _injectDefaultPermissionsBySchema(defaultPermissions) {
+
+    passOrThrow(
+      isMap(defaultPermissions),
+      () => 'Provided defaultPermissions is invalid'
+    )
+
+    this._defaultPermissions = defaultPermissions
+  }
+
+
 
   getAttributes () {
     if (this._attributes) {
@@ -562,7 +573,10 @@ class Entity {
         ? this._permissions()
         : this._permissions
 
-      return processEntityPermissions(this, permissions)
+      return processEntityPermissions(this, permissions, this._defaultPermissions)
+    }
+    else if (this._defaultPermissions) {
+      return processEntityPermissions(this, this._defaultPermissions)
     }
 
     return null

@@ -9,6 +9,10 @@ import { isEntity } from '../entity/Entity';
 import { isAction } from '../action/Action';
 import { isDataTypeUser } from '../datatype/DataTypeUser';
 import { isStorageType } from '../storage/StorageType';
+import {
+  isPermission,
+  isPermissionsArray,
+} from '../permission/Permission';
 
 
 class Schema {
@@ -24,6 +28,7 @@ class Schema {
       entities,
       defaultStorageType,
       actions,
+      defaultPermissions,
     } = setup
 
 
@@ -35,6 +40,46 @@ class Schema {
     }
 
     this.defaultStorageType = defaultStorageType
+
+
+    if (defaultPermissions) {
+      passOrThrow(
+        isMap(defaultPermissions),
+        () => 'Provided defaultPermissions is invalid'
+      )
+
+      if (defaultPermissions.read) {
+        passOrThrow(
+          isPermission(defaultPermissions.read) || isPermissionsArray(defaultPermissions.read),
+          () => 'Invalid `read` permission definition for defaultPermissions'
+        )
+      }
+
+      if (defaultPermissions.find) {
+        passOrThrow(
+          isPermission(defaultPermissions.find) || isPermissionsArray(defaultPermissions.find),
+          () => 'Invalid `find` permission definition for entity defaultPermissions'
+        )
+      }
+
+      if (defaultPermissions.mutations) {
+        passOrThrow(
+          isMap(defaultPermissions.mutations),
+          () => 'defaultPermissions definition for mutations needs to be a map of mutations and permissions'
+        )
+
+        const mutationNames = Object.keys(defaultPermissions.mutations);
+        mutationNames.map((mutationName, idx) => {
+          passOrThrow(
+            isPermission(defaultPermissions.mutations[ mutationName ]) || isPermissionsArray(defaultPermissions.mutations[ mutationName ]),
+            () => `Invalid mutation permission definition for defaultPermissions at position '${idx}'`
+          )
+
+        })
+      }
+
+      this.defaultPermissions = defaultPermissions
+    }
 
 
     if (entities) {
@@ -87,6 +132,9 @@ class Schema {
       entity._injectStorageTypeBySchema(this.defaultStorageType)
     }
 
+    if (this.defaultPermissions) {
+      entity._injectDefaultPermissionsBySchema(this.defaultPermissions)
+    }
 
     entity._isRegistered = true
     this._entityMap[ entity.name ] = entity

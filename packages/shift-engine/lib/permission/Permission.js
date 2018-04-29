@@ -718,7 +718,7 @@ const validatePermissionMutationTypes = (entity, permissions, mutation) => {
 }
 
 
-export const processEntityPermissions = (entity, permissions) => {
+export const processEntityPermissions = (entity, permissions, defaultPermissions) => {
 
   passOrThrow(
     isMap(permissions),
@@ -732,6 +732,9 @@ export const processEntityPermissions = (entity, permissions) => {
       () => `Invalid 'read' permission definition for entity '${entity.name}'`
     )
   }
+  else if (defaultPermissions){
+    permissions.read = defaultPermissions.read
+  }
 
   if (permissions.find) {
     passOrThrow(
@@ -739,6 +742,12 @@ export const processEntityPermissions = (entity, permissions) => {
       () => `Invalid 'find' permission definition for entity '${entity.name}'`
     )
   }
+  else if (defaultPermissions) {
+    permissions.find = defaultPermissions.find
+  }
+
+
+  const entityMutations = entity.getMutations()
 
   if (permissions.mutations) {
     passOrThrow(
@@ -754,6 +763,15 @@ export const processEntityPermissions = (entity, permissions) => {
       )
 
     })
+
+    if (defaultPermissions) {
+      entityMutations.map(({name: mutationName}) => {
+        permissions.mutations[ mutationName ] = permissions.mutations[ mutationName ] = defaultPermissions.mutations[ mutationName ]
+      })
+    }
+  }
+  else if (defaultPermissions) {
+    permissions.mutations = defaultPermissions.mutations
   }
 
 
@@ -766,7 +784,6 @@ export const processEntityPermissions = (entity, permissions) => {
   }
 
 
-  const entityMutations = entity.getMutations()
 
   if (permissions.mutations && entityMutations) {
     const permissionMutationNames = Object.keys(permissions.mutations);
