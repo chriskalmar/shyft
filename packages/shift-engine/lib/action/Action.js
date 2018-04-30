@@ -5,6 +5,10 @@ import {
   isFunction,
 } from '../util';
 
+import {
+  generatePermissionDescription,
+  processActionPermissions,
+} from '../permission/Permission';
 
 export const ACTION_TYPE_MUTATION = 'mutation';
 export const ACTION_TYPE_QUERY = 'query';
@@ -24,6 +28,7 @@ class Action {
       output,
       resolve,
       type,
+      permissions,
     } = setup
 
     passOrThrow(name, () => 'Missing action name')
@@ -55,6 +60,7 @@ class Action {
     this.output = output
     this.resolve = resolve
     this.type = type || ACTION_TYPE_MUTATION
+    this._permissions = permissions
   }
 
 
@@ -138,6 +144,40 @@ class Action {
 
   hasOutput () {
     return !!this.output
+  }
+
+
+  _processPermissions() {
+    if (this._permissions) {
+      const permissions = isFunction(this._permissions)
+        ? this._permissions()
+        : this._permissions
+
+      return processActionPermissions(this, permissions, this._defaultPermissions)
+    }
+    else if (this._defaultPermissions) {
+      return processActionPermissions(this, this._defaultPermissions)
+    }
+
+    return null
+  }
+
+
+  _generatePermissionDescriptions() {
+    if (this.permissions) {
+      this.descriptionPermissions = generatePermissionDescription(this.permissions)
+    }
+  }
+
+
+  getPermissions() {
+    if (!this._permissions || this.permissions) {
+      return this.permissions
+    }
+
+    this.permissions = this._processPermissions()
+    this._generatePermissionDescriptions()
+    return this.permissions
   }
 
 

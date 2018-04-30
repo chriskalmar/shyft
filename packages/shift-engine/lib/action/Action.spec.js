@@ -2,6 +2,9 @@
 import Action, {
   isAction,
 } from './Action';
+import Permission, {
+  isPermission,
+} from '../permission/Permission';
 
 import { DataTypeString } from '../datatype/dataTypes';
 import { buildObjectDataType } from '../datatype/ObjectDataType';
@@ -351,4 +354,26 @@ describe('Action', () => {
 
   })
 
+
+
+  describe('permissions', () => {
+
+    it('should return permissions', () => {
+
+      const action = new Action({
+        name: 'example',
+        description: 'do something',
+        input: {},
+        output: {},
+        resolve() { },
+        permissions: new Permission(),
+      })
+
+      const permissions = action.getPermissions()
+
+      expect(isPermission(permissions)).toBe(true);
+
+    })
+
+  })
 })
