@@ -4,6 +4,7 @@ import {
   isMap,
   isArray,
   isFunction,
+  asyncForEach,
 } from '../util';
 
 import { isEntity } from '../entity/Entity';
@@ -541,7 +542,7 @@ export const buildValuesPermissionFilter = ({permission}) => {
 }
 
 
-export const buildLookupsPermissionFilter = ({ permission, userId, userRoles, mutationData }) => {
+export const buildLookupsPermissionFilter = async ({ permission, userId, userRoles, input }) => {
 
   let where
 
@@ -550,14 +551,18 @@ export const buildLookupsPermissionFilter = ({ permission, userId, userRoles, mu
     where = where || {}
     where.$or = where.$or || []
 
-    permission.lookups.map(({ entity, lookupMap }) => {
+    await Promise.all(permission.lookups.map(async ({ entity, lookupMap }) => {
       const condition = []
 
-      _.forEach(lookupMap, (sourceAttribute, targetAttribute) => {
+      const targetAttributes = Object.keys(lookupMap)
+      await Promise.all(targetAttributes.map(async(targetAttribute) => {
+
+        const sourceAttribute = lookupMap[ targetAttribute ]
         let operator = '$eq'
 
         if (isFunction(sourceAttribute)) {
-          let value = sourceAttribute({ userId, userRoles, mutationData })
+          let value = await sourceAttribute({ userId, userRoles, input })
+
           const attr = entity.getAttributes()
 
           if (attr && attr[targetAttribute] && isDataTypeState(attr[targetAttribute].type)) {
@@ -585,7 +590,7 @@ export const buildLookupsPermissionFilter = ({ permission, userId, userRoles, mu
             sourceAttribute
           })
         }
-      })
+      }))
 
       where.$or.push({
         $sub: {
@@ -593,7 +598,7 @@ export const buildLookupsPermissionFilter = ({ permission, userId, userRoles, mu
           condition
         }
       })
-    })
+    }))
   }
 
   return where
@@ -601,17 +606,17 @@ export const buildLookupsPermissionFilter = ({ permission, userId, userRoles, mu
 
 
 
-export const buildPermissionFilterSingle = (permission, userId, userRoles, entity, mutationData) => {
+export const buildPermissionFilterSingle = async (permission, userId, userRoles, entity, input) => {
 
   let where
 
-  const params = { permission, userId, userRoles, entity, mutationData }
+  const params = { permission, userId, userRoles, entity, input }
 
   const permissionFilters = [
     buildUserAttributesPermissionFilter(params),
     buildStatesPermissionFilter(params),
     buildValuesPermissionFilter(params),
-    buildLookupsPermissionFilter(params),
+    await buildLookupsPermissionFilter(params),
   ]
 
   permissionFilters.map(permissionFilter => {
@@ -627,7 +632,7 @@ export const buildPermissionFilterSingle = (permission, userId, userRoles, entit
 
 
 
-export const buildPermissionFilter = (_permissions, userId, userRoles, entity, mutationData) => {
+export const buildPermissionFilter = async (_permissions, userId, userRoles, entity, input) => {
 
   let where
 
@@ -641,7 +646,7 @@ export const buildPermissionFilter = (_permissions, userId, userRoles, entity, m
 
   let foundSimplePermission = false
 
-  permissions.map(permission => {
+  await asyncForEach(permissions, async (permission) => {
 
     if (foundSimplePermission) {
       return
@@ -658,7 +663,7 @@ export const buildPermissionFilter = (_permissions, userId, userRoles, entity, m
         return
       }
 
-      const permissionFilter = buildPermissionFilterSingle(permission, userId, userRoles, entity, mutationData)
+      const permissionFilter = await buildPermissionFilterSingle(permission, userId, userRoles, entity, input)
 
       if (permissionFilter) {
         where = where || {}
@@ -846,7 +851,7 @@ export const processEntityPermissions = (entity, permissions, defaultPermissions
 
     if (defaultPermissions) {
       entityMutations.map(({name: mutationName}) => {
-        permissions.mutations[ mutationName ] = permissions.mutations[ mutationName ] = defaultPermissions.mutations[ mutationName ]
+        permissions.mutations[ mutationName ] = permissions.mutations[ mutationName ] || defaultPermissions.mutations[ mutationName ]
       })
     }
   }

@@ -26,6 +26,7 @@ import Mutation, {
 import Permission, {
   checkPermissionSimple,
   buildPermissionFilter,
+  buildActionPermissionFilter,
 }
 from './permission/Permission';
 
@@ -189,6 +190,7 @@ export {
   Permission,
   checkPermissionSimple,
   buildPermissionFilter,
+  buildActionPermissionFilter,
 
   Configuration,
   isConfiguration,
@@ -285,6 +287,7 @@ export default {
   Permission,
   checkPermissionSimple,
   buildPermissionFilter,
+  buildActionPermissionFilter,
 
   Configuration,
   isConfiguration,

@@ -13,8 +13,10 @@ import Permission, {
   buildPermissionFilter,
   buildLookupsPermissionFilter,
   processEntityPermissions,
+  processActionPermissions,
 } from './Permission';
 import Entity from '../entity/Entity';
+import Action from '../action/Action';
 import { DataTypeString } from '../datatype/dataTypes';
 import { passOrThrow } from '../util';
 import { Language } from '../models/Language';
@@ -811,18 +813,18 @@ describe('Permission', () => {
 
     describe('lookups', () => {
 
-      it('should return undefined filters if permission type is not used', () => {
+      it('should return undefined filters if permission type is not used', async () => {
 
         const permission = new Permission()
           .userAttribute('reviewer')
 
-        const filter = buildLookupsPermissionFilter({ permission })
+        const filter = await buildLookupsPermissionFilter({ permission })
 
         expect(filter).toBeUndefined()
       })
 
 
-      it('should generate filters for single entries', () => {
+      it('should generate filters for single entries', async () => {
 
         const permission = new Permission()
           .lookup(someEntity, {
@@ -831,13 +833,13 @@ describe('Permission', () => {
           })
 
 
-        const filter = buildLookupsPermissionFilter({ permission })
+        const filter = await buildLookupsPermissionFilter({ permission })
 
         expect(filter).toMatchSnapshot();
       })
 
 
-      it('should generate filters for multiple entries', () => {
+      it('should generate filters for multiple entries', async () => {
 
         const permission = new Permission()
           .authenticated()
@@ -851,29 +853,29 @@ describe('Permission', () => {
             open: () => false,
           })
 
-        const filter = buildLookupsPermissionFilter({ permission })
+        const filter = await buildLookupsPermissionFilter({ permission })
 
         expect(filter).toMatchSnapshot();
       })
 
 
-      it('should generate filter values from functions and provided mutation data', () => {
+      it('should generate filter values from functions and provided mutation data', async () => {
 
         const permission = new Permission()
         .lookup(someEntity, {
           id: 'reference',
-          district: ({mutationData}) => mutationData.district,
+          district: ({input}) => input.district,
           open: () => true,
           owner: ({userId}) => userId, // eslint-disable-line no-shadow
           state: () => ['defined', 'approved']
         })
 
-        const mutationData = {
+        const input = {
           name: 'lorem',
           district: 188,
         }
 
-        const filter = buildLookupsPermissionFilter({ permission, userId: 123, mutationData })
+        const filter = await buildLookupsPermissionFilter({ permission, userId: 123, input })
 
         expect(filter).toMatchSnapshot();
       })
@@ -883,20 +885,20 @@ describe('Permission', () => {
 
     describe('all permission types', () => {
 
-      it('should generate filters for single permission types', () => {
+      it('should generate filters for single permission types', async () => {
 
         const permission = new Permission()
           .authenticated()
           .userAttribute('author')
           .value('something', 23)
 
-        const filter = buildPermissionFilterSingle(permission, userId, userRoles, someEntity)
+        const filter = await buildPermissionFilterSingle(permission, userId, userRoles, someEntity)
 
         expect(filter).toMatchSnapshot();
       })
 
 
-      it('should generate filters for multiple permission types', () => {
+      it('should generate filters for multiple permission types', async () => {
 
         const permission = new Permission()
           .authenticated()
@@ -907,7 +909,7 @@ describe('Permission', () => {
           .value('something', 80)
           .value('somethingElse', 4)
 
-        const filter = buildPermissionFilterSingle(permission, userId, userRoles, someEntity)
+        const filter = await buildPermissionFilterSingle(permission, userId, userRoles, someEntity)
 
         expect(filter).toMatchSnapshot();
       })
@@ -917,14 +919,14 @@ describe('Permission', () => {
 
     describe('combine multiple permissions', () => {
 
-      it('should return undefined filters if request does not pass simple permission checks', () => {
+      it('should return undefined filters if request does not pass simple permission checks', async () => {
 
         const permission1 = new Permission()
           .authenticated()
           .state('open')
           .state('inTransfer')
 
-        const filter1 = buildPermissionFilter(permission1, null, null, someEntity)
+        const filter1 = await buildPermissionFilter(permission1, null, null, someEntity)
 
         expect(filter1).toBeUndefined()
 
@@ -935,7 +937,7 @@ describe('Permission', () => {
           .state('open')
           .state('inTransfer')
 
-        const filter2 = buildPermissionFilter(permission2, userId, userRoles, someEntity)
+        const filter2 = await buildPermissionFilter(permission2, userId, userRoles, someEntity)
 
         expect(filter2).toBeUndefined()
 
@@ -951,26 +953,26 @@ describe('Permission', () => {
             .userAttribute('createdBy')
         ]
 
-        const filter3 = buildPermissionFilter(multiPermissions, userId, userRoles, someEntity)
+        const filter3 = await buildPermissionFilter(multiPermissions, userId, userRoles, someEntity)
 
         expect(filter3).toBeUndefined()
       })
 
 
-      it('should generate filters for single permissions', () => {
+      it('should generate filters for single permissions', async () => {
 
         const permission = new Permission()
           .authenticated()
           .userAttribute('author')
           .state('open')
 
-        const filter = buildPermissionFilter(permission, userId, userRoles, someEntity)
+        const filter = await buildPermissionFilter(permission, userId, userRoles, someEntity)
 
         expect(filter).toMatchSnapshot();
       })
 
 
-      it('should generate filters for multiple permissions', () => {
+      it('should generate filters for multiple permissions', async () => {
 
         const multiPermissions = [
           new Permission()
@@ -983,13 +985,13 @@ describe('Permission', () => {
             .userAttribute('createdBy')
         ]
 
-        const filter = buildPermissionFilter(multiPermissions, userId, userRoles, someEntity)
+        const filter = await buildPermissionFilter(multiPermissions, userId, userRoles, someEntity)
 
         expect(filter).toMatchSnapshot();
       })
 
 
-      it('should generate filters for eligible permissions only', () => {
+      it('should generate filters for eligible permissions only', async () => {
 
         const multiPermissions = [
           new Permission()
@@ -1009,13 +1011,13 @@ describe('Permission', () => {
             .userAttribute('author')
         ]
 
-        const filter = buildPermissionFilter(multiPermissions, userId, userRoles, someEntity)
+        const filter = await buildPermissionFilter(multiPermissions, userId, userRoles, someEntity)
 
         expect(filter).toMatchSnapshot();
       })
 
 
-      it('should generate empty filter if a simple permission applies', () => {
+      it('should generate empty filter if a simple permission applies', async () => {
 
         const multiPermissions = [
           new Permission()
@@ -1034,7 +1036,7 @@ describe('Permission', () => {
             .role('manager')
         ]
 
-        const filter = buildPermissionFilter(multiPermissions, userId, userRoles, someEntity)
+        const filter = await buildPermissionFilter(multiPermissions, userId, userRoles, someEntity)
         expect(filter).toMatchSnapshot();
       })
 
@@ -1246,6 +1248,82 @@ describe('Permission', () => {
 
       function fn3() {
         processEntityPermissions(entity, permissions3)
+      }
+
+      expect(fn3).toThrowErrorMatchingSnapshot();
+
+    })
+
+  })
+
+
+
+  describe('processActionPermissions', () => {
+
+    const action = new Action({
+      name: 'SomeActionName',
+      description: 'Just some description',
+      resolve: () => {},
+    })
+
+
+    it('should accept a correct permissions setup', () => {
+
+      const permissions = new Permission().role('manager')
+
+      processActionPermissions(action, permissions)
+    })
+
+
+    it('should throw if provided with invalid permissions', () => {
+
+      const permissions1 = [ 'bad' ]
+
+      function fn1() {
+        processActionPermissions(action, permissions1)
+      }
+
+      expect(fn1).toThrowErrorMatchingSnapshot();
+
+
+      const permissions2 = {
+        find: [ 'bad' ]
+      }
+
+      function fn2() {
+        processActionPermissions(action, permissions2)
+      }
+
+      expect(fn2).toThrowErrorMatchingSnapshot();
+
+    })
+
+
+    it('should throw if provided with incompatible permissions', () => {
+
+      const permissions1 = new Permission().userAttribute('anything')
+
+      function fn1() {
+        processActionPermissions(action, permissions1)
+      }
+
+      expect(fn1).toThrowErrorMatchingSnapshot();
+
+
+      const permissions2 = new Permission().value('anything', 123)
+
+      function fn2() {
+        processActionPermissions(action, permissions2)
+      }
+
+
+      expect(fn2).toThrowErrorMatchingSnapshot();
+
+
+      const permissions3 = new Permission().state('anything')
+
+      function fn3() {
+        processActionPermissions(action, permissions3)
       }
 
       expect(fn3).toThrowErrorMatchingSnapshot();

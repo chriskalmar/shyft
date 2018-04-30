@@ -477,6 +477,16 @@ exports[`Permission permissions description should generate a description based 
 
 exports[`Permission permissions description should reject if non-Permission object is provided 1`] = `"generatePermissionDescription needs a valid permission object"`;
 
+exports[`Permission processActionPermissions should throw if provided with incompatible permissions 1`] = `"Incompatible permission definition for action 'SomeActionName'"`;
+
+exports[`Permission processActionPermissions should throw if provided with incompatible permissions 2`] = `"Incompatible permission definition for action 'SomeActionName'"`;
+
+exports[`Permission processActionPermissions should throw if provided with incompatible permissions 3`] = `"Incompatible permission definition for action 'SomeActionName'"`;
+
+exports[`Permission processActionPermissions should throw if provided with invalid permissions 1`] = `"Invalid permission definition for action 'SomeActionName'"`;
+
+exports[`Permission processActionPermissions should throw if provided with invalid permissions 2`] = `"Invalid permission definition for action 'SomeActionName'"`;
+
 exports[`Permission processEntityPermissions should throw if permission is used on a create type mutation and using data-bound permission types 1`] = `"Create type mutation permission 'create' in 'SomeEntityName.permissions' can only be of type 'authenticated', 'everyone', 'role' or 'lookup'"`;
 
 exports[`Permission processEntityPermissions should throw if permission is used on a create type mutation and using data-bound permission types 2`] = `"Create type mutation permission 'create' in 'SomeEntityName.permissions' can only be of type 'authenticated', 'everyone', 'role' or 'lookup'"`;
