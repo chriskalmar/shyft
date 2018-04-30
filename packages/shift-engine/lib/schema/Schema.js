@@ -248,14 +248,22 @@ class Schema {
       })
     })
 
+
+    const actionNames = Object.keys(this._actionMap);
+
+    actionNames.forEach((actionName) => {
+      const action = this._actionMap[ actionName ]
+
+      // trigger validation and generation of permissions
+      action.getPermissions();
+    })
+
     this._isValidated = true
   }
 
 
   getEntities () {
-
     this.validate()
-
     return this._entityMap
   }
 
@@ -278,6 +286,7 @@ class Schema {
 
 
   getActions () {
+    this.validate()
     return this._actionMap
   }
 
