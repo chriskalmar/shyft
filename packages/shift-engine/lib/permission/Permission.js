@@ -638,6 +638,52 @@ export const buildPermissionFilter = (_permissions, userId, userRoles, entity, m
 }
 
 
+export const buildActionPermissionFilter = async (_permissions, userId, userRoles, action, input) => {
+
+  let where
+
+  if (!_permissions) {
+    return where
+  }
+
+  const permissions = isArray(_permissions)
+    ? _permissions
+    : [ _permissions ]
+
+  let foundSimplePermission = false
+
+  await Promise.all(permissions.map(async (permission) => {
+
+    if (foundSimplePermission) {
+      return
+    }
+
+    const initialPass = checkPermissionSimple(permission, userId, userRoles)
+
+    if (initialPass) {
+
+      // it's a simple permission and permission check passed so let's skip any further checks and give direct access
+      if (isPermissionSimple(permission)) {
+        foundSimplePermission = true
+        where = {}
+        return
+      }
+
+      const params = { permission, userId, userRoles, action, input }
+      const permissionFilter = await buildLookupsPermissionFilter(params)
+
+      if (permissionFilter) {
+        where = where || {}
+        where.$or = where.$or || []
+        where.$or.push(permissionFilter)
+      }
+    }
+  }))
+
+  return where
+}
+
+
 
 export const checkPermissionAdvanced = (data, permission, userId = null) => {
 
@@ -807,6 +853,33 @@ export const processEntityPermissions = (entity, permissions, defaultPermissions
       }
     })
   }
+
+  return permissions
+}
+
+
+export const processActionPermissions = (action, permissions) => {
+
+  passOrThrow(
+    isPermission(permissions) || isPermissionsArray(permissions),
+    () => `Invalid permission definition for action '${action.name}'`
+  )
+
+  const permissionsArray = isArray(permissions)
+    ? permissions
+    : [ permissions ]
+
+
+  permissionsArray.map(permission => {
+    passOrThrow(
+      !permission.userAttributes.length &&
+      !permission.values.length &&
+      !permission.states.length,
+      () => `Incompatible permission definition for action '${action.name}'`
+    )
+
+    validateActionLookupPermission(permission)
+  })
 
   return permissions
 }
