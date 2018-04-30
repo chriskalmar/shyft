@@ -291,6 +291,40 @@ export const findMissingPermissionStates = (permission, permissionEntity) => {
 }
 
 
+export const validateActionLookupPermission = (permission) => {
+
+  let missingLookupAttribute
+  permission.lookups.map((lookup) => {
+    const { entity: _entity, lookupMap } = lookup
+    let entity = _entity
+
+    if (isFunction(_entity)) {
+      entity = lookup.entity = _entity()
+    }
+
+    const lookupEntityAttributes = entity.getAttributes()
+    const lookupEntityAttributeNames = Object.keys(lookupEntityAttributes)
+
+    _.forEach(lookupMap, (sourceAttribute, targetAttribute) => {
+      if (!isFunction(sourceAttribute)) {
+        missingLookupAttribute = sourceAttribute
+        return
+      }
+      else if (!lookupEntityAttributeNames.includes(targetAttribute)) {
+        missingLookupAttribute = `${entity.name}.${targetAttribute}`
+        return
+      }
+    })
+  })
+  if (missingLookupAttribute) {
+    return missingLookupAttribute
+  }
+
+  return false
+}
+
+
+
 export const generatePermissionDescription = (permissions) => {
 
   const descriptions = []
