@@ -94,7 +94,7 @@ export const handlePermission = async (context, action, input) => {
       id: userId,
       roles: userRoles,
     }
-  } = context.req
+  } = context.req || { user: {} }
 
   const {
     where: permissionWhere,
