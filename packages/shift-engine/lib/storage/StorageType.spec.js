@@ -49,6 +49,7 @@ describe('StorageType', () => {
       find() {},
       count() {},
       mutate() {},
+      checkLookupPermission() {},
     })
 
     expect(SomeStorageType.name).toBe('SomeStorageType');
@@ -134,6 +135,7 @@ describe('StorageType', () => {
       find() {},
       count() {},
       mutate() {},
+      checkLookupPermission() {},
     })
 
     const StorageDataTypeText = new StorageDataType({
@@ -200,6 +202,7 @@ describe('StorageType', () => {
         find() {},
         count() {},
         mutate() {},
+        checkLookupPermission() {},
       })
 
       function fn() {

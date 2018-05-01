@@ -51,6 +51,7 @@ describe('filter', () => {
     find() { },
     count() { },
     mutate() { },
+    checkLookupPermission() { },
   })
 
   const StorageDataTypeAny = new StorageDataType({
