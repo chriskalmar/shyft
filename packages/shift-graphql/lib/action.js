@@ -17,10 +17,16 @@ import {
   isListDataType,
   validateActionPayload,
   ACTION_TYPE_MUTATION,
+  buildActionPermissionFilter,
+  CustomError,
 } from 'shift-engine';
 
-import ProtocolGraphQL from './ProtocolGraphQL';
 
+import ProtocolGraphQL from './ProtocolGraphQL';
+import { helpers } from 'handlebars';
+
+
+const AccessDeniedError = new CustomError('Access denied', 'PermissionError', 403)
 
 const fillSingleDefaultValues = async (param, payload, context) => {
 
@@ -73,6 +79,44 @@ const fillNestedDefaultValues = async (params, payload, context) => {
 
 const fillDefaultValues = async (param, payload, context) => fillSingleDefaultValues(param, payload, context)
 
+
+
+export const handlePermission = async (context, action, input) => {
+
+  const permission = action.getPermissions()
+
+  if (!permission) {
+    return null
+  }
+
+  const {
+    user: {
+      id: userId,
+      roles: userRoles,
+    }
+  } = context.req
+
+  const {
+    where: permissionWhere,
+    lookupPermissionEntity,
+  } = await buildActionPermissionFilter(permission, userId, userRoles, action, input)
+
+  if (!permissionWhere) {
+    throw AccessDeniedError
+  }
+
+  // only if non-empty where clause
+  if (Object.keys(permissionWhere).length > 0) {
+    const storageType = lookupPermissionEntity.getStorageType()
+    const found = await storageType.checkLookupPermission(lookupPermissionEntity, permissionWhere, context)
+    console.log(JSON.stringify({ found}, null, 2));
+    if (!found) {
+      throw AccessDeniedError
+    }
+  }
+
+  return permissionWhere
+}
 
 
 export const generateActions = (graphRegistry, actionTypeFilter) => {
@@ -142,6 +186,8 @@ export const generateActions = (graphRegistry, actionTypeFilter) => {
             ? args.input.clientMutationId
             : undefined
         }
+
+        await handlePermission(context, action, payload)
 
         const result = await action.resolve(source, payload, context, info)
         return {
