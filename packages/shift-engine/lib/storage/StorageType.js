@@ -21,6 +21,7 @@ class StorageType {
       find,
       count,
       mutate,
+      checkLookupPermission,
     } = setup
 
     passOrThrow(name, () => 'Missing storage type name')
@@ -51,6 +52,11 @@ class StorageType {
       () => `Storage type '${name}' needs to implement mutate()`
     )
 
+    passOrThrow(
+      isFunction(checkLookupPermission),
+      () => `Storage type '${name}' needs to implement checkLookupPermission()`
+    )
+
 
     this.name = name
     this.description = description
@@ -59,6 +65,7 @@ class StorageType {
     this.find = find
     this.count = count
     this.mutate = mutate
+    this.checkLookupPermission = checkLookupPermission
 
     this._dataTypeMap = {}
     this._dynamicDataTypeMap = []

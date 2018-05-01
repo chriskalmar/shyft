@@ -20,4 +20,7 @@ export const StorageTypeNull = new StorageType({
   mutate() {
     throw new Error('\'StorageTypeNull\' is not a real storage type implementation')
   },
+  checkLookupPermission() {
+    throw new Error('\'StorageTypeNull\' is not a real storage type implementation')
+  },
 })
