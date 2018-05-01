@@ -292,9 +292,8 @@ export const findMissingPermissionStates = (permission, permissionEntity) => {
 }
 
 
-export const validateActionLookupPermission = (permission) => {
+export const validateActionLookupPermission = (permission, permissionAction) => {
 
-  let missingLookupAttribute
   permission.lookups.map((lookup) => {
     const { entity: _entity, lookupMap } = lookup
     let entity = _entity
@@ -307,21 +306,16 @@ export const validateActionLookupPermission = (permission) => {
     const lookupEntityAttributeNames = Object.keys(lookupEntityAttributes)
 
     _.forEach(lookupMap, (sourceAttribute, targetAttribute) => {
-      if (!isFunction(sourceAttribute)) {
-        missingLookupAttribute = sourceAttribute
-        return
-      }
-      else if (!lookupEntityAttributeNames.includes(targetAttribute)) {
-        missingLookupAttribute = `${entity.name}.${targetAttribute}`
-        return
-      }
+      passOrThrow(
+        isFunction(sourceAttribute),
+        () => `Only functions are allowed in '${permissionAction.name}.permissions' for value lookups`
+      )
+      passOrThrow(
+        lookupEntityAttributeNames.includes(targetAttribute),
+        () => `Cannot use attribute '${targetAttribute}' in '${permissionAction.name}.permissions' as it does not exist`
+      )
     })
   })
-  if (missingLookupAttribute) {
-    return missingLookupAttribute
-  }
-
-  return false
 }
 
 
@@ -680,6 +674,7 @@ export const buildPermissionFilter = async (_permissions, userId, userRoles, ent
 export const buildActionPermissionFilter = async (_permissions, userId, userRoles, action, input) => {
 
   let where
+  let lookupPermissionEntity
 
   if (!_permissions) {
     return where
@@ -715,11 +710,16 @@ export const buildActionPermissionFilter = async (_permissions, userId, userRole
         where = where || {}
         where.$or = where.$or || []
         where.$or.push(permissionFilter)
+
+        lookupPermissionEntity = permission.lookups[0].entity
       }
     }
   }))
 
-  return where
+  return {
+    where,
+    lookupPermissionEntity,
+  }
 }
 
 
@@ -917,7 +917,8 @@ export const processActionPermissions = (action, permissions) => {
       () => `Incompatible permission definition for action '${action.name}'`
     )
 
-    validateActionLookupPermission(permission)
+    validateActionLookupPermission(permission, action)
+
   })
 
   return permissions
