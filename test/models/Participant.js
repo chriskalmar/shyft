@@ -107,14 +107,14 @@ export const Participant = new Entity({
       join: [
         new Permission()
           .lookup(Board, {
-            id: ({ mutationData }) => mutationData.board,
+            id: ({ input }) => input.board,
             isPrivate: () => false,
           }),
       ],
       invite: [
         new Permission()
           .lookup(Board, {
-            id: ({ mutationData }) => mutationData.board,
+            id: ({ input }) => input.board,
             owner: ({ userId }) => userId,
             isPrivate: () => true,
           }),

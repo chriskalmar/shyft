@@ -35,12 +35,12 @@ const writePermissions = [
     .role('admin'),
   new Permission()
     .lookup(Participant, {
-      board: ({ mutationData }) => mutationData.board,
+      board: ({ input }) => input.board,
       invitee: ({ userId }) => userId,
       state: () => ['joined', 'accepted'],
     })
     .lookup(Board, {
-      id: ({ mutationData }) => mutationData.board,
+      id: ({ input }) => input.board,
       owner: ({ userId }) => userId,
     }),
 ]
