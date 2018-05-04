@@ -25,6 +25,7 @@ Object {
 exports[`mutation perform delete mutations 2`] = `
 Object {
   "deleteRowCount": 1,
+  "id": "303",
 }
 `;
 

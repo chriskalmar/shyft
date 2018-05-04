@@ -73,12 +73,14 @@ Object {
 exports[`permission story a user should be able to leave public boards 1`] = `
 Object {
   "deleteRowCount": 1,
+  "id": "301",
 }
 `;
 
 exports[`permission story a user should be able to remove a user from a group as owner 1`] = `
 Object {
   "deleteRowCount": 1,
+  "id": "302",
 }
 `;
 
