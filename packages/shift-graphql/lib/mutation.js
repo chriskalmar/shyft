@@ -498,6 +498,18 @@ export const generateMutationOutput = (entity, typeName, type, entityMutation) =
           type: new GraphQLNonNull( GraphQLInt ),
           description: 'Number of deleted rows',
         }
+
+        const primaryAttribute = entity.getPrimaryAttribute()
+
+        if (primaryAttribute) {
+          const fieldName = primaryAttribute.gqlFieldName
+          const fieldType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type, entity.name, false)
+
+          fields[ fieldName ] = {
+            type: new GraphQLNonNull(fieldType ),
+            description: primaryAttribute.description,
+          }
+        }
       }
       else {
         fields[ typeName ] = {
