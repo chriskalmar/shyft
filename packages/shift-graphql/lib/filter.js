@@ -155,7 +155,7 @@ const deepFilterResolver = async (entity, filter, context, path) => {
   const storageType = entity.storageType
 
   const transformedFilter = await transformFilterLevel(filter, entity.getAttributes(), context, path) // eslint-disable-line no-use-before-define
-  const { data } = await storageType.find(entity, { filter: transformedFilter }, context)
+  const { data } = await storageType.find(entity, { all: true, filter: transformedFilter }, context)
   const ids = data.map(({ id }) => id)
 
   if (ids.length < 1) {
