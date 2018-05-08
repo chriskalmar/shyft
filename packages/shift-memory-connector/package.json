@@ -1,0 +1,42 @@
+{
+  "name": "shift-memory-connector",
+  "version": "0.1.0",
+  "description": "Memory database connector for shift",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint-staged": "lint-staged",
+    "coverage": "NODE_ENV=test jest --coverage",
+    "coverage-ci": "npm run coverage && cat ./coverage/lcov.info | codecov",
+    "babel": "babel --presets es2015,stage-0 --ignore node_modules,coverage"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "keywords": [
+    "shift",
+    "api",
+    "memory",
+    "model",
+    "generator"
+  ],
+  "author": "Chris Kalmar <christian.kalmar@gmail.com>",
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 2.0.0"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "casual": "^1.5.12",
+    "json-shaper": "^1.0.3",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "eslint": "^3.12.1",
+    "jest": "^22.0.4"
+  }
+}

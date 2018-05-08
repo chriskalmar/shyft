@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StorageType data type mapping should reject invalid schema data types 1`] = `"Provided schemaDataType is not a valid data type in 'SomeStorageType', got this instead: [object Object]"`;
+
+exports[`StorageType data type mapping should reject invalid storage data types 1`] = `"Provided storageDataType for 'DataTypeString' is not a valid storage data type in 'SomeStorageType', got this instead: [object Object]"`;
+
+exports[`StorageType data type mapping should throw on duplicate mappings 1`] = `"Data type mapping for 'DataTypeID' already registered with storage type 'SomeStorageType'"`;
+
+exports[`StorageType isStorageType should recognize non-StorageType objects 1`] = `"Not an StorageType object"`;
+
+exports[`StorageType should have a description 1`] = `"Missing description for storage type 'Example'"`;
+
+exports[`StorageType should have a name 1`] = `"Missing storage type name"`;
+
+exports[`StorageType should throw on missing data fetching implementations 1`] = `"Storage type 'SomeStorageType' needs to implement findOne()"`;
+
+exports[`StorageType should throw on missing data fetching implementations 2`] = `"Storage type 'SomeStorageType' needs to implement findOneByValues()"`;
+
+exports[`StorageType should throw on missing data fetching implementations 3`] = `"Storage type 'SomeStorageType' needs to implement find()"`;
+
+exports[`StorageType should throw on missing data fetching implementations 4`] = `"Storage type 'SomeStorageType' needs to implement count()"`;
+
+exports[`StorageType should throw on missing data fetching implementations 5`] = `"Storage type 'SomeStorageType' needs to implement mutate()"`;

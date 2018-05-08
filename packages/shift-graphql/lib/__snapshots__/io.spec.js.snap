@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`io should generate a nested data input type 1`] = `
+Object {
+  "firstName": Object {
+    "description": "First name",
+    "name": "firstName",
+    "type": "String",
+  },
+  "lastName": Object {
+    "description": "Last name",
+    "name": "lastName",
+    "type": "String!",
+  },
+  "number": Object {
+    "description": "Number on the shirt",
+    "name": "number",
+    "type": "Int!",
+  },
+}
+`;
+
+exports[`io should generate a nested data output type 1`] = `
+Object {
+  "firstName": Object {
+    "args": Array [],
+    "description": "First name",
+    "isDeprecated": false,
+    "name": "firstName",
+    "type": "String",
+  },
+  "lastName": Object {
+    "args": Array [],
+    "description": "Last name",
+    "isDeprecated": false,
+    "name": "lastName",
+    "type": "String",
+  },
+  "number": Object {
+    "args": Array [],
+    "description": "Number on the shirt",
+    "isDeprecated": false,
+    "name": "number",
+    "type": "Int",
+  },
+}
+`;
+
+exports[`io should generate an input type 1`] = `
+Object {
+  "clientMutationId": Object {
+    "name": "clientMutationId",
+    "type": "String",
+  },
+  "data": Object {
+    "description": undefined,
+    "name": "data",
+    "type": "NewSimpleActionDataInput",
+  },
+}
+`;
+
+exports[`io should generate an input type 2`] = `
+Object {
+  "firstName": Object {
+    "description": "First name",
+    "name": "firstName",
+    "type": "String",
+  },
+  "lastName": Object {
+    "description": "Last name",
+    "name": "lastName",
+    "type": "String!",
+  },
+}
+`;
+
+exports[`io should generate an output type 1`] = `
+Object {
+  "clientMutationId": Object {
+    "args": Array [],
+    "isDeprecated": false,
+    "name": "clientMutationId",
+    "type": "String",
+  },
+  "result": Object {
+    "args": Array [],
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "result",
+    "type": "NewSimpleActionDataOutput",
+  },
+}
+`;
+
+exports[`io should generate an output type 2`] = `
+Object {
+  "luckyNumber": Object {
+    "args": Array [],
+    "description": "The perfect lucky number for the given name",
+    "isDeprecated": false,
+    "name": "luckyNumber",
+    "type": "Int",
+  },
+}
+`;
+
+exports[`io should handle nested input and output definitions 1`] = `
+Object {
+  "clientMutationId": Object {
+    "name": "clientMutationId",
+    "type": "String",
+  },
+  "data": Object {
+    "description": undefined,
+    "name": "data",
+    "type": "BuildTeamDataInput",
+  },
+}
+`;
+
+exports[`io should handle nested input and output definitions 2`] = `
+Object {
+  "players": Object {
+    "description": "List of player",
+    "name": "players",
+    "type": "BuildTeamPlayersL2DataInput",
+  },
+  "teamName": Object {
+    "description": "Name of the team",
+    "name": "teamName",
+    "type": "String",
+  },
+}
+`;
+
+exports[`io should handle nested input and output definitions 3`] = `
+Object {
+  "defence": Object {
+    "description": "Defence players",
+    "name": "defence",
+    "type": "[BuildTeamPlayersDefenceL3DataInput]",
+  },
+  "offense": Object {
+    "description": "Offense players",
+    "name": "offense",
+    "type": "[BuildTeamPlayersOffenseL3DataInput]",
+  },
+}
+`;

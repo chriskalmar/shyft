@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Mutation isMutation should recognize non-Mutation objects 1`] = `"Not a Mutation object"`;
+
+exports[`Mutation processEntityMutations should throw if provided with an invalid list of mutations 1`] = `"Entity 'SomeEntityName' mutations definition needs to be an array of mutations"`;
+
+exports[`Mutation processEntityMutations should throw if provided with an invalid mutation 1`] = `"Invalid mutation definition for entity 'SomeEntityName' at position '0'"`;
+
+exports[`Mutation processEntityMutations should throw if required attribute (without defaultValue) is missing in CREATE type mutations 1`] = `"Missing required attributes in mutation 'SomeEntityName.build' need to have a defaultValue() function: [ neededAttribute ]"`;
+
+exports[`Mutation processEntityMutations should throw if unknown attributes are used 1`] = `"Cannot use attribute 'SomeEntityName.doesNotExist' in mutation 'SomeEntityName.build' as it does not exist"`;
+
+exports[`Mutation processEntityMutations should throw if unknown state name is used 1`] = `"Unknown state 'fakeState' used in mutation 'SomeEntityName.change'"`;
+
+exports[`Mutation processEntityMutations should throw if unknown state name is used 2`] = `"Unknown state 'whatever' used in mutation 'SomeEntityName.change'"`;
+
+exports[`Mutation processEntityMutations should throw if unknown state name is used 3`] = `"Unknown state 'randomState' used in mutation 'SomeEntityName.change'"`;
+
+exports[`Mutation processEntityMutations should throw if unknown state name is used 4`] = `"Unknown state 'notHere' used in mutation 'SomeEntityName.drop'"`;
+
+exports[`Mutation processEntityMutations should throw if using state in a stateless entity 1`] = `"Mutation 'SomeEntityName.change' cannot define fromState as the entity is stateless"`;
+
+exports[`Mutation processEntityMutations should throw if using state in a stateless entity 2`] = `"Mutation 'SomeEntityName.build' cannot define toState as the entity is stateless"`;
+
+exports[`Mutation processEntityMutations should throw on duplicate mutation names 1`] = `"Duplicate mutation name 'build' found in 'SomeEntityName'"`;
+
+exports[`Mutation should have a description 1`] = `"Missing description for mutation 'example'"`;
+
+exports[`Mutation should have a list of unique attribute names 1`] = `"Mutation 'SomeEntityName.example' needs to have a list of unique attribute names"`;
+
+exports[`Mutation should have a list of valid attribute names 1`] = `"Mutation 'SomeEntityName.example' needs to have a list of attribute names"`;
+
+exports[`Mutation should have a name 1`] = `"Missing mutation name"`;
+
+exports[`Mutation should have a type 1`] = `"Missing type for mutation 'example'"`;
+
+exports[`Mutation should have a valid postProcessor function 1`] = `"postProcessor of mutation 'example' needs to be a valid function"`;
+
+exports[`Mutation should have a valid preProcessor function 1`] = `"preProcessor of mutation 'example' needs to be a valid function"`;
+
+exports[`Mutation should have a valid type 1`] = `"Unknown mutation type '12346' used, try one of these: 'create, update, delete'"`;
+
+exports[`Mutation should prevent fromState settings for create type mutations 1`] = `"Mutation 'example' cannot define fromState as it is a 'create' type mutation"`;
+
+exports[`Mutation should prevent toState settings for delete type mutations 1`] = `"Mutation 'example' cannot define toState as it is a 'delete' type mutation"`;
+
+exports[`Mutation should reject fromState without toState on update type mutations 1`] = `"Mutation 'example' has a fromState defined but misses a toState definition"`;
+
+exports[`Mutation should reject invalid fromState settings 1`] = `"fromState in mutation 'example' needs to be the name of a state or a list of state names as a precondition to the mutation"`;
+
+exports[`Mutation should reject invalid toState settings 1`] = `"toState in mutation 'example' needs to be the name of a state or a list of state names the mutation can transition to"`;
+
+exports[`Mutation should reject toState without fromState on update type mutations 1`] = `"Mutation 'example' has a toState defined but misses a fromState definition"`;

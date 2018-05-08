@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validation should reject payloads based on attribute level validation 1`] = `"Too short"`;
+
+exports[`validation should reject payloads based on attribute level validation 2`] = `"Too long"`;
+
+exports[`validation should reject payloads based on attribute level validation 3`] = `"Missing context"`;
+
+exports[`validation should reject payloads based on attribute level validation 4`] = `"Value needs to be between 0.0 and 1.0 (got: 4.7)"`;
+
+exports[`validation should reject payloads based on attribute level validation of nested attributes 1`] = `"Missing \\"Team\\" in team name"`;
+
+exports[`validation should reject payloads based on attribute level validation of nested attributes 2`] = `"Players need to have even numbers (got 5)"`;
+
+exports[`validation should reject payloads based on attribute level validation of nested attributes 3`] = `"Players need to have even numbers (got 9)"`;
+
+exports[`validation should reject payloads based on data type level validation 1`] = `"Object data type 'offense' expects an object"`;
+
+exports[`validation should reject payloads based on data type level validation 2`] = `"List data type 'offense' expects an array of items"`;

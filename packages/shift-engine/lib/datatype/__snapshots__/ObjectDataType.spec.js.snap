@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ObjectDataType isObjectDataType should recognize non-DataType objects 1`] = `"Not a DataType object"`;
+
+exports[`ObjectDataType should accept only maps or functions as attributes definition 1`] = `"Object data type 'Example' needs an attribute definition as a map or a function returning such a map"`;
+
+exports[`ObjectDataType should have a description 1`] = `"Missing description for object data type 'example'"`;
+
+exports[`ObjectDataType should have a map of attributes 1`] = `"Missing attributes for object data type 'Example'"`;
+
+exports[`ObjectDataType should have a name 1`] = `"Missing object data type name"`;
+
+exports[`ObjectDataType should reject attributes with invalid data types 1`] = `"'Example.name' has invalid data type '[object Object]'"`;
+
+exports[`ObjectDataType should reject attributes with invalid defaultValue functions 1`] = `"'Example.name' has an invalid defaultValue function'"`;
+
+exports[`ObjectDataType should reject attributes with invalid resolve functions 1`] = `"'Example.name' has an invalid resolve function'"`;
+
+exports[`ObjectDataType should reject attributes with missing descriptions 1`] = `"Missing description for 'Example.name'"`;
+
+exports[`ObjectDataType should reject empty attribute maps 1`] = `"Object data type 'Example' has no attributes defined"`;
+
+exports[`ObjectDataType should reject non-map results of attribute definition functions 1`] = `"Attribute definition function for object data type 'Example' does not return a map"`;

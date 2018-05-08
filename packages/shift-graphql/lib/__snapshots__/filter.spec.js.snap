@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`filter splitAttributeAndFilterOperator should fail on wrong inputs 1`] = `"invalid filter 'undefined'"`;
+
+exports[`filter splitAttributeAndFilterOperator should fail on wrong inputs 2`] = `"invalid filter ''"`;
+
+exports[`filter splitAttributeAndFilterOperator should fail on wrong inputs 3`] = `"invalid filter '[object Object]'"`;
+
+exports[`filter splitAttributeAndFilterOperator should fail on wrong inputs 4`] = `"invalid filter 'name__'"`;
+
+exports[`filter splitAttributeAndFilterOperator should fail on wrong inputs 5`] = `"invalid filter 'name___'"`;
+
+exports[`filter transformFilterLevel should throw if exact match operators is used with another operator on the same attribute 1`] = `"Cannot combine 'exact match' operator with other operators on attribute 'firstName' used in filter"`;
+
+exports[`filter transformFilterLevel should throw if exact match operators is used with another operator on the same attribute 2`] = `"Cannot combine 'exact match' operator with other operators on attribute 'firstName' used in filter"`;
+
+exports[`filter transformFilterLevel should throw if invalid attributes are used in filter 1`] = `"Unknown attribute name 'something' used in filter"`;
+
+exports[`filter transformFilterLevel should throw if invalid attributes are used in filter 2`] = `"Unknown attribute name 'anything_here' used in filter"`;
+
+exports[`filter transformFilterLevel should throw if invalid attributes are used in filter 3`] = `"Unknown attribute name 'anything_here' used in filter at 'just.here'"`;
+
+exports[`filter transformFilterLevel should throw if provided params are invalid 1`] = `"filter needs to be an object of filter criteria"`;
+
+exports[`filter transformFilterLevel should throw if provided params are invalid 2`] = `"optional path in transformFilterLevel() needs to be an array"`;
+
+exports[`filter transformFilterLevel should throw if provided params are invalid 3`] = `"filter at 'somewhere' needs to be an object of filter criteria"`;
+
+exports[`filter transformFilterLevel should throw if provided params are invalid 4`] = `"filter at 'somewhere.deeply.nested' needs to be an object of filter criteria"`;
+
+exports[`filter transformFilterLevel should throw if provided params are invalid 5`] = `"transformFilterLevel() expects an attribute map"`;

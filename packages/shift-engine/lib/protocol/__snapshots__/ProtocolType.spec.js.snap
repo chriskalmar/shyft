@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProtocolType should implement isProtocolDataType 1`] = `"Protocol type 'REST' needs to implement isProtocolDataType()"`;
+
+exports[`ProtocolType should reject duplicate data type mappings 1`] = `"Data type mapping for 'DataTypeInteger' already registered with protocol type 'ProtocolTypeREST'"`;
+
+exports[`ProtocolType should reject invalid data type mappings 1`] = `"Provided schemaDataType is not a valid data type in 'ProtocolTypeREST'"`;
+
+exports[`ProtocolType should reject invalid data type mappings 2`] = `"Provided protocolDataType for 'DataTypeID' is not a valid protocol data type in 'ProtocolTypeREST'"`;
+
+exports[`ProtocolType should reject invalid data type mappings 3`] = `"Provided protocolDataType for 'DataTypeString' is not a valid protocol data type in 'ProtocolTypeREST'"`;
+
+exports[`ProtocolType should reject invalid protocol type definitions 1`] = `"Missing protocol type name"`;
+
+exports[`ProtocolType should reject invalid protocol type definitions 2`] = `"Missing description for protocol type 'REST'"`;
+
+exports[`ProtocolType should throw if unknown data type mapping is requested 1`] = `"Provided schemaDataType is not a valid data type in protocol type 'ProtocolTypeREST'"`;
+
+exports[`ProtocolType should throw if unknown data type mapping is requested 2`] = `"No data type mapping found for 'DataTypeBoolean' in protocol type 'ProtocolTypeREST'"`;

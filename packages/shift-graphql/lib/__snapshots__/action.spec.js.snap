@@ -1,0 +1,247 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`action should generate actions 1`] = `
+Object {
+  "buildTeam": Object {
+    "args": Object {
+      "input": Object {
+        "description": "Input argument for this action",
+        "type": "BuildTeamInput!",
+      },
+    },
+    "description": "build a team",
+    "resolve": [Function],
+    "type": "BuildTeamOutput",
+  },
+  "newSimpleAction": Object {
+    "args": Object {
+      "input": Object {
+        "description": "Input argument for this action",
+        "type": "NewSimpleActionInput!",
+      },
+    },
+    "description": "do something",
+    "resolve": [Function],
+    "type": "NewSimpleActionOutput",
+  },
+  "noInputAction": Object {
+    "args": Object {
+      "input": Object {
+        "description": "Input argument for this action",
+        "type": "NoInputActionInput",
+      },
+    },
+    "description": "do something",
+    "resolve": [Function],
+    "type": "NoInputActionOutput",
+  },
+  "noOutputAction": Object {
+    "args": Object {
+      "input": Object {
+        "description": "Input argument for this action",
+        "type": "NoOutputActionInput!",
+      },
+    },
+    "description": "do something",
+    "resolve": [Function],
+    "type": "NoOutputActionOutput",
+  },
+}
+`;
+
+exports[`action should generate actions 2`] = `
+Object {
+  "clientMutationId": Object {
+    "args": Array [],
+    "isDeprecated": false,
+    "name": "clientMutationId",
+    "type": "String",
+  },
+  "result": Object {
+    "args": Array [],
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "result",
+    "type": "NewSimpleActionDataOutput",
+  },
+}
+`;
+
+exports[`action should generate actions 3`] = `
+Object {
+  "luckyNumber": Object {
+    "args": Array [],
+    "description": "The perfect lucky number for the given name",
+    "isDeprecated": false,
+    "name": "luckyNumber",
+    "type": "Int",
+  },
+}
+`;
+
+exports[`action should generate actions 4`] = `
+Object {
+  "clientMutationId": Object {
+    "name": "clientMutationId",
+    "type": "String",
+  },
+  "data": Object {
+    "description": undefined,
+    "name": "data",
+    "type": "NewSimpleActionDataInput!",
+  },
+}
+`;
+
+exports[`action should generate actions 5`] = `
+Object {
+  "firstName": Object {
+    "description": "First name",
+    "name": "firstName",
+    "type": "String",
+  },
+  "lastName": Object {
+    "description": "Last name",
+    "name": "lastName",
+    "type": "String!",
+  },
+}
+`;
+
+exports[`action should generate actions 6`] = `
+Object {
+  "clientMutationId": Object {
+    "args": Array [],
+    "isDeprecated": false,
+    "name": "clientMutationId",
+    "type": "String",
+  },
+  "result": Object {
+    "args": Array [],
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "result",
+    "type": "NoInputActionDataOutput",
+  },
+}
+`;
+
+exports[`action should generate actions 7`] = `
+Object {
+  "luckyNumber": Object {
+    "args": Array [],
+    "description": "The perfect lucky number for the given name",
+    "isDeprecated": false,
+    "name": "luckyNumber",
+    "type": "Int",
+  },
+}
+`;
+
+exports[`action should generate actions 8`] = `
+Object {
+  "clientMutationId": Object {
+    "name": "clientMutationId",
+    "type": "String",
+  },
+}
+`;
+
+exports[`action should generate actions 9`] = `
+Object {
+  "clientMutationId": Object {
+    "args": Array [],
+    "isDeprecated": false,
+    "name": "clientMutationId",
+    "type": "String",
+  },
+}
+`;
+
+exports[`action should generate actions 10`] = `
+Object {
+  "clientMutationId": Object {
+    "name": "clientMutationId",
+    "type": "String",
+  },
+  "data": Object {
+    "description": undefined,
+    "name": "data",
+    "type": "NoOutputActionDataInput!",
+  },
+}
+`;
+
+exports[`action should generate actions 11`] = `
+Object {
+  "firstName": Object {
+    "description": "First name",
+    "name": "firstName",
+    "type": "String",
+  },
+  "lastName": Object {
+    "description": "Last name",
+    "name": "lastName",
+    "type": "String!",
+  },
+}
+`;
+
+exports[`action should generate actions 12`] = `
+Object {
+  "clientMutationId": Object {
+    "args": Array [],
+    "isDeprecated": false,
+    "name": "clientMutationId",
+    "type": "String",
+  },
+  "result": Object {
+    "args": Array [],
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "result",
+    "type": "BuildTeamDataOutput",
+  },
+}
+`;
+
+exports[`action should generate actions 13`] = `
+Object {
+  "result": Object {
+    "args": Array [],
+    "description": "List of player",
+    "isDeprecated": false,
+    "name": "result",
+    "type": "BuildTeamResultL2DataOutput",
+  },
+}
+`;
+
+exports[`action should generate actions 14`] = `
+Object {
+  "clientMutationId": Object {
+    "name": "clientMutationId",
+    "type": "String",
+  },
+  "data": Object {
+    "description": undefined,
+    "name": "data",
+    "type": "BuildTeamDataInput!",
+  },
+}
+`;
+
+exports[`action should generate actions 15`] = `
+Object {
+  "players": Object {
+    "description": "List of player",
+    "name": "players",
+    "type": "BuildTeamPlayersL2DataInput",
+  },
+  "teamName": Object {
+    "description": "Name of the team",
+    "name": "teamName",
+    "type": "String",
+  },
+}
+`;
