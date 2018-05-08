@@ -5,15 +5,15 @@
   "main": "dist/",
   "scripts": {
     "test": "jest",
-    "test:watch": "jest --watch",
+    "test-watch": "jest --watch",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint-fix": "eslint . --fix",
     "lint-staged": "lint-staged",
     "coverage": "NODE_ENV=test jest --coverage",
     "coverage-ci": "npm run coverage && cat ./coverage/lcov.info | codecov",
     "babel": "babel --presets es2015,stage-0 --ignore node_modules,coverage",
     "build": "mkdir dist; npm run test && NODE_ENV=build babel lib -d dist",
-    "build:watch": "mkdir dist; NODE_ENV=build babel lib -w -d dist"
+    "build-watch": "mkdir dist; NODE_ENV=build babel lib -w -d dist"
   },
   "jest": {
     "testEnvironment": "node"
