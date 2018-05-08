@@ -1,0 +1,219 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`postgres should fetch instances by ID 1`] = `
+Object {
+  "confirmedAt": null,
+  "firstname": "Leon",
+  "id": "10",
+  "lastname": "Smitham",
+  "password": "16149626b0365e04a9a52d02e17ca8aeb63680b9f5ee2ba334b0b1a38a833cfe",
+  "username": "leon807",
+}
+`;
+
+exports[`postgres should fetch instances by ID 2`] = `
+Object {
+  "confirmedAt": null,
+  "firstname": "Katrina",
+  "id": "20",
+  "lastname": "Roob",
+  "password": "bcee72e6df5d56319125920f6c69d8001e938e122cd14597e547d49cc9126e42",
+  "username": "katrina560",
+}
+`;
+
+exports[`postgres should fetch instances by ID 3`] = `
+Object {
+  "confirmedAt": null,
+  "firstname": "Carissa",
+  "id": "30",
+  "lastname": "Nitzsche",
+  "password": "c6520201ad739678e8e86c983c072c1fd95dba3b98d5023e40a8d895924b429f",
+  "username": "carissa722",
+}
+`;
+
+exports[`postgres should fetch instances by ID 4`] = `
+Object {
+  "createdBy": "71",
+  "id": "10",
+  "isPrivate": true,
+  "name": "Sit aut",
+  "owner": "71",
+  "updatedBy": "71",
+}
+`;
+
+exports[`postgres should fetch instances by ID 5`] = `
+Object {
+  "createdBy": "10",
+  "id": "20",
+  "isPrivate": false,
+  "name": "Sunt quo",
+  "owner": "10",
+  "updatedBy": "10",
+}
+`;
+
+exports[`postgres should fetch instances by ID 6`] = `
+Object {
+  "createdBy": "6",
+  "id": "30",
+  "isPrivate": false,
+  "name": "Fuga accusantium voluptatem",
+  "owner": "6",
+  "updatedBy": "6",
+}
+`;
+
+exports[`postgres should fetch instances by ID 7`] = `
+Object {
+  "board": "21",
+  "id": "200",
+  "invitee": "107",
+  "inviter": "107",
+  "state": 50,
+}
+`;
+
+exports[`postgres should fetch instances by ID 8`] = `
+Object {
+  "board": "5",
+  "id": "201",
+  "invitee": "101",
+  "inviter": "55",
+  "state": 10,
+}
+`;
+
+exports[`postgres should fetch instances by ID 9`] = `
+Object {
+  "board": "9",
+  "id": "202",
+  "invitee": "7",
+  "inviter": "52",
+  "state": 20,
+}
+`;
+
+exports[`postgres should fetch instances by value 1`] = `
+Object {
+  "confirmedAt": null,
+  "firstname": "Katrina",
+  "id": "20",
+  "lastname": "Roob",
+  "password": "bcee72e6df5d56319125920f6c69d8001e938e122cd14597e547d49cc9126e42",
+  "username": "katrina560",
+}
+`;
+
+exports[`postgres should fetch instances by value 2`] = `
+Object {
+  "confirmedAt": null,
+  "firstname": "Clark",
+  "id": "14",
+  "lastname": "Abshire",
+  "password": "87ba65bd3e47783927b0035d5537c2bfc92362955d3a6fe39289ab03075b5b7c",
+  "username": "clark218",
+}
+`;
+
+exports[`postgres should fetch instances by value 3`] = `
+Object {
+  "confirmedAt": null,
+  "firstname": "Annabel",
+  "id": "1",
+  "lastname": "Bergstrom",
+  "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
+  "username": "annabel711",
+}
+`;
+
+exports[`postgres should fetch instances by value 4`] = `
+Object {
+  "board": "9",
+  "id": "202",
+  "invitee": "7",
+  "inviter": "52",
+  "state": 20,
+}
+`;
+
+exports[`postgres should fetch instances by value 5`] = `
+Object {
+  "board": "41",
+  "id": "1",
+  "invitee": "95",
+  "inviter": "95",
+  "state": 50,
+}
+`;
+
+exports[`postgres should utilize data loader 1`] = `
+Array [
+  Object {
+    "confirmedAt": null,
+    "firstname": "Leon",
+    "id": "10",
+    "lastname": "Smitham",
+    "password": "16149626b0365e04a9a52d02e17ca8aeb63680b9f5ee2ba334b0b1a38a833cfe",
+    "username": "leon807",
+  },
+  Object {
+    "confirmedAt": null,
+    "firstname": "Katrina",
+    "id": "20",
+    "lastname": "Roob",
+    "password": "bcee72e6df5d56319125920f6c69d8001e938e122cd14597e547d49cc9126e42",
+    "username": "katrina560",
+  },
+  Object {
+    "confirmedAt": null,
+    "firstname": "Carissa",
+    "id": "30",
+    "lastname": "Nitzsche",
+    "password": "c6520201ad739678e8e86c983c072c1fd95dba3b98d5023e40a8d895924b429f",
+    "username": "carissa722",
+  },
+  Object {
+    "confirmedAt": null,
+    "firstname": "Katrina",
+    "id": "20",
+    "lastname": "Roob",
+    "password": "bcee72e6df5d56319125920f6c69d8001e938e122cd14597e547d49cc9126e42",
+    "username": "katrina560",
+  },
+  Object {
+    "confirmedAt": null,
+    "firstname": "Leon",
+    "id": "10",
+    "lastname": "Smitham",
+    "password": "16149626b0365e04a9a52d02e17ca8aeb63680b9f5ee2ba334b0b1a38a833cfe",
+    "username": "leon807",
+  },
+  Object {
+    "confirmedAt": null,
+    "firstname": "Katrina",
+    "id": "20",
+    "lastname": "Roob",
+    "password": "bcee72e6df5d56319125920f6c69d8001e938e122cd14597e547d49cc9126e42",
+    "username": "katrina560",
+  },
+  Object {
+    "confirmedAt": null,
+    "firstname": "Clark",
+    "id": "14",
+    "lastname": "Abshire",
+    "password": "87ba65bd3e47783927b0035d5537c2bfc92362955d3a6fe39289ab03075b5b7c",
+    "username": "clark218",
+  },
+  Object {
+    "confirmedAt": null,
+    "firstname": "Katrina",
+    "id": "20",
+    "lastname": "Roob",
+    "password": "bcee72e6df5d56319125920f6c69d8001e938e122cd14597e547d49cc9126e42",
+    "username": "katrina560",
+  },
+]
+`;

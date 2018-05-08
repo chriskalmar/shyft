@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`i18n should reject translations of unknown languages 1`] = `[Error: Unknown language 'fr' provided in translation of mutation 'create']`;
+
+exports[`i18n should store translations if provided 1`] = `
+Object {
+  "author": "Leo Tolstoy",
+  "i18n": null,
+  "id": "1",
+  "shortSummary": null,
+  "shortSummary.i18n": Object {
+    "de": undefined,
+    "default": null,
+  },
+  "title": "War and Peace",
+  "title.i18n": Object {
+    "de": "Krieg und Frieden",
+    "default": "War and Peace",
+  },
+}
+`;
+
+exports[`i18n should store translations of multiple attributes 1`] = `
+Object {
+  "author": "Leo Tolstoy",
+  "i18n": null,
+  "id": "3",
+  "shortSummary": "The novel chronicles the history of ...",
+  "shortSummary.i18n": Object {
+    "de": "Krieg und Frieden ist ein historischer Roman des ...",
+    "default": "The novel chronicles the history of ...",
+  },
+  "title": "War and Peace",
+  "title.i18n": Object {
+    "de": "Krieg und Frieden",
+    "default": "War and Peace",
+  },
+}
+`;
+
+exports[`i18n should take main value form translations object if provided 1`] = `
+Object {
+  "author": "Leo Tolstoy",
+  "i18n": null,
+  "id": "2",
+  "shortSummary": null,
+  "shortSummary.i18n": Object {
+    "de": undefined,
+    "default": null,
+  },
+  "title": "War and Peace",
+  "title.i18n": Object {
+    "de": "Krieg und Frieden",
+    "default": "War and Peace",
+  },
+}
+`;

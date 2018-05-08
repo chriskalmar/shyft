@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mutation handle uniqueness constraints 1`] = `[Error: Uniqueness constraint violated]`;
+
+exports[`mutation perform create mutations 1`] = `
+Object {
+  "board": "47",
+  "id": "301",
+  "invitee": "99",
+  "inviter": "99",
+  "state": 50,
+}
+`;
+
+exports[`mutation perform delete mutations 1`] = `
+Object {
+  "board": "50",
+  "id": "303",
+  "invitee": "81",
+  "inviter": "84",
+  "state": 10,
+}
+`;
+
+exports[`mutation perform delete mutations 2`] = `
+Object {
+  "deleteRowCount": 1,
+  "id": "303",
+}
+`;
+
+exports[`mutation perform update mutations 1`] = `
+Object {
+  "board": "50",
+  "id": "302",
+  "invitee": "80",
+  "inviter": "84",
+  "state": 10,
+}
+`;
+
+exports[`mutation perform update mutations 2`] = `
+Object {
+  "board": "50",
+  "id": "302",
+  "invitee": "80",
+  "inviter": "84",
+  "state": 20,
+}
+`;
+
+exports[`mutation reject mutations if ID not found 1`] = `[Error: Instance with ID '99999' not found or access denied]`;
+
+exports[`mutation reject mutations without state transitions on stateful entities 1`] = `[Error: State transition (toState) not defined]`;
+
+exports[`mutation reject unknown mutations 1`] = `[Error: Invalid mutation]`;

@@ -1,9 +1,11 @@
 {
   "parser": "babel-eslint", // https://github.com/babel/babel-eslint
   "env": {
-    "browser": true,
+    "browser": false,
     "node": true,
-    "mocha": true
+    "mocha": true,
+    "es6": true,
+    "jest": true
   },
   "globals": {
     "expect": true,
@@ -117,7 +119,9 @@
     /**
      * Style
      */
-    "indent": [2, 2],                // http://eslint.org/docs/rules/indent
+    "indent": [2, 2, {
+      "SwitchCase": 1
+    }],                // http://eslint.org/docs/rules/indent
     "brace-style": [
       2,               // http://eslint.org/docs/rules/brace-style
       "stroustrup", {

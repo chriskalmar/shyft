@@ -4,9 +4,9 @@
     "stage-0"
   ],
   "env": {
-    "test": {
-      "plugins": [
-        "istanbul"
+    "build": {
+      "ignore": [
+        "**/*.spec.js"
       ]
     }
   }

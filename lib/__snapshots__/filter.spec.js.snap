@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`filter buildWhereQuery combined logical AND/OR filter 1`] = `
+Array [
+  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE ((ip = $1 AND ((cluster_zone = $2) OR (cluster_zone = $3))) AND (name = $4))",
+  Array [
+    "127.0.0.1",
+    1,
+    7,
+    "test-server-1",
+  ],
+]
+`;
+
+exports[`filter buildWhereQuery combined logical AND/OR filter 2`] = `
+Array [
+  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE (((ip = $1 AND (cluster_zone = $2) AND (name = $3)) OR (name = $4)))",
+  Array [
+    "127.0.0.1",
+    1,
+    "test-server-110",
+    "test-server-1",
+  ],
+]
+`;
+
+exports[`filter buildWhereQuery complex and nested filter with various operators 1`] = `
+Array [
+  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE (((ip IN ($1, $2) AND name ILIKE $3) OR (ip = $4) OR (name ILIKE $5 AND name ILIKE $6 AND name ILIKE $7 AND ((cluster_zone IN ($8, $9)) OR (cluster_zone > $10 AND cluster_zone < $11 AND cluster_zone <> $12 AND cluster_zone NOT IN ($13))) AND (((cluster_zone = $14) OR (cluster_zone <= $15 AND cluster_zone >= $16) OR (TRUE IS FALSE))) AND (name NOT ILIKE $17 AND name NOT ILIKE $18 AND name NOT ILIKE $19))) AND (name = $20))",
+  Array [
+    "127.0.0.1",
+    "192.168.0.1",
+    "test-%",
+    "10.0.0.1",
+    "%open%",
+    "demo%",
+    "%server",
+    6,
+    7,
+    10,
+    100,
+    50,
+    44,
+    88,
+    40,
+    30,
+    "%open%",
+    "demo%",
+    "%server",
+    "secret-server",
+  ],
+]
+`;
+
+exports[`filter buildWhereQuery empty filter 1`] = `
+Array [
+  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\"",
+  Array [],
+]
+`;
+
+exports[`filter buildWhereQuery logical AND filter 1`] = `
+Array [
+  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE ((ip = $1 AND name = $2) AND (cluster_zone = $3))",
+  Array [
+    "127.0.0.1",
+    "test-server-1",
+    4,
+  ],
+]
+`;
+
+exports[`filter buildWhereQuery logical OR filter 1`] = `
+Array [
+  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE (((ip = $1 AND name = $2) OR (ip = $3 AND name = $4)))",
+  Array [
+    "127.0.0.1",
+    "test-server-1",
+    "127.0.0.1",
+    "test-server-2",
+  ],
+]
+`;
+
+exports[`filter buildWhereQuery reject if $not operator is used without a filter 1`] = `"$not expects a filter"`;
+
+exports[`filter buildWhereQuery reject if AND is not provided with an array 1`] = `"$and expects an array of filters"`;
+
+exports[`filter buildWhereQuery reject if OR is not provided with an array 1`] = `"$or expects an array of filters"`;
+
+exports[`filter buildWhereQuery reject if operator is used without an attribute 1`] = `"missing attribute name for filter operator"`;
+
+exports[`filter buildWhereQuery reject if unknown operators are used 1`] = `"Unknown filter operator: $unknownOp"`;
+
+exports[`filter buildWhereQuery simple properties filter 1`] = `
+Array [
+  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE (ip = $1 AND name = $2)",
+  Array [
+    "127.0.0.1",
+    "test-server-1",
+  ],
+]
+`;
+
+exports[`filter purifyFilter should clean empty filter bocks 1`] = `
+Object {
+  "$and": Array [
+    Object {
+      "$or": Array [
+        Object {
+          "LookupEntity.role": 1,
+        },
+        Object {
+          "accessLevel": 1,
+        },
+      ],
+      "language": Object {
+        "$gte": 1,
+        "$lt": 5,
+      },
+      "username": Object {
+        "$contains": "bot",
+        "$startsWith": "_system_%",
+      },
+    },
+    Object {
+      "$or": Array [
+        Object {
+          "$and": Array [
+            Object {
+              "username": "hallo",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  "$or": Array [
+    Object {
+      "lastname": "smith",
+    },
+  ],
+}
+`;
