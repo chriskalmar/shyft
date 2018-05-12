@@ -720,14 +720,14 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
       }
 
       if (entityMutation.postProcessor) {
-        await entityMutation.postProcessor(null, entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
+        await entityMutation.postProcessor(null, result, entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
       }
 
       return ret
     }
     catch(error) {
       if (entityMutation.postProcessor) {
-        await entityMutation.postProcessor(error, entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
+        await entityMutation.postProcessor(error, null, entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
       }
 
       throw error
@@ -791,14 +791,14 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
 
 
       if (entityMutation.postProcessor) {
-        await entityMutation.postProcessor(null, entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
+        await entityMutation.postProcessor(null, result, entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
       }
 
       return ret
     }
     catch (error) {
       if (entityMutation.postProcessor) {
-        await entityMutation.postProcessor(error, entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
+        await entityMutation.postProcessor(error, null, entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
       }
 
       throw error
