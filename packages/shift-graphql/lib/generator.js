@@ -58,6 +58,12 @@ const graphRegistry = {
 }
 
 
+export const getTypeForEntityFromGraphRegistry = (entity) => {
+  const typeName = entity.graphql.typeName
+  return graphRegistry.types[ typeName ]
+}
+
+
 // prepare models for graphql
 export const extendModelsForGql = (entities) => {
 

@@ -1,5 +1,7 @@
 
-import generator from './generator';
+import generator, {
+  getTypeForEntityFromGraphRegistry,
+} from './generator';
 import dataTypes from './dataTypes';
 import ProtocolGraphQL from './ProtocolGraphQL';
 import constants from './constants';
@@ -14,6 +16,7 @@ import {
 
 export {
   generator,
+  getTypeForEntityFromGraphRegistry,
   dataTypes,
   ProtocolGraphQL,
   constants,
@@ -28,6 +31,7 @@ export {
 
 export default {
   generator,
+  getTypeForEntityFromGraphRegistry,
   dataTypes,
   ProtocolGraphQL,
   constants,
