@@ -40,7 +40,7 @@ export const generateListQueries = (graphRegistry) => {
       args: graphRegistry.types[typeName].connectionArgs,
       resolve: async (source, args, context, info) => {
 
-        validateConnectionArgs(args)
+        validateConnectionArgs(source, args, context, info)
         forceSortByUnique(args.orderBy, entity)
 
         args.filter = await transformFilterLevel(args.filter, entity.getAttributes(), context)

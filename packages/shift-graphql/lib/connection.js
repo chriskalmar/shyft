@@ -62,10 +62,10 @@ export const generateConnectionArgs = (entity, graphRegistry) => {
 }
 
 
-export const validateConnectionArgs = (args) => {
+export const validateConnectionArgs = (source, args, context, info) => {
 
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
-  const maxPageSize = protocolConfiguration.getMaxPageSize()
+  const maxPageSize = protocolConfiguration.getMaxPageSize(source, args, context, info)
 
   if (args.first >= 0 && args.last >= 0) {
     throw new Error('`first` and `last` settings are mutual exclusive')
@@ -303,7 +303,7 @@ export const generateReverseConnections = (configuration, graphRegistry, entity)
       args: graphRegistry.types[sourceEntityTypeName].connectionArgs,
       resolve: async (source, args, context, info) => {
 
-        validateConnectionArgs(args)
+        validateConnectionArgs(source, args, context, info)
         forceSortByUnique(args.orderBy, sourceEntity)
         args.filter = await transformFilterLevel(args.filter, sourceEntity.getAttributes(), context)
 
