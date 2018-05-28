@@ -56,10 +56,10 @@ export const systemAttributesUserTracking = [
     description: 'Record was created by this time',
     type: DataTypeUserID,
     required: true,
-    defaultValue: (data, mutation, entity, { req }) => {
+    defaultValue: (data, mutation, entity, { userId }) => {
       // TODO: make overridable
-      return (mutation.isTypeCreate && req && req.user && req.user.id)
-        ? req.user.id
+      return (mutation.isTypeCreate && userId)
+        ? userId
         : undefined
     },
   },
@@ -68,10 +68,10 @@ export const systemAttributesUserTracking = [
     description: 'Record was updated by this user',
     type: DataTypeUserID,
     required: true,
-    defaultValue: (data, mutation, entity, { req }) => {
+    defaultValue: (data, mutation, entity, { userId }) => {
       // TODO: make overridable
-      return ((mutation.isTypeCreate || mutation.isTypeUpdate) && req && req.user && req.user.id)
-        ? req.user.id
+      return ((mutation.isTypeCreate || mutation.isTypeUpdate) && userId)
+        ? userId
         : undefined
     },
   },
