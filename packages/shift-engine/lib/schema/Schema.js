@@ -17,7 +17,7 @@ import {
 
 class Schema {
 
-  constructor (setup = { entities: null, defaultStorageType: null, actions: null }) {
+  constructor(setup = { entities: null, defaultStorageType: null, actions: null, defaultPermissions: null, defaultActionPermissions: null }) {
 
     this._entityMap = {}
     this._actionMap = {}
@@ -29,6 +29,7 @@ class Schema {
       defaultStorageType,
       actions,
       defaultPermissions,
+      defaultActionPermissions,
     } = setup
 
 
@@ -79,6 +80,17 @@ class Schema {
       }
 
       this.defaultPermissions = defaultPermissions
+    }
+
+
+    if (defaultActionPermissions) {
+
+      passOrThrow(
+        isPermission(defaultActionPermissions) || isPermissionsArray(defaultActionPermissions),
+        () => 'Invalid permission definition for defaultActionPermissions'
+      )
+
+      this.defaultActionPermissions = defaultActionPermissions
     }
 
 
@@ -279,6 +291,10 @@ class Schema {
       !this._actionMap[ action.name ],
       () => `Action '${action.name}' already registered with this schema`
     )
+
+    if (this.defaultActionPermissions) {
+      action._injectDefaultPermissionsBySchema(this.defaultActionPermissions)
+    }
 
     this._actionMap[ action.name ] = action
     this._isValidated = false
