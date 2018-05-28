@@ -573,7 +573,7 @@ class Entity {
         ? this._permissions()
         : this._permissions
 
-      return processEntityPermissions(this, permissions, this._defaultPermissions)
+      return processEntityPermissions(this, permissions || {}, this._defaultPermissions)
     }
     else if (this._defaultPermissions) {
       return processEntityPermissions(this, this._defaultPermissions)
@@ -613,7 +613,7 @@ class Entity {
 
 
   getPermissions() {
-    if (!this._permissions || this.permissions) {
+    if ((!this._permissions && !this._defaultPermissions) || this.permissions) {
       return this.permissions
     }
 
