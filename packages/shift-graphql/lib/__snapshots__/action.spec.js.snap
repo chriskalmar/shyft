@@ -9,7 +9,8 @@ Object {
         "type": "BuildTeamInput!",
       },
     },
-    "description": "build a team",
+    "description": "build a team
+",
     "resolve": [Function],
     "type": "BuildTeamOutput",
   },
@@ -20,7 +21,8 @@ Object {
         "type": "NewSimpleActionInput!",
       },
     },
-    "description": "do something",
+    "description": "do something
+",
     "resolve": [Function],
     "type": "NewSimpleActionOutput",
   },
@@ -31,7 +33,8 @@ Object {
         "type": "NoInputActionInput",
       },
     },
-    "description": "do something",
+    "description": "do something
+",
     "resolve": [Function],
     "type": "NoInputActionOutput",
   },
@@ -42,7 +45,8 @@ Object {
         "type": "NoOutputActionInput!",
       },
     },
-    "description": "do something",
+    "description": "do something
+",
     "resolve": [Function],
     "type": "NoOutputActionOutput",
   },

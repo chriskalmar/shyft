@@ -162,7 +162,7 @@ export const generateActions = (graphRegistry, actionTypeFilter) => {
 
     actions[ queryName ] = {
       type: actionOutputType,
-      description: action.description,
+      description: `${action.description}\n${action.descriptionPermissions || ''}`,
 
       args: inputArgs,
 
