@@ -1,18 +1,14 @@
 
-export const asUser = (id, roles = []) => {
+export const asUser = (userId, userRoles = []) => {
   return {
     loaders: {},
-    req: {
-      user: {
-        id,
-        roles
-      }
-    }
+    userId,
+    userRoles,
   }
 }
 
-export const asAdmin = (id = 1) => {
-  return asUser(id, ['admin'])
+export const asAdmin = (userId = 1) => {
+  return asUser(userId, ['admin'])
 }
 
 

@@ -97,8 +97,8 @@ export const Board = new Entity({
       type: Profile,
       description: 'Owner of the board',
       required: true,
-      defaultValue(payload, mutation, entity, { req }) {
-        return req.user.id
+      defaultValue(payload, mutation, entity, { userId }) {
+        return userId
       }
     },
 

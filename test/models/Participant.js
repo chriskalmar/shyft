@@ -150,8 +150,8 @@ export const Participant = new Entity({
       type: Profile,
       description: 'The user that invites to a board',
       required: true,
-      defaultValue(payload, mutation, entity, { req }) {
-        return req.user.id
+      defaultValue(payload, mutation, entity, { userId }) {
+        return userId
       }
     },
 
@@ -159,9 +159,9 @@ export const Participant = new Entity({
       type: Profile,
       description: 'The user that participates in the board',
       required: true,
-      defaultValue(payload, mutation, entity, { req }) {
+      defaultValue(payload, mutation, entity, { userId }) {
         if (mutation.name === 'join') {
-          return req.user.id
+          return userId
         }
 
         return null

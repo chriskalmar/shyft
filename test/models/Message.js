@@ -87,8 +87,8 @@ export const Message = new Entity({
       type: Profile,
       description: 'The user that writes the message',
       required: true,
-      defaultValue(payload, mutation, entity, { req }) {
-        return req.user.id
+      defaultValue(payload, mutation, entity, { userId }) {
+        return userId
       }
     },
 
