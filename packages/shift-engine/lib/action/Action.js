@@ -153,7 +153,7 @@ class Action {
         ? this._permissions()
         : this._permissions
 
-      return processActionPermissions(this, permissions, this._defaultPermissions)
+      return processActionPermissions(this, permissions)
     }
     else if (this._defaultPermissions) {
       return processActionPermissions(this, this._defaultPermissions)
@@ -170,8 +170,14 @@ class Action {
   }
 
 
+  _injectDefaultPermissionsBySchema(defaultPermissions) {
+    this._defaultPermissions = defaultPermissions
+  }
+
+
   getPermissions() {
-    if (!this._permissions || this.permissions) {
+
+    if ((!this._permissions && !this._defaultPermissions) || this.permissions) {
       return this.permissions
     }
 
