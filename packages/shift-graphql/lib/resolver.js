@@ -1,5 +1,6 @@
 import {
   addRelayTypePromoterToList,
+  translateList,
 } from './util';
 
 import ProtocolGraphQL from './ProtocolGraphQL';
@@ -40,7 +41,8 @@ export const resolveByFind = (entity, parentConnection=null) => {
       )
     )
 
-    const transformedData = transformed
+    const translated = translateList(entity, transformed, context)
+    const transformedData = translated
 
     return connectionFromData(
       {
