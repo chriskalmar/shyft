@@ -16,7 +16,7 @@ import {
 
 
 
-export const resolveByFind = (entity) => {
+export const resolveByFind = (entity, parentConnection=null) => {
 
   const storageType = entity.storageType
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
@@ -31,7 +31,7 @@ export const resolveByFind = (entity) => {
     const {
       data,
       pageInfo,
-    } = await storageType.find(entity, args, context)
+    } = await storageType.find(entity, args, context, parentConnection)
 
     const transformed = entity.graphql.dataSetShaper(
       addRelayTypePromoterToList(
@@ -52,7 +52,7 @@ export const resolveByFind = (entity) => {
       args,
       context,
       info,
-      null,
+      parentConnection,
       pageInfo,
     )
   }

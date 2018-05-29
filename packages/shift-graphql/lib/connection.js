@@ -11,13 +11,7 @@ import {
   GraphQLCursor,
 } from './dataTypes';
 
-import {
-  addRelayTypePromoterToList,
-} from './util';
-
-import {
-  transformFilterLevel,
-} from './filter';
+import { resolveByFind } from './resolver';
 
 import ProtocolGraphQL from './ProtocolGraphQL';
 import { generateSortInput } from './sort';
@@ -290,22 +284,15 @@ export const generateReverseConnections = (configuration, graphRegistry, entity)
     }
 
     const sourceEntityTypeName = protocolConfiguration.generateEntityTypeName(sourceEntity)
-
-    const storageType = sourceEntity.storageType
-
     const fieldName = protocolConfiguration.generateReverseConnectionFieldName(sourceEntity, sourceAttributeName)
-
     const typeNamePluralListName = sourceEntity.graphql.typeNamePluralPascalCase
 
     fields[fieldName] = {
       type: graphRegistry.types[sourceEntityTypeName].connection,
       description: `Fetch a list of **\`${typeNamePluralListName}\`** for a given **\`${typeNamePascalCase}\`**\n${sourceEntity.descriptionPermissionsFind || ''}`,
       args: graphRegistry.types[sourceEntityTypeName].connectionArgs,
-      resolve: async (source, args, context, info) => {
 
-        validateConnectionArgs(source, args, context, info)
-        forceSortByUnique(args.orderBy, sourceEntity)
-        args.filter = await transformFilterLevel(args.filter, sourceEntity.getAttributes(), context)
+      resolve: async (source, args, context, info) => {
 
         const parentEntityTypeName = protocolConfiguration.generateEntityTypeName(info.parentType)
         const parentEntity = graphRegistry.types[parentEntityTypeName].entity
@@ -316,32 +303,8 @@ export const generateReverseConnections = (configuration, graphRegistry, entity)
           attribute: sourceAttributeName
         }
 
-
-        const {
-          data,
-          pageInfo,
-        } = await storageType.find(sourceEntity, args, context, parentConnection)
-
-        const transformedData = sourceEntity.graphql.dataSetShaper(
-          addRelayTypePromoterToList(
-            protocolConfiguration.generateEntityTypeName(sourceEntity),
-            data
-          )
-        )
-
-        return connectionFromData(
-          {
-            transformedData,
-            originalData: data,
-          },
-          sourceEntity,
-          source,
-          args,
-          context,
-          info,
-          parentConnection,
-          pageInfo,
-        )
+        const resolver = resolveByFind(sourceEntity, parentConnection)
+        return resolver(source, args, context, info)
       },
     }
 
