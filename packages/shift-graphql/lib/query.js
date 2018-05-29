@@ -1,5 +1,4 @@
 import {
-  addRelayTypePromoterToList,
   addRelayTypePromoterToInstanceFn,
 } from './util';
 import _ from 'lodash';
@@ -10,15 +9,7 @@ import {
   GraphQLID,
 } from 'graphql';
 
-import {
-  validateConnectionArgs,
-  forceSortByUnique,
-  connectionFromData,
-} from './connection';
-
-import {
-  transformFilterLevel,
-} from './filter';
+import { resolveByFind } from './resolver';
 
 
 export const generateListQueries = (graphRegistry) => {
@@ -28,49 +19,14 @@ export const generateListQueries = (graphRegistry) => {
 
   _.forEach(graphRegistry.types, ({ type, entity }, typeName) => {
 
-    const storageType = entity.storageType
-
     const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase
     const queryName = protocolConfiguration.generateListQueryTypeName(entity)
-
 
     listQueries[queryName] = {
       type: graphRegistry.types[typeName].connection,
       description: `Fetch a list of **\`${typeNamePluralListName}\`**\n${entity.descriptionPermissionsFind || ''}`,
       args: graphRegistry.types[typeName].connectionArgs,
-      resolve: async (source, args, context, info) => {
-
-        validateConnectionArgs(source, args, context, info)
-        forceSortByUnique(args.orderBy, entity)
-
-        args.filter = await transformFilterLevel(args.filter, entity.getAttributes(), context)
-
-        const {
-          data,
-          pageInfo,
-        } = await storageType.find(entity, args, context)
-
-        const transformedData = entity.graphql.dataSetShaper(
-          addRelayTypePromoterToList(
-            protocolConfiguration.generateEntityTypeName(entity),
-            data
-          )
-        )
-
-        return connectionFromData(
-          {
-            transformedData,
-            originalData: data,
-          },
-          entity,
-          source,
-          args,
-          context,
-          info,
-          null,
-          pageInfo,
-        )
-      },
+      resolve: resolveByFind(entity)
     }
   })
 
