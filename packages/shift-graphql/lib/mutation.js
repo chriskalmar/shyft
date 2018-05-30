@@ -31,7 +31,6 @@ import {
 
 import {
   addRelayTypePromoterToInstance,
-  addRelayTypePromoterToInstanceFn,
 } from './util';
 
 
@@ -611,11 +610,6 @@ const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) 
               args[ foundInput ] = await nestedPayloadResolver(source, args[ foundInput ], context, info)
 
               result = await storageType.findOneByValues(targetEntity, args[ foundInput ], context)
-                .then(
-                  addRelayTypePromoterToInstanceFn(
-                    protocolConfiguration.generateEntityTypeName(targetEntity)
-                  )
-                )
                 .then(targetEntity.graphql.dataShaper)
 
               if (!result) {
@@ -624,11 +618,6 @@ const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) 
             }
             else {
               result = await storageType.findOne(targetEntity, args[ foundInput ], args[ foundInput ], context)
-                .then(
-                  addRelayTypePromoterToInstanceFn(
-                    protocolConfiguration.generateEntityTypeName(targetEntity)
-                  )
-                )
                 .then(targetEntity.graphql.dataShaper)
             }
 
