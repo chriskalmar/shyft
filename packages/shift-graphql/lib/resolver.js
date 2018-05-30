@@ -17,12 +17,16 @@ import {
 
 
 
-export const resolveByFind = (entity, parentConnection=null) => {
+export const resolveByFind = (entity, parentConnectionCollector) => {
 
   const storageType = entity.storageType
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
 
   return async (source, args, context, info) => {
+
+    const parentConnection = parentConnectionCollector
+      ? parentConnectionCollector(source, args, context, info)
+      : null
 
     validateConnectionArgs(source, args, context, info)
     forceSortByUnique(args.orderBy, entity)
