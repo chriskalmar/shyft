@@ -647,8 +647,9 @@ const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) 
 
 
 
-const getMutationResolver = (entity, entityMutation, typeName, storageType, graphRegistry, nested) => {
+const getMutationResolver = (entity, entityMutation, typeName, nested, idResolver) => {
 
+  const storageType = entity.storageType
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
   const nestedPayloadResolver = getNestedPayloadResolver(entity, entityMutation.attributes, storageType)
 
@@ -660,7 +661,7 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
       args.input[ typeName ] = await nestedPayloadResolver(source, args.input[ typeName ], context, info)
     }
 
-    const id = extractIdFromNodeId(graphRegistry, entity.name, args.input.nodeId)
+    const id = idResolver({ args })
 
     try {
       if (entityMutation.preProcessor) {
@@ -728,78 +729,6 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
 }
 
 
-const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storageType, fieldName) => {
-
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
-
-  return async (source, args, context, info) => {
-
-    checkRequiredI18nInputs(entity, entityMutation, args.input[ typeName ], context)
-
-    const id = args.input[ fieldName ]
-
-    try {
-      if (entityMutation.preProcessor) {
-        args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
-      }
-
-      if (entityMutation.type === MUTATION_TYPE_UPDATE) {
-        args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
-      }
-
-      validateMutationPayload(entity, entityMutation, args.input[ typeName ], context)
-
-      if (entityMutation.type !== MUTATION_TYPE_DELETE) {
-        args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
-      }
-
-      let ret = {
-        clientMutationId: args.input.clientMutationId,
-      }
-
-      const input = entity.graphql.reverseDataShaper(args.input[ typeName ])
-      let result = await storageType.mutate(entity, id, input, entityMutation, context)
-
-      if (result) {
-        if (entityMutation.type !== MUTATION_TYPE_DELETE) {
-          result = entity.graphql.dataShaper(
-            addRelayTypePromoterToInstance(
-              protocolConfiguration.generateEntityTypeName(entity),
-              result
-            )
-          )
-
-          result = translateInstance(entity, result, context)
-        }
-      }
-
-      if (entityMutation.type === MUTATION_TYPE_DELETE) {
-        ret = {
-          ...ret,
-          ...result,
-        }
-      }
-      else {
-        ret[typeName] = result
-      }
-
-
-      if (entityMutation.postProcessor) {
-        await entityMutation.postProcessor(null, result, entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
-      }
-
-      return ret
-    }
-    catch (error) {
-      if (entityMutation.postProcessor) {
-        await entityMutation.postProcessor(error, null, entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
-      }
-
-      throw error
-    }
-  }
-}
-
 
 export const generateMutations = (graphRegistry) => {
 
@@ -815,8 +744,6 @@ export const generateMutations = (graphRegistry) => {
     if (!entityMutations || entityMutations.length < 1) {
       return
     }
-
-    const storageType = entity.storageType
 
     entityMutations.map(entityMutation => {
 
@@ -840,7 +767,9 @@ export const generateMutations = (graphRegistry) => {
             type: new GraphQLNonNull( mutationInputType ),
           },
         },
-        resolve: getMutationResolver(entity, entityMutation, typeName, storageType, graphRegistry),
+        resolve: getMutationResolver(entity, entityMutation, typeName, false, ({ args }) => {
+          return extractIdFromNodeId(graphRegistry, entity.name, args.input.nodeId)
+        }),
       }
 
 
@@ -863,7 +792,9 @@ export const generateMutations = (graphRegistry) => {
               type: new GraphQLNonNull( mutationInputNestedType ),
             },
           },
-          resolve: getMutationResolver(entity, entityMutation, typeName, storageType, graphRegistry, true),
+          resolve: getMutationResolver(entity, entityMutation, typeName, true, ({ args }) => {
+            return extractIdFromNodeId(graphRegistry, entity.name, args.input.nodeId)
+          }),
         }
       }
 
@@ -886,7 +817,9 @@ export const generateMutations = (graphRegistry) => {
                 type: new GraphQLNonNull( mutationByPrimaryAttributeInputType ),
               },
             },
-            resolve: getMutationByFieldNameResolver(entity, entityMutation, typeName, storageType, fieldName),
+            resolve: getMutationResolver(entity, entityMutation, typeName, false, ({ args }) => {
+              return args.input[ fieldName ]
+            }),
           }
         }
       }
