@@ -2,6 +2,7 @@
 import _ from 'lodash';
 import pluralize from 'pluralize';
 import constants from './constants';
+import { CustomError } from 'shift-engine';
 
 
 export function generateTypeName(name) {
@@ -109,6 +110,7 @@ export const translateInstance = (entity, instance, { i18nLanguage, i18nLanguage
     const {
       gqlFieldName,
       gqlFieldNameI18n,
+      required,
     } = attributes[ attributeName ]
 
     const translation = instance[ gqlFieldNameI18n ]
@@ -118,6 +120,10 @@ export const translateInstance = (entity, instance, { i18nLanguage, i18nLanguage
     instance[ gqlFieldName ] = i18nLanguageDisableFallback
       ? translation
       : translation || instance[ gqlFieldName ]
+
+    if (!translation && i18nLanguageDisableFallback && required) {
+      instance[ gqlFieldName ] = new CustomError(`Translation for '${gqlFieldName}' not found`, 'TranslationNotFoundError')
+    }
   })
 
   return instance
