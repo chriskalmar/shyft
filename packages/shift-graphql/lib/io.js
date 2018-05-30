@@ -7,10 +7,10 @@ import {
   GraphQLList,
 } from 'graphql';
 
-
 import _ from 'lodash';
 
 import ProtocolGraphQL from './ProtocolGraphQL';
+import { resolveByFindOne } from './resolver';
 
 import {
   isEntity,
@@ -19,9 +19,6 @@ import {
   isArray,
 } from 'shift-engine';
 
-import {
-  addRelayTypePromoterToInstanceFn,
-} from './util';
 
 
 export const generateDataInput = (baseName, inputParams, singleParam) => {
@@ -192,8 +189,6 @@ export const generateNestedDataOutput = (baseName, nestedParam, nestedParamName,
 
 const generateDataOutputField = (param, paramName, baseName, graphRegistry, level = 0) => {
 
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
-
   let paramType = param.type
   let baseFieldType
   let isList = false
@@ -221,23 +216,7 @@ const generateDataOutputField = (param, paramName, baseName, graphRegistry, leve
     const targetTypeName = targetEntity.graphql.typeName
 
     reference.type = graphRegistry.types[ targetTypeName ].type
-    reference.resolve = async (source, args, context) => {
-      const referenceId = source[ paramName ]
-
-      if (referenceId === null || typeof referenceId === 'undefined') {
-        return Promise.resolve(null)
-      }
-
-      const storageType = targetEntity.storageType
-
-      return storageType.findOne(targetEntity, referenceId, args, context)
-        .then(
-          addRelayTypePromoterToInstanceFn(
-            protocolConfiguration.generateEntityTypeName(targetEntity)
-          )
-        )
-        .then(targetEntity.graphql.dataShaper)
-    }
+    reference.resolve = resolveByFindOne(targetEntity, ({ source }) => source[ paramName ])
 
     if (isList) {
       return {

@@ -1,5 +1,6 @@
 import {
   addRelayTypePromoterToList,
+  addRelayTypePromoterToInstanceFn,
   translateList,
 } from './util';
 
@@ -25,7 +26,7 @@ export const resolveByFind = (entity, parentConnectionCollector) => {
   return async (source, args, context, info) => {
 
     const parentConnection = parentConnectionCollector
-      ? parentConnectionCollector(source, args, context, info)
+      ? parentConnectionCollector({ source, args, context, info })
       : null
 
     validateConnectionArgs(source, args, context, info)
@@ -61,5 +62,30 @@ export const resolveByFind = (entity, parentConnectionCollector) => {
       parentConnection,
       pageInfo,
     )
+  }
+}
+
+
+
+export const resolveByFindOne = (entity, idCollector) => {
+
+  const storageType = entity.storageType
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
+
+  return async (source, args, context) => {
+
+    const id = idCollector({ source, args, context })
+
+    if (id === null || typeof id === 'undefined') {
+      return Promise.resolve(null)
+    }
+
+    return storageType.findOne(entity, id, args, context)
+      .then(
+        addRelayTypePromoterToInstanceFn(
+          protocolConfiguration.generateEntityTypeName(entity)
+        )
+      )
+      .then(entity.graphql.dataShaper)
   }
 }

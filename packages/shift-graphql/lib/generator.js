@@ -1,7 +1,5 @@
 
-import {
-  addRelayTypePromoterToInstanceFn,
-} from './util';
+
 import _ from 'lodash';
 import constants from './constants';
 import ProtocolGraphQL from './ProtocolGraphQL';
@@ -48,6 +46,8 @@ import {
 import {
   generateActions,
 } from './action';
+
+import { resolveByFindOne } from './resolver';
 
 
 
@@ -128,8 +128,6 @@ export const extendModelsForGql = (entities) => {
 // get node definitions for relay
 const getNodeDefinitions = () => {
 
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
-
   const idFetcher = (globalId, context) => {
     const {
       type,
@@ -143,14 +141,8 @@ const getNodeDefinitions = () => {
 
 
     if (entity) {
-      const storageType = entity.storageType
-      return storageType.findOne(entity, id, null, context)
-        .then(
-          addRelayTypePromoterToInstanceFn(
-            protocolConfiguration.generateEntityTypeName(entity)
-          )
-        )
-        .then(entity.graphql.dataShaper)
+      const resolver = resolveByFindOne(entity, () => id)
+      return resolver(null, null, context)
     }
 
     return null
@@ -261,23 +253,7 @@ export const generateGraphQLSchema = (configuration) => {
             const targetTypeName = targetEntity.graphql.typeName
 
             reference.type = graphRegistry.types[ targetTypeName ].type
-            reference.resolve = (source, args, context) => {
-              const referenceId = source[ attribute.gqlFieldName ]
-
-              if (referenceId === null) {
-                return Promise.resolve(null)
-              }
-
-              const storageType = targetEntity.storageType
-
-              return storageType.findOne(targetEntity, referenceId, args, context)
-                .then(
-                  addRelayTypePromoterToInstanceFn(
-                    protocolConfiguration.generateEntityTypeName(targetEntity)
-                  )
-                )
-                .then(targetEntity.graphql.dataShaper)
-            }
+            reference.resolve = resolveByFindOne(targetEntity, ({ source }) => source[ attribute.gqlFieldName ])
 
             const referenceFieldName = protocolConfiguration.generateReferenceFieldName(targetEntity, attribute)
             fields[ referenceFieldName ] = reference;

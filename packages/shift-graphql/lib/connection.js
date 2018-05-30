@@ -292,7 +292,7 @@ export const generateReverseConnections = (configuration, graphRegistry, entity)
       description: `Fetch a list of **\`${typeNamePluralListName}\`** for a given **\`${typeNamePascalCase}\`**\n${sourceEntity.descriptionPermissionsFind || ''}`,
       args: graphRegistry.types[sourceEntityTypeName].connectionArgs,
 
-      resolve: resolveByFind(sourceEntity, (source, args, context, info) => {
+      resolve: resolveByFind(sourceEntity, ({ source, info }) => {
         const parentEntityTypeName = protocolConfiguration.generateEntityTypeName(info.parentType)
         const parentEntity = graphRegistry.types[ parentEntityTypeName ].entity
         const parentAttribute = parentEntity.getPrimaryAttribute()

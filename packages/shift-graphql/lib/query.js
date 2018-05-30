@@ -1,6 +1,4 @@
-import {
-  addRelayTypePromoterToInstanceFn,
-} from './util';
+
 import _ from 'lodash';
 import ProtocolGraphQL from './ProtocolGraphQL';
 
@@ -9,7 +7,10 @@ import {
   GraphQLID,
 } from 'graphql';
 
-import { resolveByFind } from './resolver';
+import {
+  resolveByFind,
+  resolveByFindOne,
+} from './resolver';
 
 
 export const generateListQueries = (graphRegistry) => {
@@ -41,8 +42,6 @@ export const generateInstanceQueries = (graphRegistry, idFetcher) => {
   const instanceQueries = {}
 
   _.forEach(graphRegistry.types, ({ type, entity }) => {
-
-    const storageType = entity.storageType
 
     const typeNamePascalCase = entity.graphql.typeNamePascalCase
     const queryName = protocolConfiguration.generateInstanceQueryTypeName(entity)
@@ -79,15 +78,7 @@ export const generateInstanceQueries = (graphRegistry, idFetcher) => {
             type: new GraphQLNonNull(graphqlDataType)
           }
         },
-        resolve: (source, args, context) => {
-          return storageType.findOne(entity, args[fieldName], args, context)
-            .then(
-              addRelayTypePromoterToInstanceFn(
-                protocolConfiguration.generateEntityTypeName(entity)
-              )
-            )
-            .then(entity.graphql.dataShaper)
-        },
+        resolve: resolveByFindOne(entity, ({args}) => args[ fieldName ]),
       }
     }
 
