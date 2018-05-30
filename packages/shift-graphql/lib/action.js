@@ -21,9 +21,7 @@ import {
   CustomError,
 } from 'shift-engine';
 
-
 import ProtocolGraphQL from './ProtocolGraphQL';
-import { helpers } from 'handlebars';
 
 
 const AccessDeniedError = new CustomError('Access denied', 'PermissionError', 403)
