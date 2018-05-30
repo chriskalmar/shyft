@@ -8,31 +8,15 @@ import {
   GraphQLInt,
 } from 'graphql';
 
-import {
-  fromGlobalId,
-} from 'graphql-relay';
-
+import { fromGlobalId } from 'graphql-relay';
 import _ from 'lodash';
 
 import ProtocolGraphQL from './ProtocolGraphQL';
-
+import { isEntity } from 'shift-engine';
+import { getEntityUniquenessAttributes } from './helper';
 import {
-  isEntity,
-  MUTATION_TYPE_CREATE,
-  MUTATION_TYPE_UPDATE,
-  MUTATION_TYPE_DELETE,
-  INDEX_UNIQUE,
-  CustomError,
-  fillSystemAttributesDefaultValues,
-  fillDefaultValues,
-  serializeValues,
-  validateMutationPayload,
-} from 'shift-engine';
-
-import {
-  addRelayTypePromoterToInstance,
-  translateInstance,
-} from './util';
+  getMutationResolver
+} from './resolver';
 
 
 const i18nInputFieldTypesCache = {}
@@ -74,30 +58,6 @@ const generateI18nInputFieldType = (entity, entityMutation, attribute) => {
   i18nInputFieldTypesCache[ i18nFieldTypeName ] = i18nFieldType
 
   return i18nFieldType
-}
-
-
-const checkRequiredI18nInputs = (entity, entityMutation, input) => {
-  const entityAttributes = entity.getAttributes()
-
-  _.forEach(entityMutation.attributes, (attributeName) => {
-
-    const attribute = entityAttributes[ attributeName ]
-    const { gqlFieldName, gqlFieldNameI18n } = attribute
-
-    if (attribute.i18n) {
-      if (input[ gqlFieldName ] && input[ gqlFieldNameI18n ] && input[ gqlFieldNameI18n ]) {
-        throw new CustomError(`Only one of these fields may be used: ${gqlFieldName}, ${gqlFieldNameI18n}`, 'AmbigiousI18nInputError')
-      }
-
-      if (attribute.required && !entityMutation.ignoreRequired) {
-        if (!input[ gqlFieldName ] && !input[ gqlFieldNameI18n ]) {
-          throw new CustomError(`Provide one of these fields: ${gqlFieldName}, ${gqlFieldNameI18n}`, 'MissingI18nInputError')
-        }
-      }
-    }
-
-  })
 }
 
 
@@ -233,29 +193,6 @@ export const generateMutationByPrimaryAttributeInput = (entity, typeName, entity
   })
 
   return entityMutationInputType
-}
-
-
-
-const getEntityUniquenessAttributes = (entity) => {
-
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
-
-  const ret = []
-  const entityIndexes = entity.getIndexes()
-
-  if (entityIndexes) {
-    entityIndexes.map(({type, attributes}) => {
-      if (type === INDEX_UNIQUE) {
-        ret.push({
-          uniquenessName: protocolConfiguration.generateUniquenessAttributesName(entity, attributes),
-          attributes,
-        })
-      }
-    })
-  }
-
-  return ret
 }
 
 
@@ -547,185 +484,6 @@ const extractIdFromNodeId = (graphRegistry, sourceEntityName, nodeId) => {
   }
 
   return instanceId
-}
-
-
-
-const getNestedPayloadResolver = (entity, attributeNames, storageType, path=[]) => {
-
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
-
-  return async (source, args, context, info) => {
-
-    const resultPayload = {}
-    const entityAttributes = entity.getAttributes()
-
-    await Promise.all(attributeNames.map( async (attributeName) => {
-
-      const attribute = entityAttributes[ attributeName ]
-      const attributeType = attribute.type
-
-      if (isEntity(attributeType)) {
-        const targetEntity = attributeType
-        const uniquenessAttributesList = getEntityUniquenessAttributes(targetEntity)
-
-        if (uniquenessAttributesList.length > 0) {
-          const uniquenessFieldNames = [ attribute.gqlFieldName ]
-          const fieldNameToUniquenessAttributesMap = {}
-
-          uniquenessAttributesList.map(({uniquenessName, attributes}) => {
-            const fieldName = protocolConfiguration.generateUniquenessAttributesFieldName(entity, attribute, uniquenessName)
-            uniquenessFieldNames.push(fieldName)
-            fieldNameToUniquenessAttributesMap[ fieldName ] = attributes
-          })
-
-          let foundInput = null
-
-          uniquenessFieldNames.map(uniquenessFieldName => {
-            if (args[ uniquenessFieldName ]) {
-
-              if (foundInput) {
-                throw new CustomError(`Only one of these fields may be used: ${uniquenessFieldNames.join(', ')}`, 'AmbigiousNestedInputError')
-              }
-
-              foundInput = uniquenessFieldName
-            }
-          })
-
-          if (!foundInput) {
-            if (attribute.required) {
-              throw new CustomError(`Provide one of these fields: ${uniquenessFieldNames.join(', ')}`, 'MissingNestedInputError')
-            }
-          }
-          else {
-            const attributes = targetEntity.getAttributes()
-            const primaryAttributeName = _.findKey(attributes, { isPrimary: true })
-            const uniquenessAttributes = fieldNameToUniquenessAttributesMap[foundInput]
-
-            let result
-
-            if (uniquenessAttributes) {
-
-              const newPath = path.concat(foundInput)
-              const nestedPayloadResolver = getNestedPayloadResolver(targetEntity, uniquenessAttributes, storageType, newPath)
-              args[ foundInput ] = await nestedPayloadResolver(source, args[ foundInput ], context, info)
-
-              result = await storageType.findOneByValues(targetEntity, args[ foundInput ], context)
-                .then(targetEntity.graphql.dataShaper)
-
-              if (!result) {
-                throw new CustomError(`Nested instance at path '${newPath.join('.')}' not found or access denied`, 'NestedInstanceNotFoundOrAccessDenied')
-              }
-            }
-            else {
-              result = await storageType.findOne(targetEntity, args[ foundInput ], args[ foundInput ], context)
-                .then(targetEntity.graphql.dataShaper)
-            }
-
-            if (result) {
-              resultPayload[ attribute.gqlFieldName ] = result[ primaryAttributeName ]
-            }
-          }
-        }
-        else {
-          resultPayload[ attribute.gqlFieldName ] = args[ attribute.gqlFieldName ]
-        }
-      }
-      else {
-        resultPayload[ attribute.gqlFieldName ] = args[ attribute.gqlFieldName ]
-
-        if (attribute.i18n) {
-          resultPayload[ attribute.gqlFieldNameI18n ] = args[ attribute.gqlFieldNameI18n ]
-        }
-      }
-
-    }));
-
-    return resultPayload
-  }
-}
-
-
-
-const getMutationResolver = (entity, entityMutation, typeName, nested, idResolver) => {
-
-  const storageType = entity.storageType
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
-  const nestedPayloadResolver = getNestedPayloadResolver(entity, entityMutation.attributes, storageType)
-
-  return async (source, args, context, info) => {
-
-    checkRequiredI18nInputs(entity, entityMutation, args.input[ typeName ], context)
-
-    if (nested) {
-      args.input[ typeName ] = await nestedPayloadResolver(source, args.input[ typeName ], context, info)
-    }
-
-    const id = idResolver({ args })
-
-    try {
-      if (entityMutation.preProcessor) {
-        args.input[ typeName ] = await entityMutation.preProcessor(entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
-      }
-
-      if (entityMutation.type === MUTATION_TYPE_CREATE) {
-        args.input[typeName] = await fillDefaultValues(entity, entityMutation, args.input[typeName], context)
-      }
-
-      if (entityMutation.type === MUTATION_TYPE_CREATE || entityMutation.type === MUTATION_TYPE_UPDATE) {
-        args.input[typeName] = fillSystemAttributesDefaultValues(entity, entityMutation, args.input[typeName], context)
-      }
-
-      validateMutationPayload(entity, entityMutation, args.input[ typeName ], context)
-
-      if (entityMutation.type !== MUTATION_TYPE_DELETE) {
-        args.input[typeName] = serializeValues(entity, entityMutation, args.input[typeName], context)
-      }
-
-      let ret = {
-        clientMutationId: args.input.clientMutationId,
-      }
-
-      const input = entity.graphql.reverseDataShaper(args.input[ typeName ])
-      let result = await storageType.mutate(entity, id, input, entityMutation, context)
-
-      if (result) {
-        if (entityMutation.type !== MUTATION_TYPE_DELETE) {
-          result = entity.graphql.dataShaper(
-            addRelayTypePromoterToInstance(
-              protocolConfiguration.generateEntityTypeName(entity),
-              result
-            )
-          )
-
-          result = translateInstance(entity, result, context)
-        }
-      }
-
-      if (entityMutation.type === MUTATION_TYPE_DELETE) {
-        ret = {
-          ...ret,
-          ...result,
-        }
-      }
-      else {
-        ret[typeName] = result
-      }
-
-      if (entityMutation.postProcessor) {
-        await entityMutation.postProcessor(null, result, entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
-      }
-
-      return ret
-    }
-    catch(error) {
-      if (entityMutation.postProcessor) {
-        await entityMutation.postProcessor(error, null, entity, id, source, args.input[ typeName ], typeName, entityMutation, context, info)
-      }
-
-      throw error
-    }
-  }
 }
 
 
