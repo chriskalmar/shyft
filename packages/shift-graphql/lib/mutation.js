@@ -31,6 +31,7 @@ import {
 
 import {
   addRelayTypePromoterToInstance,
+  translateInstance,
 } from './util';
 
 
@@ -695,6 +696,8 @@ const getMutationResolver = (entity, entityMutation, typeName, storageType, grap
               result
             )
           )
+
+          result = translateInstance(entity, result, context)
         }
       }
 
@@ -765,6 +768,8 @@ const getMutationByFieldNameResolver = (entity, entityMutation, typeName, storag
               result
             )
           )
+
+          result = translateInstance(entity, result, context)
         }
       }
 
