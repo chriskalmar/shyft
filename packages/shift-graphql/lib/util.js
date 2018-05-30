@@ -97,6 +97,9 @@ export const addRelayTypePromoterToListFn = (typeName) => {
 
 
 
+export const isDefined = (val) => typeof val !== 'undefined'
+
+
 export const translateInstance = (entity, instance, { i18nLanguage, i18nLanguageDisableFallback }) => {
   if (!instance || !i18nLanguage || i18nLanguage === 'default' || !entity.getI18nAttributeNames()) {
     return instance
@@ -117,12 +120,14 @@ export const translateInstance = (entity, instance, { i18nLanguage, i18nLanguage
       ? instance[ gqlFieldNameI18n ][ i18nLanguage ]
       : undefined
 
-    instance[ gqlFieldName ] = i18nLanguageDisableFallback
-      ? translation
-      : translation || instance[ gqlFieldName ]
 
-    if (!translation && i18nLanguageDisableFallback && required) {
-      instance[ gqlFieldName ] = new CustomError(`Translation for '${gqlFieldName}' not found`, 'TranslationNotFoundError')
+    if (i18nLanguageDisableFallback) {
+      instance[ gqlFieldName ] = (!isDefined(translation) && required)
+        ? new CustomError(`Translation for '${gqlFieldName}' not found`, 'TranslationNotFoundError')
+        : translation
+    }
+    else if (isDefined(translation)) {
+      instance[ gqlFieldName ] = translation
     }
   })
 
