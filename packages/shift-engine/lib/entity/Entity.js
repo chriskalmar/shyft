@@ -358,6 +358,11 @@ class Entity {
         isDataType(attribute.type),
         () => `'${this.name}.${attributeName}' cannot be translatable as it is not a simple data type`
       )
+
+      passOrThrow(
+        !attribute.isUnique,
+        () => `'${this.name}.${attributeName}' cannot be translatable as it has a uniqueness constraint`
+      )
     }
 
 
