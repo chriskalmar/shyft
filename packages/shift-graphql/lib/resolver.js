@@ -2,6 +2,7 @@ import {
   addRelayTypePromoterToList,
   addRelayTypePromoterToInstanceFn,
   translateList,
+  translateInstanceFn,
 } from './util';
 
 import ProtocolGraphQL from './ProtocolGraphQL';
@@ -87,5 +88,8 @@ export const resolveByFindOne = (entity, idCollector) => {
         )
       )
       .then(entity.graphql.dataShaper)
+      .then(
+        translateInstanceFn(entity, context)
+      )
   }
 }
