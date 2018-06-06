@@ -66,8 +66,17 @@ export const serializeValues = (entity, entityMutation, payload, model, context)
 
   _.forEach(entityAttributes, (attribute) => {
     const attributeName = attribute.name
+    const gqlFieldNameI18n = attribute.gqlFieldNameI18n
+
     if (attribute.serialize) {
-      ret[ attributeName ] = attribute.serialize(ret[ attributeName ], ret, entityMutation, entity, model, context)
+      if (attribute.i18n && typeof ret[ gqlFieldNameI18n ] !== 'undefined') {
+        Object.keys(ret[ gqlFieldNameI18n ]).map(language => {
+          ret[ gqlFieldNameI18n ][ language ] = attribute.serialize(ret[ gqlFieldNameI18n ][ language ], ret, entityMutation, entity, model, context, language)
+        })
+      }
+      else if (typeof ret[ attributeName ] !== 'undefined') {
+        ret[ attributeName ] = attribute.serialize(ret[ attributeName ], ret, entityMutation, entity, model, context)
+      }
     }
   })
 
