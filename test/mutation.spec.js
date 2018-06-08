@@ -88,6 +88,26 @@ describe('mutation', () => {
   })
 
 
+  it('fail mutation if fromState is not a match', async () => {
+
+    const payload = {
+      board: 50,
+      invitee: 81,
+    }
+
+    const result = await mutate(Participant, 'invite', payload, null, asUser(84))
+    const inviteId = result.id
+
+    await mutate(Participant, 'accept', {}, inviteId, asUser(81))
+
+    await mutate(Participant, 'accept', {}, inviteId, asUser(81))
+      .catch(e => {
+        expect(e).toMatchSnapshot()
+      })
+  })
+
+
+
   it('reject mutations if ID not found', async () => {
 
     await mutate(Participant, 'remove', {}, 99999, asUser(80))

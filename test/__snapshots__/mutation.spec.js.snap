@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`mutation fail mutation if fromState is not a match 1`] = `[Error: Instance with ID '304' not found or access denied]`;
+
 exports[`mutation handle uniqueness constraints 1`] = `[Error: Uniqueness constraint violated]`;
 
 exports[`mutation perform create mutations 1`] = `
