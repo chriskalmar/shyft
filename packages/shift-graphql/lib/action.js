@@ -105,7 +105,7 @@ export const handlePermission = async (context, action, input) => {
   if (Object.keys(permissionWhere).length > 0) {
     const storageType = lookupPermissionEntity.getStorageType()
     const found = await storageType.checkLookupPermission(lookupPermissionEntity, permissionWhere, context)
-    console.log(JSON.stringify({ found}, null, 2));
+
     if (!found) {
       throw AccessDeniedError
     }
