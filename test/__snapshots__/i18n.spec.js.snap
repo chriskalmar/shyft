@@ -1,5 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`i18n should find items by translation 1`] = `
+Object {
+  "data": Array [
+    Book {
+      "author": "Leo Tolstoy",
+      "i18n": null,
+      "id": "3",
+      "shortSummary": "The novel chronicles the history of ...",
+      "shortSummary.i18n": Object {
+        "de": "Krieg und Frieden ist ein historischer Roman des ...",
+        "default": "The novel chronicles the history of ...",
+      },
+      "title": "War and Peace",
+      "title.i18n": Object {
+        "de": "Krieg und Frieden",
+        "default": "War and Peace",
+      },
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`i18n should reject translations of unknown languages 1`] = `[Error: Unknown language 'fr' provided in translation of mutation 'create']`;
 
 exports[`i18n should store translations if provided 1`] = `

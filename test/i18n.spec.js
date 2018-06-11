@@ -1,6 +1,7 @@
 import './setupAndTearDown';
 import {
   mutate,
+  find,
 } from './db';
 
 import {
@@ -9,6 +10,13 @@ import {
 
 import { Book } from './models/Book';
 
+
+const orderByIdAsc = {
+  orderBy: [ {
+    attribute: 'id',
+    direction: 'ASC'
+  } ]
+}
 
 describe('i18n', () => {
 
@@ -78,5 +86,16 @@ describe('i18n', () => {
     expect(result).toMatchSnapshot()
   })
 
+
+  it('should find items by translation', async () => {
+    const filter = {
+      shortSummary: {
+        $contains: 'ein historischer Roman',
+      }
+    }
+
+    const result = await find(Book, { ...orderByIdAsc, filter }, asAdmin(1, 'de'))
+    expect(result).toMatchSnapshot()
+  })
 
 })

@@ -1,14 +1,15 @@
 
-export const asUser = (userId, userRoles = []) => {
+export const asUser = (userId, userRoles = [], i18nLanguage) => {
   return {
     loaders: {},
     userId,
     userRoles,
+    i18nLanguage,
   }
 }
 
-export const asAdmin = (userId = 1) => {
-  return asUser(userId, ['admin'])
+export const asAdmin = (userId = 1, i18nLanguage) => {
+  return asUser(userId, [ 'admin' ], i18nLanguage)
 }
 
 
