@@ -29,6 +29,8 @@ import {
   GraphQLEnumType,
 } from 'graphql';
 
+import graphRegistry from './graphRegistry';
+
 import {
   GraphQLBigInt,
   GraphQLJSON,
@@ -159,7 +161,7 @@ ProtocolGraphQL.addDynamicDataTypeMap(isObjectDataType, (attributeType, sourceNa
 
 
   if (!dataTypesRegistry.object[ uniqueName ]) {
-    const dataOutputType = generateDataOutput(`${sourceName}-${name}`, attributeType.getAttributes())
+    const dataOutputType = generateDataOutput(`${sourceName}-${name}`, attributeType.getAttributes(), graphRegistry)
     dataTypesRegistry.object[ uniqueName ] = dataOutputType
   }
 
@@ -193,7 +195,7 @@ ProtocolGraphQL.addDynamicDataTypeMap(isListDataType, (attributeType, sourceName
 
 
   if (!dataTypesRegistry.object[uniqueName]) {
-    const dataOutputType = generateDataOutput(`${sourceName}-${name}`, params)
+    const dataOutputType = generateDataOutput(`${sourceName}-${name}`, params, graphRegistry)
     dataTypesRegistry.object[uniqueName] = dataOutputType.getFields().wrapped.type
   }
 

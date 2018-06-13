@@ -2,6 +2,7 @@
 
 import _ from 'lodash';
 import constants from './constants';
+import graphRegistry from './graphRegistry';
 import ProtocolGraphQL from './ProtocolGraphQL';
 
 import {
@@ -49,13 +50,6 @@ import {
 
 import { resolveByFindOne } from './resolver';
 
-
-
-// collect object types, connections ... for each entity
-const graphRegistry = {
-  types: {},
-  actions: {},
-}
 
 
 export const getTypeForEntityFromGraphRegistry = (entity) => {
