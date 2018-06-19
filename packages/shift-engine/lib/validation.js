@@ -71,12 +71,13 @@ const validatePayload = (param, payload, source, context) => {
     }
 
     if (!isComplexDataType(paramType)) {
+      const attributeName = param.name
       const attributeValidator = param.validate
 
-      if (attributeValidator) {
-        const attributeName = param.name
+      validateDataTypePayload(paramType, payload[ attributeName ], context)
 
-        if (typeof payload[ attributeName ] !== 'undefined') {
+      if (attributeValidator) {
+        if (param.isSystemAttribute || typeof payload[ attributeName ] !== 'undefined') {
           const result = attributeValidator(payload[attributeName], attributeName, payload, source, context)
           if (result instanceof Error) {
             throw result
@@ -117,15 +118,20 @@ export const validateMutationPayload = (entity, mutation, payload, context) => {
     attribute => attribute.isSystemAttribute && attribute.defaultValue
   ).map(attribute => attribute.name)
 
-  const attributesToValidate = systemAttributes.concat(mutation.attributes || [])
+  systemAttributes.map(attributeName => {
+    const attribute = attributes[ attributeName ]
+    validatePayload(attribute, payload, { mutation, entity }, context)
+  })
+
+  const attributesToValidate = mutation.attributes || []
 
   attributesToValidate.map(attributeName => {
     const attribute = attributes[attributeName]
 
-    if (mutation.type === MUTATION_TYPE_CREATE) {
+    if (mutation.type === MUTATION_TYPE_CREATE && !attribute.i18n) {
       passOrThrow(
-        !attribute.required || isDefined(payload[ attribute.name ]),
-        () => `Missing required input attribute '${attribute.name}'`
+        !attribute.required || isDefined(payload[ attributeName ]),
+        () => `Missing required input attribute '${attributeName}'`
       )
     }
 
