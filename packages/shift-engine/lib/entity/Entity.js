@@ -171,11 +171,18 @@ class Entity {
 
 
   _processMutations() {
-    if (this._mutations) {
-      return processEntityMutations(this, this._mutations)
+    let mutations
+
+    if (!this._mutations) {
+      mutations = Object.values(this._getDefaultMutations())
+    }
+    else {
+      mutations = isFunction(this._mutations)
+        ? this._mutations(this._getDefaultMutations())
+        : this._mutations
     }
 
-    return null
+    return processEntityMutations(this, mutations)
   }
 
 
@@ -186,7 +193,6 @@ class Entity {
 
     this.getStates()
     this.mutations = this._processMutations()
-    this._addDefaultMutations()
     return this.mutations
   }
 
@@ -541,7 +547,7 @@ class Entity {
 
 
 
-  _addDefaultMutations () {
+  _getDefaultMutations () {
 
     const nonSystemAttributeNames = []
 
@@ -551,23 +557,20 @@ class Entity {
       }
     })
 
-    if (!this.mutations) {
-      this.mutations = []
-    }
-
-    const mutationNames = this.mutations.map(mutation => mutation.name)
+    const mutations = {}
 
     defaultEntityMutations.map(defaultMutation => {
-      if (!mutationNames.includes(defaultMutation.name)) {
-        this.mutations.push(new Mutation({
-          name: defaultMutation.name,
-          type: defaultMutation.type,
-          description: defaultMutation.description(this.name),
-          attributes: nonSystemAttributeNames
-        }))
-      }
+      const key = `${defaultMutation.name}Mutation`
+
+      mutations[ key ] = new Mutation({
+        name: defaultMutation.name,
+        type: defaultMutation.type,
+        description: defaultMutation.description(this.name),
+        attributes: nonSystemAttributeNames
+      })
     })
 
+    return mutations
   }
 
 

@@ -734,22 +734,38 @@ describe('Entity', () => {
             description: 'Just some description',
           }
         },
-        mutations: [
-          new Mutation({
-            type: MUTATION_TYPE_CREATE,
-            name: 'create',
-            description: 'create item',
-            attributes: [
-              'someAttribute',
-            ]
-          })
-        ]
       })
 
       entity.getAttributes()
 
       expect(isMutation(entity.getMutationByName('create'))).toBe(true);
       expect(isMutation(entity.getMutationByName('update'))).toBe(true);
+      expect(isMutation(entity.getMutationByName('delete'))).toBe(true);
+
+    })
+
+
+    it('should allow to add default mutations', () => {
+
+      const entity = new Entity({
+        name: 'SomeEntityName',
+        description: 'Just some description',
+        attributes: {
+          someAttribute: {
+            type: DataTypeString,
+            description: 'Just some description',
+          }
+        },
+        mutations: ({ createMutation, deleteMutation }) => ([
+          createMutation,
+          deleteMutation,
+        ])
+      })
+
+      entity.getAttributes()
+
+      expect(isMutation(entity.getMutationByName('create'))).toBe(true);
+      expect(isMutation(entity.getMutationByName('update'))).toBe(false);
       expect(isMutation(entity.getMutationByName('delete'))).toBe(true);
 
     })
