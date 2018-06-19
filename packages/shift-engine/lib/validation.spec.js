@@ -8,6 +8,7 @@ import Entity from './entity/Entity';
 import Action from './action/Action';
 import Mutation, {
   MUTATION_TYPE_CREATE,
+  MUTATION_TYPE_UPDATE,
 } from './mutation/Mutation';
 
 import { buildObjectDataType, } from './datatype/ObjectDataType';
@@ -110,10 +111,17 @@ describe('validation', () => {
     }
   })
 
-  const mutation = new Mutation({
+  const mutationCreate = new Mutation({
     type: MUTATION_TYPE_CREATE,
     name: 'build',
     description: 'build something',
+    attributes: ['someAttribute', 'team']
+  })
+
+  const mutationUpdate = new Mutation({
+    type: MUTATION_TYPE_UPDATE,
+    name: 'change',
+    description: 'update something',
     attributes: ['someAttribute', 'team']
   })
 
@@ -174,7 +182,7 @@ describe('validation', () => {
       }
     }
 
-    validateMutationPayload(entity, mutation, payload1, context)
+    validateMutationPayload(entity, mutationCreate, payload1, context)
 
 
     const payload2 = {
@@ -190,7 +198,7 @@ describe('validation', () => {
       }
     }
 
-    validateMutationPayload(entity, mutation, payload2, context)
+    validateMutationPayload(entity, mutationCreate, payload2, context)
   })
 
 
@@ -200,7 +208,7 @@ describe('validation', () => {
       someAttribute: 'Lo',
     }
 
-    const fn1 = () => validateMutationPayload(entity, mutation, payload1, context)
+    const fn1 = () => validateMutationPayload(entity, mutationCreate, payload1, context)
     expect(fn1).toThrowErrorMatchingSnapshot();
 
 
@@ -208,7 +216,7 @@ describe('validation', () => {
       someAttribute: 'Lorem Ipsum',
     }
 
-    const fn2 = () => validateMutationPayload(entity, mutation, payload2, context)
+    const fn2 = () => validateMutationPayload(entity, mutationCreate, payload2, context)
     expect(fn2).toThrowErrorMatchingSnapshot();
 
 
@@ -219,7 +227,7 @@ describe('validation', () => {
       }
     }
 
-    const fn3 = () => validateMutationPayload(entity, mutation, payload3)
+    const fn3 = () => validateMutationPayload(entity, mutationCreate, payload3)
     expect(fn3).toThrowErrorMatchingSnapshot();
 
 
@@ -239,7 +247,7 @@ describe('validation', () => {
       }
     }
 
-    const fn1 = () => validateMutationPayload(entity, mutation, payload1, context)
+    const fn1 = () => validateMutationPayload(entity, mutationCreate, payload1, context)
     expect(fn1).toThrowErrorMatchingSnapshot();
 
 
@@ -256,7 +264,7 @@ describe('validation', () => {
       }
     }
 
-    const fn2 = () => validateMutationPayload(entity, mutation, payload2, context)
+    const fn2 = () => validateMutationPayload(entity, mutationCreate, payload2, context)
     expect(fn2).toThrowErrorMatchingSnapshot();
 
 
@@ -282,7 +290,7 @@ describe('validation', () => {
       }
     }
 
-    const fn1 = () => validateMutationPayload(entity, mutation, payload1, context)
+    const fn1 = () => validateMutationPayload(entity, mutationCreate, payload1, context)
     expect(fn1).toThrowErrorMatchingSnapshot();
 
 
@@ -298,7 +306,7 @@ describe('validation', () => {
       }
     }
 
-    const fn2 = () => validateMutationPayload(entity, mutation, payload2, context)
+    const fn2 = () => validateMutationPayload(entity, mutationCreate, payload2, context)
     expect(fn2).toThrowErrorMatchingSnapshot();
   })
 
@@ -337,6 +345,16 @@ describe('validation', () => {
     }]
 
     validateActionPayload(action3.getInput(), payload4, action3, context)
+  })
+
+
+
+  it('should validate payloads only if values were provided', () => {
+
+    const payload1 = {}
+
+    validateMutationPayload(entity, mutationCreate, payload1, context)
+    validateMutationPayload(entity, mutationUpdate, payload1, context)
   })
 
 })

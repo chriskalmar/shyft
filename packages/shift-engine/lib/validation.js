@@ -69,9 +69,12 @@ const validatePayload = (param, payload, source, context) => {
 
       if (attributeValidator) {
         const attributeName = param.name
-        const result = attributeValidator(payload[attributeName], attributeName, payload, source, context)
-        if (result instanceof Error) {
-          throw result
+
+        if (typeof payload[ attributeName ] !== 'undefined') {
+          const result = attributeValidator(payload[attributeName], attributeName, payload, source, context)
+          if (result instanceof Error) {
+            throw result
+          }
         }
       }
     }
