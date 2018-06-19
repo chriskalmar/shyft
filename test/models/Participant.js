@@ -57,7 +57,9 @@ export const Participant = new Entity({
     joined: 50,
   },
 
-  mutations: [
+  mutations: ({ createMutation }) => ([
+    createMutation,
+
     new Mutation({
       name: 'join',
       description: 'join an open board',
@@ -97,7 +99,7 @@ export const Participant = new Entity({
       type: MUTATION_TYPE_DELETE,
       fromState: [ 'joined', 'invited', 'accepted'],
     }),
-  ],
+  ]),
 
 
   permissions: () => ({

@@ -55,7 +55,8 @@ export const Board = new Entity({
   ],
 
 
-  mutations: [
+  mutations: ({ createMutation }) => ([
+    createMutation,
     new Mutation({
       name: 'build',
       description: 'build a new board',
@@ -74,7 +75,7 @@ export const Board = new Entity({
         'isPrivate',
       ],
     }),
-  ],
+  ]),
 
 
   permissions: {
