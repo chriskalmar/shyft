@@ -15,7 +15,13 @@ import {
 
 import {
   isMap,
+  passOrThrow,
+  isDefined,
 } from './util';
+
+import {
+  MUTATION_TYPE_CREATE,
+} from './mutation/Mutation';
 
 
 const validateDataTypePayload = (paramType, payload, context) => {
@@ -115,6 +121,14 @@ export const validateMutationPayload = (entity, mutation, payload, context) => {
 
   attributesToValidate.map(attributeName => {
     const attribute = attributes[attributeName]
+
+    if (mutation.type === MUTATION_TYPE_CREATE) {
+      passOrThrow(
+        !attribute.required || isDefined(payload[ attribute.name ]),
+        () => `Missing required input attribute '${attribute.name}'`
+      )
+    }
+
     validatePayload(attribute, payload, { mutation, entity }, context)
   })
 }

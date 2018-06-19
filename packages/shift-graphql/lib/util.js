@@ -2,7 +2,10 @@
 import _ from 'lodash';
 import pluralize from 'pluralize';
 import constants from './constants';
-import { CustomError } from 'shift-engine';
+import {
+  CustomError,
+  isDefined,
+} from 'shift-engine';
 
 
 export function generateTypeName(name) {
@@ -95,9 +98,6 @@ export const addRelayTypePromoterToListFn = (typeName) => {
   }
 }
 
-
-
-export const isDefined = (val) => typeof val !== 'undefined'
 
 
 export const translateInstance = (entity, instance, { i18nLanguage, i18nLanguageDisableFallback }) => {

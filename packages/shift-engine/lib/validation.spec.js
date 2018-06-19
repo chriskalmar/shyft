@@ -91,6 +91,7 @@ describe('validation', () => {
     attributes: {
       someAttribute: {
         type: DataTypeString,
+        required: true,
         description: 'Just some description',
         validate(value, attributeName, row, source, context) {
           if (value.length < 3) {
@@ -349,11 +350,19 @@ describe('validation', () => {
 
 
 
+  it('should reject payloads with missing required attributes', () => {
+
+    const payload1 = {}
+
+    const fn1 = () => validateMutationPayload(entity, mutationCreate, payload1, context)
+    expect(fn1).toThrowErrorMatchingSnapshot();
+  })
+
+
   it('should validate payloads only if values were provided', () => {
 
     const payload1 = {}
 
-    validateMutationPayload(entity, mutationCreate, payload1, context)
     validateMutationPayload(entity, mutationUpdate, payload1, context)
   })
 

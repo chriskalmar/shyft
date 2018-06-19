@@ -42,6 +42,7 @@ import {
   sortDataByKeys,
   processCursors,
   deleteUndefinedProps,
+  isDefined,
 } from './util';
 
 import {
@@ -160,6 +161,7 @@ export {
   sortDataByKeys,
   processCursors,
   deleteUndefinedProps,
+  isDefined,
 
   processFilter,
   convertFilterLevel,
@@ -257,6 +259,7 @@ export default {
   sortDataByKeys,
   processCursors,
   deleteUndefinedProps,
+  isDefined,
 
   processFilter,
   convertFilterLevel,
