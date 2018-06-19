@@ -834,6 +834,10 @@ export const processEntityPermissions = (entity, permissions, defaultPermissions
 
   const entityMutations = entity.getMutations()
 
+  if (!permissions.mutations && defaultPermissions) {
+    permissions.mutations = {}
+  }
+
   if (permissions.mutations) {
     passOrThrow(
       isMap(permissions.mutations),
@@ -854,9 +858,6 @@ export const processEntityPermissions = (entity, permissions, defaultPermissions
         permissions.mutations[ mutationName ] = permissions.mutations[ mutationName ] || defaultPermissions.mutations[ mutationName ]
       })
     }
-  }
-  else if (defaultPermissions) {
-    permissions.mutations = defaultPermissions.mutations
   }
 
 
