@@ -98,4 +98,29 @@ describe('i18n', () => {
     expect(result).toMatchSnapshot()
   })
 
+
+  it('should merge existing translations with provided translations', async () => {
+
+    let payload = {
+      'title.i18n': {
+        default: 'War and Peace',
+        de: 'Krieg und Frieden',
+      },
+      author: 'Leo Tolstoy',
+    }
+
+    let result = await mutate(Book, 'create', payload, null, asAdmin())
+    const { id } = result
+
+    payload = {
+      'shortSummary.i18n': {
+        de: '⚔️ & ☮️',
+      },
+    }
+
+    result = await mutate(Book, 'update', payload, id, asAdmin())
+    expect(result).toMatchSnapshot()
+  })
+
+
 })

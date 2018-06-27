@@ -26,6 +26,24 @@ Object {
 }
 `;
 
+exports[`i18n should merge existing translations with provided translations 1`] = `
+Object {
+  "author": "Leo Tolstoy",
+  "i18n": null,
+  "id": "4",
+  "shortSummary": null,
+  "shortSummary.i18n": Object {
+    "de": "⚔️ & ☮️",
+    "default": null,
+  },
+  "title": "War and Peace",
+  "title.i18n": Object {
+    "de": "Krieg und Frieden",
+    "default": "War and Peace",
+  },
+}
+`;
+
 exports[`i18n should reject translations of unknown languages 1`] = `[Error: Unknown language 'fr' provided in translation of mutation 'create']`;
 
 exports[`i18n should store translations if provided 1`] = `
