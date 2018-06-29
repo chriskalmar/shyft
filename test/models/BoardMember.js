@@ -27,16 +27,16 @@ const readPermissions = () => ([
       owner: ({ userId }) => userId,
     }),
   new Permission()
-    .lookup(Participant, { // eslint-disable-line no-use-before-define
+    .lookup(BoardMember, { // eslint-disable-line no-use-before-define
       board: 'board',
       invitee: ({ userId }) => userId,
     }),
 ])
 
 
-export const Participant = new Entity({
-  name: 'Participant',
-  description: 'Participant of a private board',
+export const BoardMember = new Entity({
+  name: 'BoardMember',
+  description: 'BoardMember of a private board',
 
   includeTimeTracking: true,
 

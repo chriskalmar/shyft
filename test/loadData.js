@@ -3,7 +3,7 @@
 import { readRows } from './testingData';
 import { Profile } from './models/Profile';
 import { Board } from './models/Board';
-import { Participant } from './models/Participant';
+import { BoardMember } from './models/BoardMember';
 import { Message } from './models/Message';
 import {
   mutate,
@@ -70,7 +70,7 @@ export const loadData = async () => {
       board: await getBoardIdByName(name, userId),
     }
 
-    await mutate(Participant, 'join', payload, null, asUser(userId))
+    await mutate(BoardMember, 'join', payload, null, asUser(userId))
   })
 
 
@@ -83,10 +83,10 @@ export const loadData = async () => {
       invitee,
     }
 
-    const invitation = await mutate(Participant, 'invite', payload, null, asUser(inviter))
+    const invitation = await mutate(BoardMember, 'invite', payload, null, asUser(inviter))
 
     if (accept === '1') {
-      await mutate(Participant, 'accept', {}, invitation.id, asUser(invitee))
+      await mutate(BoardMember, 'accept', {}, invitation.id, asUser(invitee))
     }
   })
 

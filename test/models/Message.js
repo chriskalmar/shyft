@@ -10,7 +10,7 @@ import {
 
 import { Profile } from './Profile';
 import { Board } from './Board';
-import { Participant } from './Participant';
+import { BoardMember } from './BoardMember';
 
 
 const readPermissions = [
@@ -19,7 +19,7 @@ const readPermissions = [
   new Permission()
     .userAttribute('author'),
   new Permission()
-    .lookup(Participant, {
+    .lookup(BoardMember, {
       board: 'board',
       invitee: ({ userId }) => userId,
       state: () => ['joined', 'accepted'],
@@ -34,7 +34,7 @@ const writePermissions = [
   new Permission()
     .role('admin'),
   new Permission()
-    .lookup(Participant, {
+    .lookup(BoardMember, {
       board: ({ input }) => input.board,
       invitee: ({ userId }) => userId,
       state: () => ['joined', 'accepted'],

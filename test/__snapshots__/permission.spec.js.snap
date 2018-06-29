@@ -102,19 +102,19 @@ exports[`permission story a user should not be able to leave public boards on so
 
 exports[`permission story a user should not be able to remove a user from a group as a non-owner 1`] = `[Error: Instance with ID '302' not found or access denied]`;
 
-exports[`permission story a user should only see participants of boards the user is part of: count 1`] = `23`;
+exports[`permission story a user should only see members of boards the user is part of: count 1`] = `23`;
 
-exports[`permission story a user should only see participants of boards the user is part of: count 2`] = `15`;
+exports[`permission story a user should only see members of boards the user is part of: count 2`] = `15`;
 
-exports[`permission story a user should only see participants of boards the user is part of: count 3`] = `43`;
+exports[`permission story a user should only see members of boards the user is part of: count 3`] = `43`;
 
-exports[`permission story a user should only see participants of boards the user is part of: count 4`] = `19`;
+exports[`permission story a user should only see members of boards the user is part of: count 4`] = `19`;
 
-exports[`permission story a user should only see participants of boards the user is part of: count 5`] = `13`;
+exports[`permission story a user should only see members of boards the user is part of: count 5`] = `13`;
 
-exports[`permission story a user should only see participants of boards the user is part of: count 6`] = `36`;
+exports[`permission story a user should only see members of boards the user is part of: count 6`] = `36`;
 
-exports[`permission story a user should only see participants of boards the user is part of: list 1`] = `
+exports[`permission story a user should only see members of boards the user is part of: list 1`] = `
 Object {
   "data": Array [
     Object {
@@ -195,7 +195,7 @@ Object {
 }
 `;
 
-exports[`permission story a user should only see participants of boards the user is part of: list 2`] = `
+exports[`permission story a user should only see members of boards the user is part of: list 2`] = `
 Object {
   "data": Array [
     Object {
@@ -276,7 +276,7 @@ Object {
 }
 `;
 
-exports[`permission story a user should only see participants of boards the user is part of: list 3`] = `
+exports[`permission story a user should only see members of boards the user is part of: list 3`] = `
 Object {
   "data": Array [
     Object {
@@ -357,7 +357,7 @@ Object {
 }
 `;
 
-exports[`permission story a user should only see participants of boards the user is part of: list 4`] = `
+exports[`permission story a user should only see members of boards the user is part of: list 4`] = `
 Object {
   "data": Array [
     Object {
@@ -438,7 +438,7 @@ Object {
 }
 `;
 
-exports[`permission story a user should only see participants of boards the user is part of: list 5`] = `
+exports[`permission story a user should only see members of boards the user is part of: list 5`] = `
 Object {
   "data": Array [
     Object {
@@ -519,7 +519,7 @@ Object {
 }
 `;
 
-exports[`permission story a user should only see participants of boards the user is part of: list 6`] = `
+exports[`permission story a user should only see members of boards the user is part of: list 6`] = `
 Object {
   "data": Array [
     Object {

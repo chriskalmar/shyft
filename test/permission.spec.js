@@ -14,7 +14,7 @@ import {
 
 
 import { Board } from './models/Board';
-import { Participant } from './models/Participant';
+import { BoardMember } from './models/BoardMember';
 
 
 
@@ -57,16 +57,16 @@ describe('permission', () => {
     })
 
 
-    it('a user should only see participants of boards the user is part of', async () => {
+    it('a user should only see members of boards the user is part of', async () => {
 
       const userIds = [46, 69, 40]
 
       await asyncForEach(userIds, async userId => {
-        const result = await find(Participant, { ...orderByIdAsc }, asUser(userId))
-        result.data = removeListDynamicData(Participant, result.data)
+        const result = await find(BoardMember, { ...orderByIdAsc }, asUser(userId))
+        result.data = removeListDynamicData(BoardMember, result.data)
         expect(result).toMatchSnapshot('list')
 
-        const rowCount = await count(Participant, {}, asUser(userId))
+        const rowCount = await count(BoardMember, {}, asUser(userId))
         expect(rowCount).toMatchSnapshot('count')
       })
 
@@ -78,11 +78,11 @@ describe('permission', () => {
           }
         }
 
-        const result = await find(Participant, { ...orderByIdAsc, filter }, asUser(userId))
-        result.data = removeListDynamicData(Participant, result.data)
+        const result = await find(BoardMember, { ...orderByIdAsc, filter }, asUser(userId))
+        result.data = removeListDynamicData(BoardMember, result.data)
         expect(result).toMatchSnapshot('list')
 
-        const rowCount = await count(Participant, { filter }, asUser(userId))
+        const rowCount = await count(BoardMember, { filter }, asUser(userId))
         expect(rowCount).toMatchSnapshot('count')
       })
 
@@ -97,8 +97,8 @@ describe('permission', () => {
       const board = 11
 
       await asyncForEach(userIds, async userId => {
-        const result = await mutate(Participant, 'join', { board }, null, asUser(userId))
-        const cleanedResult = removeDynamicData(Participant, result)
+        const result = await mutate(BoardMember, 'join', { board }, null, asUser(userId))
+        const cleanedResult = removeDynamicData(BoardMember, result)
         expect(cleanedResult).toMatchSnapshot()
         joinCache.push(cleanedResult)
       })
@@ -112,8 +112,8 @@ describe('permission', () => {
         id,
       } = joinCache[0]
 
-      const result = await mutate(Participant, 'leave', { }, id, asUser(invitee))
-      const cleanedResult = removeDynamicData(Participant, result)
+      const result = await mutate(BoardMember, 'leave', { }, id, asUser(invitee))
+      const cleanedResult = removeDynamicData(BoardMember, result)
       expect(cleanedResult).toMatchSnapshot()
     })
 
@@ -125,7 +125,7 @@ describe('permission', () => {
         id,
       } = joinCache[1]
 
-      await mutate(Participant, 'leave', {}, id, asUser(otherUser))
+      await mutate(BoardMember, 'leave', {}, id, asUser(otherUser))
         .catch(e => {
           expect(e).toMatchSnapshot()
         })
@@ -139,7 +139,7 @@ describe('permission', () => {
         id,
       } = joinCache[1]
 
-      await mutate(Participant, 'remove', {}, id, asUser(notOwner))
+      await mutate(BoardMember, 'remove', {}, id, asUser(notOwner))
         .catch(e => {
           expect(e).toMatchSnapshot()
         })
@@ -153,8 +153,8 @@ describe('permission', () => {
         id,
       } = joinCache[1]
 
-      const result = await mutate(Participant, 'remove', {}, id, asUser(owner))
-      const cleanedResult = removeDynamicData(Participant, result)
+      const result = await mutate(BoardMember, 'remove', {}, id, asUser(owner))
+      const cleanedResult = removeDynamicData(BoardMember, result)
       expect(cleanedResult).toMatchSnapshot()
     })
 
@@ -165,7 +165,7 @@ describe('permission', () => {
       const board = 45
 
       await asyncForEach(userIds, async userId => {
-        await mutate(Participant, 'join', { board }, null, asUser(userId))
+        await mutate(BoardMember, 'join', { board }, null, asUser(userId))
           .catch(e => {
             expect(e).toMatchSnapshot()
           })
@@ -181,7 +181,7 @@ describe('permission', () => {
       const board = 45
 
       await asyncForEach(userIds, async invitee => {
-        await mutate(Participant, 'invite', { board, invitee }, null, asUser(inviter))
+        await mutate(BoardMember, 'invite', { board, invitee }, null, asUser(inviter))
         .catch(e => {
           expect(e).toMatchSnapshot()
         })
@@ -198,8 +198,8 @@ describe('permission', () => {
       const board = 45
 
       await asyncForEach(userIds, async invitee => {
-        const result = await mutate(Participant, 'invite', { board, invitee }, null, asUser(inviter))
-        const cleanedResult = removeDynamicData(Participant, result)
+        const result = await mutate(BoardMember, 'invite', { board, invitee }, null, asUser(inviter))
+        const cleanedResult = removeDynamicData(BoardMember, result)
         expect(cleanedResult).toMatchSnapshot()
         invitesCache.push(cleanedResult)
       })
@@ -213,8 +213,8 @@ describe('permission', () => {
         id,
       } = invitesCache[0]
 
-      const result = await mutate(Participant, 'accept', {}, id, asUser(invitee))
-      const cleanedResult = removeDynamicData(Participant, result)
+      const result = await mutate(BoardMember, 'accept', {}, id, asUser(invitee))
+      const cleanedResult = removeDynamicData(BoardMember, result)
       expect(cleanedResult).toMatchSnapshot()
     })
 
@@ -226,7 +226,7 @@ describe('permission', () => {
         id,
       } = joinCache[1]
 
-      await mutate(Participant, 'accept', {}, id, asUser(otherUser))
+      await mutate(BoardMember, 'accept', {}, id, asUser(otherUser))
         .catch(e => {
           expect(e).toMatchSnapshot()
         })

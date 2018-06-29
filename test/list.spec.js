@@ -10,7 +10,7 @@ import {
 
 import { Profile } from './models/Profile';
 import { Board } from './models/Board';
-import { Participant } from './models/Participant';
+import { BoardMember } from './models/BoardMember';
 
 
 const orderByIdAsc = {
@@ -132,7 +132,7 @@ describe('list', () => {
         }
       ]
     }
-    const result = await find(Participant, { ...orderByDesc, first: 5, offset: 5 }, asAdmin())
+    const result = await find(BoardMember, { ...orderByDesc, first: 5, offset: 5 }, asAdmin())
     result.data = removeListDynamicData(Profile, result.data)
     expect(result).toMatchSnapshot()
   })
@@ -270,22 +270,22 @@ describe('list', () => {
 
 
       it('AND + orderBy', async () => {
-        const result = await find(Participant, { orderBy, filter }, asAdmin())
-        result.data = removeListDynamicData(Participant, result.data)
+        const result = await find(BoardMember, { orderBy, filter }, asAdmin())
+        result.data = removeListDynamicData(BoardMember, result.data)
         expect(result).toMatchSnapshot()
       })
 
 
       it('AND + offset', async () => {
-        const result = await find(Participant, { orderBy, filter, offset: 4 }, asAdmin())
-        result.data = removeListDynamicData(Participant, result.data)
+        const result = await find(BoardMember, { orderBy, filter, offset: 4 }, asAdmin())
+        result.data = removeListDynamicData(BoardMember, result.data)
         expect(result).toMatchSnapshot()
       })
 
 
       it('AND + last', async () => {
-        const result = await find(Participant, { orderBy, filter, last: 4 }, asAdmin())
-        result.data = removeListDynamicData(Participant, result.data)
+        const result = await find(BoardMember, { orderBy, filter, last: 4 }, asAdmin())
+        result.data = removeListDynamicData(BoardMember, result.data)
         expect(result).toMatchSnapshot()
       })
 
@@ -348,8 +348,8 @@ describe('list', () => {
 
 
       it('AND + OR', async () => {
-        const result = await find(Participant, { orderBy, filter }, asAdmin())
-        result.data = removeListDynamicData(Participant, result.data)
+        const result = await find(BoardMember, { orderBy, filter }, asAdmin())
+        result.data = removeListDynamicData(BoardMember, result.data)
         expect(result).toMatchSnapshot()
       })
 
@@ -364,8 +364,8 @@ describe('list', () => {
       attribute: 'inviter'
     }
 
-    const result = await find(Participant, { ...orderByIdAsc }, asAdmin(), parentConnection)
-    result.data = removeListDynamicData(Participant, result.data)
+    const result = await find(BoardMember, { ...orderByIdAsc }, asAdmin(), parentConnection)
+    result.data = removeListDynamicData(BoardMember, result.data)
     expect(result).toMatchSnapshot()
   })
 
@@ -376,8 +376,8 @@ describe('list', () => {
       attribute: 'inviter'
     }
 
-    const result = await find(Participant, { ...orderByIdAsc, first: 1 }, asAdmin(), parentConnection)
-    result.data = removeListDynamicData(Participant, result.data)
+    const result = await find(BoardMember, { ...orderByIdAsc, first: 1 }, asAdmin(), parentConnection)
+    result.data = removeListDynamicData(BoardMember, result.data)
     expect(result).toMatchSnapshot()
   })
 
@@ -388,7 +388,7 @@ describe('list', () => {
       attribute: 'invalidAttributeName'
     }
 
-    await find(Participant, { ...orderByIdAsc }, asAdmin(), parentConnection)
+    await find(BoardMember, { ...orderByIdAsc }, asAdmin(), parentConnection)
       .catch(e => {
         expect(e).toMatchSnapshot()
       })

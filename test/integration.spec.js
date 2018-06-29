@@ -11,7 +11,7 @@ import { counts } from './testSetGenerator';
 
 import { Profile } from './models/Profile';
 import { Board } from './models/Board';
-import { Participant } from './models/Participant';
+import { BoardMember } from './models/BoardMember';
 
 
 describe('postgres', () => {
@@ -23,8 +23,8 @@ describe('postgres', () => {
     const boardCount = await count(Board, {}, asAdmin())
     expect(boardCount).toEqual(counts.boardCount)
 
-    const participantCount = await count(Participant, {}, asAdmin())
-    expect(participantCount).toEqual(counts.joinCount + counts.inviteCount)
+    const memberCount = await count(BoardMember, {}, asAdmin())
+    expect(memberCount).toEqual(counts.joinCount + counts.inviteCount)
   })
 
 })

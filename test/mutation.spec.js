@@ -8,7 +8,7 @@ import {
   removeDynamicData,
 } from './testUtils';
 
-import { Participant } from './models/Participant';
+import { BoardMember } from './models/BoardMember';
 import { Board } from './models/Board';
 
 
@@ -20,7 +20,7 @@ describe('mutation', () => {
       board: 50,
     }
 
-    await mutate(Participant, 'create', payload, null, asUser(99))
+    await mutate(BoardMember, 'create', payload, null, asUser(99))
       .catch(e => {
         expect(e).toMatchSnapshot()
       })
@@ -35,8 +35,8 @@ describe('mutation', () => {
       board: 47,
     }
 
-    const result = await mutate(Participant, 'join', payload, null, asUser(99))
-    expect(removeDynamicData(Participant, result)).toMatchSnapshot()
+    const result = await mutate(BoardMember, 'join', payload, null, asUser(99))
+    expect(removeDynamicData(BoardMember, result)).toMatchSnapshot()
   })
 
 
@@ -47,12 +47,12 @@ describe('mutation', () => {
       invitee: 80,
     }
 
-    let result = await mutate(Participant, 'invite', payload, null, asUser(84))
+    let result = await mutate(BoardMember, 'invite', payload, null, asUser(84))
     const inviteId = result.id
-    expect(removeDynamicData(Participant, result)).toMatchSnapshot()
+    expect(removeDynamicData(BoardMember, result)).toMatchSnapshot()
 
-    result = await mutate(Participant, 'accept', {}, inviteId, asUser(80))
-    expect(removeDynamicData(Participant, result)).toMatchSnapshot()
+    result = await mutate(BoardMember, 'accept', {}, inviteId, asUser(80))
+    expect(removeDynamicData(BoardMember, result)).toMatchSnapshot()
   })
 
 
@@ -79,12 +79,12 @@ describe('mutation', () => {
       invitee: 81,
     }
 
-    let result = await mutate(Participant, 'invite', payload, null, asUser(84))
+    let result = await mutate(BoardMember, 'invite', payload, null, asUser(84))
     const inviteId = result.id
-    expect(removeDynamicData(Participant, result)).toMatchSnapshot()
+    expect(removeDynamicData(BoardMember, result)).toMatchSnapshot()
 
-    result = await mutate(Participant, 'remove', {}, inviteId, asUser(84))
-    expect(removeDynamicData(Participant, result)).toMatchSnapshot()
+    result = await mutate(BoardMember, 'remove', {}, inviteId, asUser(84))
+    expect(removeDynamicData(BoardMember, result)).toMatchSnapshot()
   })
 
 
@@ -95,12 +95,12 @@ describe('mutation', () => {
       invitee: 81,
     }
 
-    const result = await mutate(Participant, 'invite', payload, null, asUser(84))
+    const result = await mutate(BoardMember, 'invite', payload, null, asUser(84))
     const inviteId = result.id
 
-    await mutate(Participant, 'accept', {}, inviteId, asUser(81))
+    await mutate(BoardMember, 'accept', {}, inviteId, asUser(81))
 
-    await mutate(Participant, 'accept', {}, inviteId, asUser(81))
+    await mutate(BoardMember, 'accept', {}, inviteId, asUser(81))
       .catch(e => {
         expect(e).toMatchSnapshot()
       })
@@ -110,7 +110,7 @@ describe('mutation', () => {
 
   it('reject mutations if ID not found', async () => {
 
-    await mutate(Participant, 'remove', {}, 99999, asUser(80))
+    await mutate(BoardMember, 'remove', {}, 99999, asUser(80))
       .catch(e => {
         expect(e).toMatchSnapshot()
       })
@@ -119,7 +119,7 @@ describe('mutation', () => {
 
   it('reject unknown mutations', async () => {
 
-    await mutate(Participant, 'findInnerPeace', {}, 1, asUser(80))
+    await mutate(BoardMember, 'findInnerPeace', {}, 1, asUser(80))
       .catch(e => {
         expect(e).toMatchSnapshot()
       })

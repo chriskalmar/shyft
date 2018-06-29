@@ -24,7 +24,7 @@ const readPermissions = [
   new Permission()
     .userAttribute('owner'),
   new Permission()
-    .lookup(() => require('./Participant').Participant, {
+    .lookup(() => require('./BoardMember').BoardMember, {
       board: 'id',
       invitee: ({ userId }) => userId,
       state: () => ['invited', 'accepted'],
