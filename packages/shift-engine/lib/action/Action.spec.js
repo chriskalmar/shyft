@@ -366,12 +366,35 @@ describe('Action', () => {
         input: {},
         output: {},
         resolve() { },
-        permissions: new Permission(),
+        permissions: new Permission().authenticated(),
       })
 
       const permissions = action.getPermissions()
 
       expect(isPermission(permissions)).toBe(true);
+
+    })
+
+
+    it('should throw if empty permissions are provided', () => {
+
+      const action = new Action({
+        name: 'example',
+        description: 'do something',
+        input: {},
+        output: {},
+        resolve() { },
+        permissions: [
+          new Permission().authenticated(),
+          new Permission(),
+        ],
+      })
+
+      function fn() {
+        action.getPermissions()
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 

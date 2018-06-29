@@ -16,6 +16,8 @@ exports[`Entity attributes should throw if provided with an invalid validate fun
 
 exports[`Entity isEntity should recognize non-Entity objects 1`] = `"Not an Entity object"`;
 
+exports[`Entity permissions should throw if empty permissions are provided 1`] = `"Entity 'SomeEntityName' has one or more empty permission definitions in: read, find, mutations.delete"`;
+
 exports[`Entity primary attribute should catch multiple primary attributes 1`] = `"'SomeEntityName.anotherAttribute' cannot be set as primary attribute,'someAttribute' is already the primary attribute"`;
 
 exports[`Entity primary attribute should catch primary attributes with invalid data types 1`] = `"Primary attribute 'City.someAttribute' has invalid data type 'Country'"`;

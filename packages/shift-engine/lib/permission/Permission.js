@@ -38,6 +38,7 @@ class Permission {
   static EVERYONE = (new Permission()).everyone()
   static AUTHENTICATED = (new Permission()).authenticated()
 
+  isEmpty = true
   everyoneCanAccess = false
   authenticatedCanAccess = false
   types = {}
@@ -77,6 +78,7 @@ class Permission {
 
 
   everyone () {
+    this.isEmpty = false
     this._checkCompatibility('everyone')
     this.everyoneCanAccess = true
     return this
@@ -84,6 +86,7 @@ class Permission {
 
 
   authenticated () {
+    this.isEmpty = false
     this._checkCompatibility('authenticated')
     this.authenticatedCanAccess = true
     return this
@@ -91,6 +94,7 @@ class Permission {
 
 
   role (name) {
+    this.isEmpty = false
     this._checkCompatibility('role')
 
     passOrThrow(
@@ -111,6 +115,7 @@ class Permission {
 
 
   userAttribute (attributeName) {
+    this.isEmpty = false
     this._checkCompatibility('userAttribute')
 
     passOrThrow(
@@ -130,6 +135,7 @@ class Permission {
 
 
   lookup (entity, lookupMap) {
+    this.isEmpty = false
     this._checkCompatibility('lookup')
 
     passOrThrow(
@@ -151,6 +157,7 @@ class Permission {
 
 
   value (attributeName, value) {
+    this.isEmpty = false
     this._checkCompatibility('value')
 
     passOrThrow(
@@ -172,6 +179,7 @@ class Permission {
 
 
   state (stateName) {
+    this.isEmpty = false
     this._checkCompatibility('state')
 
     passOrThrow(
@@ -803,6 +811,42 @@ const validatePermissionMutationTypes = (entity, permissions, mutation) => {
 }
 
 
+
+export const hasEmptyPermissions = (permissions) => {
+  if (isPermissionsArray(permissions)) {
+    const foundEmpty = permissions.find(({isEmpty}) => isEmpty)
+    return !!foundEmpty
+  }
+
+  return permissions.isEmpty
+}
+
+
+export const findEmptyEntityPermissions = (permissions) => {
+
+  const emptyPermissionsIn = []
+
+  if (permissions.read && hasEmptyPermissions(permissions.read)) {
+    emptyPermissionsIn.push('read')
+  }
+
+  if (permissions.find && hasEmptyPermissions(permissions.find)) {
+    emptyPermissionsIn.push('find')
+  }
+
+  if (permissions.mutations) {
+    const mutationNames = Object.keys(permissions.mutations)
+    mutationNames.map(mutationName => {
+      if (permissions.mutations[mutationName] && hasEmptyPermissions(permissions.mutations[mutationName])) {
+        emptyPermissionsIn.push(`mutations.${mutationName}`)
+      }
+    })
+  }
+
+  return emptyPermissionsIn
+}
+
+
 export const processEntityPermissions = (entity, permissions, defaultPermissions) => {
 
   passOrThrow(
@@ -894,6 +938,13 @@ export const processEntityPermissions = (entity, permissions, defaultPermissions
     })
   }
 
+  const emptyPermissionsIn = findEmptyEntityPermissions(permissions)
+
+  passOrThrow(
+    emptyPermissionsIn.length === 0,
+    () => `Entity '${entity.name}' has one or more empty permission definitions in: ${emptyPermissionsIn.join(', ')}`
+  )
+
   return permissions
 }
 
@@ -921,6 +972,11 @@ export const processActionPermissions = (action, permissions) => {
     validateActionLookupPermission(permission, action)
 
   })
+
+  passOrThrow(
+    !hasEmptyPermissions(permissions),
+    () => `Action '${action.name}' has one or more empty permission definitions`
+  )
 
   return permissions
 }

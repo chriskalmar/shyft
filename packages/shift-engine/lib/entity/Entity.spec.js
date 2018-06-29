@@ -789,13 +789,45 @@ describe('Entity', () => {
           }
         },
         permissions: {
-          read: new Permission()
+          read: new Permission().authenticated()
         }
       })
 
       const permissions = entity.getPermissions()
 
       expect(isPermission(permissions.read)).toBe(true);
+
+    })
+
+
+    it('should throw if empty permissions are provided', () => {
+
+      const entity = new Entity({
+        name: 'SomeEntityName',
+        description: 'Just some description',
+        attributes: {
+          someAttribute: {
+            type: DataTypeString,
+            description: 'Some description',
+          }
+        },
+        permissions: {
+          read: new Permission(),
+          find: [
+            new Permission().authenticated(),
+            new Permission()
+          ],
+          mutations: {
+            delete: new Permission(),
+          }
+        }
+      })
+
+      function fn() {
+        entity.getPermissions()
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
 
     })
 
