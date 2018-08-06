@@ -151,16 +151,12 @@ class Entity {
 
 
   _processIndexes() {
-    if (this._indexes) {
-      return processEntityIndexes(this, this._indexes)
-    }
-
-    return null
+    return processEntityIndexes(this, this._indexes || [])
   }
 
 
   getIndexes () {
-    if (!this._indexes || this.indexes) {
+    if (this.indexes) {
       return this.indexes
     }
 
