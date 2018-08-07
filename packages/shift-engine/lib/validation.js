@@ -33,7 +33,7 @@ const validateDataTypePayload = (paramType, payload, context) => {
 }
 
 
-const validatePayload = (param, payload, source, context) => {
+const validatePayload = (param, payload, source, context, path = []) => {
 
   if (typeof payload !== 'undefined' && payload !== null) {
 
@@ -48,11 +48,13 @@ const validatePayload = (param, payload, source, context) => {
     if (isObjectDataType(paramType)) {
       const attributes = paramType.getAttributes()
       _.forEach(attributes, (attribute) => {
-        validatePayload(attribute, payload[paramName], source, context)
+        const newPath = [ ...path, attribute.name ]
+        validatePayload(attribute, payload[paramName], source, context, newPath)
       })
     }
 
     if (isListDataType(param.type)) {
+
       const payloadList = payload[paramName]
 
       if (typeof payloadList !== 'undefined') {
@@ -62,8 +64,17 @@ const validatePayload = (param, payload, source, context) => {
             validateDataTypePayload(paramType, itemPayload, context)
 
             const attributes = paramType.getAttributes()
+            const pathString = path.length
+              ? path.join('.') + '.'
+              : ''
+
             _.forEach(attributes, (attribute) => {
-              validatePayload(attribute, itemPayload, source, context)
+              passOrThrow(
+                !attribute.required || isDefined(itemPayload[ attribute.name ]),
+                () => `Missing required input attribute '${pathString}${attribute.name}'`
+              )
+              const newPath = [ ...path, attribute.name ]
+              validatePayload(attribute, itemPayload, source, context, newPath)
             })
           }
         })
@@ -135,7 +146,7 @@ export const validateMutationPayload = (entity, mutation, payload, context) => {
       )
     }
 
-    validatePayload(attribute, payload, { mutation, entity }, context)
+    validatePayload(attribute, payload, { mutation, entity }, context, [attributeName])
   })
 }
 
