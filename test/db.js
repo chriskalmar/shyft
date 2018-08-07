@@ -1,11 +1,6 @@
 
 
 import {
-  Schema,
-  Configuration,
-} from 'shift-engine';
-
-import {
   connectStorage,
   disconnectStorage,
 } from '../lib/generator';
@@ -13,6 +8,8 @@ import { StorageTypePostgres } from '../lib/StorageTypePostgres';
 import StoragePostgresConfiguration from '../lib/StoragePostgresConfiguration';
 
 import {
+  Schema,
+  Configuration,
   fillSystemAttributesDefaultValues,
   fillDefaultValues,
   serializeValues,

@@ -14,6 +14,40 @@ Object {
 }
 `;
 
+exports[`mutation perform create mutations with nested JSON attributes 1`] = `
+Object {
+  "author": "Leo Tolstoy",
+  "i18n": null,
+  "id": "1",
+  "reviews": Array [
+    Object {
+      "bookAttributes": Array [
+        Object {
+          "attribute": "Year of publishing",
+          "value": "1867",
+        },
+        Object {
+          "attribute": "Pages",
+          "value": "1225",
+        },
+      ],
+      "reviewText": "Couldn't stop reading",
+      "reviewer": "John Connor",
+    },
+  ],
+  "shortSummary": null,
+  "shortSummary.i18n": Object {
+    "de": undefined,
+    "default": null,
+  },
+  "title": "War and Peace",
+  "title.i18n": Object {
+    "de": undefined,
+    "default": "War and Peace",
+  },
+}
+`;
+
 exports[`mutation perform delete mutations 1`] = `
 Object {
   "board": "50",

@@ -10,6 +10,7 @@ import {
 
 import { BoardMember } from './models/BoardMember';
 import { Board } from './models/Board';
+import { Book } from './models/Book';
 
 
 describe('mutation', () => {
@@ -37,6 +38,34 @@ describe('mutation', () => {
 
     const result = await mutate(BoardMember, 'join', payload, null, asUser(99))
     expect(removeDynamicData(BoardMember, result)).toMatchSnapshot()
+  })
+
+
+  it('perform create mutations with nested JSON attributes', async () => {
+
+    const payload = {
+      title: 'War and Peace',
+      author: 'Leo Tolstoy',
+      reviews: [
+        {
+          reviewer: 'John Connor',
+          reviewText: 'Couldn\'t stop reading',
+          bookAttributes: [
+            {
+              attribute: 'Year of publishing',
+              value: '1867',
+            },
+            {
+              attribute: 'Pages',
+              value: '1225',
+            },
+          ]
+        },
+      ]
+    }
+
+    const result = await mutate(Book, 'create', payload, null, asUser(99))
+    expect(result).toMatchSnapshot()
   })
 
 
