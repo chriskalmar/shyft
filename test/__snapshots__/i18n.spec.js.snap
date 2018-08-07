@@ -7,6 +7,7 @@ Object {
       "author": "Leo Tolstoy",
       "i18n": null,
       "id": "3",
+      "reviews": null,
       "shortSummary": "The novel chronicles the history of ...",
       "shortSummary.i18n": Object {
         "de": "Krieg und Frieden ist ein historischer Roman des ...",
@@ -31,6 +32,7 @@ Object {
   "author": "Leo Tolstoy",
   "i18n": null,
   "id": "4",
+  "reviews": null,
   "shortSummary": null,
   "shortSummary.i18n": Object {
     "de": "⚔️ & ☮️",
@@ -51,6 +53,7 @@ Object {
   "author": "Leo Tolstoy",
   "i18n": null,
   "id": "1",
+  "reviews": null,
   "shortSummary": null,
   "shortSummary.i18n": Object {
     "de": undefined,
@@ -69,6 +72,7 @@ Object {
   "author": "Leo Tolstoy",
   "i18n": null,
   "id": "3",
+  "reviews": null,
   "shortSummary": "The novel chronicles the history of ...",
   "shortSummary.i18n": Object {
     "de": "Krieg und Frieden ist ein historischer Roman des ...",
@@ -87,6 +91,7 @@ Object {
   "author": "Leo Tolstoy",
   "i18n": null,
   "id": "2",
+  "reviews": null,
   "shortSummary": null,
   "shortSummary.i18n": Object {
     "de": undefined,

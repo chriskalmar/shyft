@@ -2,6 +2,8 @@
 import {
   Entity,
   DataTypeString,
+  buildListDataType,
+  buildObjectDataType,
 } from 'shift-engine';
 
 
@@ -30,6 +32,45 @@ export const Book = new Entity({
       required: true,
     },
 
+    reviews: {
+      type: buildListDataType({
+        itemType: buildObjectDataType({
+          attributes: {
+            reviewer: {
+              type: DataTypeString,
+              description: 'name of the reviewer',
+              required: true,
+            },
+            reviewText: {
+              description: 'the review text',
+              required: true,
+              type: DataTypeString,
+            },
+            bookAttributes: {
+              description: 'attributes of the book given by the reviewer',
+              required: true,
+              type: buildListDataType({
+                itemType: buildObjectDataType({
+                  attributes: {
+                    attribute: {
+                      type: DataTypeString,
+                      description: 'attribute describing the book',
+                      required: true,
+                    },
+                    value: {
+                      type: DataTypeString,
+                      description: 'attribute value describing the book',
+                      required: true,
+                    },
+                  },
+                }),
+              }),
+            },
+          },
+        }),
+      }),
+      description: 'Book reviews',
+    }
   }
 })
 
