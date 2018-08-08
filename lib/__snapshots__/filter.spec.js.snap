@@ -2,7 +2,7 @@
 
 exports[`filter buildWhereQuery combined logical AND/OR filter 1`] = `
 Array [
-  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE ((ip = $1 AND ((cluster_zone = $2) OR (cluster_zone = $3))) AND (name = $4))",
+  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE ((ip = ? AND ((cluster_zone = ?) OR (cluster_zone = ?))) AND (name = ?))",
   Array [
     "127.0.0.1",
     1,
@@ -14,7 +14,7 @@ Array [
 
 exports[`filter buildWhereQuery combined logical AND/OR filter 2`] = `
 Array [
-  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE (((ip = $1 AND (cluster_zone = $2) AND (name = $3)) OR (name = $4)))",
+  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE (((ip = ? AND (cluster_zone = ?) AND (name = ?)) OR (name = ?)))",
   Array [
     "127.0.0.1",
     1,
@@ -26,7 +26,7 @@ Array [
 
 exports[`filter buildWhereQuery complex and nested filter with various operators 1`] = `
 Array [
-  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE (((ip IN ($1, $2) AND name ILIKE $3) OR (ip = $4) OR (name ILIKE $5 AND name ILIKE $6 AND name ILIKE $7 AND ((cluster_zone IN ($8, $9)) OR (cluster_zone > $10 AND cluster_zone < $11 AND cluster_zone <> $12 AND cluster_zone NOT IN ($13))) AND (((cluster_zone = $14) OR (cluster_zone <= $15 AND cluster_zone >= $16) OR (TRUE IS FALSE))) AND (name NOT ILIKE $17 AND name NOT ILIKE $18 AND name NOT ILIKE $19))) AND (name = $20))",
+  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE (((ip IN (?, ?) AND name ILIKE ?) OR (ip = ?) OR (name ILIKE ? AND name ILIKE ? AND name ILIKE ? AND ((cluster_zone IN (?, ?)) OR (cluster_zone > ? AND cluster_zone < ? AND cluster_zone <> ? AND cluster_zone NOT IN (?))) AND (((cluster_zone = ?) OR (cluster_zone <= ? AND cluster_zone >= ?) OR (TRUE IS FALSE))) AND (name NOT ILIKE ? AND name NOT ILIKE ? AND name NOT ILIKE ?))) AND (name = ?))",
   Array [
     "127.0.0.1",
     "192.168.0.1",
@@ -61,7 +61,7 @@ Array [
 
 exports[`filter buildWhereQuery logical AND filter 1`] = `
 Array [
-  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE ((ip = $1 AND name = $2) AND (cluster_zone = $3))",
+  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE ((ip = ? AND name = ?) AND (cluster_zone = ?))",
   Array [
     "127.0.0.1",
     "test-server-1",
@@ -72,7 +72,7 @@ Array [
 
 exports[`filter buildWhereQuery logical OR filter 1`] = `
 Array [
-  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE (((ip = $1 AND name = $2) OR (ip = $3 AND name = $4)))",
+  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE (((ip = ? AND name = ?) OR (ip = ? AND name = ?)))",
   Array [
     "127.0.0.1",
     "test-server-1",
@@ -94,7 +94,7 @@ exports[`filter buildWhereQuery reject if unknown operators are used 1`] = `"Unk
 
 exports[`filter buildWhereQuery simple properties filter 1`] = `
 Array [
-  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE (ip = $1 AND name = $2)",
+  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE (ip = ? AND name = ?)",
   Array [
     "127.0.0.1",
     "test-server-1",
