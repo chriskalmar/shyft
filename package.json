@@ -60,6 +60,6 @@
   "peerDependencies": {
     "pg": "^7.4.1",
     "shift-engine": "^1.0.0",
-    "typeorm": "^0.1.16"
+    "typeorm": "^0.2.7"
   }
 }
