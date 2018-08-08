@@ -1,6 +1,7 @@
 import './setupAndTearDown';
 import {
   mutate,
+  findOneByValue,
 } from './db';
 
 import {
@@ -82,6 +83,42 @@ describe('mutation', () => {
 
     result = await mutate(BoardMember, 'accept', {}, inviteId, asUser(80))
     expect(removeDynamicData(BoardMember, result)).toMatchSnapshot()
+  })
+
+
+  it('perform update mutations with nested JSON attributes', async () => {
+
+    const book = await findOneByValue(Book, { author: 'Leo Tolstoy' }, asUser(99))
+
+    const payload = {
+      reviews: [
+        {
+          reviewer: 'John Connor',
+          reviewText: 'Updated review',
+          bookAttributes: [
+            {
+              attribute: 'Year of publishing',
+              value: '1867',
+            },
+            {
+              attribute: 'Pages',
+              value: '1225',
+            },
+            {
+              attribute: 'Pages',
+              value: '1225',
+            },
+            {
+              attribute: 'Genre',
+              value: 'Novel',
+            },
+          ]
+        },
+      ]
+    }
+
+    const result = await mutate(Book, 'update', payload, book.id, asUser(99))
+    expect(result).toMatchSnapshot()
   })
 
 
