@@ -17,7 +17,9 @@
     "testEnvironment": "node"
   },
   "lint-staged": {
-    "*.js": ["./node_modules/eslint/bin/eslint.js"]
+    "*.js": [
+      "./node_modules/eslint/bin/eslint.js"
+    ]
   },
   "husky": {
     "hooks": {
@@ -31,11 +33,9 @@
     "babel-preset-stage-0": "^6.22.0",
     "babel-register": "^6.23.0",
     "casual": "^1.5.19",
-    "chai": "^4.1.2",
     "codecov": "^3.0.4",
     "eslint": "5.3.0",
-    "eslint-plugin-mocha": "^4.10.1",
-    "husky": "^0.14.3",
+    "husky": "^1.0.0-rc.13",
     "jest": "^23.5.0",
     "lerna": "^3.0.1",
     "lint-staged": "^7.2.0"
