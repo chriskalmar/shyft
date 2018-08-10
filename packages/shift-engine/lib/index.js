@@ -27,8 +27,7 @@ import Permission, {
   checkPermissionSimple,
   buildPermissionFilter,
   buildActionPermissionFilter,
-}
-from './permission/Permission';
+} from './permission/Permission';
 
 
 import {

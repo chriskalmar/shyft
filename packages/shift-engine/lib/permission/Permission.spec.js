@@ -862,13 +862,13 @@ describe('Permission', () => {
       it('should generate filter values from functions and provided mutation data', async () => {
 
         const permission = new Permission()
-        .lookup(someEntity, {
-          id: 'reference',
-          district: ({input}) => input.district,
-          open: () => true,
-          owner: ({userId}) => userId, // eslint-disable-line no-shadow
-          state: () => ['defined', 'approved']
-        })
+          .lookup(someEntity, {
+            id: 'reference',
+            district: ({input}) => input.district,
+            open: () => true,
+            owner: ({userId}) => userId, // eslint-disable-line no-shadow
+            state: () => ['defined', 'approved']
+          })
 
         const input = {
           name: 'lorem',

@@ -197,8 +197,8 @@ class Entity {
     const mutations = this.getMutations()
 
     return mutations
-    ? mutations.find(mutation => String(mutation) === name)
-    : null
+      ? mutations.find(mutation => String(mutation) === name)
+      : null
   }
 
 
