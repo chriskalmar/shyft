@@ -17,7 +17,7 @@
     "testEnvironment": "node"
   },
   "lint-staged": {
-    "*.js": "./node_modules/eslint/bin/eslint.js"
+    "*.js": ["./node_modules/eslint/bin/eslint.js"]
   },
   "husky": {
     "hooks": {
