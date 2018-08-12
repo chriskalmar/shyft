@@ -1,176 +1,146 @@
-
-import Action, {
-  isAction,
-} from './Action';
-import Permission, {
-  isPermission,
-} from '../permission/Permission';
+import Action, { isAction } from './Action';
+import Permission, { isPermission } from '../permission/Permission';
 
 import { DataTypeString } from '../datatype/dataTypes';
 import { buildObjectDataType } from '../datatype/ObjectDataType';
 
-import {
-  passOrThrow,
-} from '../util';
-
-
+import { passOrThrow } from '../util';
 
 describe('Action', () => {
-
   it('should have a name', () => {
-
     function fn() {
-      new Action() // eslint-disable-line no-new
+      // eslint-disable-next-line no-new
+      new Action();
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
-
-  })
-
+  });
 
   it('should have a description', () => {
-
     function fn() {
-      new Action({ // eslint-disable-line no-new
+      // eslint-disable-next-line no-new
+      new Action({
         name: 'example',
-      })
+      });
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
-
-  })
-
+  });
 
   it('should allow definitions without input', () => {
-
     function fn() {
-      new Action({ // eslint-disable-line no-new
+      // eslint-disable-next-line no-new
+      new Action({
         name: 'example',
         description: 'do something',
-        resolve () {}
-      })
+        resolve() {},
+      });
     }
 
     expect(fn).not.toThrow();
-
-  })
-
+  });
 
   it('should have a valid input definition', () => {
-
     function fn() {
-      new Action({ // eslint-disable-line no-new
+      // eslint-disable-next-line no-new
+      new Action({
         name: 'example',
         description: 'do something',
         input: 123,
-        output: 456
-      })
+        output: 456,
+      });
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
-
-  })
-
+  });
 
   it('should allow definitions without output', () => {
-
     function fn() {
-      new Action({ // eslint-disable-line no-new
+      // eslint-disable-next-line no-new
+      new Action({
         name: 'example',
         description: 'do something',
         input() {},
-        resolve() {}
-      })
+        resolve() {},
+      });
     }
 
     expect(fn).not.toThrow();
-
-  })
-
+  });
 
   it('should have a valid output definition', () => {
-
     function fn() {
-      new Action({ // eslint-disable-line no-new
+      // eslint-disable-next-line no-new
+      new Action({
         name: 'example',
         description: 'do something',
         input() {},
-        output: 'wrong'
-      })
+        output: 'wrong',
+      });
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
-
-  })
-
+  });
 
   it('should have valid input and output definitions when generated via a function', () => {
-
-    const action = new Action({ // eslint-disable-line no-new
+    // eslint-disable-next-line no-new
+    const action = new Action({
       name: 'example',
       description: 'do something',
       input() {
-        return 123
+        return 123;
       },
       output() {},
       resolve() {},
-    })
+    });
 
     function fn1() {
-      action.getInput()
+      action.getInput();
     }
 
     function fn2() {
-      action.getOutput()
+      action.getOutput();
     }
 
     expect(fn1).toThrowErrorMatchingSnapshot();
     expect(fn2).toThrowErrorMatchingSnapshot();
-
-  })
-
+  });
 
   it('should have valid input data types', () => {
-
     const action = new Action({
       name: 'example',
       description: 'do something',
       input: {
-        someAttr: {}
+        someAttr: {},
       },
       output: {},
       resolve() {},
-    })
+    });
 
     function fn() {
-      action.getInput()
+      action.getInput();
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
-
-  })
-
+  });
 
   it('should have valid output data types', () => {
-
     const action = new Action({
       name: 'example',
       description: 'do something',
       input: {},
       output: {
-        someAttr: {}
+        someAttr: {},
       },
       resolve() {},
-    })
+    });
 
     function fn() {
-      action.getOutput()
+      action.getOutput();
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
-
-  })
-
+  });
 
   // it('should have valid input attributes if valid defaultValue functions', () => {
 
@@ -193,57 +163,49 @@ describe('Action', () => {
 
   // })
 
-
   it('should have a valid resolve function', () => {
-
     function fn() {
-      new Action({ // eslint-disable-line no-new
+      // eslint-disable-next-line no-new
+      new Action({
         name: 'example',
         description: 'do something',
-      })
+      });
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
+  });
 
-  })
-
-
-  it('should return it\'s name', () => {
-
+  it("should return it's name", () => {
     const action = new Action({
       name: 'example',
       description: 'do something',
       input: {},
       output: {},
       resolve() {},
-    })
+    });
 
     expect(action.name).toBe('example');
     expect(String(action)).toBe('example');
-
-  })
-
+  });
 
   it('should return input and output params', () => {
-
     const action1 = new Action({
       name: 'example',
       description: 'do something',
       resolve() {},
-    })
+    });
 
-    const input1 = action1.getInput()
-    const output1 = action1.getOutput()
+    const input1 = action1.getInput();
+    const output1 = action1.getOutput();
 
     expect(input1).toEqual(null);
     expect(output1).toEqual(null);
 
-    const hasInput1 = action1.hasInput()
-    const hasOutput1 = action1.hasOutput()
+    const hasInput1 = action1.hasInput();
+    const hasOutput1 = action1.hasOutput();
 
     expect(hasInput1).toBe(false);
     expect(hasOutput1).toBe(false);
-
 
     const action2 = new Action({
       name: 'example',
@@ -255,13 +217,13 @@ describe('Action', () => {
               description: 'First name',
               type: DataTypeString,
               defaultValue() {
-                return 'Waldo'
-              }
+                return 'Waldo';
+              },
             },
             lastName: {
               description: 'Last name',
               type: DataTypeString,
-              required: true
+              required: true,
             },
             about: {
               description: 'Just some description',
@@ -269,10 +231,10 @@ describe('Action', () => {
                 attributes: {
                   favouriteActor: {
                     type: DataTypeString,
-                    description: 'One more description'
+                    description: 'One more description',
                   },
-                }
-              })
+                },
+              }),
             },
           },
         }),
@@ -288,115 +250,89 @@ describe('Action', () => {
         }),
       },
       resolve() {},
-    })
+    });
 
-    const input2 = action2.getInput()
-    const output2 = action2.getOutput()
+    const input2 = action2.getInput();
+    const output2 = action2.getOutput();
 
-    expect(input2).toMatchSnapshot()
-    expect(output2).toMatchSnapshot()
+    expect(input2).toMatchSnapshot();
+    expect(output2).toMatchSnapshot();
 
-    const attributes2 = input2.type.getAttributes()
-    expect(attributes2).toMatchSnapshot()
+    const attributes2 = input2.type.getAttributes();
+    expect(attributes2).toMatchSnapshot();
 
     expect(typeof attributes2.firstName.defaultValue).toBe('function');
 
-    const nestedAttributes2 = attributes2.about.type.getAttributes()
-    expect(nestedAttributes2).toMatchSnapshot()
+    const nestedAttributes2 = attributes2.about.type.getAttributes();
+    expect(nestedAttributes2).toMatchSnapshot();
 
-    const hasInput2 = action2.hasInput()
-    const hasOutput2 = action2.hasOutput()
+    const hasInput2 = action2.hasInput();
+    const hasOutput2 = action2.hasOutput();
 
     expect(hasInput2).toBe(true);
     expect(hasOutput2).toBe(true);
-
-  })
-
+  });
 
   describe('isAction', () => {
-
     const action = new Action({
       name: 'example',
       description: 'do something',
       input: {},
       output: {},
       resolve() {},
-    })
+    });
 
     it('should recognize objects of type Action', () => {
-
       function fn() {
-        passOrThrow(
-          isAction(action),
-          () => 'This error will never happen'
-        )
+        passOrThrow(isAction(action), () => 'This error will never happen');
       }
 
-      expect(fn).not.toThrow()
-
-    })
-
+      expect(fn).not.toThrow();
+    });
 
     it('should recognize non-Action objects', () => {
-
       function fn() {
         passOrThrow(
-          isAction({}) ||
-          isAction(function test() {}) ||
-          isAction(Error),
-          () => 'Not a Action object'
-        )
+          isAction({}) || isAction(function test() {}) || isAction(Error),
+          () => 'Not a Action object',
+        );
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
-
-    })
-
-  })
-
-
+    });
+  });
 
   describe('permissions', () => {
-
     it('should return permissions', () => {
-
       const action = new Action({
         name: 'example',
         description: 'do something',
         input: {},
         output: {},
-        resolve() { },
+        resolve() {},
         permissions: new Permission().authenticated(),
-      })
+      });
 
-      const permissions = action.getPermissions()
+      const permissions = action.getPermissions();
 
       expect(isPermission(permissions)).toBe(true);
-
-    })
-
+    });
 
     it('should throw if empty permissions are provided', () => {
-
       const action = new Action({
         name: 'example',
         description: 'do something',
         input: {},
         output: {},
-        resolve() { },
-        permissions: [
-          new Permission().authenticated(),
-          new Permission(),
-        ],
-      })
+        resolve() {},
+        permissions: [ new Permission().authenticated(), new Permission() ],
+      });
 
       function fn() {
-        action.getPermissions()
+        action.getPermissions();
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
-
-    })
-
-  })
-})
+    });
+  });
+});

@@ -1,82 +1,66 @@
+import { passOrThrow, isMap } from '../util';
 
-import {
-  passOrThrow,
-  isMap,
-} from '../util';
-
-import {
-  stateNameRegex,
-  STATE_NAME_PATTERN,
-} from '../constants';
+import { stateNameRegex, STATE_NAME_PATTERN } from '../constants';
 
 import _ from 'lodash';
 
 import DataType from './DataType';
 
-
 class DataTypeState extends DataType {
-
-  constructor (setup = {}) {
-
-    const {
-      name,
-      description,
-      states,
-    } = setup
+  constructor(setup = {}) {
+    const { name, description, states } = setup;
 
     passOrThrow(
       isMap(states, true),
-      () => `'Missing states for data type '${name}'`
-    )
+      () => `'Missing states for data type '${name}'`,
+    );
 
-    const stateNames = Object.keys(states)
-    const uniqueIds = []
+    const stateNames = Object.keys(states);
+    const uniqueIds = [];
 
     stateNames.map(stateName => {
-      const stateId = states[stateName]
-      uniqueIds.push(stateId)
+      const stateId = states[stateName];
+      uniqueIds.push(stateId);
 
       passOrThrow(
         stateNameRegex.test(stateName),
-        () => `Invalid state name '${stateName}' for data type '${name}' (Regex: /${STATE_NAME_PATTERN}/)`
-      )
+        () =>
+          `Invalid state name '${stateName}' for data type '${name}' (Regex: /${STATE_NAME_PATTERN}/)`,
+      );
 
       passOrThrow(
         stateId === parseInt(stateId, 10) && stateId > 0,
-        () => `State '${stateName}' for data type '${name}' has an invalid unique ID (needs to be a positive integer)`
-      )
-    })
+        () =>
+          `State '${stateName}' for data type '${name}' has an invalid unique ID (needs to be a positive integer)`,
+      );
+    });
 
     passOrThrow(
       uniqueIds.length === _.uniq(uniqueIds).length,
-      () => `Each state defined for data type '${name}' needs to have a unique ID`
-    )
-
+      () =>
+        `Each state defined for data type '${name}' needs to have a unique ID`,
+    );
 
     super({
       ...setup,
       description: description || `States: ${stateNames.join(', ')}`,
       enforceIndex: true,
       mock() {
-        const randomPos = Math.floor( Math.random() * uniqueIds.length )
-        return uniqueIds[ randomPos ]
-      }
-    })
+        const randomPos = Math.floor(Math.random() * uniqueIds.length);
+        return uniqueIds[randomPos];
+      },
+    });
 
-    this.states = states
+    this.states = states;
   }
-
 
   toString() {
-    return this.name
+    return this.name;
   }
-
 }
 
+export default DataTypeState;
 
-export default DataTypeState
-
-
-export const isDataTypeState = (obj) => {
-  return (obj instanceof DataTypeState)
-}
+export const isDataTypeState = obj => {
+  return obj instanceof DataTypeState;
+};

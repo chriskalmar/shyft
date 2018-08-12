@@ -1,10 +1,4 @@
-
-import {
-  passOrThrow,
-  isArray,
-  isFunction,
-  mapOverProperties,
-} from '../util';
+import { passOrThrow, isArray, isFunction, mapOverProperties } from '../util';
 
 import _ from 'lodash';
 
@@ -16,33 +10,32 @@ export const mutationTypes = [
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
-]
+];
 
 export const defaultEntityMutations = [
   {
     name: 'create',
     type: MUTATION_TYPE_CREATE,
-    description: (typeName) => `Create a new **\`${typeName}\`**`,
+    description: typeName => `Create a new **\`${typeName}\`**`,
     hasAttributes: true,
   },
   {
     name: 'update',
     type: MUTATION_TYPE_UPDATE,
-    description: (typeName) => `Update a single **\`${typeName}\`** using its node ID and a data patch`,
+    description: typeName =>
+      `Update a single **\`${typeName}\`** using its node ID and a data patch`,
     hasAttributes: true,
   },
   {
     name: 'delete',
-    description: (typeName) => `Delete a single **\`${typeName}\`** using its node ID`,
+    description: typeName =>
+      `Delete a single **\`${typeName}\`** using its node ID`,
     type: MUTATION_TYPE_DELETE,
   },
-]
-
+];
 
 class Mutation {
-
-  constructor (setup = {}) {
-
+  constructor(setup = {}) {
     const {
       name,
       type,
@@ -52,250 +45,293 @@ class Mutation {
       postProcessor,
       fromState,
       toState,
-    } = setup
+    } = setup;
 
-    passOrThrow(name, () => 'Missing mutation name')
-    passOrThrow(type, () => `Missing type for mutation '${name}'`)
+    passOrThrow(name, () => 'Missing mutation name');
+    passOrThrow(type, () => `Missing type for mutation '${name}'`);
     passOrThrow(
       mutationTypes.indexOf(type) >= 0,
-      () => `Unknown mutation type '${type}' used, try one of these: '${mutationTypes.join(', ')}'`
-    )
+      () =>
+        `Unknown mutation type '${type}' used, try one of these: '${mutationTypes.join(
+          ', ',
+        )}'`,
+    );
 
-    passOrThrow(description, () => `Missing description for mutation '${name}'`)
+    passOrThrow(
+      description,
+      () => `Missing description for mutation '${name}'`,
+    );
 
+    this.name = name;
+    this.type = type;
+    this.description = description;
 
-    this.name = name
-    this.type = type
-    this.description = description
-
-
-    if (this.type === MUTATION_TYPE_CREATE || this.type === MUTATION_TYPE_UPDATE) {
-      this.attributes = attributes
+    if (
+      this.type === MUTATION_TYPE_CREATE ||
+      this.type === MUTATION_TYPE_UPDATE
+    ) {
+      this.attributes = attributes;
     }
 
-
     if (this.type === MUTATION_TYPE_CREATE) {
-      this.isTypeCreate = true
+      this.isTypeCreate = true;
     }
 
     if (this.type === MUTATION_TYPE_UPDATE) {
-      this.needsInstance = true
-      this.ignoreRequired = true
-      this.isTypeUpdate = true
+      this.needsInstance = true;
+      this.ignoreRequired = true;
+      this.isTypeUpdate = true;
     }
 
     if (this.type === MUTATION_TYPE_DELETE) {
-      this.needsInstance = true
-      this.isTypeDelete = true
+      this.needsInstance = true;
+      this.isTypeDelete = true;
     }
-
 
     if (preProcessor) {
       passOrThrow(
         isFunction(preProcessor),
-        () => `preProcessor of mutation '${name}' needs to be a valid function`
-      )
+        () => `preProcessor of mutation '${name}' needs to be a valid function`,
+      );
 
-      this.preProcessor = preProcessor
+      this.preProcessor = preProcessor;
     }
 
     if (postProcessor) {
       passOrThrow(
         isFunction(postProcessor),
-        () => `postProcessor of mutation '${name}' needs to be a valid function`
-      )
+        () =>
+          `postProcessor of mutation '${name}' needs to be a valid function`,
+      );
 
-      this.postProcessor = postProcessor
+      this.postProcessor = postProcessor;
     }
-
 
     if (fromState) {
       passOrThrow(
         this.type !== MUTATION_TYPE_CREATE,
-        () => `Mutation '${this.name}' cannot define fromState as it is a 'create' type mutation`
-      )
+        () =>
+          `Mutation '${
+            this.name
+          }' cannot define fromState as it is a 'create' type mutation`,
+      );
 
       passOrThrow(
         typeof fromState === 'string' || isArray(fromState),
-        () => `fromState in mutation '${name}' needs to be the name of a state or a list of state names as a precondition to the mutation`
-      )
+        () =>
+          `fromState in mutation '${name}' needs to be the name of a state or a list of state names as a precondition to the mutation`,
+      );
 
       if (this.type !== MUTATION_TYPE_DELETE) {
         passOrThrow(
           toState,
-          () => `Mutation '${this.name}' has a fromState defined but misses a toState definition`
-        )
+          () =>
+            `Mutation '${
+              this.name
+            }' has a fromState defined but misses a toState definition`,
+        );
       }
 
-      this.fromState = fromState
+      this.fromState = fromState;
     }
-
 
     if (toState) {
       passOrThrow(
         this.type !== MUTATION_TYPE_DELETE,
-        () => `Mutation '${this.name}' cannot define toState as it is a 'delete' type mutation`
-      )
+        () =>
+          `Mutation '${
+            this.name
+          }' cannot define toState as it is a 'delete' type mutation`,
+      );
 
       passOrThrow(
         typeof toState === 'string' || isArray(toState),
-        () => `toState in mutation '${this.name}' needs to be the name of a state or a list of state names the mutation can transition to`
-      )
+        () =>
+          `toState in mutation '${
+            this.name
+          }' needs to be the name of a state or a list of state names the mutation can transition to`,
+      );
 
       if (this.type !== MUTATION_TYPE_CREATE) {
         passOrThrow(
           fromState,
-          () => `Mutation '${this.name}' has a toState defined but misses a fromState definition`
-        )
+          () =>
+            `Mutation '${
+              this.name
+            }' has a toState defined but misses a fromState definition`,
+        );
       }
 
-      this.toState = toState
+      this.toState = toState;
     }
   }
 
-
   toString() {
-    return this.name
+    return this.name;
   }
-
 }
 
+export default Mutation;
 
-export default Mutation
-
-
-export const isMutation = (obj) => {
-  return (obj instanceof Mutation)
-}
-
-
+export const isMutation = obj => {
+  return obj instanceof Mutation;
+};
 
 export const processEntityMutations = (entity, mutations) => {
-
   passOrThrow(
     isArray(mutations),
-    () => `Entity '${entity.name}' mutations definition needs to be an array of mutations`
-  )
+    () =>
+      `Entity '${
+        entity.name
+      }' mutations definition needs to be an array of mutations`,
+  );
 
   mutations.map((mutation, idx) => {
     passOrThrow(
       isMutation(mutation),
-      () => `Invalid mutation definition for entity '${entity.name}' at position '${idx}'`
-    )
+      () =>
+        `Invalid mutation definition for entity '${
+          entity.name
+        }' at position '${idx}'`,
+    );
+  });
 
-  })
+  const entityAttributes = entity.getAttributes();
+  const entityStates = entity.getStates();
 
-
-  const entityAttributes = entity.getAttributes()
-  const entityStates = entity.getStates()
-
-  const requiredAttributeNames = []
+  const requiredAttributeNames = [];
 
   mapOverProperties(entityAttributes, (attribute, attributeName) => {
     if (!attribute.isSystemAttribute) {
       if (attribute.required && !attribute.defaultValue) {
-        requiredAttributeNames.push(attributeName)
+        requiredAttributeNames.push(attributeName);
       }
     }
-  })
+  });
 
+  const mutationNames = [];
 
-  const mutationNames = []
-
-  mutations.map((mutation) => {
-
+  mutations.map(mutation => {
     passOrThrow(
       !mutationNames.includes(mutation.name),
-      () => `Duplicate mutation name '${mutation.name}' found in '${entity.name}'`
-    )
+      () =>
+        `Duplicate mutation name '${mutation.name}' found in '${entity.name}'`,
+    );
 
-    mutationNames.push(mutation.name)
-
+    mutationNames.push(mutation.name);
 
     if (mutation.attributes) {
-
       passOrThrow(
         isArray(mutation.attributes, true),
-        () => `Mutation '${entity.name}.${mutation.name}' needs to have a list of attributes`
-      )
+        () =>
+          `Mutation '${entity.name}.${
+            mutation.name
+          }' needs to have a list of attributes`,
+      );
 
       mutation.attributes.map(attribute => {
         passOrThrow(
           typeof attribute === 'string',
-          () => `Mutation '${entity.name}.${mutation.name}' needs to have a list of attribute names`
-        )
-      })
+          () =>
+            `Mutation '${entity.name}.${
+              mutation.name
+            }' needs to have a list of attribute names`,
+        );
+      });
 
       passOrThrow(
         mutation.attributes.length === _.uniq(mutation.attributes).length,
-        () => `Mutation '${entity.name}.${mutation.name}' needs to have a list of unique attribute names`
-      )
+        () =>
+          `Mutation '${entity.name}.${
+            mutation.name
+          }' needs to have a list of unique attribute names`,
+      );
 
-      mutation.attributes.map((attributeName) => {
+      mutation.attributes.map(attributeName => {
         passOrThrow(
-          entityAttributes[ attributeName ],
-          () => `Cannot use attribute '${entity.name}.${attributeName}' in mutation '${entity.name}.${mutation.name}' as it does not exist`
-        )
-      })
+          entityAttributes[attributeName],
+          () =>
+            `Cannot use attribute '${
+              entity.name
+            }.${attributeName}' in mutation '${entity.name}.${
+              mutation.name
+            }' as it does not exist`,
+        );
+      });
 
       if (mutation.type === MUTATION_TYPE_CREATE) {
-        const missingAttributeNames = requiredAttributeNames.filter(requiredAttributeName => {
-          return !mutation.attributes.includes(requiredAttributeName)
-        })
+        const missingAttributeNames = requiredAttributeNames.filter(
+          requiredAttributeName => {
+            return !mutation.attributes.includes(requiredAttributeName);
+          },
+        );
 
         passOrThrow(
           missingAttributeNames.length === 0,
-          () => `Missing required attributes in mutation '${entity.name}.${mutation.name}' need to have a defaultValue() function: [ ${missingAttributeNames.join(', ')} ]`
-        )
+          () =>
+            `Missing required attributes in mutation '${entity.name}.${
+              mutation.name
+            }' need to have a defaultValue() function: [ ${missingAttributeNames.join(
+              ', ',
+            )} ]`,
+        );
       }
     }
-    else if (mutation.type === MUTATION_TYPE_CREATE || mutation.type === MUTATION_TYPE_UPDATE) {
-      const nonSystemAttributeNames = []
+    else if (
+      mutation.type === MUTATION_TYPE_CREATE ||
+      mutation.type === MUTATION_TYPE_UPDATE
+    ) {
+      const nonSystemAttributeNames = [];
 
       mapOverProperties(entityAttributes, (attribute, attributeName) => {
         if (!attribute.isSystemAttribute) {
-          nonSystemAttributeNames.push(attributeName)
+          nonSystemAttributeNames.push(attributeName);
         }
-      })
+      });
 
-      mutation.attributes = nonSystemAttributeNames
+      mutation.attributes = nonSystemAttributeNames;
     }
 
-
-    const checkMutationStates = (stateStringOrArray) => {
-
+    const checkMutationStates = stateStringOrArray => {
       const stateNames = isArray(stateStringOrArray)
         ? stateStringOrArray
-        : [ stateStringOrArray ]
+        : [ stateStringOrArray ];
 
       stateNames.map(stateName => {
         passOrThrow(
-          entityStates[ stateName ],
-          () => `Unknown state '${stateName}' used in mutation '${entity.name}.${mutation.name}'`
-        )
-      })
-    }
-
+          entityStates[stateName],
+          () =>
+            `Unknown state '${stateName}' used in mutation '${entity.name}.${
+              mutation.name
+            }'`,
+        );
+      });
+    };
 
     if (mutation.fromState) {
       passOrThrow(
         entity.hasStates(),
-        () => `Mutation '${entity.name}.${mutation.name}' cannot define fromState as the entity is stateless`
-      )
+        () =>
+          `Mutation '${entity.name}.${
+            mutation.name
+          }' cannot define fromState as the entity is stateless`,
+      );
 
-      checkMutationStates(mutation.fromState)
+      checkMutationStates(mutation.fromState);
     }
-
 
     if (mutation.toState) {
       passOrThrow(
         entity.hasStates(),
-        () => `Mutation '${entity.name}.${mutation.name}' cannot define toState as the entity is stateless`
-      )
+        () =>
+          `Mutation '${entity.name}.${
+            mutation.name
+          }' cannot define toState as the entity is stateless`,
+      );
 
-      checkMutationStates(mutation.toState)
+      checkMutationStates(mutation.toState);
     }
-  })
+  });
 
-  return mutations
-}
+  return mutations;
+};

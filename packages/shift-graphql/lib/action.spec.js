@@ -1,4 +1,3 @@
-
 import {
   Action,
   DataTypeString,
@@ -8,19 +7,14 @@ import {
   ACTION_TYPE_MUTATION,
 } from 'shift-engine';
 
-import {
-  generateActions,
-} from './action';
+import { generateActions } from './action';
 
 import ProtocolGraphQL from './ProtocolGraphQL';
 import ProtocolGraphQLConfiguration from './ProtocolGraphQLConfiguration';
 
-
-ProtocolGraphQL.setProtocolConfiguration(new ProtocolGraphQLConfiguration())
-
+ProtocolGraphQL.setProtocolConfiguration(new ProtocolGraphQLConfiguration());
 
 describe('action', () => {
-
   const simpleAction = new Action({
     name: 'newSimpleAction',
     description: 'do something',
@@ -45,13 +39,13 @@ describe('action', () => {
         attributes: {
           luckyNumber: {
             type: DataTypeInteger,
-            description: 'The perfect lucky number for the given name'
-          }
-        }
-      })
+            description: 'The perfect lucky number for the given name',
+          },
+        },
+      }),
     },
-    resolve() { },
-  })
+    resolve() {},
+  });
 
   const noInputAction = new Action({
     name: 'noInputAction',
@@ -61,14 +55,13 @@ describe('action', () => {
         attributes: {
           luckyNumber: {
             type: DataTypeInteger,
-            description: 'The perfect lucky number for the given name'
-          }
-        }
-      })
+            description: 'The perfect lucky number for the given name',
+          },
+        },
+      }),
     },
-    resolve() { },
-  })
-
+    resolve() {},
+  });
 
   const noOutputAction = new Action({
     name: 'noOutputAction',
@@ -89,16 +82,15 @@ describe('action', () => {
         },
       }),
     },
-    resolve() { },
-  })
-
+    resolve() {},
+  });
 
   const player = buildObjectDataType({
     attributes: {
       number: {
         type: DataTypeInteger,
         description: 'Number on the shirt',
-        required: true
+        required: true,
       },
       firstName: {
         type: DataTypeString,
@@ -110,7 +102,7 @@ describe('action', () => {
         required: true,
       },
     },
-  })
+  });
 
   const returnedPlayer = buildObjectDataType({
     attributes: {
@@ -123,7 +115,7 @@ describe('action', () => {
         description: 'Assigned locker',
       },
     },
-  })
+  });
 
   const complexAction = new Action({
     name: 'buildTeam',
@@ -154,9 +146,9 @@ describe('action', () => {
               },
             }),
             description: 'List of player',
-          }
-        }
-      })
+          },
+        },
+      }),
     },
     output: {
       type: buildObjectDataType({
@@ -179,62 +171,58 @@ describe('action', () => {
               },
             }),
             description: 'List of player',
-          }
-        }
-      })
+          },
+        },
+      }),
     },
-    resolve() { },
-  })
-
+    resolve() {},
+  });
 
   const actions = [ simpleAction, noInputAction, noOutputAction, complexAction ];
 
   const graphRegistry = {
     types: {},
     actions: {},
-  }
+  };
 
   actions.map(action => {
-    graphRegistry.actions[ action.name ] = {
-      action
-    }
-  })
-
-
+    graphRegistry.actions[action.name] = {
+      action,
+    };
+  });
 
   it('should generate actions', () => {
-
-    const generatedActions = generateActions(graphRegistry, ACTION_TYPE_MUTATION)
+    const generatedActions = generateActions(
+      graphRegistry,
+      ACTION_TYPE_MUTATION,
+    );
     expect(generatedActions).toMatchSnapshot();
 
-    const actionNames = Object.keys(generatedActions)
-    expect(actionNames.length).toEqual(4)
+    const actionNames = Object.keys(generatedActions);
+    expect(actionNames.length).toEqual(4);
 
     actionNames.map(actionName => {
-      const action = generatedActions[ actionName ]
-      const outputType = action.type
+      const action = generatedActions[actionName];
+      const outputType = action.type;
 
-      const outputFields = outputType.getFields()
+      const outputFields = outputType.getFields();
       expect(outputFields).toMatchSnapshot();
 
       if (outputFields.result) {
-        const outputResultType = outputFields.result.type
-        const outputResultFields = outputResultType.getFields()
+        const outputResultType = outputFields.result.type;
+        const outputResultFields = outputResultType.getFields();
         expect(outputResultFields).toMatchSnapshot();
       }
 
-      const inputType = action.args.input.type.ofType || action.args.input.type
-      const inputFields = inputType.getFields()
+      const inputType = action.args.input.type.ofType || action.args.input.type;
+      const inputFields = inputType.getFields();
       expect(inputFields).toMatchSnapshot();
 
       if (inputFields.data) {
-        const inputDataType = inputFields.data.type.ofType
-        const inputDataFields = inputDataType.getFields()
+        const inputDataType = inputFields.data.type.ofType;
+        const inputDataFields = inputDataType.getFields();
         expect(inputDataFields).toMatchSnapshot();
       }
-
-    })
-
-  })
-
-})
+    });
+  });
+});

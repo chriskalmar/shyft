@@ -139,7 +139,7 @@ function generateItem(entity) {
 
   const item = {  }
 
-  _.forEach(model.fields, ({ type, required, dataGenerator }, name) => {
+  _.forEach(model.fields, ({ required, dataGenerator }, name) => {
 
     if (!required && Math.random() > 0.5) {
       item[ name ] = null

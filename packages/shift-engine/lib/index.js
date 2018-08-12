@@ -1,4 +1,3 @@
-
 import constants from './constants';
 import CustomError from './CustomError';
 import Entity, { isEntity } from './entity/Entity';
@@ -7,12 +6,13 @@ import StorageType from './storage/StorageType';
 import StorageDataType from './storage/StorageDataType';
 import ProtocolType from './protocol/ProtocolType';
 import Configuration, { isConfiguration } from './configuration/Configuration';
-import ProtocolConfiguration, { isProtocolConfiguration } from './protocol/ProtocolConfiguration';
-import StorageConfiguration, { isStorageConfiguration } from './storage/StorageConfiguration';
-import Index, {
-  INDEX_UNIQUE,
-  INDEX_GENERIC,
-} from './index/Index';
+import ProtocolConfiguration, {
+  isProtocolConfiguration,
+} from './protocol/ProtocolConfiguration';
+import StorageConfiguration, {
+  isStorageConfiguration,
+} from './storage/StorageConfiguration';
+import Index, { INDEX_UNIQUE, INDEX_GENERIC } from './index/Index';
 import Action, {
   isAction,
   ACTION_TYPE_MUTATION,
@@ -29,7 +29,6 @@ import Permission, {
   buildActionPermissionFilter,
 } from './permission/Permission';
 
-
 import {
   passOrThrow,
   resolveFunctionMap,
@@ -44,10 +43,7 @@ import {
   isDefined,
 } from './util';
 
-import {
-  processFilter,
-  convertFilterLevel,
-} from './filter';
+import { processFilter, convertFilterLevel } from './filter';
 
 import {
   fillSystemAttributesDefaultValues,
@@ -55,15 +51,9 @@ import {
   serializeValues,
 } from './helpers';
 
-import {
-  validateMutationPayload,
-  validateActionPayload,
-} from './validation';
+import { validateMutationPayload, validateActionPayload } from './validation';
 
-import DataType, {
-  isDataType,
-}
-from './datatype/DataType';
+import DataType, { isDataType } from './datatype/DataType';
 
 import {
   DataTypeUserID,
@@ -81,10 +71,9 @@ import {
   DataTypeI18n,
 } from './datatype/dataTypes';
 
-
 import DataTypeEnum, { isDataTypeEnum } from './datatype/DataTypeEnum';
 import ComplexDataType, { isComplexDataType } from './datatype/ComplexDataType';
-import DataTypeState, { isDataTypeState} from './datatype/DataTypeState';
+import DataTypeState, { isDataTypeState } from './datatype/DataTypeState';
 
 import ObjectDataType, {
   isObjectDataType,
@@ -102,26 +91,19 @@ import { User } from './models/User';
 const coreModels = {
   Language,
   User,
-}
-
+};
 
 export {
   constants,
   CustomError,
-
   Entity,
   isEntity,
-
   Schema,
-
   StorageType,
   StorageDataType,
-
   ProtocolType,
-
   DataType,
   isDataType,
-
   DataTypeUserID,
   DataTypeID,
   DataTypeInteger,
@@ -135,12 +117,10 @@ export {
   DataTypeDate,
   DataTypeUUID,
   DataTypeI18n,
-
   DataTypeState,
   isDataTypeState,
   DataTypeEnum,
   isDataTypeEnum,
-
   ObjectDataType,
   isObjectDataType,
   buildObjectDataType,
@@ -149,7 +129,6 @@ export {
   ListDataType,
   isListDataType,
   buildListDataType,
-
   passOrThrow,
   resolveFunctionMap,
   isMap,
@@ -161,46 +140,36 @@ export {
   processCursors,
   deleteUndefinedProps,
   isDefined,
-
   processFilter,
   convertFilterLevel,
-
   fillSystemAttributesDefaultValues,
   fillDefaultValues,
   serializeValues,
-
   validateMutationPayload,
   validateActionPayload,
-
   coreModels,
-
   Index,
   INDEX_UNIQUE,
   INDEX_GENERIC,
-
   Action,
   isAction,
   ACTION_TYPE_MUTATION,
   ACTION_TYPE_QUERY,
-
   Mutation,
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
-
   Permission,
   checkPermissionSimple,
   buildPermissionFilter,
   buildActionPermissionFilter,
-
   Configuration,
   isConfiguration,
   ProtocolConfiguration,
   isProtocolConfiguration,
   StorageConfiguration,
   isStorageConfiguration,
-}
-
+};
 
 export default {
   constants,
@@ -297,5 +266,4 @@ export default {
   isProtocolConfiguration,
   StorageConfiguration,
   isStorageConfiguration,
-}
-
+};

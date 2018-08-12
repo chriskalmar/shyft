@@ -1,83 +1,76 @@
-
-import {
-  GraphQLEnumType,
-  GraphQLList,
-} from 'graphql';
+import { GraphQLEnumType, GraphQLList } from 'graphql';
 
 import _ from 'lodash';
 
 import { isEntity } from 'shift-engine';
 import ProtocolGraphQL from './ProtocolGraphQL';
 
+export const generateSortInput = entity => {
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const storageType = entity.storageType;
 
-export const generateSortInput = (entity) => {
+  const sortNames = {};
+  let defaultSortValue;
 
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
-  const storageType = entity.storageType
-
-  const sortNames = {}
-  let defaultSortValue
-
-  _.forEach(entity.getAttributes(), (attribute) => {
-
-    if (isEntity(attribute.type) || attribute.hidden || attribute.mutationInput) {
-      return
+  _.forEach(entity.getAttributes(), attribute => {
+    if (
+      isEntity(attribute.type) ||
+      attribute.hidden ||
+      attribute.mutationInput
+    ) {
+      return;
     }
 
-    const storageDataType = storageType.convertToStorageDataType(attribute.type)
+    const storageDataType = storageType.convertToStorageDataType(
+      attribute.type,
+    );
 
     if (!storageDataType.isSortable) {
-      return
+      return;
     }
 
-
-    const keyAsc = protocolConfiguration.generateSortKeyName(attribute, true)
-    const keyDesc = protocolConfiguration.generateSortKeyName(attribute, false)
+    const keyAsc = protocolConfiguration.generateSortKeyName(attribute, true);
+    const keyDesc = protocolConfiguration.generateSortKeyName(attribute, false);
 
     // add ascending key
-    sortNames[ keyAsc ] = {
+    sortNames[keyAsc] = {
       description: `Order by **\`${attribute.gqlFieldName}\`** ascending`,
       value: {
         attribute: attribute.name,
         direction: 'ASC',
-      }
-    }
-
+      },
+    };
 
     if (attribute.isPrimary) {
-      defaultSortValue = sortNames[ keyAsc ].value
+      defaultSortValue = sortNames[keyAsc].value;
     }
 
-
     // add descending key
-    sortNames[ keyDesc ] = {
+    sortNames[keyDesc] = {
       description: `Order by **\`${attribute.gqlFieldName}\`** descending`,
       value: {
         attribute: attribute.name,
         direction: 'DESC',
-      }
-    }
-  })
-
+      },
+    };
+  });
 
   if (_.isEmpty(sortNames)) {
-    return null
+    return null;
   }
-
 
   const sortInputType = new GraphQLEnumType({
     name: protocolConfiguration.generateSortInputTypeName(entity),
-    values: sortNames
+    values: sortNames,
   });
 
-
   if (!defaultSortValue) {
-    defaultSortValue = sortInputType.getValues()[0].value
+    defaultSortValue = sortInputType.getValues()[0].value;
   }
 
   return {
     type: new GraphQLList(sortInputType),
     description: 'Order list by a single or multiple attributes',
     defaultValue: [ defaultSortValue ],
-  }
-}
+  };
+};

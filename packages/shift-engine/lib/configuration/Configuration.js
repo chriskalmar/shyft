@@ -1,168 +1,142 @@
+import { passOrThrow, isMap } from '../util';
 
-import {
-  passOrThrow,
-  isMap,
-} from '../util';
+import { isSchema } from '../schema/Schema';
 
-import {
-  isSchema,
-} from '../schema/Schema';
+import { languageIsoCodeRegex, LANGUAGE_ISO_CODE_PATTERN } from '../constants';
 
-import {
-  languageIsoCodeRegex,
-  LANGUAGE_ISO_CODE_PATTERN,
-} from '../constants';
-
-import {
-  isProtocolConfiguration,
-} from '../protocol/ProtocolConfiguration';
-import {
-  isStorageConfiguration,
-} from '../storage/StorageConfiguration';
+import { isProtocolConfiguration } from '../protocol/ProtocolConfiguration';
+import { isStorageConfiguration } from '../storage/StorageConfiguration';
 
 import _ from 'lodash';
 
-
 class Configuration {
-
   constructor(setup = {}) {
-
     const {
       languages,
       schema,
       protocolConfiguration,
       storageConfiguration,
-    } = setup
+    } = setup;
 
-    this.setLanguages(languages || { default: 1 })
+    this.setLanguages(languages || { default: 1 });
 
     if (schema) {
-      this.setSchema(schema)
+      this.setSchema(schema);
     }
 
     if (protocolConfiguration) {
-      this.setProtocolConfiguration(protocolConfiguration)
+      this.setProtocolConfiguration(protocolConfiguration);
     }
 
     if (storageConfiguration) {
-      this.setStorageConfiguration(storageConfiguration)
+      this.setStorageConfiguration(storageConfiguration);
     }
   }
 
-
-  setLanguages (languages) {
-
+  setLanguages(languages) {
     passOrThrow(
       isMap(languages, true),
-      () => 'Configuration.setLanguages() expects a mapping of language codes and IDs'
-    )
+      () =>
+        'Configuration.setLanguages() expects a mapping of language codes and IDs',
+    );
 
     passOrThrow(
       languages.default,
-      () => 'Configuration.setLanguages() expects `default` language to be defined'
-    )
+      () =>
+        'Configuration.setLanguages() expects `default` language to be defined',
+    );
 
-    const languageCodes = Object.keys(languages)
-    const uniqueIds = []
+    const languageCodes = Object.keys(languages);
+    const uniqueIds = [];
 
     languageCodes.map(languageCode => {
       passOrThrow(
         languageIsoCodeRegex.test(languageCode),
-        () => `Invalid language iso code '${languageCode}' provided (Regex: /${LANGUAGE_ISO_CODE_PATTERN}/)`
-      )
+        () =>
+          `Invalid language iso code '${languageCode}' provided (Regex: /${LANGUAGE_ISO_CODE_PATTERN}/)`,
+      );
 
-      const languageId = languages[ languageCode ]
-      uniqueIds.push(languageId)
+      const languageId = languages[languageCode];
+      uniqueIds.push(languageId);
 
       passOrThrow(
         languageId === parseInt(languageId, 10) && languageId > 0,
-        () => `Language code '${languageCode}' has an invalid unique ID (needs to be a positive integer)`
-      )
-    })
+        () =>
+          `Language code '${languageCode}' has an invalid unique ID (needs to be a positive integer)`,
+      );
+    });
 
     passOrThrow(
       uniqueIds.length === _.uniq(uniqueIds).length,
-      () => 'Each defined language code needs to have a unique ID'
-    )
+      () => 'Each defined language code needs to have a unique ID',
+    );
 
-    this.languages = languages
+    this.languages = languages;
   }
 
   getLanguages() {
-    return this.languages
+    return this.languages;
   }
 
   getLanguageCodes() {
-    return Object.keys(this.languages)
+    return Object.keys(this.languages);
   }
 
+  setSchema(schema) {
+    passOrThrow(isSchema(schema), () => 'Configuration expects a valid schema');
 
-  setSchema (schema) {
-    passOrThrow(
-      isSchema(schema),
-      () => 'Configuration expects a valid schema'
-    )
-
-    this.schema = schema
+    this.schema = schema;
   }
 
-  getSchema () {
-    passOrThrow(
-      this.schema,
-      () => 'Configuration is missing a valid schema'
-    )
+  getSchema() {
+    passOrThrow(this.schema, () => 'Configuration is missing a valid schema');
 
-    return this.schema
+    return this.schema;
   }
 
-
-  setProtocolConfiguration (protocolConfiguration) {
+  setProtocolConfiguration(protocolConfiguration) {
     passOrThrow(
       isProtocolConfiguration(protocolConfiguration),
-      () => 'Configuration expects a valid protocolConfiguration'
-    )
+      () => 'Configuration expects a valid protocolConfiguration',
+    );
 
-    this.protocolConfiguration = protocolConfiguration
+    this.protocolConfiguration = protocolConfiguration;
 
-    protocolConfiguration.getParentConfiguration = () => this
+    protocolConfiguration.getParentConfiguration = () => this;
   }
 
-  getProtocolConfiguration () {
+  getProtocolConfiguration() {
     passOrThrow(
       this.protocolConfiguration,
-      () => 'Configuration is missing a valid protocolConfiguration'
-    )
+      () => 'Configuration is missing a valid protocolConfiguration',
+    );
 
-    return this.protocolConfiguration
+    return this.protocolConfiguration;
   }
-
 
   setStorageConfiguration(storageConfiguration) {
     passOrThrow(
       isStorageConfiguration(storageConfiguration),
-      () => 'Configuration expects a valid storageConfiguration'
-    )
+      () => 'Configuration expects a valid storageConfiguration',
+    );
 
-    this.storageConfiguration = storageConfiguration
+    this.storageConfiguration = storageConfiguration;
 
-    storageConfiguration.getParentConfiguration = () => this
+    storageConfiguration.getParentConfiguration = () => this;
   }
 
   getStorageConfiguration() {
     passOrThrow(
       this.storageConfiguration,
-      () => 'Configuration is missing a valid storageConfiguration'
-    )
+      () => 'Configuration is missing a valid storageConfiguration',
+    );
 
-    return this.storageConfiguration
+    return this.storageConfiguration;
   }
 }
 
+export default Configuration;
 
-export default Configuration
-
-
-export const isConfiguration = (obj) => {
-  return (obj instanceof Configuration)
-}
-
+export const isConfiguration = obj => {
+  return obj instanceof Configuration;
+};

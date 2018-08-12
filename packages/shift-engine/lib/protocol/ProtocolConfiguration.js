@@ -1,53 +1,41 @@
-
-import {
-  passOrThrow,
-  isString,
-  isArray,
-} from '../util';
-
+import { passOrThrow, isString, isArray } from '../util';
 
 class ProtocolConfiguration {
-
   constructor(setup = {}) {
-    this.features = []
+    this.features = [];
 
-    const {
-      features,
-    } = setup
+    const { features } = setup;
 
     if (features) {
-      this.enableFeatures(features)
+      this.enableFeatures(features);
     }
   }
 
-
-  enableFeature(feature, enable=true) {
+  enableFeature(feature, enable = true) {
     passOrThrow(
       isString(feature),
-      () => 'enableFeature() expects a feature name'
-    )
+      () => 'enableFeature() expects a feature name',
+    );
 
-    this.features[feature] = !!enable
+    this.features[feature] = !!enable;
   }
 
-  enableFeatures(features, enable=true) {
+  enableFeatures(features, enable = true) {
     passOrThrow(
       isArray(features),
-      () => 'enableFeatures() expects an array of feature names'
-    )
+      () => 'enableFeatures() expects an array of feature names',
+    );
 
-    features.map(feature => this.enableFeature(feature, enable))
+    features.map(feature => this.enableFeature(feature, enable));
   }
-
 
   getEnabledFeatures() {
-    return this.features
+    return this.features;
   }
-
 }
 
-export default ProtocolConfiguration
+export default ProtocolConfiguration;
 
-export const isProtocolConfiguration = (obj) => {
-  return (obj instanceof ProtocolConfiguration)
-}
+export const isProtocolConfiguration = obj => {
+  return obj instanceof ProtocolConfiguration;
+};

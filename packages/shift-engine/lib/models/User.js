@@ -1,10 +1,8 @@
-
 import Entity from '../entity/Entity';
 import { DataTypeString } from '../datatype/dataTypes';
 import Index, { INDEX_UNIQUE } from '../index/Index';
 
 import { Language } from './Language';
-
 
 export const User = new Entity({
   name: 'User',
@@ -24,13 +22,11 @@ export const User = new Entity({
     }),
   ],
 
-
   attributes: {
-
     username: {
       type: DataTypeString,
       description: 'Username',
-      required: true
+      required: true,
     },
 
     firstName: {
@@ -46,23 +42,19 @@ export const User = new Entity({
     language: {
       type: Language,
       description: 'User language',
-      required: true
+      required: true,
     },
 
     email: {
       type: DataTypeString,
       description: 'Email address',
-      required: true
+      required: true,
     },
 
     password: {
       type: DataTypeString,
       description: 'User password',
-      required: true
-    }
-  }
-
-})
-
-
-
+      required: true,
+    },
+  },
+});

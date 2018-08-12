@@ -1,18 +1,11 @@
-
-import generator, {
-  getTypeForEntityFromGraphRegistry,
-} from './generator';
+import generator, { getTypeForEntityFromGraphRegistry } from './generator';
 import dataTypes from './dataTypes';
 import ProtocolGraphQL from './ProtocolGraphQL';
 import constants from './constants';
 import ProtocolGraphQLConfiguration, {
   isProtocolGraphQLConfiguration,
 } from './ProtocolGraphQLConfiguration';
-import {
-  fromBase64,
-  toBase64,
-} from './util';
-
+import { fromBase64, toBase64 } from './util';
 
 export {
   generator,
@@ -22,12 +15,9 @@ export {
   constants,
   ProtocolGraphQLConfiguration,
   isProtocolGraphQLConfiguration,
-
   fromBase64,
   toBase64,
-
-}
-
+};
 
 export default {
   generator,
@@ -40,5 +30,4 @@ export default {
 
   fromBase64,
   toBase64,
-}
-
+};

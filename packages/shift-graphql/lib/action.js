@@ -1,7 +1,4 @@
-
-import {
-  GraphQLNonNull,
-} from 'graphql';
+import { GraphQLNonNull } from 'graphql';
 
 import _ from 'lodash';
 
@@ -23,180 +20,204 @@ import {
 
 import ProtocolGraphQL from './ProtocolGraphQL';
 
-
-const AccessDeniedError = new CustomError('Access denied', 'PermissionError', 403)
+const AccessDeniedError = new CustomError(
+  'Access denied',
+  'PermissionError',
+  403,
+);
 
 const fillSingleDefaultValues = async (param, payload, context) => {
-
-  let ret = payload
+  let ret = payload;
 
   if (typeof payload === 'undefined') {
     if (param.required && param.defaultValue) {
-      ret = param.defaultValue({}, context)
+      ret = param.defaultValue({}, context);
     }
   }
 
   if (isObjectDataType(param.type)) {
-    const attributes = param.type.getAttributes()
-    ret = fillNestedDefaultValues(attributes, ret, context) // eslint-disable-line no-use-before-define
+    const attributes = param.type.getAttributes();
+    ret = fillNestedDefaultValues(attributes, ret, context); // eslint-disable-line no-use-before-define
   }
 
   if (isListDataType(param.type) && payload) {
-    const paramType = param.type.getItemType()
+    const paramType = param.type.getItemType();
 
-    ret = await Promise.all(payload.map(async itemPayload => {
+    ret = await Promise.all(
+      payload.map(async itemPayload => {
+        if (isObjectDataType(paramType)) {
+          const attributes = paramType.getAttributes();
+          return fillNestedDefaultValues(attributes, itemPayload, context); // eslint-disable-line no-use-before-define
+        }
 
-      if (isObjectDataType(paramType)) {
-        const attributes = paramType.getAttributes()
-        return fillNestedDefaultValues(attributes, itemPayload, context) // eslint-disable-line no-use-before-define
-      }
-
-      return await fillSingleDefaultValues(paramType, itemPayload, context)
-    }))
+        return await fillSingleDefaultValues(paramType, itemPayload, context);
+      }),
+    );
   }
 
-  return ret
-}
-
+  return ret;
+};
 
 const fillNestedDefaultValues = async (params, payload, context) => {
-
   const ret = {
-    ...payload
-  }
+    ...payload,
+  };
 
-  const paramNames = Object.keys(params)
-  await Promise.all(paramNames.map(async (paramName) => {
-    const param = params[paramName]
-    ret[paramName] = await fillSingleDefaultValues(param, ret[paramName], context)
-  }))
+  const paramNames = Object.keys(params);
+  await Promise.all(
+    paramNames.map(async paramName => {
+      const param = params[paramName];
+      ret[paramName] = await fillSingleDefaultValues(
+        param,
+        ret[paramName],
+        context,
+      );
+    }),
+  );
 
-  return ret
-}
+  return ret;
+};
 
-
-const fillDefaultValues = async (param, payload, context) => fillSingleDefaultValues(param, payload, context)
-
-
+const fillDefaultValues = async (param, payload, context) =>
+  fillSingleDefaultValues(param, payload, context);
 
 export const handlePermission = async (context, action, input) => {
-
-  const permission = action.getPermissions()
+  const permission = action.getPermissions();
 
   if (!permission) {
-    return null
+    return null;
   }
 
-  const {
-    userId,
-    userRoles,
-  } = context
+  const { userId, userRoles } = context;
 
   const {
     where: permissionWhere,
     lookupPermissionEntity,
-  } = await buildActionPermissionFilter(permission, userId, userRoles, action, input)
+  } = await buildActionPermissionFilter(
+    permission,
+    userId,
+    userRoles,
+    action,
+    input,
+  );
 
   if (!permissionWhere) {
-    throw AccessDeniedError
+    throw AccessDeniedError;
   }
 
   // only if non-empty where clause
   if (Object.keys(permissionWhere).length > 0) {
-    const storageType = lookupPermissionEntity.getStorageType()
-    const found = await storageType.checkLookupPermission(lookupPermissionEntity, permissionWhere, context)
+    const storageType = lookupPermissionEntity.getStorageType();
+    const found = await storageType.checkLookupPermission(
+      lookupPermissionEntity,
+      permissionWhere,
+      context,
+    );
 
     if (!found) {
-      throw AccessDeniedError
+      throw AccessDeniedError;
     }
   }
 
-  return permissionWhere
-}
-
+  return permissionWhere;
+};
 
 export const generateActions = (graphRegistry, actionTypeFilter) => {
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
 
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
+  const actions = {};
 
-  const actions = {}
-
-  _.forEach(graphRegistry.actions, ( { action }, actionName) => {
-
+  _.forEach(graphRegistry.actions, ({ action }, actionName) => {
     if (action.type !== actionTypeFilter) {
-      return
+      return;
     }
 
-    const queryName = protocolConfiguration.generateActionTypeName(action)
-    const isMutation = (action.type === ACTION_TYPE_MUTATION)
+    const queryName = protocolConfiguration.generateActionTypeName(action);
+    const isMutation = action.type === ACTION_TYPE_MUTATION;
 
-    let actionDataInputType
-    let actionDataOutputType
-    let actionInputType
-    let inputArgs
+    let actionDataInputType;
+    let actionDataOutputType;
+    let actionInputType;
+    let inputArgs;
 
     if (action.hasInput()) {
-      actionDataInputType = generateDataInput(actionName, action.getInput(), true)
+      actionDataInputType = generateDataInput(
+        actionName,
+        action.getInput(),
+        true,
+      );
     }
 
     if (action.hasInput() || isMutation) {
-      actionInputType = generateInput(actionName, actionDataInputType, true, isMutation)
+      actionInputType = generateInput(
+        actionName,
+        actionDataInputType,
+        true,
+        isMutation,
+      );
 
       inputArgs = {
         input: {
           description: 'Input argument for this action',
           type: action.hasInput()
             ? new GraphQLNonNull(actionInputType)
-            : actionInputType
+            : actionInputType,
         },
-      }
+      };
     }
 
     if (action.hasOutput()) {
-      actionDataOutputType = generateDataOutput(actionName, action.getOutput(), graphRegistry, true)
+      actionDataOutputType = generateDataOutput(
+        actionName,
+        action.getOutput(),
+        graphRegistry,
+        true,
+      );
     }
 
-    const actionOutputType = generateOutput(actionName, actionDataOutputType, true, isMutation)
+    const actionOutputType = generateOutput(
+      actionName,
+      actionDataOutputType,
+      true,
+      isMutation,
+    );
 
-    actions[ queryName ] = {
+    actions[queryName] = {
       type: actionOutputType,
-      description: `${action.description}\n${action.descriptionPermissions || ''}`,
+      description: `${action.description}\n${action.descriptionPermissions ||
+        ''}`,
 
       args: inputArgs,
 
       resolve: async (source, args, context, info) => {
-        let payload
-        let clientMutationId
+        let payload;
+        let clientMutationId;
 
         if (action.hasInput()) {
-          const input = action.getInput()
-          payload = args.input.data
-          clientMutationId = args.input.clientMutationId
+          const input = action.getInput();
+          payload = args.input.data;
+          clientMutationId = args.input.clientMutationId;
 
-          args.input.data = await fillDefaultValues(input, payload, context)
-          validateActionPayload(input, payload, action, context)
+          args.input.data = await fillDefaultValues(input, payload, context);
+          validateActionPayload(input, payload, action, context);
         }
 
         if (isMutation) {
           clientMutationId = args.input
             ? args.input.clientMutationId
-            : undefined
+            : undefined;
         }
 
-        await handlePermission(context, action, payload)
+        await handlePermission(context, action, payload);
 
-        const result = await action.resolve(source, payload, context, info)
+        const result = await action.resolve(source, payload, context, info);
         return {
           result,
           clientMutationId,
-        }
-      }
-    }
+        };
+      },
+    };
+  });
 
-
-  })
-
-
-  return actions
-}
-
+  return actions;
+};

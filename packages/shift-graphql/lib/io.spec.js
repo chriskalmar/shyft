@@ -1,4 +1,3 @@
-
 import {
   Action,
   DataTypeString,
@@ -19,11 +18,9 @@ import {
 import ProtocolGraphQL from './ProtocolGraphQL';
 import ProtocolGraphQLConfiguration from './ProtocolGraphQLConfiguration';
 
-
-ProtocolGraphQL.setProtocolConfiguration(new ProtocolGraphQLConfiguration())
+ProtocolGraphQL.setProtocolConfiguration(new ProtocolGraphQLConfiguration());
 
 describe('io', () => {
-
   const simpleAction = new Action({
     name: 'newSimpleAction',
     description: 'do something',
@@ -47,20 +44,20 @@ describe('io', () => {
         attributes: {
           luckyNumber: {
             type: DataTypeInteger,
-            description: 'The perfect lucky number for the given name'
-          }
-        }
-      })
+            description: 'The perfect lucky number for the given name',
+          },
+        },
+      }),
     },
-    resolve() { },
-  })
+    resolve() {},
+  });
 
   const playerDef = buildObjectDataType({
     attributes: {
       number: {
         type: DataTypeInteger,
         description: 'Number on the shirt',
-        required: true
+        required: true,
       },
       firstName: {
         type: DataTypeString,
@@ -75,68 +72,76 @@ describe('io', () => {
   })({
     name: 'player',
     description: 'some description',
-  })
-
+  });
 
   it('should generate a nested data input type', () => {
-
-    const type = generateNestedDataInput('AddTeamMember', playerDef, 'player')
+    const type = generateNestedDataInput('AddTeamMember', playerDef, 'player');
     expect(type.name).toEqual('AddTeamMemberPlayerDataInput');
 
-    const fields = type.getFields()
+    const fields = type.getFields();
     expect(fields).toMatchSnapshot();
-  })
-
+  });
 
   it('should generate an input type', () => {
-
-    const inputDataInputType = generateDataInput(simpleAction.name, simpleAction.getInput(), true)
-    const type = generateInput(simpleAction.name, inputDataInputType, true, true)
+    const inputDataInputType = generateDataInput(
+      simpleAction.name,
+      simpleAction.getInput(),
+      true,
+    );
+    const type = generateInput(
+      simpleAction.name,
+      inputDataInputType,
+      true,
+      true,
+    );
     expect(type.name).toEqual('NewSimpleActionInput');
 
-    const inputFields = type.getFields()
+    const inputFields = type.getFields();
     expect(inputFields).toMatchSnapshot();
 
-    const dataInputType = inputFields.data.type
-    const dataInputFields = dataInputType.getFields()
+    const dataInputType = inputFields.data.type;
+    const dataInputFields = dataInputType.getFields();
     expect(dataInputFields).toMatchSnapshot();
-  })
-
+  });
 
   it('should generate a nested data output type', () => {
-
-    const type = generateNestedDataOutput('AddTeamMember', playerDef, 'player')
+    const type = generateNestedDataOutput('AddTeamMember', playerDef, 'player');
     expect(type.name).toEqual('AddTeamMemberPlayerDataOutput');
 
-    const fields = type.getFields()
+    const fields = type.getFields();
     expect(fields).toMatchSnapshot();
-  })
-
+  });
 
   it('should generate an output type', () => {
-
-    const outputDataOutputType = generateDataOutput(simpleAction.name, simpleAction.getOutput(), null, true)
-    const type = generateOutput(simpleAction.name, outputDataOutputType, true, true)
+    const outputDataOutputType = generateDataOutput(
+      simpleAction.name,
+      simpleAction.getOutput(),
+      null,
+      true,
+    );
+    const type = generateOutput(
+      simpleAction.name,
+      outputDataOutputType,
+      true,
+      true,
+    );
     expect(type.name).toEqual('NewSimpleActionOutput');
 
-    const outputFields = type.getFields()
+    const outputFields = type.getFields();
     expect(outputFields).toMatchSnapshot();
 
-    const resultOutputType = outputFields.result.type
-    const resultOutputFields = resultOutputType.getFields()
+    const resultOutputType = outputFields.result.type;
+    const resultOutputFields = resultOutputType.getFields();
     expect(resultOutputFields).toMatchSnapshot();
-  })
-
-
+  });
 
   it('should handle nested input and output definitions', () => {
-
     const player = buildObjectDataType({
       attributes: {
         number: {
           type: DataTypeInteger,
           description: 'Number on the shirt',
-          required: true
+          required: true,
         },
         firstName: {
           type: DataTypeString,
@@ -148,7 +153,7 @@ describe('io', () => {
           required: true,
         },
       },
-    })
+    });
 
     const returnedPlayer = buildObjectDataType({
       attributes: {
@@ -161,7 +166,7 @@ describe('io', () => {
           description: 'Assigned locker',
         },
       },
-    })
+    });
 
     const complexAction = new Action({
       name: 'buildTeam',
@@ -191,9 +196,9 @@ describe('io', () => {
                 },
               }),
               description: 'List of player',
-            }
-          }
-        })
+            },
+          },
+        }),
       },
       output: {
         type: buildObjectDataType({
@@ -216,29 +221,36 @@ describe('io', () => {
                 },
               }),
               description: 'List of player',
-            }
-          }
-        })
+            },
+          },
+        }),
       },
-      resolve() { },
-    })
+      resolve() {},
+    });
 
-
-    const inputDataInputType = generateDataInput(complexAction.name, complexAction.getInput(), true)
-    const type = generateInput(complexAction.name, inputDataInputType, true, true)
+    const inputDataInputType = generateDataInput(
+      complexAction.name,
+      complexAction.getInput(),
+      true,
+    );
+    const type = generateInput(
+      complexAction.name,
+      inputDataInputType,
+      true,
+      true,
+    );
     expect(type.name).toEqual('BuildTeamInput');
 
-    const inputFields = type.getFields()
+    const inputFields = type.getFields();
     expect(inputFields).toMatchSnapshot();
 
-    const dataInputType = inputFields.data.type
-    const dataInputFields = dataInputType.getFields()
+    const dataInputType = inputFields.data.type;
+    const dataInputFields = dataInputType.getFields();
     expect(dataInputFields).toMatchSnapshot();
 
-    const playersInputType = dataInputFields.players.type
-    const playersInputFields = playersInputType.getFields()
+    const playersInputType = dataInputFields.players.type;
+    const playersInputFields = playersInputType.getFields();
     expect(playersInputFields).toMatchSnapshot();
-
 
     // const offenseInputType = playersInputFields.offense.type.ofType
     // const defenceInputType = playersInputFields.defence.type.ofType
@@ -246,7 +258,6 @@ describe('io', () => {
     // const defenceInputFields = defenceInputType.getFields()
     // expect(offenseInputFields).toMatchSnapshot();
     // expect(defenceInputFields).toMatchSnapshot();
-
 
     // const outputType = generateDataOutput(complexAction.name, complexAction.getOutput(), null, true)
     // expect(outputType.name).toEqual('BuildTeamDataOutput');
@@ -258,14 +269,11 @@ describe('io', () => {
     // const playersOutputFields = playersOutputType.getFields()
     // expect(playersOutputFields).toMatchSnapshot();
 
-
     // const offenseOutputType = playersOutputFields.offense.type.ofType
     // const defenceOutputType = playersOutputFields.defence.type.ofType
     // const offenseOutputFields = offenseOutputType.getFields()
     // const defenceOutputFields = defenceOutputType.getFields()
     // expect(offenseOutputFields).toMatchSnapshot();
     // expect(defenceOutputFields).toMatchSnapshot();
-
-  })
-
-})
+  });
+});

@@ -1,9 +1,4 @@
-
-import {
-  passOrThrow,
-  isMap,
-  isFunction,
-} from '../util';
+import { passOrThrow, isMap, isFunction } from '../util';
 
 import {
   generatePermissionDescription,
@@ -12,15 +7,10 @@ import {
 
 export const ACTION_TYPE_MUTATION = 'mutation';
 export const ACTION_TYPE_QUERY = 'query';
-export const actionTypes = [
-  ACTION_TYPE_MUTATION,
-  ACTION_TYPE_QUERY,
-]
+export const actionTypes = [ ACTION_TYPE_MUTATION, ACTION_TYPE_QUERY ];
 
 class Action {
-
-  constructor (setup = {}) {
-
+  constructor(setup = {}) {
     const {
       name,
       description,
@@ -29,174 +19,171 @@ class Action {
       resolve,
       type,
       permissions,
-    } = setup
+    } = setup;
 
-    passOrThrow(name, () => 'Missing action name')
-    passOrThrow(description, () => `Missing description for action '${name}'`)
+    passOrThrow(name, () => 'Missing action name');
+    passOrThrow(description, () => `Missing description for action '${name}'`);
 
     passOrThrow(
       !input || isMap(input) || isFunction(input),
-      () => `Action '${name}' has an invalid input definition`
-    )
+      () => `Action '${name}' has an invalid input definition`,
+    );
 
     passOrThrow(
       !output || isMap(output) || isFunction(output),
-      () => `Action '${name}' has an invalid output definition`
-    )
+      () => `Action '${name}' has an invalid output definition`,
+    );
 
     passOrThrow(
       isFunction(resolve),
-      () => `Action '${name}' needs a resolve function`
-    )
+      () => `Action '${name}' needs a resolve function`,
+    );
 
     passOrThrow(
       !type || actionTypes.indexOf(type) >= 0,
-      () => `Unknown action type '${type}' used in action '${name}', try one of these: '${actionTypes.join(', ')}'`
-    )
+      () =>
+        `Unknown action type '${type}' used in action '${name}', try one of these: '${actionTypes.join(
+          ', ',
+        )}'`,
+    );
 
-    this.name = name
-    this.description = description
-    this.input = input
-    this.output = output
-    this.resolve = resolve
-    this.type = type || ACTION_TYPE_MUTATION
-    this._permissions = permissions
+    this.name = name;
+    this.description = description;
+    this.input = input;
+    this.output = output;
+    this.resolve = resolve;
+    this.type = type || ACTION_TYPE_MUTATION;
+    this._permissions = permissions;
   }
 
-
-
-  getInput () {
+  getInput() {
     if (!this.hasInput()) {
-      return null
+      return null;
     }
 
     if (this._input) {
-      return this._input
+      return this._input;
     }
 
     if (isFunction(this.input)) {
-      this.input = this.input()
+      this.input = this.input();
 
       passOrThrow(
         isMap(this.input),
-        () => `Input definition function for action '${this.name}' does not return a map`
-      )
+        () =>
+          `Input definition function for action '${
+            this.name
+          }' does not return a map`,
+      );
     }
 
     passOrThrow(
       this.input.type,
-      () => `Missing input type for action '${this.name}'`
-    )
+      () => `Missing input type for action '${this.name}'`,
+    );
 
     if (isFunction(this.input.type)) {
       this.input.type = this.input.type({
         name: 'input',
         description: this.input.description || this.description,
-      })
+      });
     }
 
-    this._input = this.input
+    this._input = this.input;
 
-    return this._input
+    return this._input;
   }
 
-
-  hasInput () {
-    return !!this.input
+  hasInput() {
+    return !!this.input;
   }
 
-
-  getOutput () {
+  getOutput() {
     if (!this.hasOutput()) {
-      return null
+      return null;
     }
 
     if (this._output) {
-      return this._output
+      return this._output;
     }
 
     if (isFunction(this.output)) {
-      this.output = this.output()
+      this.output = this.output();
 
       passOrThrow(
         isMap(this.output),
-        () => `Output definition function for action '${this.name}' does not return a map`
-      )
+        () =>
+          `Output definition function for action '${
+            this.name
+          }' does not return a map`,
+      );
     }
 
     passOrThrow(
       this.output.type,
-      () => `Missing output type for action '${this.name}'`
-    )
+      () => `Missing output type for action '${this.name}'`,
+    );
 
     if (isFunction(this.output.type)) {
       this.output.type = this.output.type({
         name: 'output',
         description: this.output.description || this.description,
-      })
+      });
     }
 
-    this._output = this.output
+    this._output = this.output;
 
-    return this._output
+    return this._output;
   }
 
-
-  hasOutput () {
-    return !!this.output
+  hasOutput() {
+    return !!this.output;
   }
-
 
   _processPermissions() {
     if (this._permissions) {
       const permissions = isFunction(this._permissions)
         ? this._permissions()
-        : this._permissions
+        : this._permissions;
 
-      return processActionPermissions(this, permissions)
+      return processActionPermissions(this, permissions);
     }
     else if (this._defaultPermissions) {
-      return processActionPermissions(this, this._defaultPermissions)
+      return processActionPermissions(this, this._defaultPermissions);
     }
 
-    return null
+    return null;
   }
-
 
   _generatePermissionDescriptions() {
     if (this.permissions) {
-      this.descriptionPermissions = generatePermissionDescription(this.permissions)
+      this.descriptionPermissions = generatePermissionDescription(
+        this.permissions,
+      );
     }
   }
-
 
   _injectDefaultPermissionsBySchema(defaultPermissions) {
-    this._defaultPermissions = defaultPermissions
+    this._defaultPermissions = defaultPermissions;
   }
-
 
   getPermissions() {
-
     if ((!this._permissions && !this._defaultPermissions) || this.permissions) {
-      return this.permissions
+      return this.permissions;
     }
 
-    this.permissions = this._processPermissions()
-    this._generatePermissionDescriptions()
-    return this.permissions
+    this.permissions = this._processPermissions();
+    this._generatePermissionDescriptions();
+    return this.permissions;
   }
-
 
   toString() {
-    return this.name
+    return this.name;
   }
-
 }
 
+export default Action;
 
-export default Action
-
-
-export const isAction = (obj) => {
-  return (obj instanceof Action)
-}
+export const isAction = obj => {
+  return obj instanceof Action;
+};

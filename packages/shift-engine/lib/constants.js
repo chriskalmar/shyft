@@ -1,4 +1,3 @@
-
 export const ATTRIBUTE_NAME_PATTERN = '^[a-zA-Z][a-zA-Z0-9_]*$';
 export const attributeNameRegex = new RegExp(ATTRIBUTE_NAME_PATTERN);
 
@@ -11,14 +10,13 @@ export const stateNameRegex = new RegExp(STATE_NAME_PATTERN);
 export const LANGUAGE_ISO_CODE_PATTERN = '^[a-z]+$';
 export const languageIsoCodeRegex = new RegExp(LANGUAGE_ISO_CODE_PATTERN);
 
-
 export const storageDataTypeCapabilityType = {
   VALUE: 1,
   LIST: 2,
-}
+};
 
-const sdtcVALUE = storageDataTypeCapabilityType.VALUE
-const sdtcLIST = storageDataTypeCapabilityType.LIST
+const sdtcVALUE = storageDataTypeCapabilityType.VALUE;
+const sdtcLIST = storageDataTypeCapabilityType.LIST;
 
 export const storageDataTypeCapabilities = {
   in: sdtcLIST,
@@ -34,8 +32,7 @@ export const storageDataTypeCapabilities = {
   not_contains: sdtcVALUE,
   not_starts_with: sdtcVALUE,
   not_ends_with: sdtcVALUE,
-}
-
+};
 
 export const entityPropertiesWhitelist = [
   'name',
@@ -49,8 +46,7 @@ export const entityPropertiesWhitelist = [
   'mutations',
   'permissions',
   'states',
-]
-
+];
 
 export const attributePropertiesWhitelist = [
   'name',
@@ -69,8 +65,7 @@ export const attributePropertiesWhitelist = [
   'mock',
   'mutationInput',
   'meta',
-]
-
+];
 
 export default {
   ATTRIBUTE_NAME_PATTERN,
@@ -78,4 +73,4 @@ export default {
   storageDataTypeCapabilityType,
   storageDataTypeCapabilities,
   attributePropertiesWhitelist,
-}
+};

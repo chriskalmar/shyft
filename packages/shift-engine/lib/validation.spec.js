@@ -1,8 +1,4 @@
-
-import {
-  DataTypeString,
-  DataTypeInteger,
-} from './datatype/dataTypes';
+import { DataTypeString, DataTypeInteger } from './datatype/dataTypes';
 
 import Entity from './entity/Entity';
 import Action from './action/Action';
@@ -11,18 +7,12 @@ import Mutation, {
   MUTATION_TYPE_UPDATE,
 } from './mutation/Mutation';
 
-import { buildObjectDataType, } from './datatype/ObjectDataType';
-import { buildListDataType, } from './datatype/ListDataType';
+import { buildObjectDataType } from './datatype/ObjectDataType';
+import { buildListDataType } from './datatype/ListDataType';
 
-
-import {
-  validateActionPayload,
-  validateMutationPayload,
-} from './validation';
-
+import { validateActionPayload, validateMutationPayload } from './validation';
 
 describe('validation', () => {
-
   const player = buildObjectDataType({
     attributes: {
       number: {
@@ -31,9 +21,9 @@ describe('validation', () => {
         required: true,
         validate(value) {
           if (value % 2 === 1) {
-            throw new Error(`Players need to have even numbers (got ${value})`)
+            throw new Error(`Players need to have even numbers (got ${value})`);
           }
-        }
+        },
       },
       firstName: {
         type: DataTypeString,
@@ -45,7 +35,7 @@ describe('validation', () => {
         required: true,
       },
     },
-  })
+  });
 
   const team = buildObjectDataType({
     attributes: {
@@ -54,12 +44,12 @@ describe('validation', () => {
         description: 'Name of the team',
         validate(value, attributeName, row, source, context) {
           if (value.indexOf('Team') === -1) {
-            throw new Error('Missing "Team" in team name')
+            throw new Error('Missing "Team" in team name');
           }
           if (!context) {
-            throw new Error('Missing context')
+            throw new Error('Missing context');
           }
-        }
+        },
       },
       players: {
         type: buildObjectDataType({
@@ -79,11 +69,9 @@ describe('validation', () => {
           },
         }),
         description: 'List of player',
-      }
-    }
-  })
-
-
+      },
+    },
+  });
 
   const entity = new Entity({
     name: 'SomeEntityName',
@@ -95,46 +83,46 @@ describe('validation', () => {
         description: 'Just some description',
         validate(value, attributeName, row, source, context) {
           if (value.length < 3) {
-            throw new Error('Too short')
+            throw new Error('Too short');
           }
           if (value.length > 10) {
-            throw new Error('Too long')
+            throw new Error('Too long');
           }
           if (!context) {
-            throw new Error('Missing context')
+            throw new Error('Missing context');
           }
-        }
+        },
       },
       team: {
         type: team,
         description: 'a team',
-      }
-    }
-  })
+      },
+    },
+  });
 
   const mutationCreate = new Mutation({
     type: MUTATION_TYPE_CREATE,
     name: 'build',
     description: 'build something',
-    attributes: ['someAttribute', 'team']
-  })
+    attributes: [ 'someAttribute', 'team' ],
+  });
 
   const mutationUpdate = new Mutation({
     type: MUTATION_TYPE_UPDATE,
     name: 'change',
     description: 'update something',
-    attributes: ['someAttribute', 'team']
-  })
+    attributes: [ 'someAttribute', 'team' ],
+  });
 
   const action1 = new Action({
     name: 'displayTeam',
     description: 'do something',
     input: {
-      type: team
+      type: team,
     },
     output: {},
-    resolve() { },
-  })
+    resolve() {},
+  });
 
   const action2 = new Action({
     name: 'setPercentage',
@@ -144,17 +132,18 @@ describe('validation', () => {
       description: 'percentage value',
       validate(value, attributeName, row, source, context) {
         if (value <= 0.0 || value >= 1.0) {
-          throw new Error(`Value needs to be between 0.0 and 1.0 (got: ${value})`)
+          throw new Error(
+            `Value needs to be between 0.0 and 1.0 (got: ${value})`,
+          );
         }
         if (!context) {
-          throw new Error('Missing context')
+          throw new Error('Missing context');
         }
-      }
+      },
     },
     output: {},
-    resolve() { },
-  })
-
+    resolve() {},
+  });
 
   const action3 = new Action({
     name: 'setPlayers',
@@ -166,134 +155,132 @@ describe('validation', () => {
       description: 'players',
     },
     output: {},
-    resolve() { },
-  })
-
+    resolve() {},
+  });
 
   const context = {
-    lorem: 'impsum'
-  }
+    lorem: 'impsum',
+  };
 
   it('should accept valid mutation payloads', () => {
-
     const payload1 = {
       someAttribute: 'Lorem',
       team: {
-        teamName: 'Falcons United Team'
-      }
-    }
+        teamName: 'Falcons United Team',
+      },
+    };
 
-    validateMutationPayload(entity, mutationCreate, payload1, context)
-
+    validateMutationPayload(entity, mutationCreate, payload1, context);
 
     const payload2 = {
       someAttribute: 'Lorem',
       team: {
         teamName: 'Falcons United Team',
         players: {
-          offense: [{
-            number: 2,
-            lastName: 'Iverson',
-          }]
-        }
-      }
-    }
+          offense: [
+            {
+              number: 2,
+              lastName: 'Iverson',
+            },
+          ],
+        },
+      },
+    };
 
-    validateMutationPayload(entity, mutationCreate, payload2, context)
-  })
-
+    validateMutationPayload(entity, mutationCreate, payload2, context);
+  });
 
   it('should reject payloads based on attribute level validation', () => {
-
     const payload1 = {
       someAttribute: 'Lo',
-    }
+    };
 
-    const fn1 = () => validateMutationPayload(entity, mutationCreate, payload1, context)
+    const fn1 = () =>
+      validateMutationPayload(entity, mutationCreate, payload1, context);
     expect(fn1).toThrowErrorMatchingSnapshot();
-
 
     const payload2 = {
       someAttribute: 'Lorem Ipsum',
-    }
+    };
 
-    const fn2 = () => validateMutationPayload(entity, mutationCreate, payload2, context)
+    const fn2 = () =>
+      validateMutationPayload(entity, mutationCreate, payload2, context);
     expect(fn2).toThrowErrorMatchingSnapshot();
-
 
     const payload3 = {
       someAttribute: 'Lorem',
       team: {
-        teamName: 'Falcons United Team'
-      }
-    }
+        teamName: 'Falcons United Team',
+      },
+    };
 
-    const fn3 = () => validateMutationPayload(entity, mutationCreate, payload3)
+    const fn3 = () => validateMutationPayload(entity, mutationCreate, payload3);
     expect(fn3).toThrowErrorMatchingSnapshot();
 
+    const payload4 = 4.7;
 
-    const payload4 = 4.7
-
-    const fn4 = () => validateActionPayload(action2.getInput(), payload4, action2, context)
+    const fn4 = () =>
+      validateActionPayload(action2.getInput(), payload4, action2, context);
     expect(fn4).toThrowErrorMatchingSnapshot();
-  })
-
+  });
 
   it('should reject payloads based on attribute level validation of nested attributes', () => {
-
     const payload1 = {
       someAttribute: 'Lorem',
       team: {
-        teamName: 'Falcons United'
-      }
-    }
+        teamName: 'Falcons United',
+      },
+    };
 
-    const fn1 = () => validateMutationPayload(entity, mutationCreate, payload1, context)
+    const fn1 = () =>
+      validateMutationPayload(entity, mutationCreate, payload1, context);
     expect(fn1).toThrowErrorMatchingSnapshot();
-
 
     const payload2 = {
       someAttribute: 'Lorem',
       team: {
         teamName: 'Falcons United Team',
         players: {
-          offense: [{
-            number: 5,
-            lastName: 'Iverson',
-          }]
-        }
-      }
-    }
+          offense: [
+            {
+              number: 5,
+              lastName: 'Iverson',
+            },
+          ],
+        },
+      },
+    };
 
-    const fn2 = () => validateMutationPayload(entity, mutationCreate, payload2, context)
+    const fn2 = () =>
+      validateMutationPayload(entity, mutationCreate, payload2, context);
     expect(fn2).toThrowErrorMatchingSnapshot();
 
+    const payload3 = [
+      {
+        number: 9,
+        lastName: 'Iverson',
+      },
+    ];
 
-    const payload3 = [{
-      number: 9,
-      lastName: 'Iverson',
-    }]
-
-    const fn3 = () => validateActionPayload(action3.getInput(), payload3, action3, context)
+    const fn3 = () =>
+      validateActionPayload(action3.getInput(), payload3, action3, context);
     expect(fn3).toThrowErrorMatchingSnapshot();
-  })
-
+  });
 
   it('should reject payloads based on data type level validation', () => {
-
     const payload1 = {
       someAttribute: 'Lorem',
       team: {
         teamName: 'Falcons United Team',
         players: {
-          offense: ['lorem']
-        }
-      }
-    }
+          offense: [ 'lorem' ],
+        },
+      },
+    };
 
-    const fn1 = () => validateMutationPayload(entity, mutationCreate, payload1, context)
+    const fn1 = () =>
+      validateMutationPayload(entity, mutationCreate, payload1, context);
     expect(fn1).toThrowErrorMatchingSnapshot();
-
 
     const payload2 = {
       someAttribute: 'Lorem',
@@ -301,69 +288,63 @@ describe('validation', () => {
         teamName: 'Falcons United Team',
         players: {
           offense: {
-            lorem: 'ipsum'
-          }
-        }
-      }
-    }
+            lorem: 'ipsum',
+          },
+        },
+      },
+    };
 
-    const fn2 = () => validateMutationPayload(entity, mutationCreate, payload2, context)
+    const fn2 = () =>
+      validateMutationPayload(entity, mutationCreate, payload2, context);
     expect(fn2).toThrowErrorMatchingSnapshot();
-  })
-
-
+  });
 
   it('should accept valid action payloads', () => {
-
     const payload1 = {
-      teamName: 'Falcons United Team'
-    }
+      teamName: 'Falcons United Team',
+    };
 
-    validateActionPayload(action1.getInput(), payload1, action1, context)
-
+    validateActionPayload(action1.getInput(), payload1, action1, context);
 
     const payload2 = {
       teamName: 'Falcons United Team',
       players: {
-        offense: [{
-          number: 2,
-          lastName: 'Iverson',
-        }]
-      }
-    }
+        offense: [
+          {
+            number: 2,
+            lastName: 'Iverson',
+          },
+        ],
+      },
+    };
 
-    validateActionPayload(action1.getInput(), payload2, action1, context)
+    validateActionPayload(action1.getInput(), payload2, action1, context);
 
+    const payload3 = 0.6;
 
-    const payload3 = 0.6
+    validateActionPayload(action2.getInput(), payload3, action2, context);
 
-    validateActionPayload(action2.getInput(), payload3, action2, context)
+    const payload4 = [
+      {
+        number: 8,
+        lastName: 'Iverson',
+      },
+    ];
 
-
-    const payload4 = [{
-      number: 8,
-      lastName: 'Iverson',
-    }]
-
-    validateActionPayload(action3.getInput(), payload4, action3, context)
-  })
-
-
+    validateActionPayload(action3.getInput(), payload4, action3, context);
+  });
 
   it('should reject payloads with missing required attributes', () => {
+    const payload1 = {};
 
-    const payload1 = {}
-
-    const fn1 = () => validateMutationPayload(entity, mutationCreate, payload1, context)
+    const fn1 = () =>
+      validateMutationPayload(entity, mutationCreate, payload1, context);
     expect(fn1).toThrowErrorMatchingSnapshot();
-  })
-
+  });
 
   it('should validate payloads only if values were provided', () => {
+    const payload1 = {};
 
-    const payload1 = {}
-
-    validateMutationPayload(entity, mutationUpdate, payload1, context)
-  })
-
-})
+    validateMutationPayload(entity, mutationUpdate, payload1, context);
+  });
+});

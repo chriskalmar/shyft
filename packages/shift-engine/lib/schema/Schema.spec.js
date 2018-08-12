@@ -1,15 +1,9 @@
-
 import Entity from '../entity/Entity';
 import Schema from './Schema';
 
-import {
-  DataTypeID,
-  DataTypeString,
-} from '../datatype/dataTypes';
-
+import { DataTypeID, DataTypeString } from '../datatype/dataTypes';
 
 describe('Schema', () => {
-
   const FirstEntity = new Entity({
     name: 'FirstEntity',
     description: 'Just some description',
@@ -20,10 +14,10 @@ describe('Schema', () => {
       },
       name: {
         type: DataTypeString,
-        description: 'Just another description'
+        description: 'Just another description',
       },
-    }
-  })
+    },
+  });
 
   const SecondEntity = new Entity({
     name: 'SecondEntity',
@@ -35,107 +29,97 @@ describe('Schema', () => {
       },
       name: {
         type: DataTypeString,
-        description: 'Just another description'
+        description: 'Just another description',
       },
       first: {
         type: FirstEntity,
-        description: 'Relationship with FirstEntity'
-      }
-    }
-  })
-
+        description: 'Relationship with FirstEntity',
+      },
+    },
+  });
 
   it('should accept a list of (empty) entities', () => {
+    // eslint-disable-next-line no-new
+    new Schema({});
 
-    new Schema({}) // eslint-disable-line no-new
-
-    new Schema({ // eslint-disable-line no-new
-      entities: [ FirstEntity, SecondEntity ]
-    })
-  })
-
+    // eslint-disable-next-line no-new
+    new Schema({
+      entities: [ FirstEntity, SecondEntity ],
+    });
+  });
 
   it('should reject invalid entities', () => {
-
-    const schema = new Schema({})
+    const schema = new Schema({});
 
     function fn1() {
-      schema.addEntity()
+      schema.addEntity();
     }
 
     function fn2() {
-      schema.addEntity({})
+      schema.addEntity({});
     }
 
     function fn3() {
-      schema.addEntity('so-wrong')
+      schema.addEntity('so-wrong');
     }
 
     expect(fn1).toThrowErrorMatchingSnapshot();
     expect(fn2).toThrowErrorMatchingSnapshot();
     expect(fn3).toThrowErrorMatchingSnapshot();
-
-  })
-
+  });
 
   it('should accept new entities', () => {
+    const schema = new Schema();
 
-    const schema = new Schema()
-
-    schema.addEntity(FirstEntity)
-    schema.addEntity(SecondEntity)
-
-  })
-
+    schema.addEntity(FirstEntity);
+    schema.addEntity(SecondEntity);
+  });
 
   it('should reject an invalid entities list', () => {
-
     function fn1() {
-      new Schema({ // eslint-disable-line no-new
-        entities: []
-      })
+      // eslint-disable-next-line no-new
+      new Schema({
+        entities: [],
+      });
     }
 
     function fn2() {
-      new Schema({ // eslint-disable-line no-new
-        entities: {}
-      })
+      // eslint-disable-next-line no-new
+      new Schema({
+        entities: {},
+      });
     }
 
     function fn3() {
-      new Schema({ // eslint-disable-line no-new
-        entities: 'so-wrong'
-      })
+      // eslint-disable-next-line no-new
+      new Schema({
+        entities: 'so-wrong',
+      });
     }
 
     function fn4() {
-      new Schema({ // eslint-disable-line no-new
-        entities: [ 'so-wrong' ]
-      })
+      // eslint-disable-next-line no-new
+      new Schema({
+        entities: [ 'so-wrong' ],
+      });
     }
 
     expect(fn1).toThrowErrorMatchingSnapshot();
     expect(fn2).toThrowErrorMatchingSnapshot();
     expect(fn3).toThrowErrorMatchingSnapshot();
     expect(fn4).toThrowErrorMatchingSnapshot();
-
-  })
-
+  });
 
   it('should throw on duplicate entities', () => {
+    const schema = new Schema({});
 
-    const schema = new Schema({})
-
-    schema.addEntity(FirstEntity)
-    schema.addEntity(SecondEntity)
+    schema.addEntity(FirstEntity);
+    schema.addEntity(SecondEntity);
 
     function fn() {
-      schema.addEntity(FirstEntity)
+      schema.addEntity(FirstEntity);
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
-
-  })
-
-
-})
+  });
+});

@@ -1,17 +1,9 @@
-
-import {
-  passOrThrow,
-  isFunction,
-  isArray,
-} from '../util';
+import { passOrThrow, isFunction, isArray } from '../util';
 
 import constants from '../constants';
 
-
 class StorageDataType {
-
-  constructor (setup = {}) {
-
+  constructor(setup = {}) {
     const {
       name,
       description,
@@ -21,57 +13,60 @@ class StorageDataType {
       enforceSerialize,
       parse,
       capabilities,
-    } = setup
+    } = setup;
 
-    passOrThrow(name, () => 'Missing storage data type name')
-    passOrThrow(description, () => `Missing description for storage data type '${name}'`)
-    passOrThrow(nativeDataType, () => `Missing native data type for storage data type '${name}'`)
+    passOrThrow(name, () => 'Missing storage data type name');
+    passOrThrow(
+      description,
+      () => `Missing description for storage data type '${name}'`,
+    );
+    passOrThrow(
+      nativeDataType,
+      () => `Missing native data type for storage data type '${name}'`,
+    );
 
     passOrThrow(
       isFunction(serialize),
-      () => `Storage data type '${name}' has an invalid serialize function`
-    )
+      () => `Storage data type '${name}' has an invalid serialize function`,
+    );
 
     passOrThrow(
       !parse || isFunction(parse),
-      () => `Storage data type '${name}' has an invalid parse function`
-    )
+      () => `Storage data type '${name}' has an invalid parse function`,
+    );
 
     if (capabilities) {
       passOrThrow(
         isArray(capabilities),
-        () => `Storage data type '${name}' has an invalid list of capabilities`
-      )
+        () => `Storage data type '${name}' has an invalid list of capabilities`,
+      );
 
       capabilities.map(capability => {
         passOrThrow(
-          constants.storageDataTypeCapabilities[ capability ],
-          () => `Storage data type '${name}' has an unknown capability '${capability}'`
-        )
-      })
+          constants.storageDataTypeCapabilities[capability],
+          () =>
+            `Storage data type '${name}' has an unknown capability '${capability}'`,
+        );
+      });
     }
 
-    this.name = name
-    this.description = description
-    this.nativeDataType = nativeDataType
-    this.isSortable = !!isSortable
-    this.serialize = serialize
-    this.enforceSerialize = !!enforceSerialize
-    this.parse = parse || (value => value)
-    this.capabilities = capabilities || []
+    this.name = name;
+    this.description = description;
+    this.nativeDataType = nativeDataType;
+    this.isSortable = !!isSortable;
+    this.serialize = serialize;
+    this.enforceSerialize = !!enforceSerialize;
+    this.parse = parse || (value => value);
+    this.capabilities = capabilities || [];
   }
-
 
   toString() {
-    return this.name
+    return this.name;
   }
-
 }
 
+export default StorageDataType;
 
-export default StorageDataType
-
-
-export const isStorageDataType = (obj) => {
-  return (obj instanceof StorageDataType)
-}
+export const isStorageDataType = obj => {
+  return obj instanceof StorageDataType;
+};

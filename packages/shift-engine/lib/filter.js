@@ -1,185 +1,149 @@
+import { isEntity } from './entity/Entity';
 
-import {
-  isEntity,
-} from './entity/Entity';
+import { passOrThrow, isMap, isArray, mapOverProperties } from './util';
 
-import {
-  passOrThrow,
-  isMap,
-  isArray,
-  mapOverProperties,
-} from './util';
-
-
-const logicFilters = ['$and', '$or']
-const deepFilter = '$filter'
-const noResultFilter = '$noResult'
-
+const logicFilters = [ '$and', '$or' ];
+const deepFilter = '$filter';
+const noResultFilter = '$noResult';
 
 export const validateFilterLevel = (filters, attributes, path, storageType) => {
+  const ret = {};
 
-  const ret = {}
+  passOrThrow(!path || isArray(path, true), () => {
+    return 'optional path in validateFilterLevel() needs to be an array';
+  });
 
-  passOrThrow(
-    !path || isArray(path, true),
-    () => {
-      return 'optional path in validateFilterLevel() needs to be an array'
-    }
-  )
-
-  const errorLocation = path
-    ? ` at '${path.join('.')}'`
-    : ''
+  const errorLocation = path ? ` at '${path.join('.')}'` : '';
 
   passOrThrow(
     isMap(filters),
-    () => `filter${errorLocation} needs to be an object of filter criteria`
-  )
+    () => `filter${errorLocation} needs to be an object of filter criteria`,
+  );
 
-  passOrThrow(
-    isMap(attributes, true),
-    () => {
-      return 'validateFilterLevel() expects an attribute map'
-    }
-  )
-
+  passOrThrow(isMap(attributes, true), () => {
+    return 'validateFilterLevel() expects an attribute map';
+  });
 
   mapOverProperties(filters, (value, filter) => {
-
     if (logicFilters.includes(filter)) {
-      const newPath = path
-        ? path.slice()
-        : []
+      const newPath = path ? path.slice() : [];
 
-      newPath.push(filter)
-      value.map(newFilter => validateFilterLevel(newFilter, attributes, path, storageType))
+      newPath.push(filter);
+      value.map(newFilter =>
+        validateFilterLevel(newFilter, attributes, path, storageType),
+      );
 
-      return
+      return;
     }
 
     if (filter.indexOf(deepFilter) === 0) {
-      const newPath = path
-        ? path.slice()
-        : []
+      const newPath = path ? path.slice() : [];
 
-      newPath.push(filter)
+      newPath.push(filter);
 
-      const attributeName = filter.replace(`${deepFilter}.`, '')
-      const targetEntity = attributes[ attributeName ].type
+      const attributeName = filter.replace(`${deepFilter}.`, '');
+      const targetEntity = attributes[attributeName].type;
 
-      validateFilterLevel(value, targetEntity.getAttributes(), path, storageType)
+      validateFilterLevel(
+        value,
+        targetEntity.getAttributes(),
+        path,
+        storageType,
+      );
 
-      return
+      return;
     }
 
+    const attributeName = filter;
+    const attribute = attributes[attributeName];
 
-    const attributeName = filter
-    const attribute = attributes[attributeName]
+    passOrThrow(attribute, () => {
+      return `Unknown attribute name '${attributeName}' used in filter${errorLocation}`;
+    });
 
-
-    passOrThrow(
-      attribute,
-      () => {
-        return `Unknown attribute name '${attributeName}' used in filter${errorLocation}`
-      }
-    )
-
-
-    passOrThrow(
-      !attribute.mutationInput,
-      () => {
-        return `Mutation input attribute '${attributeName}' not allowed in filter${errorLocation}`
-      }
-    )
-
+    passOrThrow(!attribute.mutationInput, () => {
+      return `Mutation input attribute '${attributeName}' not allowed in filter${errorLocation}`;
+    });
 
     if (isMap(value)) {
-
-      let storageDataType
+      let storageDataType;
 
       if (isEntity(attribute.type)) {
-        const primaryAttribute = attribute.type.getPrimaryAttribute()
-        storageDataType = storageType.convertToStorageDataType(primaryAttribute.type)
+        const primaryAttribute = attribute.type.getPrimaryAttribute();
+        storageDataType = storageType.convertToStorageDataType(
+          primaryAttribute.type,
+        );
       }
       else {
-        storageDataType = storageType.convertToStorageDataType(attribute.type)
+        storageDataType = storageType.convertToStorageDataType(attribute.type);
       }
 
-      const operators = Object.keys(value)
+      const operators = Object.keys(value);
 
       operators.map(operator => {
-
         if (operator === noResultFilter) {
-          return
+          return;
         }
 
-        const operatorCapabilityName = operator.replace('\$', '')
+        const operatorCapabilityName = operator.replace('$', '');
         passOrThrow(
           storageDataType.capabilities.indexOf(operatorCapabilityName) >= 0,
           () => {
-            return `Unknown or incompatible operator '${operator}' used on '${attributeName}' in filter${errorLocation}`
-          }
-        )
-      })
+            return `Unknown or incompatible operator '${operator}' used on '${attributeName}' in filter${errorLocation}`;
+          },
+        );
+      });
     }
+  });
 
-  })
-
-  return ret
-}
-
-
+  return ret;
+};
 
 export const processFilter = (entity, args, storageType) => {
-
-  const {
-    filter,
-  } = args;
-
+  const { filter } = args;
 
   if (!filter) {
-    return {}
+    return {};
   }
 
-  validateFilterLevel(filter, entity.getAttributes(), null, storageType)
+  validateFilterLevel(filter, entity.getAttributes(), null, storageType);
 
   const where = {
-    ...filter
-  }
+    ...filter,
+  };
 
-  return where
-}
-
-
+  return where;
+};
 
 export const convertFilterLevel = (filterShaper, filterLevel) => {
-
-  const converted = filterShaper(filterLevel)
-  const filterLevelKeys = Object.keys(converted)
-  const ret = {}
+  const converted = filterShaper(filterLevel);
+  const filterLevelKeys = Object.keys(converted);
+  const ret = {};
 
   filterLevelKeys.map(key => {
-    const filter = filterLevel[key]
+    const filter = filterLevel[key];
 
     if (filter) {
       if (isMap(filter)) {
-        ret[key] = convertFilterLevel(filterShaper, filter)
+        ret[key] = convertFilterLevel(filterShaper, filter);
       }
       else if (logicFilters.includes(key)) {
-        ret[key] = filter.map(item => convertFilterLevel(filterShaper, item))
+        ret[key] = filter.map(item => convertFilterLevel(filterShaper, item));
       }
       else {
-        ret[key] = converted[key]
+        ret[key] = converted[key];
       }
     }
-  })
-
+  });
 
   filterLevelKeys.map(key => {
-    if (typeof converted[key] !== 'undefined' && typeof ret[key] === 'undefined') {
-      ret[key] = converted[key]
+    if (
+      typeof converted[key] !== 'undefined' &&
+      typeof ret[key] === 'undefined'
+    ) {
+      ret[key] = converted[key];
     }
-  })
+  });
 
-  return ret
-}
+  return ret;
+};

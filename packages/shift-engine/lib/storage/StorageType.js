@@ -1,18 +1,11 @@
-
-import {
-  passOrThrow,
-  isFunction,
-} from '../util';
+import { passOrThrow, isFunction } from '../util';
 
 import { isDataType } from '../datatype/DataType';
 import { isStorageDataType } from './StorageDataType';
 import { isStorageConfiguration } from './StorageConfiguration';
 
-
 class StorageType {
-
-  constructor (setup = {}) {
-
+  constructor(setup = {}) {
     const {
       name,
       description,
@@ -22,167 +15,176 @@ class StorageType {
       count,
       mutate,
       checkLookupPermission,
-    } = setup
+    } = setup;
 
-    passOrThrow(name, () => 'Missing storage type name')
-    passOrThrow(description, () => `Missing description for storage type '${name}'`)
+    passOrThrow(name, () => 'Missing storage type name');
+    passOrThrow(
+      description,
+      () => `Missing description for storage type '${name}'`,
+    );
 
     passOrThrow(
       isFunction(findOne),
-      () => `Storage type '${name}' needs to implement findOne()`
-    )
+      () => `Storage type '${name}' needs to implement findOne()`,
+    );
 
     passOrThrow(
       isFunction(findOneByValues),
-      () => `Storage type '${name}' needs to implement findOneByValues()`
-    )
+      () => `Storage type '${name}' needs to implement findOneByValues()`,
+    );
 
     passOrThrow(
       isFunction(find),
-      () => `Storage type '${name}' needs to implement find()`
-    )
+      () => `Storage type '${name}' needs to implement find()`,
+    );
 
     passOrThrow(
       isFunction(count),
-      () => `Storage type '${name}' needs to implement count()`
-    )
+      () => `Storage type '${name}' needs to implement count()`,
+    );
 
     passOrThrow(
       isFunction(mutate),
-      () => `Storage type '${name}' needs to implement mutate()`
-    )
+      () => `Storage type '${name}' needs to implement mutate()`,
+    );
 
     passOrThrow(
       isFunction(checkLookupPermission),
-      () => `Storage type '${name}' needs to implement checkLookupPermission()`
-    )
+      () => `Storage type '${name}' needs to implement checkLookupPermission()`,
+    );
 
+    this.name = name;
+    this.description = description;
+    this.findOne = findOne;
+    this.findOneByValues = findOneByValues;
+    this.find = find;
+    this.count = count;
+    this.mutate = mutate;
+    this.checkLookupPermission = checkLookupPermission;
 
-    this.name = name
-    this.description = description
-    this.findOne = findOne
-    this.findOneByValues = findOneByValues
-    this.find = find
-    this.count = count
-    this.mutate = mutate
-    this.checkLookupPermission = checkLookupPermission
-
-    this._dataTypeMap = {}
-    this._dynamicDataTypeMap = []
+    this._dataTypeMap = {};
+    this._dynamicDataTypeMap = [];
   }
 
-
   addDataTypeMap(schemaDataType, storageDataType) {
-
     passOrThrow(
       isDataType(schemaDataType),
-      () => `Provided schemaDataType is not a valid data type in '${this.name}', ` +
-        `got this instead: ${String(schemaDataType)}`
-    )
+      () =>
+        `Provided schemaDataType is not a valid data type in '${this.name}', ` +
+        `got this instead: ${String(schemaDataType)}`,
+    );
 
     passOrThrow(
       isStorageDataType(storageDataType),
-      () => `Provided storageDataType for '${String(schemaDataType)}' is not a valid storage data type in '${this.name}', ` +
-        `got this instead: ${String(storageDataType)}`
-    )
+      () =>
+        `Provided storageDataType for '${String(
+          schemaDataType,
+        )}' is not a valid storage data type in '${this.name}', ` +
+        `got this instead: ${String(storageDataType)}`,
+    );
 
     passOrThrow(
-      !this._dataTypeMap[ schemaDataType.name ],
-      () => `Data type mapping for '${schemaDataType.name}' already registered with storage type '${this.name}'`
-    )
+      !this._dataTypeMap[schemaDataType.name],
+      () =>
+        `Data type mapping for '${
+          schemaDataType.name
+        }' already registered with storage type '${this.name}'`,
+    );
 
-    this._dataTypeMap[ schemaDataType.name ] = storageDataType
+    this._dataTypeMap[schemaDataType.name] = storageDataType;
   }
 
-
   addDynamicDataTypeMap(schemaDataTypeDetector, storageDataType) {
-
     passOrThrow(
       isFunction(schemaDataTypeDetector),
-      () => `Provided schemaDataTypeDetector is not a valid function in '${this.name}', ` +
-        `got this instead: ${String(schemaDataTypeDetector)}`
-    )
+      () =>
+        `Provided schemaDataTypeDetector is not a valid function in '${
+          this.name
+        }', ` + `got this instead: ${String(schemaDataTypeDetector)}`,
+    );
 
     passOrThrow(
       isStorageDataType(storageDataType) || isFunction(storageDataType),
-      () => `Provided storageDataType for '${String(schemaDataTypeDetector)}' is not a valid storage data type or function in '${this.name}', ` +
-        `got this instead: ${String(storageDataType)}`
-    )
+      () =>
+        `Provided storageDataType for '${String(
+          schemaDataTypeDetector,
+        )}' is not a valid storage data type or function in '${this.name}', ` +
+        `got this instead: ${String(storageDataType)}`,
+    );
 
     this._dynamicDataTypeMap.push({
       schemaDataTypeDetector,
       storageDataType,
-    })
+    });
   }
 
-
-
-  convertToStorageDataType (schemaDataType) {
-
-    const foundDynamicDataType = this._dynamicDataTypeMap.find(({schemaDataTypeDetector}) => schemaDataTypeDetector(schemaDataType))
+  convertToStorageDataType(schemaDataType) {
+    const foundDynamicDataType = this._dynamicDataTypeMap.find(
+      ({ schemaDataTypeDetector }) => schemaDataTypeDetector(schemaDataType),
+    );
     if (foundDynamicDataType) {
-      const storageDataType = foundDynamicDataType.storageDataType
+      const storageDataType = foundDynamicDataType.storageDataType;
 
       if (isFunction(storageDataType)) {
-        const attributeType = schemaDataType
-        return storageDataType(attributeType)
+        const attributeType = schemaDataType;
+        return storageDataType(attributeType);
       }
 
-      return storageDataType
+      return storageDataType;
     }
 
     passOrThrow(
       isDataType(schemaDataType),
-      () => `Provided schemaDataType is not a valid data type in storage type '${this.name}', ` +
-        `got this instead: ${String(schemaDataType)}`
-    )
+      () =>
+        `Provided schemaDataType is not a valid data type in storage type '${
+          this.name
+        }', ` + `got this instead: ${String(schemaDataType)}`,
+    );
 
     passOrThrow(
-      this._dataTypeMap[ schemaDataType.name ],
-      () => `No data type mapping found for '${schemaDataType.name}' in storage type '${this.name}'`
-    )
+      this._dataTypeMap[schemaDataType.name],
+      () =>
+        `No data type mapping found for '${
+          schemaDataType.name
+        }' in storage type '${this.name}'`,
+    );
 
-    return this._dataTypeMap[ schemaDataType.name ]
+    return this._dataTypeMap[schemaDataType.name];
   }
-
 
   setStorageConfiguration(storageConfiguration) {
     passOrThrow(
       isStorageConfiguration(storageConfiguration),
-      () => 'StorageType expects a valid storageConfiguration'
-    )
+      () => 'StorageType expects a valid storageConfiguration',
+    );
 
-    this.storageConfiguration = storageConfiguration
+    this.storageConfiguration = storageConfiguration;
   }
 
   getStorageConfiguration() {
     passOrThrow(
       this.storageConfiguration,
-      () => 'StorageType is missing a valid storageConfiguration'
-    )
+      () => 'StorageType is missing a valid storageConfiguration',
+    );
 
-    return this.storageConfiguration
+    return this.storageConfiguration;
   }
 
-  getStorageInstance () {
-    return this.getStorageConfiguration().getStorageInstance()
+  getStorageInstance() {
+    return this.getStorageConfiguration().getStorageInstance();
   }
 
-  getStorageModels () {
-    return this.getStorageConfiguration().getStorageModels()
+  getStorageModels() {
+    return this.getStorageConfiguration().getStorageModels();
   }
-
 
   toString() {
-    return this.name
+    return this.name;
   }
-
 }
 
+export default StorageType;
 
-export default StorageType
-
-
-export const isStorageType = (obj) => {
-  return (obj instanceof StorageType)
-}
+export const isStorageType = obj => {
+  return obj instanceof StorageType;
+};

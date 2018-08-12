@@ -1,36 +1,37 @@
-
 import { randomJson } from './util';
 import _ from 'lodash';
 
-export const i18nMockGenerator = (entity, name, { dataShaperMap }, languages={}) => {
-
+export const i18nMockGenerator = (
+  entity,
+  name,
+  { dataShaperMap },
+  languages = {},
+) => {
   if (entity) {
-    const content = {}
+    const content = {};
 
     _.map(entity.getAttributes(), ({ type, i18n, mock }, attributeName) => {
-      const storageAttributeName = dataShaperMap[ attributeName ]
+      const storageAttributeName = dataShaperMap[attributeName];
 
       if (i18n) {
         if (Math.random() > 0.5) {
-          return
+          return;
         }
 
-        const attributeContent = content[ storageAttributeName ] = {}
+        const attributeContent = (content[storageAttributeName] = {});
 
-        Object.values(languages).map((languageId) => {
+        Object.values(languages).map(languageId => {
           if (languageId === 'default' || Math.random() > 0.5) {
-            return
+            return;
           }
 
-          attributeContent[ languageId ] = mock
-            ? mock()
-            : type.mock()
-        })
+          attributeContent[languageId] = mock ? mock() : type.mock();
+        });
       }
-    })
+    });
 
-    return content
+    return content;
   }
 
-  return randomJson()
-}
+  return randomJson();
+};

@@ -1,4 +1,3 @@
-
 import {
   GraphQLString,
   GraphQLNonNull,
@@ -19,14 +18,16 @@ import {
   isArray,
 } from 'shift-engine';
 
-
-
 export const generateDataInput = (baseName, inputParams, singleParam) => {
-
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
 
   if (singleParam) {
-    return generateDataInputField(inputParams, inputParams.name || '', baseName) // eslint-disable-line no-use-before-define
+    // eslint-disable-next-line no-use-before-define
+    return generateDataInputField(
+      inputParams,
+      inputParams.name || '',
+      baseName,
+    ); // eslint-disable-line no-use-before-define
   }
 
   const dataInputType = new GraphQLInputObjectType({
@@ -34,126 +35,161 @@ export const generateDataInput = (baseName, inputParams, singleParam) => {
     description: `Mutation data input type for **\`${baseName}\`**`,
 
     fields: () => {
-      return generateDataInputFields(inputParams, baseName) // eslint-disable-line no-use-before-define
-    }
-  })
+      return generateDataInputFields(inputParams, baseName); // eslint-disable-line no-use-before-define
+    },
+  });
 
-  return dataInputType
-}
+  return dataInputType;
+};
 
-
-export const generateNestedDataInput = (baseName, nestedParam, nestedParamName, level = 1) => {
-
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
+export const generateNestedDataInput = (
+  baseName,
+  nestedParam,
+  nestedParamName,
+  level = 1,
+) => {
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
 
   const dataInputType = new GraphQLInputObjectType({
-    name: protocolConfiguration.generateNestedDataInputTypeName(baseName, nestedParamName, level),
+    name: protocolConfiguration.generateNestedDataInputTypeName(
+      baseName,
+      nestedParamName,
+      level,
+    ),
     description: nestedParam.description,
 
     fields: () => {
-      const inputParams = nestedParam.getAttributes()
-      return generateDataInputFields(inputParams, `${baseName}-${nestedParamName}`, level) // eslint-disable-line no-use-before-define
-    }
-  })
-
-  return dataInputType
-}
-
-
-const generateDataInputField = (param, paramName, baseName, level = 0) => {
-
-  let paramType = param.type
-  let baseFieldType
-  let isList = false
-
-  if (!paramType) {
-    throw new Error(`Param '${baseName}.${paramName}' in generateDataInputField() has no type`)
-  }
-
-
-  if (isListDataType(paramType)) {
-    isList = true
-    paramType = paramType.getItemType()
-  }
-
-
-  if (isObjectDataType(paramType)) {
-    baseFieldType = generateNestedDataInput(baseName, paramType, paramName, level + 1)
-  }
-  else if (isEntity(paramType)) {
-    const targetEntity = paramType
-    const primaryAttribute = targetEntity.getPrimaryAttribute()
-    baseFieldType = ProtocolGraphQL.convertToProtocolDataType(primaryAttribute.type, baseName, true)
-  }
-  else {
-    baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType, baseName, true)
-  }
-
-  const fieldType = isList
-    ? new GraphQLList(baseFieldType)
-    : baseFieldType
-
-  return {
-    type: param.required && !param.defaultValue
-      ? new GraphQLNonNull(fieldType)
-      : fieldType,
-    description: param.description,
-  }
-}
-
-
-const generateDataInputFields = (inputParams, baseName, level = 0) => {
-  const fields = {}
-
-  _.forEach(inputParams, (param, paramName) => {
-    fields[paramName] = generateDataInputField(param, paramName, baseName, level)
+      const inputParams = nestedParam.getAttributes();
+      // eslint-disable-next-line no-use-before-define
+      return generateDataInputFields(
+        inputParams,
+        `${baseName}-${nestedParamName}`,
+        level,
+      ); // eslint-disable-line no-use-before-define
+    },
   });
 
-  return fields
-}
+  return dataInputType;
+};
 
+const generateDataInputField = (param, paramName, baseName, level = 0) => {
+  let paramType = param.type;
+  let baseFieldType;
+  let isList = false;
 
+  if (!paramType) {
+    throw new Error(
+      `Param '${baseName}.${paramName}' in generateDataInputField() has no type`,
+    );
+  }
 
-export const generateInput = (baseName, dataInputType, isField, includeClientMutationId=false) => {
+  if (isListDataType(paramType)) {
+    isList = true;
+    paramType = paramType.getItemType();
+  }
 
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
+  if (isObjectDataType(paramType)) {
+    baseFieldType = generateNestedDataInput(
+      baseName,
+      paramType,
+      paramName,
+      level + 1,
+    );
+  }
+  else if (isEntity(paramType)) {
+    const targetEntity = paramType;
+    const primaryAttribute = targetEntity.getPrimaryAttribute();
+    baseFieldType = ProtocolGraphQL.convertToProtocolDataType(
+      primaryAttribute.type,
+      baseName,
+      true,
+    );
+  }
+  else {
+    baseFieldType = ProtocolGraphQL.convertToProtocolDataType(
+      paramType,
+      baseName,
+      true,
+    );
+  }
+
+  const fieldType = isList ? new GraphQLList(baseFieldType) : baseFieldType;
+
+  return {
+    type:
+      param.required && !param.defaultValue
+        ? new GraphQLNonNull(fieldType)
+        : fieldType,
+    description: param.description,
+  };
+};
+
+const generateDataInputFields = (inputParams, baseName, level = 0) => {
+  const fields = {};
+
+  _.forEach(inputParams, (param, paramName) => {
+    fields[paramName] = generateDataInputField(
+      param,
+      paramName,
+      baseName,
+      level,
+    );
+  });
+
+  return fields;
+};
+
+export const generateInput = (
+  baseName,
+  dataInputType,
+  isField,
+  includeClientMutationId = false,
+) => {
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
 
   const inputType = new GraphQLInputObjectType({
-
     name: protocolConfiguration.generateInputTypeName(baseName),
     description: `Mutation input type for **\`${baseName}\`**`,
 
     fields: () => {
-      const fields = {}
+      const fields = {};
       if (includeClientMutationId) {
         fields.clientMutationId = {
           type: GraphQLString,
-        }
+        };
       }
 
       if (dataInputType) {
         fields.data = isField
           ? dataInputType
           : {
-            type: new GraphQLNonNull(dataInputType)
-          }
+            type: new GraphQLNonNull(dataInputType),
+          };
       }
 
-      return fields
-    }
-  })
+      return fields;
+    },
+  });
 
-  return inputType
-}
+  return inputType;
+};
 
-
-
-export const generateDataOutput = (baseName, outputParams, graphRegistry, singleParam) => {
-
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
+export const generateDataOutput = (
+  baseName,
+  outputParams,
+  graphRegistry,
+  singleParam,
+) => {
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
 
   if (singleParam) {
-    return generateDataOutputField(outputParams, outputParams.name || '', baseName, graphRegistry) // eslint-disable-line no-use-before-define
+    // eslint-disable-next-line no-use-before-define
+    return generateDataOutputField(
+      outputParams,
+      outputParams.name || '',
+      baseName,
+      graphRegistry,
+    ); // eslint-disable-line no-use-before-define
   }
 
   const actionDataOutputType = new GraphQLObjectType({
@@ -161,139 +197,182 @@ export const generateDataOutput = (baseName, outputParams, graphRegistry, single
     description: `Mutation data output type for **\`${baseName}\`**`,
 
     fields: () => {
-      return generateDataOutputFields(outputParams, baseName, graphRegistry) // eslint-disable-line no-use-before-define
-    }
-  })
+      return generateDataOutputFields(outputParams, baseName, graphRegistry); // eslint-disable-line no-use-before-define
+    },
+  });
 
-  return actionDataOutputType
-}
+  return actionDataOutputType;
+};
 
-
-export const generateNestedDataOutput = (baseName, nestedParam, nestedParamName, graphRegistry, level = 1) => {
-
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
+export const generateNestedDataOutput = (
+  baseName,
+  nestedParam,
+  nestedParamName,
+  graphRegistry,
+  level = 1,
+) => {
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
 
   const dataOutputType = new GraphQLObjectType({
-    name: protocolConfiguration.generateNestedDataOutPutTypeName(baseName, nestedParamName, level),
+    name: protocolConfiguration.generateNestedDataOutPutTypeName(
+      baseName,
+      nestedParamName,
+      level,
+    ),
     description: nestedParam.description,
 
     fields: () => {
-      const outputParams = nestedParam.getAttributes()
-      return generateDataOutputFields(outputParams, `${baseName}-${nestedParamName}`, graphRegistry, level) // eslint-disable-line no-use-before-define
-    }
-  })
+      const outputParams = nestedParam.getAttributes();
+      // eslint-disable-next-line no-use-before-define
+      return generateDataOutputFields(
+        outputParams,
+        `${baseName}-${nestedParamName}`,
+        graphRegistry,
+        level,
+      ); // eslint-disable-line no-use-before-define
+    },
+  });
 
-  return dataOutputType
-}
+  return dataOutputType;
+};
 
-
-const generateDataOutputField = (param, paramName, baseName, graphRegistry, level = 0) => {
-
-  let paramType = param.type
-  let baseFieldType
-  let isList = false
+const generateDataOutputField = (
+  param,
+  paramName,
+  baseName,
+  graphRegistry,
+  level = 0,
+) => {
+  let paramType = param.type;
+  let baseFieldType;
+  let isList = false;
 
   if (!paramType) {
-    throw new Error(`Param '${baseName}.${paramName}' in generateDataOutputField() has no type`)
+    throw new Error(
+      `Param '${baseName}.${paramName}' in generateDataOutputField() has no type`,
+    );
   }
 
   if (isListDataType(paramType)) {
-    isList = true
-    paramType = paramType.getItemType()
+    isList = true;
+    paramType = paramType.getItemType();
   }
-
 
   if (isObjectDataType(paramType)) {
-    baseFieldType = generateNestedDataOutput(baseName, paramType, paramName, graphRegistry, level + 1)
+    baseFieldType = generateNestedDataOutput(
+      baseName,
+      paramType,
+      paramName,
+      graphRegistry,
+      level + 1,
+    );
   }
   else if (isEntity(paramType)) {
-    const targetEntity = paramType
+    const targetEntity = paramType;
 
     const reference = {
       description: param.description,
     };
 
-    const targetTypeName = targetEntity.graphql.typeName
+    const targetTypeName = targetEntity.graphql.typeName;
 
-    reference.type = graphRegistry.types[ targetTypeName ].type
-    reference.resolve = resolveByFindOne(targetEntity, ({ source }) => source[ paramName ])
+    reference.type = graphRegistry.types[targetTypeName].type;
+    reference.resolve = resolveByFindOne(
+      targetEntity,
+      ({ source }) => source[paramName],
+    );
 
     if (isList) {
       return {
         type: new GraphQLList(reference.type),
         resolve: (source, args, context) => {
-          const referenceIds = source[ paramName ]
+          const referenceIds = source[paramName];
 
           if (!isArray(referenceIds)) {
-            return Promise.resolve(null)
+            return Promise.resolve(null);
           }
 
           return referenceIds.map(referenceId => {
-            return reference.resolve({ [ paramName ]: referenceId }, args, context)
-          })
-        }
-      }
+            return reference.resolve(
+              { [paramName]: referenceId },
+              args,
+              context,
+            );
+          });
+        },
+      };
     }
 
-    return reference
+    return reference;
   }
   else {
-    baseFieldType = ProtocolGraphQL.convertToProtocolDataType(paramType, baseName, false)
+    baseFieldType = ProtocolGraphQL.convertToProtocolDataType(
+      paramType,
+      baseName,
+      false,
+    );
   }
 
-  const fieldType = isList
-    ? new GraphQLList(baseFieldType)
-    : baseFieldType
-
+  const fieldType = isList ? new GraphQLList(baseFieldType) : baseFieldType;
 
   return {
     type: fieldType,
     description: param.description,
-  }
-}
+  };
+};
 
-
-
-const generateDataOutputFields = (outputParams, baseName, graphRegistry, level = 0) => {
-  const fields = {}
+const generateDataOutputFields = (
+  outputParams,
+  baseName,
+  graphRegistry,
+  level = 0,
+) => {
+  const fields = {};
 
   _.forEach(outputParams, (param, paramName) => {
-    fields[paramName] = generateDataOutputField(param, paramName, baseName, graphRegistry, level)
+    fields[paramName] = generateDataOutputField(
+      param,
+      paramName,
+      baseName,
+      graphRegistry,
+      level,
+    );
   });
 
-  return fields
-}
+  return fields;
+};
 
-
-
-export const generateOutput = (baseName, dataOutputType, isField, includeClientMutationId=false) => {
-
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration()
+export const generateOutput = (
+  baseName,
+  dataOutputType,
+  isField,
+  includeClientMutationId = false,
+) => {
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
 
   const outputType = new GraphQLObjectType({
     name: protocolConfiguration.generateOutPutTypeName(baseName),
     description: `Mutation output type for **\`${baseName}\`**`,
 
     fields: () => {
-      const fields = {}
+      const fields = {};
       if (includeClientMutationId) {
         fields.clientMutationId = {
           type: GraphQLString,
-        }
+        };
       }
 
       if (dataOutputType) {
         fields.result = isField
           ? dataOutputType
           : {
-            type: dataOutputType
-          }
+            type: dataOutputType,
+          };
       }
 
-      return fields
-    }
-  })
+      return fields;
+    },
+  });
 
-  return outputType
-}
-
+  return outputType;
+};

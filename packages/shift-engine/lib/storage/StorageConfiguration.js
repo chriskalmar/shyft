@@ -1,84 +1,68 @@
-
-import {
-  passOrThrow,
-} from '../util';
-
+import { passOrThrow } from '../util';
 
 class StorageConfiguration {
-
   constructor(setup = {}) {
-    const {
-      name,
-      storageInstance,
-      storageModels,
-      connectionConfig,
-    } = setup
+    const { name, storageInstance, storageModels, connectionConfig } = setup;
 
     if (name) {
-      this.name = name
+      this.name = name;
     }
 
     if (storageInstance) {
-      this.setStorageInstance(storageInstance)
+      this.setStorageInstance(storageInstance);
     }
 
     if (storageModels) {
-      this.setStorageModels(storageModels)
+      this.setStorageModels(storageModels);
     }
 
     if (connectionConfig) {
-      this.setConnectionConfig(connectionConfig)
+      this.setConnectionConfig(connectionConfig);
     }
   }
 
-
   setStorageInstance(storageInstance) {
-    this.storageInstance = storageInstance
+    this.storageInstance = storageInstance;
   }
-
 
   getStorageInstance() {
     passOrThrow(
       this.storageInstance,
-      () => `Storage instance not set for storage type '${this.name}'`
-    )
+      () => `Storage instance not set for storage type '${this.name}'`,
+    );
 
-    return this.storageInstance
+    return this.storageInstance;
   }
-
 
   setStorageModels(storageModels) {
-    this.storageModels = storageModels
+    this.storageModels = storageModels;
   }
-
 
   getStorageModels() {
     passOrThrow(
       this.storageModels,
-      () => `Storage models not set for storage type '${this.name}'`
-    )
+      () => `Storage models not set for storage type '${this.name}'`,
+    );
 
-    return this.storageModels
+    return this.storageModels;
   }
-
 
   setConnectionConfig(connectionConfig) {
-    this.connectionConfig = connectionConfig
+    this.connectionConfig = connectionConfig;
   }
-
 
   getConnectionConfig() {
     passOrThrow(
       this.connectionConfig,
-      () => `Connection config not set for storage type '${this.name}'`
-    )
+      () => `Connection config not set for storage type '${this.name}'`,
+    );
 
-    return this.connectionConfig
+    return this.connectionConfig;
   }
 }
 
-export default StorageConfiguration
+export default StorageConfiguration;
 
-export const isStorageConfiguration = (obj) => {
-  return (obj instanceof StorageConfiguration)
-}
+export const isStorageConfiguration = obj => {
+  return obj instanceof StorageConfiguration;
+};

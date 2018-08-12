@@ -1,84 +1,113 @@
-
 import _ from 'lodash';
 
-
-export const fillSystemAttributesDefaultValues = (entity, entityMutation, payload, context) => {
-
+export const fillSystemAttributesDefaultValues = (
+  entity,
+  entityMutation,
+  payload,
+  context,
+) => {
   const ret = {
-    ...payload
-  }
+    ...payload,
+  };
 
-  const entityAttributes = entity.getAttributes()
+  const entityAttributes = entity.getAttributes();
   const systemAttributes = _.filter(
     entityAttributes,
-    attribute => attribute.isSystemAttribute && attribute.defaultValue
-  )
+    attribute => attribute.isSystemAttribute && attribute.defaultValue,
+  );
 
-  systemAttributes.map((attribute) => {
-    const attributeName = attribute.name
-    const defaultValue = attribute.defaultValue
+  systemAttributes.map(attribute => {
+    const attributeName = attribute.name;
+    const defaultValue = attribute.defaultValue;
 
-    const value = defaultValue(ret, entityMutation, entity, context)
+    const value = defaultValue(ret, entityMutation, entity, context);
     if (typeof value !== 'undefined') {
-      ret[attributeName] = value
+      ret[attributeName] = value;
     }
+  });
 
-  })
+  return ret;
+};
 
-  return ret
-}
-
-
-
-export const fillDefaultValues = async (entity, entityMutation, payload, context) => {
-
+export const fillDefaultValues = async (
+  entity,
+  entityMutation,
+  payload,
+  context,
+) => {
   const ret = {
-    ...payload
-  }
+    ...payload,
+  };
 
-  const entityAttributes = entity.getAttributes()
-  const mutationAttributes = entityMutation.attributes || []
+  const entityAttributes = entity.getAttributes();
+  const mutationAttributes = entityMutation.attributes || [];
   const requiredAttributes = _.filter(
     entityAttributes,
-    attribute => attribute.required && !attribute.isSystemAttribute
-  )
+    attribute => attribute.required && !attribute.isSystemAttribute,
+  );
 
-  await Promise.all(requiredAttributes.map(async (attribute) => {
-    const attributeName = attribute.name
-    if (!mutationAttributes.includes(attributeName)) {
-      if (attribute.defaultValue) {
-        ret[attributeName] = await attribute.defaultValue(ret, entityMutation, entity, context)
+  await Promise.all(
+    requiredAttributes.map(async attribute => {
+      const attributeName = attribute.name;
+      if (!mutationAttributes.includes(attributeName)) {
+        if (attribute.defaultValue) {
+          ret[attributeName] = await attribute.defaultValue(
+            ret,
+            entityMutation,
+            entity,
+            context,
+          );
+        }
       }
-    }
-  }))
+    }),
+  );
 
-  return ret
-}
+  return ret;
+};
 
-
-export const serializeValues = (entity, entityMutation, payload, model, context) => {
-
+export const serializeValues = (
+  entity,
+  entityMutation,
+  payload,
+  model,
+  context,
+) => {
   const ret = {
-    ...payload
-  }
+    ...payload,
+  };
 
-  const entityAttributes = entity.getAttributes()
+  const entityAttributes = entity.getAttributes();
 
-  _.forEach(entityAttributes, (attribute) => {
-    const attributeName = attribute.name
-    const gqlFieldNameI18n = attribute.gqlFieldNameI18n
+  _.forEach(entityAttributes, attribute => {
+    const attributeName = attribute.name;
+    const gqlFieldNameI18n = attribute.gqlFieldNameI18n;
 
     if (attribute.serialize) {
-      if (attribute.i18n && typeof ret[ gqlFieldNameI18n ] !== 'undefined') {
-        Object.keys(ret[ gqlFieldNameI18n ]).map(language => {
-          ret[ gqlFieldNameI18n ][ language ] = attribute.serialize(ret[ gqlFieldNameI18n ][ language ], ret, entityMutation, entity, model, context, language)
-        })
+      if (attribute.i18n && typeof ret[gqlFieldNameI18n] !== 'undefined') {
+        Object.keys(ret[gqlFieldNameI18n]).map(language => {
+          ret[gqlFieldNameI18n][language] = attribute.serialize(
+            ret[gqlFieldNameI18n][language],
+            ret,
+            entityMutation,
+            entity,
+            model,
+            context,
+            language,
+          );
+        });
       }
-      else if (typeof ret[ attributeName ] !== 'undefined') {
-        ret[ attributeName ] = attribute.serialize(ret[ attributeName ], ret, entityMutation, entity, model, context)
+      else if (typeof ret[attributeName] !== 'undefined') {
+        ret[attributeName] = attribute.serialize(
+          ret[attributeName],
+          ret,
+          entityMutation,
+          entity,
+          model,
+          context,
+        );
       }
     }
-  })
+  });
 
-  return ret
-}
+  return ret;
+};
