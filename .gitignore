@@ -51,4 +51,6 @@ typings/
 # dotenv environment variables file
 .env
 
+playground/*
+
 dist/*
