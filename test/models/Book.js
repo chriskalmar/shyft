@@ -1,4 +1,3 @@
-
 import {
   Entity,
   DataTypeString,
@@ -6,13 +5,11 @@ import {
   buildObjectDataType,
 } from 'shift-engine';
 
-
 export const Book = new Entity({
   name: 'Book',
   description: 'A book',
 
   attributes: {
-
     title: {
       type: DataTypeString,
       description: 'Book title',
@@ -70,7 +67,6 @@ export const Book = new Entity({
         }),
       }),
       description: 'Book reviews',
-    }
-  }
-})
-
+    },
+  },
+});

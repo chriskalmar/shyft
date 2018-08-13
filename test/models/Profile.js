@@ -1,4 +1,3 @@
-
 import {
   Entity,
   DataTypeString,
@@ -12,13 +11,11 @@ import {
 
 import crypto from 'crypto';
 
-
 const readPermissions = [
-  new Permission()
-    .role('admin'),
+  new Permission().role('admin'),
   // new Permission()
   //   .userAttribute('id'),
-]
+];
 
 export const Profile = new Entity({
   name: 'Profile',
@@ -29,7 +26,6 @@ export const Profile = new Entity({
   includeUserTracking: true,
   includeTimeTracking: true,
 
-
   indexes: [
     new Index({
       type: INDEX_UNIQUE,
@@ -37,39 +33,33 @@ export const Profile = new Entity({
     }),
   ],
 
-
   mutations: [
     new Mutation({
       name: 'signup',
       description: 'sign up a new user',
       type: MUTATION_TYPE_CREATE,
-      attributes: [
-        'username',
-        'password',
-        'firstname',
-        'lastname',
-      ],
+      attributes: [ 'username', 'password', 'firstname', 'lastname' ],
       preProcessor(entity, id, source, input) {
-        input.username = input.username.toLowerCase()
+        input.username = input.username.toLowerCase();
         // do not copy this very unsecure method of password hashing (only for testing purposes)
-        input.password = crypto.createHash('sha256').update(input.password, 'utf8').digest('hex')
-        return input
-      }
+        input.password = crypto
+          .createHash('sha256')
+          .update(input.password, 'utf8')
+          .digest('hex');
+        return input;
+      },
     }),
   ],
-
 
   permissions: {
     read: readPermissions,
     find: readPermissions,
     mutations: {
-      signup: Permission.EVERYONE
-    }
+      signup: Permission.EVERYONE,
+    },
   },
 
-
   attributes: {
-
     username: {
       type: DataTypeString,
       description: 'Username',
@@ -100,7 +90,7 @@ export const Profile = new Entity({
       description: 'Time of user registration',
       required: true,
       defaultValue() {
-        return new Date()
+        return new Date();
       },
     },
 
@@ -108,10 +98,8 @@ export const Profile = new Entity({
       type: DataTypeTimestampTz,
       description: 'Time of confirmation by the user',
       defaultValue() {
-        return new Date()
+        return new Date();
       },
     },
-
-  }
-})
-
+  },
+});

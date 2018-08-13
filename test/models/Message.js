@@ -1,4 +1,3 @@
-
 import {
   Entity,
   Mutation,
@@ -12,39 +11,34 @@ import { Profile } from './Profile';
 import { Board } from './Board';
 import { BoardMember } from './BoardMember';
 
-
 const readPermissions = [
-  new Permission()
-    .role('admin'),
-  new Permission()
-    .userAttribute('author'),
+  new Permission().role('admin'),
+  new Permission().userAttribute('author'),
   new Permission()
     .lookup(BoardMember, {
       board: 'board',
       invitee: ({ userId }) => userId,
-      state: () => ['joined', 'accepted'],
+      state: () => [ 'joined', 'accepted' ],
     })
     .lookup(Board, {
       id: 'board',
       owner: ({ userId }) => userId,
     }),
-]
+];
 
 const writePermissions = [
-  new Permission()
-    .role('admin'),
+  new Permission().role('admin'),
   new Permission()
     .lookup(BoardMember, {
       board: ({ input }) => input.board,
       invitee: ({ userId }) => userId,
-      state: () => ['joined', 'accepted'],
+      state: () => [ 'joined', 'accepted' ],
     })
     .lookup(Board, {
       id: ({ input }) => input.board,
       owner: ({ userId }) => userId,
     }),
-]
-
+];
 
 export const Message = new Entity({
   name: 'Message',
@@ -57,26 +51,19 @@ export const Message = new Entity({
       name: 'write',
       description: 'write a message',
       type: MUTATION_TYPE_CREATE,
-      attributes: [
-        'board',
-        'content',
-        'writtenAt',
-      ],
+      attributes: [ 'board', 'content', 'writtenAt' ],
     }),
   ],
-
 
   permissions: {
     read: readPermissions,
     find: readPermissions,
     mutations: {
       write: writePermissions,
-    }
+    },
   },
 
-
   attributes: {
-
     board: {
       type: Board,
       description: 'Reference to the board',
@@ -88,8 +75,8 @@ export const Message = new Entity({
       description: 'The user that writes the message',
       required: true,
       defaultValue(payload, mutation, entity, { userId }) {
-        return userId
-      }
+        return userId;
+      },
     },
 
     content: {
@@ -103,6 +90,5 @@ export const Message = new Entity({
       description: 'Message timestamp',
       required: true,
     },
-
-  }
-})
+  },
+});

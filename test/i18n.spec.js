@@ -1,42 +1,34 @@
 import './setupAndTearDown';
-import {
-  mutate,
-  find,
-} from './db';
+import { mutate, find } from './db';
 
-import {
-  asAdmin,
-} from './testUtils';
+import { asAdmin } from './testUtils';
 
 import { Book } from './models/Book';
 
-
 const orderByIdAsc = {
-  orderBy: [ {
-    attribute: 'id',
-    direction: 'ASC'
-  } ]
-}
+  orderBy: [
+    {
+      attribute: 'id',
+      direction: 'ASC',
+    },
+  ],
+};
 
 describe('i18n', () => {
-
   it('should store translations if provided', async () => {
-
     const payload = {
       title: 'War and Peace',
       'title.i18n': {
-        de: 'Krieg und Frieden'
+        de: 'Krieg und Frieden',
       },
       author: 'Leo Tolstoy',
-    }
+    };
 
-    const result = await mutate(Book, 'create', payload, null, asAdmin())
-    expect(result).toMatchSnapshot()
-  })
-
+    const result = await mutate(Book, 'create', payload, null, asAdmin());
+    expect(result).toMatchSnapshot();
+  });
 
   it('should reject translations of unknown languages', async () => {
-
     const payload = {
       title: 'War and Peace',
       'title.i18n': {
@@ -44,32 +36,27 @@ describe('i18n', () => {
         fr: 'Guerre et Paix',
       },
       author: 'Leo Tolstoy',
-    }
+    };
 
-    await mutate(Book, 'create', payload, null, asAdmin())
-      .catch(e => {
-        expect(e).toMatchSnapshot()
-      })
-  })
-
+    await mutate(Book, 'create', payload, null, asAdmin()).catch(e => {
+      expect(e).toMatchSnapshot();
+    });
+  });
 
   it('should take main value form translations object if provided', async () => {
-
     const payload = {
       'title.i18n': {
         default: 'War and Peace',
         de: 'Krieg und Frieden',
       },
       author: 'Leo Tolstoy',
-    }
+    };
 
-    const result = await mutate(Book, 'create', payload, null, asAdmin())
-    expect(result).toMatchSnapshot()
-  })
-
+    const result = await mutate(Book, 'create', payload, null, asAdmin());
+    expect(result).toMatchSnapshot();
+  });
 
   it('should store translations of multiple attributes', async () => {
-
     const payload = {
       'title.i18n': {
         default: 'War and Peace',
@@ -80,47 +67,46 @@ describe('i18n', () => {
         de: 'Krieg und Frieden ist ein historischer Roman des ...',
       },
       author: 'Leo Tolstoy',
-    }
+    };
 
-    const result = await mutate(Book, 'create', payload, null, asAdmin())
-    expect(result).toMatchSnapshot()
-  })
-
+    const result = await mutate(Book, 'create', payload, null, asAdmin());
+    expect(result).toMatchSnapshot();
+  });
 
   it('should find items by translation', async () => {
     const filter = {
       shortSummary: {
         $contains: 'ein historischer Roman',
-      }
-    }
+      },
+    };
 
-    const result = await find(Book, { ...orderByIdAsc, filter }, asAdmin(1, 'de'))
-    expect(result).toMatchSnapshot()
-  })
-
+    const result = await find(
+      Book,
+      { ...orderByIdAsc, filter },
+      asAdmin(1, 'de'),
+    );
+    expect(result).toMatchSnapshot();
+  });
 
   it('should merge existing translations with provided translations', async () => {
-
     let payload = {
       'title.i18n': {
         default: 'War and Peace',
         de: 'Krieg und Frieden',
       },
       author: 'Leo Tolstoy',
-    }
+    };
 
-    let result = await mutate(Book, 'create', payload, null, asAdmin())
-    const { id } = result
+    let result = await mutate(Book, 'create', payload, null, asAdmin());
+    const { id } = result;
 
     payload = {
       'shortSummary.i18n': {
         de: '⚔️ & ☮️',
       },
-    }
+    };
 
-    result = await mutate(Book, 'update', payload, id, asAdmin())
-    expect(result).toMatchSnapshot()
-  })
-
-
-})
+    result = await mutate(Book, 'update', payload, id, asAdmin());
+    expect(result).toMatchSnapshot();
+  });
+});
