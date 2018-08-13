@@ -2,7 +2,7 @@
   "name": "shift",
   "version": "1.0.0",
   "description": "Model driven database and API framework",
-  "main": "index.js",
+  "main": "dist/",
   "scripts": {
     "test": "jest",
     "test-watch": "jest --watch",
@@ -11,7 +11,9 @@
     "lint-staged": "lint-staged",
     "coverage": "NODE_ENV=test jest --coverage",
     "coverage-ci": "npm run coverage && cat ./coverage/lcov.info | codecov",
-    "babel": "babel --presets es2015,stage-0 --ignore node_modules,coverage"
+    "babel": "babel --presets es2015,stage-0 --ignore node_modules,coverage",
+    "build": "mkdir dist; npm run test && NODE_ENV=build babel lib -d dist",
+    "build-watch": "mkdir dist; NODE_ENV=build babel lib -w -d dist"
   },
   "jest": {
     "testEnvironment": "node"
