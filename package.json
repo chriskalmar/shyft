@@ -46,6 +46,7 @@
     "casual": "^1.5.19",
     "codecov": "^3.0.4",
     "eslint": "5.3.0",
+    "eslint-config-prettier": "^2.9.0",
     "husky": "^1.0.0-rc.13",
     "jest": "^23.5.0",
     "lerna": "^3.0.1",
@@ -58,6 +59,7 @@
     "dataloader": "^1.4.0",
     "json-shaper": "^1.2.0",
     "lodash": "^4.17.10",
+    "prettier-eslint-cli": "^4.7.1",
     "toposort": "^2.0.2"
   },
   "peerDependencies": {
