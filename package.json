@@ -23,6 +23,11 @@
   "lint-staged": {
     "*.js": "./node_modules/eslint/bin/eslint.js"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "pre-commit": "lint-staged",
   "keywords": [
     "shift",
