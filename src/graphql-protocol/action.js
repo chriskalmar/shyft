@@ -1,7 +1,6 @@
 import { GraphQLNonNull } from 'graphql';
 
 import _ from 'lodash';
-
 import {
   generateInput,
   generateDataInput,

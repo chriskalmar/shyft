@@ -1,7 +1,5 @@
 import { GraphQLList, GraphQLNonNull, GraphQLInputObjectType } from 'graphql';
-
 import _ from 'lodash';
-
 import ProtocolGraphQL from './ProtocolGraphQL';
 
 import {

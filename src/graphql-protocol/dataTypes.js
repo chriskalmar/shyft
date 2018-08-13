@@ -1,10 +1,8 @@
 import GraphQLJSON from 'graphql-type-json';
-
 import { GraphQLScalarType, Kind, GraphQLError } from 'graphql';
+import { serializeCursor, deserializeCursor } from './util';
 
 export { GraphQLJSON };
-
-import { serializeCursor, deserializeCursor } from './util';
 
 export const GraphQLCursor = new GraphQLScalarType({
   name: 'Cursor',

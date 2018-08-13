@@ -6,7 +6,7 @@ import {
 } from '../datatype/dataTypes';
 
 import CustomError from '../CustomError';
-import DataTypeState from '../datatype/DataTypeState.js';
+import DataTypeState from '../datatype/DataTypeState';
 import { i18nMockGenerator } from '../i18n';
 
 import _ from 'lodash';

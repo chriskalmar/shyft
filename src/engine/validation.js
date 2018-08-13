@@ -1,13 +1,8 @@
 import _ from 'lodash';
-
 import { isObjectDataType } from './datatype/ObjectDataType';
-
 import { isListDataType } from './datatype/ListDataType';
-
 import { isComplexDataType } from './datatype/ComplexDataType';
-
 import { isMap, passOrThrow, isDefined } from './util';
-
 import { MUTATION_TYPE_CREATE } from './mutation/Mutation';
 
 const validateDataTypePayload = (paramType, payload, context) => {

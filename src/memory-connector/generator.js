@@ -1,22 +1,16 @@
-
 import { isEntity } from 'shift-engine';
 import StorageTypeMemory from './StorageTypeMemory';
 import _ from 'lodash';
 import casual from 'casual';
 
-import {
-  shaper,
-} from 'json-shaper'
+import { shaper } from 'json-shaper';
 
-
-export const generateMemoryDB = (schema) => {
-
-  const memoryDB = {}
+export const generateMemoryDB = schema => {
+  const memoryDB = {};
 
   _.map(schema.getEntities(), (entity, entityName) => {
-
     if (String(entity.storageType) !== String(StorageTypeMemory)) {
-      return
+      return;
     }
 
     const model = {
@@ -24,175 +18,150 @@ export const generateMemoryDB = (schema) => {
       description: entity.description,
 
       fields: () => {
-        const fields = {}
+        const fields = {};
 
-        _.map(entity.getAttributes(), (attribute) => {
-
+        _.map(entity.getAttributes(), attribute => {
           // skip for computed values
           if (attribute.resolve) {
-            return
+            return;
           }
 
-          const localAttributeName = _.camelCase(attribute.name)
+          const localAttributeName = _.camelCase(attribute.name);
 
-          memoryDB[ entityName ].dataShaperMap[ attribute.name ] = localAttributeName
+          memoryDB[entityName].dataShaperMap[
+            attribute.name
+          ] = localAttributeName;
 
           const field = {
             description: attribute.description,
             required: attribute.required,
           };
 
-
           // it's a reference
           if (isEntity(attribute.type)) {
-            field.type = attribute.type
+            field.type = attribute.type;
           }
           // it's a regular attribute
           else {
-            field.type = StorageTypeMemory.convertToStorageDataType(attribute.type)
-            field.dataGenerator = attribute.fake || convertDataTypeToCasualFunction(attribute.type)
+            field.type = StorageTypeMemory.convertToStorageDataType(
+              attribute.type,
+            );
+            field.dataGenerator =
+              attribute.fake || convertDataTypeToCasualFunction(attribute.type);
           }
 
-          fields[ localAttributeName ] = field;
-
+          fields[localAttributeName] = field;
         });
 
-        return fields
-      }
-    }
+        return fields;
+      },
+    };
 
-
-
-    memoryDB[ entityName ] = {
+    memoryDB[entityName] = {
       data: [],
       model,
       dataShaperMap: {},
-    }
+    };
+  });
 
-  })
-
-
-
-  _.map(memoryDB, (entity) => {
-
+  _.map(memoryDB, entity => {
     // lazy generate fields
-    entity.model.fields = entity.model.fields()
+    entity.model.fields = entity.model.fields();
 
     // generate json shaper - translate database attribute names to schema attribute names
-    entity.dataShaper = shaper(entity.dataShaperMap)
-  })
-
-
+    entity.dataShaper = shaper(entity.dataShaperMap);
+  });
 
   return memoryDB;
+};
 
-}
-
-
-
-export const generateData = (memoryDB) => {
-
+export const generateData = memoryDB => {
   // generate basic data
-  _.forEach(memoryDB, (entity) => {
-    _.times( _.random(10, 100), () => {
-      generateItem(entity)
-    })
-  })
-
+  _.forEach(memoryDB, entity => {
+    _.times(_.random(10, 100), () => {
+      generateItem(entity);
+    });
+  });
 
   // generate references
-  _.forEach(memoryDB, ({data, model}) => {
-
+  _.forEach(memoryDB, ({ data, model }) => {
     _.forEach(model.fields, ({ type }, name) => {
-
       if (isEntity(type)) {
+        if (memoryDB[type.name]) {
+          const referencingData = memoryDB[type.name].data;
 
-        if (memoryDB[ type.name ]) {
-          const referencingData = memoryDB[ type.name ].data
+          const primaryAttribute = type.getPrimaryAttribute();
+          const primaryAttributeName = primaryAttribute.gqlFieldName;
 
-          const primaryAttribute = type.getPrimaryAttribute()
-          const primaryAttributeName = primaryAttribute.gqlFieldName
-
-          data.map((item) => {
-            item[name] = _.sample(referencingData)[primaryAttributeName]
-          })
+          data.map(item => {
+            item[name] = _.sample(referencingData)[primaryAttributeName];
+          });
         }
         else {
-          data.map((item) => {
-            item[ name ] = null
-          })
+          data.map(item => {
+            item[name] = null;
+          });
         }
       }
-    })
-
-  })
-
-
-}
-
-
+    });
+  });
+};
 
 function generateItem(entity) {
+  const model = entity.model;
+  const nextId = (entity.data.length + 1).toString();
 
-  const model = entity.model
-  const nextId = (entity.data.length + 1).toString()
-
-  const item = {  }
+  const item = {};
 
   _.forEach(model.fields, ({ required, dataGenerator }, name) => {
-
     if (!required && Math.random() > 0.5) {
-      item[ name ] = null
-      return
+      item[name] = null;
+      return;
     }
 
     if (dataGenerator) {
-      item[ name ] = dataGenerator()
+      item[name] = dataGenerator();
     }
-  })
+  });
 
-  const primaryAttribute = model.getPrimaryAttribute()
-  const primaryAttributeName = primaryAttribute.gqlFieldName
+  const primaryAttribute = model.getPrimaryAttribute();
+  const primaryAttributeName = primaryAttribute.gqlFieldName;
 
-  item[primaryAttributeName] = nextId
+  item[primaryAttributeName] = nextId;
 
-  entity.data.push(item)
+  entity.data.push(item);
 
-  return nextId
+  return nextId;
 }
 
-
-
 const casualDataTypeMap = {
-  DataTypeID: () => casual.integer(2^20, 2^31).toString(),
-  DataTypeInteger: () => casual.integer(-2^10, 2^10),
-  DataTypeBigInt: () => casual.integer(2^20, 2^31).toString(),
-  DataTypeFloat: () => casual.double(-2^10, 2^10),
+  DataTypeID: () => casual.integer(2 ^ 20, 2 ^ 31).toString(),
+  DataTypeInteger: () => casual.integer(-2 ^ 10, 2 ^ 10),
+  DataTypeBigInt: () => casual.integer(2 ^ 20, 2 ^ 31).toString(),
+  DataTypeFloat: () => casual.double(-2 ^ 10, 2 ^ 10),
   DataTypeBoolean: () => casual.boolean,
   DataTypeString: () => casual.title,
   DataTypeJson: randomJson,
   DataTypeTimestamp: () => new Date(casual.unix_time * 1000),
   DataTypeTimestampTz: () => new Date(casual.unix_time * 1000),
   DataTypeDate: () => new Date(casual.unix_time * 1000),
-}
-
+};
 
 function convertDataTypeToCasualFunction(dataType) {
-  return casualDataTypeMap[ String(dataType) ] || casualDataTypeMap.DataTypeString
+  return (
+    casualDataTypeMap[String(dataType)] || casualDataTypeMap.DataTypeString
+  );
 }
 
-
 function randomJson() {
-  const ret = {}
+  const ret = {};
 
   _.times(3, () => {
-    const key = _.camelCase( casual.words(2) )
-    const value = Math.random() > 0.5
-      ? casual.title
-      : casual.integer
+    const key = _.camelCase(casual.words(2));
+    const value = Math.random() > 0.5 ? casual.title : casual.integer;
 
-    ret[ key ] = value
-  })
+    ret[key] = value;
+  });
 
-  return ret
+  return ret;
 }
