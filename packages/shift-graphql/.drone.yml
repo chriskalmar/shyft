@@ -1,8 +1,0 @@
-build:
-  image: node:6.4.0
-  environment:
-    CODECOV_TOKEN: ----------
-  commands:
-    - npm install
-    - npm run lint
-    - npm run coverage-ci
