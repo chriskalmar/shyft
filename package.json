@@ -44,5 +44,14 @@
     "prettier-eslint": "^8.8.2",
     "prettier-eslint-cli": "^4.7.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "graphql-relay": "^0.5.5",
+    "graphql-type-json": "^0.2.1",
+    "json-shaper": "^1.2.0",
+    "lodash": "^4.17.10",
+    "pluralize": "^7.0.0"
+  },
+  "peerDependencies": {
+    "graphql": "^0.13.2"
+  }
 }
