@@ -1,14 +1,10 @@
 import { GraphQLList, GraphQLNonNull, GraphQLInputObjectType } from 'graphql';
 import _ from 'lodash';
 import ProtocolGraphQL from './ProtocolGraphQL';
-
-import {
-  isEntity,
-  constants,
-  isComplexDataType,
-  isArray,
-  isMap,
-} from 'shift-engine';
+import { isEntity } from '../engine/entity/Entity';
+import constants from '../engine/constants';
+import { isComplexDataType } from '../engine/datatype/ComplexDataType';
+import { isArray, isMap } from '../engine/util';
 
 const {
   storageDataTypeCapabilities,

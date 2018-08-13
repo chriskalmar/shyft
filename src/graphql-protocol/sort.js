@@ -1,9 +1,7 @@
 import { GraphQLEnumType, GraphQLList } from 'graphql';
-
 import _ from 'lodash';
-
-import { isEntity } from 'shift-engine';
 import ProtocolGraphQL from './ProtocolGraphQL';
+import { isEntity } from '../engine/entity/Entity';
 
 export const generateSortInput = entity => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();

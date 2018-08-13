@@ -11,9 +11,9 @@ import { fromGlobalId } from 'graphql-relay';
 import _ from 'lodash';
 
 import ProtocolGraphQL from './ProtocolGraphQL';
-import { isEntity } from 'shift-engine';
 import { getEntityUniquenessAttributes } from './helper';
 import { getMutationResolver } from './resolver';
+import { isEntity } from '../engine/entity/Entity';
 
 const i18nInputFieldTypesCache = {};
 

@@ -1,5 +1,13 @@
 import {
-  StorageType,
+  StorageDataTypeBoolean,
+  StorageDataTypeNumber,
+  StorageDataTypeString,
+  StorageDataTypeObject,
+  StorageDataTypeTimestamp,
+  StorageDataTypeDate,
+} from './storageDataTypes';
+import StorageType from '../engine/storage/StorageType';
+import {
   DataTypeID,
   DataTypeInteger,
   DataTypeBigInt,
@@ -10,16 +18,7 @@ import {
   DataTypeTimestamp,
   DataTypeTimestampTz,
   DataTypeDate,
-} from 'shift-engine';
-
-import {
-  StorageDataTypeBoolean,
-  StorageDataTypeNumber,
-  StorageDataTypeString,
-  StorageDataTypeObject,
-  StorageDataTypeTimestamp,
-  StorageDataTypeDate,
-} from './storageDataTypes';
+} from '../engine/datatype/dataTypes';
 
 export const StorageTypeMemory = new StorageType({
   name: 'StorageTypeMemory',

@@ -1,10 +1,7 @@
-import {
-  Action,
-  DataTypeString,
-  DataTypeInteger,
-  buildObjectDataType,
-  buildListDataType,
-} from 'shift-engine';
+import Action from '../engine/action/Action';
+import { DataTypeString, DataTypeInteger } from '../engine/datatype/dataTypes';
+import { buildObjectDataType } from '../engine/datatype/ObjectDataType';
+import { buildListDataType } from '../engine/datatype/ListDataType';
 
 import {
   generateInput,

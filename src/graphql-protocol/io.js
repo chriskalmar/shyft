@@ -10,13 +10,10 @@ import _ from 'lodash';
 
 import ProtocolGraphQL from './ProtocolGraphQL';
 import { resolveByFindOne } from './resolver';
-
-import {
-  isEntity,
-  isObjectDataType,
-  isListDataType,
-  isArray,
-} from 'shift-engine';
+import { isEntity } from '../engine/entity/Entity';
+import { isObjectDataType } from '../engine/datatype/ObjectDataType';
+import { isListDataType } from '../engine/datatype/ListDataType';
+import { isArray } from '../engine/util';
 
 export const generateDataInput = (baseName, inputParams, singleParam) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();

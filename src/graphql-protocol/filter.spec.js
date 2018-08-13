@@ -5,15 +5,15 @@ import {
 
 import { extendModelsForGql } from './generator';
 
-import {
-  Entity,
-  DataTypeBoolean,
-  DataTypeString,
-  DataTypeInteger,
-} from 'shift-engine';
+import Entity from '../engine/entity/Entity';
 
 import ProtocolGraphQL from './ProtocolGraphQL';
 import ProtocolGraphQLConfiguration from './ProtocolGraphQLConfiguration';
+import {
+  DataTypeInteger,
+  DataTypeString,
+  DataTypeBoolean,
+} from '../engine/datatype/dataTypes';
 
 ProtocolGraphQL.setProtocolConfiguration(new ProtocolGraphQLConfiguration());
 

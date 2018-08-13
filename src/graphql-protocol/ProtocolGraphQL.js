@@ -1,5 +1,5 @@
+import ProtocolType from '../engine/protocol/ProtocolType';
 import {
-  ProtocolType,
   DataTypeID,
   DataTypeInteger,
   DataTypeBigInt,
@@ -12,11 +12,7 @@ import {
   DataTypeDate,
   DataTypeUUID,
   DataTypeI18n,
-  isDataTypeState,
-  isDataTypeEnum,
-  isObjectDataType,
-  isListDataType,
-} from 'shift-engine';
+} from '../engine/datatype/dataTypes';
 
 import {
   GraphQLScalarType,
@@ -27,6 +23,10 @@ import {
   GraphQLBoolean,
   GraphQLEnumType,
 } from 'graphql';
+import { isDataTypeState } from '../engine/datatype/DataTypeState';
+import { isDataTypeEnum } from '../engine/datatype/DataTypeEnum';
+import { isObjectDataType } from '../engine/datatype/ObjectDataType';
+import { isListDataType } from '../engine/datatype/ListDataType';
 
 import graphRegistry from './graphRegistry';
 

@@ -1,4 +1,4 @@
-import { StorageDataType } from 'shift-engine';
+import StorageDataType from '../engine/storage/StorageDataType';
 
 export const StorageDataTypeBoolean = new StorageDataType({
   name: 'StorageDataTypeBoolean',

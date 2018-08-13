@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import pluralize from 'pluralize';
 import constants from './constants';
-import { CustomError, isDefined } from 'shift-engine';
+import CustomError from '../engine/CustomError';
+import { isDefined } from '../engine/util';
 
 export function generateTypeName(name) {
   return _.camelCase(name);

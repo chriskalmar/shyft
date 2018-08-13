@@ -1,9 +1,9 @@
-import { isEntity } from 'shift-engine';
 import StorageTypeMemory from './StorageTypeMemory';
 import _ from 'lodash';
 import casual from 'casual';
 
 import { shaper } from 'json-shaper';
+import { isEntity } from '../engine/entity/Entity';
 
 export const generateMemoryDB = schema => {
   const memoryDB = {};

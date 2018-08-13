@@ -3,14 +3,6 @@ import constants from './constants';
 import graphRegistry from './graphRegistry';
 import ProtocolGraphQL from './ProtocolGraphQL';
 
-import {
-  isEntity,
-  isConfiguration,
-  ACTION_TYPE_QUERY,
-  ACTION_TYPE_MUTATION,
-  DataTypeI18n,
-} from 'shift-engine';
-
 import { shaper } from 'json-shaper';
 
 import {
@@ -31,6 +23,13 @@ import { generateMutations } from './mutation';
 import { generateActions } from './action';
 
 import { resolveByFindOne } from './resolver';
+import { isConfiguration } from '../engine/configuration/Configuration';
+import { isEntity } from '../engine/entity/Entity';
+import { DataTypeI18n } from '../engine/datatype/dataTypes';
+import {
+  ACTION_TYPE_MUTATION,
+  ACTION_TYPE_QUERY,
+} from '../engine/action/Action';
 
 export const getTypeForEntityFromGraphRegistry = entity => {
   const typeName = entity.graphql.typeName;

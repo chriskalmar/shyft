@@ -17,24 +17,25 @@ import { transformFilterLevel } from './filter';
 
 import _ from 'lodash';
 
-import {
-  isEntity,
-  MUTATION_TYPE_CREATE,
-  MUTATION_TYPE_UPDATE,
-  MUTATION_TYPE_DELETE,
-  CustomError,
-  fillSystemAttributesDefaultValues,
-  fillDefaultValues,
-  serializeValues,
-  validateMutationPayload,
-} from 'shift-engine';
-
 import { addRelayTypePromoterToInstance, translateInstance } from './util';
 
 import {
   getEntityUniquenessAttributes,
   checkRequiredI18nInputs,
 } from './helper';
+import { isEntity } from '../engine/entity/Entity';
+import {
+  MUTATION_TYPE_CREATE,
+  MUTATION_TYPE_UPDATE,
+  MUTATION_TYPE_DELETE,
+} from '../engine/mutation/Mutation';
+import CustomError from '../engine/CustomError';
+import {
+  fillSystemAttributesDefaultValues,
+  fillDefaultValues,
+  serializeValues,
+} from '../engine/helpers';
+import { validateMutationPayload } from '../engine/validation';
 
 export const resolveByFind = (entity, parentConnectionCollector) => {
   const storageType = entity.storageType;

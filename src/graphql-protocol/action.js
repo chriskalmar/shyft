@@ -8,16 +8,13 @@ import {
   generateDataOutput,
 } from './io';
 
-import {
-  isObjectDataType,
-  isListDataType,
-  validateActionPayload,
-  ACTION_TYPE_MUTATION,
-  buildActionPermissionFilter,
-  CustomError,
-} from 'shift-engine';
-
 import ProtocolGraphQL from './ProtocolGraphQL';
+import { isObjectDataType } from '../engine/datatype/ObjectDataType';
+import { isListDataType } from '../engine/datatype/ListDataType';
+import { validateActionPayload } from '../engine/validation';
+import { ACTION_TYPE_MUTATION } from '../engine/action/Action';
+import { buildActionPermissionFilter } from '../engine/permission/Permission';
+import CustomError from '../engine/CustomError';
 
 const AccessDeniedError = new CustomError(
   'Access denied',

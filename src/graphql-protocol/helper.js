@@ -1,6 +1,7 @@
 import ProtocolGraphQL from './ProtocolGraphQL';
 import _ from 'lodash';
-import { INDEX_UNIQUE, CustomError } from 'shift-engine';
+import { INDEX_UNIQUE } from '../engine/index/Index';
+import CustomError from '../engine/CustomError';
 
 export const getEntityUniquenessAttributes = entity => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();

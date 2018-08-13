@@ -1,4 +1,3 @@
-import { ProtocolConfiguration } from 'shift-engine';
 import {
   generateTypeName,
   generateTypeNamePlural,
@@ -7,6 +6,7 @@ import {
   generateTypeNameUpperCase,
 } from './util';
 import { MAX_PAGE_SIZE } from './constants';
+import ProtocolConfiguration from '../engine/protocol/ProtocolConfiguration';
 
 class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   constructor() {
