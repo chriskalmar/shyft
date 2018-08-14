@@ -1,5 +1,5 @@
 {
-  "name": "shift",
+  "name": "shyft",
   "version": "1.0.0",
   "description": "Model driven database and API framework",
   "main": "dist/",
@@ -28,6 +28,14 @@
       "pre-commit": "lint-staged"
     }
   },
+  "keywords": [
+    "shyft",
+    "api",
+    "model",
+    "generator"
+  ],
+  "author": "Chris Kalmar <christian.kalmar@gmail.com>",
+  "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.2.6",
