@@ -2,7 +2,7 @@
   "name": "shyft-postgres-connector",
   "version": "0.1.0",
   "description": "Postgres connector for shift",
-  "main": "dist/",
+  "main": "lib/",
   "scripts": {
     "test": "jest --testPathIgnorePatterns test/",
     "test-watch": "jest --testPathIgnorePatterns test/ --watch",
@@ -14,8 +14,8 @@
     "coverage": "NODE_ENV=test jest --runInBand --coverage",
     "coverage-ci": "npm run coverage && cat ./coverage/lcov.info | codecov",
     "babel": "babel --presets es2015,stage-0 --ignore node_modules,coverage",
-    "build": "mkdir dist; npm run test && NODE_ENV=build babel src -d dist",
-    "build-watch": "mkdir dist; NODE_ENV=build babel src -w -d dist"
+    "build": "mkdir -p lib; npm run test && NODE_ENV=build babel src -d lib",
+    "build-watch": "mkdir -p lib; NODE_ENV=build babel src -w -d lib"
   },
   "jest": {
     "testEnvironment": "node"

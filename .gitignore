@@ -53,4 +53,5 @@ typings/
 
 playground/*
 
-dist/*
+# build
+lib/*
