@@ -97,6 +97,17 @@ import ListDataType, {
 import { Language } from './engine/models/Language';
 import { User } from './engine/models/User';
 
+import generator, {
+  getTypeForEntityFromGraphRegistry,
+} from './graphql-protocol/generator';
+import dataTypes from './graphql-protocol/dataTypes';
+import ProtocolGraphQL from './graphql-protocol/ProtocolGraphQL';
+import protocolGraphqlConstants from './graphql-protocol/protocolGraphqlConstants';
+import ProtocolGraphQLConfiguration, {
+  isProtocolGraphQLConfiguration,
+} from './graphql-protocol/ProtocolGraphQLConfiguration';
+import { fromBase64, toBase64 } from './graphql-protocol/util';
+
 const coreModels = {
   Language,
   User,
@@ -178,6 +189,15 @@ export {
   isProtocolConfiguration,
   StorageConfiguration,
   isStorageConfiguration,
+  generator,
+  getTypeForEntityFromGraphRegistry,
+  dataTypes,
+  ProtocolGraphQL,
+  protocolGraphqlConstants,
+  ProtocolGraphQLConfiguration,
+  isProtocolGraphQLConfiguration,
+  fromBase64,
+  toBase64,
 };
 
 export default {
@@ -275,4 +295,15 @@ export default {
   isProtocolConfiguration,
   StorageConfiguration,
   isStorageConfiguration,
+
+  generator,
+  getTypeForEntityFromGraphRegistry,
+  dataTypes,
+  ProtocolGraphQL,
+  protocolGraphqlConstants,
+  ProtocolGraphQLConfiguration,
+  isProtocolGraphQLConfiguration,
+
+  fromBase64,
+  toBase64,
 };

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import pluralize from 'pluralize';
-import constants from './constants';
+import constants from './protocolGraphqlConstants';
 import CustomError from '../engine/CustomError';
 import { isDefined } from '../engine/util';
 

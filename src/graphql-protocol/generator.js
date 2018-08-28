@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import constants from './constants';
+import constants from './protocolGraphqlConstants';
 import graphRegistry from './graphRegistry';
 import ProtocolGraphQL from './ProtocolGraphQL';
 

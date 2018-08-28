@@ -5,7 +5,7 @@ import {
   generateTypeNamePluralPascalCase,
   generateTypeNameUpperCase,
 } from './util';
-import { MAX_PAGE_SIZE } from './constants';
+import { MAX_PAGE_SIZE } from './protocolGraphqlConstants';
 import ProtocolConfiguration from '../engine/protocol/ProtocolConfiguration';
 
 class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
