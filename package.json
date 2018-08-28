@@ -1,6 +1,6 @@
 {
   "name": "shyft",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "Model driven database and API framework",
   "main": "dist/",
   "scripts": {
