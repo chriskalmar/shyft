@@ -1,5 +1,5 @@
 {
-  "name": "shift-postgres-connector",
+  "name": "shyft-postgres-connector",
   "version": "0.1.0",
   "description": "Postgres connector for shift",
   "main": "dist/",
@@ -69,7 +69,7 @@
   },
   "peerDependencies": {
     "pg": "^7.4.1",
-    "shift-engine": "^1.0.0",
+    "shyft": "^1.0.0",
     "typeorm": "^0.2.7"
   }
 }
