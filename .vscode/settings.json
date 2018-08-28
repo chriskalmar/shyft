@@ -4,7 +4,7 @@
   "files.insertFinalNewline": true,
   "eslint.enable": true,
   "search.exclude": {
-    "dist": true
+    "lib": true
   },
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": false,
   "editor.formatOnSave": false,
