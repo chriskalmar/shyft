@@ -1,4 +1,4 @@
-import { Entity, DataTypeString } from 'shift-engine';
+import { Entity, DataTypeString } from 'shyft';
 
 import { ClusterZone } from './ClusterZone';
 

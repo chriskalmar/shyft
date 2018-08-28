@@ -9,7 +9,7 @@ import {
   Index,
   INDEX_UNIQUE,
   INDEX_GENERIC,
-} from 'shift-engine';
+} from 'shyft';
 
 import { Profile } from './Profile';
 

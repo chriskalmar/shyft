@@ -7,7 +7,7 @@ import {
   Mutation,
   MUTATION_TYPE_CREATE,
   Permission,
-} from 'shift-engine';
+} from 'shyft';
 
 import crypto from 'crypto';
 

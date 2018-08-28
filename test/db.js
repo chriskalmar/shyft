@@ -12,7 +12,7 @@ import {
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
-} from 'shift-engine';
+} from 'shyft';
 
 import { Profile } from './models/Profile';
 import { Message } from './models/Message';

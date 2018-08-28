@@ -1,4 +1,4 @@
-import { Entity, DataTypeString } from 'shift-engine';
+import { Entity, DataTypeString } from 'shyft';
 
 export const ClusterZone = new Entity({
   name: 'ClusterZone',

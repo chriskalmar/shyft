@@ -5,7 +5,7 @@ import {
   Permission,
   DataTypeString,
   DataTypeTimestampTz,
-} from 'shift-engine';
+} from 'shyft';
 
 import { Profile } from './Profile';
 import { Board } from './Board';

@@ -3,7 +3,7 @@ import {
   DataTypeString,
   buildListDataType,
   buildObjectDataType,
-} from 'shift-engine';
+} from 'shyft';
 
 export const Book = new Entity({
   name: 'Book',
