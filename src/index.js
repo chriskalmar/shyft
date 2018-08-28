@@ -100,7 +100,13 @@ import { User } from './engine/models/User';
 import generator, {
   getTypeForEntityFromGraphRegistry,
 } from './graphql-protocol/generator';
-import dataTypes from './graphql-protocol/dataTypes';
+import {
+  GraphQLJSON,
+  GraphQLCursor,
+  GraphQLBigInt,
+  GraphQLDateTime,
+  GraphQLDate,
+} from './graphql-protocol/dataTypes';
 import ProtocolGraphQL from './graphql-protocol/ProtocolGraphQL';
 import protocolGraphqlConstants from './graphql-protocol/protocolGraphqlConstants';
 import ProtocolGraphQLConfiguration, {
@@ -191,7 +197,11 @@ export {
   isStorageConfiguration,
   generator,
   getTypeForEntityFromGraphRegistry,
-  dataTypes,
+  GraphQLJSON,
+  GraphQLCursor,
+  GraphQLBigInt,
+  GraphQLDateTime,
+  GraphQLDate,
   ProtocolGraphQL,
   protocolGraphqlConstants,
   ProtocolGraphQLConfiguration,
@@ -298,7 +308,11 @@ export default {
 
   generator,
   getTypeForEntityFromGraphRegistry,
-  dataTypes,
+  GraphQLJSON,
+  GraphQLCursor,
+  GraphQLBigInt,
+  GraphQLDateTime,
+  GraphQLDate,
   ProtocolGraphQL,
   protocolGraphqlConstants,
   ProtocolGraphQLConfiguration,
