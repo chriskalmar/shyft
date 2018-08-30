@@ -2,7 +2,7 @@ import { passOrThrow, isMap } from '../util';
 
 import { stateNameRegex, STATE_NAME_PATTERN } from '../constants';
 
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 import DataType from './DataType';
 

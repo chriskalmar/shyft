@@ -1,6 +1,6 @@
 import { passOrThrow, isArray } from '../util';
 
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 export const INDEX_UNIQUE = 'unique';
 export const INDEX_GENERIC = 'generic';

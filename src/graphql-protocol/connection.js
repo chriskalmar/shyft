@@ -13,7 +13,7 @@ import { resolveByFind } from './resolver';
 import ProtocolGraphQL from './ProtocolGraphQL';
 import { generateSortInput } from './sort';
 import { generateFilterInput } from './filter';
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 export const generateConnectionArgs = (entity, graphRegistry) => {
   const sortInput = generateSortInput(entity);

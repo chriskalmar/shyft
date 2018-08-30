@@ -1,5 +1,5 @@
 import StorageTypeMemory from './StorageTypeMemory';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import casual from 'casual';
 
 import { shaper } from 'json-shaper';

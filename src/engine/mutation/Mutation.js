@@ -1,6 +1,6 @@
 import { passOrThrow, isArray, isFunction, mapOverProperties } from '../util';
 
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 export const MUTATION_TYPE_CREATE = 'create';
 export const MUTATION_TYPE_UPDATE = 'update';

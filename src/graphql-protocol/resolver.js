@@ -15,7 +15,7 @@ import {
 
 import { transformFilterLevel } from './filter';
 
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 import { addRelayTypePromoterToInstance, translateInstance } from './util';
 

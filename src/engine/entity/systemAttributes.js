@@ -9,7 +9,7 @@ import CustomError from '../CustomError';
 import DataTypeState from '../datatype/DataTypeState';
 import { i18nMockGenerator } from '../i18n';
 
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 export const systemAttributePrimary = {
   name: 'id',

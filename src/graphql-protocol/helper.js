@@ -1,5 +1,5 @@
 import ProtocolGraphQL from './ProtocolGraphQL';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { INDEX_UNIQUE } from '../engine/index/Index';
 import CustomError from '../engine/CustomError';
 

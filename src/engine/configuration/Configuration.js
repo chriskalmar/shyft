@@ -7,7 +7,7 @@ import { languageIsoCodeRegex, LANGUAGE_ISO_CODE_PATTERN } from '../constants';
 import { isProtocolConfiguration } from '../protocol/ProtocolConfiguration';
 import { isStorageConfiguration } from '../storage/StorageConfiguration';
 
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 class Configuration {
   constructor(setup = {}) {

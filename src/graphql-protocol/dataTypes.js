@@ -1,4 +1,4 @@
-import GraphQLJSON from 'graphql-type-json';
+import * as GraphQLJSON from 'graphql-type-json';
 import { GraphQLScalarType, Kind, GraphQLError } from 'graphql';
 import { serializeCursor, deserializeCursor } from './util';
 

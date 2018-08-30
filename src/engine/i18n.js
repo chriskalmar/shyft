@@ -1,5 +1,5 @@
 import { randomJson } from './util';
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 export const i18nMockGenerator = (
   entity,

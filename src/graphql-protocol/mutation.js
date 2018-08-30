@@ -8,7 +8,7 @@ import {
 } from 'graphql';
 
 import { fromGlobalId } from 'graphql-relay';
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 import ProtocolGraphQL from './ProtocolGraphQL';
 import { getEntityUniquenessAttributes } from './helper';

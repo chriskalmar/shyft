@@ -4,7 +4,7 @@ import { isEntity } from '../entity/Entity';
 import { isDataTypeUser } from '../datatype/DataTypeUser';
 import { MUTATION_TYPE_CREATE, isMutation } from '../mutation/Mutation';
 import { isDataTypeState } from '../datatype/DataTypeState';
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 /*
   all permission rules are ...

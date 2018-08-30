@@ -39,7 +39,7 @@ import {
   systemAttributeI18n,
 } from './systemAttributes';
 
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 class Entity {
   constructor(setup = {}) {
