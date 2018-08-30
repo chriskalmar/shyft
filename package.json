@@ -2,7 +2,8 @@
   "name": "shyft",
   "version": "0.2.0",
   "description": "Model driven database and API framework",
-  "main": "lib/",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest",
     "test-watch": "jest --watch",
@@ -16,6 +17,9 @@
     "build-watch": "mkdir -p lib; NODE_ENV=build babel src -w -d lib",
     "prepublish": "yarn run build"
   },
+  "files": [
+    "lib"
+  ],
   "jest": {
     "testEnvironment": "node"
   },
