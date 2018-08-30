@@ -13,8 +13,8 @@
     "coverage": "NODE_ENV=test jest --coverage",
     "coverage-ci": "npm run coverage && cat ./coverage/lcov.info | codecov",
     "babel": "babel --presets es2015,stage-0 --ignore node_modules,coverage",
-    "build": "mkdir -p lib; npm run test && NODE_ENV=build babel src -d lib",
-    "build-watch": "mkdir -p lib; NODE_ENV=build babel src -w -d lib",
+    "build": "tsc",
+    "build-watch": "tsc -w",
     "prepublish": "yarn run build"
   },
   "files": [
