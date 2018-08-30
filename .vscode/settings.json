@@ -6,7 +6,6 @@
   "search.exclude": {
     "lib": true
   },
-  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": false,
   "editor.formatOnSave": false,
   "prettier.eslintIntegration": true,
   "[javascript]": {
