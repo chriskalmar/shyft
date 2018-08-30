@@ -43,6 +43,7 @@ import {
   processCursors,
   deleteUndefinedProps,
   isDefined,
+  isString,
 } from './engine/util';
 
 import { processFilter, convertFilterLevel } from './engine/filter';
@@ -166,6 +167,7 @@ export {
   processCursors,
   deleteUndefinedProps,
   isDefined,
+  isString,
   processFilter,
   convertFilterLevel,
   fillSystemAttributesDefaultValues,
@@ -267,6 +269,7 @@ export default {
   processCursors,
   deleteUndefinedProps,
   isDefined,
+  isString,
 
   processFilter,
   convertFilterLevel,
