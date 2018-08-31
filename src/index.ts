@@ -59,11 +59,12 @@ import {
   mergeMaps,
   mapOverProperties,
   sortDataByKeys,
-  processCursors,
   deleteUndefinedProps,
   isDefined,
   isString,
 } from './engine/util';
+
+import { processCursors } from './engine/cursor';
 
 import { processFilter, convertFilterLevel } from './engine/filter';
 
@@ -181,10 +182,10 @@ export {
   mergeMaps,
   mapOverProperties,
   sortDataByKeys,
-  processCursors,
   deleteUndefinedProps,
   isDefined,
   isString,
+  processCursors,
   processFilter,
   convertFilterLevel,
   fillSystemAttributesDefaultValues,

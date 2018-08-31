@@ -21,23 +21,3 @@ exports[`util mergeMaps should throw if non-maps are provided 3`] = `"mergeMaps(
 exports[`util passOrThrow should throw if message is not a function 1`] = `"passOrThrow() expects messageFn to be a function"`;
 
 exports[`util passOrThrow should throw on negative condition 1`] = `"This is the very very super important error"`;
-
-exports[`util processCursor should throw if an attribute is used which the data set is not sorted by 1`] = `"orderBy needs to be an array of order definitions"`;
-
-exports[`util processCursor should throw if an attribute is used which the data set is not sorted by 2`] = `"Cursor works only on sorted attributes (check: 'loginName')"`;
-
-exports[`util processCursor should throw if an attribute is used which the data set is not sorted by 3`] = `"Cursor works only on sorted attributes (check: 'email')"`;
-
-exports[`util processCursor should throw if cursor is malformed 1`] = `"Cursor malformed"`;
-
-exports[`util processCursor should throw if cursor is malformed 2`] = `"Cursor malformed"`;
-
-exports[`util processCursor should throw if cursor is malformed 3`] = `"Cursor malformed"`;
-
-exports[`util processCursor should throw if incompatible cursor provided 1`] = `"Incompatible cursor for this entity"`;
-
-exports[`util processCursor should throw if none of the attributes are defined as unique 1`] = `"Cursor needs to have at least one attribute defined as unique"`;
-
-exports[`util processCursor should throw if none of the attributes are defined as unique 2`] = `"Cursor needs to have at least one attribute defined as unique"`;
-
-exports[`util processCursor should throw if unknown attribute is used 1`] = `"Unknown attribute 'iDontKnow' used in cursor"`;
