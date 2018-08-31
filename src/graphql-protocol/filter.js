@@ -2,14 +2,12 @@ import { GraphQLList, GraphQLNonNull, GraphQLInputObjectType } from 'graphql';
 import * as _ from 'lodash';
 import { ProtocolGraphQL } from './ProtocolGraphQL';
 import { isEntity } from '../engine/entity/Entity';
-import constants from '../engine/constants';
-import { isComplexDataType } from '../engine/datatype/ComplexDataType';
-import { isArray, isMap } from '../engine/util';
-
-const {
+import {
   storageDataTypeCapabilities,
   storageDataTypeCapabilityType,
-} = constants;
+} from '../engine/constants';
+import { isComplexDataType } from '../engine/datatype/ComplexDataType';
+import { isArray, isMap } from '../engine/util';
 
 const AND_OPERATOR = 'AND';
 const OR_OPERATOR = 'OR';

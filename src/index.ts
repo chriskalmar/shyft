@@ -1,4 +1,17 @@
-import constants from './engine/constants';
+import {
+  ATTRIBUTE_NAME_PATTERN,
+  attributeNameRegex,
+  ENUM_VALUE_PATTERN,
+  enumValueRegex,
+  STATE_NAME_PATTERN,
+  stateNameRegex,
+  LANGUAGE_ISO_CODE_PATTERN,
+  languageIsoCodeRegex,
+  storageDataTypeCapabilityType,
+  storageDataTypeCapabilities,
+  entityPropertiesWhitelist,
+  attributePropertiesWhitelist,
+} from './engine/constants';
 import { CustomError } from './engine/CustomError';
 import { Entity, isEntity } from './engine/entity/Entity';
 import { Schema } from './engine/schema/Schema';
@@ -120,7 +133,10 @@ import {
   GraphQLDate,
 } from './graphql-protocol/dataTypes';
 import { ProtocolGraphQL } from './graphql-protocol/ProtocolGraphQL';
-import { protocolGraphqlConstants } from './graphql-protocol/protocolGraphqlConstants';
+import {
+  RELAY_TYPE_PROMOTER_FIELD,
+  MAX_PAGE_SIZE,
+} from './graphql-protocol/protocolGraphqlConstants';
 import {
   ProtocolGraphQLConfiguration,
   isProtocolGraphQLConfiguration,
@@ -133,7 +149,18 @@ const coreModels = {
 };
 
 export {
-  constants,
+  ATTRIBUTE_NAME_PATTERN,
+  attributeNameRegex,
+  ENUM_VALUE_PATTERN,
+  enumValueRegex,
+  STATE_NAME_PATTERN,
+  stateNameRegex,
+  LANGUAGE_ISO_CODE_PATTERN,
+  languageIsoCodeRegex,
+  storageDataTypeCapabilityType,
+  storageDataTypeCapabilities,
+  entityPropertiesWhitelist,
+  attributePropertiesWhitelist,
   CustomError,
   Entity,
   isEntity,
@@ -217,7 +244,8 @@ export {
   GraphQLDateTime,
   GraphQLDate,
   ProtocolGraphQL,
-  protocolGraphqlConstants,
+  RELAY_TYPE_PROMOTER_FIELD,
+  MAX_PAGE_SIZE,
   ProtocolGraphQLConfiguration,
   isProtocolGraphQLConfiguration,
   fromBase64,

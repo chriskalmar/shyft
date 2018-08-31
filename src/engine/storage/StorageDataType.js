@@ -1,6 +1,6 @@
 import { passOrThrow, isFunction, isArray } from '../util';
 
-import constants from '../constants';
+import { storageDataTypeCapabilities } from '../constants';
 
 export class StorageDataType {
   constructor(setup = {}) {
@@ -43,7 +43,7 @@ export class StorageDataType {
 
       capabilities.map(capability => {
         passOrThrow(
-          constants.storageDataTypeCapabilities[capability],
+          storageDataTypeCapabilities[capability],
           () =>
             `Storage data type '${name}' has an unknown capability '${capability}'`,
         );

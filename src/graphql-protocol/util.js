@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as pluralize from 'pluralize';
-import constants from './protocolGraphqlConstants';
+import { RELAY_TYPE_PROMOTER_FIELD } from './protocolGraphqlConstants';
 import { CustomError } from '../engine/CustomError';
 import { isDefined } from '../engine/util';
 
@@ -55,7 +55,7 @@ export const addRelayTypePromoterToInstance = (typeName, instance) => {
     return instance;
   }
 
-  instance[constants.RELAY_TYPE_PROMOTER_FIELD] = typeName;
+  instance[RELAY_TYPE_PROMOTER_FIELD] = typeName;
   return instance;
 };
 

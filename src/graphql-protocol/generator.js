@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import constants from './protocolGraphqlConstants';
+import { RELAY_TYPE_PROMOTER_FIELD } from './protocolGraphqlConstants';
 import { graphRegistry } from './graphRegistry';
 import { ProtocolGraphQL } from './ProtocolGraphQL';
 
@@ -81,8 +81,7 @@ export const extendModelsForGql = entities => {
     });
 
     // forward relay type promoter field as well
-    dataShaperMap[constants.RELAY_TYPE_PROMOTER_FIELD] =
-      constants.RELAY_TYPE_PROMOTER_FIELD;
+    dataShaperMap[RELAY_TYPE_PROMOTER_FIELD] = RELAY_TYPE_PROMOTER_FIELD;
 
     // generate json shaper - translate schema attribute names to graphql attribute names
     const dataShaper = shaper(dataShaperMap);
@@ -126,7 +125,7 @@ const getNodeDefinitions = () => {
   };
 
   const typeResolver = obj => {
-    const typeName = obj[constants.RELAY_TYPE_PROMOTER_FIELD];
+    const typeName = obj[RELAY_TYPE_PROMOTER_FIELD];
 
     return graphRegistry.types[typeName]
       ? graphRegistry.types[typeName].type
