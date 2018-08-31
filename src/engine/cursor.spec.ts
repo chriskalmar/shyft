@@ -1,7 +1,7 @@
 import { Entity } from './entity/Entity';
 import { Index, INDEX_UNIQUE } from './index/Index';
 
-import { processCursor } from './cursor';
+import { processCursor, CursorType } from './cursor';
 
 import { DataTypeString } from './datatype/dataTypes';
 
@@ -58,7 +58,7 @@ describe('cursor', () => {
 
     it('should throw if incompatible cursor provided', () => {
       function fn() {
-        processCursor({}, { a: 'b' });
+        processCursor(<Entity>{}, { a: <any>'b' });
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
@@ -66,15 +66,15 @@ describe('cursor', () => {
 
     it('should throw if cursor is malformed', () => {
       function fn1() {
-        processCursor(SomeEntity, { SomeEntity: [ 'b' ] }, []);
+        processCursor(SomeEntity, { SomeEntity: [ <any>'b' ] }, []);
       }
 
       function fn2() {
-        processCursor(SomeEntity, { SomeEntity: [ [ {}, {}, {} ] ] }, []);
+        processCursor(SomeEntity, { SomeEntity: [ <any>[ {}, {}, {} ] ] }, []);
       }
 
       function fn3() {
-        processCursor(SomeEntity, { SomeEntity: [ {} ] }, []);
+        processCursor(SomeEntity, { SomeEntity: [ <any>{} ] }, []);
       }
 
       expect(fn1).toThrowErrorMatchingSnapshot();
@@ -249,7 +249,7 @@ describe('cursor', () => {
       });
 
       it('when using attributes that are not all defined as unique', () => {
-        const row1 = {
+        const row1: CursorType = {
           SomeEntity: [ [ 'firstName', 'John' ], [ 'id', 1123 ] ],
         };
 
@@ -345,7 +345,7 @@ describe('cursor', () => {
           },
         };
 
-        const row2 = {
+        const row2: CursorType = {
           SomeEntity: [
             [ 'firstName', 'John' ],
             [ 'lastName', 'Snow' ],
@@ -407,7 +407,7 @@ describe('cursor', () => {
           },
         };
 
-        const row3 = {
+        const row3: CursorType = {
           SomeEntity: [
             [ 'firstName', 'John' ],
             [ 'email', 'john@example.com' ],
@@ -477,7 +477,7 @@ describe('cursor', () => {
           },
         };
 
-        const row1 = {
+        const row1: CursorType = {
           SomeEntity: [ [ 'firstName', 'John' ], [ 'id', 1123 ] ],
         };
 
@@ -593,7 +593,7 @@ describe('cursor', () => {
           },
         };
 
-        const row2 = {
+        const row2: CursorType = {
           SomeEntity: [
             [ 'firstName', 'John' ],
             [ 'lastName', 'Snow' ],
@@ -665,7 +665,7 @@ describe('cursor', () => {
           },
         };
 
-        const row3 = {
+        const row3: CursorType = {
           SomeEntity: [
             [ 'firstName', 'John' ],
             [ 'email', 'john@example.com' ],

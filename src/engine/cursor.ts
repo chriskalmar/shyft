@@ -1,10 +1,21 @@
 import { passOrThrow, isArray } from './util';
 import { Entity } from './entity/Entity';
 
+export type FilterType = [string, any];
+
+export type OrderType = {
+  attribute: string;
+  direction: 'ASC' | 'DESC';
+};
+
+export type CursorType = {
+  [key: string]: FilterType[];
+};
+
 export const processCursor = (
-  entity: Entity,
-  cursor,
-  orderBy,
+  entity?: Entity,
+  cursor?: CursorType,
+  orderBy?: OrderType[],
   reverse?: boolean,
 ) => {
   const $LT = reverse ? '$gt' : '$lt';
@@ -14,7 +25,7 @@ export const processCursor = (
 
   const where: any = {};
 
-  if (cursor) {
+  if (entity && cursor) {
     passOrThrow(
       isArray(cursor[entity.name]),
       () => 'Incompatible cursor for this entity',
@@ -148,7 +159,7 @@ export const processCursor = (
   return where;
 };
 
-export const processCursors = (entity, args) => {
+export const processCursors = (entity?: Entity, args?: any) => {
   const { after, before } = args;
 
   const where = {
