@@ -121,28 +121,6 @@ import {
 import { Language } from './engine/models/Language';
 import { User } from './engine/models/User';
 
-import {
-  generator,
-  getTypeForEntityFromGraphRegistry,
-} from './graphql-protocol/generator';
-import {
-  GraphQLJSON,
-  GraphQLCursor,
-  GraphQLBigInt,
-  GraphQLDateTime,
-  GraphQLDate,
-} from './graphql-protocol/dataTypes';
-import { ProtocolGraphQL } from './graphql-protocol/ProtocolGraphQL';
-import {
-  RELAY_TYPE_PROMOTER_FIELD,
-  MAX_PAGE_SIZE,
-} from './graphql-protocol/protocolGraphqlConstants';
-import {
-  ProtocolGraphQLConfiguration,
-  isProtocolGraphQLConfiguration,
-} from './graphql-protocol/ProtocolGraphQLConfiguration';
-import { fromBase64, toBase64 } from './graphql-protocol/util';
-
 const coreModels = {
   Language,
   User,
@@ -236,18 +214,4 @@ export {
   isProtocolConfiguration,
   StorageConfiguration,
   isStorageConfiguration,
-  generator,
-  getTypeForEntityFromGraphRegistry,
-  GraphQLJSON,
-  GraphQLCursor,
-  GraphQLBigInt,
-  GraphQLDateTime,
-  GraphQLDate,
-  ProtocolGraphQL,
-  RELAY_TYPE_PROMOTER_FIELD,
-  MAX_PAGE_SIZE,
-  ProtocolGraphQLConfiguration,
-  isProtocolGraphQLConfiguration,
-  fromBase64,
-  toBase64,
 };
