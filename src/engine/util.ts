@@ -1,10 +1,15 @@
-import casual from 'casual';
-import _ from 'lodash';
+import * as casual from 'casual';
+import * as _ from 'lodash';
+
+type StringFunction = () => string;
 
 export const deleteUndefinedProps = obj =>
   Object.keys(obj).forEach(key => obj[key] === undefined && delete obj[key]);
 
-export const passOrThrow = (condition, messageFn) => {
+export const passOrThrow = (
+  condition: any,
+  messageFn: string | StringFunction,
+): void => {
   // providing the error message as a callback return massively improves code coverage reports.
   // the message function is only evaluated if the condition fails, which will show up correctly
   // in the coverage reports.
@@ -22,7 +27,7 @@ export const resolveFunctionMap = functionOrMap => {
     : { ...functionOrMap };
 };
 
-export const isMap = (map, nonEmpty) => {
+export const isMap = (map: object, nonEmpty?: boolean): boolean => {
   return (
     map !== null &&
     typeof map === 'object' &&
@@ -31,11 +36,11 @@ export const isMap = (map, nonEmpty) => {
   );
 };
 
-export const isFunction = fn => {
+export const isFunction = (fn: any): boolean => {
   return typeof fn === 'function';
 };
 
-export const isArray = (set, nonEmpty) => {
+export const isArray = (set: any[], nonEmpty?: boolean): boolean => {
   return (
     set !== null &&
     Array.isArray(set) === true &&
@@ -43,7 +48,7 @@ export const isArray = (set, nonEmpty) => {
   );
 };
 
-export const isString = str => typeof str === 'string';
+export const isString = (str: any): boolean => typeof str === 'string';
 
 export const mergeMaps = (first, second) => {
   if (!isMap(first) || !isMap(second)) {
@@ -53,7 +58,10 @@ export const mergeMaps = (first, second) => {
   return { ...first, ...second };
 };
 
-export const mapOverProperties = (object, iteratee) => {
+export const mapOverProperties = (
+  object: object,
+  iteratee: (val: any, key: any) => any,
+) => {
   passOrThrow(isMap(object), () => 'Provided object is not a map');
 
   passOrThrow(
@@ -68,7 +76,11 @@ export const mapOverProperties = (object, iteratee) => {
   });
 };
 
-export const sortDataByKeys = (keys, data, keyProperty = 'id') => {
+export const sortDataByKeys = (
+  keys: string[],
+  data: object[],
+  keyProperty: string = 'id',
+) => {
   const map = {};
   const result = [];
   const order = {};
@@ -126,13 +138,13 @@ export const sortDataByKeys = (keys, data, keyProperty = 'id') => {
   return result;
 };
 
-export const processCursor = (entity, cursor, orderBy, reverse) => {
+export const processCursor = (entity, cursor, orderBy, reverse?: boolean) => {
   const $LT = reverse ? '$gt' : '$lt';
   const $GT = reverse ? '$lt' : '$gt';
   const $LTE = reverse ? '$gte' : '$lte';
   const $GTE = reverse ? '$lte' : '$gte';
 
-  const where = {};
+  const where: any = {};
 
   if (cursor) {
     passOrThrow(
@@ -302,10 +314,13 @@ export const randomJson = () => {
   return ret;
 };
 
-export const asyncForEach = async (array, callback) => {
+export const asyncForEach = async (
+  array: any[],
+  callback: (val, idx, arr) => any,
+) => {
   for (let index = 0; index < array.length; index++) {
     await callback(array[index], index, array);
   }
 };
 
-export const isDefined = val => typeof val !== 'undefined';
+export const isDefined = (val: any): boolean => typeof val !== 'undefined';
