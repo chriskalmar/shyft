@@ -8,7 +8,7 @@ import {
 import { MAX_PAGE_SIZE } from './protocolGraphqlConstants';
 import ProtocolConfiguration from '../engine/protocol/ProtocolConfiguration';
 
-class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
+export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   constructor() {
     super();
 
@@ -239,8 +239,6 @@ class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     return generateTypeNamePascalCase(`${typeName}-connection`);
   }
 }
-
-export default ProtocolGraphQLConfiguration;
 
 export const isProtocolGraphQLConfiguration = obj => {
   return obj instanceof ProtocolGraphQLConfiguration;

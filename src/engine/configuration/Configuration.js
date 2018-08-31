@@ -9,7 +9,7 @@ import { isStorageConfiguration } from '../storage/StorageConfiguration';
 
 import * as _ from 'lodash';
 
-class Configuration {
+export class Configuration {
   constructor(setup = {}) {
     const {
       languages,
@@ -134,8 +134,6 @@ class Configuration {
     return this.storageConfiguration;
   }
 }
-
-export default Configuration;
 
 export const isConfiguration = obj => {
   return obj instanceof Configuration;

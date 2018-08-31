@@ -139,16 +139,3 @@ export const translateListFn = (entity, context) => {
     return translateList(entity, list, context);
   };
 };
-
-export default {
-  generateTypeName,
-  pascalCase,
-  plural,
-  generateTypeNamePascalCase,
-  generateTypeNamePlural,
-  generateTypeNamePluralPascalCase,
-  toBase64,
-  fromBase64,
-  serializeCursor,
-  deserializeCursor,
-};

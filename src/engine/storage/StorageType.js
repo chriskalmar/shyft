@@ -4,7 +4,7 @@ import { isDataType } from '../datatype/DataType';
 import { isStorageDataType } from './StorageDataType';
 import { isStorageConfiguration } from './StorageConfiguration';
 
-class StorageType {
+export class StorageType {
   constructor(setup = {}) {
     const {
       name,
@@ -182,8 +182,6 @@ class StorageType {
     return this.name;
   }
 }
-
-export default StorageType;
 
 export const isStorageType = obj => {
   return obj instanceof StorageType;

@@ -1,6 +1,6 @@
 import { passOrThrow, isFunction } from '../util';
 
-class DataType {
+export class DataType {
   constructor(setup = {}) {
     const {
       name,
@@ -64,8 +64,6 @@ class DataType {
     return this.name;
   }
 }
-
-export default DataType;
 
 export const isDataType = obj => {
   return obj instanceof DataType;

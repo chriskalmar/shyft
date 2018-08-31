@@ -9,7 +9,7 @@ export const ACTION_TYPE_MUTATION = 'mutation';
 export const ACTION_TYPE_QUERY = 'query';
 export const actionTypes = [ ACTION_TYPE_MUTATION, ACTION_TYPE_QUERY ];
 
-class Action {
+export class Action {
   constructor(setup = {}) {
     const {
       name,
@@ -181,8 +181,6 @@ class Action {
     return this.name;
   }
 }
-
-export default Action;
 
 export const isAction = obj => {
   return obj instanceof Action;

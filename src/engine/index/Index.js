@@ -6,7 +6,7 @@ export const INDEX_UNIQUE = 'unique';
 export const INDEX_GENERIC = 'generic';
 export const indexTypes = [ INDEX_UNIQUE, INDEX_GENERIC ];
 
-class Index {
+export class Index {
   constructor(setup = {}) {
     const { type, attributes } = setup;
 
@@ -47,8 +47,6 @@ class Index {
     return this.type;
   }
 }
-
-export default Index;
 
 export const isIndex = obj => {
   return obj instanceof Index;

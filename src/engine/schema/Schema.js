@@ -6,7 +6,7 @@ import { isDataTypeUser } from '../datatype/DataTypeUser';
 import { isStorageType } from '../storage/StorageType';
 import { isPermission, isPermissionsArray } from '../permission/Permission';
 
-class Schema {
+export class Schema {
   constructor(
     setup = {
       entities: null,
@@ -280,8 +280,6 @@ class Schema {
     return this._actionMap;
   }
 }
-
-export default Schema;
 
 export const isSchema = obj => {
   return obj instanceof Schema;

@@ -1,6 +1,6 @@
 import { passOrThrow } from '../util';
 
-class StorageConfiguration {
+export class StorageConfiguration {
   constructor(setup = {}) {
     const { name, storageInstance, storageModels, connectionConfig } = setup;
 
@@ -60,8 +60,6 @@ class StorageConfiguration {
     return this.connectionConfig;
   }
 }
-
-export default StorageConfiguration;
 
 export const isStorageConfiguration = obj => {
   return obj instanceof StorageConfiguration;

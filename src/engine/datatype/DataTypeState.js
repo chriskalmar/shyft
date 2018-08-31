@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 
 import DataType from './DataType';
 
-class DataTypeState extends DataType {
+export class DataTypeState extends DataType {
   constructor(setup = {}) {
     const { name, description, states } = setup;
 
@@ -58,8 +58,6 @@ class DataTypeState extends DataType {
     return this.name;
   }
 }
-
-export default DataTypeState;
 
 export const isDataTypeState = obj => {
   return obj instanceof DataTypeState;

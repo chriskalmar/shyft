@@ -363,7 +363,3 @@ export const generateGraphQLSchema = configuration => {
     mutation: mutationType,
   });
 };
-
-export default {
-  generateGraphQLSchema,
-};

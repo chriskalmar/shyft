@@ -34,7 +34,7 @@ export const defaultEntityMutations = [
   },
 ];
 
-class Mutation {
+export class Mutation {
   constructor(setup = {}) {
     const {
       name,
@@ -170,8 +170,6 @@ class Mutation {
     return this.name;
   }
 }
-
-export default Mutation;
 
 export const isMutation = obj => {
   return obj instanceof Mutation;

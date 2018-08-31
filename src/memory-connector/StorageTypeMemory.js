@@ -25,8 +25,6 @@ export const StorageTypeMemory = new StorageType({
   description: 'Simple in-memory database',
 });
 
-export default StorageTypeMemory;
-
 StorageTypeMemory.addDataTypeMap(DataTypeID, StorageDataTypeString);
 StorageTypeMemory.addDataTypeMap(DataTypeInteger, StorageDataTypeNumber);
 StorageTypeMemory.addDataTypeMap(DataTypeBigInt, StorageDataTypeString);

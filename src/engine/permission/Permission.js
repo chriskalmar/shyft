@@ -19,7 +19,7 @@ const compatibilityList = [
   [ 'role', 'userAttribute', 'lookup', 'value', 'state' ],
 ];
 
-class Permission {
+export class Permission {
   /* eslint-disable no-undef */
 
   static EVERYONE = new Permission().everyone();
@@ -172,8 +172,6 @@ class Permission {
     return 'Permission Object';
   }
 }
-
-export default Permission;
 
 export const isPermission = obj => {
   return obj instanceof Permission;

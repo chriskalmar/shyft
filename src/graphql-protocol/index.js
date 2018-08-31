@@ -18,16 +18,3 @@ export {
   fromBase64,
   toBase64,
 };
-
-export default {
-  generator,
-  getTypeForEntityFromGraphRegistry,
-  dataTypes,
-  ProtocolGraphQL,
-  constants,
-  ProtocolGraphQLConfiguration,
-  isProtocolGraphQLConfiguration,
-
-  fromBase64,
-  toBase64,
-};

@@ -47,8 +47,6 @@ export const ProtocolGraphQL = new ProtocolType({
   },
 });
 
-export default ProtocolGraphQL;
-
 ProtocolGraphQL.addDataTypeMap(DataTypeID, GraphQLID);
 ProtocolGraphQL.addDataTypeMap(DataTypeInteger, GraphQLInt);
 ProtocolGraphQL.addDataTypeMap(DataTypeBigInt, GraphQLBigInt);

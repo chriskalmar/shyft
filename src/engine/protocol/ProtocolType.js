@@ -3,7 +3,7 @@ import { passOrThrow, isFunction } from '../util';
 import { isDataType } from '../datatype/DataType';
 import { isProtocolConfiguration } from './ProtocolConfiguration';
 
-class ProtocolType {
+export class ProtocolType {
   constructor(setup = {}) {
     const { name, description, isProtocolDataType } = setup;
 
@@ -132,8 +132,6 @@ class ProtocolType {
     return this.name;
   }
 }
-
-export default ProtocolType;
 
 export const isProtocolType = obj => {
   return obj instanceof ProtocolType;

@@ -4,7 +4,7 @@ import { isEntity } from '../entity/Entity';
 import { isDataType } from './DataType';
 import ComplexDataType, { isComplexDataType } from './ComplexDataType';
 
-class ObjectDataType extends ComplexDataType {
+export class ObjectDataType extends ComplexDataType {
   constructor(setup = {}) {
     super();
 
@@ -146,8 +146,6 @@ class ObjectDataType extends ComplexDataType {
     return this.name;
   }
 }
-
-export default ObjectDataType;
 
 export const isObjectDataType = obj => {
   return obj instanceof ObjectDataType;

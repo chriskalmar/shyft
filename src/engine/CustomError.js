@@ -1,4 +1,4 @@
-export default class CustomError extends Error {
+export class CustomError extends Error {
   constructor(message, code, status) {
     super(message);
     Error.captureStackTrace(this, this.constructor);

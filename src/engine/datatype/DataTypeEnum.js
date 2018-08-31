@@ -4,7 +4,7 @@ import { enumValueRegex, ENUM_VALUE_PATTERN } from '../constants';
 
 import DataType from './DataType';
 
-class DataTypeEnum extends DataType {
+export class DataTypeEnum extends DataType {
   constructor(setup = {}) {
     const { name, description, values } = setup;
 
@@ -37,8 +37,6 @@ class DataTypeEnum extends DataType {
     return this.name;
   }
 }
-
-export default DataTypeEnum;
 
 export const isDataTypeEnum = obj => {
   return obj instanceof DataTypeEnum;

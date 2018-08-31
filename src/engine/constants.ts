@@ -34,7 +34,7 @@ export const storageDataTypeCapabilities = {
   not_ends_with: sdtcVALUE,
 };
 
-export const entityPropertiesWhitelist = [
+export const entityPropertiesWhitelist: Array<string> = [
   'name',
   'description',
   'attributes',
@@ -48,7 +48,7 @@ export const entityPropertiesWhitelist = [
   'states',
 ];
 
-export const attributePropertiesWhitelist = [
+export const attributePropertiesWhitelist: Array<string> = [
   'name',
   'description',
   'type',
@@ -66,11 +66,3 @@ export const attributePropertiesWhitelist = [
   'mutationInput',
   'meta',
 ];
-
-export default {
-  ATTRIBUTE_NAME_PATTERN,
-  attributeNameRegex,
-  storageDataTypeCapabilityType,
-  storageDataTypeCapabilities,
-  attributePropertiesWhitelist,
-};

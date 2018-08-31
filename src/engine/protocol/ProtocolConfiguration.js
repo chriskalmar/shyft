@@ -1,6 +1,6 @@
 import { passOrThrow, isString, isArray } from '../util';
 
-class ProtocolConfiguration {
+export class ProtocolConfiguration {
   constructor(setup = {}) {
     this.features = [];
 
@@ -33,8 +33,6 @@ class ProtocolConfiguration {
     return this.features;
   }
 }
-
-export default ProtocolConfiguration;
 
 export const isProtocolConfiguration = obj => {
   return obj instanceof ProtocolConfiguration;

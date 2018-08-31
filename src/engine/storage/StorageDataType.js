@@ -2,7 +2,7 @@ import { passOrThrow, isFunction, isArray } from '../util';
 
 import constants from '../constants';
 
-class StorageDataType {
+export class StorageDataType {
   constructor(setup = {}) {
     const {
       name,
@@ -64,8 +64,6 @@ class StorageDataType {
     return this.name;
   }
 }
-
-export default StorageDataType;
 
 export const isStorageDataType = obj => {
   return obj instanceof StorageDataType;
