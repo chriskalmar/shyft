@@ -16,7 +16,7 @@ import {
 } from '../constants';
 
 import { processEntityIndexes } from '../index/Index';
-import Mutation, {
+import { Mutation,
   defaultEntityMutations,
   processEntityMutations,
 } from '../mutation/Mutation';
@@ -41,8 +41,50 @@ import {
 
 import * as _ from 'lodash';
 
-class Entity {
-  constructor(setup = {}) {
+
+export type EntitySetupType = {
+  name: string;
+  description: string;
+  attributes: any;
+  storageType?: any;
+  isUserEntity?: boolean;
+  includeTimeTracking?: boolean;
+  includeUserTracking?: boolean;
+  indexes?: any;
+  mutations?: any;
+  permissions?: any;
+  states?: any;
+}
+
+export class Entity {
+
+  name: string;
+  description: string;
+  attributes: any;
+  storageType?: any;
+  isUserEntity?: boolean;
+  includeTimeTracking?: boolean;
+  includeUserTracking?: boolean;
+  indexes?: any;
+  mutations?: any;
+  permissions?: any;
+  states?: any;
+  private _attributesMap: any;
+  private _primaryAttribute: any;
+  private referencedByEntities: any;
+  private _indexes: any;
+  private _mutations: any;
+  private _states: any;
+  private _permissions: any;
+  private _defaultPermissions: any;
+  private _attributes: any;
+  private descriptionPermissionsFind: any;
+  private descriptionPermissionsRead: any;
+  isFallbackStorageType: any;
+  findOne: any;
+  find: any;
+
+  constructor(setup: EntitySetupType) {
     passOrThrow(isMap(setup), () => 'Entity requires a setup object');
 
     Object.keys(setup).map(prop => {
@@ -702,7 +744,6 @@ class Entity {
   }
 }
 
-export default Entity;
 
 export const isEntity = obj => {
   return obj instanceof Entity;

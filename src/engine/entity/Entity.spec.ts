@@ -13,7 +13,7 @@ describe('Entity', () => {
   it('should have a name', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new Entity();
+      new Entity({});
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
