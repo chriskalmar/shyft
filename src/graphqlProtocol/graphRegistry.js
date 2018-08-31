@@ -1,5 +1,5 @@
 // collect object types, connections ... for each entity
-export default {
+export const graphRegistry = {
   types: {},
   actions: {},
 };
