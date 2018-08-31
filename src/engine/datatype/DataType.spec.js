@@ -1,4 +1,4 @@
-import DataType, { isDataType } from './DataType';
+import { DataType, isDataType } from './DataType';
 
 import { passOrThrow } from '../util';
 

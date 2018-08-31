@@ -6,7 +6,7 @@ import {
   StorageDataTypeTimestamp,
   StorageDataTypeDate,
 } from './storageDataTypes';
-import StorageType from '../engine/storage/StorageType';
+import { StorageType } from '../engine/storage/StorageType';
 import {
   DataTypeID,
   DataTypeInteger,

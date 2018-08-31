@@ -1,6 +1,6 @@
-import StorageTypeMemory from './StorageTypeMemory';
+import { StorageTypeMemory } from './StorageTypeMemory';
 import * as _ from 'lodash';
-import casual from 'casual';
+import * as casual from 'casual';
 
 import { shaper } from 'json-shaper';
 import { isEntity } from '../engine/entity/Entity';

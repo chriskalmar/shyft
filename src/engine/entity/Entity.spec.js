@@ -1,10 +1,11 @@
-import Entity, { isEntity } from './Entity';
-import Index, { INDEX_UNIQUE, isIndex } from '../index/Index';
-import Mutation, {
+import { Entity, isEntity } from './Entity';
+import { Index, INDEX_UNIQUE, isIndex } from '../index/Index';
+import {
+  Mutation,
   isMutation,
   MUTATION_TYPE_CREATE,
 } from '../mutation/Mutation';
-import Permission, { isPermission } from '../permission/Permission';
+import { Permission, isPermission } from '../permission/Permission';
 import { passOrThrow } from '../util';
 import { DataTypeID, DataTypeString } from '../datatype/dataTypes';
 

@@ -1,8 +1,7 @@
 import { passOrThrow, resolveFunctionMap, isMap, isFunction } from '../util';
-
 import { isEntity } from '../entity/Entity';
 import { isDataType } from './DataType';
-import ComplexDataType, { isComplexDataType } from './ComplexDataType';
+import { ComplexDataType, isComplexDataType } from './ComplexDataType';
 
 export class ObjectDataType extends ComplexDataType {
   constructor(setup = {}) {

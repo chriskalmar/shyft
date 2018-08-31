@@ -1,5 +1,5 @@
-import StorageType, { isStorageType } from './StorageType';
-import StorageDataType from './StorageDataType';
+import { StorageType, isStorageType } from './StorageType';
+import { StorageDataType } from './StorageDataType';
 import { passOrThrow } from '../util';
 
 import { StorageTypeNull } from './StorageTypeNull';

@@ -1,11 +1,12 @@
-import Mutation, {
+import {
+  Mutation,
   isMutation,
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
   processEntityMutations,
 } from './Mutation';
-import Entity from '../entity/Entity';
+import { Entity } from '../entity/Entity';
 import { DataTypeString } from '../datatype/dataTypes';
 import { passOrThrow } from '../util';
 

@@ -1,4 +1,4 @@
-import StorageType from './StorageType';
+import { StorageType } from './StorageType';
 
 export const StorageTypeNull = new StorageType({
   name: 'StorageTypeNull',

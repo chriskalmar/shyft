@@ -1,5 +1,4 @@
-import StorageDataType, { isStorageDataType } from './StorageDataType';
-
+import { StorageDataType, isStorageDataType } from './StorageDataType';
 import { passOrThrow } from '../util';
 
 describe('StorageDataType', () => {

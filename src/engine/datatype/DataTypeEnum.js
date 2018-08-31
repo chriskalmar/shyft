@@ -2,7 +2,7 @@ import { passOrThrow, isArray } from '../util';
 
 import { enumValueRegex, ENUM_VALUE_PATTERN } from '../constants';
 
-import DataType from './DataType';
+import { DataType } from './DataType';
 
 export class DataTypeEnum extends DataType {
   constructor(setup = {}) {

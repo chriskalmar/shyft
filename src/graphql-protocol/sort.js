@@ -1,6 +1,6 @@
 import { GraphQLEnumType, GraphQLList } from 'graphql';
 import * as _ from 'lodash';
-import ProtocolGraphQL from './ProtocolGraphQL';
+import { ProtocolGraphQL } from './ProtocolGraphQL';
 import { isEntity } from '../engine/entity/Entity';
 
 export const generateSortInput = entity => {

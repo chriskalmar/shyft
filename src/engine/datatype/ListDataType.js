@@ -2,7 +2,7 @@ import { passOrThrow, isFunction, isArray } from '../util';
 
 import { isEntity } from '../entity/Entity';
 import { isDataType } from './DataType';
-import ComplexDataType, { isComplexDataType } from './ComplexDataType';
+import { ComplexDataType, isComplexDataType } from './ComplexDataType';
 
 export class ListDataType extends ComplexDataType {
   constructor(setup = {}) {

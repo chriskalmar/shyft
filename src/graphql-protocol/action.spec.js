@@ -1,7 +1,7 @@
 import { generateActions } from './action';
-import ProtocolGraphQL from './ProtocolGraphQL';
-import ProtocolGraphQLConfiguration from './ProtocolGraphQLConfiguration';
-import Action, { ACTION_TYPE_MUTATION } from '../engine/action/Action';
+import { ProtocolGraphQL } from './ProtocolGraphQL';
+import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
+import { Action, ACTION_TYPE_MUTATION } from '../engine/action/Action';
 import { DataTypeString, DataTypeInteger } from '../engine/datatype/dataTypes';
 import { buildObjectDataType } from '../engine/datatype/ObjectDataType';
 import { buildListDataType } from '../engine/datatype/ListDataType';

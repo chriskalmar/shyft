@@ -1,4 +1,4 @@
-import DataType from './DataType';
+import { DataType } from './DataType';
 
 export class DataTypeUser extends DataType {}
 

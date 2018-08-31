@@ -1,4 +1,4 @@
-import DataTypeUser, { isDataTypeUser } from './DataTypeUser';
+import { DataTypeUser, isDataTypeUser } from './DataTypeUser';
 
 import { passOrThrow } from '../util';
 

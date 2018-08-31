@@ -10,7 +10,7 @@ import {
 import { fromGlobalId } from 'graphql-relay';
 import * as _ from 'lodash';
 
-import ProtocolGraphQL from './ProtocolGraphQL';
+import { ProtocolGraphQL } from './ProtocolGraphQL';
 import { getEntityUniquenessAttributes } from './helper';
 import { getMutationResolver } from './resolver';
 import { isEntity } from '../engine/entity/Entity';

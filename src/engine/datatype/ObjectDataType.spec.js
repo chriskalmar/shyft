@@ -1,7 +1,5 @@
-import ObjectDataType, { isObjectDataType } from './ObjectDataType';
-
+import { ObjectDataType, isObjectDataType } from './ObjectDataType';
 import { passOrThrow } from '../util';
-
 import { DataTypeID, DataTypeString } from './dataTypes';
 
 describe('ObjectDataType', () => {

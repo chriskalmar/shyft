@@ -5,8 +5,8 @@ import {
   DataTypeI18n,
 } from '../datatype/dataTypes';
 
-import CustomError from '../CustomError';
-import DataTypeState from '../datatype/DataTypeState';
+import { CustomError } from '../CustomError';
+import { DataTypeState } from '../datatype/DataTypeState';
 import { i18nMockGenerator } from '../i18n';
 
 import * as _ from 'lodash';

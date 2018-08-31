@@ -1,4 +1,4 @@
-import ProtocolType, { isProtocolType } from './ProtocolType';
+import { ProtocolType, isProtocolType } from './ProtocolType';
 import {
   DataTypeID,
   DataTypeString,

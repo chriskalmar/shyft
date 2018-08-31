@@ -1,4 +1,4 @@
-import DataTypeEnum, { isDataTypeEnum } from './DataTypeEnum';
+import { DataTypeEnum, isDataTypeEnum } from './DataTypeEnum';
 
 import { passOrThrow } from '../util';
 

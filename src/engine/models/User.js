@@ -1,6 +1,6 @@
-import Entity from '../entity/Entity';
+import { Entity } from '../entity/Entity';
 import { DataTypeString } from '../datatype/dataTypes';
-import Index, { INDEX_UNIQUE } from '../index/Index';
+import { Index, INDEX_UNIQUE } from '../index/Index';
 
 import { Language } from './Language';
 

@@ -8,7 +8,7 @@ import {
 
 import * as _ from 'lodash';
 
-import ProtocolGraphQL from './ProtocolGraphQL';
+import { ProtocolGraphQL } from './ProtocolGraphQL';
 import { resolveByFindOne } from './resolver';
 import { isEntity } from '../engine/entity/Entity';
 import { isObjectDataType } from '../engine/datatype/ObjectDataType';

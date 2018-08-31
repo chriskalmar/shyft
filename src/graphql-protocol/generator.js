@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import constants from './protocolGraphqlConstants';
-import graphRegistry from './graphRegistry';
-import ProtocolGraphQL from './ProtocolGraphQL';
+import { graphRegistry } from './graphRegistry';
+import { ProtocolGraphQL } from './ProtocolGraphQL';
 
 import { shaper } from 'json-shaper';
 

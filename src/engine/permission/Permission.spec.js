@@ -1,4 +1,5 @@
-import Permission, {
+import {
+  Permission,
   isPermission,
   isPermissionsArray,
   findInvalidPermissionAttributes,
@@ -14,8 +15,8 @@ import Permission, {
   processEntityPermissions,
   processActionPermissions,
 } from './Permission';
-import Entity from '../entity/Entity';
-import Action from '../action/Action';
+import { Entity } from '../entity/Entity';
+import { Action } from '../action/Action';
 import { DataTypeString } from '../datatype/dataTypes';
 import { passOrThrow } from '../util';
 import { Language } from '../models/Language';

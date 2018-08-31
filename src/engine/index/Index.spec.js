@@ -1,5 +1,5 @@
-import Index, { isIndex, INDEX_UNIQUE, processEntityIndexes } from './Index';
-import Entity from '../entity/Entity';
+import { Index, isIndex, INDEX_UNIQUE, processEntityIndexes } from './Index';
+import { Entity } from '../entity/Entity';
 import { DataTypeString } from '../datatype/dataTypes';
 import { passOrThrow } from '../util';
 

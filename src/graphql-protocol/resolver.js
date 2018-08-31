@@ -5,7 +5,7 @@ import {
   translateInstanceFn,
 } from './util';
 
-import ProtocolGraphQL from './ProtocolGraphQL';
+import { ProtocolGraphQL } from './ProtocolGraphQL';
 
 import {
   validateConnectionArgs,
@@ -29,7 +29,7 @@ import {
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
 } from '../engine/mutation/Mutation';
-import CustomError from '../engine/CustomError';
+import { CustomError } from '../engine/CustomError';
 import {
   fillSystemAttributesDefaultValues,
   fillDefaultValues,

@@ -1,8 +1,9 @@
-import generator, { getTypeForEntityFromGraphRegistry } from './generator';
-import dataTypes from './dataTypes';
-import ProtocolGraphQL from './ProtocolGraphQL';
+import { generator, getTypeForEntityFromGraphRegistry } from './generator';
+import { dataTypes } from './dataTypes';
+import { ProtocolGraphQL } from './ProtocolGraphQL';
 import constants from './protocolGraphqlConstants';
-import ProtocolGraphQLConfiguration, {
+import {
+  ProtocolGraphQLConfiguration,
   isProtocolGraphQLConfiguration,
 } from './ProtocolGraphQLConfiguration';
 import { fromBase64, toBase64 } from './util';

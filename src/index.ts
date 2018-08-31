@@ -1,31 +1,37 @@
 import constants from './engine/constants';
-import CustomError from './engine/CustomError';
-import Entity, { isEntity } from './engine/entity/Entity';
-import Schema from './engine/schema/Schema';
-import StorageType from './engine/storage/StorageType';
-import StorageDataType from './engine/storage/StorageDataType';
-import ProtocolType from './engine/protocol/ProtocolType';
-import Configuration, {
+import { CustomError } from './engine/CustomError';
+import { Entity, isEntity } from './engine/entity/Entity';
+import { Schema } from './engine/schema/Schema';
+import { StorageType } from './engine/storage/StorageType';
+import { StorageDataType } from './engine/storage/StorageDataType';
+import { ProtocolType } from './engine/protocol/ProtocolType';
+import {
+  Configuration,
   isConfiguration,
 } from './engine/configuration/Configuration';
-import ProtocolConfiguration, {
+import {
+  ProtocolConfiguration,
   isProtocolConfiguration,
 } from './engine/protocol/ProtocolConfiguration';
-import StorageConfiguration, {
+import {
+  StorageConfiguration,
   isStorageConfiguration,
 } from './engine/storage/StorageConfiguration';
-import Index, { INDEX_UNIQUE, INDEX_GENERIC } from './engine/index/Index';
-import Action, {
+import { Index, INDEX_UNIQUE, INDEX_GENERIC } from './engine/index/Index';
+import {
+  Action,
   isAction,
   ACTION_TYPE_MUTATION,
   ACTION_TYPE_QUERY,
 } from './engine/action/Action';
-import Mutation, {
+import {
+  Mutation,
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
 } from './engine/mutation/Mutation';
-import Permission, {
+import {
+  Permission,
   checkPermissionSimple,
   buildPermissionFilter,
   buildActionPermissionFilter,
@@ -59,7 +65,7 @@ import {
   validateActionPayload,
 } from './engine/validation';
 
-import DataType, { isDataType } from './engine/datatype/DataType';
+import { DataType, isDataType } from './engine/datatype/DataType';
 
 import {
   DataTypeUserID,
@@ -77,20 +83,24 @@ import {
   DataTypeI18n,
 } from './engine/datatype/dataTypes';
 
-import DataTypeEnum, { isDataTypeEnum } from './engine/datatype/DataTypeEnum';
-import ComplexDataType, {
+import { DataTypeEnum, isDataTypeEnum } from './engine/datatype/DataTypeEnum';
+import {
+  ComplexDataType,
   isComplexDataType,
 } from './engine/datatype/ComplexDataType';
-import DataTypeState, {
+import {
+  DataTypeState,
   isDataTypeState,
 } from './engine/datatype/DataTypeState';
 
-import ObjectDataType, {
+import {
+  ObjectDataType,
   isObjectDataType,
   buildObjectDataType,
 } from './engine/datatype/ObjectDataType';
 
-import ListDataType, {
+import {
+  ListDataType,
   isListDataType,
   buildListDataType,
 } from './engine/datatype/ListDataType';
@@ -98,7 +108,8 @@ import ListDataType, {
 import { Language } from './engine/models/Language';
 import { User } from './engine/models/User';
 
-import generator, {
+import {
+  generator,
   getTypeForEntityFromGraphRegistry,
 } from './graphql-protocol/generator';
 import {
@@ -108,9 +119,10 @@ import {
   GraphQLDateTime,
   GraphQLDate,
 } from './graphql-protocol/dataTypes';
-import ProtocolGraphQL from './graphql-protocol/ProtocolGraphQL';
-import protocolGraphqlConstants from './graphql-protocol/protocolGraphqlConstants';
-import ProtocolGraphQLConfiguration, {
+import { ProtocolGraphQL } from './graphql-protocol/ProtocolGraphQL';
+import { protocolGraphqlConstants } from './graphql-protocol/protocolGraphqlConstants';
+import {
+  ProtocolGraphQLConfiguration,
   isProtocolGraphQLConfiguration,
 } from './graphql-protocol/ProtocolGraphQLConfiguration';
 import { fromBase64, toBase64 } from './graphql-protocol/util';

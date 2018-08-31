@@ -10,7 +10,7 @@ import { GraphQLCursor } from './dataTypes';
 
 import { resolveByFind } from './resolver';
 
-import ProtocolGraphQL from './ProtocolGraphQL';
+import { ProtocolGraphQL } from './ProtocolGraphQL';
 import { generateSortInput } from './sort';
 import { generateFilterInput } from './filter';
 import * as _ from 'lodash';

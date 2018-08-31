@@ -5,10 +5,10 @@ import {
 
 import { extendModelsForGql } from './generator';
 
-import Entity from '../engine/entity/Entity';
+import { Entity } from '../engine/entity/Entity';
 
-import ProtocolGraphQL from './ProtocolGraphQL';
-import ProtocolGraphQLConfiguration from './ProtocolGraphQLConfiguration';
+import { ProtocolGraphQL } from './ProtocolGraphQL';
+import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 import {
   DataTypeInteger,
   DataTypeString,

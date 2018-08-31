@@ -1,5 +1,5 @@
-import Entity from './entity/Entity';
-import Index, { INDEX_UNIQUE } from './index/Index';
+import { Entity } from './entity/Entity';
+import { Index, INDEX_UNIQUE } from './index/Index';
 
 import {
   passOrThrow,

@@ -1,6 +1,6 @@
 import { GraphQLList, GraphQLNonNull, GraphQLInputObjectType } from 'graphql';
 import * as _ from 'lodash';
-import ProtocolGraphQL from './ProtocolGraphQL';
+import { ProtocolGraphQL } from './ProtocolGraphQL';
 import { isEntity } from '../engine/entity/Entity';
 import constants from '../engine/constants';
 import { isComplexDataType } from '../engine/datatype/ComplexDataType';

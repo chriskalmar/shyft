@@ -1,4 +1,4 @@
-import DataTypeState, { isDataTypeState } from './DataTypeState';
+import { DataTypeState, isDataTypeState } from './DataTypeState';
 
 import { passOrThrow } from '../util';
 

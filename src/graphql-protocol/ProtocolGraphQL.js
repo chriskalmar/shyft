@@ -1,4 +1,4 @@
-import ProtocolType from '../engine/protocol/ProtocolType';
+import { ProtocolType } from '../engine/protocol/ProtocolType';
 import {
   DataTypeID,
   DataTypeInteger,
@@ -28,7 +28,7 @@ import { isDataTypeEnum } from '../engine/datatype/DataTypeEnum';
 import { isObjectDataType } from '../engine/datatype/ObjectDataType';
 import { isListDataType } from '../engine/datatype/ListDataType';
 
-import graphRegistry from './graphRegistry';
+import { graphRegistry } from './graphRegistry';
 
 import {
   GraphQLBigInt,

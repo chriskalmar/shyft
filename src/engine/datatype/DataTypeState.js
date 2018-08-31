@@ -4,7 +4,7 @@ import { stateNameRegex, STATE_NAME_PATTERN } from '../constants';
 
 import * as _ from 'lodash';
 
-import DataType from './DataType';
+import { DataType } from './DataType';
 
 export class DataTypeState extends DataType {
   constructor(setup = {}) {

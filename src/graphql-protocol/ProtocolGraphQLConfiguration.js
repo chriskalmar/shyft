@@ -6,7 +6,7 @@ import {
   generateTypeNameUpperCase,
 } from './util';
 import { MAX_PAGE_SIZE } from './protocolGraphqlConstants';
-import ProtocolConfiguration from '../engine/protocol/ProtocolConfiguration';
+import { ProtocolConfiguration } from '../engine/protocol/ProtocolConfiguration';
 
 export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   constructor() {

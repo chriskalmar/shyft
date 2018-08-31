@@ -1,6 +1,6 @@
 import { validateFilterLevel } from './filter';
 
-import Entity from './entity/Entity';
+import { Entity } from './entity/Entity';
 
 import {
   DataTypeBoolean,
@@ -8,8 +8,8 @@ import {
   DataTypeInteger,
 } from './datatype/dataTypes';
 
-import StorageType from './storage/StorageType';
-import StorageDataType from './storage/StorageDataType';
+import { StorageType } from './storage/StorageType';
+import { StorageDataType } from './storage/StorageDataType';
 
 describe('filter', () => {
   const filteredEntity = new Entity({

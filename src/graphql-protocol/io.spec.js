@@ -1,4 +1,4 @@
-import Action from '../engine/action/Action';
+import { Action } from '../engine/action/Action';
 import { DataTypeString, DataTypeInteger } from '../engine/datatype/dataTypes';
 import { buildObjectDataType } from '../engine/datatype/ObjectDataType';
 import { buildListDataType } from '../engine/datatype/ListDataType';
@@ -12,8 +12,8 @@ import {
   generateNestedDataOutput,
 } from './io';
 
-import ProtocolGraphQL from './ProtocolGraphQL';
-import ProtocolGraphQLConfiguration from './ProtocolGraphQLConfiguration';
+import { ProtocolGraphQL } from './ProtocolGraphQL';
+import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 
 ProtocolGraphQL.setProtocolConfiguration(new ProtocolGraphQLConfiguration());
 

@@ -1,7 +1,7 @@
-import ProtocolGraphQL from './ProtocolGraphQL';
+import { ProtocolGraphQL } from './ProtocolGraphQL';
 import * as _ from 'lodash';
 import { INDEX_UNIQUE } from '../engine/index/Index';
-import CustomError from '../engine/CustomError';
+import { CustomError } from '../engine/CustomError';
 
 export const getEntityUniquenessAttributes = entity => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();

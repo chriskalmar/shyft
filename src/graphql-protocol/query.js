@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import ProtocolGraphQL from './ProtocolGraphQL';
+import { ProtocolGraphQL } from './ProtocolGraphQL';
 
 import { GraphQLNonNull, GraphQLID } from 'graphql';
 

@@ -1,5 +1,5 @@
-import Action, { isAction } from './Action';
-import Permission, { isPermission } from '../permission/Permission';
+import { Action, isAction } from './Action';
+import { Permission, isPermission } from '../permission/Permission';
 
 import { DataTypeString } from '../datatype/dataTypes';
 import { buildObjectDataType } from '../datatype/ObjectDataType';

@@ -1,5 +1,5 @@
-import Entity from '../entity/Entity';
-import Schema from './Schema';
+import { Entity } from '../entity/Entity';
+import { Schema } from './Schema';
 
 import { DataTypeID, DataTypeString } from '../datatype/dataTypes';
 

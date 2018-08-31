@@ -1,7 +1,7 @@
-import DataType from './DataType';
-import DataTypeUser from './DataTypeUser';
+import { DataType } from './DataType';
+import { DataTypeUser } from './DataTypeUser';
 import { randomJson } from '../util';
-import casual from 'casual';
+import * as casual from 'casual';
 
 export const DataTypeUserID = new DataTypeUser({
   name: 'DataTypeUserID',

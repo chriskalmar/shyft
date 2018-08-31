@@ -1,8 +1,9 @@
 import { DataTypeString, DataTypeInteger } from './datatype/dataTypes';
 
-import Entity from './entity/Entity';
-import Action from './action/Action';
-import Mutation, {
+import { Entity } from './entity/Entity';
+import { Action } from './action/Action';
+import {
+  Mutation,
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
 } from './mutation/Mutation';

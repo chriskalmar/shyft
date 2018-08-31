@@ -1,9 +1,6 @@
-import ListDataType, { isListDataType } from './ListDataType';
-
+import { ListDataType, isListDataType } from './ListDataType';
 import { passOrThrow } from '../util';
-
 import { DataTypeID, DataTypeString } from './dataTypes';
-
 import { Language } from '../models/Language';
 
 describe('ListDataType', () => {
