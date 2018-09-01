@@ -1,7 +1,7 @@
 {
   "name": "shyft-postgres-connector",
   "version": "0.1.0",
-  "description": "Postgres connector for shift",
+  "description": "Postgres connector for shyft",
   "main": "lib/",
   "scripts": {
     "test": "jest --testPathIgnorePatterns test/",
@@ -31,7 +31,7 @@
   },
   "pre-commit": "lint-staged",
   "keywords": [
-    "shift",
+    "shyft",
     "api",
     "postgres",
     "model",

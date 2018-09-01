@@ -42,7 +42,7 @@ export const initDB = async () => {
       port: parseInt(process.env.PGPORT || 5432, 10),
       username: process.env.PGUSER || 'postgres',
       password: process.env.PGPASSWORD || null,
-      database: process.env.SHIFT_TEST_DB || 'shift_tests',
+      database: process.env.SHYFT_TEST_DB || 'shyft_tests',
       // logging: true,
     },
   });
