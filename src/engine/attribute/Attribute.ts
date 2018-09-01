@@ -3,23 +3,18 @@ import { DataType, DataTypeFunction } from '../datatype/DataType';
 import { Entity } from '../entity/Entity';
 
 /**
- * a model attribute
+ * base of a model attribute
  */
-export type Attribute = {
-  /**
-   * name of the attribute
-   */
-  name: string;
-
+export type AttributeBase = {
   /**
    * attribute description for documentation purposes
    */
   description: string;
 
   /**
-   * define data type or provide a function that returns a data type
+   * data type of the attribute
    */
-  type: DataType | ComplexDataType | Entity | DataTypeFunction;
+  type: DataType | ComplexDataType | Entity;
 
   /**
    * make attribute non-nullable on the storage level
@@ -87,12 +82,32 @@ export type Attribute = {
    * place to store custom (project-related) meta data
    */
   meta?: any;
+};
+
+/**
+ * a model attribute
+ */
+export type Attribute = AttributeBase & {
+  /**
+   * name of the attribute
+   */
+  name: string;
 
   /**
    * map of target attributes when referencing another entity
    */
   targetAttributesMap?: any;
+
+  /**
+   * internal flag for system attributes (e.g. time tracking, state, ...)
+   */
+  isSystemAttribute?: boolean;
 };
+
+/**
+ * setup of an attribute
+ */
+export type AttributeSetup = AttributeBase;
 
 /**
  * map of attributes
@@ -105,8 +120,16 @@ export type AttributesMap = {
 };
 
 /**
- * a generator function returning a map of attributes
+ * setup of a map of attributes
  */
-export type AttributesMapFunction = () => AttributesMap;
+export type AttributesSetupMap = {
+  /**
+   * an attribute
+   */
+  [key: string]: AttributeSetup;
+};
 
-export type AttributeSetup = {};
+/**
+ * a generator function returning a setup of a map of attributes
+ */
+export type AttributesMapGenerator = () => AttributesSetupMap;
