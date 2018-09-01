@@ -45,13 +45,15 @@ import * as _ from 'lodash';
 import {
   Attribute,
   AttributesMap,
-  AttributesMapFunction,
+  AttributesSetupMap,
+  AttributesMapGenerator,
 } from '../attribute/Attribute';
 
 export type EntitySetupType = {
   name: string;
   description: string;
-  attributes: AttributesMap | AttributesMapFunction;
+  attributes?: AttributesSetupMap;
+  attributesGenerator?: AttributesMapGenerator;
   storageType?: any;
   isUserEntity?: boolean;
   includeTimeTracking?: boolean;
@@ -73,7 +75,8 @@ export class Entity {
   mutations?: any;
   permissions?: any;
   states?: any;
-  private _attributesMap: any;
+  private _attributesMap: AttributesSetupMap;
+  private _attributesGenerator: AttributesMapGenerator;
   private _primaryAttribute: Attribute;
   private referencedByEntities: any;
   private _indexes: any;
@@ -102,6 +105,7 @@ export class Entity {
       name,
       description,
       attributes,
+      attributesGenerator,
       storageType,
       isUserEntity,
       includeTimeTracking,
@@ -114,13 +118,27 @@ export class Entity {
 
     passOrThrow(name, () => 'Missing entity name');
     passOrThrow(description, () => `Missing description for entity '${name}'`);
-    passOrThrow(attributes, () => `Missing attributes for entity '${name}'`);
-
     passOrThrow(
-      isMap(attributes) || isFunction(attributes),
+      (attributes && !attributesGenerator) ||
+        (!attributes && attributesGenerator),
       () =>
-        `Entity '${name}' needs an attribute definition as a map or a function returning such a map`,
+        `Entity '${name}' needs either attributes or attributesGenerator defined`,
     );
+
+    if (attributes) {
+      passOrThrow(
+        isMap(attributes),
+        () =>
+          `'attributes' for entity '${name}' needs to be a map of attributes`,
+      );
+    }
+    else if (attributesGenerator) {
+      passOrThrow(
+        isFunction(attributesGenerator),
+        () =>
+          `'attributesGenerator' for entity '${name}' needs to return a map of attributes`,
+      );
+    }
 
     this.name = name;
     this.description = description;
@@ -128,6 +146,7 @@ export class Entity {
     this.includeTimeTracking = !!includeTimeTracking;
     this.includeUserTracking = !!includeUserTracking;
     this._attributesMap = attributes;
+    this._attributesGenerator = attributesGenerator;
     this._primaryAttribute = null;
     this.referencedByEntities = [];
     this._indexes = indexes;
@@ -529,7 +548,9 @@ export class Entity {
 
   _processAttributeMap() {
     // if it's a function, resolve it to get that map
-    const attributeMap = resolveFunctionMap(this._attributesMap);
+    const attributeMap = this._attributesMap
+      ? { ...this._attributesMap }
+      : this._attributesGenerator();
 
     passOrThrow(
       isMap(attributeMap),

@@ -38,6 +38,7 @@ export const entityPropertiesWhitelist: Array<string> = [
   'name',
   'description',
   'attributes',
+  'attributesGenerator',
   'storageType',
   'isUserEntity',
   'includeTimeTracking',

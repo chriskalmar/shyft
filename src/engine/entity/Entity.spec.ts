@@ -13,7 +13,7 @@ describe('Entity', () => {
   it('should have a name', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new Entity({});
+      new Entity(<any>{});
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
@@ -22,7 +22,7 @@ describe('Entity', () => {
   it('should have a description', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new Entity({
+      new Entity(<any>{
         name: 'Example',
       });
     }
@@ -46,7 +46,7 @@ describe('Entity', () => {
     const entity = new Entity({
       name: 'SomeEntityName',
       description: 'Just some description',
-      attributes: () => {},
+      attributesGenerator: () => <any>{},
     });
 
     expect(entity.name).toBe('SomeEntityName');
@@ -59,7 +59,7 @@ describe('Entity', () => {
       new Entity({
         name: 'Example',
         description: 'Just some description',
-        attributes: [ 2, 7, 13 ],
+        attributes: <any>[ 2, 7, 13 ],
       });
     }
 
@@ -72,8 +72,8 @@ describe('Entity', () => {
       const entity = new Entity({
         name: 'Example',
         description: 'Just some description',
-        attributes: () => {
-          return [ 2, 7, 13 ];
+        attributesGenerator: () => {
+          return <any>[ 2, 7, 13 ];
         },
       });
 
@@ -111,7 +111,7 @@ describe('Entity', () => {
       const entity = new Entity({
         name: 'SomeEntityName',
         description: 'Just some description',
-        attributes: () => {
+        attributesGenerator: () => {
           return {
             id: {
               type: DataTypeID,
@@ -158,7 +158,9 @@ describe('Entity', () => {
       const entity = new Entity({
         name: 'SomeEntityName',
         description: 'Just some description',
-        attributes() {},
+        attributesGenerator() {
+          return <any>null;
+        },
       });
 
       function fn() {
@@ -219,7 +221,7 @@ describe('Entity', () => {
         name: 'SomeEntityName',
         description: 'Just some description',
         attributes: {
-          someAttribute: {},
+          someAttribute: <any>{},
         },
       });
 
@@ -235,7 +237,7 @@ describe('Entity', () => {
         name: 'SomeEntityName',
         description: 'Just some description',
         attributes: {
-          someAttribute: {
+          someAttribute: <any>{
             description: 'Just some description',
           },
         },
@@ -289,7 +291,7 @@ describe('Entity', () => {
           someAttribute: {
             type: DataTypeString,
             description: 'Just some description',
-            resolve: {},
+            resolve: <any>{},
           },
         },
       });
@@ -309,7 +311,7 @@ describe('Entity', () => {
           someAttribute: {
             type: DataTypeString,
             description: 'Just some description',
-            defaultValue: 'not-a-function',
+            defaultValue: <any>'not-a-function',
           },
         },
       });
@@ -329,7 +331,7 @@ describe('Entity', () => {
           someAttribute: {
             type: DataTypeString,
             description: 'Just some description',
-            validate: 'not-a-function',
+            validate: <any>'not-a-function',
           },
         },
       });
