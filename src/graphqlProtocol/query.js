@@ -50,7 +50,7 @@ export const generateInstanceQueries = (graphRegistry, idFetcher) => {
 
     // find the primary attribute and add a query for it
     const attributes = entity.getAttributes();
-    const primaryAttributeName = _.findKey(attributes, { isPrimary: true });
+    const primaryAttributeName = _.findKey(attributes, { primary: true });
 
     if (primaryAttributeName) {
       const primaryAttribute = attributes[primaryAttributeName];

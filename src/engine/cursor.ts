@@ -81,7 +81,7 @@ export const processCursor = (
         orderList.push(attributeName);
       }
 
-      if (attribute.isUnique) {
+      if (attribute.unique) {
         foundUniqueAttribute = true;
       }
     });
@@ -126,7 +126,7 @@ export const processCursor = (
 
         const attribute = attributes[attributeName];
 
-        if (attribute.isUnique) {
+        if (attribute.unique) {
           if (orderMap[attributeName] === 'DESC') {
             where.$not[attributeName] = {
               [$GTE]: value,

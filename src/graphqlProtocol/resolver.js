@@ -178,7 +178,7 @@ export const getNestedPayloadResolver = (
             else {
               const attributes = targetEntity.getAttributes();
               const primaryAttributeName = _.findKey(attributes, {
-                isPrimary: true,
+                primary: true,
               });
               const uniquenessAttributes =
                 fieldNameToUniquenessAttributesMap[foundInput];

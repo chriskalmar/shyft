@@ -101,7 +101,7 @@ export const processEntityIndexes = (entity, indexes) => {
         );
 
         if (index.attributes.length === 1) {
-          entityAttributes[attributeName].isUnique = true;
+          entityAttributes[attributeName].unique = true;
         }
       }
 

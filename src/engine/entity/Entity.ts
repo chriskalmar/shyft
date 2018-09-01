@@ -375,9 +375,9 @@ export class Entity {
 
     const attribute: Attribute = {
       ...rawAttribute,
-      isPrimary: !!rawAttribute.isPrimary,
-      isUnique: !!rawAttribute.isPrimary,
-      required: !!rawAttribute.required || !!rawAttribute.isPrimary,
+      primary: !!rawAttribute.primary,
+      unique: !!rawAttribute.primary,
+      required: !!rawAttribute.required || !!rawAttribute.primary,
       hidden: !!rawAttribute.hidden,
       index: !!rawAttribute.index,
       i18n: !!rawAttribute.i18n,
@@ -415,7 +415,7 @@ export class Entity {
       );
 
       passOrThrow(
-        !attribute.isUnique,
+        !attribute.unique,
         () =>
           `'${
             this.name
@@ -474,7 +474,7 @@ export class Entity {
       });
     }
 
-    if (attribute.isPrimary) {
+    if (attribute.primary) {
       passOrThrow(
         !this._primaryAttribute,
         () =>
@@ -580,13 +580,13 @@ export class Entity {
 
     Object.keys(resultAttributes).map(attributeName => {
       const attribute = resultAttributes[attributeName];
-      if (attribute.isPrimary) {
+      if (attribute.primary) {
         rankedResultAttributes[attributeName] = attribute;
       }
     });
     Object.keys(resultAttributes).map(attributeName => {
       const attribute = resultAttributes[attributeName];
-      if (!attribute.isPrimary) {
+      if (!attribute.primary) {
         rankedResultAttributes[attributeName] = attribute;
       }
     });

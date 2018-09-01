@@ -92,7 +92,7 @@ describe('Entity', () => {
           id: {
             type: DataTypeID,
             description: 'ID of item',
-            isPrimary: true,
+            primary: true,
           },
           name: {
             type: DataTypeString,
@@ -116,7 +116,7 @@ describe('Entity', () => {
             id: {
               type: DataTypeID,
               description: 'ID of item',
-              isPrimary: true,
+              primary: true,
             },
             name: {
               type: DataTypeString,
@@ -143,7 +143,7 @@ describe('Entity', () => {
           id: {
             type: DataTypeID,
             description: 'ID of item',
-            isPrimary: true,
+            primary: true,
           },
         },
         storageType: {},
@@ -351,12 +351,12 @@ describe('Entity', () => {
           someAttribute: {
             type: DataTypeID,
             description: 'Something',
-            isPrimary: true,
+            primary: true,
           },
           anotherAttribute: {
             type: DataTypeID,
             description: 'Something else',
-            isPrimary: true,
+            primary: true,
           },
         },
       });
@@ -387,7 +387,7 @@ describe('Entity', () => {
           someAttribute: {
             type: Country,
             description: 'Something',
-            isPrimary: true,
+            primary: true,
           },
         },
       });
@@ -488,7 +488,7 @@ describe('Entity', () => {
   });
 
   describe('indexes', () => {
-    it('should set isUnique flag on attributes based on index definition', () => {
+    it('should set unique flag on attributes based on index definition', () => {
       const entity = new Entity({
         name: 'SomeEntityName',
         description: 'Just some description',
@@ -533,10 +533,10 @@ describe('Entity', () => {
       entity.getIndexes();
       const attributes = entity.getAttributes();
 
-      expect(attributes.loginName.isUnique).toBe(true);
-      expect(attributes.firstName.isUnique).not.toBe(true);
-      expect(attributes.lastName.isUnique).not.toBe(true);
-      expect(attributes.email.isUnique).toBe(true);
+      expect(attributes.loginName.unique).toBe(true);
+      expect(attributes.firstName.unique).not.toBe(true);
+      expect(attributes.lastName.unique).not.toBe(true);
+      expect(attributes.email.unique).toBe(true);
     });
 
     it('should return a list of indexes', () => {

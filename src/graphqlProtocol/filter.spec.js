@@ -25,7 +25,7 @@ describe('filter', () => {
       id: {
         type: DataTypeInteger,
         description: 'ID of user',
-        isPrimary: true,
+        primary: true,
       },
       firstName: {
         type: DataTypeString,

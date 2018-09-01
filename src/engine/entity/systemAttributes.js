@@ -16,7 +16,7 @@ export const systemAttributePrimary = {
   description: 'Unique row identifier',
   type: DataTypeID,
   required: true,
-  isPrimary: true,
+  primary: true,
 };
 
 export const systemAttributesTimeTracking = [

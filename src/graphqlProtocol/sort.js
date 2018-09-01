@@ -39,7 +39,7 @@ export const generateSortInput = entity => {
       },
     };
 
-    if (attribute.isPrimary) {
+    if (attribute.primary) {
       defaultSortValue = sortNames[keyAsc].value;
     }
 

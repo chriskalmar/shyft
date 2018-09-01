@@ -83,8 +83,8 @@ export const forceSortByUnique = (orderBy, entity) => {
   let foundUnique = false;
 
   orderBy.map(({ attribute }) => {
-    const { isUnique } = attributes[attribute];
-    if (isUnique) {
+    const { unique } = attributes[attribute];
+    if (unique) {
       foundUnique = true;
     }
   });
