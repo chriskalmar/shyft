@@ -1,11 +1,28 @@
 import { passOrThrow, isFunction, isArray } from '../util';
 
-import { isEntity } from '../entity/Entity';
-import { isDataType } from './DataType';
+import { Entity, isEntity } from '../entity/Entity';
+import { DataType, isDataType } from './DataType';
 import { ComplexDataType, isComplexDataType } from './ComplexDataType';
 
+export type DataTypeFunction = (setup: any) => DataType | ComplexDataType;
+
+export type ListDataTypeSetupType = {
+  name: string;
+  description: string;
+  itemType: Entity | ComplexDataType | DataTypeFunction;
+  minItems?: number;
+  maxItems?: number;
+};
+
 export class ListDataType extends ComplexDataType {
-  constructor(setup = {}) {
+  name: string;
+  description: string;
+  itemType: Entity | ComplexDataType | DataTypeFunction;
+  _itemType: DataType | ComplexDataType;
+  minItems?: number;
+  maxItems?: number;
+
+  constructor(setup: ListDataTypeSetupType = <ListDataTypeSetupType>{}) {
     super();
 
     const { name, description, itemType, minItems, maxItems } = setup;
@@ -61,9 +78,10 @@ export class ListDataType extends ComplexDataType {
     this.maxItems = _maxItems;
   }
 
-  _processItemType() {
+  _processItemType(): DataType | ComplexDataType {
     if (isFunction(this.itemType)) {
-      const itemType = this.itemType({
+      const itemTypeBuilder: DataTypeFunction = <DataTypeFunction>this.itemType;
+      const itemType = itemTypeBuilder({
         name: this.name,
         description: this.description,
       });
@@ -84,7 +102,7 @@ export class ListDataType extends ComplexDataType {
     return this.itemType;
   }
 
-  getItemType() {
+  getItemType(): DataType | ComplexDataType {
     if (this._itemType) {
       return this._itemType;
     }

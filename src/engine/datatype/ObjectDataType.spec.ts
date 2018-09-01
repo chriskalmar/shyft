@@ -1,6 +1,11 @@
-import { ObjectDataType, isObjectDataType } from './ObjectDataType';
+import {
+  ObjectDataType,
+  ObjectDataTypeSetupType,
+  isObjectDataType,
+} from './ObjectDataType';
 import { passOrThrow } from '../util';
 import { DataTypeID, DataTypeString } from './dataTypes';
+import { Entity } from '../entity/Entity';
 
 describe('ObjectDataType', () => {
   it('should have a name', () => {
@@ -15,7 +20,7 @@ describe('ObjectDataType', () => {
   it('should have a description', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new ObjectDataType({
+      new ObjectDataType(<ObjectDataTypeSetupType>{
         name: 'example',
       });
     }
@@ -26,7 +31,7 @@ describe('ObjectDataType', () => {
   it('should have a map of attributes', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new ObjectDataType({
+      new ObjectDataType(<ObjectDataTypeSetupType>{
         name: 'Example',
         description: 'Just some description',
       });
@@ -36,7 +41,7 @@ describe('ObjectDataType', () => {
   });
 
   it("should return it's name", () => {
-    const objectDataType = new ObjectDataType({
+    const objectDataType = new ObjectDataType(<ObjectDataTypeSetupType>{
       name: 'someObjectDataTypeName',
       description: 'Just some description',
       attributes: {},
@@ -49,7 +54,7 @@ describe('ObjectDataType', () => {
   it('should accept only maps or functions as attributes definition', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new ObjectDataType({
+      new ObjectDataType(<any>{
         name: 'Example',
         description: 'Just some description',
         attributes: [ 2, 7, 13 ],
@@ -61,11 +66,11 @@ describe('ObjectDataType', () => {
 
   it('should reject non-map results of attribute definition functions', () => {
     function fn() {
-      const objectDataType = new ObjectDataType({
+      const objectDataType = new ObjectDataType(<ObjectDataTypeSetupType>{
         name: 'Example',
         description: 'Just some description',
         attributes: () => {
-          return [ 2, 7, 13 ];
+          return <any>[ 2, 7, 13 ];
         },
       });
 
@@ -77,7 +82,7 @@ describe('ObjectDataType', () => {
 
   it('should reject empty attribute maps', () => {
     function fn() {
-      const objectDataType = new ObjectDataType({
+      const objectDataType = new ObjectDataType(<ObjectDataTypeSetupType>{
         name: 'Example',
         description: 'Just some description',
         attributes: {},
@@ -114,7 +119,7 @@ describe('ObjectDataType', () => {
         description: 'Just some description',
         attributes: {
           name: {
-            type: {},
+            type: <any>{},
             description: 'Just some description',
           },
         },
@@ -221,7 +226,7 @@ describe('ObjectDataType', () => {
     expect(attributes.id.type).toBe(DataTypeID);
     expect(attributes.name.type).toBe(DataTypeString);
 
-    const attributesNested = attributes.nested.type.getAttributes();
+    const attributesNested = (<Entity>attributes.nested.type).getAttributes();
 
     expect(attributesNested.randomInput.type).toBe(DataTypeString);
   });

@@ -1,4 +1,8 @@
-import { ListDataType, isListDataType } from './ListDataType';
+import {
+  ListDataType,
+  ListDataTypeSetupType,
+  isListDataType,
+} from './ListDataType';
 import { passOrThrow } from '../util';
 import { DataTypeID, DataTypeString } from './dataTypes';
 import { Language } from '../models/Language';
@@ -16,7 +20,7 @@ describe('ListDataType', () => {
   it('should have a description', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new ListDataType({
+      new ListDataType(<ListDataTypeSetupType>{
         name: 'example',
       });
     }
@@ -27,7 +31,7 @@ describe('ListDataType', () => {
   it('should have an item type', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new ListDataType({
+      new ListDataType(<ListDataTypeSetupType>{
         name: 'Example',
         description: 'Just some description',
       });

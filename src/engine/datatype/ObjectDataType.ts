@@ -1,10 +1,30 @@
 import { passOrThrow, resolveFunctionMap, isMap, isFunction } from '../util';
-import { isEntity } from '../entity/Entity';
-import { isDataType } from './DataType';
+import { Entity, isEntity } from '../entity/Entity';
+import { DataType, isDataType } from './DataType';
 import { ComplexDataType, isComplexDataType } from './ComplexDataType';
 
+export type AttributesMapType = {
+  [key: string]: {
+    type: DataType | Entity;
+  };
+};
+
+export type AttributesMapFunction = () => AttributesMapType;
+
+export type ObjectDataTypeSetupType = {
+  name: string;
+  description: string;
+  attributes: AttributesMapType | AttributesMapFunction;
+};
+
 export class ObjectDataType extends ComplexDataType {
-  constructor(setup = {}) {
+  name: string;
+  description: string;
+  attributes: AttributesMapType;
+  _attributesMap: AttributesMapType | AttributesMapFunction;
+  _attributes: AttributesMapType;
+
+  constructor(setup: ObjectDataTypeSetupType = <ObjectDataTypeSetupType>{}) {
     super();
 
     const { name, description, attributes } = setup;
@@ -30,7 +50,7 @@ export class ObjectDataType extends ComplexDataType {
     this._attributesMap = attributes;
   }
 
-  getAttributes() {
+  getAttributes(): AttributesMapType {
     if (this._attributes) {
       return this._attributes;
     }
