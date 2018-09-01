@@ -27,7 +27,7 @@ import {
   processEntityPermissions,
 } from '../permission/Permission';
 
-import { isDataType, DataTypeFunction } from '../datatype/DataType';
+import { DataType, isDataType, DataTypeFunction } from '../datatype/DataType';
 import { isStorageType } from '../storage/StorageType';
 import { StorageTypeNull } from '../storage/StorageTypeNull';
 import { isComplexDataType } from '../datatype/ComplexDataType';
@@ -391,7 +391,9 @@ export class Entity {
     );
 
     if (isFunction(attribute.type)) {
-      const dataTypeBuilder: DataTypeFunction = <DataTypeFunction>attribute.type;
+      const dataTypeBuilder: DataTypeFunction = <DataTypeFunction>(
+        attribute.type
+      );
       attribute.type = dataTypeBuilder(attribute, this);
     }
 
@@ -424,15 +426,17 @@ export class Entity {
     }
 
     if (isDataType(attribute.type)) {
-      if (attribute.type.enforceRequired) {
+      const attributeType = <DataType>attribute.type;
+
+      if (attributeType.enforceRequired) {
         attribute.required = true;
       }
 
-      if (attribute.type.defaultValue) {
-        attribute.defaultValue = attribute.type.defaultValue;
+      if (attributeType.defaultValue) {
+        attribute.defaultValue = attributeType.defaultValue;
       }
 
-      if (attribute.type.enforceIndex) {
+      if (attributeType.enforceIndex) {
         attribute.index = true;
       }
     }
@@ -470,7 +474,7 @@ export class Entity {
         );
 
         // check if attribute is found in target entity
-        attribute.type.referenceAttribute(targetAttribute.name);
+        (<Entity>attribute.type).referenceAttribute(targetAttribute.name);
       });
     }
 

@@ -87,6 +87,11 @@ export type Attribute = {
    * place to store custom (project-related) meta data
    */
   meta?: any;
+
+  /**
+   * map of target attributes when referencing another entity
+   */
+  targetAttributesMap?: any;
 };
 
 /**
