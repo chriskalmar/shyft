@@ -100,7 +100,7 @@ describe('ObjectDataType', () => {
         name: 'Example',
         description: 'Just some description',
         attributes: {
-          name: {
+          name: <any>{
             type: DataTypeString,
           },
         },
@@ -140,7 +140,7 @@ describe('ObjectDataType', () => {
           name: {
             type: DataTypeString,
             description: 'Just some description',
-            resolve: 123456,
+            resolve: <any>123456,
           },
         },
       });
@@ -160,7 +160,7 @@ describe('ObjectDataType', () => {
           name: {
             type: DataTypeString,
             description: 'Just some description',
-            defaultValue: 123456,
+            defaultValue: <any>123456,
           },
         },
       });

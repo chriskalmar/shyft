@@ -1,6 +1,7 @@
 import { passOrThrow, isFunction } from '../util';
+import { ComplexDataType } from './ComplexDataType';
 
-export type DataTypeSetupType = {
+export type DataTypeSetup = {
   name: string;
   description: string;
   mock?: () => any;
@@ -9,6 +10,11 @@ export type DataTypeSetupType = {
   defaultValue?: () => any;
   enforceIndex?: boolean;
 };
+
+export type DataTypeFunction = (
+  setup: DataTypeSetup,
+  context?: any,
+) => DataType | ComplexDataType;
 
 export class DataType {
   name: string;
@@ -19,7 +25,7 @@ export class DataType {
   defaultValue?: () => any;
   enforceIndex?: boolean;
 
-  constructor(setup: DataTypeSetupType = <DataTypeSetupType>{}) {
+  constructor(setup: DataTypeSetup = <DataTypeSetup>{}) {
     const {
       name,
       description,

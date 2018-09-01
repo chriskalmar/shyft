@@ -1,10 +1,8 @@
 import { passOrThrow, isFunction, isArray } from '../util';
 
 import { Entity, isEntity } from '../entity/Entity';
-import { DataType, isDataType } from './DataType';
+import { DataType, isDataType, DataTypeFunction } from './DataType';
 import { ComplexDataType, isComplexDataType } from './ComplexDataType';
-
-export type DataTypeFunction = (setup: any) => DataType | ComplexDataType;
 
 export type ListDataTypeSetupType = {
   name: string;

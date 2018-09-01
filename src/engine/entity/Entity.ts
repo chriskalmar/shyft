@@ -16,7 +16,8 @@ import {
 } from '../constants';
 
 import { processEntityIndexes } from '../index/Index';
-import { Mutation,
+import {
+  Mutation,
   defaultEntityMutations,
   processEntityMutations,
 } from '../mutation/Mutation';
@@ -26,7 +27,7 @@ import {
   processEntityPermissions,
 } from '../permission/Permission';
 
-import { isDataType } from '../datatype/DataType';
+import { isDataType, DataTypeFunction } from '../datatype/DataType';
 import { isStorageType } from '../storage/StorageType';
 import { StorageTypeNull } from '../storage/StorageTypeNull';
 import { isComplexDataType } from '../datatype/ComplexDataType';
@@ -41,11 +42,16 @@ import {
 
 import * as _ from 'lodash';
 
+import {
+  Attribute,
+  AttributesMap,
+  AttributesMapFunction,
+} from '../attribute/Attribute';
 
 export type EntitySetupType = {
   name: string;
   description: string;
-  attributes: any;
+  attributes: AttributesMap | AttributesMapFunction;
   storageType?: any;
   isUserEntity?: boolean;
   includeTimeTracking?: boolean;
@@ -54,13 +60,11 @@ export type EntitySetupType = {
   mutations?: any;
   permissions?: any;
   states?: any;
-}
+};
 
 export class Entity {
-
   name: string;
   description: string;
-  attributes: any;
   storageType?: any;
   isUserEntity?: boolean;
   includeTimeTracking?: boolean;
@@ -70,14 +74,14 @@ export class Entity {
   permissions?: any;
   states?: any;
   private _attributesMap: any;
-  private _primaryAttribute: any;
+  private _primaryAttribute: Attribute;
   private referencedByEntities: any;
   private _indexes: any;
   private _mutations: any;
   private _states: any;
   private _permissions: any;
   private _defaultPermissions: any;
-  private _attributes: any;
+  private _attributes: AttributesMap;
   private descriptionPermissionsFind: any;
   private descriptionPermissionsRead: any;
   isFallbackStorageType: any;
@@ -369,7 +373,7 @@ export class Entity {
       );
     });
 
-    const attribute = {
+    const attribute: Attribute = {
       ...rawAttribute,
       isPrimary: !!rawAttribute.isPrimary,
       isUnique: !!rawAttribute.isPrimary,
@@ -387,7 +391,8 @@ export class Entity {
     );
 
     if (isFunction(attribute.type)) {
-      attribute.type = attribute.type(attribute, this);
+      const dataTypeBuilder: DataTypeFunction = <DataTypeFunction>attribute.type;
+      attribute.type = dataTypeBuilder(attribute, this);
     }
 
     passOrThrow(
@@ -743,7 +748,6 @@ export class Entity {
     return this.name;
   }
 }
-
 
 export const isEntity = obj => {
   return obj instanceof Entity;

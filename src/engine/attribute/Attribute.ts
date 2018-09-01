@@ -3,7 +3,7 @@ import { DataType, DataTypeFunction } from '../datatype/DataType';
 import { Entity } from '../entity/Entity';
 
 export type Attribute = {
-  name: string;
+  name?: string;
   description: string;
   type: DataType | ComplexDataType | Entity | DataTypeFunction;
   required?: boolean;
