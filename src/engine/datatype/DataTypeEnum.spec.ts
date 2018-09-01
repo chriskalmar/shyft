@@ -1,4 +1,8 @@
-import { DataTypeEnum, isDataTypeEnum } from './DataTypeEnum';
+import {
+  DataTypeEnum,
+  DataTypeEnumSetupType,
+  isDataTypeEnum,
+} from './DataTypeEnum';
 
 import { passOrThrow } from '../util';
 
@@ -15,7 +19,7 @@ describe('DataTypeEnum', () => {
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeEnum({
+      new DataTypeEnum(<DataTypeEnumSetupType>{
         values: [],
       });
     };
@@ -28,7 +32,7 @@ describe('DataTypeEnum', () => {
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeEnum({
+      new DataTypeEnum(<DataTypeEnumSetupType>{
         values: [ '8' ],
       });
     };
@@ -37,7 +41,7 @@ describe('DataTypeEnum', () => {
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeEnum({
+      new DataTypeEnum(<DataTypeEnumSetupType>{
         values: [ ' abc ' ],
         name: 'test',
       });
@@ -47,7 +51,7 @@ describe('DataTypeEnum', () => {
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeEnum({
+      new DataTypeEnum(<DataTypeEnumSetupType>{
         values: [ 'abc', 'def', 'hello-there' ],
         name: 'another',
       });
@@ -59,7 +63,7 @@ describe('DataTypeEnum', () => {
   it('should have a name', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new DataTypeEnum({
+      new DataTypeEnum(<DataTypeEnumSetupType>{
         values: [ 'item' ],
       });
     }
@@ -79,7 +83,7 @@ describe('DataTypeEnum', () => {
   });
 
   it('should have a fallback description', () => {
-    const dataType = new DataTypeEnum({
+    const dataType = new DataTypeEnum(<DataTypeEnumSetupType>{
       name: 'example',
       values: [ 'ACTION', 'COMEDY', 'DRAMA' ],
     });
@@ -89,7 +93,7 @@ describe('DataTypeEnum', () => {
 
   it('should have a generated mock function', () => {
     const values = [ 'ACTION', 'COMEDY', 'DRAMA' ];
-    const dataType = new DataTypeEnum({
+    const dataType = new DataTypeEnum(<DataTypeEnumSetupType>{
       name: 'example',
       values,
     });
@@ -99,12 +103,12 @@ describe('DataTypeEnum', () => {
 
   describe('isDataTypeEnum', () => {
     it('should recognize objects of type DataTypeEnum', () => {
-      const enum1 = new DataTypeEnum({
+      const enum1 = new DataTypeEnum(<DataTypeEnumSetupType>{
         name: 'enum1',
         values: [ 'ACTION', 'COMEDY', 'DRAMA' ],
       });
 
-      const enum2 = new DataTypeEnum({
+      const enum2 = new DataTypeEnum(<DataTypeEnumSetupType>{
         name: 'enum2',
         values: [ 'APPLE', 'PEAR', 'CHERRY' ],
       });

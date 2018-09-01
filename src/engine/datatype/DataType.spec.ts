@@ -1,4 +1,4 @@
-import { DataType, isDataType } from './DataType';
+import { DataType, DataTypeSetupType, isDataType } from './DataType';
 
 import { passOrThrow } from '../util';
 
@@ -16,7 +16,7 @@ describe('DataType', () => {
   it('should have a description', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new DataType({
+      new DataType(<DataTypeSetupType>{
         name: 'example',
       });
     }

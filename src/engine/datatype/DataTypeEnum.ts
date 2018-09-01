@@ -4,8 +4,16 @@ import { enumValueRegex, ENUM_VALUE_PATTERN } from '../constants';
 
 import { DataType } from './DataType';
 
+export type DataTypeEnumSetupType = {
+  name: string;
+  description: string;
+  values: string[];
+};
+
 export class DataTypeEnum extends DataType {
-  constructor(setup = {}) {
+  values: string[];
+
+  constructor(setup: DataTypeEnumSetupType = <DataTypeEnumSetupType>{}) {
     const { name, description, values } = setup;
 
     passOrThrow(
@@ -22,7 +30,7 @@ export class DataTypeEnum extends DataType {
     });
 
     super({
-      ...setup,
+      name,
       description: description || `Enumeration set: ${values.join(', ')}`,
       mock() {
         const randomPos = Math.floor(Math.random() * values.length);

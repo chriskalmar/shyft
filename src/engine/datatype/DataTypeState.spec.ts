@@ -1,4 +1,8 @@
-import { DataTypeState, isDataTypeState } from './DataTypeState';
+import {
+  DataTypeState,
+  DataTypeStateSetupType,
+  isDataTypeState,
+} from './DataTypeState';
 
 import { passOrThrow } from '../util';
 
@@ -8,7 +12,7 @@ describe('DataTypeState', () => {
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeState({
+      new DataTypeState(<DataTypeStateSetupType>{
         name: 'something',
       });
     };
@@ -17,7 +21,7 @@ describe('DataTypeState', () => {
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeState({
+      new DataTypeState(<DataTypeStateSetupType>{
         name: 'something',
         states: {},
       });
@@ -31,7 +35,7 @@ describe('DataTypeState', () => {
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeState({
+      new DataTypeState(<DataTypeStateSetupType>{
         name: 'progress',
         states: {
           '6': 1,
@@ -43,7 +47,7 @@ describe('DataTypeState', () => {
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeState({
+      new DataTypeState(<DataTypeStateSetupType>{
         states: {
           ' abc ': 123,
         },
@@ -55,7 +59,7 @@ describe('DataTypeState', () => {
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeState({
+      new DataTypeState(<DataTypeStateSetupType>{
         name: 'another',
         states: {
           abc: 1,
@@ -71,7 +75,7 @@ describe('DataTypeState', () => {
   it('should have a name', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new DataTypeState({
+      new DataTypeState(<any>{
         states: {
           item: 1,
         },

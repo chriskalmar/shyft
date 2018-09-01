@@ -1,7 +1,25 @@
 import { passOrThrow, isFunction } from '../util';
 
+export type DataTypeSetupType = {
+  name: string;
+  description: string;
+  mock?: () => any;
+  validate?: () => any;
+  enforceRequired?: boolean;
+  defaultValue?: () => any;
+  enforceIndex?: boolean;
+};
+
 export class DataType {
-  constructor(setup = {}) {
+  name: string;
+  description: string;
+  mock?: () => any;
+  validator?: (value: any, context: any) => any;
+  enforceRequired?: boolean;
+  defaultValue?: () => any;
+  enforceIndex?: boolean;
+
+  constructor(setup: DataTypeSetupType = <DataTypeSetupType>{}) {
     const {
       name,
       description,

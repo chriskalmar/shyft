@@ -6,8 +6,19 @@ import * as _ from 'lodash';
 
 import { DataType } from './DataType';
 
+export type StateType = {
+  [key: string]: number;
+};
+
+export type DataTypeStateSetupType = {
+  name: string;
+  description?: string;
+  states: StateType;
+};
+
 export class DataTypeState extends DataType {
-  constructor(setup = {}) {
+  states: StateType;
+  constructor(setup: DataTypeStateSetupType = <DataTypeStateSetupType>{}) {
     const { name, description, states } = setup;
 
     passOrThrow(
@@ -29,7 +40,7 @@ export class DataTypeState extends DataType {
       );
 
       passOrThrow(
-        stateId === parseInt(stateId, 10) && stateId > 0,
+        stateId === Number(stateId) && stateId > 0,
         () =>
           `State '${stateName}' for data type '${name}' has an invalid unique ID (needs to be a positive integer)`,
       );
@@ -42,7 +53,7 @@ export class DataTypeState extends DataType {
     );
 
     super({
-      ...setup,
+      name,
       description: description || `States: ${stateNames.join(', ')}`,
       enforceIndex: true,
       mock() {
