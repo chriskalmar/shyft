@@ -169,11 +169,11 @@ export const loadModels = configuration => {
         attributes[attributeName] = {
           name: storageAttributeName,
           type: storageDataType.nativeDataType,
-          primary: attribute.isPrimary,
+          primary: attribute.primary,
           nullable: !attribute.required,
         };
 
-        if (attribute.isPrimary) {
+        if (attribute.primary) {
           const primaryGenerator =
             storageDataType.name === 'StorageDataTypeUUID'
               ? 'uuid'
@@ -301,8 +301,8 @@ async function generateItem(
   const { name: entityName, storageTableName } = entity;
   const item = {};
 
-  _.map(entity.getAttributes(), ({ type, isPrimary, required, mock }, name) => {
-    if (isPrimary) {
+  _.map(entity.getAttributes(), ({ type, primary, required, mock }, name) => {
+    if (primary) {
       return;
     }
 
