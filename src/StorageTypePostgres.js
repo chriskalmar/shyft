@@ -58,7 +58,7 @@ import { parseValues, parseValuesMap, serializeValues } from './helpers';
 
 import { i18nTransformFilterAttributeName } from './i18n';
 
-const processOrmError = err => {
+const processOrmError = (err, storageInstance, qBuilder) => {
   if (String(err.code) === '23505') {
     throw new CustomError(
       'Uniqueness constraint violated',
@@ -75,6 +75,7 @@ const processOrmError = err => {
     throw new CustomError(err.message, 'NotNullConstraintViolationError');
   }
 
+  storageInstance.logger.logQueryError(err.message, qBuilder.getSql());
   throw new CustomError('Undefined server error', 'UndefinedServerError', 500);
 };
 
@@ -139,7 +140,7 @@ const createDataLoader = (context, entity, StorageTypePostgres) => {
       return sortDataByKeys(ids, data, primaryAttributeName);
     }
     catch (err) {
-      processOrmError(err);
+      processOrmError(err, storageInstance, qBuilder);
     }
 
     return null;
@@ -285,7 +286,7 @@ export const StorageTypePostgres = new StorageType({
       result = await qBuilder.getOne();
     }
     catch (err) {
-      processOrmError(err);
+      processOrmError(err, storageInstance, qBuilder);
     }
 
     if (result) {
@@ -400,7 +401,7 @@ export const StorageTypePostgres = new StorageType({
       result = await qBuilder.getMany();
     }
     catch (err) {
-      processOrmError(err);
+      processOrmError(err, storageInstance, qBuilder);
     }
 
     if (!loader) {
@@ -497,7 +498,7 @@ export const StorageTypePostgres = new StorageType({
       result = await qBuilder.getRawOne();
     }
     catch (err) {
-      processOrmError(err);
+      processOrmError(err, storageInstance, qBuilder);
     }
 
     return parseInt(result.count, 10);
@@ -575,7 +576,7 @@ export const StorageTypePostgres = new StorageType({
         result = await qBuilder.execute();
       }
       catch (err) {
-        processOrmError(err);
+        processOrmError(err, storageInstance, qBuilder);
       }
 
       return parseValues(
@@ -619,7 +620,7 @@ export const StorageTypePostgres = new StorageType({
         result = await qBuilder.execute();
       }
       catch (err) {
-        processOrmError(err);
+        processOrmError(err, storageInstance, qBuilder);
       }
 
       const rowCount = result.raw.length;
@@ -665,7 +666,7 @@ export const StorageTypePostgres = new StorageType({
         result = await qBuilder.execute();
       }
       catch (err) {
-        processOrmError(err);
+        processOrmError(err, storageInstance, qBuilder);
       }
 
       const rowCount = result.raw.length;
@@ -709,7 +710,7 @@ export const StorageTypePostgres = new StorageType({
       result = await qBuilder.getRawOne();
     }
     catch (err) {
-      processOrmError(err);
+      processOrmError(err, storageInstance, qBuilder);
     }
 
     return result.found;
