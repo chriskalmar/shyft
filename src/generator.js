@@ -337,8 +337,8 @@ async function generateItem(
     .returning('*')
     .execute();
 
-  if (result.length) {
-    instance = result[0];
+  if (result.raw.length) {
+    instance = result.raw[0];
 
     const { name: primaryAttributeName } = entity.getPrimaryAttribute();
 
