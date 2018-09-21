@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
     "outDir": "./lib",
-    "allowJs": true,
+    "allowJs": false,
     "declaration": true,
     "target": "es5",
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
     "typeRoots": [
       "./node_modules/@types"
     ],

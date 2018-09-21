@@ -127,6 +127,7 @@
       "before": false,
       "after": true
     }],
-    "array-bracket-spacing": [2, "always"]
+    "array-bracket-spacing": [2, "always"],
+    "require-jsdoc": 1
   }
 }
