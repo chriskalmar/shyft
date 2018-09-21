@@ -1,7 +1,7 @@
 import { passOrThrow, isMap, isArray, isFunction, asyncForEach } from '../util';
 
-import { isEntity } from '../entity/Entity';
-import { isDataTypeUser } from '../datatype/DataTypeUser';
+import { Entity, isEntity } from '../entity/Entity';
+import { isDataTypeUser, DataTypeUser } from '../datatype/DataTypeUser';
 import { MUTATION_TYPE_CREATE, isMutation } from '../mutation/Mutation';
 import { isDataTypeState } from '../datatype/DataTypeState';
 import * as _ from 'lodash';
@@ -86,7 +86,7 @@ export class Permission {
 
     passOrThrow(
       this.roles.length === _.uniq(this.roles).length,
-      () => `Duplicate role '${name}' for permission type \'role\'`,
+      () => `Duplicate role '${name}' for permission type 'role'`,
     );
 
     return this;
@@ -106,7 +106,7 @@ export class Permission {
     passOrThrow(
       this.userAttributes.length === _.uniq(this.userAttributes).length,
       () =>
-        `Duplicate attribute name '${attributeName}' for permission type \'userAttribute\'`,
+        `Duplicate attribute name '${attributeName}' for permission type 'userAttribute'`,
     );
 
     return this;
@@ -851,9 +851,9 @@ export const findEmptyEntityPermissions = permissions => {
 };
 
 export const processEntityPermissions = (
-  entity,
+  entity: Entity,
   permissions,
-  defaultPermissions,
+  defaultPermissions?,
 ) => {
   passOrThrow(
     isMap(permissions),

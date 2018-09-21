@@ -1,7 +1,7 @@
 import { GraphQLScalarType, Kind, GraphQLError } from 'graphql';
 import { serializeCursor, deserializeCursor } from './util';
 
-export const GraphQLJSON = require('graphql-type-json');
+export const GraphQLJSON = require('graphql-type-json'); // eslint-disable-line
 
 export const GraphQLCursor = new GraphQLScalarType({
   name: 'Cursor',

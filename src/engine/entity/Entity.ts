@@ -49,7 +49,7 @@ import {
   AttributesMapGenerator,
 } from '../attribute/Attribute';
 
-export type EntitySetupType = {
+export type EntitySetup = {
   name: string;
   description: string;
   attributes?: AttributesSetupMap;
@@ -91,7 +91,7 @@ export class Entity {
   findOne: any;
   find: any;
 
-  constructor(setup: EntitySetupType) {
+  constructor(setup: EntitySetup) {
     passOrThrow(isMap(setup), () => 'Entity requires a setup object');
 
     Object.keys(setup).map(prop => {

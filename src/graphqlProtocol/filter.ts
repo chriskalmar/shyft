@@ -82,7 +82,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
 
         storageDataType.capabilities.map(capability => {
           const fieldName = `${attribute.gqlFieldName}__${capability}`;
-          const field = {};
+          const field = <any>{};
 
           if (
             storageDataTypeCapabilities[capability] ===
@@ -224,7 +224,7 @@ export const transformFilterLevel = async (
       let attribute;
       const attributesNames = Object.keys(attributes);
 
-      attributesNames.find(name => {
+      attributesNames.map(name => {
         const { gqlFieldName } = attributes[name];
 
         if (attributeName === gqlFieldName) {
@@ -297,7 +297,7 @@ export const transformFilterLevel = async (
           }
         }
         else {
-          const operatorKey = `\$${operator}`;
+          const operatorKey = `$${operator}`;
           ret[realAttributeName][operatorKey] = value;
         }
       }
