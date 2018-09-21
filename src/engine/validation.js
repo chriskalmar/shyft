@@ -2,18 +2,18 @@ import * as _ from 'lodash';
 import { isObjectDataType } from './datatype/ObjectDataType';
 import { isListDataType } from './datatype/ListDataType';
 import { isComplexDataType } from './datatype/ComplexDataType';
-import { isMap, passOrThrow, isDefined } from './util';
+import { isMap, passOrThrow, isDefined, asyncForEach } from './util';
 import { MUTATION_TYPE_CREATE } from './mutation/Mutation';
 
-const validateDataTypePayload = (paramType, payload, context) => {
+const validateDataTypePayload = async (paramType, payload, context) => {
   const dataTypeValidator = paramType.validate;
 
   if (dataTypeValidator) {
-    dataTypeValidator(payload, context);
+    await dataTypeValidator(payload, context);
   }
 };
 
-const validatePayload = (param, payload, source, context, path = []) => {
+const validatePayload = async (param, payload, source, context, path = []) => {
   if (typeof payload !== 'undefined' && payload !== null) {
     const paramName = param.name;
 
@@ -21,13 +21,17 @@ const validatePayload = (param, payload, source, context, path = []) => {
       ? param.type.getItemType()
       : param.type;
 
-    validateDataTypePayload(param.type, payload[paramName], context);
+    await validateDataTypePayload(param.type, payload[paramName], context);
 
     if (isObjectDataType(paramType)) {
       const attributes = paramType.getAttributes();
-      _.forEach(attributes, attribute => {
+
+      await asyncForEach(Object.keys(attributes), async attributeName => {
+        const attribute = attributes[attributeName];
+
         const newPath = [ ...path, attribute.name ];
-        validatePayload(
+
+        await validatePayload(
           attribute,
           payload[paramName],
           source,
@@ -41,26 +45,40 @@ const validatePayload = (param, payload, source, context, path = []) => {
       const payloadList = payload[paramName];
 
       if (typeof payloadList !== 'undefined') {
-        payloadList.map(itemPayload => {
-          if (isObjectDataType(paramType)) {
-            validateDataTypePayload(paramType, itemPayload, context);
+        await Promise.all(
+          payloadList.map(async itemPayload => {
+            if (isObjectDataType(paramType)) {
+              await validateDataTypePayload(paramType, itemPayload, context);
 
-            const attributes = paramType.getAttributes();
-            const pathString = path.length ? path.join('.') + '.' : '';
+              const attributes = paramType.getAttributes();
+              const pathString = path.length ? path.join('.') + '.' : '';
 
-            _.forEach(attributes, attribute => {
-              passOrThrow(
-                !attribute.required || isDefined(itemPayload[attribute.name]),
-                () =>
-                  `Missing required input attribute '${pathString}${
-                    attribute.name
-                  }'`,
+              await asyncForEach(
+                Object.keys(attributes),
+                async attributeName => {
+                  const attribute = attributes[attributeName];
+
+                  passOrThrow(
+                    !attribute.required ||
+                      isDefined(itemPayload[attribute.name]),
+                    () =>
+                      `Missing required input attribute '${pathString}${
+                        attribute.name
+                      }'`,
+                  );
+                  const newPath = [ ...path, attribute.name ];
+                  await validatePayload(
+                    attribute,
+                    itemPayload,
+                    source,
+                    context,
+                    newPath,
+                  );
+                },
               );
-              const newPath = [ ...path, attribute.name ];
-              validatePayload(attribute, itemPayload, source, context, newPath);
-            });
-          }
-        });
+            }
+          }),
+        );
       }
     }
 
@@ -68,14 +86,14 @@ const validatePayload = (param, payload, source, context, path = []) => {
       const attributeName = param.name;
       const attributeValidator = param.validate;
 
-      validateDataTypePayload(paramType, payload[attributeName], context);
+      await validateDataTypePayload(paramType, payload[attributeName], context);
 
       if (attributeValidator) {
         if (
           param.isSystemAttribute ||
           typeof payload[attributeName] !== 'undefined'
         ) {
-          const result = attributeValidator(
+          const result = await attributeValidator(
             payload[attributeName],
             attributeName,
             payload,
@@ -91,7 +109,12 @@ const validatePayload = (param, payload, source, context, path = []) => {
   }
 };
 
-export const validateActionPayload = (param, payload, action, context) => {
+export const validateActionPayload = async (
+  param,
+  payload,
+  action,
+  context,
+) => {
   const newParam = {
     ...param,
     name: 'input',
@@ -107,35 +130,44 @@ export const validateActionPayload = (param, payload, action, context) => {
     newPayload.input = payload;
   }
 
-  validatePayload(newParam, newPayload, { action }, context);
+  await validatePayload(newParam, newPayload, { action }, context);
 };
 
-export const validateMutationPayload = (entity, mutation, payload, context) => {
+export const validateMutationPayload = async (
+  entity,
+  mutation,
+  payload,
+  context,
+) => {
   const attributes = entity.getAttributes();
   const systemAttributes = _.filter(
     attributes,
     attribute => attribute.isSystemAttribute && attribute.defaultValue,
   ).map(attribute => attribute.name);
 
-  systemAttributes.map(attributeName => {
-    const attribute = attributes[attributeName];
-    validatePayload(attribute, payload, { mutation, entity }, context);
-  });
+  await Promise.all(
+    systemAttributes.map(async attributeName => {
+      const attribute = attributes[attributeName];
+      await validatePayload(attribute, payload, { mutation, entity }, context);
+    }),
+  );
 
   const attributesToValidate = mutation.attributes || [];
 
-  attributesToValidate.map(attributeName => {
-    const attribute = attributes[attributeName];
+  await Promise.all(
+    attributesToValidate.map(async attributeName => {
+      const attribute = attributes[attributeName];
 
-    if (mutation.type === MUTATION_TYPE_CREATE && !attribute.i18n) {
-      passOrThrow(
-        !attribute.required || isDefined(payload[attributeName]),
-        () => `Missing required input attribute '${attributeName}'`,
-      );
-    }
+      if (mutation.type === MUTATION_TYPE_CREATE && !attribute.i18n) {
+        passOrThrow(
+          !attribute.required || isDefined(payload[attributeName]),
+          () => `Missing required input attribute '${attributeName}'`,
+        );
+      }
 
-    validatePayload(attribute, payload, { mutation, entity }, context, [
-      attributeName,
-    ]);
-  });
+      await validatePayload(attribute, payload, { mutation, entity }, context, [
+        attributeName,
+      ]);
+    }),
+  );
 };

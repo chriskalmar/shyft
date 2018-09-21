@@ -163,7 +163,7 @@ describe('validation', () => {
     lorem: 'impsum',
   };
 
-  it('should accept valid mutation payloads', () => {
+  it('should accept valid mutation payloads', async () => {
     const payload1 = {
       someAttribute: 'Lorem',
       team: {
@@ -171,7 +171,7 @@ describe('validation', () => {
       },
     };
 
-    validateMutationPayload(entity, mutationCreate, payload1, context);
+    await validateMutationPayload(entity, mutationCreate, payload1, context);
 
     const payload2 = {
       someAttribute: 'Lorem',
@@ -188,25 +188,34 @@ describe('validation', () => {
       },
     };
 
-    validateMutationPayload(entity, mutationCreate, payload2, context);
+    await validateMutationPayload(entity, mutationCreate, payload2, context);
   });
 
-  it('should reject payloads based on attribute level validation', () => {
+  it('should reject payloads based on attribute level validation', async () => {
     const payload1 = {
       someAttribute: 'Lo',
     };
 
-    const fn1 = () =>
-      validateMutationPayload(entity, mutationCreate, payload1, context);
-    expect(fn1).toThrowErrorMatchingSnapshot();
+    const fn1 = validateMutationPayload(
+      entity,
+      mutationCreate,
+      payload1,
+      context,
+    );
+
+    await expect(fn1).rejects.toThrowErrorMatchingSnapshot();
 
     const payload2 = {
       someAttribute: 'Lorem Ipsum',
     };
 
-    const fn2 = () =>
-      validateMutationPayload(entity, mutationCreate, payload2, context);
-    expect(fn2).toThrowErrorMatchingSnapshot();
+    const fn2 = validateMutationPayload(
+      entity,
+      mutationCreate,
+      payload2,
+      context,
+    );
+    await expect(fn2).rejects.toThrowErrorMatchingSnapshot();
 
     const payload3 = {
       someAttribute: 'Lorem',
@@ -215,17 +224,21 @@ describe('validation', () => {
       },
     };
 
-    const fn3 = () => validateMutationPayload(entity, mutationCreate, payload3);
-    expect(fn3).toThrowErrorMatchingSnapshot();
+    const fn3 = validateMutationPayload(entity, mutationCreate, payload3);
+    await expect(fn3).rejects.toThrowErrorMatchingSnapshot();
 
     const payload4 = 4.7;
 
-    const fn4 = () =>
-      validateActionPayload(action2.getInput(), payload4, action2, context);
-    expect(fn4).toThrowErrorMatchingSnapshot();
+    const fn4 = validateActionPayload(
+      action2.getInput(),
+      payload4,
+      action2,
+      context,
+    );
+    await expect(fn4).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  it('should reject payloads based on attribute level validation of nested attributes', () => {
+  it('should reject payloads based on attribute level validation of nested attributes', async () => {
     const payload1 = {
       someAttribute: 'Lorem',
       team: {
@@ -233,9 +246,14 @@ describe('validation', () => {
       },
     };
 
-    const fn1 = () =>
-      validateMutationPayload(entity, mutationCreate, payload1, context);
-    expect(fn1).toThrowErrorMatchingSnapshot();
+    const fn1 = validateMutationPayload(
+      entity,
+      mutationCreate,
+      payload1,
+      context,
+    );
+
+    await expect(fn1).rejects.toThrowErrorMatchingSnapshot();
 
     const payload2 = {
       someAttribute: 'Lorem',
@@ -252,9 +270,14 @@ describe('validation', () => {
       },
     };
 
-    const fn2 = () =>
-      validateMutationPayload(entity, mutationCreate, payload2, context);
-    expect(fn2).toThrowErrorMatchingSnapshot();
+    const fn2 = validateMutationPayload(
+      entity,
+      mutationCreate,
+      payload2,
+      context,
+    );
+
+    await expect(fn2).rejects.toThrowErrorMatchingSnapshot();
 
     const payload3 = [
       {
@@ -263,12 +286,16 @@ describe('validation', () => {
       },
     ];
 
-    const fn3 = () =>
-      validateActionPayload(action3.getInput(), payload3, action3, context);
-    expect(fn3).toThrowErrorMatchingSnapshot();
+    const fn3 = validateActionPayload(
+      action3.getInput(),
+      payload3,
+      action3,
+      context,
+    );
+    await expect(fn3).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  it('should reject payloads based on data type level validation', () => {
+  it('should reject payloads based on data type level validation', async () => {
     const payload1 = {
       someAttribute: 'Lorem',
       team: {
@@ -279,9 +306,13 @@ describe('validation', () => {
       },
     };
 
-    const fn1 = () =>
-      validateMutationPayload(entity, mutationCreate, payload1, context);
-    expect(fn1).toThrowErrorMatchingSnapshot();
+    const fn1 = validateMutationPayload(
+      entity,
+      mutationCreate,
+      payload1,
+      context,
+    );
+    await expect(fn1).rejects.toThrowErrorMatchingSnapshot();
 
     const payload2 = {
       someAttribute: 'Lorem',
@@ -295,17 +326,21 @@ describe('validation', () => {
       },
     };
 
-    const fn2 = () =>
-      validateMutationPayload(entity, mutationCreate, payload2, context);
-    expect(fn2).toThrowErrorMatchingSnapshot();
+    const fn2 = validateMutationPayload(
+      entity,
+      mutationCreate,
+      payload2,
+      context,
+    );
+    await expect(fn2).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  it('should accept valid action payloads', () => {
+  it('should accept valid action payloads', async () => {
     const payload1 = {
       teamName: 'Falcons United Team',
     };
 
-    validateActionPayload(action1.getInput(), payload1, action1, context);
+    await validateActionPayload(action1.getInput(), payload1, action1, context);
 
     const payload2 = {
       teamName: 'Falcons United Team',
@@ -319,11 +354,11 @@ describe('validation', () => {
       },
     };
 
-    validateActionPayload(action1.getInput(), payload2, action1, context);
+    await validateActionPayload(action1.getInput(), payload2, action1, context);
 
     const payload3 = 0.6;
 
-    validateActionPayload(action2.getInput(), payload3, action2, context);
+    await validateActionPayload(action2.getInput(), payload3, action2, context);
 
     const payload4 = [
       {
@@ -332,20 +367,25 @@ describe('validation', () => {
       },
     ];
 
-    validateActionPayload(action3.getInput(), payload4, action3, context);
+    await validateActionPayload(action3.getInput(), payload4, action3, context);
   });
 
-  it('should reject payloads with missing required attributes', () => {
+  it('should reject payloads with missing required attributes', async () => {
     const payload1 = {};
 
-    const fn1 = () =>
-      validateMutationPayload(entity, mutationCreate, payload1, context);
-    expect(fn1).toThrowErrorMatchingSnapshot();
+    const fn1 = validateMutationPayload(
+      entity,
+      mutationCreate,
+      payload1,
+      context,
+    );
+
+    await expect(fn1).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  it('should validate payloads only if values were provided', () => {
+  it('should validate payloads only if values were provided', async () => {
     const payload1 = {};
 
-    validateMutationPayload(entity, mutationUpdate, payload1, context);
+    await validateMutationPayload(entity, mutationUpdate, payload1, context);
   });
 });

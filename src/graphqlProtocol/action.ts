@@ -195,7 +195,7 @@ export const generateActions = (graphRegistry, actionTypeFilter) => {
           clientMutationId = args.input.clientMutationId;
 
           args.input.data = await fillDefaultValues(input, payload, context);
-          validateActionPayload(input, payload, action, context);
+          await validateActionPayload(input, payload, action, context);
         }
 
         if (isMutation) {

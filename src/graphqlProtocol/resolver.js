@@ -319,7 +319,7 @@ export const getMutationResolver = (
         );
       }
 
-      validateMutationPayload(
+      await validateMutationPayload(
         entity,
         entityMutation,
         args.input[typeName],

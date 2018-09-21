@@ -78,9 +78,9 @@ export class DataType {
     }
   }
 
-  validate = (value, context) => {
+  validate = async (value, context) => {
     if (value && this.validator) {
-      this.validator(value, context);
+      await this.validator(value, context);
     }
   };
 
