@@ -14,6 +14,8 @@ exports[`validation should reject payloads based on attribute level validation o
 
 exports[`validation should reject payloads based on attribute level validation of nested attributes 3`] = `"Players need to have even numbers (got 9)"`;
 
+exports[`validation should reject payloads based on attribute level validation of nested attributes 4`] = `"Firstname too short"`;
+
 exports[`validation should reject payloads based on data type level validation 1`] = `"Object data type 'offense' expects an object"`;
 
 exports[`validation should reject payloads based on data type level validation 2`] = `"List data type 'offense' expects an array of items"`;

@@ -29,6 +29,17 @@ describe('validation', () => {
       firstName: {
         type: DataTypeString,
         description: 'First name',
+        validate: async value =>
+          new Promise((resolve, reject) => {
+            setTimeout(() => {
+              if (value.length > 2) {
+                resolve();
+              }
+              else {
+                reject(new Error('Firstname too short'));
+              }
+            }, 1);
+          }),
       },
       lastName: {
         type: DataTypeString,
@@ -182,6 +193,7 @@ describe('validation', () => {
             {
               number: 2,
               lastName: 'Iverson',
+              firstName: 'John',
             },
           ],
         },
@@ -293,6 +305,22 @@ describe('validation', () => {
       context,
     );
     await expect(fn3).rejects.toThrowErrorMatchingSnapshot();
+
+    const payload5 = [
+      {
+        number: 8,
+        lastName: 'Iverson',
+        firstName: 'J',
+      },
+    ];
+
+    const fn5 = validateActionPayload(
+      action3.getInput(),
+      payload5,
+      action3,
+      context,
+    );
+    await expect(fn5).rejects.toThrowErrorMatchingSnapshot();
   });
 
   it('should reject payloads based on data type level validation', async () => {
