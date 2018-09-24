@@ -1,11 +1,7 @@
-import {
-  processFilter,
-  isMap,
-  isArray,
-  convertFilterLevel,
-} from 'shyft';
-
+import { processFilter, isMap, isArray, convertFilterLevel } from 'shyft';
 import { Brackets } from 'typeorm';
+
+const noResultClause = 'TRUE IS FALSE';
 
 export const purifyFilter = filter => {
   if (isMap(filter)) {
@@ -92,13 +88,27 @@ const buildWhereAttributeOperatorConditionQuery = (
       break;
 
     case '$in':
-      qBuilder.andWhere(`${leftExpression} IN (:...${placeholderName})`, data);
+      if (!value || !value.length) {
+        qBuilder.andWhere(noResultClause);
+      }
+      else {
+        qBuilder.andWhere(
+          `${leftExpression} IN (:...${placeholderName})`,
+          data,
+        );
+      }
+
       break;
     case '$notIn':
-      qBuilder.andWhere(
-        `${leftExpression} NOT IN (:...${placeholderName})`,
-        data,
-      );
+      if (!value || !value.length) {
+        qBuilder.andWhere(noResultClause);
+      }
+      else {
+        qBuilder.andWhere(
+          `${leftExpression} NOT IN (:...${placeholderName})`,
+          data,
+        );
+      }
       break;
 
     case '$lt':
@@ -148,7 +158,7 @@ const buildWhereAttributeOperatorConditionQuery = (
       break;
 
     case '$noResult':
-      qBuilder.andWhere('TRUE IS FALSE');
+      qBuilder.andWhere(noResultClause);
       break;
 
     default:
@@ -465,6 +475,7 @@ export const buildWhereQuery = (
   }
 
   const pureFilter = purifyFilter(filter);
+
   const where = buildWhereTypeQuery(
     pureFilter,
     entityName,
