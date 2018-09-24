@@ -103,7 +103,7 @@ export const mutate = async (entity, mutationName, payload, id, context) => {
       );
     }
 
-    validateMutationPayload(
+    await validateMutationPayload(
       entity,
       entityMutation,
       args.input[typeName],
