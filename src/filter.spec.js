@@ -80,7 +80,8 @@ describe('filter', () => {
         $or: [
           {
             lastname: 'smith',
-            firtname: {},
+            firstname: {},
+            age: null,
           },
           {},
         ],
@@ -115,6 +116,24 @@ describe('filter', () => {
       const filter = {
         ip: '127.0.0.1',
         name: 'test-server-1',
+      };
+
+      buildWhereQuery(qBuilder, filter, entityNameServer, modelRegistry);
+      const query = qBuilder.getQueryAndParameters();
+      expect(query).toMatchSnapshot();
+    });
+
+    it('accept null as value', () => {
+      const qBuilder = connection.createQueryBuilder(
+        storageTableNameServer,
+        entityNameServer,
+      );
+      const filter = {
+        ip: '127.0.0.1',
+        name: null,
+        clusterZone: {
+          $ne: null,
+        },
       };
 
       buildWhereQuery(qBuilder, filter, entityNameServer, modelRegistry);

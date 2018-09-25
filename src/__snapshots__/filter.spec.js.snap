@@ -1,5 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`filter buildWhereQuery accept null as value 1`] = `
+Array [
+  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE (ip = ? AND name IS NULL AND cluster_zone IS NOT NULL)",
+  Array [
+    "127.0.0.1",
+  ],
+]
+`;
+
 exports[`filter buildWhereQuery combined logical AND/OR filter 1`] = `
 Array [
   "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE ((ip = ? AND ((cluster_zone = ?) OR (cluster_zone = ?))) AND (name = ?))",
@@ -152,6 +161,7 @@ Object {
   ],
   "$or": Array [
     Object {
+      "age": null,
       "lastname": "smith",
     },
   ],

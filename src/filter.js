@@ -9,7 +9,12 @@ export const purifyFilter = filter => {
       const ret = {};
 
       Object.keys(filter).map(key => {
+        const isOperator = key.indexOf('$') === 0;
+
         if ([ '$in', '$notIn' ].includes(key) && isArray(filter[key])) {
+          ret[key] = filter[key];
+        }
+        else if (filter[key] === null && (key === '$ne' || !isOperator)) {
           ret[key] = filter[key];
         }
         else {
@@ -86,10 +91,20 @@ const buildWhereAttributeOperatorConditionQuery = (
 
   switch (operator) {
     case '$eq':
-      qBuilder.andWhere(`${leftExpression} = :${placeholderName}`, data);
+      if (value === null) {
+        qBuilder.andWhere(`${leftExpression} IS NULL`);
+      }
+      else {
+        qBuilder.andWhere(`${leftExpression} = :${placeholderName}`, data);
+      }
       break;
     case '$ne':
-      qBuilder.andWhere(`${leftExpression} <> :${placeholderName}`, data);
+      if (value === null) {
+        qBuilder.andWhere(`${leftExpression} IS NOT NULL`, data);
+      }
+      else {
+        qBuilder.andWhere(`${leftExpression} <> :${placeholderName}`, data);
+      }
       break;
 
     case '$in':

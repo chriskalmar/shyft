@@ -443,6 +443,14 @@ describe('list', () => {
       return result;
     };
 
+    it('equals (null)', async () => {
+      const result = await runVariant({
+        name: null,
+      });
+
+      expect(result).toMatchSnapshot();
+    });
+
     it('$ne', async () => {
       const result = await runVariant({
         name: {
@@ -450,6 +458,15 @@ describe('list', () => {
         },
       });
 
+      expect(result).toMatchSnapshot();
+    });
+
+    it('$ne (null)', async () => {
+      const result = await runVariant({
+        name: {
+          $ne: null,
+        },
+      });
       expect(result).toMatchSnapshot();
     });
 

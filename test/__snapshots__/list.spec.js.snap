@@ -616,6 +616,97 @@ Object {
 }
 `;
 
+exports[`list filter variants $ne (null) 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "37",
+      "id": "1",
+      "isPrivate": false,
+      "name": "Reiciendis quaerat",
+      "owner": "37",
+      "updatedBy": "37",
+    },
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "79",
+      "id": "3",
+      "isPrivate": true,
+      "name": "Occaecati adipisci vel",
+      "owner": "79",
+      "updatedBy": "79",
+    },
+    Object {
+      "createdBy": "42",
+      "id": "4",
+      "isPrivate": false,
+      "name": "Delectus qui maxime",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "55",
+      "id": "5",
+      "isPrivate": true,
+      "name": "Cumque impedit est",
+      "owner": "55",
+      "updatedBy": "55",
+    },
+    Object {
+      "createdBy": "42",
+      "id": "6",
+      "isPrivate": true,
+      "name": "Ut et",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "72",
+      "id": "7",
+      "isPrivate": true,
+      "name": "Vel ullam",
+      "owner": "72",
+      "updatedBy": "72",
+    },
+    Object {
+      "createdBy": "59",
+      "id": "8",
+      "isPrivate": true,
+      "name": "Illo sit quia",
+      "owner": "59",
+      "updatedBy": "59",
+    },
+    Object {
+      "createdBy": "52",
+      "id": "9",
+      "isPrivate": true,
+      "name": "Veritatis nihil cum",
+      "owner": "52",
+      "updatedBy": "52",
+    },
+    Object {
+      "createdBy": "71",
+      "id": "10",
+      "isPrivate": true,
+      "name": "Sit aut",
+      "owner": "71",
+      "updatedBy": "71",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`list filter variants $ne 1`] = `
 Object {
   "data": Array [
@@ -1201,6 +1292,16 @@ Object {
       "updatedBy": "24",
     },
   ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants equals (null) 1`] = `
+Object {
+  "data": Array [],
   "pageInfo": Object {
     "hasNextPage": false,
     "hasPreviousPage": false,
