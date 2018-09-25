@@ -9,9 +9,14 @@ export const purifyFilter = filter => {
       const ret = {};
 
       Object.keys(filter).map(key => {
-        const pureFilter = purifyFilter(filter[key]);
-        if (pureFilter !== null && typeof pureFilter !== 'undefined') {
-          ret[key] = pureFilter;
+        if ([ '$in', '$notIn' ].includes(key)) {
+          ret[key] = filter[key];
+        }
+        else {
+          const pureFilter = purifyFilter(filter[key]);
+          if (pureFilter !== null && typeof pureFilter !== 'undefined') {
+            ret[key] = pureFilter;
+          }
         }
       });
 
