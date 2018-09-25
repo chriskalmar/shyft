@@ -233,13 +233,22 @@ export const generateNestedDataOutput = (
   return dataOutputType;
 };
 
+const wrapFieldInFieldName = (fieldName, field) => {
+  return {
+    [fieldName]: field,
+  };
+};
+
 const generateDataOutputField = (
   param,
   paramName,
   baseName,
   graphRegistry,
   level = 0,
+  returnAsFieldNameMap = false,
 ) => {
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+
   let paramType = param.type;
   let baseFieldType;
   let isList = false;
@@ -265,23 +274,53 @@ const generateDataOutputField = (
     );
   }
   else if (isEntity(paramType)) {
+    if (!returnAsFieldNameMap) {
+      throw new Error(
+        `Param '${baseName}.${paramName}' in generateDataOutputField() needs to return multiple fields but returnAsFieldNameMap is set to false`,
+      );
+    }
+
+    const result = {};
     const targetEntity = paramType;
 
-    const reference = {
+    const targetTypeName = targetEntity.graphql.typeName;
+    const primaryAttribute = targetEntity.getPrimaryAttribute();
+
+    const simpleFieldType = ProtocolGraphQL.convertToProtocolDataType(
+      primaryAttribute.type,
+      baseName,
+      false,
+    );
+
+    const simpleField = {
       description: param.description,
+      type: simpleFieldType,
     };
 
-    const targetTypeName = targetEntity.graphql.typeName;
+    if (isList) {
+      const simpleFieldList = {
+        type: new GraphQLList(simpleFieldType),
+      };
 
-    reference.type = graphRegistry.types[targetTypeName].type;
-    reference.resolve = resolveByFindOne(
+      result[paramName] = simpleFieldList;
+    }
+    else {
+      result[paramName] = simpleField;
+    }
+
+    const referenceField = {
+      description: param.description,
+      type: graphRegistry.types[targetTypeName].type,
+    };
+
+    referenceField.resolve = resolveByFindOne(
       targetEntity,
       ({ source }) => source[paramName],
     );
 
     if (isList) {
-      return {
-        type: new GraphQLList(reference.type),
+      const referenceFieldList = {
+        type: new GraphQLList(referenceField.type),
         resolve: (source, args, context) => {
           const referenceIds = source[paramName];
 
@@ -290,7 +329,7 @@ const generateDataOutputField = (
           }
 
           return referenceIds.map(referenceId => {
-            return reference.resolve(
+            return referenceField.resolve(
               { [paramName]: referenceId },
               args,
               context,
@@ -298,9 +337,24 @@ const generateDataOutputField = (
           });
         },
       };
+
+      const referenceFieldListName = protocolConfiguration.generateReferenceFieldListName(
+        targetEntity,
+        { name: paramName },
+      );
+
+      result[referenceFieldListName] = referenceFieldList;
+    }
+    else {
+      const referenceFieldName = protocolConfiguration.generateReferenceFieldName(
+        targetEntity,
+        { name: paramName },
+      );
+
+      result[referenceFieldName] = referenceField;
     }
 
-    return reference;
+    return result;
   }
   else {
     baseFieldType = ProtocolGraphQL.convertToProtocolDataType(
@@ -312,10 +366,12 @@ const generateDataOutputField = (
 
   const fieldType = isList ? new GraphQLList(baseFieldType) : baseFieldType;
 
-  return {
+  const field = {
     type: fieldType,
     description: param.description,
   };
+
+  return returnAsFieldNameMap ? wrapFieldInFieldName(paramName, field) : field;
 };
 
 const generateDataOutputFields = (
@@ -324,16 +380,20 @@ const generateDataOutputFields = (
   graphRegistry,
   level = 0,
 ) => {
-  const fields = {};
+  let fields = {};
 
   _.forEach(outputParams, (param, paramName) => {
-    fields[paramName] = generateDataOutputField(
-      param,
-      paramName,
-      baseName,
-      graphRegistry,
-      level,
-    );
+    fields = {
+      ...fields,
+      ...generateDataOutputField(
+        param,
+        paramName,
+        baseName,
+        graphRegistry,
+        level,
+        true,
+      ),
+    };
   });
 
   return fields;

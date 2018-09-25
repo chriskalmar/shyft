@@ -57,6 +57,14 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     return generateTypeName(`${referenceEntity.name}-by-${fieldName}`);
   }
 
+  generateReferenceFieldListName(referenceEntity, attribute) {
+    const fieldName = this.generateFieldName(attribute);
+    const referenceEntityNamePlural = this.generateEntityTypeNamePlural(
+      referenceEntity,
+    );
+    return generateTypeName(`${referenceEntityNamePlural}-by-${fieldName}`);
+  }
+
   generateFieldName(attribute) {
     return generateTypeName(attribute.name);
   }
