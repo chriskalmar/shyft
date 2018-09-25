@@ -38,7 +38,7 @@ beforeAll(async () => {
 
 describe('filter', () => {
   describe('purifyFilter', () => {
-    it('should clean empty filter bocks', () => {
+    it('should clean empty filter blocks', () => {
       const filter = {
         $and: [
           {
