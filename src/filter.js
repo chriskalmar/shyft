@@ -9,7 +9,7 @@ export const purifyFilter = filter => {
       const ret = {};
 
       Object.keys(filter).map(key => {
-        if ([ '$in', '$notIn' ].includes(key)) {
+        if ([ '$in', '$notIn' ].includes(key) && isArray(filter[key])) {
           ret[key] = filter[key];
         }
         else {

@@ -331,12 +331,12 @@ describe('filter', () => {
     });
 
     it('treat $in operator with empty value list as mistake and return no results', () => {
-      const qBuilder1 = connection.createQueryBuilder(
+      const qBuilder = connection.createQueryBuilder(
         storageTableNameServer,
         entityNameServer,
       );
 
-      const filter1 = {
+      const filter = {
         $and: [
           {
             ip: {
@@ -346,37 +346,18 @@ describe('filter', () => {
         ],
       };
 
-      buildWhereQuery(qBuilder1, filter1, entityNameServer, modelRegistry);
-      const query1 = qBuilder1.getQueryAndParameters();
-      expect(query1).toMatchSnapshot();
-
-      const qBuilder2 = connection.createQueryBuilder(
-        storageTableNameServer,
-        entityNameServer,
-      );
-
-      const filter2 = {
-        $and: [
-          {
-            ip: {
-              $in: null,
-            },
-          },
-        ],
-      };
-
-      buildWhereQuery(qBuilder2, filter2, entityNameServer, modelRegistry);
-      const query2 = qBuilder2.getQueryAndParameters();
-      expect(query2).toMatchSnapshot();
+      buildWhereQuery(qBuilder, filter, entityNameServer, modelRegistry);
+      const query = qBuilder.getQueryAndParameters();
+      expect(query).toMatchSnapshot();
     });
 
     it('treat $notIn operator with empty value list as mistake and return no results', () => {
-      const qBuilder1 = connection.createQueryBuilder(
+      const qBuilder = connection.createQueryBuilder(
         storageTableNameServer,
         entityNameServer,
       );
 
-      const filter1 = {
+      const filter = {
         $and: [
           {
             ip: {
@@ -386,28 +367,9 @@ describe('filter', () => {
         ],
       };
 
-      buildWhereQuery(qBuilder1, filter1, entityNameServer, modelRegistry);
-      const query1 = qBuilder1.getQueryAndParameters();
-      expect(query1).toMatchSnapshot();
-
-      const qBuilder2 = connection.createQueryBuilder(
-        storageTableNameServer,
-        entityNameServer,
-      );
-
-      const filter2 = {
-        $and: [
-          {
-            ip: {
-              $notIn: null,
-            },
-          },
-        ],
-      };
-
-      buildWhereQuery(qBuilder2, filter2, entityNameServer, modelRegistry);
-      const query2 = qBuilder2.getQueryAndParameters();
-      expect(query2).toMatchSnapshot();
+      buildWhereQuery(qBuilder, filter, entityNameServer, modelRegistry);
+      const query = qBuilder.getQueryAndParameters();
+      expect(query).toMatchSnapshot();
     });
 
     it('complex and nested filter with various operators', () => {

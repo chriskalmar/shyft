@@ -109,21 +109,7 @@ Array [
 ]
 `;
 
-exports[`filter buildWhereQuery treat $in operator with empty value list as mistake and return no results 2`] = `
-Array [
-  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE ((TRUE IS FALSE))",
-  Array [],
-]
-`;
-
 exports[`filter buildWhereQuery treat $notIn operator with empty value list as mistake and return no results 1`] = `
-Array [
-  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE ((TRUE IS FALSE))",
-  Array [],
-]
-`;
-
-exports[`filter buildWhereQuery treat $notIn operator with empty value list as mistake and return no results 2`] = `
 Array [
   "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE ((TRUE IS FALSE))",
   Array [],
