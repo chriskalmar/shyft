@@ -1,0 +1,19 @@
+{
+  "name": "shyft",
+  "version": "0.1.0",
+  "description": "Model driven database and API framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chriskalmar/shyft.git"
+  },
+  "author": "Chris Kalmar <christian.kalmar@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chriskalmar/shyft/issues"
+  },
+  "homepage": "https://github.com/chriskalmar/shyft#readme"
+}
