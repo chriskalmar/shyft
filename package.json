@@ -1,6 +1,6 @@
 {
   "name": "shyft",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Model driven database and API framework",
   "main": "index.js",
   "scripts": {
