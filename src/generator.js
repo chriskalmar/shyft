@@ -190,6 +190,10 @@ export const loadModels = configuration => {
       }
     });
 
+    const constraints = {
+      unique: {},
+    };
+
     if (entity.indexes) {
       entity.indexes.map(index => {
         if (index.type === INDEX_UNIQUE || index.type === INDEX_GENERIC) {
@@ -201,8 +205,11 @@ export const loadModels = configuration => {
           );
 
           const unique = index.type === INDEX_UNIQUE;
-
           Index(indexName, index.attributes, { unique })(Skeleton);
+
+          constraints.unique[indexName] = {
+            attributes: index.attributes,
+          };
         }
       });
     }
@@ -221,6 +228,7 @@ export const loadModels = configuration => {
       reverseDataShaper: shaper(_.invert(dataShaperMap)),
       filterShaper: shaper(_.extend(filterShaperMap, filterOperatorMap)),
       references,
+      constraints,
     };
   });
 

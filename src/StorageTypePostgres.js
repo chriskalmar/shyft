@@ -58,11 +58,22 @@ import { parseValues, parseValuesMap, serializeValues } from './helpers';
 
 import { i18nTransformFilterAttributeName } from './i18n';
 
-const processOrmError = (err, storageInstance, qBuilder) => {
+const processOrmError = (err, storageInstance, qBuilder, constraints) => {
   if (String(err.code) === '23505') {
+    let meta
+
+    if (constraints) {
+      const constraintName = err.constraint;
+      if (constraintName) {
+        meta = constraints.unique[constraintName]
+      }
+    }
+
     throw new CustomError(
       'Uniqueness constraint violated',
       'UniqueConstraintError',
+      null,
+      meta
     );
   }
   else if (String(err.code) === '23503') {
@@ -512,9 +523,12 @@ export const StorageTypePostgres = new StorageType({
     const entityName = entity.name;
     const modelRegistry = this.getStorageModels();
     const storageInstance = this.getStorageInstance();
-    const { dataShaper, filterShaper, storageTableName } = modelRegistry[
-      entityName
-    ];
+    const {
+      dataShaper,
+      filterShaper,
+      storageTableName,
+      constraints,
+    } = modelRegistry[entityName];
     const { name: primaryAttributeName } = entity.getPrimaryAttribute();
 
     const data =
@@ -576,7 +590,7 @@ export const StorageTypePostgres = new StorageType({
         result = await qBuilder.execute();
       }
       catch (err) {
-        processOrmError(err, storageInstance, qBuilder);
+        processOrmError(err, storageInstance, qBuilder, constraints);
       }
 
       return parseValues(
@@ -620,7 +634,7 @@ export const StorageTypePostgres = new StorageType({
         result = await qBuilder.execute();
       }
       catch (err) {
-        processOrmError(err, storageInstance, qBuilder);
+        processOrmError(err, storageInstance, qBuilder, constraints);
       }
 
       const rowCount = result.raw.length;
@@ -666,7 +680,7 @@ export const StorageTypePostgres = new StorageType({
         result = await qBuilder.execute();
       }
       catch (err) {
-        processOrmError(err, storageInstance, qBuilder);
+        processOrmError(err, storageInstance, qBuilder, constraints);
       }
 
       const rowCount = result.raw.length;
