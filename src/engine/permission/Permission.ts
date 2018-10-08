@@ -1,7 +1,7 @@
 import { passOrThrow, isMap, isArray, isFunction, asyncForEach } from '../util';
 
 import { Entity, isEntity } from '../entity/Entity';
-import { isDataTypeUser, DataTypeUser } from '../datatype/DataTypeUser';
+import { isDataTypeUser } from '../datatype/DataTypeUser';
 import { MUTATION_TYPE_CREATE, isMutation } from '../mutation/Mutation';
 import { isDataTypeState } from '../datatype/DataTypeState';
 import * as _ from 'lodash';
@@ -910,9 +910,11 @@ export const processEntityPermissions = (
 
     if (defaultPermissions) {
       entityMutations.map(({ name: mutationName }) => {
-        permissions.mutations[mutationName] =
-          permissions.mutations[mutationName] ||
-          defaultPermissions.mutations[mutationName];
+        if (defaultPermissions.mutations) {
+          permissions.mutations[mutationName] =
+            permissions.mutations[mutationName] ||
+            defaultPermissions.mutations[mutationName];
+        }
       });
     }
   }

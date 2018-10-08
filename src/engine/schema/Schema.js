@@ -12,8 +12,8 @@ export class Schema {
       entities: null,
       defaultStorageType: null,
       actions: null,
-      defaultPermissions: null,
       defaultActionPermissions: null,
+      permissionsMap: null,
     },
   ) {
     this._entityMap = {};
@@ -25,7 +25,7 @@ export class Schema {
       entities,
       defaultStorageType,
       actions,
-      defaultPermissions,
+      permissionsMap,
       defaultActionPermissions,
     } = setup;
 
@@ -38,48 +38,80 @@ export class Schema {
 
     this.defaultStorageType = defaultStorageType;
 
-    if (defaultPermissions) {
+    if (permissionsMap) {
       passOrThrow(
-        isMap(defaultPermissions),
-        () => 'Provided defaultPermissions is invalid',
+        isMap(permissionsMap),
+        () => 'Provided permissionsMap is invalid',
       );
 
-      if (defaultPermissions.read) {
+      const permissionsMapKeys = Object.keys(permissionsMap);
+      permissionsMapKeys.map(key => {
         passOrThrow(
-          isPermission(defaultPermissions.read) ||
-            isPermissionsArray(defaultPermissions.read),
-          () => 'Invalid `read` permission definition for defaultPermissions',
-        );
-      }
-
-      if (defaultPermissions.find) {
-        passOrThrow(
-          isPermission(defaultPermissions.find) ||
-            isPermissionsArray(defaultPermissions.find),
+          [ 'entities', 'actions' ].includes(key),
           () =>
-            'Invalid `find` permission definition for entity defaultPermissions',
+            'Unknown property used in permissionsMap (allowed: entities, actions)',
         );
-      }
+      });
 
-      if (defaultPermissions.mutations) {
+      if (permissionsMap.entities) {
         passOrThrow(
-          isMap(defaultPermissions.mutations),
-          () =>
-            'defaultPermissions definition for mutations needs to be a map of mutations and permissions',
+          isMap(permissionsMap.entities),
+          () => 'Provided permissionsMap.entities is invalid',
         );
 
-        const mutationNames = Object.keys(defaultPermissions.mutations);
-        mutationNames.map((mutationName, idx) => {
-          passOrThrow(
-            isPermission(defaultPermissions.mutations[mutationName]) ||
-              isPermissionsArray(defaultPermissions.mutations[mutationName]),
-            () =>
-              `Invalid mutation permission definition for defaultPermissions at position '${idx}'`,
-          );
+        const entityNames = Object.keys(permissionsMap.entities);
+
+        entityNames.map(entityName => {
+          const entityPermissions = permissionsMap.entities[entityName];
+
+          if (entityPermissions) {
+            passOrThrow(
+              isMap(entityPermissions),
+              () => `Provided permissionsMap for '${entityName}' is invalid`,
+            );
+
+            if (entityPermissions.read) {
+              passOrThrow(
+                isPermission(entityPermissions.read) ||
+                  isPermissionsArray(entityPermissions.read),
+                () =>
+                  `Invalid 'read' permission definition in permissionsMap for '${entityName}'`,
+              );
+            }
+
+            if (entityPermissions.find) {
+              passOrThrow(
+                isPermission(entityPermissions.find) ||
+                  isPermissionsArray(entityPermissions.find),
+                () =>
+                  `Invalid 'find' permission definition in permissionsMap for '${entityName}'`,
+              );
+            }
+
+            if (entityPermissions.mutations) {
+              passOrThrow(
+                isMap(entityPermissions.mutations),
+                () =>
+                  `Definition of mutations in permissionsMap for '${entityName}' needs to be a map of mutations and permissions`,
+              );
+
+              const mutationNames = Object.keys(entityPermissions.mutations);
+              mutationNames.map(mutationName => {
+                passOrThrow(
+                  isPermission(entityPermissions.mutations[mutationName]) ||
+                    isPermissionsArray(
+                      entityPermissions.mutations[mutationName],
+                    ),
+                  () =>
+                    `Invalid mutation permission definition in permissionsMap for '${entityName}.${mutationName}'`,
+                );
+              });
+            }
+          }
         });
       }
 
-      this.defaultPermissions = defaultPermissions;
+      this.permissionsMap = permissionsMap;
     }
 
     if (defaultActionPermissions) {
@@ -137,8 +169,11 @@ export class Schema {
       entity._injectStorageTypeBySchema(this.defaultStorageType);
     }
 
-    if (this.defaultPermissions) {
-      entity._injectDefaultPermissionsBySchema(this.defaultPermissions);
+    if (this.permissionsMap && this.permissionsMap.entities) {
+      entity._injectDefaultPermissionsBySchema(
+        this.permissionsMap.entities[entity.name] ||
+          this.permissionsMap.entities._defaultPermissions,
+      );
     }
 
     entity._isRegistered = true;
@@ -204,6 +239,21 @@ export class Schema {
     this._lazyLoadMissingEntities();
 
     const entityNames = Object.keys(this._entityMap);
+
+    if (this.permissionsMap && this.permissionsMap.entities) {
+      const permissionsMapEntityNames = Object.keys(
+        this.permissionsMap.entities,
+      );
+
+      permissionsMapEntityNames.map(permissionsMapEntityName => {
+        passOrThrow(
+          entityNames.includes(permissionsMapEntityName) ||
+            permissionsMapEntityName === '_defaultPermissions',
+          () =>
+            `permissionsMap includes permissions for unknown entity ${permissionsMapEntityName}`,
+        );
+      });
+    }
 
     entityNames.forEach(entityName => {
       const entity = this._entityMap[entityName];
