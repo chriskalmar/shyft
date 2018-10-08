@@ -1,5 +1,6 @@
 import { GraphQLScalarType, Kind, GraphQLError } from 'graphql';
 import { serializeCursor, deserializeCursor } from './util';
+import dateFns from 'date-fns';
 
 export const GraphQLJSON = require('graphql-type-json'); // eslint-disable-line
 
@@ -42,7 +43,13 @@ export const GraphQLDateTime = new GraphQLScalarType({
       );
     }
 
-    if (isNaN(Date.parse(ast.value))) {
+    const dateString = ast.value.substring(0, 10);
+    const asDate = dateFns.parse(dateString);
+
+    if (
+      dateFns.isValid(asDate) &&
+      dateString === dateFns.format(asDate, 'YYYY-MM-DD')
+    ) {
       throw new GraphQLError(
         'Query error: String is not a valid date time string',
         [ ast ],
@@ -68,11 +75,15 @@ export const GraphQLDate = new GraphQLScalarType({
       );
     }
 
-    if (isNaN(Date.parse(ast.value))) {
-      throw new GraphQLError(
-        'Query error: String is not a valid date time string',
-        [ ast ],
-      );
+    const asDate = dateFns.parse(ast.value);
+
+    if (
+      dateFns.isValid(asDate) &&
+      ast.value === dateFns.format(asDate, 'YYYY-MM-DD')
+    ) {
+      throw new GraphQLError('Query error: String is not a valid date string', [
+        ast,
+      ]);
     }
 
     return ast.value;

@@ -69,6 +69,7 @@
     "typescript": "^3.0.1"
   },
   "dependencies": {
+    "date-fns": "^1.29.0",
     "graphql-relay": "^0.5.5",
     "graphql-type-json": "^0.2.1",
     "json-shaper": "^1.2.0",
