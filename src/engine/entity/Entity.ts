@@ -1,10 +1,4 @@
-import {
-  passOrThrow,
-  resolveFunctionMap,
-  isMap,
-  isFunction,
-  mapOverProperties,
-} from '../util';
+import { passOrThrow, isMap, isFunction, mapOverProperties } from '../util';
 
 import {
   entityPropertiesWhitelist,
@@ -190,6 +184,10 @@ export class Entity {
       isMap(defaultPermissions),
       () => 'Provided defaultPermissions is invalid',
     );
+
+    if (!this._permissions) {
+      this._permissions = {};
+    }
 
     this._defaultPermissions = defaultPermissions;
   }
