@@ -1,6 +1,6 @@
 import { GraphQLScalarType, Kind, GraphQLError } from 'graphql';
 import { serializeCursor, deserializeCursor } from './util';
-import dateFns from 'date-fns';
+import * as dateFns from 'date-fns';
 
 export const GraphQLJSON = require('graphql-type-json'); // eslint-disable-line
 
