@@ -913,7 +913,8 @@ export const processEntityPermissions = (
         if (defaultPermissions.mutations) {
           permissions.mutations[mutationName] =
             permissions.mutations[mutationName] ||
-            defaultPermissions.mutations[mutationName];
+            defaultPermissions.mutations[mutationName] ||
+            defaultPermissions.mutations._default;
         }
       });
     }

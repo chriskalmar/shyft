@@ -170,10 +170,25 @@ export class Schema {
     }
 
     if (this.permissionsMap && this.permissionsMap.entities) {
-      entity._injectDefaultPermissionsBySchema(
-        this.permissionsMap.entities[entity.name] ||
-          this.permissionsMap.entities._defaultPermissions,
-      );
+      const entityDefaultPermissions =
+        this.permissionsMap.entities[entity.name] || {};
+      entityDefaultPermissions.mutations =
+        entityDefaultPermissions.mutations || {};
+
+      const defaultPermissions = this.permissionsMap.entities
+        ._defaultPermissions;
+      defaultPermissions.mutations = defaultPermissions.mutations || {};
+
+      const newDefaultPermissions = {
+        read: entityDefaultPermissions.read || defaultPermissions.read,
+        find: entityDefaultPermissions.find || defaultPermissions.find,
+        mutations: {
+          ...defaultPermissions.mutations,
+          ...entityDefaultPermissions.mutations,
+        },
+      };
+
+      entity._injectDefaultPermissionsBySchema(newDefaultPermissions);
     }
 
     entity._isRegistered = true;
