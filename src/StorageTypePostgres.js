@@ -60,12 +60,12 @@ import { i18nTransformFilterAttributeName } from './i18n';
 
 const processOrmError = (err, storageInstance, qBuilder, constraints) => {
   if (String(err.code) === '23505') {
-    let meta
+    let meta;
 
     if (constraints) {
       const constraintName = err.constraint;
       if (constraintName) {
-        meta = constraints.unique[constraintName]
+        meta = constraints.unique[constraintName];
       }
     }
 
@@ -73,7 +73,7 @@ const processOrmError = (err, storageInstance, qBuilder, constraints) => {
       'Uniqueness constraint violated',
       'UniqueConstraintError',
       null,
-      meta
+      meta,
     );
   }
   else if (String(err.code) === '23503') {
