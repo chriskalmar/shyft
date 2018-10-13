@@ -212,21 +212,14 @@ export const getNestedPayloadResolver = (
                     'NestedInstanceNotFoundOrAccessDenied',
                   );
                 }
+
+                if (result) {
+                  resultPayload[attribute.gqlFieldName] =
+                    result[primaryAttributeName];
+                }
               }
               else {
-                result = await storageType
-                  .findOne(
-                    targetEntity,
-                    args[foundInput],
-                    args[foundInput],
-                    context,
-                  )
-                  .then(targetEntity.graphql.dataShaper);
-              }
-
-              if (result) {
-                resultPayload[attribute.gqlFieldName] =
-                  result[primaryAttributeName];
+                resultPayload[attribute.gqlFieldName] = args[foundInput];
               }
             }
           }
