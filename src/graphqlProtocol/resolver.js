@@ -70,7 +70,19 @@ export const resolveByFind = (entity, parentConnectionCollector) => {
     );
 
     const translated = translateList(entity, transformed, context);
-    const transformedData = translated;
+
+    const transformedData = entity.postProcessor
+      ? translated.map(translatedRow =>
+        entity.postProcessor(
+          translatedRow,
+          entity,
+          source,
+          args,
+          context,
+          info,
+        ),
+      )
+      : translated;
 
     return connectionFromData(
       {
@@ -92,7 +104,7 @@ export const resolveByFindOne = (entity, idCollector) => {
   const storageType = entity.storageType;
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
 
-  return async (source, args, context) => {
+  return async (source, args, context, info) => {
     const id = idCollector({ source, args, context });
 
     if (id === null || typeof id === 'undefined') {
@@ -107,7 +119,19 @@ export const resolveByFindOne = (entity, idCollector) => {
         ),
       )
       .then(entity.graphql.dataShaper)
-      .then(translateInstanceFn(entity, context));
+      .then(translateInstanceFn(entity, context))
+      .then(translated => {
+        return entity.postProcessor
+          ? entity.postProcessor(
+            translated,
+            entity,
+            source,
+            args,
+            context,
+            info,
+          )
+          : translated;
+      });
   };
 };
 

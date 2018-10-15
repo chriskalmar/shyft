@@ -56,6 +56,7 @@ export type EntitySetup = {
   mutations?: any;
   permissions?: any;
   states?: any;
+  postProcessor?: Function;
 };
 
 export class Entity {
@@ -69,6 +70,7 @@ export class Entity {
   mutations?: any;
   permissions?: any;
   states?: any;
+  postProcessor: Function;
   private _attributesMap: AttributesSetupMap;
   private _attributesGenerator: AttributesMapGenerator;
   private _primaryAttribute: Attribute;
@@ -88,13 +90,6 @@ export class Entity {
   constructor(setup: EntitySetup) {
     passOrThrow(isMap(setup), () => 'Entity requires a setup object');
 
-    Object.keys(setup).map(prop => {
-      passOrThrow(
-        entityPropertiesWhitelist.includes(prop),
-        () => `Invalid setup property '${prop}' in entity '${this.name}'`,
-      );
-    });
-
     const {
       name,
       description,
@@ -108,7 +103,15 @@ export class Entity {
       mutations,
       permissions,
       states,
+      postProcessor,
     } = setup;
+
+    Object.keys(setup).map(prop => {
+      passOrThrow(
+        entityPropertiesWhitelist.includes(prop),
+        () => `Invalid setup property '${prop}' in entity '${name}'`,
+      );
+    });
 
     passOrThrow(name, () => 'Missing entity name');
     passOrThrow(description, () => `Missing description for entity '${name}'`);
@@ -147,6 +150,15 @@ export class Entity {
     this._mutations = mutations;
     this._states = states;
     this._permissions = permissions;
+
+    if (postProcessor) {
+      passOrThrow(
+        isFunction(postProcessor),
+        () => `postProcessor of entity '${name}' needs to be a valid function`,
+      );
+
+      this.postProcessor = postProcessor;
+    }
 
     if (storageType) {
       passOrThrow(

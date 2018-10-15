@@ -47,6 +47,7 @@ export const entityPropertiesWhitelist: Array<string> = [
   'mutations',
   'permissions',
   'states',
+  'postProcessor',
 ];
 
 export const attributePropertiesWhitelist: Array<string> = [
