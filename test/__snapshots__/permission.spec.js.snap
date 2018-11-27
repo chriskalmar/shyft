@@ -74,6 +74,15 @@ exports[`permission story a user should be able to leave public boards 1`] = `
 Object {
   "deleteRowCount": 1,
   "id": "301",
+  "rows": Array [
+    Object {
+      "board": "11",
+      "id": "301",
+      "invitee": "30",
+      "inviter": "30",
+      "state": 50,
+    },
+  ],
 }
 `;
 
@@ -81,6 +90,15 @@ exports[`permission story a user should be able to remove a user from a group as
 Object {
   "deleteRowCount": 1,
   "id": "302",
+  "rows": Array [
+    Object {
+      "board": "11",
+      "id": "302",
+      "invitee": "33",
+      "inviter": "33",
+      "state": 50,
+    },
+  ],
 }
 `;
 

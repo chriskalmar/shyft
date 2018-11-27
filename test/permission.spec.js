@@ -119,6 +119,10 @@ describe('permission', () => {
         asUser(invitee),
       );
       const cleanedResult = removeDynamicData(BoardMember, result);
+      cleanedResult.rows = removeListDynamicData(
+        BoardMember,
+        cleanedResult.rows,
+      );
       expect(cleanedResult).toMatchSnapshot();
     });
 
@@ -146,6 +150,10 @@ describe('permission', () => {
 
       const result = await mutate(BoardMember, 'remove', {}, id, asUser(owner));
       const cleanedResult = removeDynamicData(BoardMember, result);
+      cleanedResult.rows = removeListDynamicData(
+        BoardMember,
+        cleanedResult.rows,
+      );
       expect(cleanedResult).toMatchSnapshot();
     });
 

@@ -1,7 +1,7 @@
 import './setupAndTearDown';
 import { mutate, findOneByValue } from './db';
 
-import { asUser, removeDynamicData } from './testUtils';
+import { asUser, removeDynamicData, removeListDynamicData } from './testUtils';
 
 import { BoardMember } from './models/BoardMember';
 import { Board } from './models/Board';
@@ -129,6 +129,7 @@ describe('mutation', () => {
     expect(removeDynamicData(BoardMember, result)).toMatchSnapshot();
 
     result = await mutate(BoardMember, 'remove', {}, inviteId, asUser(84));
+    result.rows = removeListDynamicData(BoardMember, result.rows);
     expect(removeDynamicData(BoardMember, result)).toMatchSnapshot();
   });
 

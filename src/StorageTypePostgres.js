@@ -696,6 +696,7 @@ export const StorageTypePostgres = new StorageType({
       return {
         deleteRowCount: rowCount,
         [primaryAttributeName]: id,
+        rows: result.raw.map(dataShaper),
       };
     }
 
