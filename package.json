@@ -77,6 +77,6 @@
     "pluralize": "^7.0.0"
   },
   "peerDependencies": {
-    "graphql": "^0.13.2"
+    "graphql": "^0.13.x || ^0.14.x"
   }
 }
