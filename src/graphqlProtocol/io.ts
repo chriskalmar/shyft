@@ -371,6 +371,10 @@ const generateDataOutputField = (
     description: param.description,
   };
 
+  if (param.resolve) {
+    field.resolve = param.resolve;
+  }
+
   return returnAsFieldNameMap ? wrapFieldInFieldName(paramName, field) : field;
 };
 
