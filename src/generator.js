@@ -464,3 +464,5 @@ export const connectStorage = async (configuration, synchronize = false) => {
 export const disconnectStorage = async () => {
   await connection.close();
 };
+
+export const getConnection = () => connection;
