@@ -42,6 +42,7 @@
   "author": "Chris Kalmar <christian.kalmar@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/graphql": "^14.0.3",
     "@types/jest": "^23.3.1",
     "@types/lodash": "^4.14.116",
     "babel-cli": "^6.26.0",
