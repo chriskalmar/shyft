@@ -1,9 +1,17 @@
 import { isEntity } from './entity/Entity';
 
-import { passOrThrow, isMap, isArray, mapOverProperties } from './util';
+import {
+  passOrThrow,
+  isMap,
+  isArray,
+  mapOverProperties,
+  isFunction,
+} from './util';
+import { isObjectDataType } from './datatype/ObjectDataType';
 
 const logicFilters = [ '$and', '$or' ];
 const deepFilter = '$filter';
+const preFilter = '$pre_filter';
 const noResultFilter = '$noResult';
 
 export const validateFilterLevel = (filters, attributes, path, storageType) => {
@@ -82,6 +90,10 @@ export const validateFilterLevel = (filters, attributes, path, storageType) => {
 
       operators.map(operator => {
         if (operator === noResultFilter) {
+          return;
+        }
+
+        if (operator === preFilter && attribute.primary) {
           return;
         }
 
