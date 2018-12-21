@@ -147,6 +147,7 @@ describe('filter', () => {
 
       expect(
         await transformFilterLevel(
+          filteredEntity,
           goodFilter1,
           filteredEntity.getAttributes(),
           {},
@@ -156,6 +157,7 @@ describe('filter', () => {
 
       expect(
         await transformFilterLevel(
+          filteredEntity,
           goodFilter2,
           filteredEntity.getAttributes(),
           {},
@@ -227,6 +229,7 @@ describe('filter', () => {
 
       expect(
         await transformFilterLevel(
+          filteredEntity,
           goodFilter1,
           filteredEntity.getAttributes(),
           {},
@@ -236,6 +239,7 @@ describe('filter', () => {
 
       expect(
         await transformFilterLevel(
+          filteredEntity,
           goodFilter2,
           filteredEntity.getAttributes(),
           {},
@@ -245,22 +249,32 @@ describe('filter', () => {
     });
 
     it('should throw if provided params are invalid', async () => {
-      expect(transformFilterLevel('a')).rejects.toThrowErrorMatchingSnapshot();
-
       expect(
-        transformFilterLevel([], null, {}, []),
+        transformFilterLevel(filteredEntity, 'a'),
       ).rejects.toThrowErrorMatchingSnapshot();
 
       expect(
-        transformFilterLevel([], null, {}, [ 'somewhere' ]),
+        transformFilterLevel(filteredEntity, [], null, {}, []),
       ).rejects.toThrowErrorMatchingSnapshot();
 
       expect(
-        transformFilterLevel([], null, {}, [ 'somewhere', 'deeply', 'nested' ]),
+        transformFilterLevel(filteredEntity, [], null, {}, [ 'somewhere' ]),
       ).rejects.toThrowErrorMatchingSnapshot();
 
       expect(
-        transformFilterLevel({}, null, {}, [ 'somewhere', 'deeply', 'nested' ]),
+        transformFilterLevel(filteredEntity, [], null, {}, [
+          'somewhere',
+          'deeply',
+          'nested',
+        ]),
+      ).rejects.toThrowErrorMatchingSnapshot();
+
+      expect(
+        transformFilterLevel(filteredEntity, {}, null, {}, [
+          'somewhere',
+          'deeply',
+          'nested',
+        ]),
       ).rejects.toThrowErrorMatchingSnapshot();
     });
 
@@ -279,6 +293,7 @@ describe('filter', () => {
 
       expect(
         transformFilterLevel(
+          filteredEntity,
           badFilter1,
           filteredEntity.getAttributes(),
           {},
@@ -288,6 +303,7 @@ describe('filter', () => {
 
       expect(
         transformFilterLevel(
+          filteredEntity,
           badFilter2,
           filteredEntity.getAttributes(),
           {},
@@ -296,10 +312,13 @@ describe('filter', () => {
       ).rejects.toThrowErrorMatchingSnapshot();
 
       expect(
-        transformFilterLevel(badFilter2, filteredEntity.getAttributes(), {}, [
-          'just',
-          'here',
-        ]),
+        transformFilterLevel(
+          filteredEntity,
+          badFilter2,
+          filteredEntity.getAttributes(),
+          {},
+          [ 'just', 'here' ],
+        ),
       ).rejects.toThrowErrorMatchingSnapshot();
     });
 
@@ -322,6 +341,7 @@ describe('filter', () => {
 
       expect(
         transformFilterLevel(
+          filteredEntity,
           badFilter1,
           filteredEntity.getAttributes(),
           {},
@@ -331,6 +351,7 @@ describe('filter', () => {
 
       expect(
         transformFilterLevel(
+          filteredEntity,
           badFilter2,
           filteredEntity.getAttributes(),
           {},

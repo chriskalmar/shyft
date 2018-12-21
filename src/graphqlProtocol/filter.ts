@@ -167,6 +167,7 @@ const deepFilterResolver = async (entity, filter, context, path) => {
 };
 
 export const transformFilterLevel = async (
+  entity,
   filters = {},
   attributes,
   context,
@@ -182,6 +183,10 @@ export const transformFilterLevel = async (
   }
 
   const errorLocation = path ? ` at '${path.join('.')}'` : '';
+
+  if (!isEntity(entity)) {
+    throw new Error('transformFilterLevel() expects an entity');
+  }
 
   if (!isMap(filters)) {
     throw new Error(
@@ -206,6 +211,7 @@ export const transformFilterLevel = async (
             const idxPath = newPath.slice();
             idxPath.push(`${filter}[${idx}]`);
             return await transformFilterLevel(
+              entity,
               newFilter,
               attributes,
               context,
@@ -294,6 +300,41 @@ export const transformFilterLevel = async (
           }
           else {
             ret[realAttributeName].$noResult = true;
+          }
+        }
+        else if (operator === PRE_FILTER_OPERATOR) {
+          const preFilters = entity.getPreFilters();
+          const usedPreFilters = Object.keys(value).filter(preFilterName => {
+            const preFilterValue = value[preFilterName];
+            return isMap(preFilterValue) || preFilterValue === true;
+          });
+
+          if (usedPreFilters.length > 1) {
+            throw new Error('Multiple preFilters cannot be combined');
+          }
+          else if (usedPreFilters.length === 1) {
+            const [ usedPreFilter ] = usedPreFilters;
+
+            const preFilter = preFilters[usedPreFilter];
+
+            if (!preFilter) {
+              throw new Error(`No preFilter named '${usedPreFilter}' found`);
+            }
+
+            const preFilterFn = preFilter.resolve;
+            const preFilterAttributes = value[preFilter];
+
+            const resolvedList = await preFilterFn(
+              context,
+              preFilterAttributes,
+            );
+
+            if (resolvedList) {
+              ret[realAttributeName].$in = resolvedList;
+            }
+            else {
+              ret[realAttributeName].$noResult = true;
+            }
           }
         }
         else {
