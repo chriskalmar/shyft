@@ -1,4 +1,9 @@
-import { GraphQLList, GraphQLNonNull, GraphQLInputObjectType } from 'graphql';
+import {
+  GraphQLList,
+  GraphQLNonNull,
+  GraphQLInputObjectType,
+  GraphQLBoolean,
+} from 'graphql';
 import * as _ from 'lodash';
 import { ProtocolGraphQL } from './ProtocolGraphQL';
 import { isEntity } from '../engine/entity/Entity';
@@ -17,6 +22,7 @@ const logicalKeysMap = {
 };
 
 const DEEP_FILTER_OPERATOR = 'filter';
+const PRE_FILTER_OPERATOR = 'pre_filter';
 
 export const generateFilterInput = (entity, graphRegistry) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
@@ -27,6 +33,9 @@ export const generateFilterInput = (entity, graphRegistry) => {
   const filterInputTypeName = protocolConfiguration.generateFilterInputTypeName(
     entity,
   );
+
+  const preFilters = entity.getPreFilters();
+
   const entityFilterType = new GraphQLInputObjectType({
     name: filterInputTypeName,
     description: `Filter **\`${typeNamePluralListName}\`** by various criteria`,
@@ -45,6 +54,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
 
       _.forEach(entity.getAttributes(), attribute => {
         let attributeType = attribute.type;
+        const isPrimary = attribute.primary;
 
         if (isComplexDataType(attributeType) || attribute.mutationInput) {
           return;
@@ -99,6 +109,45 @@ export const generateFilterInput = (entity, graphRegistry) => {
 
           fields[fieldName] = field;
         });
+
+        if (isPrimary && preFilters) {
+          const preFilterInputTypeName = protocolConfiguration.generateFilterPreFilterInputTypeName(
+            entity,
+          );
+
+          const fieldName = `${attribute.gqlFieldName}__${PRE_FILTER_OPERATOR}`;
+          const preFilterFieldType = new GraphQLInputObjectType({
+            name: preFilterInputTypeName,
+            description: `Filter **\`${typeNamePluralListName}\`** by a custom pre-filter`,
+
+            fields: () => {
+              const fields = {};
+
+              Object.keys(preFilters).map(preFilterName => {
+                const preFilter = preFilters[preFilterName];
+                const preFilterParamsInputTypeName = protocolConfiguration.generateFilterPreFilterParamsInputTypeName(
+                  entity,
+                  preFilterName,
+                );
+
+                if (preFilter.attributes) {
+                }
+                else {
+                  fields[preFilterName] = {
+                    type: GraphQLBoolean,
+                  };
+                }
+              });
+
+              return fields;
+            },
+          });
+
+          fields[fieldName] = {
+            type: preFilterFieldType,
+            description: `Filter **\`${typeNamePluralListName}\`** by a custom pre-filter`,
+          };
+        }
       });
 
       return fields;
@@ -147,6 +196,7 @@ const deepFilterResolver = async (entity, filter, context, path) => {
 
   // eslint-disable-next-line no-use-before-define
   const transformedFilter = await transformFilterLevel(
+    entity,
     filter,
     entity.getAttributes(),
     context,

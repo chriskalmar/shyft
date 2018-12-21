@@ -237,6 +237,18 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     return generateTypeNamePascalCase(`${typeName}-filter`);
   }
 
+  generateFilterPreFilterInputTypeName(entity) {
+    const typeName = this.generateEntityTypeName(entity);
+    return generateTypeNamePascalCase(`${typeName}-pre-filter`);
+  }
+
+  generateFilterPreFilterParamsInputTypeName(entity, preFilter) {
+    const typeName = this.generateEntityTypeName(entity);
+    return generateTypeNamePascalCase(
+      `${typeName}-pre-filter-${preFilter}-params`,
+    );
+  }
+
   generateConnectionEdgeTypeName(entity) {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeNamePascalCase(`${typeName}-edge`);

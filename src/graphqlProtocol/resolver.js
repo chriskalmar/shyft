@@ -50,6 +50,7 @@ export const resolveByFind = (entity, parentConnectionCollector) => {
     forceSortByUnique(args.orderBy, entity);
 
     args.filter = await transformFilterLevel(
+      entity,
       args.filter,
       entity.getAttributes(),
       context,
