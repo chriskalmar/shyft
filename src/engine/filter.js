@@ -147,3 +147,42 @@ export const convertFilterLevel = (filterShaper, filterLevel) => {
 
   return ret;
 };
+
+const isPreFilter = preFilterDefinition => {
+  if (isMap(preFilterDefinition)) {
+    if (isFunction(preFilterDefinition.resolve)) {
+      if (
+        !preFilterDefinition.attributes ||
+        isObjectDataType(preFilterDefinition.attributes)
+      ) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+
+export const processPreFilters = (entity, preFilters) => {
+  passOrThrow(
+    isMap(preFilters),
+    () =>
+      `Entity '${
+        entity.name
+      }' preFilters definition needs to be a map with individual preFilters`,
+  );
+
+  Object.keys(preFilters).map(preFilterName => {
+    const preFilterDefinition = preFilters[preFilterName];
+
+    passOrThrow(
+      isPreFilter(preFilterDefinition),
+      () =>
+        `Invalid preFilter definition '${preFilterName}' for entity '${
+          entity.name
+        }'`,
+    );
+  });
+
+  return preFilters;
+};

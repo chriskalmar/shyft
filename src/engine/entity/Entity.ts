@@ -42,6 +42,16 @@ import {
   AttributesSetupMap,
   AttributesMapGenerator,
 } from '../attribute/Attribute';
+import { processPreFilters } from '../filter';
+
+type PreFilterType = {
+  [key: string]: {
+    resolve: Function;
+    attributes: any;
+  };
+};
+
+type PreFilterGeneratorType = () => PreFilterType
 
 export type EntitySetup = {
   name: string;
@@ -57,6 +67,8 @@ export type EntitySetup = {
   permissions?: any;
   states?: any;
   postProcessor?: Function;
+  preFilters?: PreFilterType;
+  preFiltersGenerator?: PreFilterGeneratorType;
 };
 
 export class Entity {
@@ -70,7 +82,8 @@ export class Entity {
   mutations?: any;
   permissions?: any;
   states?: any;
-  postProcessor: Function;
+  postProcessor?: Function;
+  preFilters?: PreFilterType;
   private _attributesMap: AttributesSetupMap;
   private _attributesGenerator: AttributesMapGenerator;
   private _primaryAttribute: Attribute;
@@ -83,6 +96,8 @@ export class Entity {
   private _attributes: AttributesMap;
   private descriptionPermissionsFind: any;
   private descriptionPermissionsRead: any;
+  private _preFilters: PreFilterType;
+  private _preFiltersGenerator: () => PreFilterType;
   isFallbackStorageType: any;
   findOne: any;
   find: any;
@@ -104,6 +119,8 @@ export class Entity {
       permissions,
       states,
       postProcessor,
+      preFilters,
+      preFiltersGenerator,
     } = setup;
 
     Object.keys(setup).map(prop => {
@@ -150,6 +167,8 @@ export class Entity {
     this._mutations = mutations;
     this._states = states;
     this._permissions = permissions;
+    this._preFilters = preFilters;
+    this._preFiltersGenerator = preFiltersGenerator;
 
     if (postProcessor) {
       passOrThrow(
@@ -731,6 +750,25 @@ export class Entity {
         });
       }
     }
+  }
+
+  _processPreFilters(): PreFilterType {
+    return this._preFilters
+      ? <any>processPreFilters(this, this._preFilters)
+      : null;
+  }
+
+  getPreFilters() {
+    if (this.preFilters) {
+      return this.preFilters;
+    }
+
+    if (this._preFiltersGenerator) {
+      this._preFilters = this._preFiltersGenerator();
+    }
+
+    this.preFilters = this._processPreFilters();
+    return this.preFilters;
   }
 
   getPermissions() {

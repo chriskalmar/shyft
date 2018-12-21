@@ -48,6 +48,8 @@ export const entityPropertiesWhitelist: Array<string> = [
   'permissions',
   'states',
   'postProcessor',
+  'preFilters',
+  'preFiltersGenerator',
 ];
 
 export const attributePropertiesWhitelist: Array<string> = [
