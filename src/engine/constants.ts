@@ -50,6 +50,7 @@ export const entityPropertiesWhitelist: Array<string> = [
   'postProcessor',
   'preFilters',
   'preFiltersGenerator',
+  'meta',
 ];
 
 export const attributePropertiesWhitelist: Array<string> = [

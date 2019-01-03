@@ -51,7 +51,7 @@ type PreFilterType = {
   };
 };
 
-type PreFilterGeneratorType = () => PreFilterType
+type PreFilterGeneratorType = () => PreFilterType;
 
 export type EntitySetup = {
   name: string;
@@ -69,6 +69,7 @@ export type EntitySetup = {
   postProcessor?: Function;
   preFilters?: PreFilterType;
   preFiltersGenerator?: PreFilterGeneratorType;
+  meta?: any;
 };
 
 export class Entity {
@@ -84,6 +85,7 @@ export class Entity {
   states?: any;
   postProcessor?: Function;
   preFilters?: PreFilterType;
+  meta?: any;
   private _attributesMap: AttributesSetupMap;
   private _attributesGenerator: AttributesMapGenerator;
   private _primaryAttribute: Attribute;
@@ -121,6 +123,7 @@ export class Entity {
       postProcessor,
       preFilters,
       preFiltersGenerator,
+      meta,
     } = setup;
 
     Object.keys(setup).map(prop => {
@@ -169,6 +172,7 @@ export class Entity {
     this._permissions = permissions;
     this._preFilters = preFilters;
     this._preFiltersGenerator = preFiltersGenerator;
+    this.meta = meta;
 
     if (postProcessor) {
       passOrThrow(
