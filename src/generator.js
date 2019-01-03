@@ -283,7 +283,12 @@ export const generateMockData = async configuration => {
     }
 
     try {
-      for (let i = 0; i < _.random(10, 100); i++) {
+      const mockItemCount =
+        entity.meta && entity.meta.mockItemsCount
+          ? entity.meta.mockItemsCount
+          : _.random(10, 100);
+
+      for (let i = 0; i < mockItemCount; i++) {
         await generateItem(
           storageInstance,
           entity,
