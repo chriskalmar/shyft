@@ -10,6 +10,7 @@ import { DataTypeState } from '../datatype/DataTypeState';
 import { i18nMockGenerator } from '../i18n';
 
 import * as _ from 'lodash';
+import * as casual from 'casual';
 
 export const systemAttributePrimary = {
   name: 'id',
@@ -28,6 +29,21 @@ export const systemAttributesTimeTracking = [
     defaultValue: (data, mutation) => {
       return mutation.isTypeCreate ? new Date() : undefined;
     },
+    mock: entity => {
+      if (entity.meta && entity.meta.mockCreatedAtGenerator) {
+        if (!_.isFunction(entity.meta.mockCreatedAtGenerator)) {
+          throw new CustomError(
+            `meta.mockCreatedAtGenerator needs to be a function in entity '${
+              entity.name
+            }'`,
+            'InvalidMetaDataError',
+          );
+        }
+        return entity.meta.mockCreatedAtGenerator();
+      }
+
+      return new Date(casual.unix_time * 1000);
+    },
   },
   {
     name: 'updatedAt',
@@ -38,6 +54,21 @@ export const systemAttributesTimeTracking = [
       return mutation.isTypeCreate || mutation.isTypeUpdate
         ? new Date()
         : undefined;
+    },
+    mock: entity => {
+      if (entity.meta && entity.meta.mockUpdatedAtGenerator) {
+        if (!_.isFunction(entity.meta.mockUpdatedAtGenerator)) {
+          throw new CustomError(
+            `meta.mockUpdatedAtGenerator needs to be a function in entity '${
+              entity.name
+            }'`,
+            'InvalidMetaDataError',
+          );
+        }
+        return entity.meta.mockUpdatedAtGenerator();
+      }
+
+      return new Date(casual.unix_time * 1000);
     },
   },
 ];
