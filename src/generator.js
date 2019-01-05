@@ -284,7 +284,7 @@ export const generateMockData = async configuration => {
 
     try {
       const mockItemCount =
-        entity.meta && entity.meta.mockItemsCount
+        entity.meta && entity.meta.mockItemsCount >= 0
           ? entity.meta.mockItemsCount
           : _.random(10, 100);
 
@@ -319,8 +319,12 @@ async function generateItem(
       return;
     }
 
-    if (!required && Math.random() > 0.5) {
-      return;
+    if (!required) {
+      if (!entity.meta || (entity.meta && !entity.meta.mockNoNulls)) {
+        if (Math.random() > 0.5) {
+          return;
+        }
+      }
     }
 
     if (isEntity(type)) {
