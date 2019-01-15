@@ -40,7 +40,7 @@ export const fillDefaultValues = async (
   };
 
   const entityAttributes = entity.getAttributes();
-  const mutationAttributes = entityMutation.attributes || [];
+  const payloadAttributes = Object.keys(payload);
   const requiredAttributes = _.filter(
     entityAttributes,
     attribute => attribute.required && !attribute.isSystemAttribute,
@@ -49,7 +49,7 @@ export const fillDefaultValues = async (
   await Promise.all(
     requiredAttributes.map(async attribute => {
       const attributeName = attribute.name;
-      if (!mutationAttributes.includes(attributeName)) {
+      if (!payloadAttributes.includes(attributeName)) {
         if (attribute.defaultValue) {
           ret[attributeName] = await attribute.defaultValue(
             ret,
