@@ -304,6 +304,27 @@ export const generateMockData = async configuration => {
   }
 };
 
+const getExistingData = async (
+  storageInstance,
+  mockInstancesMemory,
+  entity,
+) => {
+  const { name: entityName, storageTableName } = entity;
+
+  const manager = storageInstance.manager;
+  const result = await manager
+    .createQueryBuilder(storageTableName, 't')
+    .select([ 't.id' ])
+    .getMany();
+
+  if (result.length) {
+    mockInstancesMemory[entityName] = result.map(({ id }) => id);
+  }
+  else {
+    mockInstancesMemory[entityName] = [];
+  }
+};
+
 async function generateItem(
   storageInstance,
   entity,
@@ -314,34 +335,43 @@ async function generateItem(
   const { name: entityName, storageTableName } = entity;
   const item = {};
 
-  _.map(entity.getAttributes(), ({ type, primary, required, mock }, name) => {
-    if (primary) {
-      return;
-    }
-
-    if (!required) {
-      if (!entity.meta || (entity.meta && !entity.meta.mockNoNulls)) {
-        if (Math.random() > 0.5) {
+  await Promise.all(
+    _.map(
+      entity.getAttributes(),
+      async ({ type, primary, required, mock }, name) => {
+        if (primary) {
           return;
         }
-      }
-    }
 
-    if (isEntity(type)) {
-      item[name] = _.sample(mockInstancesMemory[type.name]);
-    }
-    if (isComplexDataType(type)) {
-      // TODO: generate mocks based on complex types
-      item[name] = {};
-    }
-    else {
-      const mockDataGenerator = mock || type.mock;
+        if (!required) {
+          if (!entity.meta || (entity.meta && !entity.meta.mockNoNulls)) {
+            if (Math.random() > 0.5) {
+              return;
+            }
+          }
+        }
 
-      if (mockDataGenerator) {
-        item[name] = mockDataGenerator(entity, name, model, languages);
-      }
-    }
-  });
+        if (isEntity(type)) {
+          if (!mockInstancesMemory[type.name]) {
+            await getExistingData(storageInstance, mockInstancesMemory, type);
+          }
+
+          item[name] = _.sample(mockInstancesMemory[type.name]);
+        }
+        if (isComplexDataType(type)) {
+          // TODO: generate mocks based on complex types
+          item[name] = {};
+        }
+        else {
+          const mockDataGenerator = mock || type.mock;
+
+          if (mockDataGenerator) {
+            item[name] = mockDataGenerator(entity, name, model, languages);
+          }
+        }
+      },
+    ),
+  );
 
   const manager = storageInstance.manager;
   let instance;
