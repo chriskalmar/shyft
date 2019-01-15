@@ -100,14 +100,28 @@ describe('Mutation', () => {
     expect(fn).toThrowErrorMatchingSnapshot();
   });
 
+  it('should allow an empty attributes list for UPDATE type mutations', () => {
+    const mutation = new Mutation({
+      name: 'example',
+      type: MUTATION_TYPE_UPDATE,
+      description: 'mutate the world',
+      attributes: [],
+    });
+
+    processEntityMutations(entity, [ mutation ]);
+    expect(mutation.attributes).toEqual([]);
+  });
+
   it('should allow an empty attributes list for DELETE type mutations', () => {
     const mutation = new Mutation({
       name: 'example',
       type: MUTATION_TYPE_DELETE,
       description: 'mutate the world',
+      attributes: [],
     });
 
     processEntityMutations(entity, [ mutation ]);
+    expect(mutation.attributes).not.toBeDefined();
   });
 
   it('should have a list of unique attribute names', () => {

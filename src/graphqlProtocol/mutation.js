@@ -599,7 +599,7 @@ export const generateMutations = graphRegistry => {
 
       let entityMutationInstanceInputType;
 
-      if (entityMutation.attributes) {
+      if (entityMutation.attributes && entityMutation.attributes.length) {
         entityMutationInstanceInputType = generateMutationInstanceInput(
           entity,
           entityMutation,
@@ -651,7 +651,7 @@ export const generateMutations = graphRegistry => {
 
         let entityMutationInstanceNestedInputType;
 
-        if (entityMutation.attributes) {
+        if (entityMutation.attributes && entityMutation.attributes.length) {
           entityMutationInstanceNestedInputType = generateMutationInstanceNestedInput(
             entity,
             entityMutation,

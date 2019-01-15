@@ -220,7 +220,9 @@ export const processEntityMutations = (entity, mutations) => {
 
     if (mutation.attributes) {
       passOrThrow(
-        isArray(mutation.attributes, true),
+        (isArray(mutation.attributes, true) &&
+          mutation.type === MUTATION_TYPE_CREATE) ||
+          isArray(mutation.attributes, false),
         () =>
           `Mutation '${entity.name}.${
             mutation.name
