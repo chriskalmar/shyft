@@ -51,7 +51,7 @@ export const Message = new Entity({
       name: 'write',
       description: 'write a message',
       type: MUTATION_TYPE_CREATE,
-      attributes: [ 'board', 'content', 'writtenAt' ],
+      attributes: [ 'board', 'content', 'writtenAt', 'author' ],
     }),
   ],
 
@@ -74,9 +74,6 @@ export const Message = new Entity({
       type: Profile,
       description: 'The user that writes the message',
       required: true,
-      defaultValue(payload, mutation, entity, { userId }) {
-        return userId;
-      },
     },
 
     content: {
