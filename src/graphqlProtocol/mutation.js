@@ -114,7 +114,8 @@ export const generateMutationInstanceInput = (entity, entityMutation) => {
           type:
             attribute.required &&
             !entityMutation.ignoreRequired &&
-            !attribute.i18n
+            !attribute.i18n &&
+            !attribute.defaultValue
               ? new GraphQLNonNull(fieldType)
               : fieldType,
         };
@@ -393,7 +394,9 @@ export const generateMutationInstanceNestedInput = (
           if (uniquenessAttributesList.length === 0) {
             fields[attribute.gqlFieldName] = {
               type:
-                attribute.required && !entityMutation.ignoreRequired
+                attribute.required &&
+                !entityMutation.ignoreRequired &&
+                !attribute.defaultValue
                   ? new GraphQLNonNull(fieldType)
                   : fieldType,
             };
@@ -430,7 +433,8 @@ export const generateMutationInstanceNestedInput = (
             type:
               attribute.required &&
               !entityMutation.ignoreRequired &&
-              !attribute.i18n
+              !attribute.i18n &&
+              !attribute.defaultValue
                 ? new GraphQLNonNull(fieldType)
                 : fieldType,
           };
