@@ -461,7 +461,7 @@ export const installStorageScripts = async (
 
     if (synchronize) {
       await manager.query(
-        storageConfiguration.generateI18nIndices(configuration),
+        storageConfiguration.createI18nIndices(configuration, manager),
       );
     }
   }

@@ -172,8 +172,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
   };
 
   generateI18nIndices = configuration => {
-    let result = '';
-    let foundI18n = false;
+    const indices = [];
 
     const languages = configuration.getLanguages();
     const languageIds = Object.keys(languages)
@@ -184,6 +183,9 @@ class StoragePostgresConfiguration extends StorageConfiguration {
     const storageConfiguration = configuration.getStorageConfiguration();
     const modelRegistry = storageConfiguration.getStorageModels();
 
+    const textIndexTemplate = loadTemplate('i18n_text_index.tpl.sql');
+    const trgmIndexTemplate = loadTemplate('i18n_trgm_index.tpl.sql');
+
     _.forEach(schema.getEntities(), entity => {
       const i18nAttributeNames = entity.getI18nAttributeNames();
 
@@ -191,47 +193,67 @@ class StoragePostgresConfiguration extends StorageConfiguration {
         return;
       }
 
-      foundI18n = true;
-
       const entityName = entity.name;
       const { dataShaperMap } = modelRegistry[entityName];
-
-      const vars = {
-        entity: entity.storageTableName,
-        items: [],
-      };
+      const { storageTableName } = entity;
 
       i18nAttributeNames.map(i18nAttributeName => {
         const attributeName = dataShaperMap[i18nAttributeName];
 
+        if (!attributeName) {
+          return;
+        }
+
         languageIds.map(languageId => {
           const textIndexName = generateIndexName(
-            entity.storageTableName,
+            storageTableName,
             [ attributeName ],
             `_i18n_${languageId}_text_idx`,
           );
+
+          indices.push({
+            name: textIndexName,
+            query: _.template(textIndexTemplate)({
+              indexName: textIndexName,
+              attributeName,
+              languageId,
+              storageTableName,
+            }),
+          });
+
           const trgmIndexName = generateIndexName(
-            entity.storageTableName,
+            storageTableName,
             [ attributeName ],
             `_i18n_${languageId}_trgm_idx`,
           );
 
-          vars.items.push({
-            textIndexName,
-            trgmIndexName,
-            attributeName,
-            languageId,
+          indices.push({
+            name: trgmIndexName,
+            query: _.template(trgmIndexTemplate)({
+              indexName: trgmIndexName,
+              attributeName,
+              languageId,
+              storageTableName,
+            }),
           });
         });
       });
-
-      const template = loadTemplate('i18n_index.tpl.sql');
-
-      result += _.template(template)(vars);
     });
 
-    if (foundI18n) {
-      result = _.template(loadTemplate('trigram_extension.tpl.sql'))() + result;
+    return indices;
+  };
+
+  createI18nIndices = configuration => {
+    let result = '';
+    const extensionTemplate = loadTemplate('trigram_extension.tpl.sql');
+
+    const indices = this.generateI18nIndices(configuration);
+    if (indices && indices.length) {
+      indices.forEach(({ query }) => {
+        result += query;
+      });
+
+      result = _.template(extensionTemplate)() + result;
     }
 
     return result;
