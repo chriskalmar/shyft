@@ -258,6 +258,38 @@ class StoragePostgresConfiguration extends StorageConfiguration {
 
     return result;
   };
+
+  generateI18nIndicesMigration = async (configuration, manager) => {
+    const upQueries = [];
+    const downQueries = [];
+
+    const indices = this.generateI18nIndices(configuration);
+
+    const foundIndices = await manager.query(`
+      SELECT *
+      FROM pg_indexes
+      WHERE indexname ~ '__i18n_.*(text|trgm)_idx'
+    `);
+
+    foundIndices.forEach(foundIndex => {
+      if (!indices.find(({ name }) => name === foundIndex.indexname)) {
+        upQueries.push(`DROP INDEX IF EXISTS ${foundIndex.indexname}`);
+        downQueries.push(foundIndex.indexdef);
+      }
+    });
+
+    indices.forEach(index => {
+      if (!foundIndices.find(({ indexname }) => indexname === index.name)) {
+        upQueries.push(index.query.replace(new RegExp('\n', 'g'), ' '));
+        downQueries.push(`DROP INDEX IF EXISTS ${index.name}`);
+      }
+    });
+
+    return {
+      upQueries,
+      downQueries,
+    };
+  };
 }
 
 export default StoragePostgresConfiguration;
