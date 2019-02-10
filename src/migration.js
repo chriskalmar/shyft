@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import path from 'path';
 import { CommandUtils } from 'typeorm/commands/CommandUtils';
 import { MigrationExecutor } from 'typeorm/migration/MigrationExecutor';
 
@@ -84,11 +85,24 @@ const upgradeMigrationQuery = _query => {
   return sqls;
 };
 
+const getMigrationsFullPath = connectionConfig => {
+  if (connectionConfig.migrations && connectionConfig.migrations[0]) {
+    return path.dirname(
+      path.join(process.cwd(), connectionConfig.migrations[0]),
+    );
+  }
+
+  return path.join(process.cwd(), 'migrations2');
+};
+
 export const generateMigration = async (configuration, migrationName) => {
   await connectStorage(configuration, false);
   const connection = getConnection();
   const storageConfiguration = configuration.getStorageConfiguration();
   const manager = connection.manager;
+  const connectionConfig = storageConfiguration.getConnectionConfig();
+
+  const migrationsPath = getMigrationsFullPath(connectionConfig);
 
   const upSqls = [];
   const downSqls = [];
@@ -132,7 +146,7 @@ export const generateMigration = async (configuration, migrationName) => {
       downSqls.reverse(),
     );
 
-    const path = `${process.cwd()}/migrations/${filename}`;
+    const migrationPath = path.join(migrationsPath, filename);
 
     const formatted = format({
       text: fileContent,
@@ -145,9 +159,11 @@ export const generateMigration = async (configuration, migrationName) => {
       },
     });
 
-    await CommandUtils.createFile(path, formatted);
+    await CommandUtils.createFile(migrationPath, formatted);
 
-    console.log(`Migration file '${path}' has been generated successfully.`);
+    console.log(
+      `Migration file '${migrationPath}' has been generated successfully.`,
+    );
   }
   else {
     console.log('No changes were found in database schema.');
