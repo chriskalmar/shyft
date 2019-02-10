@@ -11,7 +11,12 @@ import {
   getConnection,
 } from './generator';
 
-import { generateMigration, runMigration, revertMigration } from './migration';
+import {
+  generateMigration,
+  runMigration,
+  revertMigration,
+  fillMigrationsTable,
+} from './migration';
 
 export {
   StorageTypePostgres,
@@ -25,6 +30,7 @@ export {
   generateMigration,
   runMigration,
   revertMigration,
+  fillMigrationsTable,
 };
 
 export default {
@@ -39,4 +45,5 @@ export default {
   generateMigration,
   runMigration,
   revertMigration,
+  fillMigrationsTable,
 };
