@@ -150,13 +150,7 @@ export const generateMigration = async (configuration, migrationName) => {
 
     const formatted = format({
       text: fileContent,
-      prettierOptions: {
-        parser: 'babylon',
-        singleQuote: true,
-        trailingComma: 'all',
-        printWidth: 80,
-        bracketSpacing: true,
-      },
+      filePath: migrationPath,
     });
 
     await CommandUtils.createFile(migrationPath, formatted);
