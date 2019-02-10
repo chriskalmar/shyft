@@ -1,7 +1,9 @@
 import _ from 'lodash';
 import { CommandUtils } from 'typeorm/commands/CommandUtils';
+import { MigrationExecutor } from 'typeorm/migration/MigrationExecutor';
 
 import format from 'prettier-eslint';
+import { asyncForEach } from './util';
 import {
   connectStorage,
   getConnection,
@@ -173,4 +175,38 @@ export const runMigration = async configuration => {
   }
 
   await disconnectStorage(configuration);
+};
+
+export const revertMigration = async configuration => {
+  await connectStorage(configuration, false);
+  const connection = getConnection();
+
+  try {
+    await connection.undoLastMigration({
+      transaction: true,
+    });
+
+    console.log('Last migration reverted successfully');
+  }
+  catch (err) {
+    console.error('Migration reversion failed');
+    console.error(err);
+    await disconnectStorage(configuration);
+    process.exit(1);
+  }
+
+  await disconnectStorage(configuration);
+};
+
+export const fillMigrationsTable = async () => {
+  const connection = getConnection();
+  const queryRunner = connection.createQueryRunner();
+
+  const migrationExecutor = new MigrationExecutor(connection);
+  await migrationExecutor.createMigrationsTableIfNotExist(queryRunner);
+  const allMigrations = migrationExecutor.getMigrations();
+
+  await asyncForEach(allMigrations, async migration => {
+    await migrationExecutor.insertExecutedMigration(queryRunner, migration);
+  });
 };

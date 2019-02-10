@@ -11,6 +11,8 @@ import {
   getConnection,
 } from './generator';
 
+import { generateMigration, runMigration, revertMigration } from './migration';
+
 export {
   StorageTypePostgres,
   loadModels,
@@ -20,6 +22,9 @@ export {
   getConnection,
   StoragePostgresConfiguration,
   isStoragePostgresConfiguration,
+  generateMigration,
+  runMigration,
+  revertMigration,
 };
 
 export default {
@@ -31,4 +36,7 @@ export default {
   getConnection,
   StoragePostgresConfiguration,
   isStoragePostgresConfiguration,
+  generateMigration,
+  runMigration,
+  revertMigration,
 };
