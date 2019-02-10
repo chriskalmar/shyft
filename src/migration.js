@@ -153,3 +153,24 @@ export const generateMigration = async (configuration, migrationName) => {
 
   await disconnectStorage(configuration);
 };
+
+export const runMigration = async configuration => {
+  await connectStorage(configuration, false);
+  const connection = getConnection();
+
+  try {
+    await connection.runMigrations({
+      transaction: true,
+    });
+
+    console.log('Migration completed');
+  }
+  catch (err) {
+    console.error('Migration failed');
+    console.error(err);
+    await disconnectStorage(configuration);
+    process.exit(1);
+  }
+
+  await disconnectStorage(configuration);
+};
