@@ -11,7 +11,7 @@ import {
   disconnectStorage,
 } from '../lib/generator';
 
-const getTemplate = (migrationName, timestamp, upSqls, downSqls) => {
+const defaultTemplate = (migrationName, timestamp, upSqls, downSqls) => {
   return `
 export class ${_.camelCase(migrationName)}${timestamp} {
   async up(queryRunner) {
@@ -95,7 +95,11 @@ const getMigrationsFullPath = connectionConfig => {
   return path.join(process.cwd(), 'migrations2');
 };
 
-export const generateMigration = async (configuration, migrationName) => {
+export const generateMigration = async (
+  configuration,
+  migrationName,
+  customTemplate,
+) => {
   await connectStorage(configuration, false);
   const connection = getConnection();
   const storageConfiguration = configuration.getStorageConfiguration();
@@ -139,7 +143,8 @@ export const generateMigration = async (configuration, migrationName) => {
 
     const filename = `${timestamp}-${_.camelCase(migrationName)}.js`;
 
-    const fileContent = getTemplate(
+    const template = customTemplate || defaultTemplate;
+    const fileContent = template(
       migrationName,
       timestamp,
       upSqls,
