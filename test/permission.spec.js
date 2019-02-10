@@ -1,15 +1,11 @@
 import './setupAndTearDown';
 import { find, count, mutate } from './db';
 
-import {
-  asUser,
-  removeListDynamicData,
-  removeDynamicData,
-  asyncForEach,
-} from './testUtils';
+import { asUser, removeListDynamicData, removeDynamicData } from './testUtils';
 
 import { Board } from './models/Board';
 import { BoardMember } from './models/BoardMember';
+import { asyncForEach } from '../src/util';
 
 const orderByIdAsc = {
   orderBy: [
