@@ -107,6 +107,7 @@ export const generateMigration = async (
   const connectionConfig = storageConfiguration.getConnectionConfig();
 
   const migrationsPath = getMigrationsFullPath(connectionConfig);
+  const timestamp = new Date().getTime();
 
   const upSqls = [];
   const downSqls = [];
@@ -139,8 +140,6 @@ export const generateMigration = async (
       throw new Error('Error: Please specify a migration name');
     }
 
-    const timestamp = new Date().getTime();
-
     const filename = `${timestamp}-${_.camelCase(migrationName)}.js`;
 
     const template = customTemplate || defaultTemplate;
@@ -169,6 +168,7 @@ export const generateMigration = async (
   }
 
   await disconnectStorage(configuration);
+  return upSqls.length || downSqls.length ? timestamp : null;
 };
 
 export const runMigration = async configuration => {
