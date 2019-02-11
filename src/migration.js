@@ -99,6 +99,7 @@ export const generateMigration = async (
   configuration,
   migrationName,
   customTemplate,
+  enforce = false,
 ) => {
   await connectStorage(configuration, false);
   const connection = getConnection();
@@ -135,7 +136,7 @@ export const generateMigration = async (
     upgradeMigrationQuery(query).map(sql => downSqls.push(sql));
   });
 
-  if (upSqls.length || downSqls.length) {
+  if (upSqls.length || downSqls.length || enforce) {
     if (!migrationName) {
       throw new Error('Error: Please specify a migration name');
     }
@@ -168,7 +169,7 @@ export const generateMigration = async (
   }
 
   await disconnectStorage(configuration);
-  return upSqls.length || downSqls.length ? timestamp : null;
+  return upSqls.length || downSqls.length || enforce ? timestamp : null;
 };
 
 export const runMigration = async configuration => {
