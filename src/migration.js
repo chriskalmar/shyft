@@ -25,7 +25,7 @@ ${downSqls.join('\n')}
 `;
 };
 
-const upgradeMigrationQuery = _query => {
+const upgradeMigrationQuery = (_query, isUpMigration = false) => {
   const sqls = [];
   const query = _query.replace(new RegExp('`', 'g'), '\\`');
 
@@ -67,13 +67,17 @@ const upgradeMigrationQuery = _query => {
       throw new Error(`Cannot handle column addition default for: ${query}`);
     }
 
-    sqls.push(
-      `    await queryRunner.query('${query} DEFAULT ${defaultValue}');`,
-    );
+    const addColumnQuery = `    await queryRunner.query('${query} DEFAULT ${defaultValue}');`;
+    const dropDefaultQuery = `    await queryRunner.query('ALTER TABLE "${table}" ALTER COLUMN "${attribute}" DROP DEFAULT');`;
 
-    sqls.push(
-      `    await queryRunner.query('ALTER TABLE "${table}" ALTER COLUMN "${attribute}" DROP DEFAULT');`,
-    );
+    if (isUpMigration) {
+      sqls.push(addColumnQuery);
+      sqls.push(dropDefaultQuery);
+    }
+    else {
+      sqls.push(dropDefaultQuery);
+      sqls.push(addColumnQuery);
+    }
   }
   else {
     const reformatted = query
@@ -119,21 +123,21 @@ export const generateMigration = async (
   );
 
   i18nMigrations.upQueries.forEach(query => {
-    upgradeMigrationQuery(query).map(sql => upSqls.push(sql));
+    upgradeMigrationQuery(query, true).map(sql => upSqls.push(sql));
   });
 
   i18nMigrations.downQueries.forEach(query => {
-    upgradeMigrationQuery(query).map(sql => downSqls.push(sql));
+    upgradeMigrationQuery(query, false).map(sql => downSqls.push(sql));
   });
 
   const sqlInMemory = await connection.driver.createSchemaBuilder().log();
 
   sqlInMemory.upQueries.forEach(query => {
-    upgradeMigrationQuery(query).map(sql => upSqls.push(sql));
+    upgradeMigrationQuery(query, true).map(sql => upSqls.push(sql));
   });
 
   sqlInMemory.downQueries.forEach(query => {
-    upgradeMigrationQuery(query).map(sql => downSqls.push(sql));
+    upgradeMigrationQuery(query, false).map(sql => downSqls.push(sql));
   });
 
   if (upSqls.length || downSqls.length || enforce) {
