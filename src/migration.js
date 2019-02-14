@@ -61,7 +61,7 @@ const upgradeMigrationQuery = (_query, isUpMigration = false) => {
       defaultValue = false;
     }
     else if (type.includes('json') || type.includes('jsonb')) {
-      defaultValue = "'{}'";
+      defaultValue = "\\'{}\\'";
     }
     else {
       throw new Error(`Cannot handle column addition default for: ${query}`);
