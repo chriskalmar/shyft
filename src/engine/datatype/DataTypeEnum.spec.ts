@@ -12,7 +12,9 @@ describe('DataTypeEnum', () => {
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeEnum();
+      new DataTypeEnum(<DataTypeEnumSetupType>{
+        name: 'something',
+      });
     };
 
     expect(fn).toThrowErrorMatchingSnapshot();
@@ -20,7 +22,8 @@ describe('DataTypeEnum', () => {
     fn = () => {
       // eslint-disable-next-line no-new
       new DataTypeEnum(<DataTypeEnumSetupType>{
-        values: [],
+        name: 'something',
+        values: {},
       });
     };
 
@@ -33,7 +36,10 @@ describe('DataTypeEnum', () => {
     fn = () => {
       // eslint-disable-next-line no-new
       new DataTypeEnum(<DataTypeEnumSetupType>{
-        values: [ '8' ],
+        name: 'lorem',
+        values: {
+          '7': 8,
+        },
       });
     };
 
@@ -42,7 +48,9 @@ describe('DataTypeEnum', () => {
     fn = () => {
       // eslint-disable-next-line no-new
       new DataTypeEnum(<DataTypeEnumSetupType>{
-        values: [ ' abc ' ],
+        values: {
+          ' abc ': 123,
+        },
         name: 'test',
       });
     };
@@ -52,8 +60,12 @@ describe('DataTypeEnum', () => {
     fn = () => {
       // eslint-disable-next-line no-new
       new DataTypeEnum(<DataTypeEnumSetupType>{
-        values: [ 'abc', 'def', 'hello-there' ],
         name: 'another',
+        values: {
+          abc: 1,
+          def: 2,
+          'hello-there': 3,
+        },
       });
     };
 
@@ -63,8 +75,10 @@ describe('DataTypeEnum', () => {
   it('should have a name', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new DataTypeEnum(<DataTypeEnumSetupType>{
-        values: [ 'item' ],
+      new DataTypeEnum(<any>{
+        values: {
+          item: 1,
+        },
       });
     }
 
@@ -75,7 +89,9 @@ describe('DataTypeEnum', () => {
     const dataType = new DataTypeEnum({
       name: 'someDataTypeName',
       description: 'Just some description',
-      values: [ 'item' ],
+      values: {
+        item: 1,
+      },
     });
 
     expect(dataType.name).toBe('someDataTypeName');
@@ -85,32 +101,63 @@ describe('DataTypeEnum', () => {
   it('should have a fallback description', () => {
     const dataType = new DataTypeEnum(<DataTypeEnumSetupType>{
       name: 'example',
-      values: [ 'ACTION', 'COMEDY', 'DRAMA' ],
+      values: {
+        ACTION: 1,
+        COMEDY: 2,
+        DRAMA: 3,
+      },
     });
 
     expect(dataType.description).toBe('Enumeration set: ACTION, COMEDY, DRAMA');
   });
 
   it('should have a generated mock function', () => {
-    const values = [ 'ACTION', 'COMEDY', 'DRAMA' ];
+    const values = {
+      ACTION: 1,
+      COMEDY: 2,
+      DRAMA: 3,
+    };
+
+    const valueNames = Object.keys(values);
+    const uniqueIds = [];
+
+    valueNames.map(valueName => {
+      const valueId = values[valueName];
+      uniqueIds.push(valueId);
+    });
+
     const dataType = new DataTypeEnum(<DataTypeEnumSetupType>{
       name: 'example',
       values,
     });
 
-    expect(values.includes(dataType.mock())).toBe(true);
+    const randomValue1 = dataType.mock();
+    const randomValue2 = dataType.mock();
+    const randomValue3 = dataType.mock();
+
+    expect(uniqueIds.includes(randomValue1)).toBe(true);
+    expect(uniqueIds.includes(randomValue2)).toBe(true);
+    expect(uniqueIds.includes(randomValue3)).toBe(true);
   });
 
   describe('isDataTypeEnum', () => {
     it('should recognize objects of type DataTypeEnum', () => {
       const enum1 = new DataTypeEnum(<DataTypeEnumSetupType>{
         name: 'enum1',
-        values: [ 'ACTION', 'COMEDY', 'DRAMA' ],
+        values: {
+          ACTION: 1,
+          COMEDY: 2,
+          DRAMA: 3,
+        },
       });
 
       const enum2 = new DataTypeEnum(<DataTypeEnumSetupType>{
         name: 'enum2',
-        values: [ 'APPLE', 'PEAR', 'CHERRY' ],
+        values: {
+          APPLE: 10,
+          PEAR: 20,
+          CHERRY: 30,
+        },
       });
 
       function fn() {

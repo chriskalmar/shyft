@@ -106,9 +106,11 @@ ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeEnum, attributeType => {
     }
   }
 
-  attributeType.values.map(value => {
-    values[value] = {
-      value,
+  const enumValues = attributeType.values;
+  const enumValuesNames = Object.keys(enumValues);
+  enumValuesNames.map(valueName => {
+    values[valueName] = {
+      value: enumValues[valueName],
     };
   });
 
