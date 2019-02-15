@@ -37,7 +37,6 @@ import {
   StorageDataTypeTimestamp,
   StorageDataTypeTimestampTz,
   StorageDataTypeDate,
-  StorageDataTypeEnum,
   StorageDataTypeUUID,
   StorageDataTypeI18n,
 } from './storageDataTypes';
@@ -750,7 +749,10 @@ StorageTypePostgres.addDataTypeMap(DataTypeDate, StorageDataTypeDate);
 StorageTypePostgres.addDataTypeMap(DataTypeUUID, StorageDataTypeUUID);
 StorageTypePostgres.addDataTypeMap(DataTypeI18n, StorageDataTypeI18n);
 
-StorageTypePostgres.addDynamicDataTypeMap(isDataTypeEnum, StorageDataTypeEnum);
+StorageTypePostgres.addDynamicDataTypeMap(
+  isDataTypeEnum,
+  StorageDataTypeInteger,
+);
 StorageTypePostgres.addDynamicDataTypeMap(
   isDataTypeState,
   StorageDataTypeInteger,

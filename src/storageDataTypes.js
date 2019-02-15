@@ -109,15 +109,6 @@ export const StorageDataTypeDate = new StorageDataType({
   capabilities: [ 'in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in' ],
 });
 
-export const StorageDataTypeEnum = new StorageDataType({
-  name: 'StorageDataTypeEnum',
-  description: 'Data type representing an enum',
-  nativeDataType: 'enum',
-  isSortable: true,
-  serialize: toInt,
-  capabilities: [ 'in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in' ],
-});
-
 export const StorageDataTypeUUID = new StorageDataType({
   name: 'StorageDataTypeUUID',
   description: 'Data type representing a UUID',

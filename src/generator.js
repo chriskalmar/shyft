@@ -8,7 +8,6 @@ import {
   INDEX_UNIQUE,
   INDEX_GENERIC,
   mapOverProperties,
-  isDataTypeEnum,
   isComplexDataType,
   isConfiguration,
 } from 'shyft';
@@ -157,36 +156,24 @@ export const loadModels = configuration => {
         );
       }
 
-      if (isDataTypeEnum(attribute.type)) {
-        throw new Error('data type `enum` is not yet supported');
-        // attributes[ attributeName ] = {
-        //   type: storageDataType.nativeDataType,
-        //   enum: attribute.type.values,
-        //   nullable: !attribute.required,
-        // }
+      attributes[attributeName] = {
+        name: storageAttributeName,
+        type: storageDataType.nativeDataType,
+        primary: attribute.primary,
+        nullable: !attribute.required,
+      };
+
+      if (attribute.primary) {
+        const primaryGenerator =
+          storageDataType.name === 'StorageDataTypeUUID' ? 'uuid' : 'increment';
+
+        PrimaryGeneratedColumn(primaryGenerator, attributes[attributeName])(
+          Skeleton.prototype,
+          attributeName,
+        );
       }
       else {
-        attributes[attributeName] = {
-          name: storageAttributeName,
-          type: storageDataType.nativeDataType,
-          primary: attribute.primary,
-          nullable: !attribute.required,
-        };
-
-        if (attribute.primary) {
-          const primaryGenerator =
-            storageDataType.name === 'StorageDataTypeUUID'
-              ? 'uuid'
-              : 'increment';
-
-          PrimaryGeneratedColumn(primaryGenerator, attributes[attributeName])(
-            Skeleton.prototype,
-            attributeName,
-          );
-        }
-        else {
-          Column(attributes[attributeName])(Skeleton.prototype, attributeName);
-        }
+        Column(attributes[attributeName])(Skeleton.prototype, attributeName);
       }
     });
 
