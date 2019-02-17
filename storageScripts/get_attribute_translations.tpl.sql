@@ -3,10 +3,9 @@ CREATE OR REPLACE FUNCTION <%= functionName %>(
   attribute TEXT
 ) RETURNS TEXT AS $$
 DECLARE
-  languages JSON;
-  languageNames TEXT[];
-  languageName TEXT;
-  languageId TEXT;
+  languages TEXT[];
+  language TEXT;
+  defaultLanguage TEXT;
   data JSONB;
   i18n JSON;
   result JSONB DEFAULT '{}';
@@ -16,21 +15,19 @@ BEGIN
   -- Template (get_attribute_translations.tpl.sql)
 
   languages := '<%= languages %>';
-
-  languageNames := '{<%= languageNames %>}';
+  defaultLanguage := '<%= defaultLanguage %>';
 
   data := to_json(rec);
   i18n := (data->'i18n')::JSON;
 
   IF (data ? attribute) THEN
 
-    result := result || jsonb_build_object('default', data->>attribute);
+    result := result || jsonb_build_object(defaultLanguage, data->>attribute);
 
     IF (i18n->attribute IS NOT NULL) THEN
-      FOREACH languageName IN ARRAY languageNames LOOP
-        languageId := languages->languageName;
-        IF (languageName <> 'default'  AND  i18n->attribute IS NOT NULL) THEN
-          result := result || jsonb_build_object(languageName, i18n->attribute->>languageId);
+      FOREACH language IN ARRAY languages LOOP
+        IF (language <> defaultLanguage  AND  i18n->attribute IS NOT NULL) THEN
+          result := result || jsonb_build_object(language, i18n->attribute->>language);
         END IF;
       END LOOP;
     END IF;

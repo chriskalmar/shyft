@@ -7,10 +7,13 @@ const templatesPath = `${__dirname}/../storageScripts`;
 
 const loadTemplate = templateFileName =>
   fs.readFileSync(`${templatesPath}/${templateFileName}`, 'UTF8');
+
 const formatJSON = obj =>
   JSON.stringify(obj, null, 2)
     .split('\n')
     .join('\n  ');
+
+const formatArray = arr => `{${arr.map(JSON.stringify).join(', ')}}`;
 
 class StoragePostgresConfiguration extends StorageConfiguration {
   constructor(setup = {}) {
@@ -122,16 +125,13 @@ class StoragePostgresConfiguration extends StorageConfiguration {
     functionName,
   ) => {
     const languages = configuration.getLanguages();
-    const languageNames = Object.keys(languages);
-    if (languageNames.length < 2) {
-      return '';
-    }
+    const defaultLanguage = configuration.getDefaultLanguage();
 
     const template = loadTemplate(templateFileName);
     const vars = {
       functionName,
-      languages: formatJSON(languages),
-      languageNames,
+      languages: formatArray(languages),
+      defaultLanguage,
     };
 
     return _.template(template)(vars);
