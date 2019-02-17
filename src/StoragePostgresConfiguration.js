@@ -23,34 +23,6 @@ class StoragePostgresConfiguration extends StorageConfiguration {
     });
   }
 
-  generateGetLanguageIsoCodeFunction = configuration => {
-    const languages = configuration.getLanguages();
-    if (languages.length < 2) {
-      return '';
-    }
-
-    const template = loadTemplate('get_language_iso_code.tpl.sql');
-    const vars = {
-      languagesInverted: formatJSON(_.invert(languages)),
-    };
-
-    return _.template(template)(vars);
-  };
-
-  generateGetLanguageIdFunction = configuration => {
-    const languages = configuration.getLanguages();
-    if (languages.length < 2) {
-      return '';
-    }
-
-    const template = loadTemplate('get_language_id.tpl.sql');
-    const vars = {
-      languages: formatJSON(languages),
-    };
-
-    return _.template(template)(vars);
-  };
-
   _generateGetStateFunction = (
     configuration,
     templateFileName,

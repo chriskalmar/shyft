@@ -406,15 +406,6 @@ export const installStorageScripts = async (
     }
   });
 
-  if (modelFeatures.language) {
-    await manager.query(
-      storageConfiguration.generateGetLanguageIsoCodeFunction(configuration),
-    );
-    await manager.query(
-      storageConfiguration.generateGetLanguageIdFunction(configuration),
-    );
-  }
-
   if (modelFeatures.state) {
     await manager.query(
       storageConfiguration.generateGetStateIdFunction(configuration),
