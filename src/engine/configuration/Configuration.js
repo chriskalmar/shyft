@@ -1,4 +1,4 @@
-import { passOrThrow, isMap } from '../util';
+import { passOrThrow, isArray } from '../util';
 
 import { isSchema } from '../schema/Schema';
 
@@ -18,7 +18,7 @@ export class Configuration {
       storageConfiguration,
     } = setup;
 
-    this.setLanguages(languages || { default: 'en', en: 1 });
+    this.setLanguages(languages || [ 'en' ]);
 
     if (schema) {
       this.setSchema(schema);
@@ -35,48 +35,21 @@ export class Configuration {
 
   setLanguages(languages) {
     passOrThrow(
-      isMap(languages, true),
-      () =>
-        'Configuration.setLanguages() expects a mapping of language codes and IDs',
+      isArray(languages, true),
+      () => 'Configuration.setLanguages() expects a list of language iso codes',
     );
 
-    passOrThrow(
-      languages.default,
-      () =>
-        'Configuration.setLanguages() expects `default` language to be defined',
-    );
-
-    const languageCodes = Object.keys(languages);
-    const uniqueIds = [];
-
-    languageCodes
-      .filter(languageCode => languageCode !== 'default')
-      .map(languageCode => {
-        passOrThrow(
-          languageIsoCodeRegex.test(languageCode),
-          () =>
-            `Invalid language iso code '${languageCode}' provided (Regex: /${LANGUAGE_ISO_CODE_PATTERN}/)`,
-        );
-
-        const languageId = languages[languageCode];
-        uniqueIds.push(languageId);
-
-        passOrThrow(
-          languageId === parseInt(languageId, 10) && languageId > 0,
-          () =>
-            `Language code '${languageCode}' has an invalid unique ID (needs to be a positive integer)`,
-        );
-      });
+    languages.map(language => {
+      passOrThrow(
+        languageIsoCodeRegex.test(language),
+        () =>
+          `Invalid language iso code '${language}' provided (Regex: /${LANGUAGE_ISO_CODE_PATTERN}/)`,
+      );
+    });
 
     passOrThrow(
-      languages[languages.default],
-      () =>
-        'Configuration.setLanguages() expects `default` language to be specify the name of the default language',
-    );
-
-    passOrThrow(
-      uniqueIds.length === _.uniq(uniqueIds).length,
-      () => 'Each defined language code needs to have a unique ID',
+      languages.length === _.uniq(languages).length,
+      () => 'Language codes should be unique in the list',
     );
 
     this.languages = languages;
@@ -84,10 +57,6 @@ export class Configuration {
 
   getLanguages() {
     return this.languages;
-  }
-
-  getLanguageCodes() {
-    return Object.keys(this.languages);
   }
 
   setSchema(schema) {

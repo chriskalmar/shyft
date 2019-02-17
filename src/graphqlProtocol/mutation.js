@@ -33,7 +33,7 @@ const generateI18nInputFieldType = (entity, entityMutation, attribute) => {
   const typeNamePascalCase = entity.graphql.typeNamePascalCase;
   const languages = protocolConfiguration
     .getParentConfiguration()
-    .getLanguageCodes();
+    .getLanguages();
   const fieldType = ProtocolGraphQL.convertToProtocolDataType(
     attributeType,
     entity.name,
@@ -51,11 +51,9 @@ const generateI18nInputFieldType = (entity, entityMutation, attribute) => {
     fields: () => {
       const i18nFields = {};
 
-      languages.map(language => {
+      languages.map((language, langIdx) => {
         const type =
-          language === 'default' &&
-          attribute.required &&
-          !entityMutation.ignoreRequired
+          langIdx === 0 && attribute.required && !entityMutation.ignoreRequired
             ? new GraphQLNonNull(fieldType)
             : fieldType;
 

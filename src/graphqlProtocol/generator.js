@@ -273,12 +273,12 @@ export const generateGraphQLSchema = configuration => {
               description: `Translations of **\`${attribute.gqlFieldName}\`**`,
 
               fields: () => {
-                const languages = configuration.getLanguageCodes();
+                const languages = configuration.getLanguages();
                 const i18nFields = {};
 
-                languages.map(language => {
+                languages.map((language, langIdx) => {
                   const type =
-                    language === 'default' && attribute.required
+                    langIdx === 0 && attribute.required
                       ? new GraphQLNonNull(fieldType)
                       : fieldType;
 
