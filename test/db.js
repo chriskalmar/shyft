@@ -25,10 +25,7 @@ const schema = new Schema({
   entities: [ Profile, Message, BoardMember, Book ],
 });
 
-const languages = {
-  default: 1,
-  de: 2,
-};
+const languages = [ 'en', 'de' ];
 
 const configuration = new Configuration({
   languages,

@@ -38,12 +38,12 @@ Object {
   "shortSummary": null,
   "shortSummary.i18n": Object {
     "de": undefined,
-    "default": null,
+    "en": null,
   },
   "title": "War and Peace",
   "title.i18n": Object {
     "de": undefined,
-    "default": "War and Peace",
+    "en": "War and Peace",
   },
 }
 `;
@@ -126,12 +126,12 @@ Object {
   "shortSummary": null,
   "shortSummary.i18n": Object {
     "de": undefined,
-    "default": null,
+    "en": null,
   },
   "title": "War and Peace",
   "title.i18n": Object {
     "de": undefined,
-    "default": "War and Peace",
+    "en": "War and Peace",
   },
 }
 `;

@@ -46,7 +46,7 @@ describe('i18n', () => {
   it('should take main value form translations object if provided', async () => {
     const payload = {
       'title.i18n': {
-        default: 'War and Peace',
+        en: 'War and Peace',
         de: 'Krieg und Frieden',
       },
       author: 'Leo Tolstoy',
@@ -59,7 +59,7 @@ describe('i18n', () => {
   it('should store translations of multiple attributes', async () => {
     const payload = {
       'title.i18n': {
-        default: 'War and Peace',
+        en: 'War and Peace',
         de: 'Krieg und Frieden',
       },
       shortSummary: 'The novel chronicles the history of ...',
@@ -91,7 +91,7 @@ describe('i18n', () => {
   it('should merge existing translations with provided translations', async () => {
     let payload = {
       'title.i18n': {
-        default: 'War and Peace',
+        en: 'War and Peace',
         de: 'Krieg und Frieden',
       },
       author: 'Leo Tolstoy',
