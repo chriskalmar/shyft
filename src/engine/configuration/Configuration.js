@@ -18,7 +18,7 @@ export class Configuration {
       storageConfiguration,
     } = setup;
 
-    this.setLanguages(languages || { default: 1 });
+    this.setLanguages(languages || { default: 'en', en: 1 });
 
     if (schema) {
       this.setSchema(schema);
@@ -49,22 +49,30 @@ export class Configuration {
     const languageCodes = Object.keys(languages);
     const uniqueIds = [];
 
-    languageCodes.map(languageCode => {
-      passOrThrow(
-        languageIsoCodeRegex.test(languageCode),
-        () =>
-          `Invalid language iso code '${languageCode}' provided (Regex: /${LANGUAGE_ISO_CODE_PATTERN}/)`,
-      );
+    languageCodes
+      .filter(languageCode => languageCode !== 'default')
+      .map(languageCode => {
+        passOrThrow(
+          languageIsoCodeRegex.test(languageCode),
+          () =>
+            `Invalid language iso code '${languageCode}' provided (Regex: /${LANGUAGE_ISO_CODE_PATTERN}/)`,
+        );
 
-      const languageId = languages[languageCode];
-      uniqueIds.push(languageId);
+        const languageId = languages[languageCode];
+        uniqueIds.push(languageId);
 
-      passOrThrow(
-        languageId === parseInt(languageId, 10) && languageId > 0,
-        () =>
-          `Language code '${languageCode}' has an invalid unique ID (needs to be a positive integer)`,
-      );
-    });
+        passOrThrow(
+          languageId === parseInt(languageId, 10) && languageId > 0,
+          () =>
+            `Language code '${languageCode}' has an invalid unique ID (needs to be a positive integer)`,
+        );
+      });
+
+    passOrThrow(
+      languages[languages.default],
+      () =>
+        'Configuration.setLanguages() expects `default` language to be specify the name of the default language',
+    );
 
     passOrThrow(
       uniqueIds.length === _.uniq(uniqueIds).length,
