@@ -59,6 +59,10 @@ export class Configuration {
     return this.languages;
   }
 
+  getDefaultLanguage() {
+    return this.getLanguages()[0];
+  }
+
   setSchema(schema) {
     passOrThrow(isSchema(schema), () => 'Configuration expects a valid schema');
 
