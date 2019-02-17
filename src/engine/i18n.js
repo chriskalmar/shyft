@@ -5,7 +5,7 @@ export const i18nMockGenerator = (
   entity,
   name,
   { dataShaperMap },
-  languages = {},
+  languages = [],
 ) => {
   if (entity) {
     const content = {};
@@ -20,12 +20,12 @@ export const i18nMockGenerator = (
 
         const attributeContent = (content[storageAttributeName] = {});
 
-        Object.values(languages).map(languageId => {
-          if (languageId === 'default' || Math.random() > 0.5) {
+        languages.map((language, langIdx) => {
+          if (langIdx === 0 || Math.random() > 0.5) {
             return;
           }
 
-          attributeContent[languageId] = mock ? mock() : type.mock();
+          attributeContent[language] = mock ? mock() : type.mock();
         });
       }
     });
