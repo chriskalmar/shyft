@@ -392,8 +392,7 @@ export const installStorageScripts = async (
   const modelFeatures = {};
   const schema = configuration.getSchema();
 
-  const languageNames = Object.keys(languages);
-  if (languageNames.length > 1) {
+  if (languages.length > 1) {
     modelFeatures.language = true;
   }
 

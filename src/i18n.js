@@ -12,24 +12,21 @@ export const i18nDataParser = (value, data, entity, { dataShaperMap }) => {
     .getParentConfiguration()
     .getLanguages();
 
-  const languageCodes = Object.keys(languages);
-
   i18nAttributeNames.map(attributeName => {
     const attributeStorageName = dataShaperMap[attributeName];
 
     const i18nValues = data.i18n ? data.i18n[attributeStorageName] || {} : {};
 
-    languageCodes.map(languageCode => {
-      const languageId = languages[languageCode];
+    languages.map((language, langIdx) => {
       const key = `${attributeName}.i18n`;
 
       data[key] = data[key] || {};
 
-      if (languageCode === 'default') {
-        data[key][languageCode] = data[attributeName];
+      if (langIdx === 0) {
+        data[key][language] = data[attributeName];
       }
       else {
-        data[key][languageCode] = i18nValues[languageId];
+        data[key][language] = i18nValues[language];
       }
     });
   });
@@ -56,18 +53,16 @@ export const i18nDataSerializer = (
     .getParentConfiguration()
     .getLanguages();
 
-  const languageCodes = Object.keys(languages);
-
   i18nAttributeNames.map(attributeName => {
     const key = `${attributeName}.i18n`;
     if (!data[key]) {
       return;
     }
 
-    Object.keys(data[key]).map(languageCode => {
-      if (!languageCodes.includes(languageCode)) {
+    Object.keys(data[key]).map(language => {
+      if (!languages.includes(language)) {
         throw new CustomError(
-          `Unknown language '${languageCode}' provided in translation of mutation '${
+          `Unknown language '${language}' provided in translation of mutation '${
             mutation.name
           }'`,
           'I18nError',
@@ -77,20 +72,18 @@ export const i18nDataSerializer = (
 
     const attributeStorageName = dataShaperMap[attributeName];
 
-    languageCodes.map(languageCode => {
-      const languageId = languages[languageCode];
-
-      if (languageCode === 'default') {
+    languages.map((language, langIdx) => {
+      if (langIdx === 0) {
         if (typeof data[attributeName] === 'undefined') {
-          if (typeof data[key][languageCode] !== 'undefined') {
-            data[attributeName] = data[key][languageCode];
+          if (typeof data[key][language] !== 'undefined') {
+            data[attributeName] = data[key][language];
           }
         }
       }
       else {
-        if (typeof data[key][languageCode] !== 'undefined') {
+        if (typeof data[key][language] !== 'undefined') {
           result[attributeStorageName] = result[attributeStorageName] || {};
-          result[attributeStorageName][languageId] = data[key][languageCode];
+          result[attributeStorageName][language] = data[key][language];
         }
       }
     });
@@ -108,11 +101,7 @@ export const i18nTransformFilterAttributeName = (
     return attributeName => attributeName;
   }
 
-  const { i18nLanguage } = context;
-
-  const languages = StorageTypePostgres.getStorageConfiguration()
-    .getParentConfiguration()
-    .getLanguages();
+  const { i18nLanguage, i18nDefaultLanguage } = context;
 
   const attributes = entity.getAttributes();
 
@@ -122,12 +111,10 @@ export const i18nTransformFilterAttributeName = (
     const attributeName = reverseDataShaperMap[storageAttributeName];
     const attribute = attributes[attributeName];
 
-    if (!attribute || !attribute.i18n || i18nLanguage === 'default') {
+    if (!attribute || !attribute.i18n || i18nLanguage === i18nDefaultLanguage) {
       return storageAttributeName;
     }
 
-    const isoCode = languages[i18nLanguage];
-
-    return `i18n->'${storageAttributeName}'->>'${isoCode}'`;
+    return `i18n->'${storageAttributeName}'->>'${i18nLanguage}'`;
   };
 };

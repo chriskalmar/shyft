@@ -22,8 +22,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
 
   generateGetLanguageIsoCodeFunction = configuration => {
     const languages = configuration.getLanguages();
-    const languageNames = Object.keys(languages);
-    if (languageNames.length < 2) {
+    if (languages.length < 2) {
       return '';
     }
 
@@ -37,8 +36,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
 
   generateGetLanguageIdFunction = configuration => {
     const languages = configuration.getLanguages();
-    const languageNames = Object.keys(languages);
-    if (languageNames.length < 2) {
+    if (languages.length < 2) {
       return '';
     }
 
