@@ -80,12 +80,12 @@ export const addRelayTypePromoterToListFn = typeName => {
 export const translateInstance = (
   entity,
   instance,
-  { i18nLanguage, i18nLanguageDisableFallback },
+  { i18nLanguage, i18nDefaultLanguage, i18nLanguageDisableFallback },
 ) => {
   if (
     !instance ||
     !i18nLanguage ||
-    i18nLanguage === 'default' ||
+    i18nLanguage === i18nDefaultLanguage ||
     !entity.getI18nAttributeNames()
   ) {
     return instance;
