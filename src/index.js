@@ -16,6 +16,7 @@ import {
   runMigration,
   revertMigration,
   fillMigrationsTable,
+  migrateI18nIndices,
 } from './migration';
 
 export {
@@ -31,6 +32,7 @@ export {
   runMigration,
   revertMigration,
   fillMigrationsTable,
+  migrateI18nIndices,
 };
 
 export default {
@@ -46,4 +48,5 @@ export default {
   runMigration,
   revertMigration,
   fillMigrationsTable,
+  migrateI18nIndices,
 };

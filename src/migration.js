@@ -106,6 +106,7 @@ export const generateMigration = async (
   configuration,
   migrationName,
   customTemplate,
+  includeI18n = false,
   enforce = false,
 ) => {
   await connectStorage(configuration, false);
@@ -120,18 +121,20 @@ export const generateMigration = async (
   const upSqls = [];
   const downSqls = [];
 
-  const i18nMigrations = await storageConfiguration.generateI18nIndicesMigration(
-    configuration,
-    manager,
-  );
+  if (includeI18n) {
+    const i18nMigrations = await storageConfiguration.generateI18nIndicesMigration(
+      configuration,
+      manager,
+    );
 
-  i18nMigrations.upQueries.forEach(query => {
-    upgradeMigrationQuery(query, true).map(sql => upSqls.push(sql));
-  });
+    i18nMigrations.upQueries.forEach(query => {
+      upgradeMigrationQuery(query, true).map(sql => upSqls.push(sql));
+    });
 
-  i18nMigrations.downQueries.forEach(query => {
-    upgradeMigrationQuery(query, false).map(sql => downSqls.push(sql));
-  });
+    i18nMigrations.downQueries.forEach(query => {
+      upgradeMigrationQuery(query, false).map(sql => downSqls.push(sql));
+    });
+  }
 
   const sqlInMemory = await connection.driver.createSchemaBuilder().log();
 
@@ -228,4 +231,34 @@ export const fillMigrationsTable = async () => {
   await asyncForEach(allMigrations, async migration => {
     await migrationExecutor.insertExecutedMigration(queryRunner, migration);
   });
+};
+
+export const migrateI18nIndices = async configuration => {
+  await connectStorage(configuration, false);
+  const connection = getConnection();
+  const storageConfiguration = configuration.getStorageConfiguration();
+  const manager = connection.manager;
+
+  try {
+    const i18nMigrations = await storageConfiguration.generateI18nIndicesMigration(
+      configuration,
+      manager,
+    );
+
+    const upSqls = [];
+
+    i18nMigrations.upQueries.forEach(query => {
+      upgradeMigrationQuery(query, true).map(sql => upSqls.push(sql));
+    });
+
+    console.log(upSqls.join('\n'));
+  }
+  catch (err) {
+    console.error('I18n migration failed');
+    console.error(err);
+    await disconnectStorage(configuration);
+    process.exit(1);
+  }
+
+  await disconnectStorage(configuration);
 };
