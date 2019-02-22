@@ -238,20 +238,26 @@ export const migrateI18nIndices = async configuration => {
   const connection = getConnection();
   const storageConfiguration = configuration.getStorageConfiguration();
   const manager = connection.manager;
+  const queryRunner = connection.createQueryRunner();
 
   try {
-    const i18nMigrations = await storageConfiguration.generateI18nIndicesMigration(
+    const {
+      upQueries,
+    } = await storageConfiguration.generateI18nIndicesMigration(
       configuration,
       manager,
     );
 
-    const upSqls = [];
+    if (upQueries.length) {
+      await queryRunner.startTransaction();
 
-    i18nMigrations.upQueries.forEach(query => {
-      upgradeMigrationQuery(query, true).map(sql => upSqls.push(sql));
-    });
+      await asyncForEach(
+        upQueries,
+        async query => await queryRunner.query(query),
+      );
 
-    console.log(upSqls.join('\n'));
+      await queryRunner.commitTransaction();
+    }
   }
   catch (err) {
     console.error('I18n migration failed');
