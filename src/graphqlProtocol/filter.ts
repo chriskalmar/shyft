@@ -201,10 +201,15 @@ const deepFilterResolver = async (entity, filter, context, path) => {
     entity.getAttributes(),
     context,
     path,
-  ); // eslint-disable-line no-use-before-define
+  );
+
   const { data } = await storageType.find(
     entity,
-    { all: true, filter: transformedFilter },
+    {
+      all: true,
+      skipPermissions: true,
+      filter: transformedFilter,
+    },
     context,
   );
   const ids = data.map(({ id }) => id);
