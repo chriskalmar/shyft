@@ -323,13 +323,18 @@ export const StorageTypePostgres = new StorageType({
 
     const reverseOrder = !!args.last;
 
-    let permissionWhere = await handlePermission(
-      context,
-      entity,
-      PERMISSION_TYPES.find,
-    );
-    if (permissionWhere) {
-      permissionWhere = filterShaper(permissionWhere);
+    let permissionWhere;
+
+    if (!args.skipPermissions) {
+      permissionWhere = await handlePermission(
+        context,
+        entity,
+        PERMISSION_TYPES.find,
+      );
+
+      if (permissionWhere) {
+        permissionWhere = filterShaper(permissionWhere);
+      }
     }
 
     const pageInfo = {
@@ -366,7 +371,9 @@ export const StorageTypePostgres = new StorageType({
       ],
     };
 
-    const where = applyPermission(baseWhere, permissionWhere);
+    const where = args.skipPermissions
+      ? baseWhere
+      : applyPermission(baseWhere, permissionWhere);
 
     if (parentConnection) {
       where.$and.push({
