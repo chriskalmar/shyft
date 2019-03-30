@@ -1,24 +1,14 @@
 {
   "compilerOptions": {
     "outDir": "./lib",
-    "allowJs": false,
+    "allowJs": true,
     "declaration": true,
     "target": "es5",
     "noUnusedLocals": false,
     "noUnusedParameters": true,
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
-    "lib": [
-      "es2017"
-    ]
+    "typeRoots": ["./node_modules/@types"],
+    "lib": ["es2017"]
   },
-  "include": [
-    "./src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.js",
-    "**/*.spec.ts"
-  ]
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.js", "**/*.spec.ts"]
 }
