@@ -15,7 +15,7 @@
     "coverage-ci": "npm run coverage && cat ./coverage/lcov.info | codecov",
     "build": "tsc",
     "build-watch": "tsc -w",
-    "prepublish": "yarn run clean && yarn run lint && yarn run test && yarn run build"
+    "prepublish": "npm run clean && npm run lint && npm run test && npm run build"
   },
   "files": [
     "lib"
