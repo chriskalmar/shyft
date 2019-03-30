@@ -1,13 +1,17 @@
 {
   "presets": [
-    "es2015",
-    "stage-0"
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
   ],
   "env": {
     "build": {
-      "ignore": [
-        "**/*.spec.js"
-      ]
+      "ignore": ["**/*.spec.js"]
     }
   }
 }
