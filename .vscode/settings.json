@@ -6,12 +6,20 @@
   "search.exclude": {
     "lib": true
   },
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "prettier.eslintIntegration": true,
   "[javascript]": {
     "editor.formatOnSave": true
   },
   "[typescript]": {
     "editor.formatOnSave": true
-  }
+  },
+  "eslint.autoFixOnSave": true,
+  "eslint.validate": [
+    "javascript",
+    {
+      "language": "typescript",
+      "autoFix": true
+    }
+  ]
 }
