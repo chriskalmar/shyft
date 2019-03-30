@@ -51,7 +51,7 @@ const validatePayload = async (param, payload, source, context, path = []) => {
               await validateDataTypePayload(paramType, itemPayload, context);
 
               const attributes = paramType.getAttributes();
-              const pathString = path.length ? path.join('.') + '.' : '';
+              const pathString = path.length ? `${path.join('.')}.` : '';
 
               await asyncForEach(
                 Object.keys(attributes),

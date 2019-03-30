@@ -104,15 +104,13 @@ export const translateInstance = (
       : undefined;
 
     if (i18nLanguageDisableFallback) {
-      /* eslint-disable indent */
       instance[gqlFieldName] =
         !isDefined(translation) && required
           ? new CustomError(
-              `Translation for '${gqlFieldName}' not found`,
-              'TranslationNotFoundError',
-            )
+            `Translation for '${gqlFieldName}' not found`,
+            'TranslationNotFoundError',
+          )
           : translation;
-      /* eslint-enable indent */
     }
     else if (isDefined(translation)) {
       instance[gqlFieldName] = translation;

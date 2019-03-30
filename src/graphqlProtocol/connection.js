@@ -63,13 +63,13 @@ export const validateConnectionArgs = (source, args, context, info) => {
 
   if (args.first && (args.first < 0 || args.first > maxPageSize)) {
     throw new Error(
-      '`first` needs to be within the range of 0 and ' + maxPageSize,
+      `\`first\` needs to be within the range of 0 and ${maxPageSize}`,
     );
   }
 
   if (args.last && (args.last < 0 || args.last > maxPageSize)) {
     throw new Error(
-      '`last` needs to be within the range of 0 and ' + maxPageSize,
+      `\`last\` needs to be within the range of 0 and ${maxPageSize}`,
     );
   }
 

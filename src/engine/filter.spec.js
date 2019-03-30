@@ -1,5 +1,6 @@
-import { validateFilterLevel } from './filter';
+/* eslint-disable @typescript-eslint/camelcase */
 
+import { validateFilterLevel } from './filter';
 import { Entity } from './entity/Entity';
 
 import {

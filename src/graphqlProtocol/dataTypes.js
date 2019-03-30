@@ -38,7 +38,7 @@ export const GraphQLDateTime = new GraphQLScalarType({
   parseLiteral(ast) {
     if (ast.kind !== Kind.STRING) {
       throw new GraphQLError(
-        'Query error: Can only parse strings but got a: ' + ast.kind,
+        `Query error: Can only parse strings but got a: ${ast.kind}`,
         [ ast ],
       );
     }
@@ -70,7 +70,7 @@ export const GraphQLDate = new GraphQLScalarType({
   parseLiteral(ast) {
     if (ast.kind !== Kind.STRING) {
       throw new GraphQLError(
-        'Query error: Can only parse strings but got a: ' + ast.kind,
+        `Query error: Can only parse strings but got a: ${ast.kind}`,
         [ ast ],
       );
     }
