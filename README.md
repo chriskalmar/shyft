@@ -6,7 +6,6 @@
     />
   </a>
 </p>
-<br />
 
 # Shyft
 
@@ -28,6 +27,10 @@ Shyft is a server-side framework for building powerful GraphQL APIs.
 - workflows (finite state machines) with fine-grained control over access and input fields
 - extensible with custom queries and mutations (actions)
 - internationalization (i18n) included
+- generate mock data based on data type or custom functions
+- input validation with any validation framework
+- derived fields
+- hooks (pre- and post-processors)
 
 ## Install
 
