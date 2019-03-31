@@ -1,7 +1,7 @@
 <p align="center">
   <a href="https://shyft.dev" target="_blank">
     <img
-      src="misc/shyft-logo.svg"
+      src="https://shyft.dev/img/shyft-logo.svg"
       width="150"
     />
   </a>
@@ -15,6 +15,19 @@
 [![codecov](https://codecov.io/gh/chriskalmar/shyft/branch/master/graph/badge.svg)](https://codecov.io/gh/chriskalmar/shyft)
 
 Shyft is a server-side framework for building powerful GraphQL APIs.
+
+## Features
+
+- convert data model into a GraphQL API
+- CRUD query/mutations out of the box
+- flexible extension of mutations
+- sync data model with database and provide migrations
+- complex data fetching with multi-level filters
+- offset/limit and cursor-based pagination
+- extremely dynamic permission engine based on roles and data lookups
+- workflows (finite state machines) with fine-grained control over access and input fields
+- extensible with custom queries and mutations (actions)
+- internationalization (i18n) included
 
 ## Install
 
