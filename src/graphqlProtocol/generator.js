@@ -188,6 +188,9 @@ export const generateGraphQLSchema = configuration => {
           },
         };
 
+        const fieldsReference = {};
+        const fieldsI18n = {};
+
         _.forEach(entity.getAttributes(), attribute => {
           if (attribute.hidden || attribute.mutationInput) {
             return;
@@ -221,7 +224,7 @@ export const generateGraphQLSchema = configuration => {
               targetEntity,
               attribute,
             );
-            fields[referenceFieldName] = reference;
+            fieldsReference[referenceFieldName] = reference;
           }
 
           const fieldType = ProtocolGraphQL.convertToProtocolDataType(
@@ -262,7 +265,7 @@ export const generateGraphQLSchema = configuration => {
               }\`** in JSON format`,
             };
 
-            fields[attribute.gqlFieldNameI18nJson] = i18nJsonField;
+            fieldsI18n[attribute.gqlFieldNameI18nJson] = i18nJsonField;
 
             // Object Type i18n output
             const i18nFieldType = new GraphQLObjectType({
@@ -291,7 +294,7 @@ export const generateGraphQLSchema = configuration => {
               },
             });
 
-            fields[attribute.gqlFieldNameI18n] = {
+            fieldsI18n[attribute.gqlFieldNameI18n] = {
               type: attribute.required
                 ? new GraphQLNonNull(i18nFieldType)
                 : i18nFieldType,
@@ -301,6 +304,8 @@ export const generateGraphQLSchema = configuration => {
 
         Object.assign(
           fields,
+          fieldsI18n,
+          fieldsReference,
           generateReverseConnections(configuration, graphRegistry, entity),
         );
 
