@@ -19,6 +19,7 @@ export class Action {
       resolve,
       type,
       permissions,
+      postProcessor,
     } = setup;
 
     passOrThrow(name, () => 'Missing action name');
@@ -46,6 +47,16 @@ export class Action {
           ', ',
         )}'`,
     );
+
+    if (postProcessor) {
+      passOrThrow(
+        isFunction(postProcessor),
+        () =>
+          `postProcessor of mutation '${name}' needs to be a valid function`,
+      );
+
+      this.postProcessor = postProcessor;
+    }
 
     this.name = name;
     this.description = description;

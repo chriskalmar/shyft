@@ -206,11 +206,41 @@ export const generateActions = (graphRegistry, actionTypeFilter) => {
 
         await handlePermission(context, action, payload);
 
-        const result = await action.resolve(source, payload, context, info);
-        return {
-          result,
-          clientMutationId,
-        };
+        try {
+          const result = await action.resolve(source, payload, context, info);
+
+          if (action.postProcessor) {
+            await action.postProcessor(
+              null,
+              result,
+              action,
+              source,
+              payload,
+              context,
+              info,
+            );
+          }
+
+          return {
+            result,
+            clientMutationId,
+          };
+        }
+        catch (error) {
+          if (action.postProcessor) {
+            await action.postProcessor(
+              error,
+              null,
+              action,
+              source,
+              payload,
+              context,
+              info,
+            );
+          }
+
+          throw error;
+        }
       },
     };
   });
