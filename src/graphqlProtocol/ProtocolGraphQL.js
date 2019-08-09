@@ -10,6 +10,8 @@ import {
   DataTypeTimestamp,
   DataTypeTimestampTz,
   DataTypeDate,
+  DataTypeTime,
+  DataTypeTimeTz,
   DataTypeUUID,
   DataTypeI18n,
 } from '../engine/datatype/dataTypes';
@@ -35,6 +37,7 @@ import {
   GraphQLJSON,
   GraphQLDateTime,
   GraphQLDate,
+  GraphQLTime,
 } from './dataTypes';
 
 import { generateDataInput, generateDataOutput } from './io';
@@ -56,6 +59,8 @@ ProtocolGraphQL.addDataTypeMap(DataTypeString, GraphQLString);
 ProtocolGraphQL.addDataTypeMap(DataTypeJson, GraphQLJSON);
 ProtocolGraphQL.addDataTypeMap(DataTypeTimestamp, GraphQLDateTime);
 ProtocolGraphQL.addDataTypeMap(DataTypeTimestampTz, GraphQLDateTime);
+ProtocolGraphQL.addDataTypeMap(DataTypeTime, GraphQLTime);
+ProtocolGraphQL.addDataTypeMap(DataTypeTimeTz, GraphQLTime);
 ProtocolGraphQL.addDataTypeMap(DataTypeDate, GraphQLDate);
 ProtocolGraphQL.addDataTypeMap(DataTypeUUID, GraphQLID);
 ProtocolGraphQL.addDataTypeMap(DataTypeI18n, GraphQLJSON);
