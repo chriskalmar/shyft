@@ -18,14 +18,15 @@ import { Profile } from './models/Profile';
 import { Message } from './models/Message';
 import { BoardMember } from './models/BoardMember';
 import { Book } from './models/Book';
+import { DataTypeTester } from './models/DataTypeTester';
 
 const schema = new Schema({
   defaultStorageType: StorageTypePostgres,
 
-  entities: [ Profile, Message, BoardMember, Book ],
+  entities: [Profile, Message, BoardMember, Book, DataTypeTester],
 });
 
-const languages = [ 'en', 'de' ];
+const languages = ['en', 'de'];
 
 const configuration = new Configuration({
   languages,
