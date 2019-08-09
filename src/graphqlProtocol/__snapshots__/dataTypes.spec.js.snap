@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dataTypes GraphQLDate 1`] = `"Query error: String is not a valid date string"`;
+
+exports[`dataTypes GraphQLDate: bad date 1`] = `"Query error: String is not a valid date string"`;
+
+exports[`dataTypes GraphQLDate: bad day 1`] = `"Query error: String is not a valid date string"`;
+
+exports[`dataTypes GraphQLDate: bad month 1`] = `"Query error: String is not a valid date string"`;
+
+exports[`dataTypes GraphQLDateTime 1`] = `"Query error: String is not a valid date time string"`;
+
+exports[`dataTypes GraphQLDateTime: bad hour 1`] = `"Query error: String is not a valid date time string"`;
+
+exports[`dataTypes GraphQLDateTime: bad minute 1`] = `"Query error: String is not a valid date time string"`;
+
+exports[`dataTypes GraphQLDateTime: bad month 1`] = `"Query error: String is not a valid date time string"`;
+
+exports[`dataTypes GraphQLTime 1`] = `"Query error: String is not a valid time string"`;
+
+exports[`dataTypes GraphQLTime: bad hour 1`] = `"Query error: String is not a valid time string"`;
+
+exports[`dataTypes GraphQLTime: bad minute 1`] = `"Query error: String is not a valid time string"`;
+
+exports[`dataTypes GraphQLTime: bad tz hour 1`] = `"Query error: String is not a valid time string"`;
