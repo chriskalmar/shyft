@@ -109,6 +109,24 @@ export const StorageDataTypeDate = new StorageDataType({
   capabilities: [ 'in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in' ],
 });
 
+export const StorageDataTypeTime = new StorageDataType({
+  name: 'StorageDataTypeTime',
+  description: 'Data type representing time without timezone',
+  nativeDataType: 'time without time zone',
+  isSortable: true,
+  serialize: toString,
+  capabilities: [ 'in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in' ],
+});
+
+export const StorageDataTypeTimeTz = new StorageDataType({
+  name: 'StorageDataTypeTimeTz',
+  description: 'Data type representing time with timezone',
+  nativeDataType: 'time with time zone',
+  isSortable: true,
+  serialize: toString,
+  capabilities: [ 'in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in' ],
+});
+
 export const StorageDataTypeUUID = new StorageDataType({
   name: 'StorageDataTypeUUID',
   description: 'Data type representing a UUID',
