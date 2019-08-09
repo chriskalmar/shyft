@@ -10,6 +10,7 @@ import {
   GraphQLBigInt,
   GraphQLDateTime,
   GraphQLDate,
+  GraphQLTime,
 } from './dataTypes';
 import { ProtocolGraphQL } from './ProtocolGraphQL';
 import {
@@ -32,6 +33,7 @@ export {
   GraphQLBigInt,
   GraphQLDateTime,
   GraphQLDate,
+  GraphQLTime,
   ProtocolGraphQL,
   RELAY_TYPE_PROMOTER_FIELD,
   MAX_PAGE_SIZE,

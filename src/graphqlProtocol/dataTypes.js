@@ -2,6 +2,9 @@ import { GraphQLScalarType, Kind, GraphQLError } from 'graphql';
 import { serializeCursor, deserializeCursor } from './util';
 import * as dateFns from 'date-fns';
 
+const dateTimeRegex = /^\d+-[0-9]{2}-[0-9]{2}[\sT]([0-1][0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?(\s?[+-]([0-1][0-9]|2[0-3])(:[0-5][0-9])?)?$/;
+const timeRegex = /^([0-1][0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?(\s?[+-]([0-1][0-9]|2[0-3])(:[0-5][0-9])?)?$/;
+
 export { GraphQLJSON } from 'graphql-type-json';
 
 export const GraphQLCursor = new GraphQLScalarType({
@@ -39,6 +42,13 @@ export const GraphQLDateTime = new GraphQLScalarType({
     if (ast.kind !== Kind.STRING) {
       throw new GraphQLError(
         `Query error: Can only parse strings but got a: ${ast.kind}`,
+        [ ast ],
+      );
+    }
+
+    if (!dateTimeRegex.test(ast.value)) {
+      throw new GraphQLError(
+        'Query error: String is not a valid date time string',
         [ ast ],
       );
     }
@@ -82,6 +92,31 @@ export const GraphQLDate = new GraphQLScalarType({
       ast.value !== dateFns.format(asDate, 'YYYY-MM-DD')
     ) {
       throw new GraphQLError('Query error: String is not a valid date string', [
+        ast,
+      ]);
+    }
+
+    return ast.value;
+  },
+});
+
+export const GraphQLTime = new GraphQLScalarType({
+  name: 'Time',
+  description: 'The `Time` scalar type represents a time string.',
+  serialize: value => {
+    return value;
+  },
+  parseValue: String,
+  parseLiteral(ast) {
+    if (ast.kind !== Kind.STRING) {
+      throw new GraphQLError(
+        `Query error: Can only parse strings but got a: ${ast.kind}`,
+        [ ast ],
+      );
+    }
+
+    if (!timeRegex.test(ast.value)) {
+      throw new GraphQLError('Query error: String is not a valid time string', [
         ast,
       ]);
     }
