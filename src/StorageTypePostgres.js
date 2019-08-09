@@ -10,6 +10,8 @@ import {
   DataTypeTimestamp,
   DataTypeTimestampTz,
   DataTypeDate,
+  DataTypeTime,
+  DataTypeTimeTz,
   DataTypeUUID,
   DataTypeI18n,
   isDataTypeEnum,
@@ -37,6 +39,8 @@ import {
   StorageDataTypeTimestamp,
   StorageDataTypeTimestampTz,
   StorageDataTypeDate,
+  StorageDataTypeTime,
+  StorageDataTypeTimeTz,
   StorageDataTypeUUID,
   StorageDataTypeI18n,
 } from './storageDataTypes';
@@ -74,14 +78,11 @@ const processOrmError = (err, storageInstance, qBuilder, constraints) => {
       null,
       meta,
     );
-  }
-  else if (String(err.code) === '23503') {
+  } else if (String(err.code) === '23503') {
     throw new CustomError('Foreign key not found', 'ForeignKeyConstraintError');
-  }
-  else if (String(err.code) === '22P02') {
+  } else if (String(err.code) === '22P02') {
     throw new CustomError(err.message, 'InvalidInputSyntaxError');
-  }
-  else if (String(err.code) === '23502') {
+  } else if (String(err.code) === '23502') {
     throw new CustomError(err.message, 'NotNullConstraintViolationError');
   }
 
@@ -119,8 +120,7 @@ const createDataLoader = (context, entity, StorageTypePostgres) => {
       baseWhere.$and.push({
         [primaryAttributeName]: ids[0],
       });
-    }
-    else {
+    } else {
       baseWhere.$and.push({
         [primaryAttributeName]: {
           $in: ids,
@@ -148,8 +148,7 @@ const createDataLoader = (context, entity, StorageTypePostgres) => {
       // reorder results to match requested IDs order
       // https://github.com/facebook/dataloader/issues/66
       return sortDataByKeys(ids, data, primaryAttributeName);
-    }
-    catch (err) {
+    } catch (err) {
       processOrmError(err, storageInstance, qBuilder);
     }
 
@@ -197,9 +196,9 @@ export const preMutationPermissionCheckQueryGenerator = (
 
   buildWhereQuery(qBuilder, permissionWhere, entityName, modelRegistry);
 
-  const [ query, queryParams ] = qBuilder.getQueryAndParameters();
+  const [query, queryParams] = qBuilder.getQueryAndParameters();
 
-  return [ query.replace(/ \* FROM  WHERE /, ' ') + ' AS found', queryParams ];
+  return [query.replace(/ \* FROM  WHERE /, ' ') + ' AS found', queryParams];
 };
 
 export const extendWithFromStateCheck = (where, entity, entityMutation) => {
@@ -210,7 +209,7 @@ export const extendWithFromStateCheck = (where, entity, entityMutation) => {
     return;
   }
 
-  const fromStates = isArray(fromState) ? fromState : [ fromState ];
+  const fromStates = isArray(fromState) ? fromState : [fromState];
 
   const stateIds = fromStates.map(stateName => {
     return states[stateName];
@@ -267,7 +266,7 @@ export const StorageTypePostgres = new StorageType({
     }
 
     const baseWhere = {
-      $and: [ args ],
+      $and: [args],
     };
 
     const where = applyPermission(baseWhere, permissionWhere);
@@ -294,8 +293,7 @@ export const StorageTypePostgres = new StorageType({
 
     try {
       result = await qBuilder.getOne();
-    }
-    catch (err) {
+    } catch (err) {
       processOrmError(err, storageInstance, qBuilder);
     }
 
@@ -416,8 +414,7 @@ export const StorageTypePostgres = new StorageType({
 
     try {
       result = await qBuilder.getMany();
-    }
-    catch (err) {
+    } catch (err) {
       processOrmError(err, storageInstance, qBuilder);
     }
 
@@ -436,8 +433,7 @@ export const StorageTypePostgres = new StorageType({
 
         if (reverseOrder) {
           pageInfo.hasPreviousPage = true;
-        }
-        else {
+        } else {
           pageInfo.hasNextPage = true;
         }
       }
@@ -513,8 +509,7 @@ export const StorageTypePostgres = new StorageType({
 
     try {
       result = await qBuilder.getRawOne();
-    }
-    catch (err) {
+    } catch (err) {
       processOrmError(err, storageInstance, qBuilder);
     }
 
@@ -540,12 +535,12 @@ export const StorageTypePostgres = new StorageType({
     const data =
       entityMutation.type !== MUTATION_TYPE_DELETE
         ? serializeValues(
-          entity,
-          entityMutation,
-          args,
-          modelRegistry[entityName],
-          context,
-        )
+            entity,
+            entityMutation,
+            args,
+            modelRegistry[entityName],
+            context,
+          )
         : null;
 
     if (data) {
@@ -569,7 +564,7 @@ export const StorageTypePostgres = new StorageType({
       let result;
 
       if (permissionWhere && permissionWhere.$or) {
-        const [ query, queryParams ] = preMutationPermissionCheckQueryGenerator(
+        const [query, queryParams] = preMutationPermissionCheckQueryGenerator(
           this,
           permissionWhere,
           entityName,
@@ -594,8 +589,7 @@ export const StorageTypePostgres = new StorageType({
 
       try {
         result = await qBuilder.execute();
-      }
-      catch (err) {
+      } catch (err) {
         processOrmError(err, storageInstance, qBuilder, constraints);
       }
 
@@ -605,8 +599,7 @@ export const StorageTypePostgres = new StorageType({
         modelRegistry[entityName],
         context,
       );
-    }
-    else if (entityMutation.type === MUTATION_TYPE_UPDATE) {
+    } else if (entityMutation.type === MUTATION_TYPE_UPDATE) {
       let result;
       const baseWhere = {
         $and: [
@@ -623,8 +616,7 @@ export const StorageTypePostgres = new StorageType({
       if (isMap(data.i18n, true)) {
         const i18nSerialized = JSON.stringify(data.i18n);
         data.i18n = () => `merge_translations(i18n, '${i18nSerialized}')`;
-      }
-      else {
+      } else {
         delete data.i18n;
       }
 
@@ -638,8 +630,7 @@ export const StorageTypePostgres = new StorageType({
 
       try {
         result = await qBuilder.execute();
-      }
-      catch (err) {
+      } catch (err) {
         processOrmError(err, storageInstance, qBuilder, constraints);
       }
 
@@ -659,8 +650,7 @@ export const StorageTypePostgres = new StorageType({
         modelRegistry[entityName],
         context,
       );
-    }
-    else if (entityMutation.type === MUTATION_TYPE_DELETE) {
+    } else if (entityMutation.type === MUTATION_TYPE_DELETE) {
       let result;
       const baseWhere = {
         $and: [
@@ -684,8 +674,7 @@ export const StorageTypePostgres = new StorageType({
 
       try {
         result = await qBuilder.execute();
-      }
-      catch (err) {
+      } catch (err) {
         processOrmError(err, storageInstance, qBuilder, constraints);
       }
 
@@ -729,8 +718,7 @@ export const StorageTypePostgres = new StorageType({
 
     try {
       result = await qBuilder.getRawOne();
-    }
-    catch (err) {
+    } catch (err) {
       processOrmError(err, storageInstance, qBuilder);
     }
 
@@ -753,6 +741,8 @@ StorageTypePostgres.addDataTypeMap(
   StorageDataTypeTimestampTz,
 );
 StorageTypePostgres.addDataTypeMap(DataTypeDate, StorageDataTypeDate);
+StorageTypePostgres.addDataTypeMap(DataTypeTime, StorageDataTypeTime);
+StorageTypePostgres.addDataTypeMap(DataTypeTimeTz, StorageDataTypeTimeTz);
 StorageTypePostgres.addDataTypeMap(DataTypeUUID, StorageDataTypeUUID);
 StorageTypePostgres.addDataTypeMap(DataTypeI18n, StorageDataTypeI18n);
 
