@@ -5,6 +5,7 @@ import {
   StorageDataTypeObject,
   StorageDataTypeTimestamp,
   StorageDataTypeDate,
+  StorageDataTypeTime,
 } from './storageDataTypes';
 import { StorageType } from '../engine/storage/StorageType';
 import {
@@ -18,6 +19,8 @@ import {
   DataTypeTimestamp,
   DataTypeTimestampTz,
   DataTypeDate,
+  DataTypeTime,
+  DataTypeTimeTz,
 } from '../engine/datatype/dataTypes';
 
 export const StorageTypeMemory = new StorageType({
@@ -35,3 +38,5 @@ StorageTypeMemory.addDataTypeMap(DataTypeJson, StorageDataTypeObject);
 StorageTypeMemory.addDataTypeMap(DataTypeTimestamp, StorageDataTypeTimestamp);
 StorageTypeMemory.addDataTypeMap(DataTypeTimestampTz, StorageDataTypeTimestamp);
 StorageTypeMemory.addDataTypeMap(DataTypeDate, StorageDataTypeDate);
+StorageTypeMemory.addDataTypeMap(DataTypeTime, StorageDataTypeTime);
+StorageTypeMemory.addDataTypeMap(DataTypeTimeTz, StorageDataTypeTime);

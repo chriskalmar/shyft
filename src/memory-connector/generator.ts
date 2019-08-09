@@ -97,7 +97,7 @@ export const generateData = memoryDB => {
             item[name] = _.sample(referencingData)[primaryAttributeName];
           });
         }
-        else {
+ else {
           data.map(item => {
             item[name] = null;
           });
@@ -145,6 +145,8 @@ const casualDataTypeMap = {
   DataTypeTimestamp: () => new Date(casual.unix_time * 1000),
   DataTypeTimestampTz: () => new Date(casual.unix_time * 1000),
   DataTypeDate: () => new Date(casual.unix_time * 1000),
+  DataTypeTime: () => new Date(casual.unix_time * 1000),
+  DataTypeTimeTz: () => new Date(casual.unix_time * 1000),
 };
 
 function convertDataTypeToCasualFunction(dataType) {

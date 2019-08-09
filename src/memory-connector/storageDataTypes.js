@@ -47,3 +47,11 @@ export const StorageDataTypeDate = new StorageDataType({
   isSortable: true,
   serialize: value => value,
 });
+
+export const StorageDataTypeTime = new StorageDataType({
+  name: 'StorageDataTypeTime',
+  description: 'Data type representing a time value',
+  nativeDataType: Date,
+  isSortable: true,
+  serialize: value => value,
+});
