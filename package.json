@@ -77,7 +77,7 @@
     "graphql-type-json": "^0.3.0",
     "json-shaper": "^1.2.0",
     "lodash": "^4.17.10",
-    "pluralize": "^7.0.0"
+    "pluralize": "^8.0.0"
   },
   "peerDependencies": {
     "graphql": "^14.1.x"
