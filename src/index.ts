@@ -93,6 +93,8 @@ import {
   DataTypeTimestamp,
   DataTypeTimestampTz,
   DataTypeDate,
+  DataTypeTime,
+  DataTypeTimeTz,
   DataTypeUUID,
   DataTypeI18n,
 } from './engine/datatype/dataTypes';
@@ -160,6 +162,8 @@ export {
   DataTypeTimestamp,
   DataTypeTimestampTz,
   DataTypeDate,
+  DataTypeTime,
+  DataTypeTimeTz,
   DataTypeUUID,
   DataTypeI18n,
   DataTypeState,

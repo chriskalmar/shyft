@@ -84,6 +84,20 @@ export const DataTypeDate = new DataType({
   mock: () => new Date(casual.unix_time * 1000),
 });
 
+export const DataTypeTime = new DataType({
+  name: 'DataTypeTime',
+  description: 'Data type representing time',
+  /* istanbul ignore next */
+  mock: () => new Date(casual.unix_time * 1000),
+});
+
+export const DataTypeTimeTz = new DataType({
+  name: 'DataTypeTimeTz',
+  description: 'Data type representing time with time zone information',
+  /* istanbul ignore next */
+  mock: () => new Date(casual.unix_time * 1000),
+});
+
 export const DataTypeUUID = new DataType({
   name: 'DataTypeUUID',
   description: 'Data type representing a UUID',
