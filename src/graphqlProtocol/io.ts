@@ -20,11 +20,13 @@ export const generateDataInput = (baseName, inputParams, singleParam) => {
 
   if (singleParam) {
     // eslint-disable-next-line no-use-before-define
-    return generateDataInputField(
+    const generated = generateDataInputField(
       inputParams,
       inputParams.name || '',
       baseName,
     ); // eslint-disable-line no-use-before-define
+
+    return Object.values(generated)[0]
   }
 
   const dataInputType = new GraphQLInputObjectType({
@@ -102,6 +104,58 @@ const generateDataInputField = (param, paramName, baseName, level = 0) => {
       true,
     );
   }
+  else if (param.i18n) {
+
+    const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+    const languages = protocolConfiguration
+      .getParentConfiguration()
+      .getLanguages();
+
+
+    param.gqlFieldNameI18n = protocolConfiguration.generateI18nFieldName(
+      param,
+    );
+
+    const i18nFieldTypeName = protocolConfiguration.generateMutationI18nAttributeInputTypeName(
+      {name: baseName},
+      {name: paramName},
+      {name: level}
+    );
+
+    const fieldType = ProtocolGraphQL.convertToProtocolDataType(
+      paramType,
+      baseName,
+      true,
+    );
+
+    const i18nFieldType = new GraphQLInputObjectType({
+      name: i18nFieldTypeName,
+      description: `**\`${
+        baseName
+      }\`** action translations input type for **\`${
+        param.gqlFieldNameI18n
+      }\`**`,
+
+      fields: () => {
+        const i18nFields = {};
+
+        languages.map((language, langIdx) => {
+          const type =
+            langIdx === 0 && param.required
+              ? new GraphQLNonNull(fieldType)
+              : fieldType;
+
+          i18nFields[language] = {
+            type,
+          };
+        });
+
+        return i18nFields;
+      },
+    });
+
+    baseFieldType = i18nFieldType
+  }
   else {
     baseFieldType = ProtocolGraphQL.convertToProtocolDataType(
       paramType,
@@ -113,11 +167,13 @@ const generateDataInputField = (param, paramName, baseName, level = 0) => {
   const fieldType = isList ? new GraphQLList(baseFieldType) : baseFieldType;
 
   return {
-    type:
-      param.required && !param.defaultValue
-        ? new GraphQLNonNull(fieldType)
-        : fieldType,
-    description: param.description,
+    [paramName]: {
+      type:
+        param.required && !param.defaultValue
+          ? new GraphQLNonNull(fieldType)
+          : fieldType,
+      description: param.description,
+    }
   };
 };
 
@@ -125,12 +181,16 @@ const generateDataInputFields = (inputParams, baseName, level = 0) => {
   const fields = {};
 
   _.forEach(inputParams, (param, paramName) => {
-    fields[paramName] = generateDataInputField(
+    const generated = generateDataInputField(
       param,
       paramName,
       baseName,
       level,
     );
+
+    Object.keys(generated).map(paramName => {
+      fields[paramName] = generated[paramName]
+    })
   });
 
   return fields;
