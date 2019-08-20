@@ -73,6 +73,7 @@ export const generateNestedDataInput = (
 
 const generateDataInputField = (param, paramName, baseName, level = 0) => {
   let paramType = param.type;
+  let fieldName = paramName;
   let baseFieldType;
   let isList = false;
 
@@ -117,9 +118,15 @@ const generateDataInputField = (param, paramName, baseName, level = 0) => {
     );
 
     const i18nFieldTypeName = protocolConfiguration.generateMutationI18nAttributeInputTypeName(
-      {name: baseName},
-      {name: paramName},
-      {name: level}
+      {
+        name: baseName
+      },
+      {
+        name: paramName
+      },
+      {
+        name: level
+      }
     );
 
     const fieldType = ProtocolGraphQL.convertToProtocolDataType(
@@ -155,6 +162,7 @@ const generateDataInputField = (param, paramName, baseName, level = 0) => {
     });
 
     baseFieldType = i18nFieldType
+    fieldName = param.gqlFieldNameI18n
   }
   else {
     baseFieldType = ProtocolGraphQL.convertToProtocolDataType(
@@ -167,7 +175,7 @@ const generateDataInputField = (param, paramName, baseName, level = 0) => {
   const fieldType = isList ? new GraphQLList(baseFieldType) : baseFieldType;
 
   return {
-    [paramName]: {
+    [fieldName]: {
       type:
         param.required && !param.defaultValue
           ? new GraphQLNonNull(fieldType)
