@@ -88,12 +88,6 @@
     "vars-on-top": 2,
     "wrap-iife": [2, "any"],
     "yoda": 2,
-    "brace-style": [2, "stroustrup", {
-      "allowSingleLine": true
-    }],
-    "indent": [ 2, 2, {
-      "SwitchCase": 1
-    }],
     "quotes": [2, "single", "avoid-escape"],
     "camelcase": [2, {
       "properties": "never"
@@ -122,11 +116,6 @@
     "no-mixed-spaces-and-tabs": 2,
     "no-extra-parens": [2, "functions"],
     "no-underscore-dangle": 0,
-    "one-var": [2, "never"],
-    "semi-spacing": [2, {
-      "before": false,
-      "after": true
-    }],
-    "array-bracket-spacing": [2, "always"]
+    "one-var": [2, "never"]
   }
 }
