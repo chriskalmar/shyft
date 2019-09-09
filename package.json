@@ -72,7 +72,7 @@
   },
   "peerDependencies": {
     "pg": "^7.4.1",
-    "shyft": "^1.0.0",
+    "shyft": "0.3.2",
     "typeorm": "^0.2.7"
   }
 }
