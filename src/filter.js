@@ -11,13 +11,11 @@ export const purifyFilter = filter => {
       Object.keys(filter).map(key => {
         const isOperator = key.indexOf('$') === 0;
 
-        if ([ '$in', '$notIn' ].includes(key) && isArray(filter[key])) {
+        if (['$in', '$notIn'].includes(key) && isArray(filter[key])) {
           ret[key] = filter[key];
-        }
-        else if (filter[key] === null && (key === '$ne' || !isOperator)) {
+        } else if (filter[key] === null && (key === '$ne' || !isOperator)) {
           ret[key] = filter[key];
-        }
-        else {
+        } else {
           const pureFilter = purifyFilter(filter[key]);
           if (pureFilter !== null && typeof pureFilter !== 'undefined') {
             ret[key] = pureFilter;
@@ -29,8 +27,7 @@ export const purifyFilter = filter => {
         return ret;
       }
     }
-  }
-  else if (isArray(filter)) {
+  } else if (isArray(filter)) {
     if (isArray(filter, true)) {
       const ret = [];
 
@@ -45,8 +42,7 @@ export const purifyFilter = filter => {
         return ret;
       }
     }
-  }
-  else if (filter !== null && typeof filter !== 'undefined') {
+  } else if (filter !== null && typeof filter !== 'undefined') {
     return filter;
   }
 
@@ -93,16 +89,14 @@ const buildWhereAttributeOperatorConditionQuery = (
     case '$eq':
       if (value === null) {
         qBuilder.andWhere(`${leftExpression} IS NULL`);
-      }
-      else {
+      } else {
         qBuilder.andWhere(`${leftExpression} = :${placeholderName}`, data);
       }
       break;
     case '$ne':
       if (value === null) {
         qBuilder.andWhere(`${leftExpression} IS NOT NULL`, data);
-      }
-      else {
+      } else {
         qBuilder.andWhere(`${leftExpression} <> :${placeholderName}`, data);
       }
       break;
@@ -110,8 +104,7 @@ const buildWhereAttributeOperatorConditionQuery = (
     case '$in':
       if (!value || !value.length) {
         qBuilder.andWhere(noResultClause);
-      }
-      else {
+      } else {
         qBuilder.andWhere(
           `${leftExpression} IN (:...${placeholderName})`,
           data,
@@ -122,8 +115,7 @@ const buildWhereAttributeOperatorConditionQuery = (
     case '$notIn':
       if (!value || !value.length) {
         qBuilder.andWhere(noResultClause);
-      }
-      else {
+      } else {
         qBuilder.andWhere(
           `${leftExpression} NOT IN (:...${placeholderName})`,
           data,
@@ -210,8 +202,7 @@ const buildWhereAttributeConditionQuery = (
         placeholderIdx,
       );
     });
-  }
-  else {
+  } else {
     buildWhereAttributeOperatorConditionQuery(
       qBuilder,
       attributeName,
@@ -268,8 +259,7 @@ const buildWhereTypeSubQuery = (
 
     if (qbSub.subQuery) {
       subQuery = qbSub.subQuery();
-    }
-    else {
+    } else {
       // typeorm cannot run subqueries on delete queries so we need to create a fresh query,
       // which will be injected in to the outer query at the end
       subQuery = qbSub.connection.manager.createQueryBuilder();
@@ -283,8 +273,7 @@ const buildWhereTypeSubQuery = (
       subQuery
         .select(targetAttributeName)
         .from(filterEntityStorageTableName, filterEntityStorageTableName);
-    }
-    else {
+    } else {
       subQuery
         .select('COUNT(*) > 0', 'found')
         .from(filterEntityStorageTableName, filterEntityStorageTableName);
@@ -305,8 +294,7 @@ const buildWhereTypeSubQuery = (
           sourceAttribute
         ] || sourceAttribute}`;
         subQuery.andWhere(`${targetAttributeName} = ${sourceAttributeName}`);
-      }
-      else {
+      } else {
         buildWhereAttributeOperatorConditionQuery(
           subQuery,
           targetAttributeName,
@@ -384,8 +372,7 @@ export const buildWhereTypeQuery = (
                 }
               });
             }
-          }
-          else if (key === '$or') {
+          } else if (key === '$or') {
             if (!isArray(newFilter)) {
               throw new Error('$or expects an array of filters');
             }
@@ -416,8 +403,7 @@ export const buildWhereTypeQuery = (
 
               qbAnd.andWhere(orBrackets);
             }
-          }
-          else if (key === '$sub') {
+          } else if (key === '$sub') {
             buildWhereTypeSubQuery(
               qbAnd,
               newFilter,
@@ -427,8 +413,7 @@ export const buildWhereTypeQuery = (
               transformFilterAttributeNameFn,
               _placeholderIdx,
             );
-          }
-          else if (key === '$not') {
+          } else if (key === '$not') {
             if (!isMap(newFilter)) {
               throw new Error('$not expects a filter');
             }
@@ -458,11 +443,9 @@ export const buildWhereTypeQuery = (
                 });
               }
             }
-          }
-          else if (key.indexOf('$') === 0) {
+          } else if (key.indexOf('$') === 0) {
             throw new Error('missing attribute name for filter operator');
-          }
-          else {
+          } else {
             const attributeName = dataShaperMap[key] || key;
             buildWhereAttributeConditionQuery(
               qbAnd,

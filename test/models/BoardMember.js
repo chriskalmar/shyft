@@ -36,11 +36,11 @@ export const BoardMember = new Entity({
   indexes: [
     new Index({
       type: INDEX_UNIQUE,
-      attributes: [ 'board', 'inviter', 'invitee' ],
+      attributes: ['board', 'inviter', 'invitee'],
     }),
     new Index({
       type: INDEX_GENERIC,
-      attributes: [ 'board', 'invitee' ],
+      attributes: ['board', 'invitee'],
     }),
   ],
 
@@ -58,7 +58,7 @@ export const BoardMember = new Entity({
       description: 'join an open board',
       type: MUTATION_TYPE_CREATE,
       toState: 'joined',
-      attributes: [ 'board' ],
+      attributes: ['board'],
     }),
 
     new Mutation({
@@ -66,7 +66,7 @@ export const BoardMember = new Entity({
       description: 'invite a user to a private board',
       type: MUTATION_TYPE_CREATE,
       toState: 'invited',
-      attributes: [ 'board', 'invitee' ],
+      attributes: ['board', 'invitee'],
     }),
     new Mutation({
       name: 'accept',
@@ -79,13 +79,13 @@ export const BoardMember = new Entity({
       name: 'remove',
       description: 'remove a user from a private board',
       type: MUTATION_TYPE_DELETE,
-      fromState: [ 'joined', 'invited', 'accepted' ],
+      fromState: ['joined', 'invited', 'accepted'],
     }),
     new Mutation({
       name: 'leave',
       description: 'leave a board',
       type: MUTATION_TYPE_DELETE,
-      fromState: [ 'joined', 'invited', 'accepted' ],
+      fromState: ['joined', 'invited', 'accepted'],
     }),
   ],
 
@@ -112,8 +112,8 @@ export const BoardMember = new Entity({
           owner: ({ userId }) => userId,
         }),
       ],
-      leave: [ new Permission().userAttribute('invitee') ],
-      accept: [ new Permission().userAttribute('invitee') ],
+      leave: [new Permission().userAttribute('invitee')],
+      accept: [new Permission().userAttribute('invitee')],
     },
   }),
 

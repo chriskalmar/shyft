@@ -18,7 +18,7 @@ const readPermissions = [
     .lookup(BoardMember, {
       board: 'board',
       invitee: ({ userId }) => userId,
-      state: () => [ 'joined', 'accepted' ],
+      state: () => ['joined', 'accepted'],
     })
     .lookup(Board, {
       id: 'board',
@@ -32,7 +32,7 @@ const writePermissions = [
     .lookup(BoardMember, {
       board: ({ input }) => input.board,
       invitee: ({ userId }) => userId,
-      state: () => [ 'joined', 'accepted' ],
+      state: () => ['joined', 'accepted'],
     })
     .lookup(Board, {
       id: ({ input }) => input.board,
@@ -51,7 +51,7 @@ export const Message = new Entity({
       name: 'write',
       description: 'write a message',
       type: MUTATION_TYPE_CREATE,
-      attributes: [ 'board', 'content', 'writtenAt', 'author' ],
+      attributes: ['board', 'content', 'writtenAt', 'author'],
     }),
   ],
 

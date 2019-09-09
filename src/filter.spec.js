@@ -13,7 +13,7 @@ beforeAll(async () => {
   const schema = new Schema({
     defaultStorageType: StorageTypePostgres,
 
-    entities: [ Server ],
+    entities: [Server],
   });
 
   const storageConfiguration = new StoragePostgresConfiguration();
@@ -62,7 +62,7 @@ describe('filter', () => {
             ],
           },
           {
-            $and: [ {}, {} ],
+            $and: [{}, {}],
           },
           {
             $or: [
@@ -401,7 +401,7 @@ describe('filter', () => {
         $or: [
           {
             ip: {
-              $in: [ '127.0.0.1', '192.168.0.1' ],
+              $in: ['127.0.0.1', '192.168.0.1'],
             },
             name: {
               $startsWith: 'test-',
@@ -420,7 +420,7 @@ describe('filter', () => {
             $or: [
               {
                 clusterZone: {
-                  $in: [ 6, 7 ],
+                  $in: [6, 7],
                 },
               },
               {
@@ -428,7 +428,7 @@ describe('filter', () => {
                   $gt: 10,
                   $lt: 100,
                   $ne: 50,
-                  $notIn: [ 44 ],
+                  $notIn: [44],
                 },
               },
             ],

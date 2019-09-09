@@ -29,7 +29,7 @@ export const Profile = new Entity({
   indexes: [
     new Index({
       type: INDEX_UNIQUE,
-      attributes: [ 'username' ],
+      attributes: ['username'],
     }),
   ],
 
@@ -38,7 +38,7 @@ export const Profile = new Entity({
       name: 'signup',
       description: 'sign up a new user',
       type: MUTATION_TYPE_CREATE,
-      attributes: [ 'username', 'password', 'firstname', 'lastname' ],
+      attributes: ['username', 'password', 'firstname', 'lastname'],
       preProcessor(entity, id, source, input) {
         input.username = input.username.toLowerCase();
         // do not copy this very unsecure method of password hashing (only for testing purposes)

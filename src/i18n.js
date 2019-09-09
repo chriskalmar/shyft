@@ -24,8 +24,7 @@ export const i18nDataParser = (value, data, entity, { dataShaperMap }) => {
 
       if (langIdx === 0) {
         data[key][language] = data[attributeName];
-      }
-      else {
+      } else {
         data[key][language] = i18nValues[language];
       }
     });
@@ -62,9 +61,7 @@ export const i18nDataSerializer = (
     Object.keys(data[key]).map(language => {
       if (!languages.includes(language)) {
         throw new CustomError(
-          `Unknown language '${language}' provided in translation of mutation '${
-            mutation.name
-          }'`,
+          `Unknown language '${language}' provided in translation of mutation '${mutation.name}'`,
           'I18nError',
         );
       }
@@ -79,8 +76,7 @@ export const i18nDataSerializer = (
             data[attributeName] = data[key][language];
           }
         }
-      }
-      else {
+      } else {
         if (typeof data[key][language] !== 'undefined') {
           result[attributeStorageName] = result[attributeStorageName] || {};
           result[attributeStorageName][language] = data[key][language];

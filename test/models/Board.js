@@ -20,7 +20,7 @@ const readPermissions = [
   new Permission().lookup(() => require('./BoardMember').BoardMember, {
     board: 'id',
     invitee: ({ userId }) => userId,
-    state: () => [ 'invited', 'accepted' ],
+    state: () => ['invited', 'accepted'],
   }),
 ];
 
@@ -34,15 +34,15 @@ export const Board = new Entity({
   indexes: [
     new Index({
       type: INDEX_UNIQUE,
-      attributes: [ 'name' ],
+      attributes: ['name'],
     }),
     new Index({
       type: INDEX_GENERIC,
-      attributes: [ 'isPrivate' ],
+      attributes: ['isPrivate'],
     }),
     new Index({
       type: INDEX_GENERIC,
-      attributes: [ 'owner' ],
+      attributes: ['owner'],
     }),
   ],
 
@@ -52,13 +52,13 @@ export const Board = new Entity({
       name: 'build',
       description: 'build a new board',
       type: MUTATION_TYPE_CREATE,
-      attributes: [ 'name', 'isPrivate' ],
+      attributes: ['name', 'isPrivate'],
     }),
     new Mutation({
       name: 'update',
       description: 'update a board',
       type: MUTATION_TYPE_UPDATE,
-      attributes: [ 'name', 'isPrivate' ],
+      attributes: ['name', 'isPrivate'],
     }),
   ],
 

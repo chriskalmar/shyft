@@ -131,8 +131,7 @@ export const loadModels = configuration => {
               });
             },
           );
-        }
-        else {
+        } else {
           references.push({
             sourceAttributeName: attributeName,
             targetAttributeName: primaryAttribute.name,
@@ -171,8 +170,7 @@ export const loadModels = configuration => {
           Skeleton.prototype,
           attributeName,
         );
-      }
-      else {
+      } else {
         Column(attributes[attributeName])(Skeleton.prototype, attributeName);
       }
     });
@@ -247,7 +245,7 @@ export const generateMockData = async configuration => {
           return;
         }
 
-        edges.push([ attribute.type.name, entity.name ]);
+        edges.push([attribute.type.name, entity.name]);
       }
     });
   });
@@ -284,8 +282,7 @@ export const generateMockData = async configuration => {
           languages,
         );
       }
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err);
     }
   }
@@ -301,13 +298,12 @@ const getExistingData = async (
   const manager = storageInstance.manager;
   const result = await manager
     .createQueryBuilder(storageTableName, 't')
-    .select([ 't.id' ])
+    .select(['t.id'])
     .getMany();
 
   if (result.length) {
     mockInstancesMemory[entityName] = result.map(({ id }) => id);
-  }
-  else {
+  } else {
     mockInstancesMemory[entityName] = [];
   }
 };
@@ -348,8 +344,7 @@ async function generateItem(
         if (isComplexDataType(type)) {
           // TODO: generate mocks based on complex types
           item[name] = {};
-        }
-        else {
+        } else {
           const mockDataGenerator = mock || type.mock;
 
           if (mockDataGenerator) {

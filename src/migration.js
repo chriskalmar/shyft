@@ -31,42 +31,39 @@ const upgradeMigrationQuery = (_query, isUpMigration = false) => {
 
   const match = query.match(/ALTER TABLE "(\w+)" ADD "(\w+)" (.+) NOT NULL/);
   if (match) {
-    const [ , table, attribute, _type ] = match;
+    const [, table, attribute, _type] = match;
 
     const type = _type.toLowerCase();
     let defaultValue;
 
     // user tracking
-    if ([ 'created_by', 'updated_by' ].includes(attribute)) {
+    if (['created_by', 'updated_by'].includes(attribute)) {
       defaultValue = 'get_machine_user()';
     }
     // time tracking
-    else if ([ 'created_at', 'updated_at' ].includes(attribute)) {
+    else if (['created_at', 'updated_at'].includes(attribute)) {
       defaultValue = 'NOW()';
     }
     // general type based default values
     else if (type.includes('timestamp')) {
       defaultValue = 'NOW()';
-    }
-    else if (type.includes('bigint')) {
+    } else if (type.includes('time')) {
+      defaultValue = 'NOW()';
+    } else if (type.includes('date')) {
+      defaultValue = 'NOW()';
+    } else if (type.includes('bigint')) {
       defaultValue = '0';
-    }
-    else if (type.includes('integer')) {
+    } else if (type.includes('integer')) {
       defaultValue = '0';
-    }
-    else if (type.includes('numeric')) {
+    } else if (type.includes('numeric')) {
       defaultValue = '0.0';
-    }
-    else if (type.includes('boolean')) {
+    } else if (type.includes('boolean')) {
       defaultValue = false;
-    }
-    else if (type.includes('json') || type.includes('jsonb')) {
+    } else if (type.includes('json') || type.includes('jsonb')) {
       defaultValue = "\\'{}\\'";
-    }
-    else if (type.includes('text')) {
+    } else if (type.includes('text')) {
       defaultValue = "\\'\\'";
-    }
-    else {
+    } else {
       throw new Error(`Cannot handle column addition default for: ${query}`);
     }
 
@@ -76,13 +73,11 @@ const upgradeMigrationQuery = (_query, isUpMigration = false) => {
     if (isUpMigration) {
       sqls.push(addColumnQuery);
       sqls.push(dropDefaultQuery);
-    }
-    else {
+    } else {
       sqls.push(dropDefaultQuery);
       sqls.push(addColumnQuery);
     }
-  }
-  else {
+  } else {
     const reformatted = query
       .replace(new RegExp('`', 'g'), '\\`')
       .replace(new RegExp("'", 'g'), "\\'");
@@ -173,8 +168,7 @@ export const generateMigration = async (
     console.log(
       `Migration file '${migrationPath}' has been generated successfully.`,
     );
-  }
-  else {
+  } else {
     console.log('No changes were found in database schema.');
   }
 
@@ -190,8 +184,7 @@ export const runMigration = async configuration => {
     await connection.runMigrations({
       transaction: true,
     });
-  }
-  catch (err) {
+  } catch (err) {
     console.error('Migration failed');
     console.error(err);
     await disconnectStorage(configuration);
@@ -209,8 +202,7 @@ export const revertMigration = async configuration => {
     await connection.undoLastMigration({
       transaction: true,
     });
-  }
-  catch (err) {
+  } catch (err) {
     console.error('Migration reversion failed');
     console.error(err);
     await disconnectStorage(configuration);
@@ -258,8 +250,7 @@ export const migrateI18nIndices = async configuration => {
 
       await queryRunner.commitTransaction();
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.error('I18n migration failed');
     console.error(err);
     await disconnectStorage(configuration);

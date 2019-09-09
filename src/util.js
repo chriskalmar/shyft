@@ -22,8 +22,7 @@ export const generateIndexName = (entityName, attributes, suffix = '_idx') => {
     );
 
     ret = `${entityName}_${shortendAttributesChain}_${hash}_${suffix}`;
-  }
-  else {
+  } else {
     ret = `${entityName}_${attributesChain}_${suffix}`;
   }
 
@@ -37,8 +36,7 @@ export const invertDirection = direction => {
 export const getLimit = (first, last) => {
   if (first >= 0) {
     return first;
-  }
-  else if (last >= 0) {
+  } else if (last >= 0) {
     return last;
   }
 

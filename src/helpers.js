@@ -22,8 +22,7 @@ export const parseValues = (entity, data, model, context) => {
     if (isEntity(attribute.type)) {
       const primaryAttribute = attribute.type.getPrimaryAttribute();
       attributeType = primaryAttribute.type;
-    }
-    else {
+    } else {
       attributeType = attribute.type;
     }
 
@@ -66,8 +65,7 @@ export const serializeValues = (entity, mutation, data, model, context) => {
     if (isEntity(attribute.type)) {
       const primaryAttribute = attribute.type.getPrimaryAttribute();
       attributeType = primaryAttribute.type;
-    }
-    else {
+    } else {
       attributeType = attribute.type;
     }
 

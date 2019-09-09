@@ -177,7 +177,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
         languageIds.map(languageId => {
           const textIndexName = generateIndexName(
             storageTableName,
-            [ attributeName ],
+            [attributeName],
             `_i18n_${languageId}_text_idx`,
           );
 
@@ -193,7 +193,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
 
           const trgmIndexName = generateIndexName(
             storageTableName,
-            [ attributeName ],
+            [attributeName],
             `_i18n_${languageId}_trgm_idx`,
           );
 

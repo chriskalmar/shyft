@@ -20,14 +20,11 @@ export const applyPermission = (where, permissionWhere) => {
 export const loadPermission = (entity, permissionType, entityMutation) => {
   if (!entity.permissions) {
     return null;
-  }
-  else if (permissionType === PERMISSION_TYPES.read) {
+  } else if (permissionType === PERMISSION_TYPES.read) {
     return entity.permissions.read;
-  }
-  else if (permissionType === PERMISSION_TYPES.find) {
+  } else if (permissionType === PERMISSION_TYPES.find) {
     return entity.permissions.find;
-  }
-  else if (permissionType === PERMISSION_TYPES.mutation) {
+  } else if (permissionType === PERMISSION_TYPES.mutation) {
     if (!entity.permissions.mutations) {
       return null;
     }

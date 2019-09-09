@@ -8,7 +8,7 @@ export const asUser = (userId, userRoles = [], i18nLanguage) => {
 };
 
 export const asAdmin = (userId = 1, i18nLanguage) => {
-  return asUser(userId, [ 'admin' ], i18nLanguage);
+  return asUser(userId, ['admin'], i18nLanguage);
 };
 
 export const sleep = async ms =>

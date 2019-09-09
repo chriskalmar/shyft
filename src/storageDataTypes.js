@@ -21,7 +21,7 @@ export const StorageDataTypeInteger = new StorageDataType({
   nativeDataType: 'int',
   isSortable: true,
   serialize: toInt,
-  capabilities: [ 'in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in' ],
+  capabilities: ['in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in'],
 });
 
 export const StorageDataTypeBigInt = new StorageDataType({
@@ -30,7 +30,7 @@ export const StorageDataTypeBigInt = new StorageDataType({
   nativeDataType: 'bigint',
   isSortable: true,
   serialize: toString,
-  capabilities: [ 'in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in' ],
+  capabilities: ['in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in'],
 });
 
 export const StorageDataTypeNumeric = new StorageDataType({
@@ -39,7 +39,7 @@ export const StorageDataTypeNumeric = new StorageDataType({
   nativeDataType: 'numeric',
   isSortable: true,
   serialize: toFloat,
-  capabilities: [ 'in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in' ],
+  capabilities: ['in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in'],
 });
 
 export const StorageDataTypeBoolean = new StorageDataType({
@@ -48,7 +48,7 @@ export const StorageDataTypeBoolean = new StorageDataType({
   nativeDataType: 'boolean',
   isSortable: true,
   serialize: value => value,
-  capabilities: [ 'ne' ],
+  capabilities: ['ne'],
 });
 
 export const StorageDataTypeText = new StorageDataType({
@@ -88,7 +88,7 @@ export const StorageDataTypeTimestamp = new StorageDataType({
   nativeDataType: 'timestamp without time zone',
   isSortable: true,
   serialize: toString,
-  capabilities: [ 'in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in' ],
+  capabilities: ['in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in'],
 });
 
 export const StorageDataTypeTimestampTz = new StorageDataType({
@@ -97,7 +97,7 @@ export const StorageDataTypeTimestampTz = new StorageDataType({
   nativeDataType: 'timestamp with time zone',
   isSortable: true,
   serialize: toString,
-  capabilities: [ 'in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in' ],
+  capabilities: ['in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in'],
 });
 
 export const StorageDataTypeDate = new StorageDataType({
@@ -106,7 +106,7 @@ export const StorageDataTypeDate = new StorageDataType({
   nativeDataType: 'date',
   isSortable: true,
   serialize: toString,
-  capabilities: [ 'in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in' ],
+  capabilities: ['in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in'],
 });
 
 export const StorageDataTypeTime = new StorageDataType({
@@ -115,7 +115,7 @@ export const StorageDataTypeTime = new StorageDataType({
   nativeDataType: 'time without time zone',
   isSortable: true,
   serialize: toString,
-  capabilities: [ 'in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in' ],
+  capabilities: ['in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in'],
 });
 
 export const StorageDataTypeTimeTz = new StorageDataType({
@@ -124,7 +124,7 @@ export const StorageDataTypeTimeTz = new StorageDataType({
   nativeDataType: 'time with time zone',
   isSortable: true,
   serialize: toString,
-  capabilities: [ 'in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in' ],
+  capabilities: ['in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in'],
 });
 
 export const StorageDataTypeUUID = new StorageDataType({
