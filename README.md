@@ -1,3 +1,3 @@
 
-# shyft-postgres-connector
-Postgres connector for shyft
+# shyft-storage-connector
+Storage connector for Shyft

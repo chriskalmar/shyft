@@ -1,7 +1,7 @@
 {
-  "name": "shyft-postgres-connector",
+  "name": "shyft-storage-connector",
   "version": "0.1.0",
-  "description": "Postgres connector for shyft",
+  "description": "Storage connector for Shyft",
   "main": "lib/",
   "scripts": {
     "test": "jest --testPathIgnorePatterns test/",
@@ -34,7 +34,8 @@
     "api",
     "postgres",
     "model",
-    "generator"
+    "generator",
+    "storage"
   ],
   "author": "Chris Kalmar <christian.kalmar@gmail.com>",
   "engines": {
