@@ -2,8 +2,9 @@
   "name": "shyft-storage-connector",
   "version": "0.1.1",
   "description": "Storage connector for Shyft",
-  "main": "lib/",
+  "main": "lib/index.js",
   "scripts": {
+    "clean": "rimraf lib",
     "test": "jest --testPathIgnorePatterns test/",
     "test-watch": "jest --testPathIgnorePatterns test/ --watch",
     "test-integration": "jest --runInBand",
@@ -15,8 +16,11 @@
     "coverage-ci": "npm run coverage && cat ./coverage/lcov.info | codecov",
     "build": "mkdir -p lib; npm run test && NODE_ENV=build babel src -d lib --verbose",
     "build-watch": "mkdir -p lib; NODE_ENV=build babel src -w -d lib --verbose",
-    "prepublish": "yarn run build"
+    "prepublish": "npm run clean && npm run lint && npm run test && npm run build || true"
   },
+  "files": [
+    "lib"
+  ],
   "jest": {
     "testEnvironment": "node"
   },
@@ -35,7 +39,18 @@
     "postgres",
     "model",
     "generator",
-    "storage"
+    "storage",
+    "postgresql",
+    "dataloader",
+    "shyft",
+    "migrations",
+    "mutations",
+    "model",
+    "finite-state-machine",
+    "permissions",
+    "database",
+    "acl",
+    "typeorm"
   ],
   "author": "Chris Kalmar <christian.kalmar@gmail.com>",
   "engines": {
