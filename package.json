@@ -78,6 +78,7 @@
     "pg": "^7.12.1",
     "prettier": "^1.14.2",
     "prettier-eslint": "^8.8.2",
+    "rimraf": "^3.0.0",
     "shyft": "^0.3.3",
     "sqlite3": "^4.0.2",
     "typeorm": "^0.2.18"
