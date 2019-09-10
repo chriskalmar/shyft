@@ -2006,9 +2006,9 @@ escodegen@^1.9.1:
     source-map "~0.6.1"
 
 eslint-config-prettier@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-6.2.0.tgz#80e0b8714e3f6868c4ac2a25fbf39c02e73527a7"
-  integrity sha512-VLsgK/D+S/FEsda7Um1+N8FThec6LqE3vhcMyp8mlmto97y3fGf3DX7byJexGuOb1QY0Z/zz222U5t+xSfcZDQ==
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-6.3.0.tgz#e73b48e59dc49d950843f3eb96d519e2248286a3"
+  integrity sha512-EWaGjlDAZRzVFveh2Jsglcere2KK5CJBhkNSa1xs3KfMUGdRiT7lG089eqPdvlzWHpAqaekubOsOMu8W8Yk71A==
   dependencies:
     get-stdin "^6.0.0"
 
@@ -5203,9 +5203,9 @@ shellwords@^0.1.1:
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
 
 shyft@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/shyft/-/shyft-0.3.3.tgz#726e054c2d3497c98c4fdbdbc01a6234f395bd01"
-  integrity sha512-HaulSeMJ0U+DINi7PEqP+oC8+cRXkkthkoXYkFDBHB8ud4BXRfxEwJz+sKYXBAnK+OYTkxz5Wj6FGoKMluCY2Q==
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/shyft/-/shyft-0.3.6.tgz#4c3b6944b7f468ed8e1b192b86d8749692f1e8cf"
+  integrity sha512-ya/U6GtLfXQr0MlEUtNSp/C6kCrAgruQLd1JhTO0vwCg4fiDU3idPTSaQdM1pd+mYFy4uRXa/DjweOKGoGzQlQ==
   dependencies:
     date-fns "^1.29.0"
     graphql-relay "^0.6.0"
