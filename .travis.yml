@@ -4,5 +4,14 @@ node_js:
   - '10'
   - '8'
 
+services:
+  - postgresql
+
+addons:
+  postgresql: '9.6'
+
+before_script:
+  - psql -c 'CREATE DATABASE shyft_tests;' -U postgres
+
 after_success:
-  - yarn run coverage-ci
+  - npm run coverage-ci
