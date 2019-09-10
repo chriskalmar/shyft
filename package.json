@@ -4,6 +4,7 @@
   "description": "Storage connector for Shyft",
   "main": "lib/index.js",
   "scripts": {
+    "prepare": "npm-install-peers",
     "clean": "rimraf lib",
     "test": "jest --testPathIgnorePatterns test/",
     "test-watch": "jest --testPathIgnorePatterns test/ --watch",
@@ -74,6 +75,7 @@
     "husky": "^1.0.0-rc.13",
     "jest": "^24.5.0",
     "lint-staged": "^7.2.0",
+    "npm-install-peers": "^1.2.1",
     "prettier": "^1.14.2",
     "prettier-eslint": "^8.8.2",
     "sqlite3": "^4.0.2"
