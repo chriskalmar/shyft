@@ -52,7 +52,7 @@ export const fillDefaultValues = async (
       if (!payloadAttributes.includes(attributeName)) {
         if (attribute.defaultValue) {
           ret[attributeName] = await attribute.defaultValue(
-            ret,
+            payload,
             entityMutation,
             entity,
             context,
