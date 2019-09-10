@@ -19,6 +19,8 @@ import {
   migrateI18nIndices,
 } from './migration';
 
+import { runTestPlaceholderQuery } from './helpers';
+
 export {
   StorageTypePostgres,
   loadModels,
@@ -33,6 +35,7 @@ export {
   revertMigration,
   fillMigrationsTable,
   migrateI18nIndices,
+  runTestPlaceholderQuery,
 };
 
 export default {
@@ -49,4 +52,5 @@ export default {
   revertMigration,
   fillMigrationsTable,
   migrateI18nIndices,
+  runTestPlaceholderQuery,
 };

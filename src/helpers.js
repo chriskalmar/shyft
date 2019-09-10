@@ -94,3 +94,16 @@ export const serializeValues = (entity, mutation, data, model, context) => {
 
   return data;
 };
+
+export const runTestPlaceholderQuery = async (cmd, vars) => {
+  const storageInstance = StorageTypePostgres.getStorageInstance();
+  const manager = storageInstance.manager;
+
+  const [query, parameters] = storageInstance.driver.escapeQueryWithParameters(
+    cmd,
+    vars,
+    {},
+  );
+
+  return manager.query(query, parameters);
+};
