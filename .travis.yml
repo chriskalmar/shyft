@@ -1,8 +1,23 @@
 language: node_js
 node_js:
-  - '11'
-  - '10'
-  - '8'
+  - "11"
+  - "10"
+  - "8"
 
-after_success:
-  - yarn run coverage-ci
+script:
+  - npm run lint &&
+    npm run coverage-ci
+
+before_deploy:
+  - npm run clean &&
+    ( npm run build || true )
+
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: christian.kalmar@gmail.com
+  api_key:
+    secure: dnvZL52w4zLE7b2v+t9yhljKEdbJtDJwveACU5Viq8NaAHtX2xMJLBywDHUl55gfY3nlg2pjK6Lj8wcx9zXfDxtWsQtU6sxp+hjmhqQ+xunBKEakOXBRZPDzep8GXYHVCf/2/4S0XSyvle/vmDWD5s/ygt1EVivQUIonLdNMoS3YKkDJtYJun+i0o0+KeHoX/J/M3A7G1eStLWNuk3gmeBOQzFD6HD/V5iehAox1ArexBudnE7igInjeNst2NQXbzfF1FgEcIBqb8mPW2K7WIGYWk/l2GDazuVIjz90E8Sp5kKTahs9l39QzViDjHJwWA0/mQUiqkibwDrEJBpONLuKgrCahISJ3IOHLg5Rj8x9kpnAK2fddYYftF5HKxNtqpYzzNvLHbbdua32uO+b0qZxN2OrhNV240sBAgvJ71LA/IeSw8XvFV+ltzGtyuzzGK2FCF0lICfNwn3H78eVkhiALRf8VOBJhNz4EVwbJFfCVfjFKq90eNGUbTX9ckelAbugVO9F/8+2sEq/HXK4wlyLrH9oBC4inhwzH369Y+XVYezXg8Y3SvKlvmokX9oLVjGzCnFjIuCAjpClupHGRxU02OPv88Gudpmc5YSIybcuBk6KKMK8yWm9s44VdklT0yLBEs6Z3gNvWNxaoVHmU4f6Z2szEVZTzKwv+1coSlp0=
+  on:
+    tags: true
+    repo: chriskalmar/shyft
