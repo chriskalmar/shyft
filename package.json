@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "lint-staged": "lint-staged",
-    "coverage": "NODE_ENV=test jest --runInBand --coverage",
+    "coverage": "NODE_ENV=test TZ=UTC jest --runInBand --coverage",
     "coverage-ci": "npm run coverage && cat ./coverage/lcov.info | codecov",
     "build": "mkdir -p lib; npm run test && NODE_ENV=build babel src -d lib --verbose",
     "build-watch": "mkdir -p lib; NODE_ENV=build babel src -w -d lib --verbose",
