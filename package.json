@@ -41,7 +41,15 @@
     "generator",
     "database",
     "workflow",
-    "permissions"
+    "permissions",
+    "validation",
+    "workflows",
+    "finite-state-machine",
+    "acl",
+    "migrations",
+    "shyft",
+    "graphql-apis",
+    "mutations"
   ],
   "author": "Chris Kalmar <christian.kalmar@gmail.com>",
   "license": "MIT",
