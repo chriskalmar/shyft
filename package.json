@@ -4,7 +4,6 @@
   "description": "Storage connector for Shyft",
   "main": "lib/index.js",
   "scripts": {
-    "prepare": "npm-install-peers",
     "clean": "rimraf lib",
     "test": "jest --testPathIgnorePatterns test/",
     "test-watch": "jest --testPathIgnorePatterns test/ --watch",
@@ -17,7 +16,7 @@
     "coverage-ci": "npm run coverage && cat ./coverage/lcov.info | codecov",
     "build": "mkdir -p lib; npm run test && NODE_ENV=build babel src -d lib --verbose",
     "build-watch": "mkdir -p lib; NODE_ENV=build babel src -w -d lib --verbose",
-    "prepublish": "npm run clean && npm run lint && npm run test && npm run build || true"
+    "prepublish": "npm run clean && npm run lint && npm run test && npm run build"
   },
   "files": [
     "lib",
@@ -75,10 +74,12 @@
     "husky": "^1.0.0-rc.13",
     "jest": "^24.5.0",
     "lint-staged": "^7.2.0",
-    "npm-install-peers": "^1.2.1",
+    "pg": "^7.12.1",
     "prettier": "^1.14.2",
     "prettier-eslint": "^8.8.2",
-    "sqlite3": "^4.0.2"
+    "shyft": "^0.3.3",
+    "sqlite3": "^4.0.2",
+    "typeorm": "^0.2.18"
   },
   "dependencies": {
     "dataloader": "^1.4.0",
@@ -86,10 +87,5 @@
     "lodash": "^4.17.10",
     "prettier-eslint-cli": "^4.7.1",
     "toposort": "^2.0.2"
-  },
-  "peerDependencies": {
-    "pg": "^7.4.1",
-    "shyft": "0.3.2",
-    "typeorm": "^0.2.7"
   }
 }
