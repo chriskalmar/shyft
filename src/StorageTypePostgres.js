@@ -526,6 +526,7 @@ export const StorageTypePostgres = new StorageType({
     const storageInstance = this.getStorageInstance();
     const {
       dataShaper,
+      dataShaperMap,
       filterShaper,
       storageTableName,
       constraints,
@@ -545,6 +546,11 @@ export const StorageTypePostgres = new StorageType({
 
     if (data) {
       deleteUndefinedProps(data);
+
+      const knownAttributes = Object.keys(dataShaperMap);
+      Object.keys(data).forEach(
+        key => !knownAttributes.includes(key) && delete data[key],
+      );
     }
 
     const manager = storageInstance.manager;
