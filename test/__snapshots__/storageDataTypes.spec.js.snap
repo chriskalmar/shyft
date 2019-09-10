@@ -5,7 +5,7 @@ Object {
   "id": "1",
   "typeBigInt": "34567890987654",
   "typeBoolean": true,
-  "typeDate": 2002-03-03T23:00:00.000Z,
+  "typeDate": 2002-03-04T00:00:00.000Z,
   "typeFloat": "934234.111243",
   "typeId": "43455523",
   "typeInteger": 729393827,
@@ -22,7 +22,7 @@ Object {
   "typeString": "Random text",
   "typeTime": "11:12:13",
   "typeTimeTz": "12:13:14+15:16",
-  "typeTimestamp": 2000-01-02T10:12:13.000Z,
+  "typeTimestamp": 2000-01-02T11:12:13.000Z,
   "typeTimestampTz": 2001-02-02T20:57:14.000Z,
   "typeUuid": "7f7fa058-7072-44a8-a70b-a5846f63b3fd",
 }
@@ -50,7 +50,7 @@ DataTypeTester {
   "typeString": "Random text",
   "typeTime": "11:12:13",
   "typeTimeTz": "12:13:14+15:16",
-  "typeTimestamp": 2000-01-02T10:12:13.000Z,
+  "typeTimestamp": 2000-01-02T11:12:13.000Z,
   "typeTimestampTz": 2001-02-02T20:57:14.000Z,
   "typeUuid": "7f7fa058-7072-44a8-a70b-a5846f63b3fd",
 }
