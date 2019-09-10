@@ -77,7 +77,7 @@
     "prettier-eslint-cli": "5.0.0",
     "rimraf": "2.6.3",
     "ts-jest": "24.0.2",
-    "typescript": "3.5.3"
+    "typescript": "3.6.2"
   },
   "dependencies": {
     "date-fns": "^1.29.0",
