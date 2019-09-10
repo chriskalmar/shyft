@@ -13,8 +13,13 @@ addons:
 before_script:
   - psql -c 'CREATE DATABASE shyft_tests;' -U postgres
 
-after_success:
-  - npm run coverage-ci
+script:
+  - npm run lint &&
+    npm run coverage-ci
+
+before_deploy:
+  - npm run clean &&
+    npm run build
 
 deploy:
   provider: npm
