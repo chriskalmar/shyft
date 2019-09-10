@@ -678,7 +678,7 @@ export const StorageTypePostgres = new StorageType({
         processOrmError(err, storageInstance, qBuilder, constraints);
       }
 
-      const rowCount = result.raw[0].length;
+      const rowCount = result.raw.length;
 
       if (rowCount < 1) {
         if (permissionWhere) {
@@ -691,7 +691,7 @@ export const StorageTypePostgres = new StorageType({
       return {
         deleteRowCount: rowCount,
         [primaryAttributeName]: id,
-        rows: result.raw[0].map(dataShaper),
+        rows: result.raw.map(dataShaper),
       };
     }
 
