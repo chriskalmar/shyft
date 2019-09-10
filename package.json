@@ -16,7 +16,8 @@
     "coverage-ci": "npm run coverage && cat ./coverage/lcov.info | codecov",
     "build": "mkdir -p lib; npm run test && NODE_ENV=build babel src -d lib --verbose",
     "build-watch": "mkdir -p lib; NODE_ENV=build babel src -w -d lib --verbose",
-    "prepublishOnly": "npm run clean && npm run lint && npm run test && npm run build"
+    "prepublishOnly": "npm run clean && npm run lint && npm run test && npm run build",
+    "release": "np --no-publish"
   },
   "files": [
     "lib",
