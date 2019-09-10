@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - '11'
+  - '12'
   - '10'
   - '8'
 
@@ -30,3 +30,4 @@ deploy:
   on:
     tags: true
     repo: chriskalmar/shyft-storage-connector
+    node: '10'
