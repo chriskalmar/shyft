@@ -179,6 +179,7 @@ module.exports = {
         SwitchCase: 1,
       },
     ],
+    'require-atomic-updates': 0,
     // '@typescript-eslint/explicit-function-return-type': 'off',
   },
 };
