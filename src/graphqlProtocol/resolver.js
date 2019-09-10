@@ -49,16 +49,22 @@ export const resolveByFind = (entity, parentConnectionCollector) => {
     validateConnectionArgs(source, args, context, info);
     forceSortByUnique(args.orderBy, entity);
 
-    args.filter = await transformFilterLevel(
+    const updatedFilter = await transformFilterLevel(
       entity,
       args.filter,
       entity.getAttributes(),
       context,
     );
 
+    const updatedArgs = {
+      ...args,
+      filter: updatedFilter
+    }
+
+
     const { data, pageInfo } = await storageType.find(
       entity,
-      args,
+      updatedArgs,
       context,
       parentConnection,
     );
@@ -78,7 +84,7 @@ export const resolveByFind = (entity, parentConnectionCollector) => {
           translatedRow,
           entity,
           source,
-          args,
+          updatedArgs,
           context,
           info,
         ),
@@ -92,7 +98,7 @@ export const resolveByFind = (entity, parentConnectionCollector) => {
       },
       entity,
       source,
-      args,
+      updatedArgs,
       context,
       info,
       parentConnection,
