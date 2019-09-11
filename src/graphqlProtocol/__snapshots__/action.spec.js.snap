@@ -57,15 +57,26 @@ exports[`action should generate actions 2`] = `
 Object {
   "clientMutationId": Object {
     "args": Array [],
+    "astNode": undefined,
+    "deprecationReason": undefined,
+    "description": undefined,
+    "extensions": undefined,
     "isDeprecated": false,
     "name": "clientMutationId",
+    "resolve": undefined,
+    "subscribe": undefined,
     "type": "String",
   },
   "result": Object {
     "args": Array [],
+    "astNode": undefined,
+    "deprecationReason": undefined,
     "description": undefined,
+    "extensions": undefined,
     "isDeprecated": false,
     "name": "result",
+    "resolve": undefined,
+    "subscribe": undefined,
     "type": "NewSimpleActionDataOutput",
   },
 }
@@ -75,9 +86,14 @@ exports[`action should generate actions 3`] = `
 Object {
   "luckyNumber": Object {
     "args": Array [],
+    "astNode": undefined,
+    "deprecationReason": undefined,
     "description": "The perfect lucky number for the given name",
+    "extensions": undefined,
     "isDeprecated": false,
     "name": "luckyNumber",
+    "resolve": undefined,
+    "subscribe": undefined,
     "type": "Int",
   },
 }
@@ -86,11 +102,18 @@ Object {
 exports[`action should generate actions 4`] = `
 Object {
   "clientMutationId": Object {
+    "astNode": undefined,
+    "defaultValue": undefined,
+    "description": undefined,
+    "extensions": undefined,
     "name": "clientMutationId",
     "type": "String",
   },
   "data": Object {
+    "astNode": undefined,
+    "defaultValue": undefined,
     "description": undefined,
+    "extensions": undefined,
     "name": "data",
     "type": "NewSimpleActionDataInput!",
   },
@@ -100,12 +123,18 @@ Object {
 exports[`action should generate actions 5`] = `
 Object {
   "firstName": Object {
+    "astNode": undefined,
+    "defaultValue": undefined,
     "description": "First name",
+    "extensions": undefined,
     "name": "firstName",
     "type": "String",
   },
   "lastName": Object {
+    "astNode": undefined,
+    "defaultValue": undefined,
     "description": "Last name",
+    "extensions": undefined,
     "name": "lastName",
     "type": "String!",
   },
@@ -116,15 +145,26 @@ exports[`action should generate actions 6`] = `
 Object {
   "clientMutationId": Object {
     "args": Array [],
+    "astNode": undefined,
+    "deprecationReason": undefined,
+    "description": undefined,
+    "extensions": undefined,
     "isDeprecated": false,
     "name": "clientMutationId",
+    "resolve": undefined,
+    "subscribe": undefined,
     "type": "String",
   },
   "result": Object {
     "args": Array [],
+    "astNode": undefined,
+    "deprecationReason": undefined,
     "description": undefined,
+    "extensions": undefined,
     "isDeprecated": false,
     "name": "result",
+    "resolve": undefined,
+    "subscribe": undefined,
     "type": "NoInputActionDataOutput",
   },
 }
@@ -134,9 +174,14 @@ exports[`action should generate actions 7`] = `
 Object {
   "luckyNumber": Object {
     "args": Array [],
+    "astNode": undefined,
+    "deprecationReason": undefined,
     "description": "The perfect lucky number for the given name",
+    "extensions": undefined,
     "isDeprecated": false,
     "name": "luckyNumber",
+    "resolve": undefined,
+    "subscribe": undefined,
     "type": "Int",
   },
 }
@@ -145,6 +190,10 @@ Object {
 exports[`action should generate actions 8`] = `
 Object {
   "clientMutationId": Object {
+    "astNode": undefined,
+    "defaultValue": undefined,
+    "description": undefined,
+    "extensions": undefined,
     "name": "clientMutationId",
     "type": "String",
   },
@@ -155,8 +204,14 @@ exports[`action should generate actions 9`] = `
 Object {
   "clientMutationId": Object {
     "args": Array [],
+    "astNode": undefined,
+    "deprecationReason": undefined,
+    "description": undefined,
+    "extensions": undefined,
     "isDeprecated": false,
     "name": "clientMutationId",
+    "resolve": undefined,
+    "subscribe": undefined,
     "type": "String",
   },
 }
@@ -165,11 +220,18 @@ Object {
 exports[`action should generate actions 10`] = `
 Object {
   "clientMutationId": Object {
+    "astNode": undefined,
+    "defaultValue": undefined,
+    "description": undefined,
+    "extensions": undefined,
     "name": "clientMutationId",
     "type": "String",
   },
   "data": Object {
+    "astNode": undefined,
+    "defaultValue": undefined,
     "description": undefined,
+    "extensions": undefined,
     "name": "data",
     "type": "NoOutputActionDataInput!",
   },
@@ -179,12 +241,18 @@ Object {
 exports[`action should generate actions 11`] = `
 Object {
   "firstName": Object {
+    "astNode": undefined,
+    "defaultValue": undefined,
     "description": "First name",
+    "extensions": undefined,
     "name": "firstName",
     "type": "String",
   },
   "lastName": Object {
+    "astNode": undefined,
+    "defaultValue": undefined,
     "description": "Last name",
+    "extensions": undefined,
     "name": "lastName",
     "type": "String!",
   },
@@ -195,15 +263,26 @@ exports[`action should generate actions 12`] = `
 Object {
   "clientMutationId": Object {
     "args": Array [],
+    "astNode": undefined,
+    "deprecationReason": undefined,
+    "description": undefined,
+    "extensions": undefined,
     "isDeprecated": false,
     "name": "clientMutationId",
+    "resolve": undefined,
+    "subscribe": undefined,
     "type": "String",
   },
   "result": Object {
     "args": Array [],
+    "astNode": undefined,
+    "deprecationReason": undefined,
     "description": undefined,
+    "extensions": undefined,
     "isDeprecated": false,
     "name": "result",
+    "resolve": undefined,
+    "subscribe": undefined,
     "type": "BuildTeamDataOutput",
   },
 }
@@ -213,9 +292,14 @@ exports[`action should generate actions 13`] = `
 Object {
   "result": Object {
     "args": Array [],
+    "astNode": undefined,
+    "deprecationReason": undefined,
     "description": "List of player",
+    "extensions": undefined,
     "isDeprecated": false,
     "name": "result",
+    "resolve": undefined,
+    "subscribe": undefined,
     "type": "BuildTeamResultL2DataOutput",
   },
 }
@@ -224,11 +308,18 @@ Object {
 exports[`action should generate actions 14`] = `
 Object {
   "clientMutationId": Object {
+    "astNode": undefined,
+    "defaultValue": undefined,
+    "description": undefined,
+    "extensions": undefined,
     "name": "clientMutationId",
     "type": "String",
   },
   "data": Object {
+    "astNode": undefined,
+    "defaultValue": undefined,
     "description": undefined,
+    "extensions": undefined,
     "name": "data",
     "type": "BuildTeamDataInput!",
   },
@@ -238,12 +329,18 @@ Object {
 exports[`action should generate actions 15`] = `
 Object {
   "players": Object {
+    "astNode": undefined,
+    "defaultValue": undefined,
     "description": "List of player",
+    "extensions": undefined,
     "name": "players",
     "type": "BuildTeamPlayersL2DataInput",
   },
   "teamName": Object {
+    "astNode": undefined,
+    "defaultValue": undefined,
     "description": "Name of the team",
+    "extensions": undefined,
     "name": "teamName",
     "type": "String",
   },
