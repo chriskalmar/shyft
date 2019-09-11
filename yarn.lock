@@ -1786,10 +1786,15 @@ dataloader@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/dataloader/-/dataloader-1.4.0.tgz#bca11d867f5d3f1b9ed9f737bd15970c65dff5c8"
 
-date-fns@^1.27.2, date-fns@^1.29.0:
+date-fns@^1.27.2:
   version "1.30.1"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
+
+date-fns@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.1.0.tgz#0d7e806c3cefe14a943532dbf968995ccfd46bd9"
+  integrity sha512-eKeLk3sLCnxB/0PN4t1+zqDtSs4jb4mXRSTZ2okmx/myfWyDqeO4r5nnmA5LClJiCwpuTMeK2v5UQPuE4uMaxA==
 
 debug@^2.2.0, debug@^2.3.3:
   version "2.6.9"
@@ -5187,12 +5192,12 @@ shellwords@^0.1.1:
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
 
-shyft@0.3.8:
-  version "0.3.8"
-  resolved "https://registry.yarnpkg.com/shyft/-/shyft-0.3.8.tgz#c8e41eb465c43e39de14d82300f29a7aeb80b9fa"
-  integrity sha512-z5c+0rHNcnrfF/Sh5VB8CYdOOl18lJmkURGld3oOhI82uZSpn9nQFBRKVNbK1RVjNnmjxggPRlSjhfDUAqedog==
+shyft@0.3.10:
+  version "0.3.10"
+  resolved "https://registry.yarnpkg.com/shyft/-/shyft-0.3.10.tgz#804f505d16e4321ef5df3a5d328a9cb998ae238b"
+  integrity sha512-YnxpJSMosX4txSYjBcEZXrlsN7gI5LU1xPZkJA1vVnqE5vbE1ayQKfRd7iZ2gtZ5VprU3+HfPv/uyc7fPV5twg==
   dependencies:
-    date-fns "^1.29.0"
+    date-fns "^2.1.0"
     graphql-relay "^0.6.0"
     graphql-type-json "^0.3.0"
     json-shaper "^1.2.0"

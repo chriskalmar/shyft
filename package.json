@@ -78,7 +78,7 @@
     "prettier": "1.18.2",
     "prettier-eslint": "9.0.0",
     "rimraf": "3.0.0",
-    "shyft": "0.3.8",
+    "shyft": "0.3.10",
     "sqlite3": "4.1.0",
     "typeorm": "0.2.18"
   },
