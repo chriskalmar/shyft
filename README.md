@@ -9,6 +9,11 @@
 
 # Shyft Storage Connector
 
+[![Build Status](https://api.travis-ci.com/chriskalmar/shyft-storage-connector.svg?branch=master)](https://travis-ci.com/chriskalmar/shyft-storage-connector)
+[![npm version](https://badge.fury.io/js/shyft-storage-connector.svg)](https://badge.fury.io/js/shyft-storage-connector)
+[![codecov](https://codecov.io/gh/chriskalmar/shyft-storage-connector/branch/master/graph/badge.svg)](https://codecov.io/gh/chriskalmar/shyft-storage-connector)
+
+
 This is a storage connector for Shyft (currently only Postgres support)
 
 ## Install
