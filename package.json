@@ -86,7 +86,7 @@
     "dataloader": "^1.4.0",
     "json-shaper": "^1.2.0",
     "lodash": "^4.17.10",
-    "prettier-eslint-cli": "^4.7.1",
+    "prettier-eslint-cli": "^5.0.0",
     "toposort": "^2.0.2"
   }
 }
