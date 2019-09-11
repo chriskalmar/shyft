@@ -54,11 +54,11 @@ export const GraphQLDateTime = new GraphQLScalarType({
     }
 
     const dateString = ast.value.substring(0, 10);
-    const asDate = dateFns.parse(dateString);
+    const asDate = dateFns.parse(dateString, 'yyyy-MM-dd', new Date());
 
     if (
       !dateFns.isValid(asDate) ||
-      dateString !== dateFns.format(asDate, 'YYYY-MM-DD')
+      dateString !== dateFns.format(asDate, 'yyyy-MM-dd')
     ) {
       throw new GraphQLError(
         'Query error: String is not a valid date time string',
@@ -85,11 +85,11 @@ export const GraphQLDate = new GraphQLScalarType({
       );
     }
 
-    const asDate = dateFns.parse(ast.value);
+    const asDate = dateFns.parse(ast.value, 'yyyy-MM-dd', new Date());
 
     if (
       !dateFns.isValid(asDate) ||
-      ast.value !== dateFns.format(asDate, 'YYYY-MM-DD')
+      ast.value !== dateFns.format(asDate, 'yyyy-MM-dd')
     ) {
       throw new GraphQLError('Query error: String is not a valid date string', [
         ast,
