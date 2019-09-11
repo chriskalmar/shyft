@@ -5192,10 +5192,10 @@ shellwords@^0.1.1:
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
 
-shyft@0.3.10:
-  version "0.3.10"
-  resolved "https://registry.yarnpkg.com/shyft/-/shyft-0.3.10.tgz#804f505d16e4321ef5df3a5d328a9cb998ae238b"
-  integrity sha512-YnxpJSMosX4txSYjBcEZXrlsN7gI5LU1xPZkJA1vVnqE5vbE1ayQKfRd7iZ2gtZ5VprU3+HfPv/uyc7fPV5twg==
+shyft@0.3.11:
+  version "0.3.11"
+  resolved "https://registry.yarnpkg.com/shyft/-/shyft-0.3.11.tgz#e5d28f671e930e05db240e680148d9ee9f4bbc56"
+  integrity sha512-yIUj5SEH6JU/3Np1byRXeXfZw+zc4UGuLfUJhpPSQ2rQqJ371o4jWC9sc9gKuwgiuIXAh18VcF9bM/wBmehyQw==
   dependencies:
     date-fns "^2.1.0"
     graphql-relay "^0.6.0"
