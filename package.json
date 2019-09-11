@@ -80,7 +80,7 @@
     "typescript": "3.6.3"
   },
   "dependencies": {
-    "date-fns": "^1.29.0",
+    "date-fns": "^2.1.0",
     "graphql-relay": "^0.6.0",
     "graphql-type-json": "^0.3.0",
     "json-shaper": "^1.2.0",
