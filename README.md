@@ -9,7 +9,7 @@
 
 # Shyft
 
-[![Build Status](https://travis-ci.org/chriskalmar/shyft.svg?branch=master)](https://travis-ci.org/chriskalmar/shyft)
+[![Build Status](https://travis-ci.com/chriskalmar/shyft.svg?branch=master)](https://travis-ci.com/chriskalmar/shyft)
 [![npm version](https://badge.fury.io/js/shyft.svg)](https://badge.fury.io/js/shyft)
 [![codecov](https://codecov.io/gh/chriskalmar/shyft/branch/master/graph/badge.svg)](https://codecov.io/gh/chriskalmar/shyft)
 
