@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable @typescript-eslint/no-empty-function */
 
 import { validateFilterLevel } from './filter';
 import { Entity } from './entity/Entity';

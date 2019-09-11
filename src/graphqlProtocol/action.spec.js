@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { generateActions } from './action';
 import { ProtocolGraphQL } from './ProtocolGraphQL';
 import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';

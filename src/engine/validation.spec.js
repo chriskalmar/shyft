@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { DataTypeString, DataTypeInteger } from './datatype/dataTypes';
 
 import { Entity } from './entity/Entity';

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { Action } from '../engine/action/Action';
 import { DataTypeString, DataTypeInteger } from '../engine/datatype/dataTypes';
 import { buildObjectDataType } from '../engine/datatype/ObjectDataType';

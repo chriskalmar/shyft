@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { StorageType, isStorageType } from './StorageType';
 import { StorageDataType } from './StorageDataType';
 import { passOrThrow } from '../util';

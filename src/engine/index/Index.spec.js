@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { Index, isIndex, INDEX_UNIQUE, processEntityIndexes } from './Index';
 import { Entity } from '../entity/Entity';
 import { DataTypeString } from '../datatype/dataTypes';

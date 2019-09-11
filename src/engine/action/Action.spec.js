@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { Action, isAction } from './Action';
 import { Permission, isPermission } from '../permission/Permission';
 
