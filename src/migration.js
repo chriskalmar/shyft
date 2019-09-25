@@ -27,7 +27,7 @@ ${downSqls.join('\n')}
 
 const upgradeMigrationQuery = (_query, isUpMigration = false) => {
   const sqls = [];
-  const query = _query.replace(new RegExp('`', 'g'), '\\`');
+  const query = _query.query.replace(new RegExp('`', 'g'), '\\`');
 
   const match = query.match(/ALTER TABLE "(\w+)" ADD "(\w+)" (.+) NOT NULL/);
   if (match) {
