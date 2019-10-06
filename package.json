@@ -57,7 +57,7 @@
     "@babel/core": "7.6.2",
     "@babel/preset-env": "7.6.2",
     "@types/jest": "24.0.18",
-    "@types/lodash": "4.14.139",
+    "@types/lodash": "4.14.141",
     "@typescript-eslint/eslint-plugin": "2.3.2",
     "@typescript-eslint/parser": "2.3.2",
     "babel-jest": "24.9.0",
