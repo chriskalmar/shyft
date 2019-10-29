@@ -587,6 +587,10 @@ export const generateMutations = graphRegistry => {
   generateInstanceUniquenessInputs(graphRegistry);
 
   _.forEach(graphRegistry.types, ({ type, entity }, typeName) => {
+    if (!entity.getMutations) {
+      return;
+    }
+
     const entityMutations = entity.getMutations();
 
     if (!entityMutations || entityMutations.length < 1) {
