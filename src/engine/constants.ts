@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/camelcase */
+
 export const ATTRIBUTE_NAME_PATTERN = '^[a-zA-Z][a-zA-Z0-9_]*$';
 export const attributeNameRegex = new RegExp(ATTRIBUTE_NAME_PATTERN);
 
@@ -69,5 +71,29 @@ export const attributePropertiesWhitelist: Array<string> = [
   'i18n',
   'mock',
   'mutationInput',
+  'meta',
+];
+
+export const viewEntityPropertiesWhitelist: Array<string> = [
+  'name',
+  'description',
+  'attributes',
+  'attributesGenerator',
+  'storageType',
+  'viewExpression',
+  'permissions',
+  'postProcessor',
+  'preFilters',
+  'preFiltersGenerator',
+  'meta',
+];
+
+export const viewAttributePropertiesWhitelist: Array<string> = [
+  'name',
+  'description',
+  'type',
+  'required',
+  'resolve',
+  'mock',
   'meta',
 ];
