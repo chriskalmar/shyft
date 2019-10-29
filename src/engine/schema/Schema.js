@@ -5,6 +5,7 @@ import { isAction } from '../action/Action';
 import { isDataTypeUser } from '../datatype/DataTypeUser';
 import { isStorageType } from '../storage/StorageType';
 import { isPermission, isPermissionsArray } from '../permission/Permission';
+import { isViewEntity } from '../entity/ViewEntity';
 
 export class Schema {
   constructor(
@@ -145,8 +146,8 @@ export class Schema {
 
   addEntity(entity) {
     passOrThrow(
-      isEntity(entity),
-      () => 'Provided object to schema is not an entity',
+      isEntity(entity) || isViewEntity(entity),
+      () => 'Provided object to schema is not an entity or view entity',
     );
 
     passOrThrow(
@@ -278,7 +279,9 @@ export class Schema {
 
       // trigger validation and generation of permissions and indexes
       entity.getPermissions();
-      entity.getIndexes();
+      if (isEntity(entity)) {
+        entity.getIndexes();
+      }
 
       attributeNames.forEach(attributeName => {
         const attribute = attributes[attributeName];

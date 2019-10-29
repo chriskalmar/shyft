@@ -6,12 +6,12 @@ exports[`Schema should reject an invalid entities list 2`] = `"Schema needs 'ent
 
 exports[`Schema should reject an invalid entities list 3`] = `"Schema needs 'entities' to be an array of type Entity"`;
 
-exports[`Schema should reject an invalid entities list 4`] = `"Provided object to schema is not an entity"`;
+exports[`Schema should reject an invalid entities list 4`] = `"Provided object to schema is not an entity or view entity"`;
 
-exports[`Schema should reject invalid entities 1`] = `"Provided object to schema is not an entity"`;
+exports[`Schema should reject invalid entities 1`] = `"Provided object to schema is not an entity or view entity"`;
 
-exports[`Schema should reject invalid entities 2`] = `"Provided object to schema is not an entity"`;
+exports[`Schema should reject invalid entities 2`] = `"Provided object to schema is not an entity or view entity"`;
 
-exports[`Schema should reject invalid entities 3`] = `"Provided object to schema is not an entity"`;
+exports[`Schema should reject invalid entities 3`] = `"Provided object to schema is not an entity or view entity"`;
 
 exports[`Schema should throw on duplicate entities 1`] = `"Entity 'FirstEntity' already registered with this schema"`;
