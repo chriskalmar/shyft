@@ -14,6 +14,7 @@ import {
 } from './engine/constants';
 import { CustomError } from './engine/CustomError';
 import { Entity, isEntity } from './engine/entity/Entity';
+import { ViewEntity, isViewEntity } from './engine/entity/ViewEntity';
 import { Schema } from './engine/schema/Schema';
 import { StorageType } from './engine/storage/StorageType';
 import { StorageDataType } from './engine/storage/StorageDataType';
@@ -145,6 +146,8 @@ export {
   CustomError,
   Entity,
   isEntity,
+  ViewEntity,
+  isViewEntity,
   Schema,
   StorageType,
   StorageDataType,
