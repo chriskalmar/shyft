@@ -1,6 +1,7 @@
 import { passOrThrow, isMap, isArray, isFunction, asyncForEach } from '../util';
 
 import { Entity, isEntity } from '../entity/Entity';
+import { ViewEntity } from '../entity/ViewEntity';
 import { isDataTypeUser } from '../datatype/DataTypeUser';
 import { MUTATION_TYPE_CREATE, isMutation } from '../mutation/Mutation';
 import { isDataTypeState } from '../datatype/DataTypeState';
@@ -960,6 +961,60 @@ export const processEntityPermissions = (
     emptyPermissionsIn.length === 0,
     () =>
       `Entity '${
+        entity.name
+      }' has one or more empty permission definitions in: ${emptyPermissionsIn.join(
+        ', ',
+      )}`,
+  );
+
+  return permissions;
+};
+
+export const processViewEntityPermissions = (
+  entity: ViewEntity,
+  permissions,
+  defaultPermissions?,
+) => {
+  passOrThrow(
+    isMap(permissions),
+    () =>
+      `ViewEntity '${entity.name}' permissions definition needs to be an object`,
+  );
+
+  if (permissions.read) {
+    passOrThrow(
+      isPermission(permissions.read) || isPermissionsArray(permissions.read),
+      () => `Invalid 'read' permission definition for entity '${entity.name}'`,
+    );
+  }
+  else if (defaultPermissions) {
+    permissions.read = defaultPermissions.read;
+  }
+
+  if (permissions.find) {
+    passOrThrow(
+      isPermission(permissions.find) || isPermissionsArray(permissions.find),
+      () => `Invalid 'find' permission definition for entity '${entity.name}'`,
+    );
+  }
+  else if (defaultPermissions) {
+    permissions.find = defaultPermissions.find;
+  }
+
+  if (permissions.find) {
+    validatePermissionAttributesAndStates(entity, permissions.find, 'find');
+  }
+
+  if (permissions.read) {
+    validatePermissionAttributesAndStates(entity, permissions.read, 'read');
+  }
+
+  const emptyPermissionsIn = findEmptyEntityPermissions(permissions);
+
+  passOrThrow(
+    emptyPermissionsIn.length === 0,
+    () =>
+      `ViewEntity '${
         entity.name
       }' has one or more empty permission definitions in: ${emptyPermissionsIn.join(
         ', ',
