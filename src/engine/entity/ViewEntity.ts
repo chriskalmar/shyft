@@ -92,12 +92,15 @@ export class ViewEntity {
     Object.keys(setup).map(prop => {
       passOrThrow(
         viewEntityPropertiesWhitelist.includes(prop),
-        () => `Invalid setup property '${prop}' in entity '${name}'`,
+        () => `Invalid setup property '${prop}' in view entity '${name}'`,
       );
     });
 
     passOrThrow(name, () => 'Missing entity name');
-    passOrThrow(description, () => `Missing description for entity '${name}'`);
+    passOrThrow(
+      description,
+      () => `Missing description for view entity '${name}'`,
+    );
     passOrThrow(
       (attributes && !attributesGenerator) ||
         (!attributes && attributesGenerator),
@@ -109,14 +112,13 @@ export class ViewEntity {
       passOrThrow(
         isMap(attributes),
         () =>
-          `'attributes' for entity '${name}' needs to be a map of attributes`,
+          `'attributes' for view entity '${name}' needs to be a map of attributes`,
       );
-    }
-    else if (attributesGenerator) {
+    } else if (attributesGenerator) {
       passOrThrow(
         isFunction(attributesGenerator),
         () =>
-          `'attributesGenerator' for entity '${name}' needs to return a map of attributes`,
+          `'attributesGenerator' for view entity '${name}' needs to return a map of attributes`,
       );
     }
 
@@ -139,7 +141,8 @@ export class ViewEntity {
     if (postProcessor) {
       passOrThrow(
         isFunction(postProcessor),
-        () => `postProcessor of entity '${name}' needs to be a valid function`,
+        () =>
+          `postProcessor of view entity '${name}' needs to be a valid function`,
       );
 
       this.postProcessor = postProcessor;
@@ -151,8 +154,7 @@ export class ViewEntity {
         () =>
           `ViewEntity '${name}' needs a valid storage type (defaults to 'StorageTypeNull')`,
       );
-    }
-    else {
+    } else {
       this.storageType = StorageTypeNull;
       this.isFallbackStorageType = true;
       this._exposeStorageAccess();
@@ -162,7 +164,7 @@ export class ViewEntity {
   _injectStorageTypeBySchema(storageType) {
     passOrThrow(
       isStorageType(storageType),
-      () => `Provided storage type to entity '${this.name}' is invalid`,
+      () => `Provided storage type to view entity '${this.name}' is invalid`,
     );
 
     if (this.isFallbackStorageType) {
@@ -202,18 +204,14 @@ export class ViewEntity {
     passOrThrow(
       attributeNameRegex.test(attributeName),
       () =>
-        `Invalid attribute name '${attributeName}' in entity '${
-          this.name
-        }' (Regex: /${ATTRIBUTE_NAME_PATTERN}/)`,
+        `Invalid attribute name '${attributeName}' in view entity '${this.name}' (Regex: /${ATTRIBUTE_NAME_PATTERN}/)`,
     );
 
     Object.keys(rawAttribute).map(prop => {
       passOrThrow(
         viewAttributePropertiesWhitelist.includes(prop),
         () =>
-          `Invalid attribute property '${prop}' in entity '${
-            this.name
-          }' (use 'meta' for custom data)`,
+          `Invalid attribute property '${prop}' in view entity '${this.name}' (use 'meta' for custom data)`,
       );
     });
 
@@ -230,9 +228,7 @@ export class ViewEntity {
     );
 
     if (isFunction(attribute.type)) {
-      const dataTypeBuilder: DataTypeFunction = (
-        attribute.type
-      ) as DataTypeFunction;
+      const dataTypeBuilder: DataTypeFunction = attribute.type as DataTypeFunction;
       attribute.type = dataTypeBuilder(attribute, this);
     }
 
@@ -258,17 +254,13 @@ export class ViewEntity {
       passOrThrow(
         attribute.type instanceof ViewEntity,
         () =>
-          `'${
-            this.name
-          }.${attributeName}' cannot have a targetAttributesMap as it is not a reference`,
+          `'${this.name}.${attributeName}' cannot have a targetAttributesMap as it is not a reference`,
       );
 
       passOrThrow(
         isMap(attribute.targetAttributesMap),
         () =>
-          `targetAttributesMap for '${
-            this.name
-          }.${attributeName}' needs to be a map`,
+          `targetAttributesMap for '${this.name}.${attributeName}' needs to be a map`,
       );
 
       const localAttributeNames = Object.keys(attribute.targetAttributesMap);
@@ -281,9 +273,7 @@ export class ViewEntity {
             targetAttribute.name &&
             targetAttribute.type,
           () =>
-            `targetAttributesMap for '${
-              this.name
-            }.${attributeName}' needs to be a map between local and target attributes`,
+            `targetAttributesMap for '${this.name}.${attributeName}' needs to be a map between local and target attributes`,
         );
 
         // check if attribute is found in target entity
@@ -319,9 +309,7 @@ export class ViewEntity {
     passOrThrow(
       isMap(attributeMap),
       () =>
-        `Attribute definition function for entity '${
-          this.name
-        }' does not return a map`,
+        `Attribute definition function for view entity '${this.name}' does not return a map`,
     );
 
     const attributeNames = Object.keys(attributeMap);
@@ -364,9 +352,7 @@ export class ViewEntity {
     passOrThrow(
       attributes[attributeName],
       () =>
-        `Cannot reference attribute '${
-          this.name
-        }.${attributeName}' as it does not exist`,
+        `Cannot reference attribute '${this.name}.${attributeName}' as it does not exist`,
     );
 
     return attributes[attributeName];
@@ -383,8 +369,7 @@ export class ViewEntity {
         permissions,
         this._defaultPermissions,
       );
-    }
-    else if (this._defaultPermissions) {
+    } else if (this._defaultPermissions) {
       return processViewEntityPermissions(this, this._defaultPermissions);
     }
 
@@ -408,9 +393,7 @@ export class ViewEntity {
   }
 
   _processPreFilters(): PreFilterType {
-    return this._preFilters
-      ? processPreFilters(this, this._preFilters)
-      : null;
+    return this._preFilters ? processPreFilters(this, this._preFilters) : null;
   }
 
   getPreFilters() {
@@ -434,37 +417,6 @@ export class ViewEntity {
     this.permissions = this._processPermissions();
     this._generatePermissionDescriptions();
     return this.permissions;
-  }
-
-  referencedBy(sourceViewEntityName, sourceAttributeName) {
-    passOrThrow(
-      sourceViewEntityName,
-      () => `ViewEntity '${this.name}' expects an entity to be referenced by`,
-    );
-
-    passOrThrow(
-      sourceAttributeName,
-      () =>
-        `ViewEntity '${this.name}' expects a source attribute to be referenced by`,
-    );
-
-    let found = false;
-
-    this.referencedByEntities.map(entry => {
-      if (
-        entry.sourceViewEntityName === sourceViewEntityName &&
-        entry.sourceAttributeName === sourceAttributeName
-      ) {
-        found = true;
-      }
-    });
-
-    if (!found) {
-      this.referencedByEntities.push({
-        sourceViewEntityName,
-        sourceAttributeName,
-      });
-    }
   }
 
   getStorageType() {
