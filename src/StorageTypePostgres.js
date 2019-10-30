@@ -313,7 +313,11 @@ export const StorageTypePostgres = new StorageType({
     const { dataShaperMap, filterShaper, storageTableName } = modelRegistry[
       entityName
     ];
-    const { name: primaryAttributeName } = entity.getPrimaryAttribute();
+
+    let primaryAttributeName;
+    if (entity.getPrimaryAttribute) {
+      primaryAttributeName = entity.getPrimaryAttribute().name;
+    }
 
     context.loaders = context.loaders || {};
     const loaders = context.loaders;
@@ -418,13 +422,15 @@ export const StorageTypePostgres = new StorageType({
       processOrmError(err, storageInstance, qBuilder);
     }
 
-    if (!loader) {
-      loader = loaders[entityName] = createDataLoader(context, entity, this);
-    }
+    if (entity.getPrimaryAttribute) {
+      if (!loader) {
+        loader = loaders[entityName] = createDataLoader(context, entity, this);
+      }
 
-    result.map(row => {
-      loader.prime(row[primaryAttributeName], row);
-    });
+      result.map(row => {
+        loader.prime(row[primaryAttributeName], row);
+      });
+    }
 
     if (limit) {
       // remove the 1 extra row if it exists
