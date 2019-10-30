@@ -5,6 +5,7 @@ import { generateIndexName } from './util';
 
 import {
   isEntity,
+  isViewEntity,
   INDEX_UNIQUE,
   INDEX_GENERIC,
   mapOverProperties,
@@ -22,6 +23,8 @@ import {
   ManyToOne,
   JoinColumn,
   createConnection,
+  ViewEntity,
+  ViewColumn,
 } from 'typeorm';
 
 import { isStoragePostgresConfiguration } from './StoragePostgresConfiguration';
@@ -119,8 +122,7 @@ export const loadModels = configuration => {
         const targetEntityName = attribute.type.name;
 
         if (attribute.targetAttributesMap) {
-          // sequelize doesn't support composite foreign keys yet (so this has no impact):
-          // https://github.com/sequelize/sequelize/issues/311
+          // TODO: check composite foreign keys support
           mapOverProperties(
             attribute.targetAttributesMap,
             (targetAttribute, sourceAttributeName) => {
@@ -170,8 +172,13 @@ export const loadModels = configuration => {
           Skeleton.prototype,
           attributeName,
         );
-      } else {
+      } else if (isEntity(entity)) {
         Column(attributes[attributeName])(Skeleton.prototype, attributeName);
+      } else if (isViewEntity(entity)) {
+        ViewColumn(attributes[attributeName])(
+          Skeleton.prototype,
+          attributeName,
+        );
       }
     });
 
@@ -202,7 +209,14 @@ export const loadModels = configuration => {
     const storageTableName = _.snakeCase(entityName);
     entity.storageTableName = storageTableName;
 
-    Entity({ name: storageTableName })(Skeleton);
+    if (isEntity(entity)) {
+      Entity({ name: storageTableName })(Skeleton);
+    } else if (isViewEntity(entity)) {
+      ViewEntity({
+        name: storageTableName,
+        expression: entity.viewExpression,
+      })(Skeleton);
+    }
 
     modelRegistry[entityName] = {
       model: Skeleton,
