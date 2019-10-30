@@ -86,6 +86,7 @@ export const translateInstance = (
     !instance ||
     !i18nLanguage ||
     i18nLanguage === i18nDefaultLanguage ||
+    !entity.getI18nAttributeNames ||
     !entity.getI18nAttributeNames()
   ) {
     return instance;
