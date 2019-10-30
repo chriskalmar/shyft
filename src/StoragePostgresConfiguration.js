@@ -159,7 +159,9 @@ class StoragePostgresConfiguration extends StorageConfiguration {
     const trgmIndexTemplate = loadTemplate('i18n_trgm_index.tpl.sql');
 
     _.forEach(schema.getEntities(), entity => {
-      const i18nAttributeNames = entity.getI18nAttributeNames();
+      const i18nAttributeNames = entity.getI18nAttributeNames
+        ? entity.getI18nAttributeNames()
+        : null;
 
       if (!i18nAttributeNames) {
         return;
