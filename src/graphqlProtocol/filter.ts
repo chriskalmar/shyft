@@ -13,6 +13,7 @@ import {
 } from '../engine/constants';
 import { isComplexDataType } from '../engine/datatype/ComplexDataType';
 import { isArray, isMap } from '../engine/util';
+import { isViewEntity } from '../engine/entity/ViewEntity';
 
 const AND_OPERATOR = 'AND';
 const OR_OPERATOR = 'OR';
@@ -241,8 +242,8 @@ export const transformFilterLevel = async (
 
   const errorLocation = path ? ` at '${path.join('.')}'` : '';
 
-  if (!isEntity(entity)) {
-    throw new Error('transformFilterLevel() expects an entity');
+  if (!isEntity(entity) && !isViewEntity(entity)) {
+    throw new Error('transformFilterLevel() expects an entity or view entity');
   }
 
   if (!isMap(filters)) {
