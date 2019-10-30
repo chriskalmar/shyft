@@ -7,6 +7,11 @@ export const getEntityUniquenessAttributes = entity => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
 
   const ret = [];
+
+  if (!entity.getIndexes) {
+    return ret
+  }
+
   const entityIndexes = entity.getIndexes();
 
   if (entityIndexes) {
