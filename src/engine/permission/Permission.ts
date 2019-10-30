@@ -786,15 +786,17 @@ const validatePermissionAttributesAndStates = (
 
     findInvalidPermissionAttributes(permission, entity);
 
-    const invalidState = findMissingPermissionStates(permission, entity);
+    if (entity.getStates) {
+      const invalidState = findMissingPermissionStates(permission, entity);
 
-    passOrThrow(
-      !invalidState,
-      () =>
-        `Cannot use state '${invalidState}' in '${
-          entity.name
-        }.permissions' for '${mutationName}' as it does not exist`,
-    );
+      passOrThrow(
+        !invalidState,
+        () =>
+          `Cannot use state '${invalidState}' in '${
+            entity.name
+          }.permissions' for '${mutationName}' as it does not exist`,
+      );
+    }
   });
 };
 
