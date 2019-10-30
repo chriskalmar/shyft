@@ -105,13 +105,6 @@ module.exports = {
     'vars-on-top': 'error',
     'wrap-iife': ['error', 'any'],
     yoda: 'error',
-    'brace-style': [
-      2,
-      'stroustrup',
-      {
-        allowSingleLine: false,
-      },
-    ],
     indent: [
       2,
       2,
@@ -170,7 +163,6 @@ module.exports = {
         after: true,
       },
     ],
-    'array-bracket-spacing': ['error', 'always'],
     'require-jsdoc': 0,
     '@typescript-eslint/indent': [
       'error',
