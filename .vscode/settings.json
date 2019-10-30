@@ -8,7 +8,6 @@
   },
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": false,
   "editor.formatOnSave": false,
-  "prettier.eslintIntegration": true,
   "[javascript]": {
     "editor.formatOnSave": true
   }
