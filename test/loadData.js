@@ -12,7 +12,7 @@ export const loadData = async () => {
 
   await asyncForEach(
     profiles,
-    async ([ username, password, firstname, lastname ]) => {
+    async ([username, password, firstname, lastname]) => {
       const payload = {
         username,
         password,
@@ -26,7 +26,7 @@ export const loadData = async () => {
 
   const boards = readRows('boards');
 
-  await asyncForEach(boards, async ([ name, userId, isPrivate ]) => {
+  await asyncForEach(boards, async ([name, userId, isPrivate]) => {
     const payload = {
       name,
       isPrivate: isPrivate === '1',
@@ -52,7 +52,7 @@ export const loadData = async () => {
 
   const joins = readRows('joins');
 
-  await asyncForEach(joins, async ([ name, userId ]) => {
+  await asyncForEach(joins, async ([name, userId]) => {
     const payload = {
       board: await getBoardIdByName(name, userId),
     };
@@ -62,7 +62,7 @@ export const loadData = async () => {
 
   const invites = readRows('invites');
 
-  await asyncForEach(invites, async ([ name, inviter, invitee, accept ]) => {
+  await asyncForEach(invites, async ([name, inviter, invitee, accept]) => {
     const payload = {
       board: await getBoardIdByName(name, inviter),
       invitee,
@@ -83,7 +83,7 @@ export const loadData = async () => {
 
   const messages = readRows('messages');
 
-  await asyncForEach(messages, async ([ content, author, board, writtenAt ]) => {
+  await asyncForEach(messages, async ([content, author, board, writtenAt]) => {
     const payload = {
       content,
       author,
