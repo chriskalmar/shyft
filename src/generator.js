@@ -102,10 +102,15 @@ export const loadModels = configuration => {
       }
 
       const attributeName = attribute.name;
-      const storageAttributeName =
-        attribute.meta && attribute.meta.storageAttributeName
-          ? attribute.meta.storageAttributeName
-          : _.snakeCase(attribute.name);
+      let storageAttributeName;
+
+      if (attribute.meta && attribute.meta.storageAttributeName) {
+        storageAttributeName = attribute.meta.storageAttributeName;
+      } else if (isViewEntity(entity)) {
+        storageAttributeName = attribute.name
+      } else {
+        storageAttributeName = _.snakeCase(attribute.name);
+      }
 
       dataShaperMap[attributeName] = storageAttributeName;
       filterShaperMap[attributeName] = attributeName;
