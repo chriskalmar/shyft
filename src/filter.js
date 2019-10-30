@@ -1,5 +1,6 @@
 import { processFilter, isMap, isArray, convertFilterLevel } from 'shyft';
 import { Brackets } from 'typeorm';
+import { quote } from './util';
 
 const noResultClause = 'TRUE IS FALSE';
 
@@ -83,7 +84,7 @@ const buildWhereAttributeOperatorConditionQuery = (
     '__',
   );
   const data = { [placeholderName]: value };
-  const leftExpression = transformFilterAttributeNameFn(attributeName);
+  const leftExpression = quote(transformFilterAttributeNameFn(attributeName));
 
   switch (operator) {
     case '$eq':
