@@ -49,4 +49,13 @@ export const asyncForEach = async (array, callback) => {
   }
 };
 
-export const quote = item => `"${item}"`
+export const quote = item => {
+  // special care for json pointers
+  if (item.includes('->')) {
+    const arr = item.split('->');
+    arr[0] = `"${arr[0]}"`;
+    return arr.join('->');
+  }
+
+  return `"${item}"`;
+};
