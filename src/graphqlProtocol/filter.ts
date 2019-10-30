@@ -92,7 +92,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
 
         storageDataType.capabilities.map(capability => {
           const fieldName = `${attribute.gqlFieldName}__${capability}`;
-          const field = <any>{};
+          const field = {} as any;
 
           if (
             storageDataTypeCapabilities[capability] ===
@@ -121,19 +121,21 @@ export const generateFilterInput = (entity, graphRegistry) => {
             description: `Filter **\`${typeNamePluralListName}\`** by a custom pre-filter`,
 
             fields: () => {
-              const fields = {};
+              const preFilterFields = {};
 
               Object.keys(preFilters).map(preFilterName => {
                 const preFilter = preFilters[preFilterName];
-                const preFilterParamsInputTypeName = protocolConfiguration.generateFilterPreFilterParamsInputTypeName(
-                  entity,
-                  preFilterName,
-                );
+                // TODO:
+                // const preFilterParamsInputTypeName = protocolConfiguration.generateFilterPreFilterParamsInputTypeName(
+                //   entity,
+                //   preFilterName,
+                // );
 
                 if (preFilter.attributes) {
+                  // TODO
                 }
                 else {
-                  fields[preFilterName] = {
+                  preFilterFields[preFilterName] = {
                     type: GraphQLBoolean,
                   };
                 }
@@ -194,7 +196,7 @@ export const splitAttributeAndFilterOperator = str => {
 const deepFilterResolver = async (entity, filter, context, path) => {
   const storageType = entity.storageType;
 
-  // eslint-disable-next-line no-use-before-define
+  // eslint-disable-next-line no-use-before-define,@typescript-eslint/no-use-before-define
   const transformedFilter = await transformFilterLevel(
     entity,
     filter,
