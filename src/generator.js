@@ -406,11 +406,11 @@ export const installStorageScripts = async (
   }
 
   _.forEach(schema.getEntities(), entity => {
-    if (entity.getI18nAttributeNames()) {
+    if (entity.getI18nAttributeNames && entity.getI18nAttributeNames()) {
       modelFeatures.i18n = true;
     }
 
-    if (entity.hasStates()) {
+    if (entity.hasStates && entity.hasStates()) {
       modelFeatures.state = true;
     }
   });
