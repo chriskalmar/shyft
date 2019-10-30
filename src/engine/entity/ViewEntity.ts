@@ -7,7 +7,6 @@ import {
   viewAttributePropertiesWhitelist,
 } from '../constants';
 
-
 import {
   generatePermissionDescription,
   processViewEntityPermissions,
@@ -42,7 +41,7 @@ export type ViewEntitySetup = {
   attributes?: AttributesSetupMap;
   attributesGenerator?: AttributesMapGenerator;
   storageType?: any;
-  viewExpression?: any;
+  viewExpression: any;
   permissions?: any;
   postProcessor?: Function;
   preFilters?: PreFilterType;
@@ -54,7 +53,7 @@ export class ViewEntity {
   name: string;
   description: string;
   storageType?: any;
-  viewExpression?: any;
+  viewExpression: any;
   permissions?: any;
   postProcessor?: Function;
   preFilters?: PreFilterType;
@@ -120,6 +119,11 @@ export class ViewEntity {
           `'attributesGenerator' for entity '${name}' needs to return a map of attributes`,
       );
     }
+
+    passOrThrow(
+      description,
+      () => `Missing viewExpression for view entity '${name}'`,
+    );
 
     this.name = name;
     this.description = description;
