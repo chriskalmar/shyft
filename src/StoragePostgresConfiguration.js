@@ -33,11 +33,13 @@ class StoragePostgresConfiguration extends StorageConfiguration {
     const statesMapFlipped = {};
 
     _.forEach(schema.getEntities(), entity => {
-      const states = entity.getStates();
+      if (entity.getStates) {
+        const states = entity.getStates();
 
-      if (states) {
-        statesMap[entity.storageTableName] = states;
-        statesMapFlipped[entity.storageTableName] = _.invert(states);
+        if (states) {
+          statesMap[entity.storageTableName] = states;
+          statesMapFlipped[entity.storageTableName] = _.invert(states);
+        }
       }
     });
 
