@@ -7,7 +7,6 @@
     "lib": true
   },
   "editor.formatOnSave": true,
-  "prettier.eslintIntegration": true,
   "[javascript]": {
     "editor.formatOnSave": true
   },
