@@ -125,10 +125,16 @@ const pageInfoType = new GraphQLObjectType({
 
 export const generateConnectionType = config => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
-
   const { nodeType, entity } = config;
-
   const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase;
+  let cursor;
+
+  if (entity.getPrimaryAttribute) {
+    cursor = {
+      type: new GraphQLNonNull(GraphQLCursor),
+      description: 'A cursor for use in pagination',
+    };
+  }
 
   const edgeType = new GraphQLObjectType({
     name: protocolConfiguration.generateConnectionEdgeTypeName(entity),
@@ -138,10 +144,7 @@ export const generateConnectionType = config => {
         type: nodeType,
         description: 'The item at the end of the edge',
       },
-      cursor: {
-        type: new GraphQLNonNull(GraphQLCursor),
-        description: 'A cursor for use in pagination',
-      },
+      ...(cursor && { cursor }),
     }),
   });
 
@@ -181,7 +184,7 @@ export const buildCursor = (entityName, primaryAttributeName, args, data) => {
 
   if (args && args.orderBy) {
     args.orderBy.map(({ attribute }) => {
-      cursor.push([ attribute, data[attribute] ]);
+      cursor.push([attribute, data[attribute]]);
 
       if (attribute === primaryAttributeName) {
         primaryAttributeAdded = true;
@@ -190,7 +193,7 @@ export const buildCursor = (entityName, primaryAttributeName, args, data) => {
   }
 
   if (!primaryAttributeAdded) {
-    cursor.push([ primaryAttributeName, data[primaryAttributeName] ]);
+    cursor.push([primaryAttributeName, data[primaryAttributeName]]);
   }
 
   return {
@@ -209,17 +212,24 @@ export const connectionFromData = (
   pageInfoFromData,
 ) => {
   const entityName = entity.name;
-  // const primaryAttributeName = entity.getPrimaryAttribute().name;
+  let nodeToEdge;
 
-  const nodeToEdge = (node, idx) => ({
-    // cursor: buildCursor(
-    //   entityName,
-    //   primaryAttributeName,
-    //   args,
-    //   originalData[idx],
-    // ),
-    node,
-  });
+  if (entity.getPrimaryAttribute) {
+    const primaryAttributeName = entity.getPrimaryAttribute().name;
+    nodeToEdge = (node, idx) => ({
+      cursor: buildCursor(
+        entityName,
+        primaryAttributeName,
+        args,
+        originalData[idx],
+      ),
+      node,
+    });
+  } else {
+    nodeToEdge = node => ({
+      node,
+    });
+  }
 
   const edges = transformedData.map(nodeToEdge);
 
