@@ -47,7 +47,7 @@ import {
 
 import Dataloader from 'dataloader';
 
-import { invertDirection, getLimit } from './util';
+import { invertDirection, getLimit, quote } from './util';
 
 import { processAndConvertFilter, buildWhereQuery } from './filter';
 
@@ -394,7 +394,7 @@ export const StorageTypePostgres = new StorageType({
     if (args.orderBy) {
       args.orderBy.map(({ attribute, direction }) => {
         qBuilder.addOrderBy(
-          dataShaperMap[attribute],
+          quote(dataShaperMap[attribute]),
           reverseOrder ? invertDirection(direction) : direction,
         );
       });
