@@ -90,11 +90,13 @@ export const forceSortByUnique = (orderBy, entity) => {
   });
 
   if (!foundUnique) {
-    const primaryAttribute = entity.getPrimaryAttribute();
-    orderBy.push({
-      attribute: primaryAttribute.name,
-      direction: 'ASC',
-    });
+    if (entity.getPrimaryAttribute) {
+      const primaryAttribute = entity.getPrimaryAttribute();
+      orderBy.push({
+        attribute: primaryAttribute.name,
+        direction: 'ASC',
+      });
+    }
   }
 };
 
@@ -207,15 +209,15 @@ export const connectionFromData = (
   pageInfoFromData,
 ) => {
   const entityName = entity.name;
-  const primaryAttributeName = entity.getPrimaryAttribute().name;
+  // const primaryAttributeName = entity.getPrimaryAttribute().name;
 
   const nodeToEdge = (node, idx) => ({
-    cursor: buildCursor(
-      entityName,
-      primaryAttributeName,
-      args,
-      originalData[idx],
-    ),
+    // cursor: buildCursor(
+    //   entityName,
+    //   primaryAttributeName,
+    //   args,
+    //   originalData[idx],
+    // ),
     node,
   });
 
