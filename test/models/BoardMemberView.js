@@ -36,6 +36,7 @@ export const BoardMemberView = new ViewEntity({
     JOIN board b
       ON (bm.board = b.id)
     GROUP BY 1, 2, 3, 4
+    ORDER BY 1, 3
   `,
 
   attributes: {
