@@ -69,4 +69,53 @@ describe('view list', () => {
 
     expect(invites).toMatchSnapshot();
   });
+
+  it('parentConnection', async () => {
+    const parentConnection = {
+      id: 79,
+      attribute: 'inviterId',
+    };
+
+    const result = await find(
+      BoardMemberView,
+      { ...orderByBoardIdAndInviterIdAsc },
+      asAdmin(),
+      parentConnection,
+    );
+
+    expect(result).toMatchSnapshot();
+  });
+
+  it('parentConnection + first', async () => {
+    const parentConnection = {
+      id: 79,
+      attribute: 'inviterId',
+    };
+
+    const result = await find(
+      BoardMemberView,
+      { ...orderByBoardIdAndInviterIdAsc, first: 1 },
+      asAdmin(),
+      parentConnection,
+    );
+
+    expect(result).toMatchSnapshot();
+  });
+
+  it('parentConnection with invalid attribute (reject)', async () => {
+    const parentConnection = {
+      id: 60,
+      attribute: 'invalidAttributeName',
+    };
+
+    await find(
+      BoardMemberView,
+      { ...orderByBoardIdAndInviterIdAsc, first: 1 },
+      asAdmin(),
+      parentConnection,
+    ).catch(e => {
+      // expect(e).toMatchSnapshot();
+      console.log(e);
+    });
+  });
 });

@@ -167,3 +167,68 @@ Object {
   },
 }
 `;
+
+exports[`view list parentConnection + first 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "3",
+      "invitees": Array [
+        "24",
+        "38",
+        "1",
+        "61",
+      ],
+      "inviterId": "79",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`view list parentConnection 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "3",
+      "invitees": Array [
+        "24",
+        "38",
+        "1",
+        "61",
+      ],
+      "inviterId": "79",
+    },
+    BoardMemberView {
+      "boardId": "13",
+      "invitees": Array [
+        "79",
+      ],
+      "inviterId": "79",
+    },
+    BoardMemberView {
+      "boardId": "25",
+      "invitees": Array [
+        "79",
+      ],
+      "inviterId": "79",
+    },
+    BoardMemberView {
+      "boardId": "29",
+      "invitees": Array [
+        "79",
+      ],
+      "inviterId": "79",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`view list parentConnection with invalid attribute (reject) 1`] = `[Error: Undefined server error]`;
