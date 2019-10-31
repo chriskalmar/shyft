@@ -473,7 +473,9 @@ export const connectStorage = async (configuration, synchronize = false) => {
 };
 
 export const disconnectStorage = async () => {
+  if (connection) {
   await connection.close();
+  }
 };
 
 export const getConnection = () => connection;
