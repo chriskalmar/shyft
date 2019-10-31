@@ -393,6 +393,13 @@ export const StorageTypePostgres = new StorageType({
 
     if (args.orderBy) {
       args.orderBy.map(({ attribute, direction }) => {
+        if (!dataShaperMap[attribute]) {
+          throw new CustomError(
+            `Unknown sorting attribute: ${attribute}`,
+            'UnknownSortingAttributeError',
+          );
+        }
+
         qBuilder.addOrderBy(
           quote(dataShaperMap[attribute]),
           reverseOrder ? invertDirection(direction) : direction,
