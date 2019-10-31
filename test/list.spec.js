@@ -281,12 +281,12 @@ describe('list', () => {
           },
           {
             state: {
-              $in: [ 20, 50 ],
+              $in: [20, 50],
             },
           },
           {
             inviter: {
-              $in: [ 61, 78 ],
+              $in: [61, 78],
             },
           },
         ],
@@ -337,12 +337,12 @@ describe('list', () => {
           },
           {
             state: {
-              $in: [ 20, 50 ],
+              $in: [20, 50],
             },
           },
           {
             inviter: {
-              $in: [ 61, 78 ],
+              $in: [61, 78],
             },
           },
           {
@@ -473,7 +473,7 @@ describe('list', () => {
     it('$in', async () => {
       const result = await runVariant({
         name: {
-          $in: [ 'Ut et', 'Rerum ad' ],
+          $in: ['Ut et', 'Rerum ad'],
         },
       });
 
@@ -483,7 +483,7 @@ describe('list', () => {
     it('$not_in', async () => {
       const result = await runVariant({
         owner: {
-          $not_in: [ 37, 79, 42 ],
+          $not_in: [37, 79, 42],
         },
       });
 

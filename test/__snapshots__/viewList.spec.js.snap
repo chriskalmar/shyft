@@ -434,6 +434,604 @@ Object {
 
 exports[`view list filter with invalid attributes (reject) 1`] = `[Error: Unknown attribute name 'someAttributes' used in filter]`;
 
+exports[`view list filter with logical operators AND AND + last 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "37",
+      "boardName": "Voluptate tempora veritatis",
+      "inviteCount": "1",
+      "invitees": Array [
+        "3",
+      ],
+      "inviterId": "3",
+      "username": "fleta342",
+    },
+    BoardMemberView {
+      "boardId": "37",
+      "boardName": "Voluptate tempora veritatis",
+      "inviteCount": "1",
+      "invitees": Array [
+        "4",
+      ],
+      "inviterId": "4",
+      "username": "victor821",
+    },
+    BoardMemberView {
+      "boardId": "38",
+      "boardName": "Nesciunt nihil enim",
+      "inviteCount": "1",
+      "invitees": Array [
+        "20",
+      ],
+      "inviterId": "20",
+      "username": "katrina560",
+    },
+    BoardMemberView {
+      "boardId": "38",
+      "boardName": "Nesciunt nihil enim",
+      "inviteCount": "1",
+      "invitees": Array [
+        "67",
+      ],
+      "inviterId": "67",
+      "username": "jonathon586",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`view list filter with logical operators AND AND + offset 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "32",
+      "boardName": "Aliquam voluptates",
+      "inviteCount": "6",
+      "invitees": Array [
+        "68",
+        "36",
+        "51",
+        "61",
+        "107",
+        "21",
+      ],
+      "inviterId": "78",
+      "username": "tiana281",
+    },
+    BoardMemberView {
+      "boardId": "33",
+      "boardName": "Suscipit quas",
+      "inviteCount": "4",
+      "invitees": Array [
+        "41",
+        "59",
+        "8",
+        "40",
+      ],
+      "inviterId": "47",
+      "username": "theodore123",
+    },
+    BoardMemberView {
+      "boardId": "34",
+      "boardName": "Voluptas dolor",
+      "inviteCount": "1",
+      "invitees": Array [
+        "12",
+      ],
+      "inviterId": "12",
+      "username": "emmet741",
+    },
+    BoardMemberView {
+      "boardId": "34",
+      "boardName": "Voluptas dolor",
+      "inviteCount": "1",
+      "invitees": Array [
+        "43",
+      ],
+      "inviterId": "43",
+      "username": "stephen528",
+    },
+    BoardMemberView {
+      "boardId": "34",
+      "boardName": "Voluptas dolor",
+      "inviteCount": "1",
+      "invitees": Array [
+        "106",
+      ],
+      "inviterId": "106",
+      "username": "stan321",
+    },
+    BoardMemberView {
+      "boardId": "35",
+      "boardName": "Voluptatum necessitatibus molestias",
+      "inviteCount": "1",
+      "invitees": Array [
+        "21",
+      ],
+      "inviterId": "21",
+      "username": "weston422",
+    },
+    BoardMemberView {
+      "boardId": "35",
+      "boardName": "Voluptatum necessitatibus molestias",
+      "inviteCount": "1",
+      "invitees": Array [
+        "82",
+      ],
+      "inviterId": "82",
+      "username": "dortha300",
+    },
+    BoardMemberView {
+      "boardId": "36",
+      "boardName": "Consectetur blanditiis consequatur",
+      "inviteCount": "1",
+      "invitees": Array [
+        "7",
+      ],
+      "inviterId": "7",
+      "username": "autumn520",
+    },
+    BoardMemberView {
+      "boardId": "36",
+      "boardName": "Consectetur blanditiis consequatur",
+      "inviteCount": "1",
+      "invitees": Array [
+        "67",
+      ],
+      "inviterId": "67",
+      "username": "jonathon586",
+    },
+    BoardMemberView {
+      "boardId": "36",
+      "boardName": "Consectetur blanditiis consequatur",
+      "inviteCount": "1",
+      "invitees": Array [
+        "106",
+      ],
+      "inviterId": "106",
+      "username": "stan321",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`view list filter with logical operators AND AND + orderBy 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "31",
+      "boardName": "Culpa facilis",
+      "inviteCount": "1",
+      "invitees": Array [
+        "21",
+      ],
+      "inviterId": "21",
+      "username": "weston422",
+    },
+    BoardMemberView {
+      "boardId": "31",
+      "boardName": "Culpa facilis",
+      "inviteCount": "1",
+      "invitees": Array [
+        "69",
+      ],
+      "inviterId": "69",
+      "username": "antone347",
+    },
+    BoardMemberView {
+      "boardId": "31",
+      "boardName": "Culpa facilis",
+      "inviteCount": "1",
+      "invitees": Array [
+        "80",
+      ],
+      "inviterId": "80",
+      "username": "serenity662",
+    },
+    BoardMemberView {
+      "boardId": "31",
+      "boardName": "Culpa facilis",
+      "inviteCount": "1",
+      "invitees": Array [
+        "99",
+      ],
+      "inviterId": "99",
+      "username": "antonina448",
+    },
+    BoardMemberView {
+      "boardId": "32",
+      "boardName": "Aliquam voluptates",
+      "inviteCount": "6",
+      "invitees": Array [
+        "68",
+        "36",
+        "51",
+        "61",
+        "107",
+        "21",
+      ],
+      "inviterId": "78",
+      "username": "tiana281",
+    },
+    BoardMemberView {
+      "boardId": "33",
+      "boardName": "Suscipit quas",
+      "inviteCount": "4",
+      "invitees": Array [
+        "41",
+        "59",
+        "8",
+        "40",
+      ],
+      "inviterId": "47",
+      "username": "theodore123",
+    },
+    BoardMemberView {
+      "boardId": "34",
+      "boardName": "Voluptas dolor",
+      "inviteCount": "1",
+      "invitees": Array [
+        "12",
+      ],
+      "inviterId": "12",
+      "username": "emmet741",
+    },
+    BoardMemberView {
+      "boardId": "34",
+      "boardName": "Voluptas dolor",
+      "inviteCount": "1",
+      "invitees": Array [
+        "43",
+      ],
+      "inviterId": "43",
+      "username": "stephen528",
+    },
+    BoardMemberView {
+      "boardId": "34",
+      "boardName": "Voluptas dolor",
+      "inviteCount": "1",
+      "invitees": Array [
+        "106",
+      ],
+      "inviterId": "106",
+      "username": "stan321",
+    },
+    BoardMemberView {
+      "boardId": "35",
+      "boardName": "Voluptatum necessitatibus molestias",
+      "inviteCount": "1",
+      "invitees": Array [
+        "21",
+      ],
+      "inviterId": "21",
+      "username": "weston422",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`view list filter with logical operators OR OR + last 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "44",
+      "boardName": "Qui rem ut",
+      "inviteCount": "1",
+      "invitees": Array [
+        "68",
+      ],
+      "inviterId": "68",
+      "username": "ryan372",
+    },
+    BoardMemberView {
+      "boardId": "44",
+      "boardName": "Qui rem ut",
+      "inviteCount": "1",
+      "invitees": Array [
+        "96",
+      ],
+      "inviterId": "96",
+      "username": "faustino795",
+    },
+    BoardMemberView {
+      "boardId": "44",
+      "boardName": "Qui rem ut",
+      "inviteCount": "1",
+      "invitees": Array [
+        "100",
+      ],
+      "inviterId": "100",
+      "username": "vernice306",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`view list filter with logical operators OR OR + offset 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "15",
+      "boardName": "Sunt nobis",
+      "inviteCount": "1",
+      "invitees": Array [
+        "95",
+      ],
+      "inviterId": "95",
+      "username": "joel356",
+    },
+    BoardMemberView {
+      "boardId": "18",
+      "boardName": "In ipsum est",
+      "inviteCount": "1",
+      "invitees": Array [
+        "95",
+      ],
+      "inviterId": "95",
+      "username": "joel356",
+    },
+    BoardMemberView {
+      "boardId": "31",
+      "boardName": "Culpa facilis",
+      "inviteCount": "1",
+      "invitees": Array [
+        "21",
+      ],
+      "inviterId": "21",
+      "username": "weston422",
+    },
+    BoardMemberView {
+      "boardId": "35",
+      "boardName": "Voluptatum necessitatibus molestias",
+      "inviteCount": "1",
+      "invitees": Array [
+        "21",
+      ],
+      "inviterId": "21",
+      "username": "weston422",
+    },
+    BoardMemberView {
+      "boardId": "41",
+      "boardName": "Enim dolore",
+      "inviteCount": "1",
+      "invitees": Array [
+        "95",
+      ],
+      "inviterId": "95",
+      "username": "joel356",
+    },
+    BoardMemberView {
+      "boardId": "44",
+      "boardName": "Qui rem ut",
+      "inviteCount": "1",
+      "invitees": Array [
+        "3",
+      ],
+      "inviterId": "3",
+      "username": "fleta342",
+    },
+    BoardMemberView {
+      "boardId": "44",
+      "boardName": "Qui rem ut",
+      "inviteCount": "1",
+      "invitees": Array [
+        "44",
+      ],
+      "inviterId": "44",
+      "username": "freda641",
+    },
+    BoardMemberView {
+      "boardId": "44",
+      "boardName": "Qui rem ut",
+      "inviteCount": "1",
+      "invitees": Array [
+        "55",
+      ],
+      "inviterId": "55",
+      "username": "hailie632",
+    },
+    BoardMemberView {
+      "boardId": "44",
+      "boardName": "Qui rem ut",
+      "inviteCount": "1",
+      "invitees": Array [
+        "59",
+      ],
+      "inviterId": "59",
+      "username": "kara119",
+    },
+    BoardMemberView {
+      "boardId": "44",
+      "boardName": "Qui rem ut",
+      "inviteCount": "1",
+      "invitees": Array [
+        "68",
+      ],
+      "inviterId": "68",
+      "username": "ryan372",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`view list filter with logical operators OR OR + orderBy 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "14",
+      "boardName": "Id cum",
+      "inviteCount": "1",
+      "invitees": Array [
+        "95",
+      ],
+      "inviterId": "95",
+      "username": "joel356",
+    },
+    BoardMemberView {
+      "boardId": "15",
+      "boardName": "Sunt nobis",
+      "inviteCount": "1",
+      "invitees": Array [
+        "95",
+      ],
+      "inviterId": "95",
+      "username": "joel356",
+    },
+    BoardMemberView {
+      "boardId": "18",
+      "boardName": "In ipsum est",
+      "inviteCount": "1",
+      "invitees": Array [
+        "95",
+      ],
+      "inviterId": "95",
+      "username": "joel356",
+    },
+    BoardMemberView {
+      "boardId": "31",
+      "boardName": "Culpa facilis",
+      "inviteCount": "1",
+      "invitees": Array [
+        "21",
+      ],
+      "inviterId": "21",
+      "username": "weston422",
+    },
+    BoardMemberView {
+      "boardId": "35",
+      "boardName": "Voluptatum necessitatibus molestias",
+      "inviteCount": "1",
+      "invitees": Array [
+        "21",
+      ],
+      "inviterId": "21",
+      "username": "weston422",
+    },
+    BoardMemberView {
+      "boardId": "41",
+      "boardName": "Enim dolore",
+      "inviteCount": "1",
+      "invitees": Array [
+        "95",
+      ],
+      "inviterId": "95",
+      "username": "joel356",
+    },
+    BoardMemberView {
+      "boardId": "44",
+      "boardName": "Qui rem ut",
+      "inviteCount": "1",
+      "invitees": Array [
+        "3",
+      ],
+      "inviterId": "3",
+      "username": "fleta342",
+    },
+    BoardMemberView {
+      "boardId": "44",
+      "boardName": "Qui rem ut",
+      "inviteCount": "1",
+      "invitees": Array [
+        "44",
+      ],
+      "inviterId": "44",
+      "username": "freda641",
+    },
+    BoardMemberView {
+      "boardId": "44",
+      "boardName": "Qui rem ut",
+      "inviteCount": "1",
+      "invitees": Array [
+        "55",
+      ],
+      "inviterId": "55",
+      "username": "hailie632",
+    },
+    BoardMemberView {
+      "boardId": "44",
+      "boardName": "Qui rem ut",
+      "inviteCount": "1",
+      "invitees": Array [
+        "59",
+      ],
+      "inviterId": "59",
+      "username": "kara119",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`view list filter with logical operators filter with nested logical operators AND + OR 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "32",
+      "boardName": "Aliquam voluptates",
+      "inviteCount": "6",
+      "invitees": Array [
+        "36",
+        "107",
+        "51",
+        "21",
+        "68",
+        "61",
+      ],
+      "inviterId": "78",
+      "username": "tiana281",
+    },
+    BoardMemberView {
+      "boardId": "36",
+      "boardName": "Consectetur blanditiis consequatur",
+      "inviteCount": "1",
+      "invitees": Array [
+        "67",
+      ],
+      "inviterId": "67",
+      "username": "jonathon586",
+    },
+    BoardMemberView {
+      "boardId": "38",
+      "boardName": "Nesciunt nihil enim",
+      "inviteCount": "1",
+      "invitees": Array [
+        "67",
+      ],
+      "inviterId": "67",
+      "username": "jonathon586",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`view list filter with mutliple attributes 1`] = `
 Object {
   "data": Array [

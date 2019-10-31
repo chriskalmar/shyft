@@ -223,6 +223,153 @@ describe('view list', () => {
     });
   });
 
+  describe('filter with logical operators', () => {
+    describe('OR', () => {
+      const filter = {
+        $or: [
+          {
+            username: 'joel356',
+          },
+          {
+            username: 'weston422',
+          },
+          {
+            boardName: {
+              $starts_with: 'Qui',
+              $ends_with: 'ut',
+            },
+          },
+        ],
+      };
+
+      it('OR + orderBy', async () => {
+        const invites = await find(
+          BoardMemberView,
+          { ...orderByBoardIdAndInviterIdAsc, filter },
+          asAdmin(),
+        );
+
+        expect(invites).toMatchSnapshot();
+      });
+
+      it('OR + offset', async () => {
+        const invites = await find(
+          BoardMemberView,
+          { ...orderByBoardIdAndInviterIdAsc, filter, offset: 1 },
+          asAdmin(),
+        );
+
+        expect(invites).toMatchSnapshot();
+      });
+
+      it('OR + last', async () => {
+        const invites = await find(
+          BoardMemberView,
+          { ...orderByBoardIdAndInviterIdAsc, filter, last: 3 },
+          asAdmin(),
+        );
+
+        expect(invites).toMatchSnapshot();
+      });
+    });
+
+    describe('AND', () => {
+      const filter = {
+        $and: [
+          {
+            boardId: {
+              $gt: 30,
+              $lt: 40,
+            },
+          },
+          {
+            username: {
+              $contains: 't',
+            },
+          },
+          {
+            inviteCount: {
+              $in: [1, 4, 6],
+            },
+          },
+        ],
+      };
+
+      it('AND + orderBy', async () => {
+        const invites = await find(
+          BoardMemberView,
+          { ...orderByBoardIdAndInviterIdAsc, filter },
+          asAdmin(),
+        );
+
+        expect(invites).toMatchSnapshot();
+      });
+
+      it('AND + offset', async () => {
+        const invites = await find(
+          BoardMemberView,
+          { ...orderByBoardIdAndInviterIdAsc, filter, offset: 4 },
+          asAdmin(),
+        );
+
+        expect(invites).toMatchSnapshot();
+      });
+
+      it('AND + last', async () => {
+        const invites = await find(
+          BoardMemberView,
+          { ...orderByBoardIdAndInviterIdAsc, filter, last: 4 },
+          asAdmin(),
+        );
+
+        expect(invites).toMatchSnapshot();
+      });
+    });
+
+    describe('filter with nested logical operators', () => {
+      const filter = {
+        $and: [
+          {
+            boardId: {
+              $gt: 30,
+              $lt: 40,
+            },
+          },
+          {
+            username: {
+              $contains: 't',
+            },
+          },
+          {
+            inviteCount: {
+              $in: [1, 4, 6],
+            },
+          },
+          {
+            $or: [
+              {
+                username: 'tiana281',
+              },
+              {
+                username: 'jonathon586',
+              },
+            ],
+          },
+        ],
+      };
+
+      it('AND + OR', async () => {
+        const invites = await find(
+          BoardMemberView,
+          { ...orderByBoardIdAndInviterIdAsc, filter },
+          asAdmin(),
+        );
+
+        expect(invites).toMatchSnapshot();
+      });
+    });
+  });
+
   it('parentConnection', async () => {
     const parentConnection = {
       id: 79,
