@@ -50,6 +50,10 @@ export const asyncForEach = async (array, callback) => {
 };
 
 export const quote = item => {
+  if (!item) {
+    throw new Error('quote() requires an input');
+  }
+
   // special care for json pointers
   if (item.includes('->')) {
     const arr = item.split('->');
