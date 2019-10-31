@@ -1,10 +1,6 @@
 import './setupAndTearDown';
 import { find } from './db';
-
-import { asAdmin, removeListDynamicData } from './testUtils';
-
-import { Profile } from './models/Profile';
-import { Board } from './models/Board';
+import { asAdmin } from './testUtils';
 import { BoardMemberView } from './models/BoardMemberView';
 
 const orderByBoardIdAndInviterIdAsc = {
