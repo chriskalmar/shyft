@@ -1,5 +1,168 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`view list descending orderBy + first 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "50",
+      "invitees": Array [
+        "51",
+        "4",
+        "14",
+        "90",
+      ],
+      "inviterId": "84",
+    },
+    BoardMemberView {
+      "boardId": "49",
+      "invitees": Array [
+        "70",
+        "8",
+        "46",
+        "100",
+      ],
+      "inviterId": "26",
+    },
+    BoardMemberView {
+      "boardId": "48",
+      "invitees": Array [
+        "107",
+        "81",
+        "21",
+        "103",
+      ],
+      "inviterId": "41",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`view list descending orderBy + last 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "1",
+      "invitees": Array [
+        "63",
+      ],
+      "inviterId": "63",
+    },
+    BoardMemberView {
+      "boardId": "1",
+      "invitees": Array [
+        "42",
+      ],
+      "inviterId": "42",
+    },
+    BoardMemberView {
+      "boardId": "1",
+      "invitees": Array [
+        "34",
+      ],
+      "inviterId": "34",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`view list descending orderBy 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "50",
+      "invitees": Array [
+        "51",
+        "4",
+        "14",
+        "90",
+      ],
+      "inviterId": "84",
+    },
+    BoardMemberView {
+      "boardId": "49",
+      "invitees": Array [
+        "70",
+        "8",
+        "46",
+        "100",
+      ],
+      "inviterId": "26",
+    },
+    BoardMemberView {
+      "boardId": "48",
+      "invitees": Array [
+        "107",
+        "81",
+        "21",
+        "103",
+      ],
+      "inviterId": "41",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "104",
+      ],
+      "inviterId": "104",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "101",
+      ],
+      "inviterId": "101",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "70",
+      ],
+      "inviterId": "70",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "60",
+      ],
+      "inviterId": "60",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "58",
+      ],
+      "inviterId": "58",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "53",
+      ],
+      "inviterId": "53",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "49",
+      ],
+      "inviterId": "49",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`view list orderBy + first 0 1`] = `
 Object {
   "data": Array [],

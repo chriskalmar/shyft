@@ -20,10 +20,14 @@ const orderByBoardIdAndInviterIdAsc = {
   ],
 };
 
-const orderByBoardIdDesc = {
+const orderByBoardIdAndInviterIdDesc = {
   orderBy: [
     {
       attribute: 'boardId',
+      direction: 'DESC',
+    },
+    {
+      attribute: 'inviterId',
       direction: 'DESC',
     },
   ],
@@ -70,6 +74,35 @@ describe('view list', () => {
     expect(invites).toMatchSnapshot();
   });
 
+  it('descending orderBy', async () => {
+    const invites = await find(
+      BoardMemberView,
+      { ...orderByBoardIdAndInviterIdDesc },
+      asAdmin(),
+    );
+
+    expect(invites).toMatchSnapshot();
+  });
+
+  it('descending orderBy + first', async () => {
+    const invites = await find(
+      BoardMemberView,
+      { ...orderByBoardIdAndInviterIdDesc, first: 3 },
+      asAdmin(),
+    );
+
+    expect(invites).toMatchSnapshot();
+  });
+
+  it('descending orderBy + last', async () => {
+    const invites = await find(
+      BoardMemberView,
+      { ...orderByBoardIdAndInviterIdDesc, last: 3 },
+      asAdmin(),
+    );
+
+    expect(invites).toMatchSnapshot();
+  });
   it('parentConnection', async () => {
     const parentConnection = {
       id: 79,
