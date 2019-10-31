@@ -5,24 +5,33 @@ Object {
   "data": Array [
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "70",
       ],
       "inviterId": "70",
+      "username": "estell684",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "60",
       ],
       "inviterId": "60",
+      "username": "christa878",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "58",
       ],
       "inviterId": "58",
+      "username": "eladio832",
     },
   ],
   "pageInfo": Object {
@@ -37,6 +46,8 @@ Object {
   "data": Array [
     BoardMemberView {
       "boardId": "50",
+      "boardName": "Sed assumenda repellendus",
+      "inviteCount": "4",
       "invitees": Array [
         "51",
         "4",
@@ -44,9 +55,12 @@ Object {
         "90",
       ],
       "inviterId": "84",
+      "username": "anne750",
     },
     BoardMemberView {
       "boardId": "49",
+      "boardName": "Odit qui",
+      "inviteCount": "4",
       "invitees": Array [
         "70",
         "8",
@@ -54,9 +68,12 @@ Object {
         "100",
       ],
       "inviterId": "26",
+      "username": "araceli794",
     },
     BoardMemberView {
       "boardId": "48",
+      "boardName": "Nobis totam",
+      "inviteCount": "4",
       "invitees": Array [
         "107",
         "81",
@@ -64,6 +81,7 @@ Object {
         "103",
       ],
       "inviterId": "41",
+      "username": "myrl112",
     },
   ],
   "pageInfo": Object {
@@ -78,28 +96,37 @@ Object {
   "data": Array [
     BoardMemberView {
       "boardId": "4",
+      "boardName": "Delectus qui maxime",
+      "inviteCount": "1",
       "invitees": Array [
         "5",
       ],
       "inviterId": "5",
+      "username": "griffin807",
     },
     BoardMemberView {
       "boardId": "3",
+      "boardName": "Occaecati adipisci vel",
+      "inviteCount": "4",
       "invitees": Array [
-        "61",
         "1",
         "38",
         "24",
+        "61",
       ],
       "inviterId": "79",
+      "username": "joe922",
     },
     BoardMemberView {
       "boardId": "2",
+      "boardName": "Et eum",
+      "inviteCount": "2",
       "invitees": Array [
-        "92",
         "40",
+        "92",
       ],
       "inviterId": "46",
+      "username": "antonia919",
     },
   ],
   "pageInfo": Object {
@@ -114,24 +141,33 @@ Object {
   "data": Array [
     BoardMemberView {
       "boardId": "1",
+      "boardName": "Reiciendis quaerat",
+      "inviteCount": "1",
       "invitees": Array [
         "63",
       ],
       "inviterId": "63",
+      "username": "sibyl966",
     },
     BoardMemberView {
       "boardId": "1",
+      "boardName": "Reiciendis quaerat",
+      "inviteCount": "1",
       "invitees": Array [
         "42",
       ],
       "inviterId": "42",
+      "username": "alva280",
     },
     BoardMemberView {
       "boardId": "1",
+      "boardName": "Reiciendis quaerat",
+      "inviteCount": "1",
       "invitees": Array [
         "34",
       ],
       "inviterId": "34",
+      "username": "arlie128",
     },
   ],
   "pageInfo": Object {
@@ -146,69 +182,98 @@ Object {
   "data": Array [
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "104",
       ],
       "inviterId": "104",
+      "username": "joe154",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "101",
       ],
       "inviterId": "101",
+      "username": "isidro418",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "70",
       ],
       "inviterId": "70",
+      "username": "estell684",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "60",
       ],
       "inviterId": "60",
+      "username": "christa878",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "58",
       ],
       "inviterId": "58",
+      "username": "eladio832",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "53",
       ],
       "inviterId": "53",
+      "username": "emelie578",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "49",
       ],
       "inviterId": "49",
+      "username": "nettie731",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "33",
       ],
       "inviterId": "33",
+      "username": "hiram985",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "26",
       ],
       "inviterId": "26",
+      "username": "araceli794",
     },
     BoardMemberView {
       "boardId": "46",
+      "boardName": "Et architecto",
+      "inviteCount": "4",
       "invitees": Array [
         "109",
         "32",
@@ -216,6 +281,7 @@ Object {
         "40",
       ],
       "inviterId": "63",
+      "username": "sibyl966",
     },
   ],
   "pageInfo": Object {
@@ -230,6 +296,8 @@ Object {
   "data": Array [
     BoardMemberView {
       "boardId": "50",
+      "boardName": "Sed assumenda repellendus",
+      "inviteCount": "4",
       "invitees": Array [
         "51",
         "4",
@@ -237,9 +305,12 @@ Object {
         "90",
       ],
       "inviterId": "84",
+      "username": "anne750",
     },
     BoardMemberView {
       "boardId": "49",
+      "boardName": "Odit qui",
+      "inviteCount": "4",
       "invitees": Array [
         "70",
         "8",
@@ -247,9 +318,12 @@ Object {
         "100",
       ],
       "inviterId": "26",
+      "username": "araceli794",
     },
     BoardMemberView {
       "boardId": "48",
+      "boardName": "Nobis totam",
+      "inviteCount": "4",
       "invitees": Array [
         "107",
         "81",
@@ -257,55 +331,77 @@ Object {
         "103",
       ],
       "inviterId": "41",
+      "username": "myrl112",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "104",
       ],
       "inviterId": "104",
+      "username": "joe154",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "101",
       ],
       "inviterId": "101",
+      "username": "isidro418",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "70",
       ],
       "inviterId": "70",
+      "username": "estell684",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "60",
       ],
       "inviterId": "60",
+      "username": "christa878",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "58",
       ],
       "inviterId": "58",
+      "username": "eladio832",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "53",
       ],
       "inviterId": "53",
+      "username": "emelie578",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "49",
       ],
       "inviterId": "49",
+      "username": "nettie731",
     },
   ],
   "pageInfo": Object {
@@ -320,28 +416,37 @@ Object {
   "data": Array [
     BoardMemberView {
       "boardId": "2",
+      "boardName": "Et eum",
+      "inviteCount": "2",
       "invitees": Array [
-        "92",
         "40",
+        "92",
       ],
       "inviterId": "46",
+      "username": "antonia919",
     },
     BoardMemberView {
       "boardId": "3",
+      "boardName": "Occaecati adipisci vel",
+      "inviteCount": "4",
       "invitees": Array [
-        "61",
         "1",
         "38",
         "24",
+        "61",
       ],
       "inviterId": "79",
+      "username": "joe922",
     },
     BoardMemberView {
       "boardId": "4",
+      "boardName": "Delectus qui maxime",
+      "inviteCount": "1",
       "invitees": Array [
         "5",
       ],
       "inviterId": "5",
+      "username": "griffin807",
     },
   ],
   "pageInfo": Object {
@@ -366,24 +471,33 @@ Object {
   "data": Array [
     BoardMemberView {
       "boardId": "1",
+      "boardName": "Reiciendis quaerat",
+      "inviteCount": "1",
       "invitees": Array [
         "34",
       ],
       "inviterId": "34",
+      "username": "arlie128",
     },
     BoardMemberView {
       "boardId": "1",
+      "boardName": "Reiciendis quaerat",
+      "inviteCount": "1",
       "invitees": Array [
         "42",
       ],
       "inviterId": "42",
+      "username": "alva280",
     },
     BoardMemberView {
       "boardId": "1",
+      "boardName": "Reiciendis quaerat",
+      "inviteCount": "1",
       "invitees": Array [
         "63",
       ],
       "inviterId": "63",
+      "username": "sibyl966",
     },
   ],
   "pageInfo": Object {
@@ -398,24 +512,33 @@ Object {
   "data": Array [
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "58",
       ],
       "inviterId": "58",
+      "username": "eladio832",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "60",
       ],
       "inviterId": "60",
+      "username": "christa878",
     },
     BoardMemberView {
       "boardId": "47",
+      "boardName": "Accusamus sequi",
+      "inviteCount": "1",
       "invitees": Array [
         "70",
       ],
       "inviterId": "70",
+      "username": "estell684",
     },
   ],
   "pageInfo": Object {
@@ -430,6 +553,8 @@ Object {
   "data": Array [
     BoardMemberView {
       "boardId": "48",
+      "boardName": "Nobis totam",
+      "inviteCount": "4",
       "invitees": Array [
         "107",
         "81",
@@ -437,9 +562,12 @@ Object {
         "103",
       ],
       "inviterId": "41",
+      "username": "myrl112",
     },
     BoardMemberView {
       "boardId": "49",
+      "boardName": "Odit qui",
+      "inviteCount": "4",
       "invitees": Array [
         "70",
         "8",
@@ -447,9 +575,12 @@ Object {
         "100",
       ],
       "inviterId": "26",
+      "username": "araceli794",
     },
     BoardMemberView {
       "boardId": "50",
+      "boardName": "Sed assumenda repellendus",
+      "inviteCount": "4",
       "invitees": Array [
         "51",
         "4",
@@ -457,6 +588,7 @@ Object {
         "90",
       ],
       "inviterId": "84",
+      "username": "anne750",
     },
   ],
   "pageInfo": Object {
@@ -471,28 +603,39 @@ Object {
   "data": Array [
     BoardMemberView {
       "boardId": "1",
+      "boardName": "Reiciendis quaerat",
+      "inviteCount": "1",
       "invitees": Array [
         "82",
       ],
       "inviterId": "82",
+      "username": "dortha300",
     },
     BoardMemberView {
       "boardId": "1",
+      "boardName": "Reiciendis quaerat",
+      "inviteCount": "1",
       "invitees": Array [
         "91",
       ],
       "inviterId": "91",
+      "username": "lionel825",
     },
     BoardMemberView {
       "boardId": "2",
+      "boardName": "Et eum",
+      "inviteCount": "2",
       "invitees": Array [
         "40",
         "92",
       ],
       "inviterId": "46",
+      "username": "antonia919",
     },
     BoardMemberView {
       "boardId": "3",
+      "boardName": "Occaecati adipisci vel",
+      "inviteCount": "4",
       "invitees": Array [
         "1",
         "38",
@@ -500,48 +643,67 @@ Object {
         "61",
       ],
       "inviterId": "79",
+      "username": "joe922",
     },
     BoardMemberView {
       "boardId": "4",
+      "boardName": "Delectus qui maxime",
+      "inviteCount": "1",
       "invitees": Array [
         "5",
       ],
       "inviterId": "5",
+      "username": "griffin807",
     },
     BoardMemberView {
       "boardId": "4",
+      "boardName": "Delectus qui maxime",
+      "inviteCount": "1",
       "invitees": Array [
         "9",
       ],
       "inviterId": "9",
+      "username": "omari409",
     },
     BoardMemberView {
       "boardId": "4",
+      "boardName": "Delectus qui maxime",
+      "inviteCount": "1",
       "invitees": Array [
         "17",
       ],
       "inviterId": "17",
+      "username": "fred777",
     },
     BoardMemberView {
       "boardId": "4",
+      "boardName": "Delectus qui maxime",
+      "inviteCount": "1",
       "invitees": Array [
         "30",
       ],
       "inviterId": "30",
+      "username": "carissa722",
     },
     BoardMemberView {
       "boardId": "4",
+      "boardName": "Delectus qui maxime",
+      "inviteCount": "1",
       "invitees": Array [
         "33",
       ],
       "inviterId": "33",
+      "username": "hiram985",
     },
     BoardMemberView {
       "boardId": "4",
+      "boardName": "Delectus qui maxime",
+      "inviteCount": "1",
       "invitees": Array [
         "50",
       ],
       "inviterId": "50",
+      "username": "frank367",
     },
   ],
   "pageInfo": Object {
@@ -556,49 +718,69 @@ Object {
   "data": Array [
     BoardMemberView {
       "boardId": "1",
+      "boardName": "Reiciendis quaerat",
+      "inviteCount": "1",
       "invitees": Array [
         "34",
       ],
       "inviterId": "34",
+      "username": "arlie128",
     },
     BoardMemberView {
       "boardId": "1",
+      "boardName": "Reiciendis quaerat",
+      "inviteCount": "1",
       "invitees": Array [
         "42",
       ],
       "inviterId": "42",
+      "username": "alva280",
     },
     BoardMemberView {
       "boardId": "1",
+      "boardName": "Reiciendis quaerat",
+      "inviteCount": "1",
       "invitees": Array [
         "63",
       ],
       "inviterId": "63",
+      "username": "sibyl966",
     },
     BoardMemberView {
       "boardId": "1",
+      "boardName": "Reiciendis quaerat",
+      "inviteCount": "1",
       "invitees": Array [
         "82",
       ],
       "inviterId": "82",
+      "username": "dortha300",
     },
     BoardMemberView {
       "boardId": "1",
+      "boardName": "Reiciendis quaerat",
+      "inviteCount": "1",
       "invitees": Array [
         "91",
       ],
       "inviterId": "91",
+      "username": "lionel825",
     },
     BoardMemberView {
       "boardId": "2",
+      "boardName": "Et eum",
+      "inviteCount": "2",
       "invitees": Array [
         "40",
         "92",
       ],
       "inviterId": "46",
+      "username": "antonia919",
     },
     BoardMemberView {
       "boardId": "3",
+      "boardName": "Occaecati adipisci vel",
+      "inviteCount": "4",
       "invitees": Array [
         "1",
         "38",
@@ -606,27 +788,37 @@ Object {
         "61",
       ],
       "inviterId": "79",
+      "username": "joe922",
     },
     BoardMemberView {
       "boardId": "4",
+      "boardName": "Delectus qui maxime",
+      "inviteCount": "1",
       "invitees": Array [
         "5",
       ],
       "inviterId": "5",
+      "username": "griffin807",
     },
     BoardMemberView {
       "boardId": "4",
+      "boardName": "Delectus qui maxime",
+      "inviteCount": "1",
       "invitees": Array [
         "9",
       ],
       "inviterId": "9",
+      "username": "omari409",
     },
     BoardMemberView {
       "boardId": "4",
+      "boardName": "Delectus qui maxime",
+      "inviteCount": "1",
       "invitees": Array [
         "17",
       ],
       "inviterId": "17",
+      "username": "fred777",
     },
   ],
   "pageInfo": Object {
@@ -641,6 +833,8 @@ Object {
   "data": Array [
     BoardMemberView {
       "boardId": "3",
+      "boardName": "Occaecati adipisci vel",
+      "inviteCount": "4",
       "invitees": Array [
         "24",
         "38",
@@ -648,6 +842,7 @@ Object {
         "61",
       ],
       "inviterId": "79",
+      "username": "joe922",
     },
   ],
   "pageInfo": Object {
@@ -662,6 +857,8 @@ Object {
   "data": Array [
     BoardMemberView {
       "boardId": "3",
+      "boardName": "Occaecati adipisci vel",
+      "inviteCount": "4",
       "invitees": Array [
         "24",
         "38",
@@ -669,27 +866,37 @@ Object {
         "61",
       ],
       "inviterId": "79",
+      "username": "joe922",
     },
     BoardMemberView {
       "boardId": "13",
+      "boardName": "Suscipit aut cum",
+      "inviteCount": "1",
       "invitees": Array [
         "79",
       ],
       "inviterId": "79",
+      "username": "joe922",
     },
     BoardMemberView {
       "boardId": "25",
+      "boardName": "Libero similique vitae",
+      "inviteCount": "1",
       "invitees": Array [
         "79",
       ],
       "inviterId": "79",
+      "username": "joe922",
     },
     BoardMemberView {
       "boardId": "29",
+      "boardName": "Ut provident assumenda",
+      "inviteCount": "1",
       "invitees": Array [
         "79",
       ],
       "inviterId": "79",
+      "username": "joe922",
     },
   ],
   "pageInfo": Object {
