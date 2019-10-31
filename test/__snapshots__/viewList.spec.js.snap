@@ -411,6 +411,66 @@ Object {
 }
 `;
 
+exports[`view list filter 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "15",
+      "boardName": "Sunt nobis",
+      "inviteCount": "1",
+      "invitees": Array [
+        "11",
+      ],
+      "inviterId": "11",
+      "username": "hazel528",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`view list filter with invalid attributes (reject) 1`] = `[Error: Unknown attribute name 'someAttributes' used in filter]`;
+
+exports[`view list filter with mutliple attributes 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "24",
+      "boardName": "Non iusto unde",
+      "inviteCount": "7",
+      "invitees": Array [
+        "23",
+        "31",
+        "40",
+        "89",
+        "37",
+        "51",
+        "17",
+      ],
+      "inviterId": "30",
+      "username": "carissa722",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`view list filter with no results 1`] = `
+Object {
+  "data": Array [],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`view list orderBy + first + offset 1`] = `
 Object {
   "data": Array [

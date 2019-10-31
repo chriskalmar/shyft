@@ -164,6 +164,65 @@ describe('view list', () => {
     expect(invites).toMatchSnapshot();
   });
 
+  it('filter', async () => {
+    const filter = {
+      username: 'hazel528',
+    };
+
+    const invites = await find(
+      BoardMemberView,
+      { ...orderByBoardIdAndInviterIdAsc, filter },
+      asAdmin(),
+    );
+
+    expect(invites).toMatchSnapshot();
+  });
+
+  it('filter with no results', async () => {
+    const filter = {
+      username: '---not-found---',
+    };
+
+    const invites = await find(
+      BoardMemberView,
+      { ...orderByBoardIdAndInviterIdAsc, filter },
+      asAdmin(),
+    );
+
+    expect(invites).toMatchSnapshot();
+  });
+
+  it('filter with mutliple attributes', async () => {
+    const filter = {
+      username: 'carissa722',
+      inviteCount: {
+        $gt: 5,
+      },
+    };
+
+    const invites = await find(
+      BoardMemberView,
+      { ...orderByBoardIdAndInviterIdAsc, filter },
+      asAdmin(),
+    );
+
+    expect(invites).toMatchSnapshot();
+  });
+
+  it('filter with invalid attributes (reject)', async () => {
+    const filter = {
+      someAttributes: 'Veritatis nihil cum',
+    };
+
+    await find(
+      BoardMemberView,
+      { ...orderByBoardIdAndInviterIdAsc, filter },
+      asAdmin(),
+    ).catch(e => {
+      expect(e).toMatchSnapshot();
+    });
+  });
+
   it('parentConnection', async () => {
     const parentConnection = {
       id: 79,
