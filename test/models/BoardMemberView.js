@@ -2,6 +2,7 @@ import { ViewEntity, Permission } from 'shyft';
 
 import { Profile } from './Profile';
 import { Board } from './Board';
+import { DataTypeString, DataTypeInteger, buildListDataType } from 'shyft';
 
 const readPermissions = () => [
   new Permission().role('admin'),
@@ -44,15 +45,35 @@ export const BoardMemberView = new ViewEntity({
       required: true,
     },
 
+    boardName: {
+      type: DataTypeString,
+      description: 'Name of the board',
+      required: true,
+    },
+
     inviterId: {
       type: Profile,
       description: 'The user that invites to a board',
       required: true,
     },
 
+    username: {
+      type: DataTypeString,
+      description: 'Username of the inviter',
+      required: true,
+    },
+
+    inviteCount: {
+      type: DataTypeInteger,
+      description: 'Number of invitees',
+      required: true,
+    },
+
     invitees: {
-      type: Profile,
-      description: 'The user that participates in the board',
+      type: buildListDataType({
+        itemType: Profile,
+      }),
+      description: 'List of invitees',
       required: true,
     },
   },
