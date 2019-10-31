@@ -81,7 +81,7 @@ const upgradeMigrationQuery = (_query, isUpMigration = false) => {
     const reformatted = query
       .replace(new RegExp('`', 'g'), '\\`')
       .replace(new RegExp("'", 'g'), "\\'");
-    sqls.push(`    await queryRunner.query('${reformatted}');`);
+    sqls.push(`    await queryRunner.query(\`${reformatted}\`);`);
   }
 
   return sqls;
