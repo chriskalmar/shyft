@@ -103,6 +103,67 @@ describe('view list', () => {
 
     expect(invites).toMatchSnapshot();
   });
+
+  it('orderBy + offset', async () => {
+    const invites = await find(
+      BoardMemberView,
+      { ...orderByBoardIdAndInviterIdAsc, offset: 3 },
+      asAdmin(),
+    );
+
+    expect(invites).toMatchSnapshot();
+  });
+
+  it('orderBy + first + offset', async () => {
+    const invites = await find(
+      BoardMemberView,
+      { ...orderByBoardIdAndInviterIdAsc, first: 3, offset: 5 },
+      asAdmin(),
+    );
+
+    expect(invites).toMatchSnapshot();
+  });
+
+  it('orderBy + last + offset', async () => {
+    const invites = await find(
+      BoardMemberView,
+      { ...orderByBoardIdAndInviterIdAsc, last: 3, offset: 5 },
+      asAdmin(),
+    );
+
+    expect(invites).toMatchSnapshot();
+  });
+
+  it('descending orderBy + offset', async () => {
+    const invites = await find(
+      BoardMemberView,
+      { ...orderByBoardIdAndInviterIdDesc, offset: 3 },
+      asAdmin(),
+    );
+
+    expect(invites).toMatchSnapshot();
+  });
+
+  it('descending orderBy + first + offset', async () => {
+    const invites = await find(
+      BoardMemberView,
+      { ...orderByBoardIdAndInviterIdDesc, first: 3, offset: 5 },
+      asAdmin(),
+    );
+
+    expect(invites).toMatchSnapshot();
+  });
+
+  it('descending orderBy + last + offset', async () => {
+    const invites = await find(
+      BoardMemberView,
+      { ...orderByBoardIdAndInviterIdDesc, last: 3, offset: 5 },
+      asAdmin(),
+    );
+
+    expect(invites).toMatchSnapshot();
+  });
+
   it('parentConnection', async () => {
     const parentConnection = {
       id: 79,

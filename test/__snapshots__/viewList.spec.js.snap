@@ -1,5 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`view list descending orderBy + first + offset 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "70",
+      ],
+      "inviterId": "70",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "60",
+      ],
+      "inviterId": "60",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "58",
+      ],
+      "inviterId": "58",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`view list descending orderBy + first 1`] = `
 Object {
   "data": Array [
@@ -41,6 +73,42 @@ Object {
 }
 `;
 
+exports[`view list descending orderBy + last + offset 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "4",
+      "invitees": Array [
+        "5",
+      ],
+      "inviterId": "5",
+    },
+    BoardMemberView {
+      "boardId": "3",
+      "invitees": Array [
+        "61",
+        "1",
+        "38",
+        "24",
+      ],
+      "inviterId": "79",
+    },
+    BoardMemberView {
+      "boardId": "2",
+      "invitees": Array [
+        "92",
+        "40",
+      ],
+      "inviterId": "46",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
 exports[`view list descending orderBy + last 1`] = `
 Object {
   "data": Array [
@@ -69,6 +137,90 @@ Object {
   "pageInfo": Object {
     "hasNextPage": false,
     "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`view list descending orderBy + offset 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "104",
+      ],
+      "inviterId": "104",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "101",
+      ],
+      "inviterId": "101",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "70",
+      ],
+      "inviterId": "70",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "60",
+      ],
+      "inviterId": "60",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "58",
+      ],
+      "inviterId": "58",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "53",
+      ],
+      "inviterId": "53",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "49",
+      ],
+      "inviterId": "49",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "33",
+      ],
+      "inviterId": "33",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "26",
+      ],
+      "inviterId": "26",
+    },
+    BoardMemberView {
+      "boardId": "46",
+      "invitees": Array [
+        "109",
+        "32",
+        "45",
+        "40",
+      ],
+      "inviterId": "63",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
   },
 }
 `;
@@ -163,6 +315,42 @@ Object {
 }
 `;
 
+exports[`view list orderBy + first + offset 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "2",
+      "invitees": Array [
+        "92",
+        "40",
+      ],
+      "inviterId": "46",
+    },
+    BoardMemberView {
+      "boardId": "3",
+      "invitees": Array [
+        "61",
+        "1",
+        "38",
+        "24",
+      ],
+      "inviterId": "79",
+    },
+    BoardMemberView {
+      "boardId": "4",
+      "invitees": Array [
+        "5",
+      ],
+      "inviterId": "5",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`view list orderBy + first 0 1`] = `
 Object {
   "data": Array [],
@@ -205,6 +393,38 @@ Object {
 }
 `;
 
+exports[`view list orderBy + last + offset 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "58",
+      ],
+      "inviterId": "58",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "60",
+      ],
+      "inviterId": "60",
+    },
+    BoardMemberView {
+      "boardId": "47",
+      "invitees": Array [
+        "70",
+      ],
+      "inviterId": "70",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
 exports[`view list orderBy + last 1`] = `
 Object {
   "data": Array [
@@ -242,6 +462,91 @@ Object {
   "pageInfo": Object {
     "hasNextPage": false,
     "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`view list orderBy + offset 1`] = `
+Object {
+  "data": Array [
+    BoardMemberView {
+      "boardId": "1",
+      "invitees": Array [
+        "82",
+      ],
+      "inviterId": "82",
+    },
+    BoardMemberView {
+      "boardId": "1",
+      "invitees": Array [
+        "91",
+      ],
+      "inviterId": "91",
+    },
+    BoardMemberView {
+      "boardId": "2",
+      "invitees": Array [
+        "40",
+        "92",
+      ],
+      "inviterId": "46",
+    },
+    BoardMemberView {
+      "boardId": "3",
+      "invitees": Array [
+        "1",
+        "38",
+        "24",
+        "61",
+      ],
+      "inviterId": "79",
+    },
+    BoardMemberView {
+      "boardId": "4",
+      "invitees": Array [
+        "5",
+      ],
+      "inviterId": "5",
+    },
+    BoardMemberView {
+      "boardId": "4",
+      "invitees": Array [
+        "9",
+      ],
+      "inviterId": "9",
+    },
+    BoardMemberView {
+      "boardId": "4",
+      "invitees": Array [
+        "17",
+      ],
+      "inviterId": "17",
+    },
+    BoardMemberView {
+      "boardId": "4",
+      "invitees": Array [
+        "30",
+      ],
+      "inviterId": "30",
+    },
+    BoardMemberView {
+      "boardId": "4",
+      "invitees": Array [
+        "33",
+      ],
+      "inviterId": "33",
+    },
+    BoardMemberView {
+      "boardId": "4",
+      "invitees": Array [
+        "50",
+      ],
+      "inviterId": "50",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
   },
 }
 `;
