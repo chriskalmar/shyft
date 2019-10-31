@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ViewEntity attributes should catch invalid attribute names 1`] = `"Invalid attribute name 'wrong-named-attribute' in view entity 'SomeViewEntityName' (Regex: /^[a-zA-Z][a-zA-Z0-9_]*$/)"`;
+
+exports[`ViewEntity attributes should reject an empty attributes map 1`] = `"ViewEntity 'SomeViewEntityName' has no attributes defined"`;
+
+exports[`ViewEntity attributes should reject attributes with missing or invalid data type 1`] = `"'SomeViewEntityName.someAttribute' has invalid data type 'undefined'"`;
+
+exports[`ViewEntity attributes should reject attributes without a description 1`] = `"Missing description for 'SomeViewEntityName.someAttribute'"`;
+
+exports[`ViewEntity attributes should throw if provided with an invalid resolve function 1`] = `"'SomeViewEntityName.someAttribute' has an invalid resolve function'"`;
+
+exports[`ViewEntity isViewEntity should recognize non-ViewEntity objects 1`] = `"Not a ViewEntity object"`;
+
+exports[`ViewEntity permissions should throw if empty permissions are provided 1`] = `"ViewEntity 'SomeViewEntityName' has one or more empty permission definitions in: read, find, mutations.delete"`;
+
+exports[`ViewEntity references should throw if invalid attribute is to be referenced 1`] = `"Cannot reference attribute 'Country.notHere' as it does not exist"`;
+
+exports[`ViewEntity should accept only maps or functions as attributes definition 1`] = `"'attributes' for view entity 'Example' needs to be a map of attributes"`;
+
+exports[`ViewEntity should have a description 1`] = `"Missing description for view entity 'Example'"`;
+
+exports[`ViewEntity should have a map of attributes 1`] = `"ViewEntity 'Example' needs either attributes or attributesGenerator defined"`;
+
+exports[`ViewEntity should have a name 1`] = `"Missing view entity name"`;
+
+exports[`ViewEntity should have a view expression 1`] = `"Missing viewExpression for view entity 'Example'"`;
+
+exports[`ViewEntity should reject non-map results of attribute definition functions 1`] = `"Attribute definition function for view entity 'Example' does not return a map"`;
+
+exports[`ViewEntity should throw if invalid storage type was provided 1`] = `"ViewEntity 'Example' needs a valid storage type (defaults to 'StorageTypeNull')"`;
