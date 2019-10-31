@@ -2051,7 +2051,7 @@ Object {
 }
 `;
 
-exports[`list parentConnection with invalid attribute (reject) 1`] = `[Error: Undefined server error]`;
+exports[`list parentConnection with invalid attribute (reject) 1`] = `[Error: column "invalidAttributeName" does not exist]`;
 
 exports[`list should utilize data loader 1`] = `
 Array [
