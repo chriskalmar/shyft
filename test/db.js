@@ -19,11 +19,19 @@ import { Message } from './models/Message';
 import { BoardMember } from './models/BoardMember';
 import { Book } from './models/Book';
 import { DataTypeTester } from './models/DataTypeTester';
+import { BoardMemberView } from './models/BoardMemberView';
 
 const schema = new Schema({
   defaultStorageType: StorageTypePostgres,
 
-  entities: [Profile, Message, BoardMember, Book, DataTypeTester],
+  entities: [
+    Profile,
+    Message,
+    BoardMember,
+    Book,
+    DataTypeTester,
+    BoardMemberView,
+  ],
 });
 
 const languages = ['en', 'de'];
