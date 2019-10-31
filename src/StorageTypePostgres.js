@@ -84,6 +84,8 @@ const processOrmError = (err, storageInstance, qBuilder, constraints) => {
     throw new CustomError(err.message, 'InvalidInputSyntaxError');
   } else if (String(err.code) === '23502') {
     throw new CustomError(err.message, 'NotNullConstraintViolationError');
+  } else if (String(err.code) === '42703') {
+    throw new CustomError(err.message, 'UndefinedColumnError');
   }
 
   storageInstance.logger.logQueryError(err.message, qBuilder.getSql());
