@@ -114,8 +114,7 @@ describe('view list', () => {
       asAdmin(),
       parentConnection,
     ).catch(e => {
-      // expect(e).toMatchSnapshot();
-      console.log(e);
+      expect(e).toMatchSnapshot();
     });
   });
 });

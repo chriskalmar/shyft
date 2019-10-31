@@ -231,4 +231,4 @@ Object {
 }
 `;
 
-exports[`view list parentConnection with invalid attribute (reject) 1`] = `[Error: Undefined server error]`;
+exports[`view list parentConnection with invalid attribute (reject) 1`] = `[Error: column "invalidAttributeName" does not exist]`;
