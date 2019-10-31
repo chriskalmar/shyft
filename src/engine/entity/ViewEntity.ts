@@ -96,7 +96,7 @@ export class ViewEntity {
       );
     });
 
-    passOrThrow(name, () => 'Missing entity name');
+    passOrThrow(name, () => 'Missing view entity name');
     passOrThrow(
       description,
       () => `Missing description for view entity '${name}'`,
@@ -123,7 +123,7 @@ export class ViewEntity {
     }
 
     passOrThrow(
-      description,
+      viewExpression,
       () => `Missing viewExpression for view entity '${name}'`,
     );
 
