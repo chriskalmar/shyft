@@ -93,6 +93,7 @@ export const viewAttributePropertiesWhitelist: Array<string> = [
   'description',
   'type',
   'required',
+  'primary',
   'resolve',
   'mock',
   'meta',

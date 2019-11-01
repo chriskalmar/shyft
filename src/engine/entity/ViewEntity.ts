@@ -60,6 +60,7 @@ export class ViewEntity {
   meta?: any;
   private _attributesMap: AttributesSetupMap;
   private _attributesGenerator: AttributesMapGenerator;
+  private _primaryAttribute: Attribute;
   private referencedByEntities: any;
   private _permissions: any;
   private _defaultPermissions: any;
@@ -131,6 +132,7 @@ export class ViewEntity {
     this.description = description;
     this._attributesMap = attributes;
     this._attributesGenerator = attributesGenerator;
+    this._primaryAttribute = null;
     this.referencedByEntities = [];
     this.viewExpression = viewExpression;
     this._permissions = permissions;
@@ -217,7 +219,8 @@ export class ViewEntity {
 
     const attribute: Attribute = {
       ...rawAttribute,
-      required: !!rawAttribute.required,
+      primary: !!rawAttribute.primary,
+      required: !!rawAttribute.required || !!rawAttribute.primary,
       hidden: !!rawAttribute.hidden,
       name: attributeName,
     };
@@ -279,6 +282,28 @@ export class ViewEntity {
         // check if attribute is found in target entity
         (attribute.type as ViewEntity).referenceAttribute(targetAttribute.name);
       });
+    }
+
+    if (attribute.primary) {
+      passOrThrow(
+        !this._primaryAttribute,
+        () =>
+          `'${this.name}.${attributeName}' cannot be set as primary attribute,` +
+          `'${this._primaryAttribute.name}' is already the primary attribute`,
+      );
+
+      passOrThrow(
+        isDataType(attribute.type),
+        () =>
+          `Primary attribute '${
+            this.name
+          }.${attributeName}' has invalid data type '${String(
+            attribute.type,
+          )}'`,
+      );
+
+      attribute.isSystemAttribute = true;
+      this._primaryAttribute = attribute;
     }
 
     passOrThrow(
@@ -343,7 +368,26 @@ export class ViewEntity {
       }
     });
 
-    return resultAttributes;
+    const rankedResultAttributes = {};
+
+    Object.keys(resultAttributes).map(attributeName => {
+      const attribute = resultAttributes[attributeName];
+      if (attribute.primary) {
+        rankedResultAttributes[attributeName] = attribute;
+      }
+    });
+    Object.keys(resultAttributes).map(attributeName => {
+      const attribute = resultAttributes[attributeName];
+      if (!attribute.primary) {
+        rankedResultAttributes[attributeName] = attribute;
+      }
+    });
+
+    return rankedResultAttributes;
+  }
+
+  getPrimaryAttribute() {
+    return this._primaryAttribute;
   }
 
   referenceAttribute(attributeName) {
