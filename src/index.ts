@@ -63,6 +63,8 @@ import {
   deleteUndefinedProps,
   isDefined,
   isString,
+  convertEntityToViewAttribute,
+  convertEntityToViewAttributesMap,
 } from './engine/util';
 
 import { processCursors } from './engine/cursor';
@@ -222,4 +224,6 @@ export {
   isProtocolConfiguration,
   StorageConfiguration,
   isStorageConfiguration,
+  convertEntityToViewAttribute,
+  convertEntityToViewAttributesMap,
 };
