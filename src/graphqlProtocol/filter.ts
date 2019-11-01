@@ -138,7 +138,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
                 }
               });
 
-              return fields;
+              return preFilterFields;
             },
           });
 
