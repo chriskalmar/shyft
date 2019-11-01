@@ -317,7 +317,7 @@ export const StorageTypePostgres = new StorageType({
     ];
 
     let primaryAttributeName;
-    if (entity.getPrimaryAttribute) {
+    if (entity.getPrimaryAttribute()) {
       primaryAttributeName = entity.getPrimaryAttribute().name;
     }
 
@@ -431,7 +431,7 @@ export const StorageTypePostgres = new StorageType({
       processOrmError(err, storageInstance, qBuilder);
     }
 
-    if (entity.getPrimaryAttribute) {
+    if (entity.getPrimaryAttribute()) {
       if (!loader) {
         loader = loaders[entityName] = createDataLoader(context, entity, this);
       }
