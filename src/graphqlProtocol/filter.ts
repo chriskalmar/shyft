@@ -68,9 +68,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
           const targetRegistryType = graphRegistry.types[targetTypeName];
           const targetConnectionArgs = targetRegistryType.connectionArgs;
 
-          const fieldName = `${
-            attribute.gqlFieldName
-          }__${DEEP_FILTER_OPERATOR}`;
+          const fieldName = `${attribute.gqlFieldName}__${DEEP_FILTER_OPERATOR}`;
           fields[fieldName] = targetConnectionArgs.filter;
 
           const primaryAttribute = targetEntity.getPrimaryAttribute();
@@ -100,8 +98,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
             storageDataTypeCapabilityType.VALUE
           ) {
             field.type = fieldType;
-          }
-          else if (
+          } else if (
             storageDataTypeCapabilities[capability] ===
             storageDataTypeCapabilityType.LIST
           ) {
@@ -134,8 +131,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
 
                 if (preFilter.attributes) {
                   // TODO
-                }
-                else {
+                } else {
                   preFilterFields[preFilterName] = {
                     type: GraphQLBoolean,
                   };
@@ -179,8 +175,7 @@ export const splitAttributeAndFilterOperator = str => {
           attributeName,
         };
       }
-    }
-    else {
+    } else {
       ret = {
         attributeName: str,
       };
@@ -307,12 +302,10 @@ export const transformFilterLevel = async (
       if (operator) {
         if (operator === DEEP_FILTER_OPERATOR) {
           hasFilter[attributeName].hasDeepFilter = true;
-        }
-        else {
+        } else {
           hasFilter[attributeName].hasComplexFilter = true;
         }
-      }
-      else {
+      } else {
         hasFilter[attributeName].hasExactMatchFilter = true;
       }
 
@@ -355,12 +348,10 @@ export const transformFilterLevel = async (
           );
           if (resolvedList) {
             ret[realAttributeName].$in = resolvedList;
-          }
-          else {
+          } else {
             ret[realAttributeName].$noResult = true;
           }
-        }
-        else if (operator === PRE_FILTER_OPERATOR) {
+        } else if (operator === PRE_FILTER_OPERATOR) {
           const preFilters = entity.getPreFilters();
           const usedPreFilters = Object.keys(value).filter(preFilterName => {
             const preFilterValue = value[preFilterName];
@@ -369,9 +360,8 @@ export const transformFilterLevel = async (
 
           if (usedPreFilters.length > 1) {
             throw new Error('Multiple preFilters cannot be combined');
-          }
-          else if (usedPreFilters.length === 1) {
-            const [ usedPreFilter ] = usedPreFilters;
+          } else if (usedPreFilters.length === 1) {
+            const [usedPreFilter] = usedPreFilters;
 
             const preFilter = preFilters[usedPreFilter];
 
@@ -389,18 +379,15 @@ export const transformFilterLevel = async (
 
             if (resolvedList) {
               ret[realAttributeName].$in = resolvedList;
-            }
-            else {
+            } else {
               ret[realAttributeName].$noResult = true;
             }
           }
-        }
-        else {
+        } else {
           const operatorKey = `$${operator}`;
           ret[realAttributeName][operatorKey] = value;
         }
-      }
-      else {
+      } else {
         ret[realAttributeName] = value;
       }
     }),
