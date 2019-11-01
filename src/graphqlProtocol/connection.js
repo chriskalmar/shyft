@@ -90,7 +90,7 @@ export const forceSortByUnique = (orderBy, entity) => {
   });
 
   if (!foundUnique) {
-    if (entity.getPrimaryAttribute) {
+    if (entity.getPrimaryAttribute()) {
       const primaryAttribute = entity.getPrimaryAttribute();
       orderBy.push({
         attribute: primaryAttribute.name,
@@ -129,7 +129,7 @@ export const generateConnectionType = config => {
   const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase;
   let cursor;
 
-  if (entity.getPrimaryAttribute) {
+  if (entity.getPrimaryAttribute()) {
     cursor = {
       type: new GraphQLNonNull(GraphQLCursor),
       description: 'A cursor for use in pagination',
@@ -214,7 +214,7 @@ export const connectionFromData = (
   const entityName = entity.name;
   let nodeToEdge;
 
-  if (entity.getPrimaryAttribute) {
+  if (entity.getPrimaryAttribute()) {
     const primaryAttributeName = entity.getPrimaryAttribute().name;
     nodeToEdge = (node, idx) => ({
       cursor: buildCursor(
