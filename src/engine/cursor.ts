@@ -81,7 +81,7 @@ export const processCursor = (
         orderList.push(attributeName);
       }
 
-      if (attribute.unique) {
+      if (attribute.unique || attributeName === primaryAttribute.name) {
         foundUniqueAttribute = true;
       }
     });
@@ -105,14 +105,12 @@ export const processCursor = (
         where[attributeName] = {
           [$LT]: value,
         };
-      }
-      else {
+      } else {
         where[attributeName] = {
           [$GT]: value,
         };
       }
-    }
-    else {
+    } else {
       where.$not = {};
 
       cursor[entity.name].map(filter => {
@@ -131,22 +129,19 @@ export const processCursor = (
             where.$not[attributeName] = {
               [$GTE]: value,
             };
-          }
-          else {
+          } else {
             where.$not[attributeName] = {
               [$LTE]: value,
             };
           }
-        }
-        else {
+        } else {
           where.$not[attributeName] = value;
 
           if (orderMap[attributeName] === 'DESC') {
             where[attributeName] = {
               [$LTE]: value,
             };
-          }
-          else {
+          } else {
             where[attributeName] = {
               [$GTE]: value,
             };
