@@ -1,5 +1,6 @@
 import * as casual from 'casual';
 import * as _ from 'lodash';
+import { viewAttributePropertiesWhitelist } from './constants';
 
 type StringFunction = () => string;
 
@@ -79,7 +80,7 @@ export const mapOverProperties = (
 export const sortDataByKeys = (
   keys: string[],
   data: object[],
-  keyProperty: string = 'id',
+  keyProperty = 'id',
 ) => {
   const map = {};
   const result = [];
@@ -100,12 +101,10 @@ export const sortDataByKeys = (
 
     if (!found) {
       map[id] = row;
-    }
-    else if (found instanceof Array) {
+    } else if (found instanceof Array) {
       found.push(row);
-    }
-    else {
-      map[id] = [ found, row ];
+    } else {
+      map[id] = [found, row];
     }
   }
 
@@ -115,22 +114,19 @@ export const sortDataByKeys = (
 
     if (typeof found === 'undefined') {
       result.push(null);
-    }
-    else if (found instanceof Array) {
+    } else if (found instanceof Array) {
       let idx = order[key];
 
       if (typeof idx === 'undefined') {
         idx = 0;
-      }
-      else {
+      } else {
         idx++;
       }
 
       order[key] = idx;
 
       result.push(found[idx]);
-    }
-    else {
+    } else {
       result.push(found);
     }
   }
@@ -169,3 +165,35 @@ export const asyncForEach = async (
 };
 
 export const isDefined = (val: any): boolean => typeof val !== 'undefined';
+
+export const convertEntityToViewAttribute = attribute => {
+  if (!_.isObject(attribute)) {
+    throw new Error(
+      'convertEntityToViewAttribute() expects an attribute as input',
+    );
+  }
+
+  const newAttribute = {};
+
+  viewAttributePropertiesWhitelist.map(prop => {
+    newAttribute[prop] = attribute[prop];
+  });
+
+  return newAttribute;
+};
+
+export const convertEntityToViewAttributesMap = attributesMap => {
+  const newAttributesMap = {};
+
+  if (!_.isObject(attributesMap)) {
+    throw new Error(
+      'convertEntityToViewAttributesMap() expects an attributes map as input',
+    );
+  }
+
+  for (const [name, attribute] of Object.entries(attributesMap)) {
+    newAttributesMap[name] = convertEntityToViewAttribute(attribute);
+  }
+
+  return newAttributesMap;
+};
