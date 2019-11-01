@@ -28,6 +28,7 @@ ${downSqls.join('\n')}
 const upgradeMigrationQuery = (_query, isUpMigration = false) => {
   const sqls = [];
   const query = _query.query.replace(new RegExp('`', 'g'), '\\`');
+  const parameters = _query.parameters ? JSON.stringify(_query.parameters) : '';
 
   const match = query.match(/ALTER TABLE "(\w+)" ADD "(\w+)" (.+) NOT NULL/);
   if (match) {
@@ -81,7 +82,9 @@ const upgradeMigrationQuery = (_query, isUpMigration = false) => {
     const reformatted = query
       .replace(new RegExp('`', 'g'), '\\`')
       .replace(new RegExp("'", 'g'), "\\'");
-    sqls.push(`    await queryRunner.query(\`${reformatted}\`);`);
+    sqls.push(
+      `    await queryRunner.query(\`${reformatted}\`, ${parameters});`,
+    );
   }
 
   return sqls;
