@@ -473,5 +473,50 @@ describe('filter', () => {
       const query = qBuilder.getQueryAndParameters();
       expect(query).toMatchSnapshot();
     });
+
+    it('sub query with complex filter', () => {
+      const qBuilder = connection.createQueryBuilder(
+        storageTableNameServer,
+        entityNameServer,
+      );
+
+      const filter = {
+        $and: [
+          {
+            ip: {
+              $in: ['127.0.0.1', '192.168.0.1'],
+            },
+            name: {
+              $startsWith: 'test-',
+            },
+          },
+          {
+            $sub: {
+              entity: 'ClusterZone',
+              condition: [
+                {
+                  targetAttribute: 'id',
+                  operator: '$eq',
+                  sourceAttribute: 'clusterZone',
+                },
+                {
+                  targetAttribute: 'ip',
+                  operator: '$in',
+                  value: ['127.0.0.1', '192.168.0.1'],
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      buildWhereQuery(qBuilder, filter, entityNameServer, modelRegistry, false);
+      const query1 = qBuilder.getQueryAndParameters();
+      expect(query1).toMatchSnapshot('without isGetMany');
+
+      buildWhereQuery(qBuilder, filter, entityNameServer, modelRegistry, true);
+      const query2 = qBuilder.getQueryAndParameters();
+      expect(query2).toMatchSnapshot('with isGetMany');
+    });
   });
 });

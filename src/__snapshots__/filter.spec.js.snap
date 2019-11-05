@@ -111,6 +111,37 @@ Array [
 ]
 `;
 
+exports[`filter buildWhereQuery sub query with complex filter: with isGetMany 1`] = `
+Array [
+  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE ((\\"ip\\" IN (?, ?) AND \\"name\\" ILIKE ?) AND ((SELECT COUNT(*) > 0 AS \\"found\\" FROM \\"cluster_zone\\" \\"cluster_zone\\" WHERE \\"id\\" = server.\\"cluster_zone\\" AND \\"ip\\" IN (?, ?)))) AND ((\\"ip\\" IN (?, ?) AND \\"name\\" ILIKE ?) AND (\\"cluster_zone\\" IN (SELECT id FROM \\"cluster_zone\\" \\"cluster_zone\\" WHERE \\"ip\\" IN (?, ?))))",
+  Array [
+    "127.0.0.1",
+    "192.168.0.1",
+    "test-%",
+    "127.0.0.1",
+    "192.168.0.1",
+    "127.0.0.1",
+    "192.168.0.1",
+    "test-%",
+    "127.0.0.1",
+    "192.168.0.1",
+  ],
+]
+`;
+
+exports[`filter buildWhereQuery sub query with complex filter: without isGetMany 1`] = `
+Array [
+  "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE ((\\"ip\\" IN (?, ?) AND \\"name\\" ILIKE ?) AND ((SELECT COUNT(*) > 0 AS \\"found\\" FROM \\"cluster_zone\\" \\"cluster_zone\\" WHERE \\"id\\" = server.\\"cluster_zone\\" AND \\"ip\\" IN (?, ?))))",
+  Array [
+    "127.0.0.1",
+    "192.168.0.1",
+    "test-%",
+    "127.0.0.1",
+    "192.168.0.1",
+  ],
+]
+`;
+
 exports[`filter buildWhereQuery treat $in operator with empty value list as mistake and return no results 1`] = `
 Array [
   "SELECT \\"Server\\".\\"id\\" AS \\"Server_id\\", \\"Server\\".\\"cluster_zone\\" AS \\"Server_cluster_zone\\", \\"Server\\".\\"name\\" AS \\"Server_name\\", \\"Server\\".\\"ip\\" AS \\"Server_ip\\" FROM \\"server\\" \\"Server\\" WHERE ((TRUE IS FALSE))",
