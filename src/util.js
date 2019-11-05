@@ -54,10 +54,16 @@ export const quote = item => {
     throw new Error('quote() requires an input');
   }
 
+  if (item.includes('.')) {
+    const arr = item.split('.');
+    arr[1] = quote(arr[1]);
+    return arr.join('.');
+  }
+
   // special care for json pointers
   if (item.includes('->')) {
     const arr = item.split('->');
-    arr[0] = `"${arr[0]}"`;
+    arr[0] = quote(arr[0]);
     return arr.join('->');
   }
 
