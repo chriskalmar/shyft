@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`util quote should quote attributes 1`] = `"\\"someAttributeName\\""`;
+
+exports[`util quote should quote attributes with JSON pointers 1`] = `"\\"someAttributeName\\"->'someProp'"`;
+
+exports[`util quote should quote fully qualified attributes 1`] = `"someEntity.\\"someAttributeName\\""`;
+
+exports[`util quote should quote fully qualified attributes with JSON pointers 1`] = `"someEntity.\\"someAttributeName\\"->'someProp'"`;
