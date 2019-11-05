@@ -294,7 +294,10 @@ const buildWhereTypeSubQuery = (
         const sourceAttributeName = `${storageTableName}.${dataShaperMap[
           sourceAttribute
         ] || sourceAttribute}`;
-        subQuery.andWhere(`${targetAttributeName} = ${sourceAttributeName}`);
+
+        subQuery.andWhere(
+          `${quote(targetAttributeName)} = ${quote(sourceAttributeName)}`,
+        );
       } else {
         buildWhereAttributeOperatorConditionQuery(
           subQuery,
@@ -313,7 +316,7 @@ const buildWhereTypeSubQuery = (
       const sourceAttributeName =
         dataShaperMap[inOperatorLink.sourceAttribute] ||
         inOperatorLink.sourceAttribute;
-      query = `${sourceAttributeName} IN ${query}`;
+      query = `${quote(sourceAttributeName)} IN ${query}`;
     }
 
     // inject query params into outer query (as typeorm cannot run subqueries on delete queries)
