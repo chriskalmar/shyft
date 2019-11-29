@@ -691,6 +691,7 @@ export const buildActionPermissionFilter = async (
   userRoles,
   action,
   input,
+  context
 ) => {
   let where;
   let lookupPermissionEntity;
@@ -719,7 +720,7 @@ export const buildActionPermissionFilter = async (
           return;
         }
 
-        const params = { permission, userId, userRoles, action, input };
+        const params = { permission, userId, userRoles, action, input, context };
         const permissionFilter = await buildLookupsPermissionFilter(params);
 
         if (permissionFilter) {

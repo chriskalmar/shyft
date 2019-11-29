@@ -33,7 +33,8 @@ const fillSingleDefaultValues = async (param, payload, context) => {
 
   if (isObjectDataType(param.type)) {
     const attributes = param.type.getAttributes();
-    ret = fillNestedDefaultValues(attributes, ret, context); // eslint-disable-line no-use-before-define
+    // eslint-disable-next-line no-use-before-define, @typescript-eslint/no-use-before-define
+    ret = fillNestedDefaultValues(attributes, ret, context);
   }
 
   if (isListDataType(param.type) && payload) {
@@ -43,7 +44,8 @@ const fillSingleDefaultValues = async (param, payload, context) => {
       payload.map(async itemPayload => {
         if (isObjectDataType(paramType)) {
           const attributes = paramType.getAttributes();
-          return fillNestedDefaultValues(attributes, itemPayload, context); // eslint-disable-line no-use-before-define
+          // eslint-disable-next-line no-use-before-define, @typescript-eslint/no-use-before-define
+          return fillNestedDefaultValues(attributes, itemPayload, context);
         }
 
         return await fillSingleDefaultValues(paramType, itemPayload, context);
@@ -95,6 +97,7 @@ export const handlePermission = async (context, action, input) => {
     userRoles,
     action,
     input,
+    context
   );
 
   if (!permissionWhere) {
