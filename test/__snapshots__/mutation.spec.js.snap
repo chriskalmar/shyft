@@ -18,7 +18,6 @@ exports[`mutation perform create mutations with nested JSON attributes 1`] = `
 Object {
   "author": "Leo Tolstoy",
   "i18n": null,
-  "id": "1",
   "reviews": Array [
     Object {
       "bookAttributes": Array [
@@ -98,7 +97,6 @@ exports[`mutation perform update mutations with nested JSON attributes 1`] = `
 Object {
   "author": "Leo Tolstoy",
   "i18n": null,
-  "id": "1",
   "reviews": Array [
     Object {
       "bookAttributes": Array [

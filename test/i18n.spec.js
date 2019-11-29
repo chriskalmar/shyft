@@ -1,7 +1,7 @@
 import './setupAndTearDown';
 import { mutate, find } from './db';
 
-import { asAdmin } from './testUtils';
+import { asAdmin, removeId } from './testUtils';
 
 import { Book } from './models/Book';
 
@@ -25,7 +25,7 @@ describe('i18n', () => {
     };
 
     const result = await mutate(Book, 'create', payload, null, asAdmin());
-    expect(result).toMatchSnapshot();
+    expect(removeId(result)).toMatchSnapshot();
   });
 
   it('should reject translations of unknown languages', async () => {
@@ -53,7 +53,7 @@ describe('i18n', () => {
     };
 
     const result = await mutate(Book, 'create', payload, null, asAdmin());
-    expect(result).toMatchSnapshot();
+    expect(removeId(result)).toMatchSnapshot();
   });
 
   it('should store translations of multiple attributes', async () => {
@@ -70,7 +70,7 @@ describe('i18n', () => {
     };
 
     const result = await mutate(Book, 'create', payload, null, asAdmin());
-    expect(result).toMatchSnapshot();
+    expect(removeId(result)).toMatchSnapshot();
   });
 
   it('should find items by translation', async () => {
@@ -85,7 +85,7 @@ describe('i18n', () => {
       { ...orderByIdAsc, filter },
       asAdmin(1, 'de'),
     );
-    expect(result).toMatchSnapshot();
+    expect(removeId(result)).toMatchSnapshot();
   });
 
   it('should merge existing translations with provided translations', async () => {
@@ -107,6 +107,6 @@ describe('i18n', () => {
     };
 
     result = await mutate(Book, 'update', payload, id, asAdmin());
-    expect(result).toMatchSnapshot();
+    expect(removeId(result)).toMatchSnapshot();
   });
 });

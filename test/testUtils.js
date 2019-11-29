@@ -36,3 +36,13 @@ export const removeListDynamicData = (entity, payloadList) => {
     return removeDynamicData(entity, payload);
   });
 };
+
+export const removeId = payload => {
+  const ret = {
+    ...payload,
+  };
+
+  delete ret.id;
+
+  return ret;
+};

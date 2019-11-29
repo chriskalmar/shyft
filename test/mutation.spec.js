@@ -1,7 +1,12 @@
 import './setupAndTearDown';
 import { mutate, findOneByValue } from './db';
 
-import { asUser, removeDynamicData, removeListDynamicData } from './testUtils';
+import {
+  asUser,
+  removeDynamicData,
+  removeListDynamicData,
+  removeId,
+} from './testUtils';
 
 import { BoardMember } from './models/BoardMember';
 import { Board } from './models/Board';
@@ -50,7 +55,7 @@ describe('mutation', () => {
     };
 
     const result = await mutate(Book, 'create', payload, null, asUser(99));
-    expect(result).toMatchSnapshot();
+    expect(removeId(result)).toMatchSnapshot();
   });
 
   it('perform update mutations', async () => {
@@ -102,7 +107,7 @@ describe('mutation', () => {
     };
 
     const result = await mutate(Book, 'update', payload, book.id, asUser(99));
-    expect(result).toMatchSnapshot();
+    expect(removeId(result)).toMatchSnapshot();
   });
 
   it('handle uniqueness constraints', async () => {
