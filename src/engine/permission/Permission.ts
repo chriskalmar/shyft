@@ -534,6 +534,7 @@ export const buildLookupsPermissionFilter = async ({
   userId,
   userRoles,
   input,
+  context
 }) => {
   let where;
 
@@ -552,7 +553,7 @@ export const buildLookupsPermissionFilter = async ({
             let operator = '$eq';
 
             if (isFunction(sourceAttribute)) {
-              let value = await sourceAttribute({ userId, userRoles, input });
+              let value = await sourceAttribute({ userId, userRoles, input, context });
 
               const attr = entity.getAttributes();
 
@@ -607,10 +608,11 @@ export const buildPermissionFilterSingle = async (
   userRoles,
   entity,
   input,
+  context
 ) => {
   let where;
 
-  const params = { permission, userId, userRoles, entity, input };
+  const params = { permission, userId, userRoles, entity, input, context };
 
   const permissionFilters = [
     buildUserAttributesPermissionFilter(params),
@@ -636,6 +638,7 @@ export const buildPermissionFilter = async (
   userRoles,
   entity,
   input,
+  context
 ) => {
   let where;
 
@@ -668,6 +671,7 @@ export const buildPermissionFilter = async (
         userRoles,
         entity,
         input,
+        context
       );
 
       if (permissionFilter) {
