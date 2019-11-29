@@ -5381,10 +5381,10 @@ shellwords@^0.1.1:
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
 
-shyft@0.4.5:
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/shyft/-/shyft-0.4.5.tgz#772d61a02edc3dc8382d29fd4263d4d1b5eca325"
-  integrity sha512-CrQhfKIzUy4kpsBxi7iWVsun21HMSM3Og8SGbqblU1G2AKqBFyqgloBG4AVif2x+fKXDHodoiFwZUXRpHP9IuQ==
+shyft@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/shyft/-/shyft-0.5.0.tgz#65cb6facad0d7527a0475fb6b8806120eea89130"
+  integrity sha512-nY8EzX4fa6KH0/9iPv0euoqizAKSzMxMrmALdAZ365COVza840iddnkmZKYUTGluSizoU0X096H6gxWNkVGPBQ==
   dependencies:
     "@types/graphql" "^14.5.0"
     date-fns "^2.1.0"
