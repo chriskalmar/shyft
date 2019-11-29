@@ -6,6 +6,7 @@ import { Message } from './models/Message';
 import { mutate, findOneByValue } from './db';
 import { asAdmin, asUser } from './testUtils';
 import { asyncForEach } from '../src/util';
+import { Book } from './models/Book';
 
 export const loadData = async () => {
   const profiles = readRows('profiles');
@@ -92,5 +93,16 @@ export const loadData = async () => {
     };
 
     await mutate(Message, 'write', payload, null, asAdmin());
+  });
+
+  const books = readRows('books');
+
+  await asyncForEach(books, async ([title, author]) => {
+    const payload = {
+      title,
+      author,
+    };
+
+    await mutate(Book, 'create', payload, null, asAdmin());
   });
 };
