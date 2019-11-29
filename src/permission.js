@@ -60,6 +60,7 @@ export const handlePermission = async (
     userRoles,
     entity,
     input,
+    context,
   );
 
   if (!permissionFilter) {
