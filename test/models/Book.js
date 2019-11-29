@@ -3,11 +3,17 @@ import {
   DataTypeString,
   buildListDataType,
   buildObjectDataType,
+  Permission,
 } from 'shyft';
 
 export const Book = new Entity({
   name: 'Book',
   description: 'A book',
+
+  permissions: {
+    read: new Permission().everyone(),
+    find: new Permission().everyone(),
+  },
 
   attributes: {
     title: {

@@ -11,6 +11,13 @@ export const asAdmin = (userId = 1, i18nLanguage) => {
   return asUser(userId, ['admin'], i18nLanguage);
 };
 
+export const asAnonymous = i18nLanguage => {
+  return {
+    loaders: {},
+    i18nLanguage,
+  };
+};
+
 export const sleep = async ms =>
   new Promise(resolve => {
     setTimeout(resolve, ms);

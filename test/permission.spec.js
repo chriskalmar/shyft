@@ -1,11 +1,17 @@
 import './setupAndTearDown';
 import { find, count, mutate } from './db';
 
-import { asUser, removeListDynamicData, removeDynamicData } from './testUtils';
+import {
+  asUser,
+  removeListDynamicData,
+  removeDynamicData,
+  asAnonymous,
+} from './testUtils';
 
 import { Board } from './models/Board';
 import { BoardMember } from './models/BoardMember';
 import { asyncForEach } from '../src/util';
+import { Book } from './models/Book';
 
 const orderByIdAsc = {
   orderBy: [
@@ -19,7 +25,7 @@ const orderByIdAsc = {
 describe('permission', () => {
   describe('story', () => {
     it('a user should only see public boards and boards the user was invited to', async () => {
-      const userIds = [ 46, 69, 40 ];
+      const userIds = [46, 69, 40];
 
       await asyncForEach(userIds, async userId => {
         const result = await find(Board, { ...orderByIdAsc }, asUser(userId));
@@ -49,7 +55,7 @@ describe('permission', () => {
     });
 
     it('a user should only see members of boards the user is part of', async () => {
-      const userIds = [ 46, 69, 40 ];
+      const userIds = [46, 69, 40];
 
       await asyncForEach(userIds, async userId => {
         const result = await find(
@@ -87,7 +93,7 @@ describe('permission', () => {
     const joinCache = [];
 
     it('a user should be able to join public boards', async () => {
-      const userIds = [ 30, 33, 79 ];
+      const userIds = [30, 33, 79];
       const board = 11;
 
       await asyncForEach(userIds, async userId => {
@@ -154,7 +160,7 @@ describe('permission', () => {
     });
 
     it('a user should not be able to join private boards', async () => {
-      const userIds = [ 30, 33, 79 ];
+      const userIds = [30, 33, 79];
       const board = 45;
 
       await asyncForEach(userIds, async userId => {
@@ -172,7 +178,7 @@ describe('permission', () => {
 
     it('a user should not be able to invite users to others boards', async () => {
       const inviter = 10;
-      const userIds = [ 30, 33, 79 ];
+      const userIds = [30, 33, 79];
       const board = 45;
 
       await asyncForEach(userIds, async invitee => {
@@ -192,7 +198,7 @@ describe('permission', () => {
 
     it('a user should be able to invite users to an owned boards', async () => {
       const inviter = 85;
-      const userIds = [ 30, 33, 79 ];
+      const userIds = [30, 33, 79];
       const board = 45;
 
       await asyncForEach(userIds, async invitee => {
@@ -232,6 +238,12 @@ describe('permission', () => {
           expect(e).toMatchSnapshot();
         },
       );
+    });
+
+    it('an anonymous user should be able to see all books', async () => {
+      const result = await find(Book, { ...orderByIdAsc }, asAnonymous());
+
+      expect(result).toMatchSnapshot('list');
     });
   });
 });

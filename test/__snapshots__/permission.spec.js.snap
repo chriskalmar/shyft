@@ -990,3 +990,174 @@ Object {
   },
 }
 `;
+
+exports[`permission story an anonymous user should be able to see all books: list 1`] = `
+Object {
+  "data": Array [
+    Book {
+      "author": " natus in",
+      "i18n": null,
+      "id": "1",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "aut nihil natus iste eos",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "aut nihil natus iste eos",
+      },
+    },
+    Book {
+      "author": " omnis dolorem",
+      "i18n": null,
+      "id": "2",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "ipsum ex placeat quos",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "ipsum ex placeat quos",
+      },
+    },
+    Book {
+      "author": " et et",
+      "i18n": null,
+      "id": "3",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "quae optio repellendus minima reprehenderit",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "quae optio repellendus minima reprehenderit",
+      },
+    },
+    Book {
+      "author": " vero numquam",
+      "i18n": null,
+      "id": "4",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "est repellat necessitatibus ipsa nisi",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "est repellat necessitatibus ipsa nisi",
+      },
+    },
+    Book {
+      "author": " consequatur eos",
+      "i18n": null,
+      "id": "5",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "nobis qui beatae minus incidunt",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "nobis qui beatae minus incidunt",
+      },
+    },
+    Book {
+      "author": " aliquid ea",
+      "i18n": null,
+      "id": "6",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "autem qui inventore sapiente",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "autem qui inventore sapiente",
+      },
+    },
+    Book {
+      "author": " tempora labore",
+      "i18n": null,
+      "id": "7",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "sit culpa necessitatibus sit culpa",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "sit culpa necessitatibus sit culpa",
+      },
+    },
+    Book {
+      "author": " dolorem quae",
+      "i18n": null,
+      "id": "8",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "error qui at nemo magni",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "error qui at nemo magni",
+      },
+    },
+    Book {
+      "author": " voluptas velit",
+      "i18n": null,
+      "id": "9",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "consequatur fugiat a nobis",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "consequatur fugiat a nobis",
+      },
+    },
+    Book {
+      "author": " vel sed",
+      "i18n": null,
+      "id": "10",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "molestiae eos omnis omnis enim",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "molestiae eos omnis omnis enim",
+      },
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
