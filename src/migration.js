@@ -126,11 +126,11 @@ export const generateMigration = async (
     );
 
     i18nMigrations.upQueries.forEach(query => {
-      upgradeMigrationQuery(query, true).map(sql => upSqls.push(sql));
+      upgradeMigrationQuery({ query }, true).map(sql => upSqls.push(sql));
     });
 
     i18nMigrations.downQueries.forEach(query => {
-      upgradeMigrationQuery(query, false).map(sql => downSqls.push(sql));
+      upgradeMigrationQuery({ query }, false).map(sql => downSqls.push(sql));
     });
   }
 
