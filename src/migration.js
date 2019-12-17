@@ -185,7 +185,7 @@ export const runMigration = async configuration => {
 
   try {
     await connection.runMigrations({
-      transaction: true,
+      transaction: 'each',
     });
   } catch (err) {
     console.error('Migration failed');
@@ -203,7 +203,7 @@ export const revertMigration = async configuration => {
 
   try {
     await connection.undoLastMigration({
-      transaction: true,
+      transaction: 'each',
     });
   } catch (err) {
     console.error('Migration reversion failed');
