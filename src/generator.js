@@ -6,6 +6,7 @@ import { generateIndexName } from './util';
 import {
   isEntity,
   isViewEntity,
+  isShadowEntity,
   INDEX_UNIQUE,
   INDEX_GENERIC,
   mapOverProperties,
@@ -119,7 +120,7 @@ export const loadModels = configuration => {
       let storageDataType;
 
       // it's a reference
-      if (isEntity(attribute.type)) {
+      if (isEntity(attribute.type) || isShadowEntity(attribute.type)) {
         const primaryAttribute = attribute.type.getPrimaryAttribute();
         storageDataType = StorageTypePostgres.convertToStorageDataType(
           primaryAttribute.type,
@@ -189,7 +190,7 @@ export const loadModels = configuration => {
           Skeleton.prototype,
           attributeName,
         );
-      } else if (isEntity(entity)) {
+      } else if (isEntity(entity) || isShadowEntity(entity)) {
         Column(attributes[attributeName])(Skeleton.prototype, attributeName);
       } else if (isViewEntity(entity)) {
         ViewColumn(attributes[attributeName])(
