@@ -14,6 +14,7 @@ import {
 import { isComplexDataType } from '../engine/datatype/ComplexDataType';
 import { isArray, isMap } from '../engine/util';
 import { isViewEntity } from '../engine/entity/ViewEntity';
+import { isShadowEntity } from '../engine/entity/ShadowEntity';
 
 const AND_OPERATOR = 'AND';
 const OR_OPERATOR = 'OR';
@@ -72,6 +73,11 @@ export const generateFilterInput = (entity, graphRegistry) => {
           fields[fieldName] = targetConnectionArgs.filter;
 
           const primaryAttribute = targetEntity.getPrimaryAttribute();
+          attributeType = primaryAttribute.type;
+        } else if (isShadowEntity(attributeType)) {
+          const targetEntity = attributeType;
+          const primaryAttribute = targetEntity.getPrimaryAttribute();
+
           attributeType = primaryAttribute.type;
         }
 
