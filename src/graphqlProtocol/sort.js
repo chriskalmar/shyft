@@ -2,6 +2,7 @@ import { GraphQLEnumType, GraphQLList } from 'graphql';
 import * as _ from 'lodash';
 import { ProtocolGraphQL } from './ProtocolGraphQL';
 import { isEntity } from '../engine/entity/Entity';
+import { isShadowEntity } from '../engine/entity/ShadowEntity';
 
 export const generateSortInput = entity => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
@@ -13,6 +14,7 @@ export const generateSortInput = entity => {
   _.forEach(entity.getAttributes(), attribute => {
     if (
       isEntity(attribute.type) ||
+      isShadowEntity(attribute.type) ||
       attribute.hidden ||
       attribute.mutationInput
     ) {
@@ -69,6 +71,6 @@ export const generateSortInput = entity => {
   return {
     type: new GraphQLList(sortInputType),
     description: 'Order list by a single or multiple attributes',
-    defaultValue: [ defaultSortValue ],
+    defaultValue: [defaultSortValue],
   };
 };
