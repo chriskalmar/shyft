@@ -231,6 +231,8 @@ export const loadModels = configuration => {
 
     if (isEntity(entity)) {
       Entity({ name: storageTableName })(Skeleton);
+    } else if (isShadowEntity(entity)) {
+      Entity({ name: storageTableName, synchronize: false })(Skeleton);
     } else if (isViewEntity(entity)) {
       ViewEntity({
         name: storageTableName,
