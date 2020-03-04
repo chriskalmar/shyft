@@ -6,6 +6,7 @@ import { isDataTypeUser } from '../datatype/DataTypeUser';
 import { isStorageType } from '../storage/StorageType';
 import { isPermission, isPermissionsArray } from '../permission/Permission';
 import { isViewEntity } from '../entity/ViewEntity';
+import { isShadowEntity } from '../entity/ShadowEntity';
 
 export class Schema {
   constructor(
@@ -48,7 +49,7 @@ export class Schema {
       const permissionsMapKeys = Object.keys(permissionsMap);
       permissionsMapKeys.map(key => {
         passOrThrow(
-          [ 'entities', 'actions' ].includes(key),
+          ['entities', 'actions'].includes(key),
           () =>
             'Unknown property used in permissionsMap (allowed: entities, actions)',
         );
@@ -146,8 +147,9 @@ export class Schema {
 
   addEntity(entity) {
     passOrThrow(
-      isEntity(entity) || isViewEntity(entity),
-      () => 'Provided object to schema is not an entity or view entity',
+      isEntity(entity) || isViewEntity(entity) || isShadowEntity(entity),
+      () =>
+        'Provided object to schema is not an entity or view entity or shadow entity',
     );
 
     passOrThrow(
@@ -189,7 +191,9 @@ export class Schema {
         },
       };
 
-      entity._injectDefaultPermissionsBySchema(newDefaultPermissions);
+      if (isEntity(entity) || isViewEntity(entity)) {
+        entity._injectDefaultPermissionsBySchema(newDefaultPermissions);
+      }
     }
 
     entity._isRegistered = true;
@@ -227,12 +231,9 @@ export class Schema {
             passOrThrow(
               targetEntity._isRegistered,
               () =>
-                `Referenced entity '${
-                  targetEntity.name
-                }' already registered with this schema`,
+                `Referenced entity '${targetEntity.name}' already registered with this schema`,
             );
-          }
-          else {
+          } else {
             this.addEntity(targetEntity);
             foundMissingCount++;
           }
@@ -278,7 +279,9 @@ export class Schema {
       const attributeNames = Object.keys(attributes);
 
       // trigger validation and generation of permissions and indexes
-      entity.getPermissions();
+      if (isEntity(entity) || isViewEntity(entity)) {
+        entity.getPermissions();
+      }
       if (isEntity(entity)) {
         entity.getIndexes();
       }
@@ -292,15 +295,13 @@ export class Schema {
           passOrThrow(
             this._entityMap[targetEntity.name],
             () =>
-              `Entity '${targetEntity.name}' (referenced by '${
-                entity.name
-              }') ` + 'needs to be registered with this schema',
+              `Entity '${targetEntity.name}' (referenced by '${entity.name}') ` +
+              'needs to be registered with this schema',
           );
 
           // keep track of references
           targetEntity.referencedBy(entity.name, attributeName);
-        }
-        else if (isDataTypeUser(attribute.type)) {
+        } else if (isDataTypeUser(attribute.type)) {
           // replace with actual user entity
           attribute.type = this.getUserEntity(true);
         }

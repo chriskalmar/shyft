@@ -30,6 +30,8 @@ import {
   ACTION_TYPE_MUTATION,
   ACTION_TYPE_QUERY,
 } from '../engine/action/Action';
+import { isViewEntity } from '../engine/entity/ViewEntity';
+import { isShadowEntity } from '../engine/entity/ShadowEntity';
 
 export const getTypeForEntityFromGraphRegistry = entity => {
   const typeName = entity.graphql.typeName;
@@ -203,7 +205,7 @@ export const generateGraphQLSchema = configuration => {
           let attributeType = attribute.type;
 
           // it's a reference
-          if (isEntity(attributeType)) {
+          if (isEntity(attributeType) || isShadowEntity(attributeType)) {
             const targetEntity = attributeType;
             const primaryAttribute = targetEntity.getPrimaryAttribute();
             attributeType = primaryAttribute.type;
@@ -315,7 +317,9 @@ export const generateGraphQLSchema = configuration => {
       type: objectType,
     };
 
-    registerConnection(graphRegistry, entity);
+    if (isEntity(entity) || isViewEntity(entity)) {
+      registerConnection(graphRegistry, entity);
+    }
   });
 
   // build the query type
