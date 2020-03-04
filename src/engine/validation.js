@@ -29,7 +29,7 @@ const validatePayload = async (param, payload, source, context, path = []) => {
       await asyncForEach(Object.keys(attributes), async attributeName => {
         const attribute = attributes[attributeName];
 
-        const newPath = [ ...path, attribute.name ];
+        const newPath = [...path, attribute.name];
 
         await validatePayload(
           attribute,
@@ -62,11 +62,9 @@ const validatePayload = async (param, payload, source, context, path = []) => {
                     !attribute.required ||
                       isDefined(itemPayload[attribute.name]),
                     () =>
-                      `Missing required input attribute '${pathString}${
-                        attribute.name
-                      }'`,
+                      `Missing required input attribute '${pathString}${attribute.name}'`,
                   );
-                  const newPath = [ ...path, attribute.name ];
+                  const newPath = [...path, attribute.name];
                   await validatePayload(
                     attribute,
                     itemPayload,
