@@ -100,3 +100,22 @@ export const viewAttributePropertiesWhitelist: Array<string> = [
   'mock',
   'meta',
 ];
+
+export const shadowEntityPropertiesWhitelist: Array<string> = [
+  'name',
+  'attributes',
+  'attributesGenerator',
+  'storageType',
+  'isUserEntity',
+  'meta',
+];
+
+export const shadowEntityAttributePropertiesWhitelist: Array<string> = [
+  'name',
+  'description',
+  'type',
+  'required',
+  'primary',
+  'meta',
+];
+
