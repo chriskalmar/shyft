@@ -55,7 +55,7 @@ export const initDB = async () => {
 
   configuration.setStorageConfiguration(storageConfiguration);
 
-  await connectStorage(configuration, true);
+  await connectStorage(configuration, true, true);
 };
 
 export const disconnectDB = async () => {
