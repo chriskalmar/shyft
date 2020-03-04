@@ -15,6 +15,7 @@ import {
 import { CustomError } from './engine/CustomError';
 import { Entity, isEntity } from './engine/entity/Entity';
 import { ViewEntity, isViewEntity } from './engine/entity/ViewEntity';
+import { ShadowEntity, isShadowEntity } from './engine/entity/ShadowEntity';
 import { Schema } from './engine/schema/Schema';
 import { StorageType } from './engine/storage/StorageType';
 import { StorageDataType } from './engine/storage/StorageDataType';
@@ -150,6 +151,8 @@ export {
   isEntity,
   ViewEntity,
   isViewEntity,
+  ShadowEntity,
+  isShadowEntity,
   Schema,
   StorageType,
   StorageDataType,
