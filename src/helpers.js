@@ -1,5 +1,5 @@
 import StorageTypePostgres from './StorageTypePostgres';
-import { isEntity } from 'shyft';
+import { isEntity, isShadowEntity } from 'shyft';
 import _ from 'lodash';
 
 export const parseValues = (entity, data, model, context) => {
@@ -19,7 +19,7 @@ export const parseValues = (entity, data, model, context) => {
 
     let attributeType;
 
-    if (isEntity(attribute.type)) {
+    if (isEntity(attribute.type) || isShadowEntity(attribute.type)) {
       const primaryAttribute = attribute.type.getPrimaryAttribute();
       attributeType = primaryAttribute.type;
     } else {
@@ -62,7 +62,7 @@ export const serializeValues = (entity, mutation, data, model, context) => {
 
     let attributeType;
 
-    if (isEntity(attribute.type)) {
+    if (isEntity(attribute.type) || isShadowEntity(attribute.type)) {
       const primaryAttribute = attribute.type.getPrimaryAttribute();
       attributeType = primaryAttribute.type;
     } else {
