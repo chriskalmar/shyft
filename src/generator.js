@@ -477,7 +477,11 @@ export const installStorageScripts = async (
 
 let connection;
 
-export const connectStorage = async (configuration, synchronize = false) => {
+export const connectStorage = async (
+  configuration,
+  synchronize = false,
+  dropSchema = false,
+) => {
   const storageConfiguration = configuration.getStorageConfiguration();
   const connectionConfig = storageConfiguration.getConnectionConfig();
 
@@ -491,7 +495,7 @@ export const connectStorage = async (configuration, synchronize = false) => {
     ...connectionConfig,
     type: 'postgres',
     synchronize,
-    dropSchema: synchronize,
+    dropSchema,
     entities,
   });
 
