@@ -74,9 +74,9 @@ export const extendModelsForGql = entities => {
         attribute.gqlFieldNameI18nJson = protocolConfiguration.generateI18nJsonFieldName(
           attribute,
         );
-        dataShaperMap[attribute.gqlFieldNameI18nJson] = `${
-          attribute.name
-        }.i18n`;
+        dataShaperMap[
+          attribute.gqlFieldNameI18nJson
+        ] = `${attribute.name}.i18n`;
       }
     });
 
@@ -174,7 +174,7 @@ export const generateGraphQLSchema = configuration => {
     const objectType = new GraphQLObjectType({
       name: protocolConfiguration.generateEntityTypeNamePascalCase(entity),
       description: entity.description,
-      interfaces: [ nodeInterface ],
+      interfaces: [nodeInterface],
 
       fields: () => {
         const fields = {
@@ -236,8 +236,7 @@ export const generateGraphQLSchema = configuration => {
           // make it non-nullable if it's required
           if (attribute.required) {
             field.type = new GraphQLNonNull(fieldType);
-          }
-          else {
+          } else {
             field.type = fieldType;
           }
 
@@ -260,9 +259,7 @@ export const generateGraphQLSchema = configuration => {
               type: attribute.required
                 ? new GraphQLNonNull(i18nJsonFieldType)
                 : i18nJsonFieldType,
-              description: `Translations of **\`${
-                attribute.gqlFieldName
-              }\`** in JSON format`,
+              description: `Translations of **\`${attribute.gqlFieldName}\`** in JSON format`,
             };
 
             fieldsI18n[attribute.gqlFieldNameI18nJson] = i18nJsonField;
