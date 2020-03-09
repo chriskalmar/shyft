@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Entity, isEntity } from './Entity';
 import { Index, INDEX_UNIQUE, isIndex } from '../index/Index';
 import {
@@ -13,7 +14,7 @@ describe('Entity', () => {
   it('should have a name', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new Entity(<any>{});
+      new Entity({} as any);
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
@@ -22,9 +23,9 @@ describe('Entity', () => {
   it('should have a description', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new Entity(<any>{
+      new Entity({
         name: 'Example',
-      });
+      } as any);
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
@@ -46,7 +47,9 @@ describe('Entity', () => {
     const entity = new Entity({
       name: 'SomeEntityName',
       description: 'Just some description',
-      attributesGenerator: () => <any>{},
+      attributesGenerator: () => {
+        return {} as any;
+      },
     });
 
     expect(entity.name).toBe('SomeEntityName');
@@ -59,7 +62,7 @@ describe('Entity', () => {
       new Entity({
         name: 'Example',
         description: 'Just some description',
-        attributes: <any>[ 2, 7, 13 ],
+        attributes: [2, 7, 13] as any,
       });
     }
 
@@ -73,7 +76,7 @@ describe('Entity', () => {
         name: 'Example',
         description: 'Just some description',
         attributesGenerator: () => {
-          return <any>[ 2, 7, 13 ];
+          return [2, 7, 13] as any;
         },
       });
 
@@ -159,7 +162,7 @@ describe('Entity', () => {
         name: 'SomeEntityName',
         description: 'Just some description',
         attributesGenerator() {
-          return <any>null;
+          return null as any;
         },
       });
 
@@ -173,6 +176,7 @@ describe('Entity', () => {
     it('should recognize non-Entity objects', () => {
       function fn() {
         passOrThrow(
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           isEntity({}) || isEntity(function test() {}) || isEntity(Error),
           () => 'Not an Entity object',
         );
@@ -221,7 +225,7 @@ describe('Entity', () => {
         name: 'SomeEntityName',
         description: 'Just some description',
         attributes: {
-          someAttribute: <any>{},
+          someAttribute: {} as any,
         },
       });
 
@@ -237,9 +241,9 @@ describe('Entity', () => {
         name: 'SomeEntityName',
         description: 'Just some description',
         attributes: {
-          someAttribute: <any>{
+          someAttribute: {
             description: 'Just some description',
-          },
+          } as any,
         },
       });
 
@@ -291,7 +295,7 @@ describe('Entity', () => {
           someAttribute: {
             type: DataTypeString,
             description: 'Just some description',
-            resolve: <any>{},
+            resolve: {} as any,
           },
         },
       });
@@ -311,7 +315,7 @@ describe('Entity', () => {
           someAttribute: {
             type: DataTypeString,
             description: 'Just some description',
-            defaultValue: <any>'not-a-function',
+            defaultValue: 'not-a-function' as any,
           },
         },
       });
@@ -331,7 +335,7 @@ describe('Entity', () => {
           someAttribute: {
             type: DataTypeString,
             description: 'Just some description',
-            validate: <any>'not-a-function',
+            validate: 'not-a-function' as any,
           },
         },
       });
@@ -519,15 +523,15 @@ describe('Entity', () => {
         indexes: [
           new Index({
             type: INDEX_UNIQUE,
-            attributes: [ 'loginName' ],
+            attributes: ['loginName'],
           }),
           new Index({
             type: INDEX_UNIQUE,
-            attributes: [ 'firstName', 'lastName' ],
+            attributes: ['firstName', 'lastName'],
           }),
           new Index({
             type: INDEX_UNIQUE,
-            attributes: [ 'email' ],
+            attributes: ['email'],
           }),
         ],
       });
@@ -555,7 +559,7 @@ describe('Entity', () => {
         indexes: [
           new Index({
             type: INDEX_UNIQUE,
-            attributes: [ 'someAttribute' ],
+            attributes: ['someAttribute'],
           }),
         ],
       });
@@ -584,7 +588,7 @@ describe('Entity', () => {
             type: MUTATION_TYPE_CREATE,
             name: 'build',
             description: 'build item',
-            attributes: [ 'someAttribute' ],
+            attributes: ['someAttribute'],
           }),
         ],
       });
@@ -671,7 +675,7 @@ describe('Entity', () => {
         },
         permissions: {
           read: new Permission(),
-          find: [ new Permission().authenticated(), new Permission() ],
+          find: [new Permission().authenticated(), new Permission()],
           mutations: {
             delete: new Permission(),
           },
@@ -720,7 +724,7 @@ describe('Entity', () => {
       function fn() {
         const entity = new Entity({
           ...entityDefinition,
-          states: [ 'bad' ],
+          states: ['bad'],
         });
 
         entity.getStates();
@@ -814,4 +818,40 @@ describe('Entity', () => {
       expect(fn).toThrowErrorMatchingSnapshot();
     });
   });
+
+  // describe.skip('preProcessor', () => {
+  //   const preProcessor = (entity, id, source, input, context) => {
+  //     return null;
+  //   };
+
+  //   const entityDefinition = {
+  //     name: 'SomeEntityName',
+  //     description: 'Just some description',
+  //     attributes: {
+  //       something: {
+  //         type: DataTypeString,
+  //         description: 'Just some description',
+  //       },
+  //     },
+  //     preProcessor,
+  //   };
+
+  //   it('should pass through preProcessor if it is declared', () => {
+  //     // expect(isPermission(permissions.read)).toBe(true);
+  //   });
+
+  //   it('should throw if preProcessor is not a Function', () => {
+  //     // function fn() {
+  //     //   const entity = new Entity({
+  //     //     ...entityDefinition,
+  //     //     states: {
+  //     //       open: 100,
+  //     //       closed: 100,
+  //     //     },
+  //     //   });
+  //     //   entity.getStates();
+  //     // }
+  //     // expect(fn).toThrowErrorMatchingSnapshot();
+  //   });
+  // });
 });

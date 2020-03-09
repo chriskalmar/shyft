@@ -56,6 +56,8 @@ export const resolveByFind = (entity, parentConnectionCollector) => {
       context,
     );
 
+    // implement entity.preProcessor here ?
+
     const { data, pageInfo } = await storageType.find(
       entity,
       args,
@@ -160,7 +162,7 @@ export const getNestedPayloadResolver = (
           );
 
           if (uniquenessAttributesList.length > 0) {
-            const uniquenessFieldNames = [ attribute.gqlFieldName ];
+            const uniquenessFieldNames = [attribute.gqlFieldName];
             const fieldNameToUniquenessAttributesMap = {};
 
             uniquenessAttributesList.map(({ uniquenessName, attributes }) => {
@@ -199,8 +201,7 @@ export const getNestedPayloadResolver = (
                   'MissingNestedInputError',
                 );
               }
-            }
-            else {
+            } else {
               const attributes = targetEntity.getAttributes();
               const primaryAttributeName = _.findKey(attributes, {
                 primary: true,
@@ -242,18 +243,15 @@ export const getNestedPayloadResolver = (
                   resultPayload[attribute.gqlFieldName] =
                     result[primaryAttributeName];
                 }
-              }
-              else {
+              } else {
                 resultPayload[attribute.gqlFieldName] = args[foundInput];
               }
             }
-          }
-          else {
+          } else {
             resultPayload[attribute.gqlFieldName] =
               args[attribute.gqlFieldName];
           }
-        }
-        else {
+        } else {
           resultPayload[attribute.gqlFieldName] = args[attribute.gqlFieldName];
 
           if (attribute.i18n) {
@@ -384,8 +382,7 @@ export const getMutationResolver = (
           ...ret,
           ...result,
         };
-      }
-      else {
+      } else {
         ret[typeName] = result;
       }
 
@@ -405,8 +402,7 @@ export const getMutationResolver = (
       }
 
       return ret;
-    }
-    catch (error) {
+    } catch (error) {
       if (entityMutation.postProcessor) {
         await entityMutation.postProcessor(
           error,
