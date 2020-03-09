@@ -56,7 +56,32 @@ export const resolveByFind = (entity, parentConnectionCollector) => {
       context,
     );
 
-    // implement entity.preProcessor here ?
+    // implementing entity.preProcessor here is correct ?
+    if (entity.preProcessor) {
+      const preProcessorResult = await entity.preProcessor(
+        entity,
+        source,
+        args,
+        context,
+        info,
+      );
+      if (preProcessorResult) {
+        /* eslint-disable no-param-reassign */
+        // console.log('after preProcessor', args, preProcessorResult);
+        args = preProcessorResult.args
+          ? { ...args, ...preProcessorResult.args }
+          : args;
+        if (preProcessorResult.context) {
+          if (Object.keys(context).length > 0) {
+            context = { ...context, ...preProcessorResult.context };
+          } else {
+            context = preProcessorResult.context;
+          }
+        }
+
+        /* eslint-enable no-param-reassign */
+      }
+    }
 
     const { data, pageInfo } = await storageType.find(
       entity,

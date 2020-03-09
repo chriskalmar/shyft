@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { graphql, GraphQLSchema } from 'graphql';
 import { Entity, isEntity } from './Entity';
 import { Index, INDEX_UNIQUE, isIndex } from '../index/Index';
 import {
@@ -9,6 +10,9 @@ import {
 import { Permission, isPermission } from '../permission/Permission';
 import { passOrThrow } from '../util';
 import { DataTypeID, DataTypeString } from '../datatype/dataTypes';
+
+import { generateGraphQLSchema } from '../../graphqlProtocol/generator';
+import { generateTestSchema } from '../../graphqlProtocol/test-helper';
 
 describe('Entity', () => {
   it('should have a name', () => {
@@ -819,39 +823,178 @@ describe('Entity', () => {
     });
   });
 
-  // describe.skip('preProcessor', () => {
-  //   const preProcessor = (entity, id, source, input, context) => {
-  //     return null;
-  //   };
+  describe('preProcessor', () => {
+    let graphqlSchema: GraphQLSchema;
 
-  //   const entityDefinition = {
-  //     name: 'SomeEntityName',
-  //     description: 'Just some description',
-  //     attributes: {
-  //       something: {
-  //         type: DataTypeString,
-  //         description: 'Just some description',
-  //       },
-  //     },
-  //     preProcessor,
-  //   };
+    beforeAll(async () => {
+      const preProcessor = (entity, source, args, context, info) => {
+        console.log('entity preProcessor : ', {
+          source,
+          args,
+          context,
+          info,
+        });
+        return args;
+      };
 
-  //   it('should pass through preProcessor if it is declared', () => {
-  //     // expect(isPermission(permissions.read)).toBe(true);
-  //   });
+      const postProcessor = (
+        result,
+        entity,
+        id,
+        source,
+        input,
+        typeName,
+        mutation,
+        context,
+      ) => {
+        console.log('entity postProcessor : ', {
+          result,
+          id,
+          source,
+          input,
+          typeName,
+          mutation,
+          context,
+        });
+        result.something = 'someotherthing';
+        return result;
+      };
 
-  //   it('should throw if preProcessor is not a Function', () => {
-  //     // function fn() {
-  //     //   const entity = new Entity({
-  //     //     ...entityDefinition,
-  //     //     states: {
-  //     //       open: 100,
-  //     //       closed: 100,
-  //     //     },
-  //     //   });
-  //     //   entity.getStates();
-  //     // }
-  //     // expect(fn).toThrowErrorMatchingSnapshot();
-  //   });
-  // });
+      const SomeEntityWithPreprocess = new Entity({
+        name: 'SomeEntityName',
+        description: 'Just some description',
+        attributes: {
+          id: {
+            type: DataTypeID,
+            description: 'just some id',
+            primary: true,
+          },
+          something: {
+            type: DataTypeString,
+            description: 'Just some description',
+          },
+        },
+        preProcessor,
+      });
+
+      const SomeEntityWithPostprocess = new Entity({
+        name: 'SomeOtherEntityName',
+        description: 'Just some other description',
+        attributes: {
+          id: {
+            type: DataTypeID,
+            description: 'just some id',
+            primary: true,
+          },
+          something: {
+            type: DataTypeString,
+            description: 'Just some description',
+          },
+        },
+        postProcessor,
+      });
+
+      // create mutations to test processors ?
+      const setup = await generateTestSchema([
+        SomeEntityWithPreprocess,
+        SomeEntityWithPostprocess,
+      ]);
+      const configuration = setup.configuration;
+      graphqlSchema = generateGraphQLSchema(configuration);
+    });
+
+    it('should have a valid preProcessor function', () => {
+      function fn() {
+        // eslint-disable-next-line no-new
+        new Entity({
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {
+            something: {
+              type: DataTypeString,
+              description: 'Just some description',
+            },
+          },
+          preProcessor: 'not-a-function',
+        });
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+    });
+
+    it('should have a valid postProcessor function', () => {
+      function fn() {
+        // eslint-disable-next-line no-new
+        new Entity({
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {
+            something: {
+              type: DataTypeString,
+              description: 'Just some description',
+            },
+          },
+          postProcessor: 'not-a-function',
+        });
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+    });
+
+    it('should pass through preProcessor if it is declared', async () => {
+      const query = `
+        query AllSomeEntityNames {
+          allSomeEntityNames {
+            edges {
+              node {
+                id
+                something
+              }
+            }
+          }
+        }`;
+
+      const result = await graphql(
+        graphqlSchema,
+        query,
+        null,
+        { userId: 10 },
+        // { filter: {} },
+      );
+
+      // console.log(
+      //   'should pass through preProcessor',
+      //   JSON.stringify(result, null, 2),
+      // );
+      expect(result).toMatchSnapshot();
+    });
+
+    it('should pass through postProcessor if it is declared', async () => {
+      const query = `
+        query AllSomeOtherEntityNames {
+          allSomeOtherEntityNames {
+            edges {
+              node {
+                id
+                something
+              }
+            }
+          }
+        }`;
+
+      const result = await graphql(
+        graphqlSchema,
+        query,
+        null,
+        {},
+        // { filter: {} },
+      );
+
+      // console.log(
+      //   'should pass through postProcessor',
+      //   JSON.stringify(result, null, 2),
+      // );
+      expect(result).toMatchSnapshot();
+    });
+  });
 });

@@ -66,6 +66,7 @@ export type EntitySetup = {
   mutations?: any;
   permissions?: any;
   states?: any;
+  preProcessor?: Function;
   postProcessor?: Function;
   preFilters?: PreFilterType;
   preFiltersGenerator?: PreFilterGeneratorType;
@@ -83,6 +84,7 @@ export class Entity {
   mutations?: any;
   permissions?: any;
   states?: any;
+  preProcessor?: Function;
   postProcessor?: Function;
   preFilters?: PreFilterType;
   meta?: any;
@@ -120,6 +122,7 @@ export class Entity {
       mutations,
       permissions,
       states,
+      preProcessor,
       postProcessor,
       preFilters,
       preFiltersGenerator,
@@ -148,8 +151,7 @@ export class Entity {
         () =>
           `'attributes' for entity '${name}' needs to be a map of attributes`,
       );
-    }
-    else if (attributesGenerator) {
+    } else if (attributesGenerator) {
       passOrThrow(
         isFunction(attributesGenerator),
         () =>
@@ -174,6 +176,15 @@ export class Entity {
     this._preFiltersGenerator = preFiltersGenerator;
     this.meta = meta;
 
+    if (preProcessor) {
+      passOrThrow(
+        isFunction(preProcessor),
+        () => `preProcessor of entity '${name}' needs to be a valid function`,
+      );
+
+      this.preProcessor = preProcessor;
+    }
+
     if (postProcessor) {
       passOrThrow(
         isFunction(postProcessor),
@@ -189,8 +200,7 @@ export class Entity {
         () =>
           `Entity '${name}' needs a valid storage type (defaults to 'StorageTypeNull')`,
       );
-    }
-    else {
+    } else {
       this.storageType = StorageTypeNull;
       this.isFallbackStorageType = true;
       this._exposeStorageAccess();
@@ -255,8 +265,7 @@ export class Entity {
 
     if (!this._mutations) {
       mutations = Object.values(this._getDefaultMutations());
-    }
-    else {
+    } else {
       mutations = isFunction(this._mutations)
         ? this._mutations(this._getDefaultMutations())
         : this._mutations;
@@ -290,9 +299,7 @@ export class Entity {
       passOrThrow(
         isMap(states),
         () =>
-          `Entity '${
-            this.name
-          }' states definition needs to be a map of state names and their unique ID`,
+          `Entity '${this.name}' states definition needs to be a map of state names and their unique ID`,
       );
 
       const stateNames = Object.keys(states);
@@ -305,26 +312,20 @@ export class Entity {
         passOrThrow(
           stateNameRegex.test(stateName),
           () =>
-            `Invalid state name '${stateName}' in entity '${
-              this.name
-            }' (Regex: /${STATE_NAME_PATTERN}/)`,
+            `Invalid state name '${stateName}' in entity '${this.name}' (Regex: /${STATE_NAME_PATTERN}/)`,
         );
 
         passOrThrow(
           stateId === parseInt(stateId, 10) && stateId > 0,
           () =>
-            `State '${stateName}' in entity '${
-              this.name
-            }' has an invalid unique ID (needs to be a positive integer)`,
+            `State '${stateName}' in entity '${this.name}' has an invalid unique ID (needs to be a positive integer)`,
         );
       });
 
       passOrThrow(
         uniqueIds.length === _.uniq(uniqueIds).length,
         () =>
-          `Each state defined in entity '${
-            this.name
-          }' needs to have a unique ID`,
+          `Each state defined in entity '${this.name}' needs to have a unique ID`,
       );
 
       return states;
@@ -400,9 +401,7 @@ export class Entity {
     passOrThrow(
       !attributeMap[attributeName],
       () =>
-        `Attribute name collision with system attribute '${attributeName}' in entity '${
-          this.name
-        }'`,
+        `Attribute name collision with system attribute '${attributeName}' in entity '${this.name}'`,
     );
   }
 
@@ -410,18 +409,14 @@ export class Entity {
     passOrThrow(
       attributeNameRegex.test(attributeName),
       () =>
-        `Invalid attribute name '${attributeName}' in entity '${
-          this.name
-        }' (Regex: /${ATTRIBUTE_NAME_PATTERN}/)`,
+        `Invalid attribute name '${attributeName}' in entity '${this.name}' (Regex: /${ATTRIBUTE_NAME_PATTERN}/)`,
     );
 
     Object.keys(rawAttribute).map(prop => {
       passOrThrow(
         attributePropertiesWhitelist.includes(prop),
         () =>
-          `Invalid attribute property '${prop}' in entity '${
-            this.name
-          }' (use 'meta' for custom data)`,
+          `Invalid attribute property '${prop}' in entity '${this.name}' (use 'meta' for custom data)`,
       );
     });
 
@@ -443,9 +438,7 @@ export class Entity {
     );
 
     if (isFunction(attribute.type)) {
-      const dataTypeBuilder: DataTypeFunction = <DataTypeFunction>(
-        attribute.type
-      );
+      const dataTypeBuilder: DataTypeFunction = attribute.type as DataTypeFunction;
       attribute.type = dataTypeBuilder(attribute, this);
     }
 
@@ -463,22 +456,18 @@ export class Entity {
       passOrThrow(
         isDataType(attribute.type),
         () =>
-          `'${
-            this.name
-          }.${attributeName}' cannot be translatable as it is not a simple data type`,
+          `'${this.name}.${attributeName}' cannot be translatable as it is not a simple data type`,
       );
 
       passOrThrow(
         !attribute.unique,
         () =>
-          `'${
-            this.name
-          }.${attributeName}' cannot be translatable as it has a uniqueness constraint`,
+          `'${this.name}.${attributeName}' cannot be translatable as it has a uniqueness constraint`,
       );
     }
 
     if (isDataType(attribute.type)) {
-      const attributeType = <DataType>attribute.type;
+      const attributeType = attribute.type as DataType;
 
       if (attributeType.enforceRequired) {
         attribute.required = true;
@@ -497,17 +486,13 @@ export class Entity {
       passOrThrow(
         attribute.type instanceof Entity,
         () =>
-          `'${
-            this.name
-          }.${attributeName}' cannot have a targetAttributesMap as it is not a reference`,
+          `'${this.name}.${attributeName}' cannot have a targetAttributesMap as it is not a reference`,
       );
 
       passOrThrow(
         isMap(attribute.targetAttributesMap),
         () =>
-          `targetAttributesMap for '${
-            this.name
-          }.${attributeName}' needs to be a map`,
+          `targetAttributesMap for '${this.name}.${attributeName}' needs to be a map`,
       );
 
       const localAttributeNames = Object.keys(attribute.targetAttributesMap);
@@ -520,13 +505,11 @@ export class Entity {
             targetAttribute.name &&
             targetAttribute.type,
           () =>
-            `targetAttributesMap for '${
-              this.name
-            }.${attributeName}' needs to be a map between local and target attributes`,
+            `targetAttributesMap for '${this.name}.${attributeName}' needs to be a map between local and target attributes`,
         );
 
         // check if attribute is found in target entity
-        (<Entity>attribute.type).referenceAttribute(targetAttribute.name);
+        (attribute.type as Entity).referenceAttribute(targetAttribute.name);
       });
     }
 
@@ -534,9 +517,7 @@ export class Entity {
       passOrThrow(
         !this._primaryAttribute,
         () =>
-          `'${
-            this.name
-          }.${attributeName}' cannot be set as primary attribute,` +
+          `'${this.name}.${attributeName}' cannot be set as primary attribute,` +
           `'${this._primaryAttribute.name}' is already the primary attribute`,
       );
 
@@ -588,9 +569,7 @@ export class Entity {
     passOrThrow(
       isMap(attributeMap),
       () =>
-        `Attribute definition function for entity '${
-          this.name
-        }' does not return a map`,
+        `Attribute definition function for entity '${this.name}' does not return a map`,
     );
 
     const attributeNames = Object.keys(attributeMap);
@@ -662,9 +641,7 @@ export class Entity {
     passOrThrow(
       attributes[attributeName],
       () =>
-        `Cannot reference attribute '${
-          this.name
-        }.${attributeName}' as it does not exist`,
+        `Cannot reference attribute '${this.name}.${attributeName}' as it does not exist`,
     );
 
     return attributes[attributeName];
@@ -716,8 +693,7 @@ export class Entity {
         permissions,
         this._defaultPermissions,
       );
-    }
-    else if (this._defaultPermissions) {
+    } else if (this._defaultPermissions) {
       return processEntityPermissions(this, this._defaultPermissions);
     }
 
@@ -758,7 +734,7 @@ export class Entity {
 
   _processPreFilters(): PreFilterType {
     return this._preFilters
-      ? <any>processPreFilters(this, this._preFilters)
+      ? (processPreFilters(this, this._preFilters) as any)
       : null;
   }
 
