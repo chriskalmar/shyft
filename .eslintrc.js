@@ -37,13 +37,13 @@ module.exports = {
         args: 'after-used',
       },
     ],
-    'no-use-before-define': [
-      'error',
-      {
-        functions: false,
-        classes: true,
-      },
-    ],
+    // 'no-use-before-define': [
+    //   'error',
+    //   {
+    //     functions: false,
+    //     classes: true,
+    //   },
+    // ],
     'no-cond-assign': ['error', 'always'],
     'no-console': 'warn',
     'no-debugger': 'error',

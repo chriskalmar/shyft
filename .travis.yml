@@ -1,8 +1,7 @@
 language: node_js
 node_js:
-  - "12"
-  - "10"
-  - "8"
+  - '12'
+  - '10'
 
 script:
   - npm run lint &&
@@ -21,4 +20,4 @@ deploy:
   on:
     tags: true
     repo: chriskalmar/shyft
-    node: "10"
+    node: '12'

@@ -56,6 +56,33 @@ export const resolveByFind = (entity, parentConnectionCollector) => {
       context,
     );
 
+    // implementing entity.preProcessor here is correct ?
+    if (entity.preProcessor) {
+      const preProcessorResult = await entity.preProcessor(
+        entity,
+        source,
+        args,
+        context,
+        info,
+      );
+      if (preProcessorResult) {
+        /* eslint-disable no-param-reassign */
+        // console.log('after preProcessor', args, preProcessorResult);
+        args = preProcessorResult.args
+          ? { ...args, ...preProcessorResult.args }
+          : args;
+        if (preProcessorResult.context) {
+          if (Object.keys(context).length > 0) {
+            context = { ...context, ...preProcessorResult.context };
+          } else {
+            context = preProcessorResult.context;
+          }
+        }
+
+        /* eslint-enable no-param-reassign */
+      }
+    }
+
     const { data, pageInfo } = await storageType.find(
       entity,
       args,
@@ -160,7 +187,7 @@ export const getNestedPayloadResolver = (
           );
 
           if (uniquenessAttributesList.length > 0) {
-            const uniquenessFieldNames = [ attribute.gqlFieldName ];
+            const uniquenessFieldNames = [attribute.gqlFieldName];
             const fieldNameToUniquenessAttributesMap = {};
 
             uniquenessAttributesList.map(({ uniquenessName, attributes }) => {
@@ -199,8 +226,7 @@ export const getNestedPayloadResolver = (
                   'MissingNestedInputError',
                 );
               }
-            }
-            else {
+            } else {
               const attributes = targetEntity.getAttributes();
               const primaryAttributeName = _.findKey(attributes, {
                 primary: true,
@@ -242,18 +268,15 @@ export const getNestedPayloadResolver = (
                   resultPayload[attribute.gqlFieldName] =
                     result[primaryAttributeName];
                 }
-              }
-              else {
+              } else {
                 resultPayload[attribute.gqlFieldName] = args[foundInput];
               }
             }
-          }
-          else {
+          } else {
             resultPayload[attribute.gqlFieldName] =
               args[attribute.gqlFieldName];
           }
-        }
-        else {
+        } else {
           resultPayload[attribute.gqlFieldName] = args[attribute.gqlFieldName];
 
           if (attribute.i18n) {
@@ -384,8 +407,7 @@ export const getMutationResolver = (
           ...ret,
           ...result,
         };
-      }
-      else {
+      } else {
         ret[typeName] = result;
       }
 
@@ -405,8 +427,7 @@ export const getMutationResolver = (
       }
 
       return ret;
-    }
-    catch (error) {
+    } catch (error) {
       if (entityMutation.postProcessor) {
         await entityMutation.postProcessor(
           error,

@@ -1,23 +1,24 @@
 import { passOrThrow, resolveFunctionMap, isMap, isFunction } from '../util';
-import { Entity, isEntity } from '../entity/Entity';
-import { DataType, isDataType } from './DataType';
+import { isEntity } from '../entity/Entity';
+import { isDataType } from './DataType';
 import { ComplexDataType, isComplexDataType } from './ComplexDataType';
-import { AttributesMap, AttributesMapFunction } from '../attribute/Attribute';
+import { AttributesMap, AttributesMapGenerator } from '../attribute/Attribute';
 
 export type ObjectDataTypeSetupType = {
   name: string;
   description: string;
-  attributes: AttributesMap | AttributesMapFunction;
+  attributes: AttributesMap | AttributesMapGenerator;
 };
 
 export class ObjectDataType extends ComplexDataType {
   name: string;
   description: string;
   attributes: AttributesMap;
-  _attributesMap: AttributesMap | AttributesMapFunction;
+  _attributesMap: AttributesMap | AttributesMapGenerator;
   _attributes: AttributesMap;
 
-  constructor(setup: ObjectDataTypeSetupType = <ObjectDataTypeSetupType>{}) {
+  constructor(setup: ObjectDataTypeSetupType = {} as ObjectDataTypeSetupType) {
+    // constructor(setup: ObjectDataTypeSetupType = <ObjectDataTypeSetupType>{}) {
     super();
 
     const { name, description, attributes } = setup;
@@ -93,17 +94,13 @@ export class ObjectDataType extends ComplexDataType {
       passOrThrow(
         isFunction(attribute.defaultValue),
         () =>
-          `'${
-            this.name
-          }.${attributeName}' has an invalid defaultValue function'`,
+          `'${this.name}.${attributeName}' has an invalid defaultValue function'`,
       );
 
       passOrThrow(
         !isComplexDataType(attribute.type),
         () =>
-          `Complex data type '${
-            this.name
-          }.${attributeName}' cannot have a defaultValue function'`,
+          `Complex data type '${this.name}.${attributeName}' cannot have a defaultValue function'`,
       );
     }
 
@@ -122,9 +119,7 @@ export class ObjectDataType extends ComplexDataType {
     passOrThrow(
       isMap(attributeMap),
       () =>
-        `Attribute definition function for object data type '${
-          this.name
-        }' does not return a map`,
+        `Attribute definition function for object data type '${this.name}' does not return a map`,
     );
 
     const attributeNames = Object.keys(attributeMap);

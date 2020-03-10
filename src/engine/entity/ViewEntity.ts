@@ -43,6 +43,7 @@ export type ViewEntitySetup = {
   storageType?: any;
   viewExpression: any;
   permissions?: any;
+  preProcessor?: Function;
   postProcessor?: Function;
   preFilters?: PreFilterType;
   preFiltersGenerator?: PreFilterGeneratorType;
@@ -55,6 +56,7 @@ export class ViewEntity {
   storageType?: any;
   viewExpression: any;
   permissions?: any;
+  preProcessor?: Function;
   postProcessor?: Function;
   preFilters?: PreFilterType;
   meta?: any;
@@ -84,6 +86,7 @@ export class ViewEntity {
       storageType,
       viewExpression,
       permissions,
+      preProcessor,
       postProcessor,
       preFilters,
       preFiltersGenerator,
@@ -139,6 +142,16 @@ export class ViewEntity {
     this._preFilters = preFilters;
     this._preFiltersGenerator = preFiltersGenerator;
     this.meta = meta;
+
+    if (preProcessor) {
+      passOrThrow(
+        isFunction(preProcessor),
+        () =>
+          `preProcessor of view entity '${name}' needs to be a valid function`,
+      );
+
+      this.preProcessor = preProcessor;
+    }
 
     if (postProcessor) {
       passOrThrow(

@@ -18,6 +18,44 @@ exports[`Entity isEntity should recognize non-Entity objects 1`] = `"Not an Enti
 
 exports[`Entity permissions should throw if empty permissions are provided 1`] = `"Entity 'SomeEntityName' has one or more empty permission definitions in: read, find, mutations.delete"`;
 
+exports[`Entity preProcessor should have a valid postProcessor function 1`] = `"postProcessor of entity 'SomeEntityName' needs to be a valid function"`;
+
+exports[`Entity preProcessor should have a valid preProcessor function 1`] = `"preProcessor of entity 'SomeEntityName' needs to be a valid function"`;
+
+exports[`Entity preProcessor should pass through postProcessor if it is declared 1`] = `
+Object {
+  "data": Object {
+    "allSomeOtherEntityNames": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "id": "1",
+            "something": "someotherthing",
+          },
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`Entity preProcessor should pass through preProcessor if it is declared 1`] = `
+Object {
+  "data": Object {
+    "allSomeEntityNames": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "id": "1",
+            "something": "something",
+          },
+        },
+      ],
+    },
+  },
+}
+`;
+
 exports[`Entity primary attribute should catch multiple primary attributes 1`] = `"'SomeEntityName.anotherAttribute' cannot be set as primary attribute,'someAttribute' is already the primary attribute"`;
 
 exports[`Entity primary attribute should catch primary attributes with invalid data types 1`] = `"Primary attribute 'City.someAttribute' has invalid data type 'Country'"`;

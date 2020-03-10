@@ -72,7 +72,8 @@ describe('util', () => {
       expect(isMap(null)).toBe(false);
       expect(isMap(undefined)).toBe(false);
       expect(isMap([])).toBe(false);
-      expect(isMap([ 1, 2, 3 ])).toBe(false);
+      expect(isMap([1, 2, 3])).toBe(false);
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       expect(isMap(() => {})).toBe(false);
       expect(isMap(1234567)).toBe(false);
     });
@@ -85,8 +86,8 @@ describe('util', () => {
   describe('isArray', () => {
     it('should accept arrays', () => {
       expect(isArray([])).toBe(true);
-      expect(isArray([ 'test' ])).toBe(true);
-      expect(isArray([ 1, 2, 3 ])).toBe(true);
+      expect(isArray(['test'])).toBe(true);
+      expect(isArray([1, 2, 3])).toBe(true);
     });
 
     it('should reject non-arrays', () => {
@@ -95,6 +96,7 @@ describe('util', () => {
       expect(isArray(undefined)).toBe(false);
       expect(isArray(Object.create({}))).toBe(false);
       expect(isArray(DataTypeBoolean)).toBe(false);
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       expect(isArray(() => {})).toBe(false);
       expect(isArray(1234567)).toBe(false);
     });
@@ -127,13 +129,13 @@ describe('util', () => {
       expect(obj).toEqual({ a: 123, b: 789 });
 
       obj = mergeMaps(
-        { a: 123, b: [ 1, 2, 4 ], c: { deep: [ 7, 8, 9 ] } },
+        { a: 123, b: [1, 2, 4], c: { deep: [7, 8, 9] } },
         { b: { b1: 1, b2: 2 } },
       );
       expect(obj).toEqual({
         a: 123,
         b: { b1: 1, b2: 2 },
-        c: { deep: [ 7, 8, 9 ] },
+        c: { deep: [7, 8, 9] },
       });
     });
 
@@ -174,7 +176,7 @@ describe('util', () => {
 
       mapOverProperties(someMap, iteratee);
 
-      expect(keys).toEqual([ 'a', 'b', 'c' ]);
+      expect(keys).toEqual(['a', 'b', 'c']);
       expect(sum).toBe(13);
     });
 
@@ -227,13 +229,13 @@ describe('util', () => {
     });
 
     it('should return null-filled array if data list is empty or invalid', () => {
-      const result1 = sortDataByKeys([ 'a', 'b' ], null);
-      const result2 = sortDataByKeys([ 'a' ], {});
-      const result3 = sortDataByKeys([ 'a', 'b', 'f' ], []);
+      const result1 = sortDataByKeys(['a', 'b'], null);
+      const result2 = sortDataByKeys(['a'], {});
+      const result3 = sortDataByKeys(['a', 'b', 'f'], []);
 
-      expect(result1).toEqual([ null, null ]);
-      expect(result2).toEqual([ null ]);
-      expect(result3).toEqual([ null, null, null ]);
+      expect(result1).toEqual([null, null]);
+      expect(result2).toEqual([null]);
+      expect(result3).toEqual([null, null, null]);
     });
 
     it('should sort data based on keys', () => {
@@ -250,9 +252,9 @@ describe('util', () => {
         { id: 'c', val: 'doloremque' },
       ];
 
-      const keys1 = [ 'a', 'c', 'f' ];
-      const keys2 = [ 'e', 'e', 'b', 'b', 'c' ];
-      const keys3 = [ 'g' ];
+      const keys1 = ['a', 'c', 'f'];
+      const keys2 = ['e', 'e', 'b', 'b', 'c'];
+      const keys3 = ['g'];
       const keys4 = [
         'a-unknown',
         'f',
@@ -283,7 +285,7 @@ describe('util', () => {
         { id: 'c', val: 'dolor' },
       ]);
 
-      expect(result3).toEqual([ { id: 'g', val: 'iste' } ]);
+      expect(result3).toEqual([{ id: 'g', val: 'iste' }]);
 
       expect(result4).toEqual([
         null,
