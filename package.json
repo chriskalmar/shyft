@@ -54,8 +54,8 @@
   "author": "Chris Kalmar <christian.kalmar@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "7.8.4",
-    "@babel/preset-env": "7.8.4",
+    "@babel/core": "7.8.7",
+    "@babel/preset-env": "7.8.7",
     "@types/jest": "25.1.4",
     "@types/lodash": "4.14.149",
     "@typescript-eslint/eslint-plugin": "2.19.2",
