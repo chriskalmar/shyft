@@ -49,13 +49,6 @@ export const resolveByFind = (entity, parentConnectionCollector) => {
     validateConnectionArgs(source, args, context, info);
     forceSortByUnique(args.orderBy, entity);
 
-    args.filter = await transformFilterLevel(
-      entity,
-      args.filter,
-      entity.getAttributes(),
-      context,
-    );
-
     // implementing entity.preProcessor here is correct ?
     if (entity.preProcessor) {
       const preProcessorResult = await entity.preProcessor(
@@ -82,6 +75,13 @@ export const resolveByFind = (entity, parentConnectionCollector) => {
         /* eslint-enable no-param-reassign */
       }
     }
+
+    args.filter = await transformFilterLevel(
+      entity,
+      args.filter,
+      entity.getAttributes(),
+      context,
+    );
 
     const { data, pageInfo } = await storageType.find(
       entity,
