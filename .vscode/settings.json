@@ -20,5 +20,8 @@
       "language": "typescript",
       "autoFix": true
     }
-  ]
+  ],
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#1c3350"
+  }
 }

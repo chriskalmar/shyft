@@ -828,12 +828,8 @@ describe('Entity', () => {
 
     beforeAll(async () => {
       const preProcessor = (entity, source, args, context, info) => {
-        console.log('entity preProcessor : ', {
-          source,
-          args,
-          context,
-          info,
-        });
+        ({ context, info }); // overcome linter warnings
+
         return args;
       };
 
@@ -847,15 +843,8 @@ describe('Entity', () => {
         mutation,
         context,
       ) => {
-        console.log('entity postProcessor : ', {
-          result,
-          id,
-          source,
-          input,
-          typeName,
-          mutation,
-          context,
-        });
+        ({ entity, id, source, input, typeName, mutation, context }); // overcome linter warnings
+
         result.something = 'someotherthing';
         return result;
       };
@@ -962,10 +951,6 @@ describe('Entity', () => {
         // { filter: {} },
       );
 
-      // console.log(
-      //   'should pass through preProcessor',
-      //   JSON.stringify(result, null, 2),
-      // );
       expect(result).toMatchSnapshot();
     });
 
@@ -990,10 +975,6 @@ describe('Entity', () => {
         // { filter: {} },
       );
 
-      // console.log(
-      //   'should pass through postProcessor',
-      //   JSON.stringify(result, null, 2),
-      // );
       expect(result).toMatchSnapshot();
     });
   });
