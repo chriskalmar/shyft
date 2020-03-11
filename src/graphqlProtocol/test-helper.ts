@@ -97,30 +97,17 @@ export const generateTestSchema = async entities => {
     name: 'TestStorage',
     description: 'Just some description',
     findOne(entity, id, args, context) {
-      console.log('Storage findOne : ', {
-        entityName: entity.name,
-        id,
-        args,
-        context,
-      });
+      ({ entity, id, args, context }); // overcome linter warnings
       // return { resolve: () => {} };
       return {};
     },
     findOneByValues(entity, arg, context) {
-      console.log('Storage findOneByValues :', {
-        entityName: entity.name,
-        arg,
-        context,
-      });
+      ({ entity, arg, context }); // overcome linter warnings
       return {};
     },
+
     find(entity, args, context, parentConnection) {
-      console.log('Storage find : ', {
-        entityName: entity.name,
-        args,
-        context,
-        parentConnection,
-      });
+      ({ entity, args, context, parentConnection }); // overcome linter warnings
       return {
         data: [{ id: '1', something: 'something' }],
         pageInfo: {
@@ -132,30 +119,15 @@ export const generateTestSchema = async entities => {
       };
     },
     count(entity, args, context, parentConnection) {
-      console.log('Storage count : ', {
-        entityName: entity.name,
-        args,
-        context,
-        parentConnection,
-      });
+      ({ entity, args, context, parentConnection }); // overcome linter warnings
       return 0;
     },
     mutate(entity, id, input, entityMutation, context) {
-      console.log('Storage mutate : ', {
-        entityName: entity.name,
-        id,
-        input,
-        entityMutation,
-        context,
-      });
+      ({ entity, id, input, entityMutation, context }); // overcome linter warnings
       return {};
     },
     checkLookupPermission(entity, where, context) {
-      console.log('Storage checkLookupPermission : ', {
-        entityName: entity.name,
-        where,
-        context,
-      });
+      ({ entity, where, context }); // overcome linter warnings
       return true;
     },
   });
