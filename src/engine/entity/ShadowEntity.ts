@@ -64,13 +64,6 @@ export class ShadowEntity {
 
     passOrThrow(name, () => 'Missing shadow entity name');
 
-    passOrThrow(
-      (attributes && !attributesGenerator) ||
-        (!attributes && attributesGenerator),
-      () =>
-        `ShadowEntity '${name}' needs either attributes or attributesGenerator defined`,
-    );
-
     if (attributes) {
       passOrThrow(
         isMap(attributes),
@@ -88,7 +81,7 @@ export class ShadowEntity {
     this.name = name;
     this.isUserEntity = !!isUserEntity;
     this._attributesMap = attributes;
-    this._attributesGenerator = attributesGenerator;
+    this._attributesGenerator = attributesGenerator || (() => ({}));
     this._primaryAttribute = null;
     this.referencedByEntities = [];
     this.meta = meta;
@@ -279,10 +272,6 @@ export class ShadowEntity {
     );
 
     const attributeNames = Object.keys(attributeMap);
-    passOrThrow(
-      attributeNames.length > 0,
-      () => `ShadowEntity '${this.name}' has no attributes defined`,
-    );
 
     const resultAttributes = {};
 
