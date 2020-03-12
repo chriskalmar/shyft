@@ -10,5 +10,8 @@
   "editor.formatOnSave": false,
   "[javascript]": {
     "editor.formatOnSave": true
+  },
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#502323",
   }
 }
