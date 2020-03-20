@@ -1,16 +1,51 @@
-import { passOrThrow, isMap, isFunction } from '../util';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { passOrThrow, isMap, isFunction } from '../util';
+import { AttributeBase } from '../attribute/Attribute';
+import { DataTypeFunction } from '../datatype/DataType';
 import {
   generatePermissionDescription,
   processActionPermissions,
+  Permission,
 } from '../permission/Permission';
 
 export const ACTION_TYPE_MUTATION = 'mutation';
 export const ACTION_TYPE_QUERY = 'query';
-export const actionTypes = [ ACTION_TYPE_MUTATION, ACTION_TYPE_QUERY ];
+export const actionTypes = [ACTION_TYPE_MUTATION, ACTION_TYPE_QUERY];
+
+export type ActionSetup = {
+  name?: string;
+  description?: string;
+  // input?: AttributeBase | Function | { [type: string]: Function };
+  input?: any;
+  // output?: AttributeBase | Function | { [type: string]: Function };
+  output?: any;
+  resolve?: Function;
+  type?: string;
+  permissions?: Function | Permission | Permission[];
+  postProcessor?: Function;
+};
 
 export class Action {
-  constructor(setup = {}) {
+  name: string;
+  description: string;
+  // input: AttributeBase | Function | { [type: string]: Function };
+  // private _input: AttributeBase | Function | { [type: string]: Function };
+  input: any;
+  private _input: any;
+  // output: AttributeBase | Function | { [type: string]: Function };
+  // private _output: AttributeBase | Function | { [type: string]: Function };
+  output: any;
+  private _output: any;
+  resolve: Function;
+  type: string;
+  permissions: Function | Permission | Permission[];
+  private _permissions: Function | Permission | Permission[];
+  private _defaultPermissions: Function | Permission | Permission[];
+  descriptionPermissions: string | false;
+  postProcessor: Function;
+
+  constructor(setup: ActionSetup = {} as ActionSetup) {
     const {
       name,
       description,
@@ -77,24 +112,26 @@ export class Action {
     }
 
     if (isFunction(this.input)) {
-      this.input = this.input();
+      const inputFn = this.input as Function;
+      this.input = inputFn();
 
       passOrThrow(
         isMap(this.input),
         () =>
-          `Input definition function for action '${
-            this.name
-          }' does not return a map`,
+          `Input definition function for action '${this.name}' does not return a map`,
       );
     }
 
+    const inputAttr = this.input as AttributeBase;
     passOrThrow(
-      this.input.type,
+      inputAttr.type,
       () => `Missing input type for action '${this.name}'`,
     );
 
-    if (isFunction(this.input.type)) {
-      this.input.type = this.input.type({
+    if (isFunction(inputAttr.type)) {
+      const inputAttrType = inputAttr.type as DataTypeFunction;
+      this.input = this.input as AttributeBase;
+      this.input.type = inputAttrType({
         name: 'input',
         description: this.input.description || this.description,
       });
@@ -105,7 +142,7 @@ export class Action {
     return this._input;
   }
 
-  hasInput() {
+  hasInput(): boolean {
     return !!this.input;
   }
 
@@ -119,24 +156,26 @@ export class Action {
     }
 
     if (isFunction(this.output)) {
-      this.output = this.output();
+      const outputFn = this.output as Function;
+      this.output = outputFn();
 
       passOrThrow(
         isMap(this.output),
         () =>
-          `Output definition function for action '${
-            this.name
-          }' does not return a map`,
+          `Output definition function for action '${this.name}' does not return a map`,
       );
     }
 
+    const outputAttr = this.output as AttributeBase;
     passOrThrow(
-      this.output.type,
+      outputAttr.type,
       () => `Missing output type for action '${this.name}'`,
     );
 
-    if (isFunction(this.output.type)) {
-      this.output.type = this.output.type({
+    if (isFunction(outputAttr.type)) {
+      const outputAttrType = outputAttr.type as DataTypeFunction;
+      this.output = this.output as AttributeBase;
+      this.output.type = outputAttrType({
         name: 'output',
         description: this.output.description || this.description,
       });
@@ -147,19 +186,23 @@ export class Action {
     return this._output;
   }
 
-  hasOutput() {
+  hasOutput(): boolean {
     return !!this.output;
   }
 
   _processPermissions() {
     if (this._permissions) {
-      const permissions = isFunction(this._permissions)
-        ? this._permissions()
-        : this._permissions;
+      if (isFunction(this._permissions)) {
+        const permissionsFn = this._permissions as Function;
+        return processActionPermissions(this, permissionsFn);
+      }
+      return processActionPermissions(this, this._permissions);
 
-      return processActionPermissions(this, permissions);
-    }
-    else if (this._defaultPermissions) {
+      // const permissions = isFunction(this._permissions)
+      //   ? this._permissions()
+      //   : this._permissions;
+      // return processActionPermissions(this, permissions);
+    } else if (this._defaultPermissions) {
       return processActionPermissions(this, this._defaultPermissions);
     }
 
@@ -193,6 +236,6 @@ export class Action {
   }
 }
 
-export const isAction = obj => {
+export const isAction = (obj: any) => {
   return obj instanceof Action;
 };

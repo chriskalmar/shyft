@@ -1,7 +1,22 @@
 import { passOrThrow } from '../util';
 
+export type StorageConfigurationSetup = {
+  // todo improve typings ?
+  name?: string;
+  storageInstance?: any;
+  storageModels?: any;
+  connectionConfig?: any;
+};
+
 export class StorageConfiguration {
-  constructor(setup = {}) {
+  name: string;
+  storageInstance: any;
+  storageModels: any;
+  connectionConfig: any;
+
+  constructor(
+    setup: StorageConfigurationSetup = {} as StorageConfigurationSetup,
+  ) {
     const { name, storageInstance, storageModels, connectionConfig } = setup;
 
     if (name) {

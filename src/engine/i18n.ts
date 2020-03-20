@@ -1,16 +1,17 @@
+import { map } from 'lodash';
 import { randomJson } from './util';
-import * as _ from 'lodash';
+// import { Entity } from '..';
 
 export const i18nMockGenerator = (
-  entity,
-  name,
+  entity: any,
+  _: string,
   { dataShaperMap },
   languages = [],
-) => {
+): object => {
   if (entity) {
     const content = {};
 
-    _.map(entity.getAttributes(), ({ type, i18n, mock }, attributeName) => {
+    map(entity.getAttributes(), ({ type, i18n, mock }, attributeName) => {
       const storageAttributeName = dataShaperMap[attributeName];
 
       if (i18n) {

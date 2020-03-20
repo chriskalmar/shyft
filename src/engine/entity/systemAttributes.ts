@@ -1,3 +1,6 @@
+import { camelCase, isFunction } from 'lodash';
+import * as casual from 'casual';
+
 import {
   DataTypeID,
   DataTypeUserID,
@@ -7,10 +10,9 @@ import {
 
 import { CustomError } from '../CustomError';
 import { DataTypeState } from '../datatype/DataTypeState';
+import { Entity } from '../entity/Entity';
+import { Mutation } from '../mutation/Mutation';
 import { i18nMockGenerator } from '../i18n';
-
-import * as _ from 'lodash';
-import * as casual from 'casual';
 
 export const systemAttributePrimary = {
   name: 'id',
@@ -26,16 +28,14 @@ export const systemAttributesTimeTracking = [
     description: 'Record was created at this time',
     type: DataTypeTimestampTz,
     required: true,
-    defaultValue: (data, mutation) => {
+    defaultValue: (_: any, mutation: Mutation) => {
       return mutation.isTypeCreate ? new Date() : undefined;
     },
-    mock: entity => {
+    mock: (entity: Entity) => {
       if (entity.meta && entity.meta.mockCreatedAtGenerator) {
-        if (!_.isFunction(entity.meta.mockCreatedAtGenerator)) {
+        if (!isFunction(entity.meta.mockCreatedAtGenerator)) {
           throw new CustomError(
-            `meta.mockCreatedAtGenerator needs to be a function in entity '${
-              entity.name
-            }'`,
+            `meta.mockCreatedAtGenerator needs to be a function in entity '${entity.name}'`,
             'InvalidMetaDataError',
           );
         }
@@ -50,18 +50,16 @@ export const systemAttributesTimeTracking = [
     description: 'Record was updated at this time',
     type: DataTypeTimestampTz,
     required: true,
-    defaultValue: (data, mutation) => {
+    defaultValue: (_: any, mutation: Mutation) => {
       return mutation.isTypeCreate || mutation.isTypeUpdate
         ? new Date()
         : undefined;
     },
-    mock: entity => {
+    mock: (entity: Entity) => {
       if (entity.meta && entity.meta.mockUpdatedAtGenerator) {
-        if (!_.isFunction(entity.meta.mockUpdatedAtGenerator)) {
+        if (!isFunction(entity.meta.mockUpdatedAtGenerator)) {
           throw new CustomError(
-            `meta.mockUpdatedAtGenerator needs to be a function in entity '${
-              entity.name
-            }'`,
+            `meta.mockUpdatedAtGenerator needs to be a function in entity '${entity.name}'`,
             'InvalidMetaDataError',
           );
         }
@@ -79,7 +77,7 @@ export const systemAttributesUserTracking = [
     description: 'Record was created by this time',
     type: DataTypeUserID,
     required: true,
-    defaultValue: (data, mutation, entity, { userId }) => {
+    defaultValue: (_: any, mutation: Mutation, __: Entity, { userId }) => {
       // TODO: make overridable
       return mutation.isTypeCreate && userId ? userId : undefined;
     },
@@ -89,7 +87,7 @@ export const systemAttributesUserTracking = [
     description: 'Record was updated by this user',
     type: DataTypeUserID,
     required: true,
-    defaultValue: (data, mutation, entity, { userId }) => {
+    defaultValue: (_: any, mutation: Mutation, __: Entity, { userId }) => {
       // TODO: make overridable
       return (mutation.isTypeCreate || mutation.isTypeUpdate) && userId
         ? userId
@@ -101,15 +99,15 @@ export const systemAttributesUserTracking = [
 export const systemAttributeState = {
   name: 'state',
   description: 'State of record',
-  type: (attribute, entity) =>
+  type: (attribute: any, entity: Entity) =>
     new DataTypeState({
       ...attribute,
       validate: undefined, // delete from props as it would be handled as a data type validator
-      name: _.camelCase(`${entity.name}-instance-state`),
+      name: camelCase(`${entity.name}-instance-state`),
       states: entity.states,
     }),
   required: true,
-  defaultValue: (data, mutation) => {
+  defaultValue: (_: any, mutation: Mutation) => {
     if (mutation.isTypeCreate || mutation.isTypeUpdate) {
       if (typeof mutation.toState === 'string') {
         return mutation.toState;
@@ -117,7 +115,7 @@ export const systemAttributeState = {
     }
     return undefined;
   },
-  serialize: (value, data, mutation, entity) => {
+  serialize: (value, _: any, __: Mutation, entity: Entity) => {
     const states = entity.getStates();
     const state = states[value];
 
@@ -127,7 +125,7 @@ export const systemAttributeState = {
 
     return state;
   },
-  validate: (value, attributeName, data, { mutation }) => {
+  validate: (value: string, __: string, _: any, { mutation }) => {
     if (mutation.isTypeCreate || mutation.isTypeUpdate) {
       if (typeof mutation.toState !== 'string') {
         if (!mutation.toState) {

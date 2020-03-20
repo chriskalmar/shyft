@@ -1,13 +1,22 @@
+import { uniq } from 'lodash';
 import { passOrThrow, isArray } from '../util';
 
-import * as _ from 'lodash';
+import { Entity } from '../entity/Entity';
 
 export const INDEX_UNIQUE = 'unique';
 export const INDEX_GENERIC = 'generic';
-export const indexTypes = [ INDEX_UNIQUE, INDEX_GENERIC ];
+export const indexTypes = [INDEX_UNIQUE, INDEX_GENERIC];
+
+export type IndexSetup = {
+  type?: string;
+  attributes?: string[];
+};
 
 export class Index {
-  constructor(setup = {}) {
+  type: string;
+  attributes: string[];
+
+  constructor(setup: IndexSetup = {} as IndexSetup) {
     const { type, attributes } = setup;
 
     passOrThrow(type, () => 'Missing index type');
@@ -34,7 +43,7 @@ export class Index {
     });
 
     passOrThrow(
-      attributes.length === _.uniq(attributes).length,
+      attributes.length === uniq(attributes).length,
       () =>
         `Index definition of type '${type}' needs to have a list of unique attribute names`,
     );
@@ -48,17 +57,15 @@ export class Index {
   }
 }
 
-export const isIndex = obj => {
+export const isIndex = (obj: any) => {
   return obj instanceof Index;
 };
 
-export const processEntityIndexes = (entity, indexes) => {
+export const processEntityIndexes = (entity: Entity, indexes: Index[]) => {
   passOrThrow(
     isArray(indexes),
     () =>
-      `Entity '${
-        entity.name
-      }' indexes definition needs to be an array of indexes`,
+      `Entity '${entity.name}' indexes definition needs to be an array of indexes`,
   );
 
   const singleAttributeIndexes = [];
@@ -69,35 +76,27 @@ export const processEntityIndexes = (entity, indexes) => {
     passOrThrow(
       isIndex(index),
       () =>
-        `Invalid index definition for entity '${
-          entity.name
-        }' at position '${idx}'`,
+        `Invalid index definition for entity '${entity.name}' at position '${idx}'`,
     );
 
     index.attributes.map(attributeName => {
       passOrThrow(
         entityAttributes[attributeName],
         () =>
-          `Cannot use attribute '${
-            entity.name
-          }.${attributeName}' in index as it does not exist`,
+          `Cannot use attribute '${entity.name}.${attributeName}' in index as it does not exist`,
       );
 
       if (index.type === INDEX_UNIQUE) {
         passOrThrow(
           entityAttributes[attributeName].required,
           () =>
-            `Cannot use attribute '${
-              entity.name
-            }.${attributeName}' in uniqueness index as it is nullable`,
+            `Cannot use attribute '${entity.name}.${attributeName}' in uniqueness index as it is nullable`,
         );
 
         passOrThrow(
           !entityAttributes[attributeName].i18n,
           () =>
-            `Cannot use attribute '${
-              entity.name
-            }.${attributeName}' in uniqueness index as it is translatable`,
+            `Cannot use attribute '${entity.name}.${attributeName}' in uniqueness index as it is translatable`,
         );
 
         if (index.attributes.length === 1) {
@@ -118,7 +117,7 @@ export const processEntityIndexes = (entity, indexes) => {
         indexes.push(
           new Index({
             type: INDEX_GENERIC,
-            attributes: [ attributeName ],
+            attributes: [attributeName],
           }),
         );
       }

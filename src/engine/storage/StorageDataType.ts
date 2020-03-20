@@ -2,8 +2,29 @@ import { passOrThrow, isFunction, isArray } from '../util';
 
 import { storageDataTypeCapabilities } from '../constants';
 
+export type StorageDataTypeSetup = {
+  name?: string;
+  description?: string;
+  // improve nativeDataType typing
+  nativeDataType?: any;
+  isSortable?: boolean;
+  serialize?: Function;
+  enforceSerialize?: boolean;
+  parse?: Function;
+  capabilities?: string[];
+};
+
 export class StorageDataType {
-  constructor(setup = {}) {
+  name: string;
+  description: string;
+  nativeDataType: any;
+  isSortable?: boolean;
+  serialize: Function;
+  enforceSerialize?: boolean;
+  parse?: Function;
+  capabilities?: string[];
+
+  constructor(setup: StorageDataTypeSetup = {} as StorageDataTypeSetup) {
     const {
       name,
       description,
@@ -56,7 +77,7 @@ export class StorageDataType {
     this.isSortable = !!isSortable;
     this.serialize = serialize;
     this.enforceSerialize = !!enforceSerialize;
-    this.parse = parse || (value => value);
+    this.parse = parse || ((value: any) => value);
     this.capabilities = capabilities || [];
   }
 
@@ -65,6 +86,6 @@ export class StorageDataType {
   }
 }
 
-export const isStorageDataType = obj => {
+export const isStorageDataType = (obj: any) => {
   return obj instanceof StorageDataType;
 };

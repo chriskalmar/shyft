@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 
 import { StorageType, isStorageType } from './StorageType';
 import { StorageDataType } from './StorageDataType';

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 
 import { StorageDataType, isStorageDataType } from './StorageDataType';
 import { passOrThrow } from '../util';
@@ -87,7 +88,7 @@ describe('StorageDataType', () => {
         description: 'Just some description',
         nativeDataType: String,
         serialize() {},
-        capabilities: [ 'in', 'ne', 'magic_unicorn_filter' ],
+        capabilities: ['in', 'ne', 'magic_unicorn_filter'],
       });
     }
 
@@ -100,10 +101,10 @@ describe('StorageDataType', () => {
       description: 'Just some description',
       nativeDataType: String,
       serialize() {},
-      capabilities: [ 'in', 'ne', 'contains' ],
+      capabilities: ['in', 'ne', 'contains'],
     });
 
-    expect(storageDataType.capabilities).toEqual([ 'in', 'ne', 'contains' ]);
+    expect(storageDataType.capabilities).toEqual(['in', 'ne', 'contains']);
   });
 
   it('should fall back to a simple parse function if none provided', () => {

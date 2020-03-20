@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 
 import { validateFilterLevel } from './filter';
 import { Entity } from './entity/Entity';
@@ -54,7 +55,7 @@ describe('filter', () => {
     description: 'Just some description',
     nativeDataType: 'text',
     serialize() {},
-    capabilities: [ 'lt', 'lte', 'gt', 'gte' ],
+    capabilities: ['lt', 'lte', 'gt', 'gte'],
   });
 
   const StorageDataTypeText = new StorageDataType({
@@ -62,7 +63,7 @@ describe('filter', () => {
     description: 'Just some description',
     nativeDataType: 'text',
     serialize() {},
-    capabilities: [ 'in', 'lt', 'lte', 'gt', 'gte', 'starts_with', 'ends_with' ],
+    capabilities: ['in', 'lt', 'lte', 'gt', 'gte', 'starts_with', 'ends_with'],
   });
 
   SomeStorageType.addDataTypeMap(DataTypeInteger, StorageDataTypeAny);
@@ -80,7 +81,7 @@ describe('filter', () => {
 
       const goodFilter2 = {
         lastName: {
-          $in: [ 'Doe', 'Smith' ],
+          $in: ['Doe', 'Smith'],
         },
         firstName: {
           $starts_with: 'Joh',
@@ -93,7 +94,7 @@ describe('filter', () => {
         validateFilterLevel(
           goodFilter1,
           filteredEntity.getAttributes(),
-          [ 'somewhere' ],
+          ['somewhere'],
           SomeStorageType,
         ),
       ).not.toThrow();
@@ -102,7 +103,7 @@ describe('filter', () => {
         validateFilterLevel(
           goodFilter2,
           filteredEntity.getAttributes(),
-          [ 'somewhere' ],
+          ['somewhere'],
           SomeStorageType,
         ),
       ).not.toThrow();
@@ -147,7 +148,7 @@ describe('filter', () => {
         validateFilterLevel(
           goodFilter1,
           filteredEntity.getAttributes(),
-          [ 'somewhere' ],
+          ['somewhere'],
           SomeStorageType,
         ),
       ).not.toThrow();
@@ -156,7 +157,7 @@ describe('filter', () => {
         validateFilterLevel(
           goodFilter2,
           filteredEntity.getAttributes(),
-          [ 'somewhere' ],
+          ['somewhere'],
           SomeStorageType,
         ),
       ).not.toThrow();
@@ -172,14 +173,14 @@ describe('filter', () => {
       }
 
       function fn3() {
-        validateFilterLevel([], null, [ 'somewhere' ], SomeStorageType);
+        validateFilterLevel([], null, ['somewhere'], SomeStorageType);
       }
 
       function fn4() {
         validateFilterLevel(
           [],
           null,
-          [ 'somewhere', 'deeply', 'nested' ],
+          ['somewhere', 'deeply', 'nested'],
           SomeStorageType,
         );
       }
@@ -188,7 +189,7 @@ describe('filter', () => {
         validateFilterLevel(
           {},
           null,
-          [ 'somewhere', 'deeply', 'nested' ],
+          ['somewhere', 'deeply', 'nested'],
           SomeStorageType,
         );
       }
@@ -241,7 +242,7 @@ describe('filter', () => {
         validateFilterLevel(
           badFilter2,
           filteredEntity.getAttributes(),
-          [ 'just', 'here' ],
+          ['just', 'here'],
           SomeStorageType,
         );
       }

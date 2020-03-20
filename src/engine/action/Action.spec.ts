@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 
 import { Action, isAction } from './Action';
 import { Permission, isPermission } from '../permission/Permission';
@@ -327,7 +328,7 @@ describe('Action', () => {
         input: {},
         output: {},
         resolve() {},
-        permissions: [ new Permission().authenticated(), new Permission() ],
+        permissions: [new Permission().authenticated(), new Permission()],
       });
 
       function fn() {
@@ -338,3 +339,6 @@ describe('Action', () => {
     });
   });
 });
+
+/* eslint-enable @typescript-eslint/no-empty-function */
+/* eslint-enable @typescript-eslint/explicit-function-return-type */

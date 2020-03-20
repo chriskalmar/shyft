@@ -1,6 +1,7 @@
 import { ComplexDataType } from '../datatype/ComplexDataType';
 import { DataType, DataTypeFunction } from '../datatype/DataType';
 import { Entity } from '../entity/Entity';
+import { Mutation } from '../mutation/Mutation';
 
 /**
  * base of a model attribute
@@ -14,7 +15,7 @@ export type AttributeBase = {
   /**
    * data type of the attribute
    */
-  type: DataType | ComplexDataType | Entity;
+  type: DataType | ComplexDataType | Entity | DataTypeFunction;
 
   /**
    * make attribute non-nullable on the storage level
@@ -46,17 +47,38 @@ export type AttributeBase = {
   /**
    * default value generator for create type mutations
    */
-  defaultValue?: () => any;
+
+  defaultValue?: (
+    payload?: any,
+    entityMutation?: Mutation,
+    entity?: Entity,
+    context?: Record<string, any>,
+  ) => any;
 
   /**
    * custom data serializer function
    */
-  serialize?: () => any;
+
+  serialize?: (
+    field?: any,
+    payload?: any,
+    entityMutation?: Mutation,
+    entity?: Entity,
+    model?: any,
+    context?: Record<string, any>,
+    language?: any,
+  ) => any;
 
   /**
    * custom validation function
    */
-  validate?: () => any;
+  validate?: (
+    value?: any,
+    attributeName?: string,
+    row?: any,
+    source?: any,
+    context?: Record<string, any>,
+  ) => any;
 
   /**
    * hide the attribute in the protocol (graphql) layer
@@ -82,6 +104,8 @@ export type AttributeBase = {
    * place to store custom (project-related) meta data
    */
   meta?: any;
+
+  gqlFieldNameI18n?: any;
 };
 
 /**

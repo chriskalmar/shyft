@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 
 import { Action } from '../engine/action/Action';
 import { DataTypeString, DataTypeInteger } from '../engine/datatype/dataTypes';

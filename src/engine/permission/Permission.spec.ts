@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 
 import {
   Permission,
@@ -49,7 +50,7 @@ describe('Permission', () => {
       })
       .value('someAttribute', 987);
 
-    expect(permission.roles).toEqual([ 'manager', 'admin' ]);
+    expect(permission.roles).toEqual(['manager', 'admin']);
     expect(permission.lookups).toEqual([
       {
         entity: Language,
@@ -202,9 +203,9 @@ describe('Permission', () => {
 
       function fn() {
         passOrThrow(
-          isPermissionsArray([ permission ]) &&
-            isPermissionsArray([ permission, permission ]) &&
-            isPermissionsArray([ permission, permission, permission ]),
+          isPermissionsArray([permission]) &&
+            isPermissionsArray([permission, permission]) &&
+            isPermissionsArray([permission, permission, permission]),
           () => 'This error will never happen',
         );
       }
@@ -223,11 +224,11 @@ describe('Permission', () => {
             isPermissionsArray({}) ||
             isPermissionsArray(function test() {}) ||
             isPermissionsArray(Error) ||
-            isPermissionsArray([ {} ]) ||
-            isPermissionsArray([ function test() {} ]) ||
-            isPermissionsArray([ Error ]) ||
-            isPermissionsArray([ permission, null ]) ||
-            isPermissionsArray([ permission, {}, permission ]),
+            isPermissionsArray([{}]) ||
+            isPermissionsArray([function test() {}]) ||
+            isPermissionsArray([Error]) ||
+            isPermissionsArray([permission, null]) ||
+            isPermissionsArray([permission, {}, permission]),
           () => 'Not a Permissions array',
         );
       }
@@ -369,10 +370,12 @@ describe('Permission', () => {
     });
 
     it('should generate a description based on defined permissions', () => {
-      const tests = [
-        [ new Permission().everyone(), 'everyone' ],
-        [ new Permission().authenticated(), 'authenticated' ],
-        [ new Permission().role('manager'), 'role manager' ],
+      type Test = [Permission | Permission[], string];
+
+      const tests: Test[] = [
+        [new Permission().everyone(), 'everyone'],
+        [new Permission().authenticated(), 'authenticated'],
+        [new Permission().role('manager'), 'role manager'],
         [
           new Permission().userAttribute('publisher'),
           'userAttributes publisher',
@@ -381,7 +384,7 @@ describe('Permission', () => {
           new Permission().lookup(Language, { createdBy: 'someAttribute' }),
           'lookup Language someAttribute',
         ],
-        [ new Permission().value('someAttribute', 123), 'value someAttribute' ],
+        [new Permission().value('someAttribute', 123), 'value someAttribute'],
         [
           new Permission()
             .role('manager')
@@ -405,7 +408,7 @@ describe('Permission', () => {
         ],
       ];
 
-      tests.map(([ permission, testName ]) => {
+      tests.map(([permission, testName]) => {
         expect(generatePermissionDescription(permission)).toMatchSnapshot(
           testName,
         );
@@ -423,7 +426,7 @@ describe('Permission', () => {
 
   describe('permissions check simple', () => {
     const userId = 123;
-    const userRoles = [ 'manager', 'reviewer' ];
+    const userRoles = ['manager', 'reviewer'];
 
     it('should reject if non-Permission object is provided', () => {
       function fn() {
@@ -494,7 +497,7 @@ describe('Permission', () => {
 
   describe('build permission filter', () => {
     const userId = 123;
-    const userRoles = [ 'manager', 'reviewer' ];
+    const userRoles = ['manager', 'reviewer'];
 
     const someEntity = new Entity({
       name: 'SomeEntityName',
@@ -692,7 +695,7 @@ describe('Permission', () => {
           district: ({ input }) => input.district,
           open: () => true,
           owner: ({ userId }) => userId, // eslint-disable-line no-shadow
-          state: () => [ 'defined', 'approved' ],
+          state: () => ['defined', 'approved'],
         });
 
         const input = {
@@ -909,7 +912,7 @@ describe('Permission', () => {
     });
 
     it('should throw if provided with an invalid map of permissions', () => {
-      const permissions = [ 'bad' ];
+      const permissions = ['bad'];
 
       function fn() {
         processEntityPermissions(entity, permissions);
@@ -920,7 +923,7 @@ describe('Permission', () => {
 
     it('should throw if provided with an invalid map of mutation permissions', () => {
       const permissions = {
-        mutations: [ 'bad' ],
+        mutations: ['bad'],
       };
 
       function fn() {
@@ -932,7 +935,7 @@ describe('Permission', () => {
 
     it('should throw if provided with an invalid permissions', () => {
       const permissions1 = {
-        read: [ 'bad' ],
+        read: ['bad'],
       };
 
       function fn1() {
@@ -942,7 +945,7 @@ describe('Permission', () => {
       expect(fn1).toThrowErrorMatchingSnapshot();
 
       const permissions2 = {
-        find: [ 'bad' ],
+        find: ['bad'],
       };
 
       function fn2() {
@@ -954,7 +957,7 @@ describe('Permission', () => {
       const permissions3 = {
         mutations: {
           mutations: {
-            create: [ 'bad' ],
+            create: ['bad'],
           },
         },
       };
@@ -1079,7 +1082,7 @@ describe('Permission', () => {
     });
 
     it('should throw if provided with invalid permissions', () => {
-      const permissions1 = [ 'bad' ];
+      const permissions1 = ['bad'];
 
       function fn1() {
         processActionPermissions(action, permissions1);
@@ -1088,7 +1091,7 @@ describe('Permission', () => {
       expect(fn1).toThrowErrorMatchingSnapshot();
 
       const permissions2 = {
-        find: [ 'bad' ],
+        find: ['bad'],
       };
 
       function fn2() {

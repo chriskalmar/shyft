@@ -1,11 +1,16 @@
+import * as _ from 'lodash';
 import { passOrThrow, isMap, isArray, isFunction, asyncForEach } from '../util';
 
+import { Action } from '../action/Action';
 import { Entity, isEntity } from '../entity/Entity';
 import { ViewEntity } from '../entity/ViewEntity';
 import { isDataTypeUser } from '../datatype/DataTypeUser';
-import { MUTATION_TYPE_CREATE, isMutation } from '../mutation/Mutation';
+import {
+  MUTATION_TYPE_CREATE,
+  isMutation,
+  Mutation,
+} from '../mutation/Mutation';
 import { isDataTypeState } from '../datatype/DataTypeState';
-import * as _ from 'lodash';
 
 /*
   all permission rules are ...
@@ -15,9 +20,9 @@ import * as _ from 'lodash';
 */
 
 const compatibilityList = [
-  [ 'everyone', 'lookup', 'value', 'state' ],
-  [ 'authenticated', 'role', 'userAttribute', 'lookup', 'value', 'state' ],
-  [ 'role', 'userAttribute', 'lookup', 'value', 'state' ],
+  ['everyone', 'lookup', 'value', 'state'],
+  ['authenticated', 'role', 'userAttribute', 'lookup', 'value', 'state'],
+  ['role', 'userAttribute', 'lookup', 'value', 'state'],
 ];
 
 export class Permission {
@@ -174,11 +179,11 @@ export class Permission {
   }
 }
 
-export const isPermission = obj => {
+export const isPermission = (obj: any) => {
   return obj instanceof Permission;
 };
 
-export const isPermissionsArray = obj => {
+export const isPermissionsArray = (obj?: any) => {
   if (isArray(obj, true)) {
     return obj.reduce(
       (prev, permission) => prev && isPermission(permission),
@@ -188,29 +193,31 @@ export const isPermissionsArray = obj => {
   return false;
 };
 
-export const findInvalidPermissionAttributes = (permission, entity) => {
+export const findInvalidPermissionAttributes = (
+  permission: Permission,
+  entity: Entity,
+) => {
   const attributes = entity.getAttributes();
 
   permission.userAttributes.map(userAttribute => {
     const attribute = attributes[userAttribute];
+    const attributeTypeAsEntity = attribute.type as Entity;
 
     passOrThrow(
       attribute &&
         (isDataTypeUser(attribute.type) ||
           (entity.isUserEntity && entity.getPrimaryAttribute() === attribute) ||
-          (isEntity(attribute.type) && attribute.type.isUserEntity)),
+          (isEntity(attribute.type) && attributeTypeAsEntity.isUserEntity)),
       () =>
-        `Cannot use attribute '${userAttribute}' in '${
-          entity.name
-        }.permissions' as 'userAttribute' as it is not a reference to the User entity`,
+        `Cannot use attribute '${userAttribute}' in '${entity.name}.permissions' as 'userAttribute' as it is not a reference to the User entity`,
     );
   });
 };
 
 export const findMissingPermissionAttributes = (
-  permission,
-  permissionEntity,
-  mutation,
+  permission: Permission,
+  permissionEntity: Entity,
+  mutation?: Mutation,
 ) => {
   const entityAttributeNames = Object.keys(permissionEntity.getAttributes());
 
@@ -240,8 +247,7 @@ export const findMissingPermissionAttributes = (
       ) {
         missingLookupAttribute = sourceAttribute;
         return;
-      }
-      else if (!lookupEntityAttributeNames.includes(targetAttribute)) {
+      } else if (!lookupEntityAttributeNames.includes(targetAttribute)) {
         missingLookupAttribute = `${entity.name}.${targetAttribute}`;
         return;
       }
@@ -252,9 +258,7 @@ export const findMissingPermissionAttributes = (
         !isFunction(sourceAttribute)
       ) {
         throw new Error(
-          `'lookup' type permission used in 'create' type mutation '${
-            mutation.name
-          }' can only have mappings to value functions`,
+          `'lookup' type permission used in 'create' type mutation '${mutation.name}' can only have mappings to value functions`,
         );
       }
     });
@@ -305,16 +309,12 @@ export const validateActionLookupPermission = (
       passOrThrow(
         isFunction(sourceAttribute),
         () =>
-          `Only functions are allowed in '${
-            permissionAction.name
-          }.permissions' for value lookups`,
+          `Only functions are allowed in '${permissionAction.name}.permissions' for value lookups`,
       );
       passOrThrow(
         lookupEntityAttributeNames.includes(targetAttribute),
         () =>
-          `Cannot use attribute '${targetAttribute}' in '${
-            permissionAction.name
-          }.permissions' as it does not exist`,
+          `Cannot use attribute '${targetAttribute}' in '${permissionAction.name}.permissions' as it does not exist`,
       );
     });
   });
@@ -323,7 +323,7 @@ export const validateActionLookupPermission = (
 export const generatePermissionDescription = permissions => {
   const descriptions = [];
 
-  const permissionsArray = isArray(permissions) ? permissions : [ permissions ];
+  const permissionsArray = isArray(permissions) ? permissions : [permissions];
 
   permissionsArray.map(permission => {
     const lines = [];
@@ -462,7 +462,13 @@ export const isPermissionSimple = permission => {
   );
 };
 
-export const buildUserAttributesPermissionFilter = ({ permission, userId }) => {
+export const buildUserAttributesPermissionFilter = ({
+  permission,
+  userId,
+}: {
+  permission: Permission;
+  userId: string | number;
+}) => {
   let where;
 
   if (permission.userAttributes.length > 0) {
@@ -481,7 +487,13 @@ export const buildUserAttributesPermissionFilter = ({ permission, userId }) => {
   return where;
 };
 
-export const buildStatesPermissionFilter = ({ permission, entity }) => {
+export const buildStatesPermissionFilter = ({
+  permission,
+  entity,
+}: {
+  permission: Permission;
+  entity: Entity;
+}) => {
   let where;
 
   if (permission.states.length > 0) {
@@ -512,7 +524,11 @@ export const buildStatesPermissionFilter = ({ permission, entity }) => {
   return where;
 };
 
-export const buildValuesPermissionFilter = ({ permission }) => {
+export const buildValuesPermissionFilter = ({
+  permission,
+}: {
+  permission: Permission;
+}) => {
   let where;
 
   if (permission.values.length > 0) {
@@ -534,7 +550,13 @@ export const buildLookupsPermissionFilter = async ({
   userId,
   userRoles,
   input,
-  context
+  context,
+}: {
+  permission: Permission;
+  userId?: string | number;
+  userRoles?: any;
+  input?: any;
+  context?: any;
 }) => {
   let where;
 
@@ -553,7 +575,12 @@ export const buildLookupsPermissionFilter = async ({
             let operator = '$eq';
 
             if (isFunction(sourceAttribute)) {
-              let value = await sourceAttribute({ userId, userRoles, input, context });
+              let value = await sourceAttribute({
+                userId,
+                userRoles,
+                input,
+                context,
+              });
 
               const attr = entity.getAttributes();
 
@@ -578,8 +605,7 @@ export const buildLookupsPermissionFilter = async ({
                 operator,
                 value,
               });
-            }
-            else {
+            } else {
               condition.push({
                 targetAttribute,
                 operator,
@@ -603,12 +629,12 @@ export const buildLookupsPermissionFilter = async ({
 };
 
 export const buildPermissionFilterSingle = async (
-  permission,
-  userId,
-  userRoles,
-  entity,
-  input,
-  context
+  permission: Permission,
+  userId?: string | number,
+  userRoles?: any,
+  entity?: Entity,
+  input?: any,
+  context?: any,
 ) => {
   let where;
 
@@ -633,12 +659,12 @@ export const buildPermissionFilterSingle = async (
 };
 
 export const buildPermissionFilter = async (
-  _permissions,
-  userId,
-  userRoles,
-  entity,
-  input,
-  context
+  _permissions: Permission | Permission[],
+  userId?: string | number,
+  userRoles?: any,
+  entity?: Entity,
+  input?: any,
+  context?: any,
 ) => {
   let where;
 
@@ -646,11 +672,13 @@ export const buildPermissionFilter = async (
     return where;
   }
 
-  const permissions = isArray(_permissions) ? _permissions : [ _permissions ];
+  const permissions = isArray(_permissions as any[])
+    ? _permissions
+    : [_permissions];
 
   let foundSimplePermission = false;
 
-  await asyncForEach(permissions, async permission => {
+  await asyncForEach(permissions as any[], async permission => {
     if (foundSimplePermission) {
       return;
     }
@@ -671,7 +699,7 @@ export const buildPermissionFilter = async (
         userRoles,
         entity,
         input,
-        context
+        context,
       );
 
       if (permissionFilter) {
@@ -691,7 +719,7 @@ export const buildActionPermissionFilter = async (
   userRoles,
   action,
   input,
-  context
+  context,
 ) => {
   let where;
   let lookupPermissionEntity;
@@ -700,7 +728,7 @@ export const buildActionPermissionFilter = async (
     return where;
   }
 
-  const permissions = isArray(_permissions) ? _permissions : [ _permissions ];
+  const permissions = isArray(_permissions) ? _permissions : [_permissions];
 
   let foundSimplePermission = false;
 
@@ -720,7 +748,14 @@ export const buildActionPermissionFilter = async (
           return;
         }
 
-        const params = { permission, userId, userRoles, action, input, context };
+        const params = {
+          permission,
+          userId,
+          userRoles,
+          action,
+          input,
+          context,
+        };
         const permissionFilter = await buildLookupsPermissionFilter(params);
 
         if (permissionFilter) {
@@ -766,7 +801,7 @@ const validatePermissionAttributesAndStates = (
   permissions,
   _mutation,
 ) => {
-  const permissionsArray = isArray(permissions) ? permissions : [ permissions ];
+  const permissionsArray = isArray(permissions) ? permissions : [permissions];
 
   const mutation = isMutation(_mutation) ? _mutation : null;
 
@@ -784,9 +819,7 @@ const validatePermissionAttributesAndStates = (
     passOrThrow(
       !invalidAttribute,
       () =>
-        `Cannot use attribute '${invalidAttribute}' in '${
-          entity.name
-        }.permissions' for '${mutationName}' as it does not exist`,
+        `Cannot use attribute '${invalidAttribute}' in '${entity.name}.permissions' for '${mutationName}' as it does not exist`,
     );
 
     findInvalidPermissionAttributes(permission, entity);
@@ -797,9 +830,7 @@ const validatePermissionAttributesAndStates = (
       passOrThrow(
         !invalidState,
         () =>
-          `Cannot use state '${invalidState}' in '${
-            entity.name
-          }.permissions' for '${mutationName}' as it does not exist`,
+          `Cannot use state '${invalidState}' in '${entity.name}.permissions' for '${mutationName}' as it does not exist`,
       );
     }
   });
@@ -807,7 +838,7 @@ const validatePermissionAttributesAndStates = (
 
 const validatePermissionMutationTypes = (entity, permissions, mutation) => {
   if (mutation.type === MUTATION_TYPE_CREATE) {
-    const permissionsArray = isArray(permissions) ? permissions : [ permissions ];
+    const permissionsArray = isArray(permissions) ? permissions : [permissions];
 
     permissionsArray.map(permission => {
       passOrThrow(
@@ -815,9 +846,7 @@ const validatePermissionMutationTypes = (entity, permissions, mutation) => {
           !permission.states.length &&
           !permission.values.length,
         () =>
-          `Create type mutation permission '${mutation.name}' in '${
-            entity.name
-          }.permissions' can only be of type 'authenticated', 'everyone', 'role' or 'lookup'`,
+          `Create type mutation permission '${mutation.name}' in '${entity.name}.permissions' can only be of type 'authenticated', 'everyone', 'role' or 'lookup'`,
       );
     });
   }
@@ -874,8 +903,7 @@ export const processEntityPermissions = (
       isPermission(permissions.read) || isPermissionsArray(permissions.read),
       () => `Invalid 'read' permission definition for entity '${entity.name}'`,
     );
-  }
-  else if (defaultPermissions) {
+  } else if (defaultPermissions) {
     permissions.read = defaultPermissions.read;
   }
 
@@ -884,8 +912,7 @@ export const processEntityPermissions = (
       isPermission(permissions.find) || isPermissionsArray(permissions.find),
       () => `Invalid 'find' permission definition for entity '${entity.name}'`,
     );
-  }
-  else if (defaultPermissions) {
+  } else if (defaultPermissions) {
     permissions.find = defaultPermissions.find;
   }
 
@@ -899,9 +926,7 @@ export const processEntityPermissions = (
     passOrThrow(
       isMap(permissions.mutations),
       () =>
-        `Entity '${
-          entity.name
-        }' permissions definition for mutations needs to be a map of mutations and permissions`,
+        `Entity '${entity.name}' permissions definition for mutations needs to be a map of mutations and permissions`,
     );
 
     const mutationNames = Object.keys(permissions.mutations);
@@ -910,9 +935,7 @@ export const processEntityPermissions = (
         isPermission(permissions.mutations[mutationName]) ||
           isPermissionsArray(permissions.mutations[mutationName]),
         () =>
-          `Invalid mutation permission definition for entity '${
-            entity.name
-          }' at position '${idx}'`,
+          `Invalid mutation permission definition for entity '${entity.name}' at position '${idx}'`,
       );
     });
 
@@ -945,9 +968,7 @@ export const processEntityPermissions = (
       passOrThrow(
         mutationNames.includes(permissionMutationName),
         () =>
-          `Unknown mutation '${permissionMutationName}' used for permissions in entity '${
-            entity.name
-          }'`,
+          `Unknown mutation '${permissionMutationName}' used for permissions in entity '${entity.name}'`,
       );
     });
 
@@ -993,8 +1014,7 @@ export const processViewEntityPermissions = (
       isPermission(permissions.read) || isPermissionsArray(permissions.read),
       () => `Invalid 'read' permission definition for entity '${entity.name}'`,
     );
-  }
-  else if (defaultPermissions) {
+  } else if (defaultPermissions) {
     permissions.read = defaultPermissions.read;
   }
 
@@ -1003,8 +1023,7 @@ export const processViewEntityPermissions = (
       isPermission(permissions.find) || isPermissionsArray(permissions.find),
       () => `Invalid 'find' permission definition for entity '${entity.name}'`,
     );
-  }
-  else if (defaultPermissions) {
+  } else if (defaultPermissions) {
     permissions.find = defaultPermissions.find;
   }
 
@@ -1031,13 +1050,13 @@ export const processViewEntityPermissions = (
   return permissions;
 };
 
-export const processActionPermissions = (action, permissions) => {
+export const processActionPermissions = (action: Action, permissions) => {
   passOrThrow(
     isPermission(permissions) || isPermissionsArray(permissions),
     () => `Invalid permission definition for action '${action.name}'`,
   );
 
-  const permissionsArray = isArray(permissions) ? permissions : [ permissions ];
+  const permissionsArray = isArray(permissions) ? permissions : [permissions];
 
   permissionsArray.map(permission => {
     passOrThrow(

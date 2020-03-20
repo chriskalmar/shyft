@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 
 import {
   splitAttributeAndFilterOperator,
@@ -44,7 +45,7 @@ describe('filter', () => {
     },
   });
 
-  extendModelsForGql([ filteredEntity ]);
+  extendModelsForGql([filteredEntity]);
 
   describe('splitAttributeAndFilterOperator', () => {
     it('should split attributes from operators', () => {
@@ -130,7 +131,7 @@ describe('filter', () => {
       };
 
       const goodFilter2 = {
-        lastName__in: [ 'Doe', 'Smith' ],
+        lastName__in: ['Doe', 'Smith'],
         firstName__starts_with: 'Joh',
         firstName__ends_with: 'an',
         isActive: true,
@@ -138,7 +139,7 @@ describe('filter', () => {
 
       const result2 = {
         lastName: {
-          $in: [ 'Doe', 'Smith' ],
+          $in: ['Doe', 'Smith'],
         },
         firstName: {
           $starts_with: 'Joh',
@@ -153,7 +154,7 @@ describe('filter', () => {
           goodFilter1,
           filteredEntity.getAttributes(),
           {},
-          [ 'somewhere' ],
+          ['somewhere'],
         ),
       ).toEqual(result1);
 
@@ -163,7 +164,7 @@ describe('filter', () => {
           goodFilter2,
           filteredEntity.getAttributes(),
           {},
-          [ 'somewhere' ],
+          ['somewhere'],
         ),
       ).toEqual(result2);
     });
@@ -235,7 +236,7 @@ describe('filter', () => {
           goodFilter1,
           filteredEntity.getAttributes(),
           {},
-          [ 'somewhere' ],
+          ['somewhere'],
         ),
       ).toEqual(result1);
 
@@ -245,7 +246,7 @@ describe('filter', () => {
           goodFilter2,
           filteredEntity.getAttributes(),
           {},
-          [ 'somewhere' ],
+          ['somewhere'],
         ),
       ).toEqual(result2);
     });
@@ -260,7 +261,7 @@ describe('filter', () => {
       ).rejects.toThrowErrorMatchingSnapshot();
 
       expect(
-        transformFilterLevel(filteredEntity, [], null, {}, [ 'somewhere' ]),
+        transformFilterLevel(filteredEntity, [], null, {}, ['somewhere']),
       ).rejects.toThrowErrorMatchingSnapshot();
 
       expect(
@@ -319,14 +320,14 @@ describe('filter', () => {
           badFilter2,
           filteredEntity.getAttributes(),
           {},
-          [ 'just', 'here' ],
+          ['just', 'here'],
         ),
       ).rejects.toThrowErrorMatchingSnapshot();
     });
 
     it('should throw if exact match operators is used with another operator on the same attribute', async () => {
       const badFilter1 = {
-        lastName__in: [ 'Doe', 'Smith' ],
+        lastName__in: ['Doe', 'Smith'],
         firstName__starts_with: 'Joh',
         firstName__ends_with: 'an',
         firstName: 'Frank',
@@ -334,7 +335,7 @@ describe('filter', () => {
       };
 
       const badFilter2 = {
-        lastName__in: [ 'Doe', 'Smith' ],
+        lastName__in: ['Doe', 'Smith'],
         firstName: 'Frank',
         firstName__starts_with: 'Joh',
         firstName__ends_with: 'an',

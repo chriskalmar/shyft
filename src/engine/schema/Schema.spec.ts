@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+
 import { Entity } from '../entity/Entity';
 import { Schema } from './Schema';
 
@@ -44,7 +46,7 @@ describe('Schema', () => {
 
     // eslint-disable-next-line no-new
     new Schema({
-      entities: [ FirstEntity, SecondEntity ],
+      entities: [FirstEntity, SecondEntity],
     });
   });
 
@@ -100,7 +102,7 @@ describe('Schema', () => {
     function fn4() {
       // eslint-disable-next-line no-new
       new Schema({
-        entities: [ 'so-wrong' ],
+        entities: ['so-wrong'],
       });
     }
 

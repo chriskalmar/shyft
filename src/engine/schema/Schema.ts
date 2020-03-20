@@ -1,16 +1,45 @@
 import { passOrThrow, isArray, isMap } from '../util';
 
-import { isEntity } from '../entity/Entity';
-import { isAction } from '../action/Action';
+import { Entity, isEntity } from '../entity/Entity';
+import { Action, isAction } from '../action/Action';
 import { isDataTypeUser } from '../datatype/DataTypeUser';
-import { isStorageType } from '../storage/StorageType';
+import { StorageType, isStorageType } from '../storage/StorageType';
 import { isPermission, isPermissionsArray } from '../permission/Permission';
 import { isViewEntity } from '../entity/ViewEntity';
 import { isShadowEntity } from '../entity/ShadowEntity';
 
+export type SchemaSetup = {
+  entities?: Entity[] | null;
+  defaultStorageType?: StorageType | null;
+  actions?: Action[] | null;
+  defaultActionPermissions?: null;
+  permissionsMap?: PermissionsMap | null;
+};
+
+type EntityPermission = {
+  // improve typing
+  [key: string]: any;
+  // [entityName: string]: Permission;
+  // _defaultPermissions: Permission | Permission[] | null;
+};
+
+type PermissionsMap = {
+  entities: EntityPermission;
+};
+
 export class Schema {
+  private _entityMap = {};
+  private _actionMap = {};
+  private _isValidated: boolean;
+  private _userEntity = null;
+
+  defaultStorageType: StorageType;
+  permissionsMap: PermissionsMap | null;
+
+  defaultActionPermissions;
+
   constructor(
-    setup = {
+    setup: SchemaSetup = {
       entities: null,
       defaultStorageType: null,
       actions: null,
@@ -176,7 +205,7 @@ export class Schema {
       const entityDefaultPermissions =
         this.permissionsMap.entities[entity.name] || {};
       entityDefaultPermissions.mutations =
-        entityDefaultPermissions.mutations || {};
+        entityDefaultPermissions.mutations || ({} as Entity);
 
       const defaultPermissions = this.permissionsMap.entities
         ._defaultPermissions;

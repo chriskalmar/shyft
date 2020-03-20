@@ -1,16 +1,32 @@
 import { passOrThrow, isArray } from '../util';
 
-import { isSchema } from '../schema/Schema';
-
+import { Schema, isSchema } from '../schema/Schema';
 import { languageIsoCodeRegex, LANGUAGE_ISO_CODE_PATTERN } from '../constants';
-
-import { isProtocolConfiguration } from '../protocol/ProtocolConfiguration';
-import { isStorageConfiguration } from '../storage/StorageConfiguration';
+import {
+  ProtocolConfiguration,
+  isProtocolConfiguration,
+} from '../protocol/ProtocolConfiguration';
+import {
+  StorageConfiguration,
+  isStorageConfiguration,
+} from '../storage/StorageConfiguration';
 
 import * as _ from 'lodash';
 
+export type ConfigurationSetup = {
+  languages?: string[];
+  schema?: Schema;
+  protocolConfiguration?: ProtocolConfiguration;
+  storageConfiguration?: StorageConfiguration;
+};
+
 export class Configuration {
-  constructor(setup = {}) {
+  languages: string[];
+  schema: Schema;
+  protocolConfiguration: ProtocolConfiguration;
+  storageConfiguration: StorageConfiguration;
+
+  constructor(setup: ConfigurationSetup = {} as ConfigurationSetup) {
     const {
       languages,
       schema,
@@ -18,7 +34,7 @@ export class Configuration {
       storageConfiguration,
     } = setup;
 
-    this.setLanguages(languages || [ 'en' ]);
+    this.setLanguages(languages || ['en']);
 
     if (schema) {
       this.setSchema(schema);

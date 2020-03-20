@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 
 import { Index, isIndex, INDEX_UNIQUE, processEntityIndexes } from './Index';
 import { Entity } from '../entity/Entity';
@@ -52,7 +53,7 @@ describe('Index', () => {
       // eslint-disable-next-line no-new
       new Index({
         type: INDEX_UNIQUE,
-        attributes: [ null ],
+        attributes: [null],
       });
     }
 
@@ -62,7 +63,7 @@ describe('Index', () => {
       // eslint-disable-next-line no-new
       new Index({
         type: INDEX_UNIQUE,
-        attributes: [ 123 ],
+        attributes: [123],
       });
     }
 
@@ -74,7 +75,7 @@ describe('Index', () => {
       // eslint-disable-next-line no-new
       new Index({
         type: INDEX_UNIQUE,
-        attributes: [ 'a', 'b', 'a' ],
+        attributes: ['a', 'b', 'a'],
       });
     }
 
@@ -84,16 +85,16 @@ describe('Index', () => {
   it('should accept a correct definition', () => {
     const index1 = new Index({
       type: INDEX_UNIQUE,
-      attributes: [ 'a' ],
+      attributes: ['a'],
     });
 
     const index2 = new Index({
       type: INDEX_UNIQUE,
-      attributes: [ 'a', 'b', 'c' ],
+      attributes: ['a', 'b', 'c'],
     });
 
-    expect(index1.attributes).toEqual([ 'a' ]);
-    expect(index2.attributes).toEqual([ 'a', 'b', 'c' ]);
+    expect(index1.attributes).toEqual(['a']);
+    expect(index2.attributes).toEqual(['a', 'b', 'c']);
 
     expect(String(index1)).toEqual('unique');
   });
@@ -102,7 +103,7 @@ describe('Index', () => {
     it('should recognize objects of type Index', () => {
       const index = new Index({
         type: INDEX_UNIQUE,
-        attributes: [ 'a' ],
+        attributes: ['a'],
       });
 
       function fn() {
@@ -141,7 +142,7 @@ describe('Index', () => {
 
     it('should throw if provided with an invalid list of indexes', () => {
       const indexes = {
-        unique: [ {} ],
+        unique: [{}],
       };
 
       function fn() {
@@ -152,7 +153,7 @@ describe('Index', () => {
     });
 
     it('should throw if provided with an invalid index', () => {
-      const indexes = [ { foo: 'bar' } ];
+      const indexes = [{ foo: 'bar' }];
 
       function fn() {
         processEntityIndexes(entity, indexes);
@@ -165,7 +166,7 @@ describe('Index', () => {
       const indexes = [
         new Index({
           type: INDEX_UNIQUE,
-          attributes: [ 'someAttribute', 'notHere' ],
+          attributes: ['someAttribute', 'notHere'],
         }),
       ];
 

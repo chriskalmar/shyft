@@ -36,8 +36,7 @@ describe('validation', () => {
             setTimeout(() => {
               if (value.length > 2) {
                 resolve();
-              }
-              else {
+              } else {
                 reject(new Error('Firstname too short'));
               }
             }, 1);
@@ -118,14 +117,14 @@ describe('validation', () => {
     type: MUTATION_TYPE_CREATE,
     name: 'build',
     description: 'build something',
-    attributes: [ 'someAttribute', 'team' ],
+    attributes: ['someAttribute', 'team'],
   });
 
   const mutationUpdate = new Mutation({
     type: MUTATION_TYPE_UPDATE,
     name: 'change',
     description: 'update something',
-    attributes: [ 'someAttribute', 'team' ],
+    attributes: ['someAttribute', 'team'],
   });
 
   const action1 = new Action({
@@ -331,7 +330,7 @@ describe('validation', () => {
       team: {
         teamName: 'Falcons United Team',
         players: {
-          offense: [ 'lorem' ],
+          offense: ['lorem'],
         },
       },
     };

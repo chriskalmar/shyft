@@ -49,7 +49,6 @@ export const resolveByFind = (entity, parentConnectionCollector) => {
     validateConnectionArgs(source, args, context, info);
     forceSortByUnique(args.orderBy, entity);
 
-    // implementing entity.preProcessor here is correct ?
     if (entity.preProcessor) {
       const preProcessorResult = await entity.preProcessor(
         entity,
@@ -368,6 +367,8 @@ export const getMutationResolver = (
       );
 
       if (entityMutation.type !== MUTATION_TYPE_DELETE) {
+        //
+        // this function might be wrong when we look serializeValues args
         args.input[typeName] = serializeValues(
           entity,
           entityMutation,

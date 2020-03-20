@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+
 import { generateGraphQLSchema } from './generator';
 import { generateTestSchema } from './test-helper';
 

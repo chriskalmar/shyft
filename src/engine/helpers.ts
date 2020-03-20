@@ -1,16 +1,18 @@
 import * as _ from 'lodash';
+import { Entity } from '..';
+import { Mutation } from './mutation/Mutation';
 
 export const fillSystemAttributesDefaultValues = (
-  entity,
-  entityMutation,
-  payload,
-  context,
-) => {
+  entity: Entity,
+  entityMutation: Mutation,
+  payload: any,
+  context: Record<string, any>,
+): any => {
   const ret = {
     ...payload,
   };
 
-  const entityAttributes = entity.getAttributes();
+  const entityAttributes: any = entity.getAttributes();
   const systemAttributes = _.filter(
     entityAttributes,
     attribute => attribute.isSystemAttribute && attribute.defaultValue,
@@ -30,11 +32,11 @@ export const fillSystemAttributesDefaultValues = (
 };
 
 export const fillDefaultValues = async (
-  entity,
-  entityMutation,
-  payload,
-  context,
-) => {
+  entity: Entity,
+  entityMutation: Mutation,
+  payload: any,
+  context: Record<string, any>,
+): Promise<any> => {
   const ret = {
     ...payload,
   };
@@ -66,12 +68,12 @@ export const fillDefaultValues = async (
 };
 
 export const serializeValues = (
-  entity,
-  entityMutation,
-  payload,
-  model,
-  context,
-) => {
+  entity: Entity,
+  entityMutation: Mutation,
+  payload: any,
+  model: string,
+  context: Record<string, any>,
+): any => {
   const ret = {
     ...payload,
   };
@@ -95,8 +97,7 @@ export const serializeValues = (
             language,
           );
         });
-      }
-      else if (typeof ret[attributeName] !== 'undefined') {
+      } else if (typeof ret[attributeName] !== 'undefined') {
         ret[attributeName] = attribute.serialize(
           ret[attributeName],
           ret,

@@ -3,9 +3,16 @@ import { isObjectDataType } from './datatype/ObjectDataType';
 import { isListDataType } from './datatype/ListDataType';
 import { isComplexDataType } from './datatype/ComplexDataType';
 import { isMap, passOrThrow, isDefined, asyncForEach } from './util';
-import { MUTATION_TYPE_CREATE } from './mutation/Mutation';
+import { MUTATION_TYPE_CREATE, Mutation } from './mutation/Mutation';
+import { Action } from './action/Action';
+import { Entity } from '..';
+// import { Attribute } from './attribute/Attribute';
 
-const validateDataTypePayload = async (paramType, payload, context) => {
+const validateDataTypePayload = async (
+  paramType: any,
+  payload: any,
+  context?: Record<string, any>,
+): Promise<void> => {
   const dataTypeValidator = paramType.validate;
 
   if (dataTypeValidator) {
@@ -13,7 +20,13 @@ const validateDataTypePayload = async (paramType, payload, context) => {
   }
 };
 
-const validatePayload = async (param, payload, source, context, path = []) => {
+const validatePayload = async (
+  param: any,
+  payload: any,
+  source: any,
+  context?: Record<string, any>,
+  path = [],
+): Promise<void> => {
   if (typeof payload !== 'undefined' && payload !== null) {
     const paramName = param.name;
 
@@ -108,11 +121,11 @@ const validatePayload = async (param, payload, source, context, path = []) => {
 };
 
 export const validateActionPayload = async (
-  param,
-  payload,
-  action,
-  context,
-) => {
+  param: any,
+  payload: any,
+  action: Action,
+  context?: Record<string, any>,
+): Promise<void> => {
   const newParam = {
     ...param,
     name: 'input',
@@ -132,12 +145,12 @@ export const validateActionPayload = async (
 };
 
 export const validateMutationPayload = async (
-  entity,
-  mutation,
-  payload,
-  context,
-) => {
-  const attributes = entity.getAttributes();
+  entity: Entity,
+  mutation: Mutation,
+  payload: any,
+  context?: Record<string, any>,
+): Promise<void> => {
+  const attributes: any = entity.getAttributes();
   const systemAttributes = _.filter(
     attributes,
     attribute => attribute.isSystemAttribute && attribute.defaultValue,

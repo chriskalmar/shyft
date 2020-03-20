@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 
 import {
   Mutation,
@@ -79,10 +80,10 @@ describe('Mutation', () => {
       description: 'mutate the world',
     });
 
-    processEntityMutations(entity, [ mutation ]);
+    processEntityMutations(entity, [mutation]);
     const defaultAttributes = mutation.attributes;
 
-    const expectedAttributes = [ 'someAttribute', 'anotherAttribute' ];
+    const expectedAttributes = ['someAttribute', 'anotherAttribute'];
 
     expect(defaultAttributes).toEqual(expectedAttributes);
   });
@@ -92,11 +93,11 @@ describe('Mutation', () => {
       name: 'example',
       type: MUTATION_TYPE_CREATE,
       description: 'mutate the world',
-      attributes: [ 'anything', { foo: 'bar' } ],
+      attributes: ['anything', { foo: 'bar' }],
     });
 
     function fn() {
-      processEntityMutations(entity, [ mutation ]);
+      processEntityMutations(entity, [mutation]);
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
@@ -110,7 +111,7 @@ describe('Mutation', () => {
       attributes: [],
     });
 
-    processEntityMutations(entity, [ mutation ]);
+    processEntityMutations(entity, [mutation]);
     expect(mutation.attributes).toEqual([]);
   });
 
@@ -122,7 +123,7 @@ describe('Mutation', () => {
       attributes: [],
     });
 
-    processEntityMutations(entity, [ mutation ]);
+    processEntityMutations(entity, [mutation]);
     expect(mutation.attributes).not.toBeDefined();
   });
 
@@ -131,11 +132,11 @@ describe('Mutation', () => {
       name: 'example',
       type: MUTATION_TYPE_CREATE,
       description: 'mutate the world',
-      attributes: [ 'anything', 'anything' ],
+      attributes: ['anything', 'anything'],
     });
 
     function fn() {
-      processEntityMutations(entity, [ mutation ]);
+      processEntityMutations(entity, [mutation]);
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
@@ -146,7 +147,7 @@ describe('Mutation', () => {
       name: 'example',
       type: MUTATION_TYPE_UPDATE,
       description: 'mutate the world',
-      attributes: [ 'anything' ],
+      attributes: ['anything'],
     });
 
     expect(mutation.name).toBe('example');
@@ -160,7 +161,7 @@ describe('Mutation', () => {
         name: 'example',
         type: MUTATION_TYPE_CREATE,
         description: 'mutate the world',
-        attributes: [ 'anything' ],
+        attributes: ['anything'],
         preProcessor: 'not-a-function',
       });
     }
@@ -175,7 +176,7 @@ describe('Mutation', () => {
         name: 'example',
         type: MUTATION_TYPE_CREATE,
         description: 'mutate the world',
-        attributes: [ 'anything' ],
+        attributes: ['anything'],
         postProcessor: 'not-a-function',
       });
     }
@@ -190,7 +191,7 @@ describe('Mutation', () => {
         name: 'example',
         type: MUTATION_TYPE_UPDATE,
         description: 'mutate the world',
-        attributes: [ 'anything' ],
+        attributes: ['anything'],
         fromState: { foo: 'bar' },
       });
     }
@@ -205,7 +206,7 @@ describe('Mutation', () => {
         name: 'example',
         type: MUTATION_TYPE_UPDATE,
         description: 'mutate the world',
-        attributes: [ 'anything' ],
+        attributes: ['anything'],
         toState: 123,
       });
     }
@@ -220,7 +221,7 @@ describe('Mutation', () => {
         name: 'example',
         type: MUTATION_TYPE_CREATE,
         description: 'mutate the world',
-        attributes: [ 'anything' ],
+        attributes: ['anything'],
         fromState: 'open',
       });
     }
@@ -235,7 +236,7 @@ describe('Mutation', () => {
         name: 'example',
         type: MUTATION_TYPE_DELETE,
         description: 'mutate the world',
-        attributes: [ 'anything' ],
+        attributes: ['anything'],
         toState: 'closed',
       });
     }
@@ -250,7 +251,7 @@ describe('Mutation', () => {
         name: 'example',
         type: MUTATION_TYPE_UPDATE,
         description: 'mutate the world',
-        attributes: [ 'anything' ],
+        attributes: ['anything'],
         fromState: 'open',
       });
     }
@@ -265,7 +266,7 @@ describe('Mutation', () => {
         name: 'example',
         type: MUTATION_TYPE_UPDATE,
         description: 'mutate the world',
-        attributes: [ 'anything' ],
+        attributes: ['anything'],
         toState: 'close',
       });
     }
@@ -278,7 +279,7 @@ describe('Mutation', () => {
       name: 'example',
       type: MUTATION_TYPE_UPDATE,
       description: 'mutate the world',
-      attributes: [ 'anything' ],
+      attributes: ['anything'],
       preProcessor() {},
       postProcessor() {},
     });
@@ -308,26 +309,26 @@ describe('Mutation', () => {
       type: MUTATION_TYPE_CREATE,
       name: 'build',
       description: 'build item',
-      attributes: [ 'someAttribute' ],
+      attributes: ['someAttribute'],
     };
 
     const mutationTypeUpdateDefinition = {
       type: MUTATION_TYPE_UPDATE,
       name: 'change',
       description: 'change item',
-      attributes: [ 'id', 'someAttribute' ],
+      attributes: ['id', 'someAttribute'],
     };
 
     const mutationTypeDeleteDefinition = {
       type: MUTATION_TYPE_DELETE,
       name: 'drop',
       description: 'drop item',
-      attributes: [ 'id' ],
+      attributes: ['id'],
     };
 
     it('should throw if provided with an invalid list of mutations', () => {
       const mutations = {
-        foo: [ {} ],
+        foo: [{}],
       };
 
       function fn() {
@@ -338,7 +339,7 @@ describe('Mutation', () => {
     });
 
     it('should throw if provided with an invalid mutation', () => {
-      const mutations = [ { foo: 'bar' } ];
+      const mutations = [{ foo: 'bar' }];
 
       function fn() {
         processEntityMutations(entity, mutations);
@@ -368,7 +369,7 @@ describe('Mutation', () => {
               type: MUTATION_TYPE_CREATE,
               name: 'build',
               description: 'build item',
-              attributes: [ 'someAttribute' ],
+              attributes: ['someAttribute'],
             }),
           ],
         });
@@ -385,13 +386,13 @@ describe('Mutation', () => {
           type: MUTATION_TYPE_CREATE,
           name: 'build',
           description: 'build item',
-          attributes: [ 'someAttribute' ],
+          attributes: ['someAttribute'],
         }),
         new Mutation({
           type: MUTATION_TYPE_CREATE,
           name: 'build',
           description: 'build item',
-          attributes: [ 'someAttribute' ],
+          attributes: ['someAttribute'],
         }),
       ];
 
@@ -408,7 +409,7 @@ describe('Mutation', () => {
           type: MUTATION_TYPE_CREATE,
           name: 'build',
           description: 'build item',
-          attributes: [ 'doesNotExist' ],
+          attributes: ['doesNotExist'],
         }),
       ];
 
@@ -496,7 +497,7 @@ describe('Mutation', () => {
       const mutations2 = [
         new Mutation({
           ...mutationTypeUpdateDefinition,
-          fromState: [ 'open', 'whatever', 'close' ],
+          fromState: ['open', 'whatever', 'close'],
           toState: 'close',
         }),
       ];
@@ -529,7 +530,7 @@ describe('Mutation', () => {
           new Mutation({
             ...mutationTypeUpdateDefinition,
             fromState: 'open',
-            toState: [ 'closed', 'randomState', 'open' ],
+            toState: ['closed', 'randomState', 'open'],
           }),
         ];
 
@@ -541,7 +542,7 @@ describe('Mutation', () => {
       const mutations4 = [
         new Mutation({
           ...mutationTypeDeleteDefinition,
-          fromState: [ 'open', 'notHere', 'open' ],
+          fromState: ['open', 'notHere', 'open'],
         }),
       ];
 

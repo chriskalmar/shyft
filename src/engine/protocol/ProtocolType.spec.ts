@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+
 import { ProtocolType, isProtocolType } from './ProtocolType';
 import {
   DataTypeID,

@@ -1,11 +1,69 @@
 import { passOrThrow, isFunction } from '../util';
 
-import { isDataType } from '../datatype/DataType';
+import { isDataType, DataType } from '../datatype/DataType';
 import { isStorageDataType } from './StorageDataType';
-import { isStorageConfiguration } from './StorageConfiguration';
+import {
+  StorageConfiguration,
+  isStorageConfiguration,
+} from './StorageConfiguration';
+import { Entity, StorageDataType } from '../..';
+import { Mutation } from '../mutation/Mutation';
+
+export type StorageTypeSetup = {
+  name?: string;
+  description?: string;
+  findOne?: (
+    entity?: Entity,
+    id?: any,
+    args?: Record<string, any>,
+    context?: Record<string, any>,
+  ) => any;
+  findOneByValues?: (
+    entity?: Entity,
+    arg?: any,
+    context?: Record<string, any>,
+  ) => any;
+  find?: (
+    entity?: Entity,
+    args?: Record<string, any>,
+    context?: Record<string, any>,
+    parentConnection?: any,
+  ) => any;
+  count?: (
+    entity?: Entity,
+    args?: Record<string, any>,
+    context?: Record<string, any>,
+    parentConnection?: any,
+  ) => number | any;
+  mutate?: (
+    entity?: Entity,
+    id?: any,
+    input?: any,
+    entityMutation?: Mutation,
+    context?: Record<string, any>,
+  ) => void | any;
+  checkLookupPermission?: (
+    entity?: Entity,
+    where?: any,
+    context?: Record<string, any>,
+  ) => boolean | any;
+};
 
 export class StorageType {
-  constructor(setup = {}) {
+  name: string;
+  description: string;
+  findOne: Function;
+  findOneByValues: Function;
+  find: Function;
+  count: Function;
+  mutate: Function;
+  checkLookupPermission: Function;
+
+  private _dataTypeMap;
+  private _dynamicDataTypeMap;
+  storageConfiguration: StorageConfiguration;
+
+  constructor(setup: StorageTypeSetup = {} as StorageTypeSetup) {
     const {
       name,
       description,
@@ -66,7 +124,7 @@ export class StorageType {
     this._dynamicDataTypeMap = [];
   }
 
-  addDataTypeMap(schemaDataType, storageDataType) {
+  addDataTypeMap(schemaDataType: DataType, storageDataType: StorageDataType) {
     passOrThrow(
       isDataType(schemaDataType),
       () =>
@@ -86,21 +144,21 @@ export class StorageType {
     passOrThrow(
       !this._dataTypeMap[schemaDataType.name],
       () =>
-        `Data type mapping for '${
-          schemaDataType.name
-        }' already registered with storage type '${this.name}'`,
+        `Data type mapping for '${schemaDataType.name}' already registered with storage type '${this.name}'`,
     );
 
     this._dataTypeMap[schemaDataType.name] = storageDataType;
   }
 
-  addDynamicDataTypeMap(schemaDataTypeDetector, storageDataType) {
+  addDynamicDataTypeMap(
+    schemaDataTypeDetector: Function,
+    storageDataType: StorageDataType | Function,
+  ) {
     passOrThrow(
       isFunction(schemaDataTypeDetector),
       () =>
-        `Provided schemaDataTypeDetector is not a valid function in '${
-          this.name
-        }', ` + `got this instead: ${String(schemaDataTypeDetector)}`,
+        `Provided schemaDataTypeDetector is not a valid function in '${this.name}', ` +
+        `got this instead: ${String(schemaDataTypeDetector)}`,
     );
 
     passOrThrow(
@@ -118,7 +176,7 @@ export class StorageType {
     });
   }
 
-  convertToStorageDataType(schemaDataType) {
+  convertToStorageDataType(schemaDataType: DataType) {
     const foundDynamicDataType = this._dynamicDataTypeMap.find(
       ({ schemaDataTypeDetector }) => schemaDataTypeDetector(schemaDataType),
     );
@@ -136,23 +194,20 @@ export class StorageType {
     passOrThrow(
       isDataType(schemaDataType),
       () =>
-        `Provided schemaDataType is not a valid data type in storage type '${
-          this.name
-        }', ` + `got this instead: ${String(schemaDataType)}`,
+        `Provided schemaDataType is not a valid data type in storage type '${this.name}', ` +
+        `got this instead: ${String(schemaDataType)}`,
     );
 
     passOrThrow(
       this._dataTypeMap[schemaDataType.name],
       () =>
-        `No data type mapping found for '${
-          schemaDataType.name
-        }' in storage type '${this.name}'`,
+        `No data type mapping found for '${schemaDataType.name}' in storage type '${this.name}'`,
     );
 
     return this._dataTypeMap[schemaDataType.name];
   }
 
-  setStorageConfiguration(storageConfiguration) {
+  setStorageConfiguration(storageConfiguration: StorageConfiguration) {
     passOrThrow(
       isStorageConfiguration(storageConfiguration),
       () => 'StorageType expects a valid storageConfiguration',

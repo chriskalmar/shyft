@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+
 import { GraphQLDateTime, GraphQLDate, GraphQLTime } from './dataTypes';
 import { parseValue } from 'graphql';
 

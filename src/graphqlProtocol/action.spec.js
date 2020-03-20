@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 
 import { generateActions } from './action';
 import { ProtocolGraphQL } from './ProtocolGraphQL';
@@ -174,7 +175,7 @@ describe('action', () => {
     resolve() {},
   });
 
-  const actions = [ simpleAction, noInputAction, noOutputAction, complexAction ];
+  const actions = [simpleAction, noInputAction, noOutputAction, complexAction];
 
   const graphRegistry = {
     types: {},

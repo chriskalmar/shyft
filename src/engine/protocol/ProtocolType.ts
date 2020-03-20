@@ -1,10 +1,49 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { passOrThrow, isFunction } from '../util';
 
-import { isDataType } from '../datatype/DataType';
-import { isProtocolConfiguration } from './ProtocolConfiguration';
+import { DataType, DataTypeFunction, isDataType } from '../datatype/DataType';
+import {
+  ProtocolConfiguration,
+  isProtocolConfiguration,
+} from './ProtocolConfiguration';
+
+export type ProtocolTypeSetup = {
+  name?: string;
+  description?: string;
+  // isProtocolDataType?: Function;
+  isProtocolDataType?: (protocolDataType: any) => boolean;
+};
+
+// export interface ProtocolDataTypeFunction {
+//   schemaDataType: DataType;
+//   attribute: string;
+//   asInput?: boolean;
+// }
+
+export type ProtocolDataType = {
+  name: string | Function;
+};
+
+type DataTypeMap = {
+  [name: string]: ProtocolDataType;
+};
+
+type DynamicDataTypeMap = {
+  schemaDataTypeDetector: Function;
+  protocolDataType: ProtocolDataType;
+};
 
 export class ProtocolType {
-  constructor(setup = {}) {
+  name: string;
+  description: string;
+  isProtocolDataType: (protocolDataType: any) => boolean;
+  protocolConfiguration: ProtocolConfiguration;
+
+  private _dataTypeMap: DataTypeMap;
+  private _dynamicDataTypeMap: DynamicDataTypeMap[];
+
+  constructor(setup: ProtocolTypeSetup = {} as ProtocolTypeSetup) {
     const { name, description, isProtocolDataType } = setup;
 
     passOrThrow(name, () => 'Missing protocol type name');
@@ -26,7 +65,10 @@ export class ProtocolType {
     this._dynamicDataTypeMap = [];
   }
 
-  addDataTypeMap(schemaDataType, protocolDataType) {
+  addDataTypeMap(
+    schemaDataType: DataType | DataTypeFunction,
+    protocolDataType: ProtocolDataType,
+  ): void {
     passOrThrow(
       isDataType(schemaDataType),
       () =>
@@ -50,7 +92,10 @@ export class ProtocolType {
     this._dataTypeMap[schemaDataType.name] = protocolDataType;
   }
 
-  addDynamicDataTypeMap(schemaDataTypeDetector, protocolDataType) {
+  addDynamicDataTypeMap(
+    schemaDataTypeDetector: Function,
+    protocolDataType: ProtocolType,
+  ): void {
     passOrThrow(
       isFunction(schemaDataTypeDetector),
       () =>
@@ -73,7 +118,11 @@ export class ProtocolType {
     });
   }
 
-  convertToProtocolDataType(schemaDataType, sourceName, asInput) {
+  convertToProtocolDataType(
+    schemaDataType: DataType | DataTypeFunction,
+    sourceName?: string,
+    asInput?: boolean,
+  ): ProtocolDataType {
     const foundDynamicDataType = this._dynamicDataTypeMap.find(
       ({ schemaDataTypeDetector }) => schemaDataTypeDetector(schemaDataType),
     );
@@ -82,7 +131,8 @@ export class ProtocolType {
 
       if (isFunction(protocolDataType)) {
         const attributeType = schemaDataType;
-        return protocolDataType(attributeType, sourceName, asInput);
+        const protocolDataTypeFn = protocolDataType as Function;
+        return protocolDataTypeFn(attributeType, sourceName, asInput);
       }
 
       return protocolDataType;
@@ -103,7 +153,7 @@ export class ProtocolType {
     return this._dataTypeMap[schemaDataType.name];
   }
 
-  setProtocolConfiguration(protocolConfiguration) {
+  setProtocolConfiguration(protocolConfiguration): void {
     passOrThrow(
       isProtocolConfiguration(protocolConfiguration),
       () => 'ProtocolType expects a valid protocolConfiguration',
@@ -112,7 +162,7 @@ export class ProtocolType {
     this.protocolConfiguration = protocolConfiguration;
   }
 
-  getProtocolConfiguration() {
+  getProtocolConfiguration(): ProtocolConfiguration {
     passOrThrow(
       this.protocolConfiguration,
       () => 'ProtocolType is missing a valid protocolConfiguration',
@@ -121,11 +171,11 @@ export class ProtocolType {
     return this.protocolConfiguration;
   }
 
-  toString() {
+  toString(): string {
     return this.name;
   }
 }
 
-export const isProtocolType = obj => {
+export const isProtocolType = (obj: any): boolean => {
   return obj instanceof ProtocolType;
 };
