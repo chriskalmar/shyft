@@ -5,7 +5,7 @@ import { Action, isAction } from '../action/Action';
 import { isDataTypeUser } from '../datatype/DataTypeUser';
 import { StorageType, isStorageType } from '../storage/StorageType';
 import { isPermission, isPermissionsArray } from '../permission/Permission';
-import { isViewEntity } from '../entity/ViewEntity';
+import { isViewEntity, ViewEntity } from '../entity/ViewEntity';
 import { isShadowEntity } from '../entity/ShadowEntity';
 
 export type SchemaSetup = {
@@ -17,7 +17,7 @@ export type SchemaSetup = {
 };
 
 type EntityPermission = {
-  // improve typing
+  // todo: improve typing
   [key: string]: any;
   // [entityName: string]: Permission;
   // _defaultPermissions: Permission | Permission[] | null;
@@ -27,15 +27,30 @@ type PermissionsMap = {
   entities: EntityPermission;
 };
 
+type SchemaEntity = Entity & {
+  _isRegistered: boolean;
+};
+
+type SchemaViewEntity = ViewEntity & {
+  _isRegistered: boolean;
+};
+
+type EntityMap = {
+  [entityName: string]: SchemaEntity | SchemaViewEntity;
+};
+
+type ActionMap = {
+  [actionName: string]: Action;
+};
+
 export class Schema {
-  private _entityMap = {};
-  private _actionMap = {};
+  private _entityMap: EntityMap = {};
+  private _actionMap: ActionMap = {};
   private _isValidated: boolean;
   private _userEntity = null;
 
   defaultStorageType: StorageType;
   permissionsMap: PermissionsMap | null;
-
   defaultActionPermissions;
 
   constructor(
@@ -170,7 +185,7 @@ export class Schema {
         () => "Schema needs 'actions' to be an array of type Action",
       );
 
-      actions.map(entity => this.addAction(entity));
+      actions.map(action => this.addAction(action));
     }
   }
 
@@ -239,7 +254,7 @@ export class Schema {
     return this._userEntity;
   }
 
-  _lazyLoadMissingEntities() {
+  _lazyLoadMissingEntities(): void {
     let foundMissingCount = 0;
 
     const entityNames = Object.keys(this._entityMap);
@@ -254,7 +269,8 @@ export class Schema {
         const attribute = attributes[attributeName];
 
         if (isEntity(attribute.type)) {
-          const targetEntity = attribute.type;
+          // const attributeTypeAsEntity = attribute.type as Entity
+          const targetEntity = attribute.type as SchemaEntity;
 
           if (this._entityMap[targetEntity.name]) {
             passOrThrow(
@@ -275,7 +291,7 @@ export class Schema {
     }
   }
 
-  validate() {
+  validate(): void {
     if (this._isValidated) {
       return;
     }
@@ -312,14 +328,15 @@ export class Schema {
         entity.getPermissions();
       }
       if (isEntity(entity)) {
-        entity.getIndexes();
+        const entityAsEntity = entity as Entity;
+        entityAsEntity.getIndexes();
       }
 
       attributeNames.forEach(attributeName => {
         const attribute = attributes[attributeName];
 
         if (isEntity(attribute.type)) {
-          const targetEntity = attribute.type;
+          const targetEntity = attribute.type as Entity;
 
           passOrThrow(
             this._entityMap[targetEntity.name],
@@ -349,12 +366,12 @@ export class Schema {
     this._isValidated = true;
   }
 
-  getEntities() {
+  getEntities(): EntityMap {
     this.validate();
     return this._entityMap;
   }
 
-  addAction(action) {
+  addAction(action: Action): void {
     passOrThrow(
       isAction(action),
       () => 'Provided object to schema is not an action',
@@ -373,12 +390,12 @@ export class Schema {
     this._isValidated = false;
   }
 
-  getActions() {
+  getActions(): ActionMap {
     this.validate();
     return this._actionMap;
   }
 }
 
-export const isSchema = obj => {
+export const isSchema = (obj: any): boolean => {
   return obj instanceof Schema;
 };
