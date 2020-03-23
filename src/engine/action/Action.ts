@@ -41,8 +41,8 @@ export class Action {
   type: string;
   permissions: Function | Permission | Permission[];
   private _permissions: Function | Permission | Permission[];
-  private _defaultPermissions: Function | Permission | Permission[];
-  descriptionPermissions: string | false;
+  private _defaultPermissions: Permission | Permission[];
+  descriptionPermissions: string | boolean;
   postProcessor: Function;
 
   constructor(setup: ActionSetup = {} as ActionSetup) {
@@ -190,13 +190,15 @@ export class Action {
     return !!this.output;
   }
 
-  _processPermissions(): null | Function {
+  _processPermissions(): null | Permission | Permission[] {
     if (this._permissions) {
       if (isFunction(this._permissions)) {
         const permissionsFn = this._permissions as Function;
-        return processActionPermissions(this, permissionsFn);
+        const permissions: Permission | Permission[] = permissionsFn();
+        return processActionPermissions(this, permissions);
       }
-      return processActionPermissions(this, this._permissions);
+      const permissions = this._permissions as Permission | Permission[];
+      return processActionPermissions(this, permissions);
 
       // const permissions = isFunction(this._permissions)
       //   ? this._permissions()
@@ -211,9 +213,15 @@ export class Action {
 
   _generatePermissionDescriptions(): void {
     if (this.permissions) {
-      this.descriptionPermissions = generatePermissionDescription(
-        this.permissions,
-      );
+      let permissions: Permission | Permission[];
+      if (isFunction(this._permissions)) {
+        const permissionsFn = this._permissions as Function;
+        permissions = permissionsFn();
+      } else {
+        permissions = this._permissions as Permission | Permission[];
+      }
+
+      this.descriptionPermissions = generatePermissionDescription(permissions);
     }
   }
 
