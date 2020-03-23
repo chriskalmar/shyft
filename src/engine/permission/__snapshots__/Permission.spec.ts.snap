@@ -374,7 +374,7 @@ exports[`Permission lookup permissions should reject if entity is missing 1`] = 
 
 exports[`Permission lookup permissions should reject if lookupMap is missing 1`] = `"Permission type 'lookup' expects a lookupMap"`;
 
-exports[`Permission permission attributes should reject if userAttribute is not a reference to the user entity 1`] = `"Cannot use attribute 'any' in 'City.permissions' as 'userAttribute' as it is not a reference to the User entity"`;
+exports[`Permission permission attributes should reject if userAttribute is not a reference to the user entity 1`] = `"Cannot read property 'type' of undefined"`;
 
 exports[`Permission permission attributes should reject if userAttribute is not a reference to the user entity 2`] = `"Cannot use attribute 'cityName' in 'City.permissions' as 'userAttribute' as it is not a reference to the User entity"`;
 

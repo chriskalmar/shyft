@@ -49,7 +49,7 @@ export class Configuration {
     }
   }
 
-  setLanguages(languages) {
+  setLanguages(languages): void {
     passOrThrow(
       isArray(languages, true),
       () => 'Configuration.setLanguages() expects a list of language iso codes',
@@ -71,27 +71,27 @@ export class Configuration {
     this.languages = languages;
   }
 
-  getLanguages() {
+  getLanguages(): string[] {
     return this.languages;
   }
 
-  getDefaultLanguage() {
+  getDefaultLanguage(): string {
     return this.getLanguages()[0];
   }
 
-  setSchema(schema) {
+  setSchema(schema): void {
     passOrThrow(isSchema(schema), () => 'Configuration expects a valid schema');
 
     this.schema = schema;
   }
 
-  getSchema() {
+  getSchema(): Schema {
     passOrThrow(this.schema, () => 'Configuration is missing a valid schema');
 
     return this.schema;
   }
 
-  setProtocolConfiguration(protocolConfiguration) {
+  setProtocolConfiguration(protocolConfiguration): void {
     passOrThrow(
       isProtocolConfiguration(protocolConfiguration),
       () => 'Configuration expects a valid protocolConfiguration',
@@ -102,7 +102,7 @@ export class Configuration {
     protocolConfiguration.getParentConfiguration = () => this;
   }
 
-  getProtocolConfiguration() {
+  getProtocolConfiguration(): ProtocolConfiguration {
     passOrThrow(
       this.protocolConfiguration,
       () => 'Configuration is missing a valid protocolConfiguration',
@@ -111,7 +111,7 @@ export class Configuration {
     return this.protocolConfiguration;
   }
 
-  setStorageConfiguration(storageConfiguration) {
+  setStorageConfiguration(storageConfiguration): void {
     passOrThrow(
       isStorageConfiguration(storageConfiguration),
       () => 'Configuration expects a valid storageConfiguration',
@@ -122,7 +122,7 @@ export class Configuration {
     storageConfiguration.getParentConfiguration = () => this;
   }
 
-  getStorageConfiguration() {
+  getStorageConfiguration(): StorageConfiguration {
     passOrThrow(
       this.storageConfiguration,
       () => 'Configuration is missing a valid storageConfiguration',
@@ -132,6 +132,7 @@ export class Configuration {
   }
 }
 
-export const isConfiguration = obj => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const isConfiguration = (obj: any): boolean => {
   return obj instanceof Configuration;
 };

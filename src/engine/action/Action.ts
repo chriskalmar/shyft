@@ -102,7 +102,7 @@ export class Action {
     this._permissions = permissions;
   }
 
-  getInput() {
+  getInput(): null | any {
     if (!this.hasInput()) {
       return null;
     }
@@ -146,7 +146,7 @@ export class Action {
     return !!this.input;
   }
 
-  getOutput() {
+  getOutput(): null | any {
     if (!this.hasOutput()) {
       return null;
     }
@@ -190,7 +190,7 @@ export class Action {
     return !!this.output;
   }
 
-  _processPermissions() {
+  _processPermissions(): null | Function {
     if (this._permissions) {
       if (isFunction(this._permissions)) {
         const permissionsFn = this._permissions as Function;
@@ -209,7 +209,7 @@ export class Action {
     return null;
   }
 
-  _generatePermissionDescriptions() {
+  _generatePermissionDescriptions(): void {
     if (this.permissions) {
       this.descriptionPermissions = generatePermissionDescription(
         this.permissions,
@@ -217,11 +217,11 @@ export class Action {
     }
   }
 
-  _injectDefaultPermissionsBySchema(defaultPermissions) {
+  _injectDefaultPermissionsBySchema(defaultPermissions): void {
     this._defaultPermissions = defaultPermissions;
   }
 
-  getPermissions() {
+  getPermissions(): Function | Permission | Permission[] {
     if ((!this._permissions && !this._defaultPermissions) || this.permissions) {
       return this.permissions;
     }
@@ -231,11 +231,11 @@ export class Action {
     return this.permissions;
   }
 
-  toString() {
+  toString(): string {
     return this.name;
   }
 }
 
-export const isAction = (obj: any) => {
+export const isAction = (obj: any): boolean => {
   return obj instanceof Action;
 };
