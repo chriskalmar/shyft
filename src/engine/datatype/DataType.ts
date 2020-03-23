@@ -25,7 +25,7 @@ export class DataType {
   defaultValue?: () => any;
   enforceIndex?: boolean;
 
-  constructor(setup: DataTypeSetup = <DataTypeSetup>{}) {
+  constructor(setup: DataTypeSetup = {} as DataTypeSetup) {
     const {
       name,
       description,
@@ -78,17 +78,17 @@ export class DataType {
     }
   }
 
-  validate = async (value, context) => {
+  validate = async (value: any, context: any): Promise<void> => {
     if (value && this.validator) {
       await this.validator(value, context);
     }
   };
 
-  toString() {
+  toString(): string {
     return this.name;
   }
 }
 
-export const isDataType = obj => {
+export const isDataType = (obj: any): boolean => {
   return obj instanceof DataType;
 };

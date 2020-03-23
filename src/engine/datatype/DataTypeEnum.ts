@@ -1,7 +1,7 @@
+import { uniq } from 'lodash';
 import { passOrThrow, isMap } from '../util';
 import { enumValueRegex, ENUM_VALUE_PATTERN } from '../constants';
 import { DataType } from './DataType';
-import * as _ from 'lodash';
 
 export type ValueType = {
   [key: string]: number;
@@ -16,7 +16,7 @@ export type DataTypeEnumSetupType = {
 export class DataTypeEnum extends DataType {
   values: ValueType;
 
-  constructor(setup: DataTypeEnumSetupType = <DataTypeEnumSetupType>{}) {
+  constructor(setup: DataTypeEnumSetupType = {} as DataTypeEnumSetupType) {
     const { name, description, values } = setup;
 
     passOrThrow(
@@ -45,7 +45,7 @@ export class DataTypeEnum extends DataType {
     });
 
     passOrThrow(
-      uniqueIds.length === _.uniq(uniqueIds).length,
+      uniqueIds.length === uniq(uniqueIds).length,
       () =>
         `Each value defined for data type '${name}' needs to have a unique ID`,
     );
@@ -63,11 +63,11 @@ export class DataTypeEnum extends DataType {
     this.values = values;
   }
 
-  toString() {
+  toString(): string {
     return this.name;
   }
 }
 
-export const isDataTypeEnum = obj => {
+export const isDataTypeEnum = (obj: any): boolean => {
   return obj instanceof DataTypeEnum;
 };

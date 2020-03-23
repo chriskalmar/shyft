@@ -1,9 +1,6 @@
+import { uniq } from 'lodash';
 import { passOrThrow, isMap } from '../util';
-
 import { stateNameRegex, STATE_NAME_PATTERN } from '../constants';
-
-import * as _ from 'lodash';
-
 import { DataType } from './DataType';
 
 export type StateType = {
@@ -18,7 +15,7 @@ export type DataTypeStateSetupType = {
 
 export class DataTypeState extends DataType {
   states: StateType;
-  constructor(setup: DataTypeStateSetupType = <DataTypeStateSetupType>{}) {
+  constructor(setup: DataTypeStateSetupType = {} as DataTypeStateSetupType) {
     const { name, description, states } = setup;
 
     passOrThrow(
@@ -47,7 +44,7 @@ export class DataTypeState extends DataType {
     });
 
     passOrThrow(
-      uniqueIds.length === _.uniq(uniqueIds).length,
+      uniqueIds.length === uniq(uniqueIds).length,
       () =>
         `Each state defined for data type '${name}' needs to have a unique ID`,
     );
@@ -65,11 +62,11 @@ export class DataTypeState extends DataType {
     this.states = states;
   }
 
-  toString() {
+  toString(): string {
     return this.name;
   }
 }
 
-export const isDataTypeState = obj => {
+export const isDataTypeState = (obj: any): boolean => {
   return obj instanceof DataTypeState;
 };
