@@ -97,7 +97,7 @@ export const handlePermission = async (context, action, input) => {
     userRoles,
     action,
     input,
-    context
+    context,
   );
 
   if (!permissionWhere) {
@@ -210,6 +210,10 @@ export const generateActions = (graphRegistry, actionTypeFilter) => {
         await handlePermission(context, action, payload);
 
         try {
+          if (action.preProcessor) {
+            await action.preProcessor(action, source, payload, context, info);
+          }
+
           const result = await action.resolve(source, payload, context, info);
 
           if (action.postProcessor) {
@@ -228,8 +232,7 @@ export const generateActions = (graphRegistry, actionTypeFilter) => {
             result,
             clientMutationId,
           };
-        }
-        catch (error) {
+        } catch (error) {
           if (action.postProcessor) {
             await action.postProcessor(
               error,
