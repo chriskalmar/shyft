@@ -52,7 +52,7 @@ export class Action {
       passOrThrow(
         isFunction(postProcessor),
         () =>
-          `postProcessor of mutation '${name}' needs to be a valid function`,
+          `postProcessor of action '${name}' needs to be a valid function`,
       );
 
       this.postProcessor = postProcessor;
