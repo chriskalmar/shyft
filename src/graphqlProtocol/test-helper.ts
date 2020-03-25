@@ -24,7 +24,7 @@ import { StorageDataType } from '../engine/storage/StorageDataType';
 //   context
 // );
 
-export const generateTestSchema = async entities => {
+export const generateTestSchema = async ({ entities, actions } = {}) => {
   const testEntity = new Entity({
     name: 'TestEntityName',
     description: 'Just some description',
@@ -143,7 +143,7 @@ export const generateTestSchema = async entities => {
     // defaultStorageType: StorageTypeMemory,
     defaultActionPermissions: null,
     permissionsMap: null,
-    actions: [],
+    actions: actions || [],
     entities: entities ? [...entities, testEntity] : [testEntity],
   });
 
