@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
-import { Action, isAction } from './Action';
+import { Action, isAction, ACTION_TYPE_QUERY } from './Action';
 import { Permission, isPermission } from '../permission/Permission';
 
-import { DataTypeString } from '../datatype/dataTypes';
+import { DataTypeString, DataTypeInteger } from '../datatype/dataTypes';
 import { buildObjectDataType } from '../datatype/ObjectDataType';
 
 import { passOrThrow } from '../util';
+import { generateTestSchema } from '../../graphqlProtocol/test-helper';
+import { generateGraphQLSchema } from '../../graphqlProtocol/generator';
+import { graphql } from 'graphql';
 
 describe('Action', () => {
   it('should have a name', () => {
@@ -327,7 +330,7 @@ describe('Action', () => {
         input: {},
         output: {},
         resolve() {},
-        permissions: [ new Permission().authenticated(), new Permission() ],
+        permissions: [new Permission().authenticated(), new Permission()],
       });
 
       function fn() {
@@ -335,6 +338,83 @@ describe('Action', () => {
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
+    });
+  });
+
+  describe('preProcessor', () => {
+    it('should have a valid preProcessor function if defined', () => {
+      function fn() {
+        // eslint-disable-next-line no-new
+        new Action({
+          name: 'example',
+          description: 'do something',
+          resolve() {},
+          preProcessor: 'not-a-func',
+        });
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+    });
+
+    it('should pass through preProcessor if it is declared', async () => {
+      const setup = await generateTestSchema({
+        actions: [
+          new Action({
+            name: 'SomeActionWithPreProcessor',
+            type: ACTION_TYPE_QUERY,
+            description: 'do something',
+            input: {
+              type: DataTypeInteger,
+            },
+            output: {
+              type: buildObjectDataType({
+                attributes: {
+                  value: {
+                    type: DataTypeInteger,
+                    description: 'result value',
+                  },
+                },
+              }),
+            },
+            resolve(source, args) {
+              return {
+                value: args,
+              };
+            },
+            preProcessor: (action, source, payload) => {
+              if (payload === 13) {
+                throw new Error('13 brings bad luck');
+              }
+            },
+          }),
+        ],
+      });
+
+      const graphqlSchema = generateGraphQLSchema(setup.configuration);
+
+      const query = `
+        query SomeActionWithPreProcessor($number: Int!) {
+          someActionWithPreProcessor (input: {
+            data: $number
+          }) {
+            result {
+              value
+            }
+          }
+        }
+
+
+        `;
+
+      const result1 = await graphql(graphqlSchema, query, null, null, {
+        number: 123,
+      });
+      expect(result1).toMatchSnapshot();
+
+      const result2 = await graphql(graphqlSchema, query, null, null, {
+        number: 13,
+      });
+      expect(result2).toMatchSnapshot();
     });
   });
 });

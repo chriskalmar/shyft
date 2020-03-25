@@ -4,6 +4,32 @@ exports[`Action isAction should recognize non-Action objects 1`] = `"Not a Actio
 
 exports[`Action permissions should throw if empty permissions are provided 1`] = `"Action 'example' has one or more empty permission definitions"`;
 
+
+exports[`Action preProcessor should have a valid preProcessor function if defined 1`] = `"preProcessor of of action 'example' needs to be a valid function"`;
+
+exports[`Action preProcessor should pass through preProcessor if it is declared 1`] = `
+Object {
+  "data": Object {
+    "someActionWithPreProcessor": Object {
+      "result": Object {
+        "value": 123,
+      },
+    },
+  },
+}
+`;
+
+exports[`Action preProcessor should pass through preProcessor if it is declared 2`] = `
+Object {
+  "data": Object {
+    "someActionWithPreProcessor": null,
+  },
+  "errors": Array [
+    [GraphQLError: 13 brings bad luck],
+  ],
+}
+`;
+
 exports[`Action should have a description 1`] = `"Missing description for action 'example'"`;
 
 exports[`Action should have a name 1`] = `"Missing action name"`;
