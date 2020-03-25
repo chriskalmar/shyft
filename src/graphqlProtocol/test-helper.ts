@@ -10,6 +10,7 @@ import { Entity } from '../engine/entity/Entity';
 import { Schema } from '../engine/schema/Schema';
 import { StorageType } from '../engine/storage/StorageType';
 import { StorageDataType } from '../engine/storage/StorageDataType';
+import { Action } from '..';
 // import { StorageTypeMemory } from '../memory-connector/StorageTypeMemory';
 
 // const {
@@ -24,7 +25,16 @@ import { StorageDataType } from '../engine/storage/StorageDataType';
 //   context
 // );
 
-export const generateTestSchema = async ({ entities, actions } = {}) => {
+type GenerateTestSchemaSetup = {
+  entities?: Entity[];
+  actions?: Action[];
+};
+
+export const generateTestSchema = async (
+  setup: GenerateTestSchemaSetup = {},
+) => {
+  const { entities, actions } = setup;
+
   const testEntity = new Entity({
     name: 'TestEntityName',
     description: 'Just some description',
