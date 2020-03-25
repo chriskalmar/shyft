@@ -19,6 +19,7 @@ export class Action {
       resolve,
       type,
       permissions,
+      preProcessor,
       postProcessor,
     } = setup;
 
@@ -47,6 +48,15 @@ export class Action {
           ', ',
         )}'`,
     );
+
+    if (preProcessor) {
+      passOrThrow(
+        isFunction(preProcessor),
+        () => `preProcessor of of action '${name}' needs to be a valid function`,
+      );
+
+      this.preProcessor = preProcessor;
+    }
 
     if (postProcessor) {
       passOrThrow(
