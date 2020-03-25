@@ -417,4 +417,81 @@ describe('Action', () => {
       expect(result2).toMatchSnapshot();
     });
   });
+
+  describe('postProcessor', () => {
+    it('should have a valid postProcessor function if defined', () => {
+      function fn() {
+        // eslint-disable-next-line no-new
+        new Action({
+          name: 'example',
+          description: 'do something',
+          resolve() {},
+          postProcessor: 'not-a-func',
+        });
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+    });
+
+    it('should pass through postProcessor if it is declared', async () => {
+      const setup = await generateTestSchema({
+        actions: [
+          new Action({
+            name: 'SomeActionWithPostProcessor',
+            type: ACTION_TYPE_QUERY,
+            description: 'do something',
+            input: {
+              type: DataTypeInteger,
+            },
+            output: {
+              type: buildObjectDataType({
+                attributes: {
+                  value: {
+                    type: DataTypeInteger,
+                    description: 'result value',
+                  },
+                },
+              }),
+            },
+            resolve(source, args) {
+              return {
+                value: args,
+              };
+            },
+            postProcessor: (error, result, action, source, payload) => {
+              if (payload > 1000) {
+                result.value *= 2;
+              }
+            },
+          }),
+        ],
+      });
+
+      const graphqlSchema = generateGraphQLSchema(setup.configuration);
+
+      const query = `
+        query SomeActionWithPostProcessor($number: Int!) {
+          someActionWithPostProcessor (input: {
+            data: $number
+          }) {
+            result {
+              value
+            }
+          }
+        }
+
+
+        `;
+
+      const result1 = await graphql(graphqlSchema, query, null, null, {
+        number: 123,
+      });
+      expect(result1).toMatchSnapshot();
+
+      const result2 = await graphql(graphqlSchema, query, null, null, {
+        number: 1234,
+      });
+      expect(result2).toMatchSnapshot();
+    });
+  });
 });

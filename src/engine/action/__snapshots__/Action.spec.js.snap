@@ -4,6 +4,31 @@ exports[`Action isAction should recognize non-Action objects 1`] = `"Not a Actio
 
 exports[`Action permissions should throw if empty permissions are provided 1`] = `"Action 'example' has one or more empty permission definitions"`;
 
+exports[`Action postProcessor should have a valid postProcessor function if defined 1`] = `"postProcessor of action 'example' needs to be a valid function"`;
+
+exports[`Action postProcessor should pass through postProcessor if it is declared 1`] = `
+Object {
+  "data": Object {
+    "someActionWithPostProcessor": Object {
+      "result": Object {
+        "value": 123,
+      },
+    },
+  },
+}
+`;
+
+exports[`Action postProcessor should pass through postProcessor if it is declared 2`] = `
+Object {
+  "data": Object {
+    "someActionWithPostProcessor": Object {
+      "result": Object {
+        "value": 2468,
+      },
+    },
+  },
+}
+`;
 
 exports[`Action preProcessor should have a valid preProcessor function if defined 1`] = `"preProcessor of of action 'example' needs to be a valid function"`;
 
