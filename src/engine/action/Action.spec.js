@@ -494,4 +494,120 @@ describe('Action', () => {
       expect(result2).toMatchSnapshot();
     });
   });
+
+  describe('defaultValue', () => {
+    it('should fill in provided default value', async () => {
+      const setup = await generateTestSchema({
+        actions: [
+          new Action({
+            name: 'SomeAction',
+            type: ACTION_TYPE_QUERY,
+            description: 'do something',
+            input: {
+              type: DataTypeInteger,
+              description: 'just a number',
+              defaultValue: () => {
+                return 2000;
+              },
+            },
+            output: {
+              type: buildObjectDataType({
+                attributes: {
+                  value: {
+                    type: DataTypeInteger,
+                    description: 'result value',
+                  },
+                },
+              }),
+            },
+            resolve(source, args) {
+              return {
+                value: args,
+              };
+            },
+          }),
+        ],
+      });
+
+      const graphqlSchema = generateGraphQLSchema(setup.configuration);
+
+      const query = `
+        query SomeAction($number: Int) {
+          someAction (input: {
+            data: $number
+          }) {
+            result {
+              value
+            }
+          }
+        }
+
+
+        `;
+
+      const result = await graphql(graphqlSchema, query, null, null, {});
+      expect(result).toMatchSnapshot();
+    });
+
+    it('should fill in provided default values in nested input objects', async () => {
+      const setup = await generateTestSchema({
+        actions: [
+          new Action({
+            name: 'SomeAction',
+            type: ACTION_TYPE_QUERY,
+            description: 'do something',
+            input: {
+              type: buildObjectDataType({
+                attributes: {
+                  number: {
+                    type: DataTypeInteger,
+                    description: 'just a number',
+                    defaultValue: () => {
+                      return 2000;
+                    },
+                  },
+                },
+              }),
+            },
+            output: {
+              type: buildObjectDataType({
+                attributes: {
+                  value: {
+                    type: DataTypeInteger,
+                    description: 'result value',
+                  },
+                },
+              }),
+            },
+            resolve(source, args) {
+              return {
+                value: args.number,
+              };
+            },
+          }),
+        ],
+      });
+
+      const graphqlSchema = generateGraphQLSchema(setup.configuration);
+
+      const query = `
+        query SomeAction($number: Int) {
+          someAction (input: {
+            data: {
+              number: $number
+            }
+          }) {
+            result {
+              value
+            }
+          }
+        }
+
+
+        `;
+
+      const result = await graphql(graphqlSchema, query, null, null, {});
+      expect(result).toMatchSnapshot();
+    });
+  });
 });

@@ -1,5 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Action defaultValue should fill in provided default value 1`] = `
+Object {
+  "data": Object {
+    "someAction": Object {
+      "result": Object {
+        "value": 2000,
+      },
+    },
+  },
+}
+`;
+
+exports[`Action defaultValue should fill in provided default values in nested input objects 1`] = `
+Object {
+  "data": Object {
+    "someAction": Object {
+      "result": Object {
+        "value": 2000,
+      },
+    },
+  },
+}
+`;
+
 exports[`Action isAction should recognize non-Action objects 1`] = `"Not a Action object"`;
 
 exports[`Action permissions should throw if empty permissions are provided 1`] = `"Action 'example' has one or more empty permission definitions"`;
