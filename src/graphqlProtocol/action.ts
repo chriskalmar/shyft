@@ -26,7 +26,7 @@ const fillSingleDefaultValues = async (param, payload, context) => {
   let ret = payload;
 
   if (typeof payload === 'undefined') {
-    if (param.required && param.defaultValue) {
+    if (param.defaultValue) {
       ret = param.defaultValue({}, context);
     }
   }
