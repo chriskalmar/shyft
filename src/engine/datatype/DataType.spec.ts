@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { DataType, DataTypeSetup, isDataType } from './DataType';
 
 import { passOrThrow } from '../util';
@@ -16,9 +18,9 @@ describe('DataType', () => {
   it('should have a description', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new DataType(<DataTypeSetup>{
+      new DataType({
         name: 'example',
-      });
+      } as DataTypeSetup);
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();

@@ -140,7 +140,8 @@ export const isListDataType = (obj: any): boolean => {
 };
 
 export const buildListDataType = (obj: {
-  itemType: Entity | ComplexDataType | DataTypeFunction;
+  itemType: any;
+  // itemType: Entity | ComplexDataType | DataTypeFunction;
 }): Function => {
   return ({ name, description }): ListDataType =>
     new ListDataType({

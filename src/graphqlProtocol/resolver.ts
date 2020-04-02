@@ -6,6 +6,7 @@ import {
 } from './util';
 
 import { ProtocolGraphQL } from './ProtocolGraphQL';
+import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 
 import {
   validateConnectionArgs,
@@ -37,16 +38,17 @@ import {
 } from '../engine/helpers';
 import { validateMutationPayload } from '../engine/validation';
 
-export const resolveByFind = (entity, parentConnectionCollector) => {
+export const resolveByFind = (entity, parentConnectionCollector?: any) => {
   const storageType = entity.storageType;
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   return async (source, args, context, info) => {
     const parentConnection = parentConnectionCollector
       ? parentConnectionCollector({ source, args, context, info })
       : null;
 
-    validateConnectionArgs(source, args, context, info);
+    // validateConnectionArgs(source, args, context, info);
+    validateConnectionArgs(source, args);
     forceSortByUnique(args.orderBy, entity);
 
     if (entity.preProcessor) {
@@ -129,9 +131,9 @@ export const resolveByFind = (entity, parentConnectionCollector) => {
 
 export const resolveByFindOne = (entity, idCollector) => {
   const storageType = entity.storageType;
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
-  return async (source, args, context, info) => {
+  return async (source: any, args: any, context?: object, info?: object) => {
     const id = idCollector({ source, args, context });
 
     if (id === null || typeof id === 'undefined') {
@@ -168,7 +170,7 @@ export const getNestedPayloadResolver = (
   storageType,
   path = [],
 ) => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   return async (source, args, context, info) => {
     const resultPayload = {};
@@ -298,7 +300,8 @@ export const getMutationResolver = (
   idResolver,
 ) => {
   const storageType = entity.storageType;
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+
   const nestedPayloadResolver = getNestedPayloadResolver(
     entity,
     entityMutation.attributes,
@@ -310,7 +313,7 @@ export const getMutationResolver = (
       entity,
       entityMutation,
       args.input[typeName],
-      context,
+      // context,
     );
 
     if (nested) {
@@ -369,10 +372,12 @@ export const getMutationResolver = (
       if (entityMutation.type !== MUTATION_TYPE_DELETE) {
         //
         // this function might be wrong when we look serializeValues args
+        // unless we add typeName ?
         args.input[typeName] = serializeValues(
           entity,
           entityMutation,
           args.input[typeName],
+          typeName,
           context,
         );
       }

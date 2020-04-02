@@ -9,6 +9,7 @@ import {
 } from './io';
 
 import { ProtocolGraphQL } from './ProtocolGraphQL';
+import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 import { isObjectDataType } from '../engine/datatype/ObjectDataType';
 import { isListDataType } from '../engine/datatype/ListDataType';
 import { validateActionPayload } from '../engine/validation';
@@ -97,7 +98,7 @@ export const handlePermission = async (context, action, input) => {
     userRoles,
     action,
     input,
-    context
+    context,
   );
 
   if (!permissionWhere) {
@@ -122,7 +123,7 @@ export const handlePermission = async (context, action, input) => {
 };
 
 export const generateActions = (graphRegistry, actionTypeFilter) => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const actions = {};
 
@@ -198,6 +199,7 @@ export const generateActions = (graphRegistry, actionTypeFilter) => {
           clientMutationId = args.input.clientMutationId;
 
           args.input.data = await fillDefaultValues(input, payload, context);
+          // would it make sense to pass args.input.data instead of payload
           await validateActionPayload(input, payload, action, context);
         }
 
@@ -228,8 +230,7 @@ export const generateActions = (graphRegistry, actionTypeFilter) => {
             result,
             clientMutationId,
           };
-        }
-        catch (error) {
+        } catch (error) {
           if (action.postProcessor) {
             await action.postProcessor(
               error,

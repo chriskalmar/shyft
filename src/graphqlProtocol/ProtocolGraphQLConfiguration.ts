@@ -128,12 +128,12 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     );
   }
 
-  generateUniquenessAttributesName(entity, attributes) {
+  generateUniquenessAttributesName(_entity, attributes) {
     return generateTypeName(attributes.join('-and-'));
   }
 
   generateUniquenessAttributesFieldName(
-    entity,
+    _entity,
     attribute,
     uniquenessAttributesName,
   ) {
@@ -201,15 +201,19 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     );
   }
 
-  generateInputTypeName(baseName) {
+  generateInputTypeName(baseName: string) {
     return generateTypeNamePascalCase(`${baseName}-input`);
   }
 
-  generateDataOutPutTypeName(baseName) {
+  generateDataOutPutTypeName(baseName: string) {
     return generateTypeNamePascalCase(`${baseName}-data-output`);
   }
 
-  generateNestedDataOutPutTypeName(baseName, nestedParamName, level) {
+  generateNestedDataOutPutTypeName(
+    baseName: string,
+    nestedParamName: string,
+    level?: number,
+  ) {
     const levelStr = level > 1 ? `L${level}` : '';
 
     return generateTypeNamePascalCase(
@@ -217,11 +221,11 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     );
   }
 
-  generateOutPutTypeName(baseName) {
+  generateOutPutTypeName(baseName: string) {
     return generateTypeNamePascalCase(`${baseName}-output`);
   }
 
-  generateSortKeyName(attribute, ascending) {
+  generateSortKeyName(attribute: any, ascending?: boolean) {
     const direction = ascending ? 'ASC' : 'DESC';
 
     return `${generateTypeNameUpperCase(attribute.name)}_${direction}`;
@@ -254,12 +258,12 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     return generateTypeNamePascalCase(`${typeName}-edge`);
   }
 
-  generateConnectionTypeName(entity) {
+  generateConnectionTypeName(entity): string {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeNamePascalCase(`${typeName}-connection`);
   }
 }
 
-export const isProtocolGraphQLConfiguration = obj => {
+export const isProtocolGraphQLConfiguration = (obj: any): boolean => {
   return obj instanceof ProtocolGraphQLConfiguration;
 };

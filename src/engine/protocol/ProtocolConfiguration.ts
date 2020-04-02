@@ -1,4 +1,5 @@
 import { passOrThrow, isString, isArray } from '../util';
+import { Configuration } from '../configuration/Configuration';
 
 export type ProtocolConfigurationSetup = {
   features?: string[];
@@ -6,6 +7,7 @@ export type ProtocolConfigurationSetup = {
 
 export class ProtocolConfiguration {
   features: { [key: string]: boolean };
+  getParentConfiguration: () => Configuration;
 
   constructor(
     setup: ProtocolConfigurationSetup = {} as ProtocolConfigurationSetup,

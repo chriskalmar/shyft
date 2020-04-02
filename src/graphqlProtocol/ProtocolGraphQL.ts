@@ -1,3 +1,15 @@
+import {
+  GraphQLScalarType,
+  GraphQLID,
+  GraphQLInt,
+  GraphQLInputObjectType,
+  GraphQLObjectType,
+  GraphQLFloat,
+  GraphQLString,
+  GraphQLBoolean,
+  GraphQLEnumType,
+} from 'graphql';
+
 import { ProtocolType } from '../engine/protocol/ProtocolType';
 import {
   DataTypeID,
@@ -16,15 +28,6 @@ import {
   DataTypeI18n,
 } from '../engine/datatype/dataTypes';
 
-import {
-  GraphQLScalarType,
-  GraphQLID,
-  GraphQLInt,
-  GraphQLFloat,
-  GraphQLString,
-  GraphQLBoolean,
-  GraphQLEnumType,
-} from 'graphql';
 import { isDataTypeState } from '../engine/datatype/DataTypeState';
 import { isDataTypeEnum } from '../engine/datatype/DataTypeEnum';
 import { isObjectDataType } from '../engine/datatype/ObjectDataType';
@@ -182,7 +185,7 @@ ProtocolGraphQL.addDynamicDataTypeMap(
         const dataInputType = generateDataInput(
           `${sourceName}-${name}`,
           params,
-        );
+        ) as GraphQLInputObjectType;
         dataTypesRegistry.object[
           uniqueName
         ] = dataInputType.getFields().wrapped.type;
@@ -196,7 +199,7 @@ ProtocolGraphQL.addDynamicDataTypeMap(
         `${sourceName}-${name}`,
         params,
         graphRegistry,
-      );
+      ) as GraphQLObjectType;
       dataTypesRegistry.object[
         uniqueName
       ] = dataOutputType.getFields().wrapped.type;

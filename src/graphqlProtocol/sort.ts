@@ -1,11 +1,12 @@
 import { GraphQLEnumType, GraphQLList } from 'graphql';
 import * as _ from 'lodash';
 import { ProtocolGraphQL } from './ProtocolGraphQL';
+import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 import { isEntity } from '../engine/entity/Entity';
 import { isShadowEntity } from '../engine/entity/ShadowEntity';
 
 export const generateSortInput = entity => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
   const storageType = entity.storageType;
 
   const sortNames = {};

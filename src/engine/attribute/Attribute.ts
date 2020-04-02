@@ -115,7 +115,8 @@ export type Attribute = AttributeBase & {
   /**
    * name of the attribute
    */
-  name: string;
+  // name: string;
+  name?: string;
 
   /**
    * map of target attributes when referencing another entity
