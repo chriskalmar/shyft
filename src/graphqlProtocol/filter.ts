@@ -6,14 +6,15 @@ import {
 } from 'graphql';
 import * as _ from 'lodash';
 import { ProtocolGraphQL } from './ProtocolGraphQL';
-import { isEntity } from '../engine/entity/Entity';
+import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
+import { isEntity, Entity } from '../engine/entity/Entity';
 import {
   storageDataTypeCapabilities,
   storageDataTypeCapabilityType,
 } from '../engine/constants';
 import { isComplexDataType } from '../engine/datatype/ComplexDataType';
 import { isArray, isMap } from '../engine/util';
-import { isViewEntity } from '../engine/entity/ViewEntity';
+import { isViewEntity, ViewEntity } from '../engine/entity/ViewEntity';
 import { isShadowEntity } from '../engine/entity/ShadowEntity';
 
 const AND_OPERATOR = 'AND';
@@ -27,7 +28,8 @@ const DEEP_FILTER_OPERATOR = 'filter';
 const PRE_FILTER_OPERATOR = 'pre_filter';
 
 export const generateFilterInput = (entity, graphRegistry) => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+
   const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase;
 
   const storageType = entity.storageType;
@@ -226,11 +228,11 @@ const deepFilterResolver = async (entity, filter, context, path) => {
 };
 
 export const transformFilterLevel = async (
-  entity,
+  entity: Entity | ViewEntity,
   filters = {},
-  attributes,
-  context,
-  path,
+  attributes: any,
+  context?: any,
+  path?: string[],
 ) => {
   const ret = {};
   const hasFilter = {};

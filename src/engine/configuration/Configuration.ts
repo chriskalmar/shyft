@@ -49,7 +49,7 @@ export class Configuration {
     }
   }
 
-  setLanguages(languages): void {
+  setLanguages(languages: string[]): void {
     passOrThrow(
       isArray(languages, true),
       () => 'Configuration.setLanguages() expects a list of language iso codes',
@@ -79,7 +79,7 @@ export class Configuration {
     return this.getLanguages()[0];
   }
 
-  setSchema(schema): void {
+  setSchema(schema: Schema): void {
     passOrThrow(isSchema(schema), () => 'Configuration expects a valid schema');
 
     this.schema = schema;
@@ -91,7 +91,7 @@ export class Configuration {
     return this.schema;
   }
 
-  setProtocolConfiguration(protocolConfiguration): void {
+  setProtocolConfiguration(protocolConfiguration: ProtocolConfiguration): void {
     passOrThrow(
       isProtocolConfiguration(protocolConfiguration),
       () => 'Configuration expects a valid protocolConfiguration',
@@ -111,7 +111,7 @@ export class Configuration {
     return this.protocolConfiguration;
   }
 
-  setStorageConfiguration(storageConfiguration): void {
+  setStorageConfiguration(storageConfiguration: StorageConfiguration): void {
     passOrThrow(
       isStorageConfiguration(storageConfiguration),
       () => 'Configuration expects a valid storageConfiguration',

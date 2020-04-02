@@ -9,6 +9,7 @@ import {
 } from './io';
 
 import { ProtocolGraphQL } from './ProtocolGraphQL';
+import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 import { isObjectDataType } from '../engine/datatype/ObjectDataType';
 import { isListDataType } from '../engine/datatype/ListDataType';
 import { validateActionPayload } from '../engine/validation';
@@ -122,7 +123,7 @@ export const handlePermission = async (context, action, input) => {
 };
 
 export const generateActions = (graphRegistry, actionTypeFilter) => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const actions = {};
 

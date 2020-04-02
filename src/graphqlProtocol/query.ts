@@ -1,14 +1,15 @@
+import { GraphQLNonNull, GraphQLID } from 'graphql';
 import * as _ from 'lodash';
 import { ProtocolGraphQL } from './ProtocolGraphQL';
-
-import { GraphQLNonNull, GraphQLID } from 'graphql';
+import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 
 import { resolveByFind, resolveByFindOne } from './resolver';
 import { isEntity } from '../engine/entity/Entity';
 import { isViewEntity } from '../engine/entity/ViewEntity';
 
 export const generateListQueries = graphRegistry => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+
   const listQueries = {};
 
   _.forEach(graphRegistry.types, ({ entity }, typeName) => {
@@ -32,7 +33,7 @@ export const generateListQueries = graphRegistry => {
 };
 
 export const generateInstanceQueries = (graphRegistry, idFetcher) => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
   const instanceQueries = {};
 
   _.forEach(graphRegistry.types, ({ type, entity }) => {
@@ -54,7 +55,7 @@ export const generateInstanceQueries = (graphRegistry, idFetcher) => {
           type: new GraphQLNonNull(GraphQLID),
         },
       },
-      resolve: (source, { nodeId }, context, info) =>
+      resolve: (_source, { nodeId }, context, info) =>
         idFetcher(nodeId, context, info),
     };
 

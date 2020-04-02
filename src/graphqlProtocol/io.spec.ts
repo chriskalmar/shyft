@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
+import { GraphQLInputObjectType, GraphQLObjectType } from 'graphql';
 
 import { Action } from '../engine/action/Action';
 import { DataTypeString, DataTypeInteger } from '../engine/datatype/dataTypes';
@@ -99,7 +100,8 @@ describe('io', () => {
     const inputFields = type.getFields();
     expect(inputFields).toMatchSnapshot();
 
-    const dataInputType = inputFields.data.type;
+    // const dataInputType = inputFields.data.type;
+    const dataInputType = inputFields.data.type as GraphQLInputObjectType;
     const dataInputFields = dataInputType.getFields();
     expect(dataInputFields).toMatchSnapshot();
   });
@@ -130,7 +132,9 @@ describe('io', () => {
     const outputFields = type.getFields();
     expect(outputFields).toMatchSnapshot();
 
-    const resultOutputType = outputFields.result.type;
+    // const resultOutputType = outputFields.result.type;
+    const resultOutputType = outputFields.result.type as GraphQLObjectType;
+
     const resultOutputFields = resultOutputType.getFields();
     expect(resultOutputFields).toMatchSnapshot();
   });
@@ -244,11 +248,15 @@ describe('io', () => {
     const inputFields = type.getFields();
     expect(inputFields).toMatchSnapshot();
 
-    const dataInputType = inputFields.data.type;
+    // const dataInputType = inputFields.data.type;
+    const dataInputType = inputFields.data.type as GraphQLInputObjectType;
     const dataInputFields = dataInputType.getFields();
     expect(dataInputFields).toMatchSnapshot();
 
-    const playersInputType = dataInputFields.players.type;
+    // const playersInputType = dataInputFields.players.type;
+    const playersInputType = dataInputFields.players
+      .type as GraphQLInputObjectType;
+
     const playersInputFields = playersInputType.getFields();
     expect(playersInputFields).toMatchSnapshot();
 

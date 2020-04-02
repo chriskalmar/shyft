@@ -1,4 +1,5 @@
 import { passOrThrow } from '../util';
+import { Configuration } from '../configuration/Configuration';
 
 export type StorageConfigurationSetup = {
   // todo improve typings ?
@@ -13,6 +14,7 @@ export class StorageConfiguration {
   storageInstance: any;
   storageModels: any;
   connectionConfig: any;
+  getParentConfiguration: () => Configuration;
 
   constructor(
     setup: StorageConfigurationSetup = {} as StorageConfigurationSetup,

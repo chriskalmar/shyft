@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import { RELAY_TYPE_PROMOTER_FIELD } from './protocolGraphqlConstants';
 import { graphRegistry } from './graphRegistry';
 import { ProtocolGraphQL } from './ProtocolGraphQL';
+import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 
 import { shaper } from 'json-shaper';
 
@@ -40,7 +41,7 @@ export const getTypeForEntityFromGraphRegistry = entity => {
 
 // prepare models for graphql
 export const extendModelsForGql = entities => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   _.forEach(entities, entity => {
     entity.graphql = entity.graphql || {};
@@ -198,9 +199,9 @@ export const generateGraphQLSchema = configuration => {
             return;
           }
 
-          const field = {
-            description: attribute.description,
-          };
+          // const field = {
+          //   description: attribute.description,
+          // };
 
           let attributeType = attribute.type;
 
@@ -210,17 +211,26 @@ export const generateGraphQLSchema = configuration => {
             const primaryAttribute = targetEntity.getPrimaryAttribute();
             attributeType = primaryAttribute.type;
 
-            const reference = {
-              description: attribute.description,
-            };
+            // const reference = {
+            //   description: attribute.description,
+            // };
 
             const targetTypeName = targetEntity.graphql.typeName;
 
-            reference.type = graphRegistry.types[targetTypeName].type;
-            reference.resolve = resolveByFindOne(
-              targetEntity,
-              ({ source }) => source[attribute.gqlFieldName],
-            );
+            // reference.type = graphRegistry.types[targetTypeName].type;
+            // reference.resolve = resolveByFindOne(
+            //   targetEntity,
+            //   ({ source }) => source[attribute.gqlFieldName],
+            // );
+
+            const reference = {
+              description: attribute.description,
+              type: graphRegistry.types[targetTypeName].type,
+              resolve: resolveByFindOne(
+                targetEntity,
+                ({ source }) => source[attribute.gqlFieldName],
+              ),
+            };
 
             const referenceFieldName = protocolConfiguration.generateReferenceFieldName(
               targetEntity,
@@ -236,16 +246,24 @@ export const generateGraphQLSchema = configuration => {
           );
 
           // make it non-nullable if it's required
-          if (attribute.required) {
-            field.type = new GraphQLNonNull(fieldType);
-          } else {
-            field.type = fieldType;
-          }
+          // if (attribute.required) {
+          //   field.type = new GraphQLNonNull(fieldType);
+          // } else {
+          //   field.type = fieldType;
+          // }
 
           // use computed value's function as the field resolver
-          if (attribute.resolve) {
-            field.resolve = attribute.resolve;
-          }
+          // if (attribute.resolve) {
+          //   field.resolve = attribute.resolve;
+          // }
+
+          const field = {
+            description: attribute.description,
+            type: attribute.required
+              ? new GraphQLNonNull(fieldType)
+              : fieldType,
+            resolve: attribute.resolve ? attribute.resolve : undefined,
+          };
 
           fields[attribute.gqlFieldName] = field;
 
@@ -325,7 +343,7 @@ export const generateGraphQLSchema = configuration => {
   // build the query type
   const queryType = new GraphQLObjectType({
     name: 'Query',
-    root: 'The root query type',
+    // root: 'The root query type',
 
     fields: () => {
       const listQueries = generateListQueries(graphRegistry);
@@ -334,7 +352,7 @@ export const generateGraphQLSchema = configuration => {
 
       // override args.id of relay to args.nodeId
       nodeField.args.nodeId = nodeField.args.id;
-      nodeField.resolve = (obj, { nodeId }, context, info) =>
+      nodeField.resolve = (_obj, { nodeId }, context, info) =>
         idFetcher(nodeId, context, info);
       delete nodeField.args.id;
 
@@ -349,7 +367,7 @@ export const generateGraphQLSchema = configuration => {
 
   const mutationType = new GraphQLObjectType({
     name: 'Mutation',
-    root: 'The root mutation type',
+    // root: 'The root mutation type',
 
     fields: () => {
       const mutations = generateMutations(graphRegistry);

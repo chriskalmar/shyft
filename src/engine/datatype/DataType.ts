@@ -2,8 +2,8 @@ import { passOrThrow, isFunction } from '../util';
 import { ComplexDataType } from './ComplexDataType';
 
 export type DataTypeSetup = {
-  name: string;
-  description: string;
+  name?: string;
+  description?: string;
   mock?: () => any;
   validate?: () => any;
   enforceRequired?: boolean;

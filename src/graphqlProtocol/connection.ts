@@ -5,15 +5,21 @@ import {
   GraphQLList,
   GraphQLBoolean,
 } from 'graphql';
+import { first, last } from 'lodash';
 
 import { GraphQLCursor } from './dataTypes';
 
 import { resolveByFind } from './resolver';
 
 import { ProtocolGraphQL } from './ProtocolGraphQL';
+import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 import { generateSortInput } from './sort';
 import { generateFilterInput } from './filter';
-import * as _ from 'lodash';
+// import { Entity } from '../engine/entity/Entity';
+
+export type ConnectioNode = {
+  cursor: any;
+};
 
 export const generateConnectionArgs = (entity, graphRegistry) => {
   const sortInput = generateSortInput(entity);
@@ -48,14 +54,22 @@ export const generateConnectionArgs = (entity, graphRegistry) => {
   };
 };
 
-export const validateConnectionArgs = (source, args, context, info) => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
-  const maxPageSize = protocolConfiguration.getMaxPageSize(
-    source,
-    args,
-    context,
-    info,
-  );
+export const validateConnectionArgs = (
+  _source,
+  args,
+  // _context,
+  // _info,
+): void => {
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+
+  // const maxPageSize = protocolConfiguration.getMaxPageSize(
+  //   source,
+  //   args,
+  //   context,
+  //   info,
+  // );
+
+  const maxPageSize = protocolConfiguration.getMaxPageSize();
 
   if (args.first >= 0 && args.last >= 0) {
     throw new Error('`first` and `last` settings are mutual exclusive');
@@ -78,7 +92,7 @@ export const validateConnectionArgs = (source, args, context, info) => {
   }
 };
 
-export const forceSortByUnique = (orderBy, entity) => {
+export const forceSortByUnique = (orderBy, entity): void => {
   const attributes = entity.getAttributes();
   let foundUnique = false;
 
@@ -124,7 +138,9 @@ const pageInfoType = new GraphQLObjectType({
 });
 
 export const generateConnectionType = config => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  // const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+
   const { nodeType, entity } = config;
   const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase;
   let cursor;
@@ -204,10 +220,10 @@ export const buildCursor = (entityName, primaryAttributeName, args, data) => {
 export const connectionFromData = (
   { transformedData, originalData },
   entity,
-  source,
+  _source,
   args,
   context,
-  info,
+  _info,
   parentConnection,
   pageInfoFromData,
 ) => {
@@ -233,14 +249,14 @@ export const connectionFromData = (
 
   const edges = transformedData.map(nodeToEdge);
 
-  const firstNode = _.first(edges);
-  const lastNode = _.last(edges);
+  const firstNode: ConnectioNode = first(edges);
+  const lastNode: ConnectioNode = last(edges);
 
   return {
     edges,
     totalCount: async () => {
       const storageType = entity.storageType;
-      return await storageType.count(entity, args, context, parentConnection);
+      return storageType.count(entity, args, context, parentConnection);
     },
     pageInfo: {
       startCursor: firstNode ? firstNode.cursor : null,
@@ -273,7 +289,7 @@ export const generateReverseConnections = (
 ) => {
   const schema = configuration.getSchema();
   const schemaEntities = schema.getEntities();
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const fields = {};
 

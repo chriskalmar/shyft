@@ -1,15 +1,17 @@
-import { ProtocolGraphQL } from './ProtocolGraphQL';
 import * as _ from 'lodash';
+import { ProtocolGraphQL } from './ProtocolGraphQL';
+import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
+
 import { INDEX_UNIQUE } from '../engine/index/Index';
 import { CustomError } from '../engine/CustomError';
 
 export const getEntityUniquenessAttributes = entity => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const ret = [];
 
   if (!entity.getIndexes) {
-    return ret
+    return ret;
   }
 
   const entityIndexes = entity.getIndexes();

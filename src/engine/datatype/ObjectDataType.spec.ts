@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import {
   ObjectDataType,
   ObjectDataTypeSetupType,
@@ -20,9 +22,9 @@ describe('ObjectDataType', () => {
   it('should have a description', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new ObjectDataType(<ObjectDataTypeSetupType>{
+      new ObjectDataType({
         name: 'example',
-      });
+      } as ObjectDataTypeSetupType);
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
@@ -31,21 +33,21 @@ describe('ObjectDataType', () => {
   it('should have a map of attributes', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new ObjectDataType(<ObjectDataTypeSetupType>{
+      new ObjectDataType({
         name: 'Example',
         description: 'Just some description',
-      });
+      } as ObjectDataTypeSetupType);
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
   });
 
   it("should return it's name", () => {
-    const objectDataType = new ObjectDataType(<ObjectDataTypeSetupType>{
+    const objectDataType = new ObjectDataType({
       name: 'someObjectDataTypeName',
       description: 'Just some description',
       attributes: {},
-    });
+    } as ObjectDataTypeSetupType);
 
     expect(objectDataType.name).toBe('someObjectDataTypeName');
     expect(String(objectDataType)).toBe('someObjectDataTypeName');
@@ -54,11 +56,11 @@ describe('ObjectDataType', () => {
   it('should accept only maps or functions as attributes definition', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new ObjectDataType(<any>{
+      new ObjectDataType({
         name: 'Example',
         description: 'Just some description',
-        attributes: [ 2, 7, 13 ],
-      });
+        attributes: [2, 7, 13],
+      } as any);
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
@@ -66,13 +68,13 @@ describe('ObjectDataType', () => {
 
   it('should reject non-map results of attribute definition functions', () => {
     function fn() {
-      const objectDataType = new ObjectDataType(<ObjectDataTypeSetupType>{
+      const objectDataType = new ObjectDataType({
         name: 'Example',
         description: 'Just some description',
         attributes: () => {
-          return <any>[ 2, 7, 13 ];
+          return [2, 7, 13] as any;
         },
-      });
+      } as ObjectDataTypeSetupType);
 
       objectDataType.getAttributes();
     }
@@ -82,11 +84,11 @@ describe('ObjectDataType', () => {
 
   it('should reject empty attribute maps', () => {
     function fn() {
-      const objectDataType = new ObjectDataType(<ObjectDataTypeSetupType>{
+      const objectDataType = new ObjectDataType({
         name: 'Example',
         description: 'Just some description',
         attributes: {},
-      });
+      } as ObjectDataTypeSetupType);
 
       objectDataType.getAttributes();
     }
@@ -100,9 +102,9 @@ describe('ObjectDataType', () => {
         name: 'Example',
         description: 'Just some description',
         attributes: {
-          name: <any>{
+          name: {
             type: DataTypeString,
-          },
+          } as any,
         },
       });
 
@@ -119,10 +121,10 @@ describe('ObjectDataType', () => {
         description: 'Just some description',
         attributes: {
           name: {
-            type: <any>{},
+            type: {} as any,
             description: 'Just some description',
           },
-        },
+        } as any,
       });
 
       objectDataType.getAttributes();
@@ -140,8 +142,8 @@ describe('ObjectDataType', () => {
           name: {
             type: DataTypeString,
             description: 'Just some description',
-            resolve: <any>123456,
-          },
+            resolve: 123456 as any,
+          } as any,
         },
       });
 
@@ -160,8 +162,8 @@ describe('ObjectDataType', () => {
           name: {
             type: DataTypeString,
             description: 'Just some description',
-            defaultValue: <any>123456,
-          },
+            defaultValue: 123456 as any,
+          } as any,
         },
       });
 
@@ -226,7 +228,7 @@ describe('ObjectDataType', () => {
     expect(attributes.id.type).toBe(DataTypeID);
     expect(attributes.name.type).toBe(DataTypeString);
 
-    const attributesNested = (<Entity>attributes.nested.type).getAttributes();
+    const attributesNested = (attributes.nested.type as Entity).getAttributes();
 
     expect(attributesNested.randomInput.type).toBe(DataTypeString);
   });

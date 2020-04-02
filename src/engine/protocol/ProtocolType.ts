@@ -21,6 +21,7 @@ export type ProtocolTypeSetup = {
 //   asInput?: boolean;
 // }
 
+// how to properly define this type ?
 export type ProtocolDataType = {
   name: string | Function;
 };
@@ -94,7 +95,8 @@ export class ProtocolType {
 
   addDynamicDataTypeMap(
     schemaDataTypeDetector: Function,
-    protocolDataType: ProtocolType,
+    protocolDataType: any,
+    // protocolDataType: ProtocolType,
   ): void {
     passOrThrow(
       isFunction(schemaDataTypeDetector),
@@ -122,7 +124,7 @@ export class ProtocolType {
     schemaDataType: DataType | DataTypeFunction,
     sourceName?: string,
     asInput?: boolean,
-  ): ProtocolDataType {
+  ): any {
     const foundDynamicDataType = this._dynamicDataTypeMap.find(
       ({ schemaDataTypeDetector }) => schemaDataTypeDetector(schemaDataType),
     );

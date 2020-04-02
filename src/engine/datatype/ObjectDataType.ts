@@ -167,7 +167,8 @@ export const isObjectDataType = (obj: any): boolean => {
 };
 
 export const buildObjectDataType = (obj: {
-  attributes: AttributesMap | AttributesMapGenerator;
+  // attributes: AttributesMap | AttributesMapGenerator | AttributeBase;
+  attributes: any;
 }): Function => {
   return ({ name, description }): ObjectDataType =>
     new ObjectDataType({
