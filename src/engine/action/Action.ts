@@ -23,6 +23,7 @@ export type ActionSetup = {
   resolve?: Function;
   type?: string;
   permissions?: Function | Permission | Permission[];
+  preProcessor?: Function;
   postProcessor?: Function;
 };
 
@@ -43,6 +44,7 @@ export class Action {
   private _permissions: Function | Permission | Permission[];
   private _defaultPermissions: Permission | Permission[];
   descriptionPermissions: string | boolean;
+  preProcessor: Function;
   postProcessor: Function;
 
   constructor(setup: ActionSetup = {} as ActionSetup) {
@@ -54,6 +56,7 @@ export class Action {
       resolve,
       type,
       permissions,
+      preProcessor,
       postProcessor,
     } = setup;
 
@@ -83,11 +86,20 @@ export class Action {
         )}'`,
     );
 
+    if (preProcessor) {
+      passOrThrow(
+        isFunction(preProcessor),
+        () =>
+          `preProcessor of of action '${name}' needs to be a valid function`,
+      );
+
+      this.preProcessor = preProcessor;
+    }
+
     if (postProcessor) {
       passOrThrow(
         isFunction(postProcessor),
-        () =>
-          `postProcessor of mutation '${name}' needs to be a valid function`,
+        () => `postProcessor of action '${name}' needs to be a valid function`,
       );
 
       this.postProcessor = postProcessor;
@@ -192,6 +204,8 @@ export class Action {
 
   _processPermissions(): null | Permission | Permission[] {
     if (this._permissions) {
+      // if (isArray(this._permissions)) { check type for each permission }
+
       if (isFunction(this._permissions)) {
         const permissionsFn = this._permissions as Function;
         const permissions: Permission | Permission[] = permissionsFn();
@@ -213,6 +227,8 @@ export class Action {
 
   _generatePermissionDescriptions(): void {
     if (this.permissions) {
+      // if (isArray(this._permissions)) { check type for each permission }
+
       let permissions: Permission | Permission[];
       if (isFunction(this._permissions)) {
         const permissionsFn = this._permissions as Function;
