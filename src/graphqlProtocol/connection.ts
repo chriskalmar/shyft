@@ -15,11 +15,8 @@ import { ProtocolGraphQL } from './ProtocolGraphQL';
 import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 import { generateSortInput } from './sort';
 import { generateFilterInput } from './filter';
+import { ConnectionNode } from './types';
 // import { Entity } from '../engine/entity/Entity';
-
-export type ConnectioNode = {
-  cursor: any;
-};
 
 export const generateConnectionArgs = (entity, graphRegistry) => {
   const sortInput = generateSortInput(entity);
@@ -228,7 +225,7 @@ export const connectionFromData = (
   pageInfoFromData,
 ) => {
   const entityName = entity.name;
-  let nodeToEdge;
+  let nodeToEdge: (node: any, idx?: number) => ConnectionNode;
 
   if (entity.getPrimaryAttribute()) {
     const primaryAttributeName = entity.getPrimaryAttribute().name;
@@ -247,10 +244,10 @@ export const connectionFromData = (
     });
   }
 
-  const edges = transformedData.map(nodeToEdge);
+  const edges: ConnectionNode[] = transformedData.map(nodeToEdge);
 
-  const firstNode: ConnectioNode = first(edges);
-  const lastNode: ConnectioNode = last(edges);
+  const firstNode = first(edges);
+  const lastNode = last(edges);
 
   return {
     edges,
