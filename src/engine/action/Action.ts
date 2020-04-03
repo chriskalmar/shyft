@@ -204,8 +204,6 @@ export class Action {
 
   _processPermissions(): null | Permission | Permission[] {
     if (this._permissions) {
-      // if (isArray(this._permissions)) { check type for each permission }
-
       if (isFunction(this._permissions)) {
         const permissionsFn = this._permissions as Function;
         const permissions: Permission | Permission[] = permissionsFn();
@@ -213,11 +211,6 @@ export class Action {
       }
       const permissions = this._permissions as Permission | Permission[];
       return processActionPermissions(this, permissions);
-
-      // const permissions = isFunction(this._permissions)
-      //   ? this._permissions()
-      //   : this._permissions;
-      // return processActionPermissions(this, permissions);
     } else if (this._defaultPermissions) {
       return processActionPermissions(this, this._defaultPermissions);
     }
@@ -227,8 +220,6 @@ export class Action {
 
   _generatePermissionDescriptions(): void {
     if (this.permissions) {
-      // if (isArray(this._permissions)) { check type for each permission }
-
       let permissions: Permission | Permission[];
       if (isFunction(this._permissions)) {
         const permissionsFn = this._permissions as Function;
