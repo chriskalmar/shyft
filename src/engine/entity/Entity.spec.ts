@@ -884,10 +884,9 @@ describe('Entity', () => {
       });
 
       // create mutations to test processors ?
-      const setup = await generateTestSchema([
-        SomeEntityWithPreprocess,
-        SomeEntityWithPostprocess,
-      ]);
+      const setup = await generateTestSchema({
+        entities: [SomeEntityWithPreprocess, SomeEntityWithPostprocess],
+      });
       const configuration = setup.configuration;
       graphqlSchema = generateGraphQLSchema(configuration);
     });

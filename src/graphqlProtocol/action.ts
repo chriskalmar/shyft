@@ -26,7 +26,7 @@ const fillSingleDefaultValues = async (param, payload, context) => {
   let ret = payload;
 
   if (typeof payload === 'undefined') {
-    if (param.required && param.defaultValue) {
+    if (param.defaultValue) {
       ret = param.defaultValue({}, context);
     }
   }
@@ -97,7 +97,7 @@ export const handlePermission = async (context, action, input) => {
     userRoles,
     action,
     input,
-    context
+    context,
   );
 
   if (!permissionWhere) {
@@ -197,7 +197,7 @@ export const generateActions = (graphRegistry, actionTypeFilter) => {
           payload = args.input.data;
           clientMutationId = args.input.clientMutationId;
 
-          args.input.data = await fillDefaultValues(input, payload, context);
+          payload = await fillDefaultValues(input, payload, context);
           await validateActionPayload(input, payload, action, context);
         }
 
@@ -210,6 +210,10 @@ export const generateActions = (graphRegistry, actionTypeFilter) => {
         await handlePermission(context, action, payload);
 
         try {
+          if (action.preProcessor) {
+            await action.preProcessor(action, source, payload, context, info);
+          }
+
           const result = await action.resolve(source, payload, context, info);
 
           if (action.postProcessor) {
@@ -228,8 +232,7 @@ export const generateActions = (graphRegistry, actionTypeFilter) => {
             result,
             clientMutationId,
           };
-        }
-        catch (error) {
+        } catch (error) {
           if (action.postProcessor) {
             await action.postProcessor(
               error,

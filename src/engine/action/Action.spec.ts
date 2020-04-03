@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
-import { Action, isAction } from './Action';
+import { Action, isAction, ACTION_TYPE_QUERY } from './Action';
 import { Permission, isPermission } from '../permission/Permission';
 
-import { DataTypeString } from '../datatype/dataTypes';
+import { DataTypeString, DataTypeInteger } from '../datatype/dataTypes';
 import { buildObjectDataType } from '../datatype/ObjectDataType';
 
 import { passOrThrow } from '../util';
+import { generateTestSchema } from '../../graphqlProtocol/test-helper';
+import { generateGraphQLSchema } from '../../graphqlProtocol/generator';
+import { graphql } from 'graphql';
 
 describe('Action', () => {
   it('should have a name', () => {
@@ -336,6 +339,276 @@ describe('Action', () => {
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
+    });
+  });
+
+  describe('preProcessor', () => {
+    it('should have a valid preProcessor function if defined', () => {
+      function fn() {
+        // eslint-disable-next-line no-new
+        new Action({
+          name: 'example',
+          description: 'do something',
+          resolve() {},
+          preProcessor: 'not-a-func',
+        });
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+    });
+
+    it('should pass through preProcessor if it is declared', async () => {
+      const setup = await generateTestSchema({
+        actions: [
+          new Action({
+            name: 'SomeActionWithPreProcessor',
+            type: ACTION_TYPE_QUERY,
+            description: 'do something',
+            input: {
+              type: DataTypeInteger,
+            },
+            output: {
+              type: buildObjectDataType({
+                attributes: {
+                  value: {
+                    type: DataTypeInteger,
+                    description: 'result value',
+                  },
+                },
+              }),
+            },
+            resolve(source, args) {
+              return {
+                value: args,
+              };
+            },
+            preProcessor: (action, source, payload) => {
+              if (payload === 13) {
+                throw new Error('13 brings bad luck');
+              }
+            },
+          }),
+        ],
+      });
+
+      const graphqlSchema = generateGraphQLSchema(setup.configuration);
+
+      const query = `
+        query SomeActionWithPreProcessor($number: Int!) {
+          someActionWithPreProcessor (input: {
+            data: $number
+          }) {
+            result {
+              value
+            }
+          }
+        }
+
+
+        `;
+
+      const result1 = await graphql(graphqlSchema, query, null, null, {
+        number: 123,
+      });
+      expect(result1).toMatchSnapshot();
+
+      const result2 = await graphql(graphqlSchema, query, null, null, {
+        number: 13,
+      });
+      expect(result2).toMatchSnapshot();
+    });
+  });
+
+  describe('postProcessor', () => {
+    it('should have a valid postProcessor function if defined', () => {
+      function fn() {
+        // eslint-disable-next-line no-new
+        new Action({
+          name: 'example',
+          description: 'do something',
+          resolve() {},
+          postProcessor: 'not-a-func',
+        });
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+    });
+
+    it('should pass through postProcessor if it is declared', async () => {
+      const setup = await generateTestSchema({
+        actions: [
+          new Action({
+            name: 'SomeActionWithPostProcessor',
+            type: ACTION_TYPE_QUERY,
+            description: 'do something',
+            input: {
+              type: DataTypeInteger,
+            },
+            output: {
+              type: buildObjectDataType({
+                attributes: {
+                  value: {
+                    type: DataTypeInteger,
+                    description: 'result value',
+                  },
+                },
+              }),
+            },
+            resolve(source, args) {
+              return {
+                value: args,
+              };
+            },
+            postProcessor: (error, result, action, source, payload) => {
+              if (payload > 1000) {
+                result.value *= 2;
+              }
+            },
+          }),
+        ],
+      });
+
+      const graphqlSchema = generateGraphQLSchema(setup.configuration);
+
+      const query = `
+        query SomeActionWithPostProcessor($number: Int!) {
+          someActionWithPostProcessor (input: {
+            data: $number
+          }) {
+            result {
+              value
+            }
+          }
+        }
+
+
+        `;
+
+      const result1 = await graphql(graphqlSchema, query, null, null, {
+        number: 123,
+      });
+      expect(result1).toMatchSnapshot();
+
+      const result2 = await graphql(graphqlSchema, query, null, null, {
+        number: 1234,
+      });
+      expect(result2).toMatchSnapshot();
+    });
+  });
+
+  describe('defaultValue', () => {
+    it('should fill in provided default value', async () => {
+      const setup = await generateTestSchema({
+        actions: [
+          new Action({
+            name: 'SomeAction',
+            type: ACTION_TYPE_QUERY,
+            description: 'do something',
+            input: {
+              type: DataTypeInteger,
+              description: 'just a number',
+              defaultValue: () => {
+                return 2000;
+              },
+            },
+            output: {
+              type: buildObjectDataType({
+                attributes: {
+                  value: {
+                    type: DataTypeInteger,
+                    description: 'result value',
+                  },
+                },
+              }),
+            },
+            resolve(source, args) {
+              return {
+                value: args,
+              };
+            },
+          }),
+        ],
+      });
+
+      const graphqlSchema = generateGraphQLSchema(setup.configuration);
+
+      const query = `
+        query SomeAction($number: Int) {
+          someAction (input: {
+            data: $number
+          }) {
+            result {
+              value
+            }
+          }
+        }
+
+
+        `;
+
+      const result = await graphql(graphqlSchema, query, null, null, {});
+      expect(result).toMatchSnapshot();
+    });
+
+    it('should fill in provided default values in nested input objects', async () => {
+      const setup = await generateTestSchema({
+        actions: [
+          new Action({
+            name: 'SomeAction',
+            type: ACTION_TYPE_QUERY,
+            description: 'do something',
+            input: {
+              type: buildObjectDataType({
+                attributes: {
+                  number: {
+                    type: DataTypeInteger,
+                    description: 'just a number',
+                    defaultValue: () => {
+                      return 2000;
+                    },
+                  },
+                },
+              }),
+            },
+            output: {
+              type: buildObjectDataType({
+                attributes: {
+                  value: {
+                    type: DataTypeInteger,
+                    description: 'result value',
+                  },
+                },
+              }),
+            },
+            resolve(source, args) {
+              return {
+                value: args.number,
+              };
+            },
+          }),
+        ],
+      });
+
+      const graphqlSchema = generateGraphQLSchema(setup.configuration);
+
+      const query = `
+        query SomeAction($number: Int) {
+          someAction (input: {
+            data: {
+              number: $number
+            }
+          }) {
+            result {
+              value
+            }
+          }
+        }
+
+
+        `;
+
+      const result = await graphql(graphqlSchema, query, null, null, {});
+      expect(result).toMatchSnapshot();
     });
   });
 });
