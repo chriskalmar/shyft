@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import {
   DataTypeState,
   DataTypeStateSetupType,
@@ -12,19 +14,19 @@ describe('DataTypeState', () => {
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeState(<DataTypeStateSetupType>{
+      new DataTypeState({
         name: 'something',
-      });
+      } as DataTypeStateSetupType);
     };
 
     expect(fn).toThrowErrorMatchingSnapshot();
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeState(<DataTypeStateSetupType>{
+      new DataTypeState({
         name: 'something',
         states: {},
-      });
+      } as DataTypeStateSetupType);
     };
 
     expect(fn).toThrowErrorMatchingSnapshot();
@@ -35,38 +37,38 @@ describe('DataTypeState', () => {
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeState(<DataTypeStateSetupType>{
+      new DataTypeState({
         name: 'progress',
         states: {
           '6': 1,
         },
-      });
+      } as DataTypeStateSetupType);
     };
 
     expect(fn).toThrowErrorMatchingSnapshot();
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeState(<DataTypeStateSetupType>{
+      new DataTypeState({
         states: {
           ' abc ': 123,
         },
         name: 'test',
-      });
+      } as DataTypeStateSetupType);
     };
 
     expect(fn).toThrowErrorMatchingSnapshot();
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeState(<DataTypeStateSetupType>{
+      new DataTypeState({
         name: 'another',
         states: {
           abc: 1,
           def: 2,
           'hello-there': 3,
         },
-      });
+      } as DataTypeStateSetupType);
     };
 
     expect(fn).toThrowErrorMatchingSnapshot();
@@ -75,11 +77,11 @@ describe('DataTypeState', () => {
   it('should have a name', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new DataTypeState(<any>{
+      new DataTypeState({
         states: {
           item: 1,
         },
-      });
+      } as any);
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();

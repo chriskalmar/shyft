@@ -63,6 +63,7 @@ export type EntitySetup = {
   includeTimeTracking?: boolean;
   includeUserTracking?: boolean;
   indexes?: any;
+  // improve typings ?
   mutations?: any;
   permissions?: any;
   states?: any;

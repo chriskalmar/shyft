@@ -1,5 +1,4 @@
 import { passOrThrow, isFunction, isArray } from '../util';
-
 import { Entity, isEntity } from '../entity/Entity';
 import { DataType, isDataType, DataTypeFunction } from './DataType';
 import { ComplexDataType, isComplexDataType } from './ComplexDataType';
@@ -20,7 +19,7 @@ export class ListDataType extends ComplexDataType {
   minItems?: number;
   maxItems?: number;
 
-  constructor(setup: ListDataTypeSetupType = <ListDataTypeSetupType>{}) {
+  constructor(setup: ListDataTypeSetupType = {} as ListDataTypeSetupType) {
     super();
 
     const { name, description, itemType, minItems, maxItems } = setup;
@@ -78,7 +77,8 @@ export class ListDataType extends ComplexDataType {
 
   _processItemType(): DataType | ComplexDataType {
     if (isFunction(this.itemType)) {
-      const itemTypeBuilder: DataTypeFunction = <DataTypeFunction>this.itemType;
+      const itemTypeBuilder: DataTypeFunction = this
+        .itemType as DataTypeFunction;
       const itemType = itemTypeBuilder({
         name: this.name,
         description: this.description,
@@ -109,7 +109,7 @@ export class ListDataType extends ComplexDataType {
     return ret;
   }
 
-  validate = payload => {
+  validate = (payload: any): void => {
     if (payload) {
       passOrThrow(
         isArray(payload),
@@ -119,32 +119,31 @@ export class ListDataType extends ComplexDataType {
       passOrThrow(
         payload.length >= this.minItems,
         () =>
-          `List data type '${this.name}' requires a minimum of ${
-            this.minItems
-          } items`,
+          `List data type '${this.name}' requires a minimum of ${this.minItems} items`,
       );
 
       passOrThrow(
         this.maxItems === 0 || payload.length <= this.maxItems,
         () =>
-          `List data type '${this.name}' requires a maximum of ${
-            this.maxItems
-          } items`,
+          `List data type '${this.name}' requires a maximum of ${this.maxItems} items`,
       );
     }
   };
 
-  toString() {
+  toString(): string {
     return this.name;
   }
 }
 
-export const isListDataType = obj => {
+export const isListDataType = (obj: any): boolean => {
   return obj instanceof ListDataType;
 };
 
-export const buildListDataType = obj => {
-  return ({ name, description }) =>
+export const buildListDataType = (obj: {
+  itemType: any;
+  // itemType: Entity | ComplexDataType | DataTypeFunction;
+}): Function => {
+  return ({ name, description }): ListDataType =>
     new ListDataType({
       description,
       ...obj,

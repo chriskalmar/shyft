@@ -1,0 +1,532 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Permission build permission filter all permission types should generate filters for multiple permission types 1`] = `
+Object {
+  "$and": Array [
+    Object {
+      "$or": Array [
+        Object {
+          "author": 123,
+        },
+      ],
+    },
+    Object {
+      "$or": Array [
+        Object {
+          "state": Object {
+            "$in": Array [
+              10,
+              40,
+            ],
+          },
+        },
+      ],
+    },
+    Object {
+      "$or": Array [
+        Object {
+          "something": 23,
+        },
+        Object {
+          "something": 80,
+        },
+        Object {
+          "somethingElse": 4,
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter all permission types should generate filters for single permission types 1`] = `
+Object {
+  "$and": Array [
+    Object {
+      "$or": Array [
+        Object {
+          "author": 123,
+        },
+      ],
+    },
+    Object {
+      "$or": Array [
+        Object {
+          "something": 23,
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter combine multiple permissions should generate empty filter if a simple permission applies 1`] = `Object {}`;
+
+exports[`Permission build permission filter combine multiple permissions should generate filters for eligible permissions only 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "$and": Array [
+        Object {
+          "$or": Array [
+            Object {
+              "author": 123,
+            },
+          ],
+        },
+        Object {
+          "$or": Array [
+            Object {
+              "state": Object {
+                "$in": Array [
+                  10,
+                  40,
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+    Object {
+      "$and": Array [
+        Object {
+          "$or": Array [
+            Object {
+              "createdBy": 123,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter combine multiple permissions should generate filters for multiple permissions 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "$and": Array [
+        Object {
+          "$or": Array [
+            Object {
+              "author": 123,
+            },
+          ],
+        },
+        Object {
+          "$or": Array [
+            Object {
+              "state": Object {
+                "$in": Array [
+                  10,
+                  40,
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+    Object {
+      "$and": Array [
+        Object {
+          "$or": Array [
+            Object {
+              "createdBy": 123,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter combine multiple permissions should generate filters for single permissions 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "$and": Array [
+        Object {
+          "$or": Array [
+            Object {
+              "author": 123,
+            },
+          ],
+        },
+        Object {
+          "$or": Array [
+            Object {
+              "state": Object {
+                "$in": Array [
+                  10,
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter lookups should generate filter values from functions and provided mutation data 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "$sub": Object {
+        "condition": Array [
+          Object {
+            "operator": "$eq",
+            "sourceAttribute": "reference",
+            "targetAttribute": "id",
+          },
+          Object {
+            "operator": "$eq",
+            "targetAttribute": "district",
+            "value": 188,
+          },
+          Object {
+            "operator": "$eq",
+            "targetAttribute": "open",
+            "value": true,
+          },
+          Object {
+            "operator": "$eq",
+            "targetAttribute": "owner",
+            "value": 123,
+          },
+          Object {
+            "operator": "$in",
+            "targetAttribute": "state",
+            "value": Array [
+              "defined",
+              "approved",
+            ],
+          },
+        ],
+        "entity": "SomeEntityName",
+      },
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter lookups should generate filters for multiple entries 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "$sub": Object {
+        "condition": Array [
+          Object {
+            "operator": "$eq",
+            "sourceAttribute": "reference",
+            "targetAttribute": "id",
+          },
+          Object {
+            "operator": "$eq",
+            "sourceAttribute": "district",
+            "targetAttribute": "district",
+          },
+        ],
+        "entity": "SomeEntityName",
+      },
+    },
+    Object {
+      "$sub": Object {
+        "condition": Array [
+          Object {
+            "operator": "$eq",
+            "sourceAttribute": "reference",
+            "targetAttribute": "id",
+          },
+          Object {
+            "operator": "$eq",
+            "sourceAttribute": "district",
+            "targetAttribute": "district",
+          },
+          Object {
+            "operator": "$eq",
+            "targetAttribute": "open",
+            "value": false,
+          },
+        ],
+        "entity": "SomeEntityName",
+      },
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter lookups should generate filters for single entries 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "$sub": Object {
+        "condition": Array [
+          Object {
+            "operator": "$eq",
+            "sourceAttribute": "reference",
+            "targetAttribute": "id",
+          },
+          Object {
+            "operator": "$eq",
+            "sourceAttribute": "district",
+            "targetAttribute": "district",
+          },
+        ],
+        "entity": "SomeEntityName",
+      },
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter states should generate filters for multiple entries 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "state": Object {
+        "$in": Array [
+          10,
+          40,
+        ],
+      },
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter states should generate filters for single entries 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "state": Object {
+        "$in": Array [
+          10,
+        ],
+      },
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter states should reject if entity is not provided 1`] = `"missing entity in permission object"`;
+
+exports[`Permission build permission filter states should reject if invalid state is used 1`] = `"unknown state name 'completed' used in permission object"`;
+
+exports[`Permission build permission filter userAttributes should generate filters for multiple entries 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "author": 123,
+    },
+    Object {
+      "reviewer": 123,
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter userAttributes should generate filters for single entries 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "author": 123,
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter userAttributes should reject if userId is not provided 1`] = `"missing userId in permission object"`;
+
+exports[`Permission build permission filter values should generate filters for multiple entries 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "someAttribute": "lorem",
+    },
+    Object {
+      "someAttribute": "ipsum",
+    },
+  ],
+}
+`;
+
+exports[`Permission build permission filter values should generate filters for single entries 1`] = `
+Object {
+  "$or": Array [
+    Object {
+      "someAttribute": "lorem",
+    },
+  ],
+}
+`;
+
+exports[`Permission isPermission should recognize non-Permission objects 1`] = `"Not a Permission object"`;
+
+exports[`Permission isPermissionsArray should recognize non-Permission objects 1`] = `"Not a Permissions array"`;
+
+exports[`Permission lookup permissions should reject if entity is missing 1`] = `"Permission type 'lookup' expects an entity"`;
+
+exports[`Permission lookup permissions should reject if lookupMap is missing 1`] = `"Permission type 'lookup' expects a lookupMap"`;
+
+exports[`Permission permission attributes should reject if userAttribute is not a reference to the user entity 1`] = `"Cannot read property 'type' of undefined"`;
+
+exports[`Permission permission attributes should reject if userAttribute is not a reference to the user entity 2`] = `"Cannot use attribute 'cityName' in 'City.permissions' as 'userAttribute' as it is not a reference to the User entity"`;
+
+exports[`Permission permission attributes should reject if userAttribute is not a reference to the user entity 3`] = `"Cannot use attribute 'city' in 'User.permissions' as 'userAttribute' as it is not a reference to the User entity"`;
+
+exports[`Permission permission attributes should reject lookup mappings other than value functions when used with a create type mutation 1`] = `"'lookup' type permission used in 'create' type mutation 'create' can only have mappings to value functions"`;
+
+exports[`Permission permissions check simple should reject if non-Permission object is provided 1`] = `"checkPermissionSimple needs a valid permission object"`;
+
+exports[`Permission permissions check simple should reject if user roles are not provided as an array 1`] = `"checkPermissionSimple needs a valid list of assigned user roles"`;
+
+exports[`Permission permissions description should generate a description based on defined permissions: authenticated 1`] = `
+"
+***
+**Permissions:**
+
+- authenticated"
+`;
+
+exports[`Permission permissions description should generate a description based on defined permissions: everyone 1`] = `
+"
+***
+**Permissions:**
+
+- everyone"
+`;
+
+exports[`Permission permissions description should generate a description based on defined permissions: lookup Language someAttribute 1`] = `
+"
+***
+**Permissions:**
+
+- lookups: 
+  - Entity: Language 
+    - createdBy -> someAttribute"
+`;
+
+exports[`Permission permissions description should generate a description based on defined permissions: mixed 1 1`] = `
+"
+***
+**Permissions:**
+
+- roles: manager, admin
+- userAttributes: publisher, organizer
+- lookups: 
+  - Entity: Language 
+    - createdBy -> someAttribute
+  - Entity: Language 
+    - updatedAt -> anotherAttribute
+  - Entity: Language 
+    - source -> lorem
+    - mainContinent -> ipsum
+- values: 
+  - someAttribute = 123
+  - anotherAttribute = hello"
+`;
+
+exports[`Permission permissions description should generate a description based on defined permissions: permissions array 1`] = `
+"
+***
+**Permissions:**
+
+- lookups: 
+  - Entity: Language 
+    - createdBy -> someAttribute
+
+---
+- roles: manager
+- userAttributes: publisher
+
+---
+- values: 
+  - someAttribute = 123"
+`;
+
+exports[`Permission permissions description should generate a description based on defined permissions: role manager 1`] = `
+"
+***
+**Permissions:**
+
+- roles: manager"
+`;
+
+exports[`Permission permissions description should generate a description based on defined permissions: userAttributes publisher 1`] = `
+"
+***
+**Permissions:**
+
+- userAttributes: publisher"
+`;
+
+exports[`Permission permissions description should generate a description based on defined permissions: value someAttribute 1`] = `
+"
+***
+**Permissions:**
+
+- values: 
+  - someAttribute = 123"
+`;
+
+exports[`Permission permissions description should reject if non-Permission object is provided 1`] = `"generatePermissionDescription needs a valid permission object"`;
+
+exports[`Permission processActionPermissions should throw if provided with incompatible permissions 1`] = `"Incompatible permission definition for action 'SomeActionName'"`;
+
+exports[`Permission processActionPermissions should throw if provided with incompatible permissions 2`] = `"Incompatible permission definition for action 'SomeActionName'"`;
+
+exports[`Permission processActionPermissions should throw if provided with incompatible permissions 3`] = `"Incompatible permission definition for action 'SomeActionName'"`;
+
+exports[`Permission processActionPermissions should throw if provided with invalid permissions 1`] = `"Invalid permission definition for action 'SomeActionName'"`;
+
+exports[`Permission processActionPermissions should throw if provided with invalid permissions 2`] = `"Invalid permission definition for action 'SomeActionName'"`;
+
+exports[`Permission processEntityPermissions should throw if permission is used on a create type mutation and using data-bound permission types 1`] = `"Create type mutation permission 'create' in 'SomeEntityName.permissions' can only be of type 'authenticated', 'everyone', 'role' or 'lookup'"`;
+
+exports[`Permission processEntityPermissions should throw if permission is used on a create type mutation and using data-bound permission types 2`] = `"Create type mutation permission 'create' in 'SomeEntityName.permissions' can only be of type 'authenticated', 'everyone', 'role' or 'lookup'"`;
+
+exports[`Permission processEntityPermissions should throw if permission is used on a create type mutation and using data-bound permission types 3`] = `"Create type mutation permission 'create' in 'SomeEntityName.permissions' can only be of type 'authenticated', 'everyone', 'role' or 'lookup'"`;
+
+exports[`Permission processEntityPermissions should throw if permissions are assigned to unknown mutations 1`] = `"Unknown mutation 'noSuchMutation' used for permissions in entity 'SomeEntityName'"`;
+
+exports[`Permission processEntityPermissions should throw if permissions have invalid attributes defined 1`] = `"Cannot use attribute 'someAttribute' in 'SomeEntityName.permissions' as 'userAttribute' as it is not a reference to the User entity"`;
+
+exports[`Permission processEntityPermissions should throw if permissions have unknown attributes defined 1`] = `"Cannot use attribute 'notHere' in 'SomeEntityName.permissions' for 'read' as it does not exist"`;
+
+exports[`Permission processEntityPermissions should throw if permissions have unknown attributes defined 2`] = `"Cannot use attribute 'notHere' in 'SomeEntityName.permissions' for 'find' as it does not exist"`;
+
+exports[`Permission processEntityPermissions should throw if permissions have unknown attributes defined 3`] = `"Cannot use attribute 'notHere' in 'SomeEntityName.permissions' for 'update' as it does not exist"`;
+
+exports[`Permission processEntityPermissions should throw if provided with an invalid map of mutation permissions 1`] = `"Entity 'SomeEntityName' permissions definition for mutations needs to be a map of mutations and permissions"`;
+
+exports[`Permission processEntityPermissions should throw if provided with an invalid map of permissions 1`] = `"Entity 'SomeEntityName' permissions definition needs to be an object"`;
+
+exports[`Permission processEntityPermissions should throw if provided with an invalid permissions 1`] = `"Invalid 'read' permission definition for entity 'SomeEntityName'"`;
+
+exports[`Permission processEntityPermissions should throw if provided with an invalid permissions 2`] = `"Invalid 'find' permission definition for entity 'SomeEntityName'"`;
+
+exports[`Permission processEntityPermissions should throw if provided with an invalid permissions 3`] = `"Invalid mutation permission definition for entity 'SomeEntityName' at position '0'"`;
+
+exports[`Permission role permissions should reject if duplicate roles are provided 1`] = `"Duplicate role 'manager' for permission type 'role'"`;
+
+exports[`Permission role permissions should reject if role name is missing 1`] = `"Permission type 'role' expects a role name"`;
+
+exports[`Permission should reject incompatible permission types 1`] = `"Permission type 'everyone' is incompatible with other types"`;
+
+exports[`Permission should reject incompatible permission types 2`] = `"Permission type 'everyone' is incompatible with other types"`;
+
+exports[`Permission should reject incompatible permission types 3`] = `"Permission type 'authenticated' is incompatible with other types"`;
+
+exports[`Permission userAttribute permissions should reject if attribute name is missing 1`] = `"Permission type 'userAttribute' expects an attribute name"`;
+
+exports[`Permission userAttribute permissions should reject if duplicate attribute names are provided 1`] = `"Duplicate attribute name 'profile' for permission type 'userAttribute'"`;
+
+exports[`Permission value permissions should reject if attribute name is missing 1`] = `"Permission type 'value' expects an attribute name"`;
+
+exports[`Permission value permissions should reject if value is missing 1`] = `"Permission type 'value' expects a value"`;

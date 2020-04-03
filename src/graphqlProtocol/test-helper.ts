@@ -102,7 +102,6 @@ export const generateTestSchema = async (
     serialize: String,
   });
 
-  /* eslint-disable no-console */
   const TestStorage = new StorageType({
     name: 'TestStorage',
     description: 'Just some description',
@@ -141,7 +140,6 @@ export const generateTestSchema = async (
       return true;
     },
   });
-  /* eslint-enable no-console */
 
   TestStorage.addDataTypeMap(DataTypeID, StorageDataTypeString);
   TestStorage.addDataTypeMap(DataTypeInteger, StorageDataTypeAny);

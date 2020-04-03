@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { DataTypeUser, isDataTypeUser } from './DataTypeUser';
 
 import { passOrThrow } from '../util';

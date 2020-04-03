@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import {
   ListDataType,
   ListDataTypeSetupType,
@@ -20,9 +22,9 @@ describe('ListDataType', () => {
   it('should have a description', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new ListDataType(<ListDataTypeSetupType>{
+      new ListDataType({
         name: 'example',
-      });
+      } as ListDataTypeSetupType);
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
@@ -31,10 +33,10 @@ describe('ListDataType', () => {
   it('should have an item type', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new ListDataType(<ListDataTypeSetupType>{
+      new ListDataType({
         name: 'Example',
         description: 'Just some description',
-      });
+      } as ListDataTypeSetupType);
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
@@ -89,7 +91,7 @@ describe('ListDataType', () => {
       new ListDataType({
         name: 'Example',
         description: 'Just some description',
-        itemType: [ 2, 7, 13 ],
+        itemType: [2, 7, 13],
       });
     }
 

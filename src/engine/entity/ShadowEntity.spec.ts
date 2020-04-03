@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+
 import { Entity } from './Entity';
 import { ShadowEntity, isShadowEntity } from './ShadowEntity';
 import { passOrThrow } from '../util';

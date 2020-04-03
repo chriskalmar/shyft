@@ -8,8 +8,8 @@
     "clean": "rimraf lib",
     "test": "jest",
     "test-watch": "jest --watch",
-    "lint": "eslint src/*",
-    "lint-fix": "eslint src/* --fix",
+    "lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}'",
+    "lint-fix": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "lint-staged": "lint-staged",
     "coverage": "cross-env NODE_ENV=test jest --coverage",
     "coverage-ci": "npm run coverage && cat ./coverage/lcov.info | codecov",
@@ -53,11 +53,16 @@
   ],
   "author": "Chris Kalmar <christian.kalmar@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chriskalmar/shyft"
+  },
   "devDependencies": {
     "@babel/core": "7.8.7",
     "@babel/preset-env": "7.8.7",
     "@types/jest": "25.1.4",
     "@types/lodash": "4.14.149",
+    "@types/node": "^12.12.31",
     "@typescript-eslint/eslint-plugin": "2.23.0",
     "@typescript-eslint/parser": "2.23.0",
     "babel-jest": "25.1.0",

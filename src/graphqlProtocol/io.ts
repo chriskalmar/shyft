@@ -11,6 +11,8 @@ import {
 import * as _ from 'lodash';
 
 import { ProtocolGraphQL } from './ProtocolGraphQL';
+import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
+
 import {
   DataOutputField,
   InputFields,
@@ -62,7 +64,9 @@ const generateDataInputField = (
       true,
     );
   } else if (param.i18n) {
-    const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+    // const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+    const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+
     const languages = protocolConfiguration
       .getParentConfiguration()
       .getLanguages();
@@ -153,8 +157,12 @@ const generateDataInputFields = (
 };
 
 //GraphQLInputObjectType | ?
-export const generateDataInput = (baseName, inputParams, singleParam) => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+export const generateDataInput = (
+  baseName: string,
+  inputParams: any,
+  singleParam?: any,
+) => {
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   if (singleParam) {
     // eslint-disable-next-line no-use-before-define
@@ -176,6 +184,7 @@ export const generateDataInput = (baseName, inputParams, singleParam) => {
     },
   });
 
+  dataInputType.getFields();
   return dataInputType;
 };
 
@@ -185,7 +194,7 @@ export const generateNestedDataInput = (
   nestedParamName,
   level = 1,
 ) => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const dataInputType = new GraphQLInputObjectType({
     name: protocolConfiguration.generateNestedDataInputTypeName(
@@ -215,7 +224,7 @@ export const generateInput = (
   isField,
   includeClientMutationId = false,
 ): GraphQLInputObjectType => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const inputType = new GraphQLInputObjectType({
     name: protocolConfiguration.generateInputTypeName(baseName),
@@ -259,7 +268,7 @@ const generateDataOutputField = (
   level = 0,
   returnAsFieldNameMap = false,
 ): GraphQLObjectType | WrappedDataOutputField => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   let paramType = param.type;
   let baseFieldType;
@@ -413,12 +422,12 @@ const generateDataOutputFields = (
 };
 
 export const generateDataOutput = (
-  baseName,
-  outputParams,
-  graphRegistry,
-  singleParam,
+  baseName: string,
+  outputParams: any,
+  graphRegistry: any,
+  singleParam?: any,
 ): GraphQLObjectType | WrappedDataOutputField => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   if (singleParam) {
     // eslint-disable-next-line no-use-before-define
@@ -446,10 +455,10 @@ export const generateNestedDataOutput = (
   baseName,
   nestedParam,
   nestedParamName,
-  graphRegistry,
+  graphRegistry?: any,
   level = 1,
 ) => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const dataOutputType = new GraphQLObjectType({
     name: protocolConfiguration.generateNestedDataOutPutTypeName(
@@ -480,7 +489,7 @@ export const generateOutput = (
   isField,
   includeClientMutationId = false,
 ): GraphQLObjectType => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const outputType = new GraphQLObjectType({
     name: protocolConfiguration.generateOutPutTypeName(baseName),

@@ -2,7 +2,11 @@ import { passOrThrow, resolveFunctionMap, isMap, isFunction } from '../util';
 import { isEntity } from '../entity/Entity';
 import { isDataType } from './DataType';
 import { ComplexDataType, isComplexDataType } from './ComplexDataType';
-import { AttributesMap, AttributesMapGenerator } from '../attribute/Attribute';
+import {
+  AttributesMap,
+  AttributesMapGenerator,
+  AttributeBase,
+} from '../attribute/Attribute';
 
 export type ObjectDataTypeSetupType = {
   name: string;
@@ -53,9 +57,13 @@ export class ObjectDataType extends ComplexDataType {
     return ret;
   }
 
-  _processAttribute(rawAttribute, attributeName) {
+  _processAttribute(
+    rawAttribute: AttributeBase,
+    attributeName: string,
+  ): AttributeBase {
     if (isFunction(rawAttribute.type)) {
-      rawAttribute.type = rawAttribute.type({
+      const rawAttributeTypeFn = rawAttribute.type as Function;
+      rawAttribute.type = rawAttributeTypeFn({
         name: attributeName,
         description: rawAttribute.description,
       });
@@ -112,7 +120,7 @@ export class ObjectDataType extends ComplexDataType {
     return attribute;
   }
 
-  _processAttributeMap() {
+  _processAttributeMap(): AttributesMap {
     // if it's a function, resolve it to get that map
     const attributeMap = resolveFunctionMap(this._attributesMap);
 
@@ -140,7 +148,7 @@ export class ObjectDataType extends ComplexDataType {
     return resultAttributes;
   }
 
-  validate = value => {
+  validate = (value: any): void => {
     if (value) {
       passOrThrow(
         isMap(value),
@@ -149,17 +157,20 @@ export class ObjectDataType extends ComplexDataType {
     }
   };
 
-  toString() {
+  toString(): string {
     return this.name;
   }
 }
 
-export const isObjectDataType = obj => {
+export const isObjectDataType = (obj: any): boolean => {
   return obj instanceof ObjectDataType;
 };
 
-export const buildObjectDataType = obj => {
-  return ({ name, description }) =>
+export const buildObjectDataType = (obj: {
+  // attributes: AttributesMap | AttributesMapGenerator | AttributeBase;
+  attributes: any;
+}): Function => {
+  return ({ name, description }): ObjectDataType =>
     new ObjectDataType({
       description,
       ...obj,

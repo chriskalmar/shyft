@@ -23,3 +23,8 @@ export type OutputFields = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   result?: any;
 };
+
+export type ConnectionNode = {
+  cursor?: any;
+  node?: any;
+};

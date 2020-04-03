@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import {
   DataTypeEnum,
   DataTypeEnumSetupType,
@@ -12,19 +14,19 @@ describe('DataTypeEnum', () => {
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeEnum(<DataTypeEnumSetupType>{
+      new DataTypeEnum({
         name: 'something',
-      });
+      } as DataTypeEnumSetupType);
     };
 
     expect(fn).toThrowErrorMatchingSnapshot();
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeEnum(<DataTypeEnumSetupType>{
+      new DataTypeEnum({
         name: 'something',
         values: {},
-      });
+      } as DataTypeEnumSetupType);
     };
 
     expect(fn).toThrowErrorMatchingSnapshot();
@@ -35,38 +37,38 @@ describe('DataTypeEnum', () => {
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeEnum(<DataTypeEnumSetupType>{
+      new DataTypeEnum({
         name: 'lorem',
         values: {
           '7': 8,
         },
-      });
+      } as DataTypeEnumSetupType);
     };
 
     expect(fn).toThrowErrorMatchingSnapshot();
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeEnum(<DataTypeEnumSetupType>{
+      new DataTypeEnum({
         values: {
           ' abc ': 123,
         },
         name: 'test',
-      });
+      } as DataTypeEnumSetupType);
     };
 
     expect(fn).toThrowErrorMatchingSnapshot();
 
     fn = () => {
       // eslint-disable-next-line no-new
-      new DataTypeEnum(<DataTypeEnumSetupType>{
+      new DataTypeEnum({
         name: 'another',
         values: {
           abc: 1,
           def: 2,
           'hello-there': 3,
         },
-      });
+      } as DataTypeEnumSetupType);
     };
 
     expect(fn).toThrowErrorMatchingSnapshot();
@@ -75,11 +77,11 @@ describe('DataTypeEnum', () => {
   it('should have a name', () => {
     function fn() {
       // eslint-disable-next-line no-new
-      new DataTypeEnum(<any>{
+      new DataTypeEnum({
         values: {
           item: 1,
         },
-      });
+      } as any);
     }
 
     expect(fn).toThrowErrorMatchingSnapshot();
@@ -99,14 +101,14 @@ describe('DataTypeEnum', () => {
   });
 
   it('should have a fallback description', () => {
-    const dataType = new DataTypeEnum(<DataTypeEnumSetupType>{
+    const dataType = new DataTypeEnum({
       name: 'example',
       values: {
         ACTION: 1,
         COMEDY: 2,
         DRAMA: 3,
       },
-    });
+    } as DataTypeEnumSetupType);
 
     expect(dataType.description).toBe('Enumeration set: ACTION, COMEDY, DRAMA');
   });
@@ -126,10 +128,10 @@ describe('DataTypeEnum', () => {
       uniqueIds.push(valueId);
     });
 
-    const dataType = new DataTypeEnum(<DataTypeEnumSetupType>{
+    const dataType = new DataTypeEnum({
       name: 'example',
       values,
-    });
+    } as DataTypeEnumSetupType);
 
     const randomValue1 = dataType.mock();
     const randomValue2 = dataType.mock();
@@ -142,23 +144,23 @@ describe('DataTypeEnum', () => {
 
   describe('isDataTypeEnum', () => {
     it('should recognize objects of type DataTypeEnum', () => {
-      const enum1 = new DataTypeEnum(<DataTypeEnumSetupType>{
+      const enum1 = new DataTypeEnum({
         name: 'enum1',
         values: {
           ACTION: 1,
           COMEDY: 2,
           DRAMA: 3,
         },
-      });
+      } as DataTypeEnumSetupType);
 
-      const enum2 = new DataTypeEnum(<DataTypeEnumSetupType>{
+      const enum2 = new DataTypeEnum({
         name: 'enum2',
         values: {
           APPLE: 10,
           PEAR: 20,
           CHERRY: 30,
         },
-      });
+      } as DataTypeEnumSetupType);
 
       function fn() {
         passOrThrow(
