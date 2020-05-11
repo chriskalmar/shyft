@@ -21,6 +21,12 @@ import {
   processEntityPermissions,
 } from '../permission/Permission';
 
+import {
+  Subscription,
+  defaultEntitySubscription,
+  processEntitySubscriptions,
+} from '../subscription/Subscription';
+
 import { DataType, isDataType, DataTypeFunction } from '../datatype/DataType';
 import { isStorageType } from '../storage/StorageType';
 import { StorageTypeNull } from '../storage/StorageTypeNull';
@@ -66,6 +72,7 @@ export type EntitySetup = {
   // improve typings ?
   mutations?: any;
   permissions?: any;
+  subscriptions?: any;
   states?: any;
   preProcessor?: Function;
   postProcessor?: Function;
@@ -84,6 +91,7 @@ export class Entity {
   indexes?: any;
   mutations?: any;
   permissions?: any;
+  subscriptions?: any;
   states?: any;
   preProcessor?: Function;
   postProcessor?: Function;
@@ -95,6 +103,7 @@ export class Entity {
   private referencedByEntities: any;
   private _indexes: any;
   private _mutations: any;
+  private _subscriptions: any;
   private _states: any;
   private _permissions: any;
   private _defaultPermissions: any;
@@ -122,6 +131,7 @@ export class Entity {
       indexes,
       mutations,
       permissions,
+      subscriptions,
       states,
       preProcessor,
       postProcessor,
@@ -171,6 +181,7 @@ export class Entity {
     this.referencedByEntities = [];
     this._indexes = indexes;
     this._mutations = mutations;
+    this._subscriptions = subscriptions;
     this._states = states;
     this._permissions = permissions;
     this._preFilters = preFilters;
@@ -285,7 +296,7 @@ export class Entity {
     return this.mutations;
   }
 
-  getMutationByName(name) {
+  getMutationByName(name: string) {
     const mutations = this.getMutations();
 
     return mutations
@@ -333,6 +344,63 @@ export class Entity {
     }
 
     return null;
+  }
+
+  _getDefaultSubscriptions() {
+    const nonSystemAttributeNames = [];
+
+    mapOverProperties(this.getAttributes(), (attribute, attributeName) => {
+      if (!attribute.isSystemAttribute) {
+        nonSystemAttributeNames.push(attributeName);
+      }
+    });
+
+    const subscriptions = {};
+
+    defaultEntitySubscription.map(defaultSubscription => {
+      const key = `${defaultSubscription.name}Subscription`;
+
+      subscriptions[key] = new Subscription({
+        name: defaultSubscription.name,
+        type: defaultSubscription.type,
+        description: defaultSubscription.description(this.name),
+        attributes: nonSystemAttributeNames,
+      });
+    });
+
+    return subscriptions;
+  }
+
+  _processSubscriptions() {
+    let subscriptions;
+
+    if (!this._subscriptions) {
+      subscriptions = Object.values(this._getDefaultSubscriptions());
+    } else {
+      subscriptions = isFunction(this._subscriptions)
+        ? this._subscriptions(this._getDefaultSubscriptions())
+        : this._subscriptions;
+    }
+
+    return processEntitySubscriptions(this, subscriptions);
+  }
+
+  getSubscriptions() {
+    if (this.subscriptions) {
+      return this.subscriptions;
+    }
+
+    // this.getStates();
+    this.subscriptions = this._processSubscriptions();
+    return this.subscriptions;
+  }
+
+  getSubscriptionByName(name: string) {
+    const subscriptions = this.getSubscriptions();
+
+    return subscriptions
+      ? subscriptions.find(subscription => String(subscription) === name)
+      : null;
   }
 
   getStates() {
@@ -730,6 +798,8 @@ export class Entity {
           }
         });
       }
+
+      // todo subscription
     }
   }
 
@@ -758,6 +828,7 @@ export class Entity {
     }
 
     this.getMutations();
+    // this.getSubscriptions();
     this.permissions = this._processPermissions();
     this._generatePermissionDescriptions();
     return this.permissions;

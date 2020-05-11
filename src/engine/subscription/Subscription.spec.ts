@@ -1,0 +1,351 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+
+import {
+  Subscription,
+  isSubscription,
+  SUBSCRIPTION_TYPE_CREATE,
+  SUBSCRIPTION_TYPE_UPDATE,
+  SUBSCRIPTION_TYPE_DELETE,
+  processEntitySubscriptions,
+} from './Subscription';
+import { Entity } from '../entity/Entity';
+import { DataTypeString } from '../datatype/dataTypes';
+import { passOrThrow } from '../util';
+
+describe('Mutation', () => {
+  const entity = new Entity({
+    name: 'SomeEntityName',
+    description: 'Just some description',
+    attributes: {
+      someAttribute: {
+        type: DataTypeString,
+        description: 'Just some description',
+      },
+      anotherAttribute: {
+        type: DataTypeString,
+        description: 'Just some description',
+      },
+    },
+  });
+
+  it('should have a name', () => {
+    function fn() {
+      // eslint-disable-next-line no-new
+      new Subscription();
+    }
+
+    expect(fn).toThrowErrorMatchingSnapshot();
+  });
+
+  it('should have a type', () => {
+    function fn() {
+      // eslint-disable-next-line no-new
+      new Subscription({
+        name: 'example',
+      });
+    }
+
+    expect(fn).toThrowErrorMatchingSnapshot();
+  });
+
+  it('should have a valid type', () => {
+    function fn() {
+      // eslint-disable-next-line no-new
+      new Subscription({
+        name: 'example',
+        type: 12346,
+      });
+    }
+
+    expect(fn).toThrowErrorMatchingSnapshot();
+  });
+
+  it('should have a description', () => {
+    function fn() {
+      // eslint-disable-next-line no-new
+      new Subscription({
+        name: 'example',
+        type: SUBSCRIPTION_TYPE_CREATE,
+      });
+    }
+
+    expect(fn).toThrowErrorMatchingSnapshot();
+  });
+
+  it('should have a list of default attributes', () => {
+    const subscription = new Subscription({
+      name: 'example',
+      type: SUBSCRIPTION_TYPE_CREATE,
+      description: 'subscribe the world',
+    });
+
+    processEntitySubscriptions(entity, [subscription]);
+    const defaultAttributes = subscription.attributes;
+
+    const expectedAttributes = ['someAttribute', 'anotherAttribute'];
+
+    expect(defaultAttributes).toEqual(expectedAttributes);
+  });
+
+  it('should have a list of valid attribute names', () => {
+    const subscription = new Subscription({
+      name: 'example',
+      type: SUBSCRIPTION_TYPE_CREATE,
+      description: 'mutate the world',
+      attributes: ['anything', { foo: 'bar' }],
+    });
+
+    function fn() {
+      processEntitySubscriptions(entity, [subscription]);
+    }
+
+    expect(fn).toThrowErrorMatchingSnapshot();
+  });
+
+  it('should allow an empty attributes list for UPDATE type subscriptions', () => {
+    const subscription = new Subscription({
+      name: 'example',
+      type: SUBSCRIPTION_TYPE_UPDATE,
+      description: 'mutate the world',
+      attributes: [],
+    });
+
+    processEntitySubscriptions(entity, [subscription]);
+    expect(subscription.attributes).toEqual([]);
+  });
+
+  it('should allow an empty attributes list for DELETE type subscriptions', () => {
+    const subscription = new Subscription({
+      name: 'example',
+      type: SUBSCRIPTION_TYPE_DELETE,
+      description: 'mutate the world',
+      attributes: [],
+    });
+
+    processEntitySubscriptions(entity, [subscription]);
+    expect(subscription.attributes).not.toBeDefined();
+  });
+
+  it('should have a list of unique attribute names', () => {
+    const subscription = new Subscription({
+      name: 'example',
+      type: SUBSCRIPTION_TYPE_CREATE,
+      description: 'subscribe the world',
+      attributes: ['anything', 'anything'],
+    });
+
+    function fn() {
+      processEntitySubscriptions(entity, [subscription]);
+    }
+
+    expect(fn).toThrowErrorMatchingSnapshot();
+  });
+
+  it("should return it's name", () => {
+    const subscription = new Subscription({
+      name: 'example',
+      type: SUBSCRIPTION_TYPE_UPDATE,
+      description: 'mutate the world',
+      attributes: ['anything'],
+    });
+
+    expect(subscription.name).toBe('example');
+    expect(String(subscription)).toBe('example');
+  });
+
+  // it('should have a valid preProcessor function', () => {
+  //   function fn() {
+  //     // eslint-disable-next-line no-new
+  //     new Subscription({
+  //       name: 'example',
+  //       type: SUBSCRIPTION_TYPE_CREATE,
+  //       description: 'mutate the world',
+  //       attributes: ['anything'],
+  //       preProcessor: 'not-a-function',
+  //     });
+  //   }
+
+  //   expect(fn).toThrowErrorMatchingSnapshot();
+  // });
+
+  // it('should have a valid postProcessor function', () => {
+  //   function fn() {
+  //     // eslint-disable-next-line no-new
+  //     new Subscription({
+  //       name: 'example',
+  //       type: SUBSCRIPTION_TYPE_CREATE,
+  //       description: 'mutate the world',
+  //       attributes: ['anything'],
+  //       postProcessor: 'not-a-function',
+  //     });
+  //   }
+
+  //   expect(fn).toThrowErrorMatchingSnapshot();
+  // });
+
+  describe('isSubscription', () => {
+    const subscription = new Subscription({
+      name: 'example',
+      type: SUBSCRIPTION_TYPE_UPDATE,
+      description: 'mutate the world',
+      attributes: ['anything'],
+      // preProcessor() {},
+      // postProcessor() {},
+    });
+
+    it('should recognize objects of type Subscription', () => {
+      function fn() {
+        passOrThrow(
+          isSubscription(subscription),
+          () => 'This error will never happen',
+        );
+      }
+
+      expect(fn).not.toThrow();
+    });
+
+    it('should recognize non-Subscription objects', () => {
+      function fn() {
+        passOrThrow(
+          isSubscription({}) ||
+            isSubscription(function test() {}) ||
+            isSubscription(Error),
+          () => 'Not a Subscription object',
+        );
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+    });
+  });
+
+  describe('processEntitySubscriptions', () => {
+    // const subscriptionTypeCreateDefinition = {
+    //   type: SUBSCRIPTION_TYPE_CREATE,
+    //   name: 'build',
+    //   description: 'on built item',
+    //   attributes: ['someAttribute'],
+    // };
+
+    // const subscriptionTypeUpdateDefinition = {
+    //   type: SUBSCRIPTION_TYPE_UPDATE,
+    //   name: 'change',
+    //   description: 'on changed item',
+    //   attributes: ['id', 'someAttribute'],
+    // };
+
+    // const subscriptionTypeDeleteDefinition = {
+    //   type: SUBSCRIPTION_TYPE_DELETE,
+    //   name: 'drop',
+    //   description: 'on dropped item',
+    //   attributes: ['id'],
+    // };
+
+    it('should throw if provided with an invalid list of subscriptions', () => {
+      const subscriptions = {
+        foo: [{}],
+      };
+
+      function fn() {
+        processEntitySubscriptions(entity, subscriptions);
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+    });
+
+    it('should throw if provided with an invalid subscription', () => {
+      const subscriptions = [{ foo: 'bar' }];
+
+      function fn() {
+        processEntitySubscriptions(entity, subscriptions);
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+    });
+
+    it('should throw if required attribute (without defaultValue) is missing in CREATE type subscriptions', () => {
+      function fn() {
+        const otherEntity = new Entity({
+          name: 'SomeEntityName',
+          description: 'Just some description',
+          attributes: {
+            someAttribute: {
+              type: DataTypeString,
+              description: 'Just some description',
+            },
+            neededAttribute: {
+              type: DataTypeString,
+              description: 'This is important',
+              required: true,
+            },
+          },
+          subscriptions: [
+            new Subscription({
+              type: SUBSCRIPTION_TYPE_CREATE,
+              name: 'build',
+              description: 'build item',
+              attributes: ['someAttribute'],
+            }),
+          ],
+        });
+
+        otherEntity.getMutationByName('build');
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+    });
+
+    it('should throw on duplicate subscription names', () => {
+      const subscriptions = [
+        new Subscription({
+          type: SUBSCRIPTION_TYPE_CREATE,
+          name: 'build',
+          description: 'build item',
+          attributes: ['someAttribute'],
+        }),
+        new Subscription({
+          type: SUBSCRIPTION_TYPE_DELETE,
+          name: 'build',
+          description: 'build item',
+          attributes: ['someAttribute'],
+        }),
+      ];
+
+      function fn() {
+        processEntitySubscriptions(entity, subscriptions);
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+    });
+
+    it('should throw if unknown attributes are used', () => {
+      const subscriptions = [
+        new Subscription({
+          type: SUBSCRIPTION_TYPE_CREATE,
+          name: 'build',
+          description: 'build item',
+          attributes: ['doesNotExist'],
+        }),
+      ];
+
+      function fn() {
+        processEntitySubscriptions(entity, subscriptions);
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+    });
+
+    it('should allow for empty attribute lists on DELETE type subscriptions', () => {
+      const subscriptions = [
+        new Subscription({
+          type: SUBSCRIPTION_TYPE_DELETE,
+          name: 'drop',
+          description: 'drop item',
+          attributes: [],
+        }),
+      ];
+
+      processEntitySubscriptions(entity, subscriptions);
+    });
+  });
+});
