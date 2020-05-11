@@ -459,68 +459,12 @@ export const getMutationResolver = (
   };
 };
 
-export const getSubscriptionPayloadResolver = (
-  entity,
-  entitySubscription,
-  typeName,
-  // nested,
-  // idResolver,
-) => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
-
-  return async (source, args, context) => {
-    // checkRequiredI18nInputs(
-    //   entity,
-    //   entitySubscription,
-    //   args.input[typeName],
-    //   // context,
-    // );
-
-    // if (nested) {
-    //   args.input[typeName] = await nestedPayloadResolver(
-    //     source,
-    //     args.input[typeName],
-    //     context,
-    //     info,
-    //   );
-    // }
-
-    // const id = idResolver({ args });
-    let result;
-    if (entitySubscription.type !== MUTATION_TYPE_DELETE) {
-      result = entity.graphql.dataShaper(
-        addRelayTypePromoterToInstance(
-          protocolConfiguration.generateEntityTypeName(entity),
-          source,
-        ),
-      );
-
-      result = translateInstance(entity, result, context);
-    }
-
-    let ret = {
-      clientSubscriptionId: args.input.clientSubscriptionId,
-    };
-
-    if (entitySubscription.type === MUTATION_TYPE_DELETE) {
-      ret = {
-        ...ret,
-        ...source,
-      };
-    } else {
-      ret[typeName] = result;
-    }
-
-    return ret;
-  };
-};
-
 export const getSubscriptionResolver = (
   entity,
   entitySubscription,
   typeName,
   nested,
-  // idResolver,
+  idResolver,
 ) => {
   const storageType = entity.storageType;
   // const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
@@ -548,14 +492,18 @@ export const getSubscriptionResolver = (
       );
     }
 
-    // const id = idResolver({ args });
+    const id = idResolver({ args });
 
-    if (entitySubscription.type === SUBSCRIPTION_TYPE_CREATE) {
-      args.input[typeName] = await fillDefaultValues(
+    if (entitySubscription.preProcessor) {
+      args.input[typeName] = await entitySubscription.preProcessor(
         entity,
-        entitySubscription,
+        id,
+        source,
         args.input[typeName],
+        typeName,
+        entitySubscription,
         context,
+        info,
       );
     }
 
@@ -591,10 +539,58 @@ export const getSubscriptionResolver = (
     //   );
     // }
 
-    // use entity.name and args.input to compose topic
-    const topic = '';
+    const delimiter = entitySubscription.delimiter || '/';
+
+    const params = entitySubscription.pattern
+      .split(delimiter)
+      .reduce((acc, curr) => (acc[curr] = args.input[typeName][curr]), {});
+
+    const filled = Object.values(params).join(entitySubscription.delimiter);
+
+    const topic = `${entitySubscription.name}/${filled}${
+      entitySubscription ? delimiter + entitySubscription.wildCard : ''
+    }`;
 
     return context.pubsub ? context.pubsub.asyncIterator(topic) : null;
     // : pubsub.asyncIterator(topic);
+  };
+};
+
+export const getSubscriptionPayloadResolver = (
+  entity,
+  entitySubscription,
+  typeName,
+) => {
+  return async (source, args, context, info) => {
+    let ret = {
+      clientSubscriptionId: args.input.clientSubscriptionId,
+    };
+
+    let result;
+    if (entitySubscription.postProcessor) {
+      result = await entitySubscription.postProcessor(
+        entity,
+        // id,
+        source,
+        args.input[typeName],
+        typeName,
+        entitySubscription,
+        context,
+        info,
+      );
+    } else {
+      result = source;
+    }
+
+    if (entitySubscription.type === MUTATION_TYPE_DELETE) {
+      ret = {
+        ...ret,
+        ...result,
+      };
+    } else {
+      ret[typeName] = result;
+    }
+
+    return ret;
   };
 };

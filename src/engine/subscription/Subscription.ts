@@ -1,10 +1,5 @@
 import { uniq } from 'lodash';
-import {
-  passOrThrow,
-  isArray,
-  // isFunction,
-  mapOverProperties,
-} from '../util';
+import { passOrThrow, isArray, isFunction, mapOverProperties } from '../util';
 
 import { Entity } from '../entity/Entity';
 
@@ -46,10 +41,29 @@ export type SubscriptionSetup = {
   type?: string;
   description?: string;
   attributes?: string[];
-  // preProcessor?: Function;
-  // postProcessor?: Function;
-  // fromState?: string | string[];
-  // toState?: string | string[];
+  delimiter?: string;
+  wildCard?: string;
+  pattern?: string;
+  preProcessor?: (
+    entity?: Entity,
+    id?: string | number,
+    source?: any,
+    input?: any,
+    typeName?: string,
+    entitySubscription?: Subscription,
+    context?: object,
+    info?: any,
+  ) => Promise<object>;
+  postProcessor?: (
+    entity?: Entity,
+    // id,
+    source?: any,
+    input?: any,
+    typeName?: string,
+    entitySubscription?: Subscription,
+    context?: object,
+    info?: any,
+  ) => Promise<object>;
 };
 
 export class Subscription {
@@ -57,11 +71,12 @@ export class Subscription {
   type: string;
   description: string;
   attributes: string[];
-  // fromState: string | string[];
-  // toState: string | string[];
+  delimiter?: string;
+  wildCard?: string;
+  pattern?: string;
 
-  // preProcessor: Function;
-  // postProcessor: Function;
+  preProcessor: Function;
+  postProcessor: Function;
 
   isTypeCreate?: boolean;
   isTypeDelete?: boolean;
@@ -75,10 +90,8 @@ export class Subscription {
       type,
       description,
       attributes,
-      // preProcessor,
-      // postProcessor,
-      // fromState,
-      // toState,
+      preProcessor,
+      postProcessor,
     } = setup;
 
     passOrThrow(name, () => 'Missing subscription name');
@@ -122,72 +135,25 @@ export class Subscription {
       this.isTypeDelete = true;
     }
 
-    // if (preProcessor) {
-    //   passOrThrow(
-    //     isFunction(preProcessor),
-    //     () => `preProcessor of subscription '${name}' needs to be a valid function`,
-    //   );
+    if (preProcessor) {
+      passOrThrow(
+        isFunction(preProcessor),
+        () =>
+          `preProcessor of subscription '${name}' needs to be a valid function`,
+      );
 
-    //   this.preProcessor = preProcessor;
-    // }
+      this.preProcessor = preProcessor;
+    }
 
-    // if (postProcessor) {
-    //   passOrThrow(
-    //     isFunction(postProcessor),
-    //     () =>
-    //       `postProcessor of subscription '${name}' needs to be a valid function`,
-    //   );
+    if (postProcessor) {
+      passOrThrow(
+        isFunction(postProcessor),
+        () =>
+          `postProcessor of subscription '${name}' needs to be a valid function`,
+      );
 
-    //   this.postProcessor = postProcessor;
-    // }
-
-    // if (fromState) {
-    //   passOrThrow(
-    //     this.type !== SUBSCRIPTION_TYPE_CREATE,
-    //     () =>
-    //       `Subscription '${this.name}' cannot define fromState as it is a 'onCreate' type subscription`,
-    //   );
-
-    //   passOrThrow(
-    //     typeof fromState === 'string' || isArray(fromState),
-    //     () =>
-    //       `fromState in subscription '${name}' needs to be the name of a state or a list of state names as a precondition to the subscription`,
-    //   );
-
-    //   if (this.type !== SUBSCRIPTION_TYPE_DELETE) {
-    //     passOrThrow(
-    //       toState,
-    //       () =>
-    //         `Subscription '${this.name}' has a fromState defined but misses a toState definition`,
-    //     );
-    //   }
-
-    //   this.fromState = fromState;
-    // }
-
-    // if (toState) {
-    //   passOrThrow(
-    //     this.type !== SUBSCRIPTION_TYPE_DELETE,
-    //     () =>
-    //       `Subscription '${this.name}' cannot define toState as it is a 'onDelete' type subscription`,
-    //   );
-
-    //   passOrThrow(
-    //     typeof toState === 'string' || isArray(toState),
-    //     () =>
-    //       `toState in subscription '${this.name}' needs to be the name of a state or a list of state names the subscription can transition to`,
-    //   );
-
-    //   if (this.type !== SUBSCRIPTION_TYPE_CREATE) {
-    //     passOrThrow(
-    //       fromState,
-    //       () =>
-    //         `Subscription '${this.name}' has a toState defined but misses a fromState definition`,
-    //     );
-    //   }
-
-    //   this.toState = toState;
-    // }
+      this.postProcessor = postProcessor;
+    }
   }
 
   toString() {
@@ -304,39 +270,37 @@ export const processEntitySubscriptions = (
       subscription.attributes = nonSystemAttributeNames;
     }
 
-    // const checkSubscriptionStates = stateStringOrArray => {
-    //   const stateNames = isArray(stateStringOrArray)
-    //     ? stateStringOrArray
-    //     : [stateStringOrArray];
+    if (subscription.delimiter) {
+      passOrThrow(
+        typeof subscription.delimiter === 'string',
+        () =>
+          `Subscription '${entity.name}.${subscription.name}' delimiter should be a string`,
+      );
+    } else {
+      subscription.delimiter = '/';
+    }
 
-    //   stateNames.map(stateName => {
-    //     passOrThrow(
-    //       entityStates[stateName],
-    //       () =>
-    //         `Unknown state '${stateName}' used in subscription '${entity.name}.${subscription.name}'`,
-    //     );
-    //   });
-    // };
+    if (subscription.wildCard) {
+      // todo make a list of valid wildCards (#, +, *)
+      passOrThrow(
+        typeof subscription.wildCard === 'string',
+        () =>
+          `Subscription '${entity.name}.${subscription.name}' wildCard should be a string`,
+      );
+    }
 
-    // if (subscription.fromState) {
-    //   passOrThrow(
-    //     entity.hasStates(),
-    //     () =>
-    //       `Mutation '${entity.name}.${subscription.name}' cannot define fromState as the entity is stateless`,
-    //   );
-
-    //   checkSubscriptionStates(subscription.fromState);
-    // }
-
-    // if (subscription.toState) {
-    //   passOrThrow(
-    //     entity.hasStates(),
-    //     () =>
-    //       `Subscription '${entity.name}.${subscription.name}' cannot define toState as the entity is stateless`,
-    //   );
-
-    //   checkSubscriptionStates(subscription.toState);
-    // }
+    if (subscription.pattern) {
+      // todo validate pattern based on entityAttributes
+      passOrThrow(
+        typeof subscription.pattern === 'string',
+        () =>
+          `Subscription '${entity.name}.${subscription.name}' pattern should be a string`,
+      );
+    } else {
+      subscription.pattern = Object.keys(entityAttributes).join(
+        subscription.delimiter,
+      );
+    }
   });
 
   return subscriptions;

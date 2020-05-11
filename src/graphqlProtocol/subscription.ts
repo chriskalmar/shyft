@@ -9,7 +9,7 @@ import {
   GraphQLFieldConfigMap,
 } from 'graphql';
 
-// import { fromGlobalId } from 'graphql-relay';
+import { fromGlobalId } from 'graphql-relay';
 import * as _ from 'lodash';
 
 import { ProtocolGraphQL } from './ProtocolGraphQL';
@@ -559,25 +559,25 @@ export const generateSubscriptionOutput = (
   return entitySubscriptionOutputType;
 };
 
-// const extractIdFromNodeId = (graphRegistry, sourceEntityName, nodeId) => {
-//   let instanceId;
+const extractIdFromNodeId = (graphRegistry, sourceEntityName, nodeId) => {
+  let instanceId;
 
-//   if (nodeId) {
-//     const { type, id } = fromGlobalId(nodeId);
+  if (nodeId) {
+    const { type, id } = fromGlobalId(nodeId);
 
-//     instanceId = id;
+    instanceId = id;
 
-//     const entity = graphRegistry.types[type]
-//       ? graphRegistry.types[type].entity
-//       : null;
+    const entity = graphRegistry.types[type]
+      ? graphRegistry.types[type].entity
+      : null;
 
-//     if (!entity || entity.name !== sourceEntityName) {
-//       throw new Error('Incompatible nodeId used with this mutation');
-//     }
-//   }
+    if (!entity || entity.name !== sourceEntityName) {
+      throw new Error('Incompatible nodeId used with this mutation');
+    }
+  }
 
-//   return instanceId;
-// };
+  return instanceId;
+};
 
 export const generateSubscriptions = graphRegistry => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
@@ -585,16 +585,14 @@ export const generateSubscriptions = graphRegistry => {
 
   generateInstanceUniquenessInputs(graphRegistry);
 
-  // console.log('generateSubscriptions', { graphRegistry });
-
   _.forEach(graphRegistry.types, ({ type, entity }, typeName) => {
     if (!entity.getSubscriptions) {
       return;
     }
 
-    const entitySubscriptions = entity.getSubscriptions();
+    // console.log('generateSubscriptions', { type, typeName });
 
-    // console.log('generateSubscriptions', { entitySubscriptions });
+    const entitySubscriptions = entity.getSubscriptions();
 
     if (!entitySubscriptions || entitySubscriptions.length < 1) {
       return;
@@ -640,33 +638,18 @@ export const generateSubscriptions = graphRegistry => {
             type: new GraphQLNonNull(subscriptionInputType),
           },
         },
-        // use input for subscribe
         subscribe: getSubscriptionResolver(
           entity,
           entitySubscription,
           typeName,
           false,
-          // ({ args }) => {
-          //   return extractIdFromNodeId(
-          //     graphRegistry,
-          //     entity.name,
-          //     args.input.nodeId,
-          //   );
-          // },
+          ({ args }) =>
+            extractIdFromNodeId(graphRegistry, entity.name, args.input.nodeId),
         ),
-        // use output for resolve
         resolve: getSubscriptionPayloadResolver(
           entity,
           entitySubscription,
           typeName,
-          // false,
-          // ({ args }) => {
-          //   return extractIdFromNodeId(
-          //     graphRegistry,
-          //     entity.name,
-          //     args.input.nodeId,
-          //   );
-          // },
         ),
       };
 
@@ -704,33 +687,22 @@ export const generateSubscriptions = graphRegistry => {
               type: new GraphQLNonNull(subscriptionInputNestedType),
             },
           },
-          // use input for subscribe
           subscribe: getSubscriptionResolver(
             entity,
             entitySubscription,
             typeName,
             true,
-            // ({ args }) => {
-            //   return extractIdFromNodeId(
-            //     graphRegistry,
-            //     entity.name,
-            //     args.input.nodeId,
-            //   );
-            // },
+            ({ args }) =>
+              extractIdFromNodeId(
+                graphRegistry,
+                entity.name,
+                args.input.nodeId,
+              ),
           ),
-          // use output for resolve
           resolve: getSubscriptionPayloadResolver(
             entity,
             entitySubscription,
             typeName,
-            // true,
-            // ({ args }) => {
-            //   return extractIdFromNodeId(
-            //     graphRegistry,
-            //     entity.name,
-            //     args.input.nodeId,
-            //   );
-            // },
           ),
         };
       }
@@ -739,7 +711,7 @@ export const generateSubscriptions = graphRegistry => {
         const primaryAttribute = entity.getPrimaryAttribute();
 
         if (primaryAttribute) {
-          // const fieldName = primaryAttribute.gqlFieldName;
+          const fieldName = primaryAttribute.gqlFieldName;
           const subscriptionByPrimaryAttributeInputType = generateSubscriptionByPrimaryAttributeInput(
             entity,
             typeName,
@@ -769,24 +741,18 @@ export const generateSubscriptions = graphRegistry => {
               entitySubscription,
               typeName,
               false,
-              // ({ args }) => {
-              //   return args.input[fieldName];
-              // },
+              ({ args }) => args.input[fieldName],
             ),
-            // use output for resolve
             resolve: getSubscriptionPayloadResolver(
               entity,
               entitySubscription,
               typeName,
-              // false,
             ),
           };
         }
       }
     });
   });
-
-  // console.log('generateSubscriptions', { subscriptions });
 
   return subscriptions;
 };

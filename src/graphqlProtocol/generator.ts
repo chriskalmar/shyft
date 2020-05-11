@@ -389,8 +389,6 @@ export const generateGraphQLSchema = configuration => {
 
     fields: () => {
       const subscriptions = generateSubscriptions(graphRegistry);
-      console.log('generate subscriptions', { subscriptions });
-
       return subscriptions;
     },
   });
