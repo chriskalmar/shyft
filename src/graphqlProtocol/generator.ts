@@ -23,6 +23,8 @@ import { generateMutations } from './mutation';
 
 import { generateActions } from './action';
 
+import { generateSubscriptions } from './subscription';
+
 import { resolveByFindOne } from './resolver';
 import { isConfiguration } from '../engine/configuration/Configuration';
 import { isEntity } from '../engine/entity/Entity';
@@ -372,6 +374,7 @@ export const generateGraphQLSchema = configuration => {
     fields: () => {
       const mutations = generateMutations(graphRegistry);
       const actions = generateActions(graphRegistry, ACTION_TYPE_MUTATION);
+      // console.log('generate mutations', { mutations });
 
       return {
         ...mutations,
@@ -380,9 +383,22 @@ export const generateGraphQLSchema = configuration => {
     },
   });
 
+  const subscriptionType = new GraphQLObjectType({
+    name: 'Subscription',
+    // root: 'The root subscription type',
+
+    fields: () => {
+      const subscriptions = generateSubscriptions(graphRegistry);
+      console.log('generate subscriptions', { subscriptions });
+
+      return subscriptions;
+    },
+  });
+
   // put it all together into a graphQL schema
   return new GraphQLSchema({
     query: queryType,
     mutation: mutationType,
+    subscription: subscriptionType,
   });
 };

@@ -30,6 +30,11 @@ import {
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
 } from '../engine/mutation/Mutation';
+import {
+  SUBSCRIPTION_TYPE_CREATE,
+  SUBSCRIPTION_TYPE_UPDATE,
+  // SUBSCRIPTION_TYPE_DELETE,
+} from '../engine/subscription/Subscription';
 import { CustomError } from '../engine/CustomError';
 import {
   fillSystemAttributesDefaultValues,
@@ -451,5 +456,145 @@ export const getMutationResolver = (
 
       throw error;
     }
+  };
+};
+
+export const getSubscriptionPayloadResolver = (
+  entity,
+  entitySubscription,
+  typeName,
+  // nested,
+  // idResolver,
+) => {
+  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+
+  return async (source, args, context) => {
+    // checkRequiredI18nInputs(
+    //   entity,
+    //   entitySubscription,
+    //   args.input[typeName],
+    //   // context,
+    // );
+
+    // if (nested) {
+    //   args.input[typeName] = await nestedPayloadResolver(
+    //     source,
+    //     args.input[typeName],
+    //     context,
+    //     info,
+    //   );
+    // }
+
+    // const id = idResolver({ args });
+    let result;
+    if (entitySubscription.type !== MUTATION_TYPE_DELETE) {
+      result = entity.graphql.dataShaper(
+        addRelayTypePromoterToInstance(
+          protocolConfiguration.generateEntityTypeName(entity),
+          source,
+        ),
+      );
+
+      result = translateInstance(entity, result, context);
+    }
+
+    let ret = {
+      clientSubscriptionId: args.input.clientSubscriptionId,
+    };
+
+    if (entitySubscription.type === MUTATION_TYPE_DELETE) {
+      ret = {
+        ...ret,
+        ...source,
+      };
+    } else {
+      ret[typeName] = result;
+    }
+
+    return ret;
+  };
+};
+
+export const getSubscriptionResolver = (
+  entity,
+  entitySubscription,
+  typeName,
+  nested,
+  // idResolver,
+) => {
+  const storageType = entity.storageType;
+  // const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+
+  const nestedPayloadResolver = getNestedPayloadResolver(
+    entity,
+    entitySubscription.attributes,
+    storageType,
+  );
+
+  return async (source, args, context, info) => {
+    checkRequiredI18nInputs(
+      entity,
+      entitySubscription,
+      args.input[typeName],
+      // context,
+    );
+
+    if (nested) {
+      args.input[typeName] = await nestedPayloadResolver(
+        source,
+        args.input[typeName],
+        context,
+        info,
+      );
+    }
+
+    // const id = idResolver({ args });
+
+    if (entitySubscription.type === SUBSCRIPTION_TYPE_CREATE) {
+      args.input[typeName] = await fillDefaultValues(
+        entity,
+        entitySubscription,
+        args.input[typeName],
+        context,
+      );
+    }
+
+    if (
+      entitySubscription.type === SUBSCRIPTION_TYPE_CREATE ||
+      entitySubscription.type === SUBSCRIPTION_TYPE_UPDATE
+    ) {
+      args.input[typeName] = fillSystemAttributesDefaultValues(
+        entity,
+        entitySubscription,
+        args.input[typeName],
+        context,
+      );
+    }
+
+    // await validateSubscriptionPayload(
+    //   entity,
+    //   entitySubscription,
+    //   args.input[typeName],
+    //   context,
+    // );
+
+    // if (entitySubscription.type !== SUBSCRIPTION_TYPE_DELETE) {
+    //   //
+    //   // this function might be wrong when we look serializeValues args
+    //   // unless we add typeName ?
+    //   args.input[typeName] = serializeValues(
+    //     entity,
+    //     entitySubscription,
+    //     args.input[typeName],
+    //     typeName,
+    //     context,
+    //   );
+    // }
+
+    // use entity.name and args.input to compose topic
+    const topic = '';
+
+    return context.pubsub ? context.pubsub.asyncIterator(topic) : null;
+    // : pubsub.asyncIterator(topic);
   };
 };

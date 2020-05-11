@@ -93,6 +93,18 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     );
   }
 
+  generateSubscriptionI18nAttributeInputTypeName(
+    entity,
+    subscription,
+    attribute,
+  ) {
+    const typeName = this.generateEntityTypeName(entity);
+    const fieldName = this.generateFieldName(attribute);
+    return generateTypeNamePascalCase(
+      `${subscription.name}-${typeName}-${fieldName}-i18n-input`,
+    );
+  }
+
   generateListQueryTypeName(entity) {
     const typeNamePlural = this.generateEntityTypeNamePlural(entity);
     return generateTypeName(`all-${typeNamePlural}`);
@@ -261,6 +273,71 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   generateConnectionTypeName(entity): string {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeNamePascalCase(`${typeName}-connection`);
+  }
+
+  generateSubscriptionInstanceInputTypeName(entity, subscription) {
+    const typeName = this.generateEntityTypeName(entity);
+    return generateTypeNamePascalCase(
+      `${subscription.name}-${typeName}-instance-input`,
+    );
+  }
+
+  generateSubscriptionInputTypeName(entity, subscription) {
+    const typeName = this.generateEntityTypeName(entity);
+    return generateTypeNamePascalCase(`${subscription.name}-${typeName}-input`);
+  }
+
+  generateSubscriptionByPrimaryAttributeInputTypeName(
+    entity,
+    subscription,
+    attribute,
+  ) {
+    const typeName = this.generateEntityTypeName(entity);
+    const fieldName = this.generateFieldName(attribute);
+    return generateTypeNamePascalCase(
+      `${subscription.name}-${typeName}-by-${fieldName}-input`,
+    );
+  }
+
+  generateSubscriptionInstanceNestedInputTypeName(entity, subscription) {
+    const typeName = this.generateEntityTypeName(entity);
+    return generateTypeNamePascalCase(
+      `${subscription.name}-${typeName}-instance-nested-input`,
+    );
+  }
+
+  generateSubscriptionNestedInputTypeName(entity, subscription) {
+    const typeName = this.generateEntityTypeName(entity);
+    return generateTypeNamePascalCase(
+      `${subscription.name}-${typeName}-nested-input`,
+    );
+  }
+
+  generateSubscriptionOutputTypeName(entity, subscription) {
+    const typeName = this.generateEntityTypeName(entity);
+    return generateTypeNamePascalCase(
+      `${subscription.name}-${typeName}-output`,
+    );
+  }
+
+  generateSubscriptionTypeName(entity, subscription) {
+    const typeName = this.generateEntityTypeName(entity);
+    return generateTypeName(`${subscription.name}-${typeName}`);
+  }
+
+  generateSubscriptionNestedTypeName(entity, subscription) {
+    const typeName = this.generateEntityTypeName(entity);
+    return generateTypeName(`${subscription.name}-${typeName}-nested`);
+  }
+
+  generateSubscriptionByPrimaryAttributeTypeName(
+    entity,
+    subscription,
+    attribute,
+  ) {
+    const typeName = this.generateEntityTypeName(entity);
+    const fieldName = this.generateFieldName(attribute);
+    return generateTypeName(`${subscription.name}-${typeName}-by-${fieldName}`);
   }
 }
 
