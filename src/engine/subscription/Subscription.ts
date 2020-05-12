@@ -56,7 +56,7 @@ export type SubscriptionSetup = {
     entitySubscription?: Subscription,
     context?: object,
     info?: any,
-  ) => Promise<object | null> | object | null;
+  ) => Promise<string | null> | string | null;
   postProcessor?: (
     entity?: Entity,
     // id,

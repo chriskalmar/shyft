@@ -23,7 +23,7 @@ Object {
     "data": Object {
       "someSubWithPreProcessorSomeTestsEntityName": Object {
         "someTestsEntityName": Object {
-          "someAttribute": "hello",
+          "anotherAttribute": "world",
         },
       },
     },
@@ -32,6 +32,28 @@ Object {
 `;
 
 exports[`Subscription preProcessor should pass through preProcessor if it is declared 3`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`Subscription preProcessor should pass through preProcessor if it is declared 4`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "data": Object {
+      "someSubWithPreProcessorSomeTestsEntityName": Object {
+        "someTestsEntityName": Object {
+          "anotherAttribute": "world",
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`Subscription preProcessor should pass through preProcessor if it is declared 5`] = `
 Object {
   "done": true,
   "value": undefined,

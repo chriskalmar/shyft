@@ -498,19 +498,6 @@ export const getSubscriptionResolver = (
 
     const id = idResolver({ args });
 
-    if (entitySubscription.preProcessor) {
-      args.input[typeName] = await entitySubscription.preProcessor(
-        entity,
-        id,
-        source,
-        args.input[typeName],
-        typeName,
-        entitySubscription,
-        context,
-        info,
-      );
-    }
-
     if (
       entitySubscription.type === SUBSCRIPTION_TYPE_CREATE ||
       entitySubscription.type === SUBSCRIPTION_TYPE_UPDATE
@@ -545,6 +532,11 @@ export const getSubscriptionResolver = (
 
     let topic;
     if (entitySubscription.pattern) {
+      // const delimiter = entitySubscription.delimiter;
+      // const filled = entitySubscription.attributes
+      //   .map(attribute => input[attribute])
+      //   .reduce((acc, curr) => `${acc + delimiter + curr}`, '');
+
       const params = entitySubscription.pattern
         .split(entitySubscription.delimiter)
         .reduce((acc, curr) => (acc[curr] = args.input[typeName][curr]), {});
@@ -559,7 +551,19 @@ export const getSubscriptionResolver = (
           ? entitySubscription.delimiter + entitySubscription.wildCard
           : ''
       }`;
-    } else {
+    } else if (entitySubscription.preProcessor) {
+      topic = await entitySubscription.preProcessor(
+        entity,
+        id,
+        source,
+        args.input[typeName],
+        typeName,
+        entitySubscription,
+        context,
+        info,
+      );
+    }
+    if (!topic) {
       topic = `${entitySubscription.name}${entity.name}${
         entitySubscription.wildCard
           ? entitySubscription.delimiter + entitySubscription.wildCard
@@ -612,7 +616,7 @@ export const getSubscriptionPayloadResolver = (
       ret[typeName] = result;
     }
 
-    // console.log('getSubscriptionPayloadResolver', { ret });
+    // console.log('getSubscriptionPayloadResolver', JSON.stringify(ret, null, 2));
 
     return ret;
   };
