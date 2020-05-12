@@ -47,6 +47,7 @@ export const entityPropertiesWhitelist: Array<string> = [
   'includeUserTracking',
   'indexes',
   'mutations',
+  'subscriptions',
   'permissions',
   'states',
   'preProcessor',
@@ -118,4 +119,3 @@ export const shadowEntityAttributePropertiesWhitelist: Array<string> = [
   'primary',
   'meta',
 ];
-

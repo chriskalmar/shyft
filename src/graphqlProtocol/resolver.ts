@@ -1,10 +1,10 @@
+import * as _ from 'lodash';
 import {
   addRelayTypePromoterToList,
   addRelayTypePromoterToInstanceFn,
   translateList,
   translateInstanceFn,
 } from './util';
-
 import { ProtocolGraphQL } from './ProtocolGraphQL';
 import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 
@@ -15,8 +15,6 @@ import {
 } from './connection';
 
 import { transformFilterLevel } from './filter';
-
-import * as _ from 'lodash';
 
 import { addRelayTypePromoterToInstance, translateInstance } from './util';
 
@@ -30,6 +28,12 @@ import {
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
 } from '../engine/mutation/Mutation';
+import {
+  SUBSCRIPTION_TYPE_CREATE,
+  SUBSCRIPTION_TYPE_UPDATE,
+  // SUBSCRIPTION_TYPE_DELETE,
+  pubsub,
+} from '../engine/subscription/Subscription';
 import { CustomError } from '../engine/CustomError';
 import {
   fillSystemAttributesDefaultValues,
@@ -451,5 +455,172 @@ export const getMutationResolver = (
 
       throw error;
     }
+  };
+};
+
+export const getSubscriptionResolver = (
+  entity,
+  entitySubscription,
+  typeName,
+  nested,
+  idResolver,
+) => {
+  const storageType = entity.storageType;
+  // const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+
+  const nestedPayloadResolver = getNestedPayloadResolver(
+    entity,
+    entitySubscription.attributes,
+    storageType,
+  );
+
+  return async (
+    source,
+    args,
+    context,
+    info,
+  ): Promise<AsyncIterator<unknown, any, undefined>> => {
+    checkRequiredI18nInputs(
+      entity,
+      entitySubscription,
+      args.input[typeName],
+      // context,
+    );
+
+    if (nested) {
+      args.input[typeName] = await nestedPayloadResolver(
+        source,
+        args.input[typeName],
+        context,
+        info,
+      );
+    }
+
+    const id = idResolver({ args });
+
+    if (
+      entitySubscription.type === SUBSCRIPTION_TYPE_CREATE ||
+      entitySubscription.type === SUBSCRIPTION_TYPE_UPDATE
+    ) {
+      args.input[typeName] = fillSystemAttributesDefaultValues(
+        entity,
+        entitySubscription,
+        args.input[typeName],
+        context,
+      );
+    }
+
+    // await validateSubscriptionPayload(
+    //   entity,
+    //   entitySubscription,
+    //   args.input[typeName],
+    //   context,
+    // );
+
+    // if (entitySubscription.type !== SUBSCRIPTION_TYPE_DELETE) {
+    //   //
+    //   // this function might be wrong when we look serializeValues args
+    //   // unless we add typeName ?
+    //   args.input[typeName] = serializeValues(
+    //     entity,
+    //     entitySubscription,
+    //     args.input[typeName],
+    //     typeName,
+    //     context,
+    //   );
+    // }
+
+    let topic;
+    const delimiter = entitySubscription.delimiter;
+    if (entitySubscription.pattern) {
+      // const delimiter = entitySubscription.delimiter;
+      // const filled = entitySubscription.attributes
+      //   .map(attribute => input[attribute])
+      //   .reduce((acc, curr) => `${acc + delimiter + curr}`, '');
+
+      const params = entitySubscription.pattern
+        .split(delimiter)
+        .reduce((acc, curr) => (acc[curr] = args.input[typeName][curr]), {});
+      console.log('getSubscriptionResolver', { params });
+
+      const filled = Object.values(params).join(delimiter);
+
+      console.log('getSubscriptionResolver', { filled });
+
+      topic = `${entitySubscription.name}${entity.name}/${filled}${
+        entitySubscription.wildCard
+          ? delimiter + entitySubscription.wildCard
+          : ''
+      }`;
+    } else if (entitySubscription.preProcessor) {
+      topic = await entitySubscription.preProcessor(
+        entity,
+        id,
+        source,
+        args.input[typeName],
+        typeName,
+        entitySubscription,
+        context,
+        info,
+      );
+    }
+    if (!topic) {
+      topic = `${entitySubscription.name}${entity.name}${
+        entitySubscription.wildCard
+          ? delimiter + entitySubscription.wildCard
+          : ''
+      }`;
+    }
+
+    // console.log('getSubscriptionResolver', { topic });
+
+    return context.pubsub
+      ? context.pubsub.asyncIterator(topic)
+      : pubsub.asyncIterator(topic);
+  };
+};
+
+export const getSubscriptionPayloadResolver = (
+  entity,
+  entitySubscription,
+  typeName,
+) => {
+  return async (source, args, context, info) => {
+    // let ret = {
+    //   clientSubscriptionId: args.input.clientSubscriptionId,
+    // };
+
+    let ret = {};
+
+    let result;
+    if (entitySubscription.postProcessor) {
+      result = await entitySubscription.postProcessor(
+        entity,
+        // id,
+        source,
+        args.input[typeName],
+        typeName,
+        entitySubscription,
+        context,
+        info,
+      );
+    }
+
+    if (!result) {
+      result = source;
+    }
+
+    if (entitySubscription.type === MUTATION_TYPE_DELETE) {
+      ret = {
+        ...ret,
+        ...result,
+      };
+    } else {
+      ret[typeName] = result;
+    }
+
+    // console.log('getSubscriptionPayloadResolver', JSON.stringify(ret, null, 2));
+
+    return ret;
   };
 };

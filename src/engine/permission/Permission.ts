@@ -10,6 +10,11 @@ import {
   isMutation,
   Mutation,
 } from '../mutation/Mutation';
+import {
+  SUBSCRIPTION_TYPE_CREATE,
+  // isSubscription,
+  Subscription,
+} from '../subscription/Subscription';
 import { isDataTypeState } from '../datatype/DataTypeState';
 
 /*
@@ -29,6 +34,7 @@ export type PermissionMap = {
   read?: Permission | Permission[];
   find?: Permission | Permission[];
   mutations?: {} | Permission | Permission[];
+  subscriptions?: {} | Permission | Permission[];
 };
 
 export class Permission {
@@ -973,6 +979,28 @@ const validatePermissionMutationTypes = (
   }
 };
 
+const validatePermissionSubscriptionTypes = (
+  entity: Entity,
+  permissions: Permission | Permission[],
+  subscription: Subscription,
+): void => {
+  if (subscription.type === SUBSCRIPTION_TYPE_CREATE) {
+    const permissionsArray = isArray(permissions as Permission[])
+      ? (permissions as Permission[])
+      : ([permissions] as Permission[]);
+
+    permissionsArray.map(permission => {
+      passOrThrow(
+        !permission.userAttributes.length &&
+          !permission.states.length &&
+          !permission.values.length,
+        () =>
+          `Create type subscription permission '${subscription.name}' in '${entity.name}.permissions' can only be of type 'authenticated', 'everyone', 'role' or 'lookup'`,
+      );
+    });
+  }
+};
+
 export const hasEmptyPermissions = (
   _permissions: Permission | Permission[],
 ): boolean => {
@@ -1075,6 +1103,41 @@ export const processEntityPermissions = (
     }
   }
 
+  const entitySubscriptions = entity.getSubscriptions();
+
+  if (!permissions.subscriptions && defaultPermissions) {
+    permissions.subscriptions = {};
+  }
+
+  if (permissions.subscriptions) {
+    passOrThrow(
+      isMap(permissions.subscriptions),
+      () =>
+        `Entity '${entity.name}' permissions definition for subscriptions needs to be a map of subscriptions and permissions`,
+    );
+
+    const subscriptionNames = Object.keys(permissions.subscriptions);
+    subscriptionNames.map((subscriptionName, idx) => {
+      passOrThrow(
+        isPermission(permissions.subscriptions[subscriptionName]) ||
+          isPermissionsArray(permissions.subscriptions[subscriptionName]),
+        () =>
+          `Invalid subscription permission definition for entity '${entity.name}' at position '${idx}'`,
+      );
+    });
+
+    if (defaultPermissions) {
+      entitySubscriptions.map(({ name: subscriptionName }) => {
+        if (defaultPermissions.subscriptions) {
+          permissions.subscriptions[subscriptionName] =
+            permissions.subscriptions[subscriptionName] ||
+            defaultPermissions.subscriptions[subscriptionName] ||
+            defaultPermissions.subscriptions._default;
+        }
+      });
+    }
+  }
+
   if (permissions.find) {
     validatePermissionAttributesAndStates(entity, permissions.find, 'find');
   }
@@ -1103,6 +1166,36 @@ export const processEntityPermissions = (
       if (permission) {
         validatePermissionMutationTypes(entity, permission, mutation);
         validatePermissionAttributesAndStates(entity, permission, mutation);
+      }
+    });
+  }
+
+  if (permissions.subscriptions && entitySubscriptions) {
+    const permissionSubscriptionNames = Object.keys(permissions.subscriptions);
+
+    const subscriptionNames = entitySubscriptions.map(
+      subscription => subscription.name,
+    );
+
+    permissionSubscriptionNames.map(permissionSubscriptionName => {
+      passOrThrow(
+        subscriptionNames.includes(permissionSubscriptionName),
+        () =>
+          `Unknown subscription '${permissionSubscriptionName}' used for permissions in entity '${entity.name}'`,
+      );
+    });
+
+    entitySubscriptions.map(subscription => {
+      const subscriptionName = subscription.name;
+      const permission = permissions.subscriptions[subscriptionName];
+      if (permission) {
+        // not sure it's needed for subscription
+        validatePermissionSubscriptionTypes(entity, permission, subscription);
+        validatePermissionAttributesAndStates(
+          entity,
+          permission,
+          subscription.type,
+        );
       }
     });
   }

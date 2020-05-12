@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Subscription isSubscription should recognize non-Subscription objects 1`] = `"Not a Subscription object"`;
+
+exports[`Subscription postProcessor should pass through postProcessor if it is declared 1`] = `
+Subscription {
+  "attributes": Array [
+    "someAttribute",
+  ],
+  "delimiter": "/",
+  "description": "build item",
+  "isTypeCreate": true,
+  "name": "SomeSubWithPostProcessor",
+  "postProcessor": [Function],
+  "type": "onCreate",
+}
+`;
+
+exports[`Subscription postProcessor should pass through postProcessor if it is declared: withPostProcessorEnd 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`Subscription postProcessor should pass through postProcessor if it is declared: withPostProcessorResult 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "data": Object {
+      "someSubWithPostProcessorSomeTestsEntityName": Object {
+        "someTestsEntityName": Object {
+          "anotherAttribute": "earth",
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`Subscription postProcessor should pass through postProcessor if it is declared: withoutPostProcessorEnd 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`Subscription postProcessor should pass through postProcessor if it is declared: withoutPostProcessorResult 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "data": Object {
+      "someSubWithPostProcessorSomeTestsEntityName": Object {
+        "someTestsEntityName": Object {
+          "anotherAttribute": "world",
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`Subscription preProcessor should pass through preProcessor if it is declared 1`] = `
+Subscription {
+  "attributes": Array [
+    "someAttribute",
+  ],
+  "delimiter": "/",
+  "description": "build item",
+  "isTypeCreate": true,
+  "name": "SomeSubWithPreProcessor",
+  "preProcessor": [Function],
+  "type": "onCreate",
+}
+`;
+
+exports[`Subscription preProcessor should pass through preProcessor if it is declared: withPreProcessorEnd 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`Subscription preProcessor should pass through preProcessor if it is declared: withPreProcessorResult 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "data": Object {
+      "someSubWithPreProcessorSomeTestsEntityName": Object {
+        "someTestsEntityName": Object {
+          "anotherAttribute": "world",
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`Subscription preProcessor should pass through preProcessor if it is declared: withoutPreProcessorEnd 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`Subscription preProcessor should pass through preProcessor if it is declared: withoutPreProcessorResult 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "data": Object {
+      "someSubWithPreProcessorSomeTestsEntityName": Object {
+        "someTestsEntityName": Object {
+          "anotherAttribute": "world",
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`Subscription processEntitySubscriptions should throw if provided with an invalid list of subscriptions 1`] = `"Entity 'SomeEntityName' subscriptions definition needs to be an array of subscriptions"`;
+
+exports[`Subscription processEntitySubscriptions should throw if provided with an invalid subscription 1`] = `"Invalid subscription definition for entity 'SomeEntityName' at position '0'"`;
+
+exports[`Subscription processEntitySubscriptions should throw if required attribute is missing in CREATE type subscriptions 1`] = `"Missing required attributes in subscription 'SomeEntityName.onBuild' need to have a defaultValue() function: [ neededAttribute ]"`;
+
+exports[`Subscription processEntitySubscriptions should throw if unknown attributes are used 1`] = `"Cannot use attribute 'SomeEntityName.doesNotExist' in subscription 'SomeEntityName.onBuild' as it does not exist"`;
+
+exports[`Subscription processEntitySubscriptions should throw on duplicate subscription names 1`] = `"Duplicate subscription name 'onBuild' found in 'SomeEntityName'"`;
+
+exports[`Subscription should have a description 1`] = `"Missing description for subscription 'example'"`;
+
+exports[`Subscription should have a list of unique attribute names 1`] = `"Subscription 'SomeEntityName.example' needs to have a list of unique attribute names"`;
+
+exports[`Subscription should have a list of valid attribute names 1`] = `"Subscription 'SomeEntityName.example' needs to have a list of attribute names"`;
+
+exports[`Subscription should have a name 1`] = `"Missing subscription name"`;
+
+exports[`Subscription should have a type 1`] = `"Missing type for subscription 'example'"`;
+
+exports[`Subscription should have a valid postProcessor function 1`] = `"postProcessor of subscription 'example' needs to be a valid function"`;
+
+exports[`Subscription should have a valid preProcessor function 1`] = `"preProcessor of subscription 'example' needs to be a valid function"`;
+
+exports[`Subscription should have a valid type 1`] = `"Unknown subscription type '12346' used, try one of these: 'onCreate, onUpdate, onDelete'"`;

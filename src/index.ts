@@ -46,6 +46,13 @@ import {
   MUTATION_TYPE_DELETE,
 } from './engine/mutation/Mutation';
 import {
+  Subscription,
+  SUBSCRIPTION_TYPE_CREATE,
+  SUBSCRIPTION_TYPE_UPDATE,
+  SUBSCRIPTION_TYPE_DELETE,
+  pubsub,
+} from './engine/subscription/Subscription';
+import {
   Permission,
   checkPermissionSimple,
   buildPermissionFilter,
@@ -217,6 +224,11 @@ export {
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
+  Subscription,
+  SUBSCRIPTION_TYPE_CREATE,
+  SUBSCRIPTION_TYPE_UPDATE,
+  SUBSCRIPTION_TYPE_DELETE,
+  pubsub,
   Permission,
   checkPermissionSimple,
   buildPermissionFilter,
