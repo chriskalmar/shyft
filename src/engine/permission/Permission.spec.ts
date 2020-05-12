@@ -906,9 +906,13 @@ describe('Permission', () => {
         mutations: {
           update: new Permission().role('manager'),
         },
+        subscriptions: {
+          onUpdate: new Permission().role('manager'),
+        },
       };
 
-      processEntityPermissions(entity, permissions);
+      const permissionMap = processEntityPermissions(entity, permissions);
+      expect(permissionMap).toMatchSnapshot();
     });
 
     it('should throw if provided with an invalid map of permissions', () => {
@@ -924,6 +928,18 @@ describe('Permission', () => {
     it('should throw if provided with an invalid map of mutation permissions', () => {
       const permissions = {
         mutations: ['bad'],
+      };
+
+      function fn() {
+        processEntityPermissions(entity, permissions);
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+    });
+
+    it('should throw if provided with an invalid map of subscription permissions', () => {
+      const permissions = {
+        subscriptions: ['bad'],
       };
 
       function fn() {
@@ -1001,6 +1017,18 @@ describe('Permission', () => {
       }
 
       expect(fn3).toThrowErrorMatchingSnapshot();
+
+      const permissions4 = {
+        subscriptions: {
+          onUpdate: new Permission().userAttribute('notHere'),
+        },
+      };
+
+      function fn4() {
+        processEntityPermissions(entity, permissions4);
+      }
+
+      expect(fn4).toThrowErrorMatchingSnapshot();
     });
 
     it('should throw if permissions have invalid attributes defined', () => {
@@ -1019,6 +1047,20 @@ describe('Permission', () => {
       const permissions = {
         mutations: {
           noSuchMutation: new Permission().userAttribute('someAttribute'),
+        },
+      };
+
+      function fn() {
+        processEntityPermissions(entity, permissions);
+      }
+
+      expect(fn).toThrowErrorMatchingSnapshot();
+    });
+
+    it('should throw if permissions are assigned to unknown subscriptions', () => {
+      const permissions = {
+        subscriptions: {
+          noSuchSubscription: new Permission().userAttribute('someAttribute'),
         },
       };
 

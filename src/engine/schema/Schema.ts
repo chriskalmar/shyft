@@ -4,7 +4,11 @@ import { Entity, isEntity } from '../entity/Entity';
 import { Action, isAction } from '../action/Action';
 import { isDataTypeUser } from '../datatype/DataTypeUser';
 import { StorageType, isStorageType } from '../storage/StorageType';
-import { isPermission, isPermissionsArray } from '../permission/Permission';
+import {
+  isPermission,
+  isPermissionsArray,
+  Permission,
+} from '../permission/Permission';
 import { isViewEntity, ViewEntity } from '../entity/ViewEntity';
 import { isShadowEntity } from '../entity/ShadowEntity';
 
@@ -220,11 +224,14 @@ export class Schema {
       const entityDefaultPermissions =
         this.permissionsMap.entities[entity.name] || {};
       entityDefaultPermissions.mutations =
-        entityDefaultPermissions.mutations || ({} as Entity);
+        entityDefaultPermissions.mutations || ({} as Permission);
+      entityDefaultPermissions.subscriptions =
+        entityDefaultPermissions.subscriptions || ({} as Permission);
 
       const defaultPermissions = this.permissionsMap.entities
         ._defaultPermissions;
       defaultPermissions.mutations = defaultPermissions.mutations || {};
+      defaultPermissions.subscriptions = defaultPermissions.subscriptions || {};
 
       const newDefaultPermissions = {
         read: entityDefaultPermissions.read || defaultPermissions.read,
@@ -232,6 +239,10 @@ export class Schema {
         mutations: {
           ...defaultPermissions.mutations,
           ...entityDefaultPermissions.mutations,
+        },
+        subscriptions: {
+          ...defaultPermissions.subscriptions,
+          ...entityDefaultPermissions.subscriptions,
         },
       };
 

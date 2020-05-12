@@ -487,6 +487,63 @@ exports[`Permission processActionPermissions should throw if provided with inval
 
 exports[`Permission processActionPermissions should throw if provided with invalid permissions 2`] = `"Invalid permission definition for action 'SomeActionName'"`;
 
+exports[`Permission processEntityPermissions should accept a correct permissions setup 1`] = `
+Object {
+  "mutations": Object {
+    "update": Permission {
+      "authenticatedCanAccess": false,
+      "everyoneCanAccess": false,
+      "isEmpty": false,
+      "lookups": Array [],
+      "roles": Array [
+        "manager",
+      ],
+      "states": Array [],
+      "types": Object {
+        "role": true,
+      },
+      "userAttributes": Array [],
+      "values": Array [],
+    },
+  },
+  "read": Permission {
+    "authenticatedCanAccess": false,
+    "everyoneCanAccess": false,
+    "isEmpty": false,
+    "lookups": Array [],
+    "roles": Array [],
+    "states": Array [],
+    "types": Object {
+      "value": true,
+    },
+    "userAttributes": Array [],
+    "values": Array [
+      Object {
+        "attributeName": "someAttribute",
+        "value": 123,
+      },
+    ],
+  },
+  "subscriptions": Object {
+    "onUpdate": Permission {
+      "authenticatedCanAccess": false,
+      "everyoneCanAccess": false,
+      "isEmpty": false,
+      "lookups": Array [],
+      "roles": Array [
+        "manager",
+      ],
+      "states": Array [],
+      "types": Object {
+        "role": true,
+      },
+      "userAttributes": Array [],
+      "values": Array [],
+    },
+  },
+}
+`;
+
 exports[`Permission processEntityPermissions should throw if permission is used on a create type mutation and using data-bound permission types 1`] = `"Create type mutation permission 'create' in 'SomeEntityName.permissions' can only be of type 'authenticated', 'everyone', 'role' or 'lookup'"`;
 
 exports[`Permission processEntityPermissions should throw if permission is used on a create type mutation and using data-bound permission types 2`] = `"Create type mutation permission 'create' in 'SomeEntityName.permissions' can only be of type 'authenticated', 'everyone', 'role' or 'lookup'"`;
@@ -494,6 +551,8 @@ exports[`Permission processEntityPermissions should throw if permission is used 
 exports[`Permission processEntityPermissions should throw if permission is used on a create type mutation and using data-bound permission types 3`] = `"Create type mutation permission 'create' in 'SomeEntityName.permissions' can only be of type 'authenticated', 'everyone', 'role' or 'lookup'"`;
 
 exports[`Permission processEntityPermissions should throw if permissions are assigned to unknown mutations 1`] = `"Unknown mutation 'noSuchMutation' used for permissions in entity 'SomeEntityName'"`;
+
+exports[`Permission processEntityPermissions should throw if permissions are assigned to unknown subscriptions 1`] = `"Unknown subscription 'noSuchSubscription' used for permissions in entity 'SomeEntityName'"`;
 
 exports[`Permission processEntityPermissions should throw if permissions have invalid attributes defined 1`] = `"Cannot use attribute 'someAttribute' in 'SomeEntityName.permissions' as 'userAttribute' as it is not a reference to the User entity"`;
 
@@ -503,9 +562,13 @@ exports[`Permission processEntityPermissions should throw if permissions have un
 
 exports[`Permission processEntityPermissions should throw if permissions have unknown attributes defined 3`] = `"Cannot use attribute 'notHere' in 'SomeEntityName.permissions' for 'update' as it does not exist"`;
 
+exports[`Permission processEntityPermissions should throw if permissions have unknown attributes defined 4`] = `"Cannot use attribute 'notHere' in 'SomeEntityName.permissions' for 'onUpdate' as it does not exist"`;
+
 exports[`Permission processEntityPermissions should throw if provided with an invalid map of mutation permissions 1`] = `"Entity 'SomeEntityName' permissions definition for mutations needs to be a map of mutations and permissions"`;
 
 exports[`Permission processEntityPermissions should throw if provided with an invalid map of permissions 1`] = `"Entity 'SomeEntityName' permissions definition needs to be an object"`;
+
+exports[`Permission processEntityPermissions should throw if provided with an invalid map of subscription permissions 1`] = `"Entity 'SomeEntityName' permissions definition for subscriptions needs to be a map of subscriptions and permissions"`;
 
 exports[`Permission processEntityPermissions should throw if provided with an invalid permissions 1`] = `"Invalid 'read' permission definition for entity 'SomeEntityName'"`;
 

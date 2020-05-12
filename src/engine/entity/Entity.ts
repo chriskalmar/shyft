@@ -390,7 +390,6 @@ export class Entity {
       return this.subscriptions;
     }
 
-    // this.getStates();
     this.subscriptions = this._processSubscriptions();
     return this.subscriptions;
   }
@@ -799,7 +798,21 @@ export class Entity {
         });
       }
 
-      // todo subscription
+      if (this.permissions.subscriptions && this.subscriptions) {
+        this.subscriptions.map(subscription => {
+          const subscriptionName = subscription.name;
+          const permission = this.permissions.subscriptions[subscriptionName];
+
+          if (permission) {
+            const descriptionPermissions = generatePermissionDescription(
+              permission,
+            );
+            if (descriptionPermissions) {
+              subscription.description += descriptionPermissions;
+            }
+          }
+        });
+      }
     }
   }
 
@@ -828,7 +841,7 @@ export class Entity {
     }
 
     this.getMutations();
-    // this.getSubscriptions();
+    this.getSubscriptions();
     this.permissions = this._processPermissions();
     this._generatePermissionDescriptions();
     return this.permissions;
