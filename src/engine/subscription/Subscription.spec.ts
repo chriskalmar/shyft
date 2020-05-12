@@ -8,12 +8,16 @@ import {
   SUBSCRIPTION_TYPE_UPDATE,
   SUBSCRIPTION_TYPE_DELETE,
   processEntitySubscriptions,
+  pubsub,
 } from './Subscription';
 import { Entity } from '../entity/Entity';
 import { DataTypeString } from '../datatype/dataTypes';
 import { passOrThrow } from '../util';
+import { generateTestSchema } from '../../graphqlProtocol/test-helper';
+import { generateGraphQLSchema } from '../../graphqlProtocol/generator';
+import { subscribe, parse } from 'graphql';
 
-describe('Mutation', () => {
+describe('Subscription', () => {
   const entity = new Entity({
     name: 'SomeEntityName',
     description: 'Just some description',
@@ -92,7 +96,7 @@ describe('Mutation', () => {
     const subscription = new Subscription({
       name: 'example',
       type: SUBSCRIPTION_TYPE_CREATE,
-      description: 'mutate the world',
+      description: 'subscribe the world',
       attributes: ['anything', { foo: 'bar' }],
     });
 
@@ -107,7 +111,7 @@ describe('Mutation', () => {
     const subscription = new Subscription({
       name: 'example',
       type: SUBSCRIPTION_TYPE_UPDATE,
-      description: 'mutate the world',
+      description: 'subscribe the world',
       attributes: [],
     });
 
@@ -119,7 +123,7 @@ describe('Mutation', () => {
     const subscription = new Subscription({
       name: 'example',
       type: SUBSCRIPTION_TYPE_DELETE,
-      description: 'mutate the world',
+      description: 'subscribe the world',
       attributes: [],
     });
 
@@ -154,35 +158,35 @@ describe('Mutation', () => {
     expect(String(subscription)).toBe('example');
   });
 
-  // it('should have a valid preProcessor function', () => {
-  //   function fn() {
-  //     // eslint-disable-next-line no-new
-  //     new Subscription({
-  //       name: 'example',
-  //       type: SUBSCRIPTION_TYPE_CREATE,
-  //       description: 'mutate the world',
-  //       attributes: ['anything'],
-  //       preProcessor: 'not-a-function',
-  //     });
-  //   }
+  it('should have a valid preProcessor function', () => {
+    function fn() {
+      // eslint-disable-next-line no-new
+      new Subscription({
+        name: 'example',
+        type: SUBSCRIPTION_TYPE_CREATE,
+        description: 'mutate the world',
+        attributes: ['anything'],
+        preProcessor: 'not-a-function',
+      });
+    }
 
-  //   expect(fn).toThrowErrorMatchingSnapshot();
-  // });
+    expect(fn).toThrowErrorMatchingSnapshot();
+  });
 
-  // it('should have a valid postProcessor function', () => {
-  //   function fn() {
-  //     // eslint-disable-next-line no-new
-  //     new Subscription({
-  //       name: 'example',
-  //       type: SUBSCRIPTION_TYPE_CREATE,
-  //       description: 'mutate the world',
-  //       attributes: ['anything'],
-  //       postProcessor: 'not-a-function',
-  //     });
-  //   }
+  it('should have a valid postProcessor function', () => {
+    function fn() {
+      // eslint-disable-next-line no-new
+      new Subscription({
+        name: 'example',
+        type: SUBSCRIPTION_TYPE_CREATE,
+        description: 'mutate the world',
+        attributes: ['anything'],
+        postProcessor: 'not-a-function',
+      });
+    }
 
-  //   expect(fn).toThrowErrorMatchingSnapshot();
-  // });
+    expect(fn).toThrowErrorMatchingSnapshot();
+  });
 
   describe('isSubscription', () => {
     const subscription = new Subscription({
@@ -190,8 +194,12 @@ describe('Mutation', () => {
       type: SUBSCRIPTION_TYPE_UPDATE,
       description: 'mutate the world',
       attributes: ['anything'],
-      // preProcessor() {},
-      // postProcessor() {},
+      preProcessor() {
+        return {};
+      },
+      postProcessor() {
+        return {};
+      },
     });
 
     it('should recognize objects of type Subscription', () => {
@@ -220,27 +228,6 @@ describe('Mutation', () => {
   });
 
   describe('processEntitySubscriptions', () => {
-    // const subscriptionTypeCreateDefinition = {
-    //   type: SUBSCRIPTION_TYPE_CREATE,
-    //   name: 'build',
-    //   description: 'on built item',
-    //   attributes: ['someAttribute'],
-    // };
-
-    // const subscriptionTypeUpdateDefinition = {
-    //   type: SUBSCRIPTION_TYPE_UPDATE,
-    //   name: 'change',
-    //   description: 'on changed item',
-    //   attributes: ['id', 'someAttribute'],
-    // };
-
-    // const subscriptionTypeDeleteDefinition = {
-    //   type: SUBSCRIPTION_TYPE_DELETE,
-    //   name: 'drop',
-    //   description: 'on dropped item',
-    //   attributes: ['id'],
-    // };
-
     it('should throw if provided with an invalid list of subscriptions', () => {
       const subscriptions = {
         foo: [{}],
@@ -263,7 +250,7 @@ describe('Mutation', () => {
       expect(fn).toThrowErrorMatchingSnapshot();
     });
 
-    it('should throw if required attribute (without defaultValue) is missing in CREATE type subscriptions', () => {
+    it('should throw if required attribute is missing in CREATE type subscriptions', () => {
       function fn() {
         const otherEntity = new Entity({
           name: 'SomeEntityName',
@@ -282,14 +269,14 @@ describe('Mutation', () => {
           subscriptions: [
             new Subscription({
               type: SUBSCRIPTION_TYPE_CREATE,
-              name: 'build',
+              name: 'onBuild',
               description: 'build item',
               attributes: ['someAttribute'],
             }),
           ],
         });
 
-        otherEntity.getMutationByName('build');
+        otherEntity.getSubscriptionByName('onBuild');
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
@@ -299,13 +286,13 @@ describe('Mutation', () => {
       const subscriptions = [
         new Subscription({
           type: SUBSCRIPTION_TYPE_CREATE,
-          name: 'build',
+          name: 'onBuild',
           description: 'build item',
           attributes: ['someAttribute'],
         }),
         new Subscription({
           type: SUBSCRIPTION_TYPE_DELETE,
-          name: 'build',
+          name: 'onBuild',
           description: 'build item',
           attributes: ['someAttribute'],
         }),
@@ -322,7 +309,7 @@ describe('Mutation', () => {
       const subscriptions = [
         new Subscription({
           type: SUBSCRIPTION_TYPE_CREATE,
-          name: 'build',
+          name: 'onBuild',
           description: 'build item',
           attributes: ['doesNotExist'],
         }),
@@ -339,13 +326,103 @@ describe('Mutation', () => {
       const subscriptions = [
         new Subscription({
           type: SUBSCRIPTION_TYPE_DELETE,
-          name: 'drop',
+          name: 'onDrop',
           description: 'drop item',
           attributes: [],
         }),
       ];
 
       processEntitySubscriptions(entity, subscriptions);
+    });
+  });
+
+  describe('preProcessor', () => {
+    it('should pass through preProcessor if it is declared', async () => {
+      const testEntity = new Entity({
+        name: 'SomeTestsEntityName',
+        description: 'Just some description',
+        attributes: {
+          someAttribute: {
+            type: DataTypeString,
+            description: 'Just some description',
+            required: true,
+          },
+          anotherAttribute: {
+            type: DataTypeString,
+            description: 'Just some description',
+          },
+        },
+        subscriptions: [
+          new Subscription({
+            name: 'SomeSubWithPreProcessor',
+            type: SUBSCRIPTION_TYPE_CREATE,
+            description: 'build item',
+            attributes: ['someAttribute'],
+            delimiter: '/',
+            wildCard: '',
+            pattern: '',
+            // pattern: 'someAttribute/anotherAttribute',
+            preProcessor: (_entity, _source, payload) => {
+              if (payload === 13) {
+                throw new Error('13 brings bad luck');
+              }
+              return payload;
+            },
+          }),
+        ],
+      });
+
+      const subscriptionByName = testEntity.getSubscriptionByName(
+        'SomeSubWithPreProcessor',
+      );
+
+      expect(subscriptionByName).toMatchSnapshot();
+
+      const setup = await generateTestSchema({ entities: [testEntity] });
+
+      const graphqlSchema = generateGraphQLSchema(setup.configuration);
+
+      const subscriptionDoc = parse(`
+        subscription someSubWithPreProcessorSomeTestsEntityName($input: SomeSubWithPreProcessorSomeTestsEntityNameInput!) {
+          someSubWithPreProcessorSomeTestsEntityName(input: $input) {
+            someTestsEntityName {
+              someAttribute
+            }
+          }
+        }`);
+
+      const subscription = (await subscribe({
+        schema: graphqlSchema,
+        document: subscriptionDoc,
+        variableValues: {
+          input: {
+            someTestsEntityName: {
+              someAttribute: 'test',
+            },
+          },
+        },
+        contextValue: { pubsub },
+      })) as AsyncIterableIterator<any>;
+
+      // if (subscription.errors) {
+      //   console.log({ errors: subscription.errors });
+      // }
+
+      const pending = subscription.next();
+
+      await pubsub.publish('SomeSubWithPreProcessorSomeTestsEntityName', {
+        // someTestsEntityName: {
+        someAttribute: 'hello',
+        anotherAttribute: 'world',
+        // },
+      });
+
+      const result = await pending;
+      // console.log('should pass through preProcessor if it is declared', result);
+
+      expect(result).toMatchSnapshot();
+
+      expect(await subscription.return()).toMatchSnapshot();
     });
   });
 });

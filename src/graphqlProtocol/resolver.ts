@@ -1,10 +1,10 @@
+import * as _ from 'lodash';
 import {
   addRelayTypePromoterToList,
   addRelayTypePromoterToInstanceFn,
   translateList,
   translateInstanceFn,
 } from './util';
-
 import { ProtocolGraphQL } from './ProtocolGraphQL';
 import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 
@@ -15,8 +15,6 @@ import {
 } from './connection';
 
 import { transformFilterLevel } from './filter';
-
-import * as _ from 'lodash';
 
 import { addRelayTypePromoterToInstance, translateInstance } from './util';
 
@@ -34,6 +32,7 @@ import {
   SUBSCRIPTION_TYPE_CREATE,
   SUBSCRIPTION_TYPE_UPDATE,
   // SUBSCRIPTION_TYPE_DELETE,
+  pubsub,
 } from '../engine/subscription/Subscription';
 import { CustomError } from '../engine/CustomError';
 import {
@@ -475,7 +474,12 @@ export const getSubscriptionResolver = (
     storageType,
   );
 
-  return async (source, args, context, info) => {
+  return async (
+    source,
+    args,
+    context,
+    info,
+  ): Promise<AsyncIterator<unknown, any, undefined>> => {
     checkRequiredI18nInputs(
       entity,
       entitySubscription,
@@ -539,20 +543,35 @@ export const getSubscriptionResolver = (
     //   );
     // }
 
-    const delimiter = entitySubscription.delimiter || '/';
+    let topic;
+    if (entitySubscription.pattern) {
+      const params = entitySubscription.pattern
+        .split(entitySubscription.delimiter)
+        .reduce((acc, curr) => (acc[curr] = args.input[typeName][curr]), {});
+      console.log('getSubscriptionResolver', { params });
 
-    const params = entitySubscription.pattern
-      .split(delimiter)
-      .reduce((acc, curr) => (acc[curr] = args.input[typeName][curr]), {});
+      const filled = Object.values(params).join(entitySubscription.delimiter);
 
-    const filled = Object.values(params).join(entitySubscription.delimiter);
+      console.log('getSubscriptionResolver', { filled });
 
-    const topic = `${entitySubscription.name}/${filled}${
-      entitySubscription ? delimiter + entitySubscription.wildCard : ''
-    }`;
+      topic = `${entitySubscription.name}${entity.name}/${filled}${
+        entitySubscription.wildCard
+          ? entitySubscription.delimiter + entitySubscription.wildCard
+          : ''
+      }`;
+    } else {
+      topic = `${entitySubscription.name}${entity.name}${
+        entitySubscription.wildCard
+          ? entitySubscription.delimiter + entitySubscription.wildCard
+          : ''
+      }`;
+    }
 
-    return context.pubsub ? context.pubsub.asyncIterator(topic) : null;
-    // : pubsub.asyncIterator(topic);
+    // console.log('getSubscriptionResolver', { topic });
+
+    return context.pubsub
+      ? context.pubsub.asyncIterator(topic)
+      : pubsub.asyncIterator(topic);
   };
 };
 
@@ -562,9 +581,11 @@ export const getSubscriptionPayloadResolver = (
   typeName,
 ) => {
   return async (source, args, context, info) => {
-    let ret = {
-      clientSubscriptionId: args.input.clientSubscriptionId,
-    };
+    // let ret = {
+    //   clientSubscriptionId: args.input.clientSubscriptionId,
+    // };
+
+    let ret = {};
 
     let result;
     if (entitySubscription.postProcessor) {
@@ -590,6 +611,8 @@ export const getSubscriptionPayloadResolver = (
     } else {
       ret[typeName] = result;
     }
+
+    // console.log('getSubscriptionPayloadResolver', { ret });
 
     return ret;
   };

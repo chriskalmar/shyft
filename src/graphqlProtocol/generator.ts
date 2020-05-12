@@ -374,7 +374,6 @@ export const generateGraphQLSchema = configuration => {
     fields: () => {
       const mutations = generateMutations(graphRegistry);
       const actions = generateActions(graphRegistry, ACTION_TYPE_MUTATION);
-      // console.log('generate mutations', { mutations });
 
       return {
         ...mutations,
@@ -389,6 +388,13 @@ export const generateGraphQLSchema = configuration => {
 
     fields: () => {
       const subscriptions = generateSubscriptions(graphRegistry);
+      // Object.keys(subscriptions).forEach(sub => {
+      //   console.log('generate subscriptions', {
+      //     name: sub,
+      //     args: subscriptions[sub].args,
+      //   });
+      // });
+
       return subscriptions;
     },
   });

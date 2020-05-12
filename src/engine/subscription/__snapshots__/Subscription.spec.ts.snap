@@ -1,25 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Mutation isSubscription should recognize non-Subscription objects 1`] = `"Not a Subscription object"`;
+exports[`Subscription isSubscription should recognize non-Subscription objects 1`] = `"Not a Subscription object"`;
 
-exports[`Mutation processEntitySubscriptions should throw if provided with an invalid list of subscriptions 1`] = `"Entity 'SomeEntityName' subscriptions definition needs to be an array of subscriptions"`;
+exports[`Subscription preProcessor should pass through preProcessor if it is declared 1`] = `
+Subscription {
+  "attributes": Array [
+    "someAttribute",
+  ],
+  "delimiter": "/",
+  "description": "build item",
+  "isTypeCreate": true,
+  "name": "SomeSubWithPreProcessor",
+  "preProcessor": [Function],
+  "type": "onCreate",
+}
+`;
 
-exports[`Mutation processEntitySubscriptions should throw if provided with an invalid subscription 1`] = `"Invalid subscription definition for entity 'SomeEntityName' at position '0'"`;
+exports[`Subscription preProcessor should pass through preProcessor if it is declared 2`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "data": Object {
+      "someSubWithPreProcessorSomeTestsEntityName": Object {
+        "someTestsEntityName": Object {
+          "someAttribute": "hello",
+        },
+      },
+    },
+  },
+}
+`;
 
-exports[`Mutation processEntitySubscriptions should throw if required attribute (without defaultValue) is missing in CREATE type subscriptions 1`] = `"Invalid setup property 'subscriptions' in entity 'SomeEntityName'"`;
+exports[`Subscription preProcessor should pass through preProcessor if it is declared 3`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
 
-exports[`Mutation processEntitySubscriptions should throw if unknown attributes are used 1`] = `"Cannot use attribute 'SomeEntityName.doesNotExist' in subscription 'SomeEntityName.build' as it does not exist"`;
+exports[`Subscription processEntitySubscriptions should throw if provided with an invalid list of subscriptions 1`] = `"Entity 'SomeEntityName' subscriptions definition needs to be an array of subscriptions"`;
 
-exports[`Mutation processEntitySubscriptions should throw on duplicate subscription names 1`] = `"Duplicate subscription name 'build' found in 'SomeEntityName'"`;
+exports[`Subscription processEntitySubscriptions should throw if provided with an invalid subscription 1`] = `"Invalid subscription definition for entity 'SomeEntityName' at position '0'"`;
 
-exports[`Mutation should have a description 1`] = `"Missing description for subscription 'example'"`;
+exports[`Subscription processEntitySubscriptions should throw if required attribute is missing in CREATE type subscriptions 1`] = `"Missing required attributes in subscription 'SomeEntityName.onBuild' need to have a defaultValue() function: [ neededAttribute ]"`;
 
-exports[`Mutation should have a list of unique attribute names 1`] = `"Subscription 'SomeEntityName.example' needs to have a list of unique attribute names"`;
+exports[`Subscription processEntitySubscriptions should throw if unknown attributes are used 1`] = `"Cannot use attribute 'SomeEntityName.doesNotExist' in subscription 'SomeEntityName.onBuild' as it does not exist"`;
 
-exports[`Mutation should have a list of valid attribute names 1`] = `"Subscription 'SomeEntityName.example' needs to have a list of attribute names"`;
+exports[`Subscription processEntitySubscriptions should throw on duplicate subscription names 1`] = `"Duplicate subscription name 'onBuild' found in 'SomeEntityName'"`;
 
-exports[`Mutation should have a name 1`] = `"Missing subscription name"`;
+exports[`Subscription should have a description 1`] = `"Missing description for subscription 'example'"`;
 
-exports[`Mutation should have a type 1`] = `"Missing type for subscription 'example'"`;
+exports[`Subscription should have a list of unique attribute names 1`] = `"Subscription 'SomeEntityName.example' needs to have a list of unique attribute names"`;
 
-exports[`Mutation should have a valid type 1`] = `"Unknown subscription type '12346' used, try one of these: 'onCreate, onUpdate, onDelete'"`;
+exports[`Subscription should have a list of valid attribute names 1`] = `"Subscription 'SomeEntityName.example' needs to have a list of attribute names"`;
+
+exports[`Subscription should have a name 1`] = `"Missing subscription name"`;
+
+exports[`Subscription should have a type 1`] = `"Missing type for subscription 'example'"`;
+
+exports[`Subscription should have a valid postProcessor function 1`] = `"postProcessor of subscription 'example' needs to be a valid function"`;
+
+exports[`Subscription should have a valid preProcessor function 1`] = `"preProcessor of subscription 'example' needs to be a valid function"`;
+
+exports[`Subscription should have a valid type 1`] = `"Unknown subscription type '12346' used, try one of these: 'onCreate, onUpdate, onDelete'"`;
