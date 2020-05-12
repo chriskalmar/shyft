@@ -8,7 +8,6 @@ import {
   GraphQLInputFieldConfigMap,
   GraphQLFieldConfigMap,
 } from 'graphql';
-
 import { fromGlobalId } from 'graphql-relay';
 import * as _ from 'lodash';
 

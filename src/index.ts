@@ -50,6 +50,7 @@ import {
   SUBSCRIPTION_TYPE_CREATE,
   SUBSCRIPTION_TYPE_UPDATE,
   SUBSCRIPTION_TYPE_DELETE,
+  pubsub,
 } from './engine/subscription/Subscription';
 import {
   Permission,
@@ -227,6 +228,7 @@ export {
   SUBSCRIPTION_TYPE_CREATE,
   SUBSCRIPTION_TYPE_UPDATE,
   SUBSCRIPTION_TYPE_DELETE,
+  pubsub,
   Permission,
   checkPermissionSimple,
   buildPermissionFilter,

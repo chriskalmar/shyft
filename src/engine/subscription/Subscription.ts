@@ -1,7 +1,10 @@
 import { uniq } from 'lodash';
+import { PubSub } from 'graphql-subscriptions';
 import { passOrThrow, isArray, isFunction, mapOverProperties } from '../util';
 
 import { Entity } from '../entity/Entity';
+
+export const pubsub = new PubSub();
 
 export const SUBSCRIPTION_TYPE_CREATE = 'onCreate';
 export const SUBSCRIPTION_TYPE_UPDATE = 'onUpdate';
@@ -53,7 +56,7 @@ export type SubscriptionSetup = {
     entitySubscription?: Subscription,
     context?: object,
     info?: any,
-  ) => Promise<object>;
+  ) => Promise<object | null> | object | null;
   postProcessor?: (
     entity?: Entity,
     // id,
@@ -63,7 +66,7 @@ export type SubscriptionSetup = {
     entitySubscription?: Subscription,
     context?: object,
     info?: any,
-  ) => Promise<object>;
+  ) => Promise<object | null> | object | null;
 };
 
 export class Subscription {
@@ -296,11 +299,12 @@ export const processEntitySubscriptions = (
         () =>
           `Subscription '${entity.name}.${subscription.name}' pattern should be a string`,
       );
-    } else {
-      subscription.pattern = Object.keys(entityAttributes).join(
-        subscription.delimiter,
-      );
     }
+    // else {
+    //   subscription.pattern = Object.keys(entityAttributes).join(
+    //     subscription.delimiter,
+    //   );
+    // }
   });
 
   return subscriptions;

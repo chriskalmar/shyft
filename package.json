@@ -87,6 +87,7 @@
     "date-fns": "^2.1.0",
     "graphql": "^14.5.8",
     "graphql-relay": "^0.6.0",
+    "graphql-subscriptions": "^1.1.0",
     "graphql-type-json": "^0.3.0",
     "json-shaper": "^1.2.0",
     "lodash": "^4.17.10",
