@@ -2,6 +2,64 @@
 
 exports[`Subscription isSubscription should recognize non-Subscription objects 1`] = `"Not a Subscription object"`;
 
+exports[`Subscription postProcessor should pass through postProcessor if it is declared 1`] = `
+Subscription {
+  "attributes": Array [
+    "someAttribute",
+  ],
+  "delimiter": "/",
+  "description": "build item",
+  "isTypeCreate": true,
+  "name": "SomeSubWithPostProcessor",
+  "postProcessor": [Function],
+  "type": "onCreate",
+}
+`;
+
+exports[`Subscription postProcessor should pass through postProcessor if it is declared: withPostProcessorEnd 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`Subscription postProcessor should pass through postProcessor if it is declared: withPostProcessorResult 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "data": Object {
+      "someSubWithPostProcessorSomeTestsEntityName": Object {
+        "someTestsEntityName": Object {
+          "anotherAttribute": "earth",
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`Subscription postProcessor should pass through postProcessor if it is declared: withoutPostProcessorEnd 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`Subscription postProcessor should pass through postProcessor if it is declared: withoutPostProcessorResult 1`] = `
+Object {
+  "done": false,
+  "value": Object {
+    "data": Object {
+      "someSubWithPostProcessorSomeTestsEntityName": Object {
+        "someTestsEntityName": Object {
+          "anotherAttribute": "world",
+        },
+      },
+    },
+  },
+}
+`;
+
 exports[`Subscription preProcessor should pass through preProcessor if it is declared 1`] = `
 Subscription {
   "attributes": Array [
@@ -16,7 +74,14 @@ Subscription {
 }
 `;
 
-exports[`Subscription preProcessor should pass through preProcessor if it is declared 2`] = `
+exports[`Subscription preProcessor should pass through preProcessor if it is declared: withPreProcessorEnd 1`] = `
+Object {
+  "done": true,
+  "value": undefined,
+}
+`;
+
+exports[`Subscription preProcessor should pass through preProcessor if it is declared: withPreProcessorResult 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -31,14 +96,14 @@ Object {
 }
 `;
 
-exports[`Subscription preProcessor should pass through preProcessor if it is declared 3`] = `
+exports[`Subscription preProcessor should pass through preProcessor if it is declared: withoutPreProcessorEnd 1`] = `
 Object {
   "done": true,
   "value": undefined,
 }
 `;
 
-exports[`Subscription preProcessor should pass through preProcessor if it is declared 4`] = `
+exports[`Subscription preProcessor should pass through preProcessor if it is declared: withoutPreProcessorResult 1`] = `
 Object {
   "done": false,
   "value": Object {
@@ -50,13 +115,6 @@ Object {
       },
     },
   },
-}
-`;
-
-exports[`Subscription preProcessor should pass through preProcessor if it is declared 5`] = `
-Object {
-  "done": true,
-  "value": undefined,
 }
 `;
 

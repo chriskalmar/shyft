@@ -195,7 +195,7 @@ describe('Subscription', () => {
       description: 'mutate the world',
       attributes: ['anything'],
       preProcessor() {
-        return {};
+        return null;
       },
       postProcessor() {
         return {};
@@ -390,13 +390,10 @@ describe('Subscription', () => {
       const subscriptionByName = testEntity.getSubscriptionByName(
         'SomeSubWithPreProcessor',
       );
-
       expect(subscriptionByName).toMatchSnapshot();
 
       const setup = await generateTestSchema({ entities: [testEntity] });
-
       const graphqlSchema = generateGraphQLSchema(setup.configuration);
-
       const subscriptionDoc = parse(`
         subscription someSubWithPreProcessorSomeTestsEntityName($input: SomeSubWithPreProcessorSomeTestsEntityNameInput!) {
           someSubWithPreProcessorSomeTestsEntityName(input: $input) {
@@ -419,10 +416,6 @@ describe('Subscription', () => {
         contextValue: { pubsub },
       })) as AsyncIterableIterator<any>;
 
-      // if (subscription.errors) {
-      //   console.log({ errors: subscription.errors });
-      // }
-
       let pending = subscription.next();
 
       await pubsub.publish('SomeSubWithPreProcessorSomeTestsEntityName', {
@@ -433,8 +426,10 @@ describe('Subscription', () => {
       });
 
       let result = await pending;
-      expect(result).toMatchSnapshot();
-      expect(await subscription.return()).toMatchSnapshot();
+      expect(result).toMatchSnapshot('withoutPreProcessorResult');
+      expect(await subscription.return()).toMatchSnapshot(
+        'withoutPreProcessorEnd',
+      );
 
       // subscription topic will be generated in preProcessor
       subscription = (await subscribe({
@@ -461,8 +456,120 @@ describe('Subscription', () => {
       );
 
       result = await pending;
-      expect(result).toMatchSnapshot();
-      expect(await subscription.return()).toMatchSnapshot();
+      expect(result).toMatchSnapshot('withPreProcessorResult');
+      expect(await subscription.return()).toMatchSnapshot(
+        'withPreProcessorEnd',
+      );
+    });
+  });
+
+  describe('postProcessor', () => {
+    const testEntity = new Entity({
+      name: 'SomeTestsEntityName',
+      description: 'Just some description',
+      attributes: {
+        someAttribute: {
+          type: DataTypeString,
+          description: 'Just some description',
+          required: false,
+        },
+        anotherAttribute: {
+          type: DataTypeString,
+          description: 'Just some description',
+        },
+      },
+      subscriptions: [
+        new Subscription({
+          name: 'SomeSubWithPostProcessor',
+          type: SUBSCRIPTION_TYPE_CREATE,
+          description: 'build item',
+          attributes: ['someAttribute'],
+          delimiter: '/',
+          postProcessor: (
+            _entity,
+            // _id,
+            _source,
+            input,
+            typeName,
+            entitySubscription,
+            context,
+          ) => {
+            if (context && context.changePayload) {
+              return { anotherAttribute: 'earth' };
+            }
+            return null;
+          },
+        }),
+      ],
+    });
+
+    const someAttribute = 'test';
+
+    it('should pass through postProcessor if it is declared', async () => {
+      const subscriptionByName = testEntity.getSubscriptionByName(
+        'SomeSubWithPostProcessor',
+      );
+      expect(subscriptionByName).toMatchSnapshot();
+
+      const setup = await generateTestSchema({ entities: [testEntity] });
+      const graphqlSchema = generateGraphQLSchema(setup.configuration);
+      const subscriptionDoc = parse(`
+        subscription someSubWithPostProcessorSomeTestsEntityName($input: SomeSubWithPostProcessorSomeTestsEntityNameInput!) {
+          someSubWithPostProcessorSomeTestsEntityName(input: $input) {
+            someTestsEntityName {
+              # someAttribute
+              anotherAttribute
+            }
+          }
+        }`);
+
+      let subscription = (await subscribe({
+        schema: graphqlSchema,
+        document: subscriptionDoc,
+        variableValues: {
+          input: {
+            someTestsEntityName: {},
+          },
+        },
+        contextValue: { pubsub },
+      })) as AsyncIterableIterator<any>;
+
+      let pending = subscription.next();
+
+      await pubsub.publish('SomeSubWithPostProcessorSomeTestsEntityName', {
+        someAttribute,
+        anotherAttribute: 'world',
+      });
+
+      let result = await pending;
+      expect(result).toMatchSnapshot('withoutPostProcessorResult');
+      expect(await subscription.return()).toMatchSnapshot(
+        'withoutPostProcessorEnd',
+      );
+
+      subscription = (await subscribe({
+        schema: graphqlSchema,
+        document: subscriptionDoc,
+        variableValues: {
+          input: {
+            someTestsEntityName: {},
+          },
+        },
+        contextValue: { pubsub, changePayload: true },
+      })) as AsyncIterableIterator<any>;
+
+      pending = subscription.next();
+
+      await pubsub.publish('SomeSubWithPostProcessorSomeTestsEntityName', {
+        someAttribute,
+        anotherAttribute: 'world',
+      });
+
+      result = await pending;
+      expect(result).toMatchSnapshot('withPostProcessorResult');
+      expect(await subscription.return()).toMatchSnapshot(
+        'withPostProcessorEnd',
+      );
     });
   });
 });

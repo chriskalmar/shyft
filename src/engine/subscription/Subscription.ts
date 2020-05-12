@@ -54,7 +54,7 @@ export type SubscriptionSetup = {
     input?: any,
     typeName?: string,
     entitySubscription?: Subscription,
-    context?: object,
+    context?: any,
     info?: any,
   ) => Promise<string | null> | string | null;
   postProcessor?: (
@@ -64,7 +64,7 @@ export type SubscriptionSetup = {
     input?: any,
     typeName?: string,
     entitySubscription?: Subscription,
-    context?: object,
+    context?: any,
     info?: any,
   ) => Promise<object | null> | object | null;
 };

@@ -531,6 +531,7 @@ export const getSubscriptionResolver = (
     // }
 
     let topic;
+    const delimiter = entitySubscription.delimiter;
     if (entitySubscription.pattern) {
       // const delimiter = entitySubscription.delimiter;
       // const filled = entitySubscription.attributes
@@ -538,17 +539,17 @@ export const getSubscriptionResolver = (
       //   .reduce((acc, curr) => `${acc + delimiter + curr}`, '');
 
       const params = entitySubscription.pattern
-        .split(entitySubscription.delimiter)
+        .split(delimiter)
         .reduce((acc, curr) => (acc[curr] = args.input[typeName][curr]), {});
       console.log('getSubscriptionResolver', { params });
 
-      const filled = Object.values(params).join(entitySubscription.delimiter);
+      const filled = Object.values(params).join(delimiter);
 
       console.log('getSubscriptionResolver', { filled });
 
       topic = `${entitySubscription.name}${entity.name}/${filled}${
         entitySubscription.wildCard
-          ? entitySubscription.delimiter + entitySubscription.wildCard
+          ? delimiter + entitySubscription.wildCard
           : ''
       }`;
     } else if (entitySubscription.preProcessor) {
@@ -566,7 +567,7 @@ export const getSubscriptionResolver = (
     if (!topic) {
       topic = `${entitySubscription.name}${entity.name}${
         entitySubscription.wildCard
-          ? entitySubscription.delimiter + entitySubscription.wildCard
+          ? delimiter + entitySubscription.wildCard
           : ''
       }`;
     }
@@ -603,7 +604,9 @@ export const getSubscriptionPayloadResolver = (
         context,
         info,
       );
-    } else {
+    }
+
+    if (!result) {
       result = source;
     }
 
