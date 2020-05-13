@@ -73,7 +73,7 @@ const generateDataInputField = (
 
     param.gqlFieldNameI18n = protocolConfiguration.generateI18nFieldName(param);
 
-    const i18nFieldTypeName = protocolConfiguration.generateMutationI18nAttributeInputTypeName(
+    const i18nFieldTypeName = protocolConfiguration.generateOperationI18nAttributeInputTypeName(
       {
         name: baseName,
       },

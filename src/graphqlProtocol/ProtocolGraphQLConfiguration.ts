@@ -7,6 +7,7 @@ import {
 } from './util';
 import { MAX_PAGE_SIZE } from './protocolGraphqlConstants';
 import { ProtocolConfiguration } from '../engine/protocol/ProtocolConfiguration';
+import { Mutation, Subscription, Entity } from '..';
 
 export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   constructor() {
@@ -20,6 +21,9 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
         'mutationNested',
         'mutationById',
         'mutationByUniqueness',
+        'subscription',
+        'subscriptionNested',
+        'subscriptionById',
       ],
       true,
     );
@@ -85,26 +89,6 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     return generateTypeNamePascalCase(`${typeName}-${fieldName}-i18n`);
   }
 
-  generateMutationI18nAttributeInputTypeName(entity, mutation, attribute) {
-    const typeName = this.generateEntityTypeName(entity);
-    const fieldName = this.generateFieldName(attribute);
-    return generateTypeNamePascalCase(
-      `${mutation.name}-${typeName}-${fieldName}-i18n-input`,
-    );
-  }
-
-  generateSubscriptionI18nAttributeInputTypeName(
-    entity,
-    subscription,
-    attribute,
-  ) {
-    const typeName = this.generateEntityTypeName(entity);
-    const fieldName = this.generateFieldName(attribute);
-    return generateTypeNamePascalCase(
-      `${subscription.name}-${typeName}-${fieldName}-i18n-input`,
-    );
-  }
-
   generateListQueryTypeName(entity) {
     const typeNamePlural = this.generateEntityTypeNamePlural(entity);
     return generateTypeName(`all-${typeNamePlural}`);
@@ -118,26 +102,6 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     const typeName = this.generateEntityTypeName(entity);
     const fieldName = this.generateFieldName(attribute);
     return generateTypeName(`${typeName}-by-${fieldName}`);
-  }
-
-  generateMutationInstanceInputTypeName(entity, mutation) {
-    const typeName = this.generateEntityTypeName(entity);
-    return generateTypeNamePascalCase(
-      `${mutation.name}-${typeName}-instance-input`,
-    );
-  }
-
-  generateMutationInputTypeName(entity, mutation) {
-    const typeName = this.generateEntityTypeName(entity);
-    return generateTypeNamePascalCase(`${mutation.name}-${typeName}-input`);
-  }
-
-  generateMutationByPrimaryAttributeInputTypeName(entity, mutation, attribute) {
-    const typeName = this.generateEntityTypeName(entity);
-    const fieldName = this.generateFieldName(attribute);
-    return generateTypeNamePascalCase(
-      `${mutation.name}-${typeName}-by-${fieldName}-input`,
-    );
   }
 
   generateUniquenessAttributesName(_entity, attributes) {
@@ -160,41 +124,6 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     return generateTypeNamePascalCase(
       `${typeName}-instance-uniqueness-on-${uniquenessAttributesName}-input`,
     );
-  }
-
-  generateMutationInstanceNestedInputTypeName(entity, mutation) {
-    const typeName = this.generateEntityTypeName(entity);
-    return generateTypeNamePascalCase(
-      `${mutation.name}-${typeName}-instance-nested-input`,
-    );
-  }
-
-  generateMutationNestedInputTypeName(entity, mutation) {
-    const typeName = this.generateEntityTypeName(entity);
-    return generateTypeNamePascalCase(
-      `${mutation.name}-${typeName}-nested-input`,
-    );
-  }
-
-  generateMutationOutputTypeName(entity, mutation) {
-    const typeName = this.generateEntityTypeName(entity);
-    return generateTypeNamePascalCase(`${mutation.name}-${typeName}-output`);
-  }
-
-  generateMutationTypeName(entity, mutation) {
-    const typeName = this.generateEntityTypeName(entity);
-    return generateTypeName(`${mutation.name}-${typeName}`);
-  }
-
-  generateMutationNestedTypeName(entity, mutation) {
-    const typeName = this.generateEntityTypeName(entity);
-    return generateTypeName(`${mutation.name}-${typeName}-nested`);
-  }
-
-  generateMutationByPrimaryAttributeTypeName(entity, mutation, attribute) {
-    const typeName = this.generateEntityTypeName(entity);
-    const fieldName = this.generateFieldName(attribute);
-    return generateTypeName(`${mutation.name}-${typeName}-by-${fieldName}`);
   }
 
   generateActionTypeName(action) {
@@ -275,69 +204,100 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     return generateTypeNamePascalCase(`${typeName}-connection`);
   }
 
-  generateSubscriptionInstanceInputTypeName(entity, subscription) {
-    const typeName = this.generateEntityTypeName(entity);
-    return generateTypeNamePascalCase(
-      `${subscription.name}-${typeName}-instance-input`,
-    );
-  }
-
-  generateSubscriptionInputTypeName(entity, subscription) {
-    const typeName = this.generateEntityTypeName(entity);
-    return generateTypeNamePascalCase(`${subscription.name}-${typeName}-input`);
-  }
-
-  generateSubscriptionByPrimaryAttributeInputTypeName(
-    entity,
-    subscription,
+  generateOperationI18nAttributeInputTypeName(
+    entity: Entity | any,
+    operation: Mutation | Subscription | any,
     attribute,
   ) {
     const typeName = this.generateEntityTypeName(entity);
     const fieldName = this.generateFieldName(attribute);
     return generateTypeNamePascalCase(
-      `${subscription.name}-${typeName}-by-${fieldName}-input`,
+      `${operation.name}-${typeName}-${fieldName}-i18n-input`,
     );
   }
 
-  generateSubscriptionInstanceNestedInputTypeName(entity, subscription) {
+  generateOperationInstanceInputTypeName(
+    entity: Entity,
+    operation: Mutation | Subscription,
+  ) {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeNamePascalCase(
-      `${subscription.name}-${typeName}-instance-nested-input`,
+      `${operation.name}-${typeName}-instance-input`,
     );
   }
 
-  generateSubscriptionNestedInputTypeName(entity, subscription) {
+  generateOperationInputTypeName(
+    entity: Entity,
+    operation: Mutation | Subscription,
+  ) {
     const typeName = this.generateEntityTypeName(entity);
-    return generateTypeNamePascalCase(
-      `${subscription.name}-${typeName}-nested-input`,
-    );
+    return generateTypeNamePascalCase(`${operation.name}-${typeName}-input`);
   }
 
-  generateSubscriptionOutputTypeName(entity, subscription) {
-    const typeName = this.generateEntityTypeName(entity);
-    return generateTypeNamePascalCase(
-      `${subscription.name}-${typeName}-output`,
-    );
-  }
-
-  generateSubscriptionTypeName(entity, subscription) {
-    const typeName = this.generateEntityTypeName(entity);
-    return generateTypeName(`${subscription.name}-${typeName}`);
-  }
-
-  generateSubscriptionNestedTypeName(entity, subscription) {
-    const typeName = this.generateEntityTypeName(entity);
-    return generateTypeName(`${subscription.name}-${typeName}-nested`);
-  }
-
-  generateSubscriptionByPrimaryAttributeTypeName(
-    entity,
-    subscription,
+  generateOperationByPrimaryAttributeInputTypeName(
+    entity: Entity,
+    operation: Mutation | Subscription,
     attribute,
   ) {
     const typeName = this.generateEntityTypeName(entity);
     const fieldName = this.generateFieldName(attribute);
-    return generateTypeName(`${subscription.name}-${typeName}-by-${fieldName}`);
+    return generateTypeNamePascalCase(
+      `${operation.name}-${typeName}-by-${fieldName}-input`,
+    );
+  }
+
+  generateOperationInstanceNestedInputTypeName(
+    entity: Entity,
+    operation: Mutation | Subscription,
+  ) {
+    const typeName = this.generateEntityTypeName(entity);
+    return generateTypeNamePascalCase(
+      `${operation.name}-${typeName}-instance-nested-input`,
+    );
+  }
+
+  generateOperationNestedInputTypeName(
+    entity: Entity,
+    operation: Mutation | Subscription,
+  ) {
+    const typeName = this.generateEntityTypeName(entity);
+    return generateTypeNamePascalCase(
+      `${operation.name}-${typeName}-nested-input`,
+    );
+  }
+
+  generateOperationOutputTypeName(
+    entity: Entity,
+    operation: Mutation | Subscription,
+  ) {
+    const typeName = this.generateEntityTypeName(entity);
+    return generateTypeNamePascalCase(`${operation.name}-${typeName}-output`);
+  }
+
+  generateOperationTypeName(
+    entity: Entity,
+    operation: Mutation | Subscription,
+  ) {
+    const typeName = this.generateEntityTypeName(entity);
+    return generateTypeName(`${operation.name}-${typeName}`);
+  }
+
+  generateOperationNestedTypeName(
+    entity: Entity,
+    operation: Mutation | Subscription,
+  ) {
+    const typeName = this.generateEntityTypeName(entity);
+    return generateTypeName(`${operation.name}-${typeName}-nested`);
+  }
+
+  generateOperationByPrimaryAttributeTypeName(
+    entity: Entity,
+    operation: Mutation | Subscription,
+    attribute,
+  ) {
+    const typeName = this.generateEntityTypeName(entity);
+    const fieldName = this.generateFieldName(attribute);
+    return generateTypeName(`${operation.name}-${typeName}-by-${fieldName}`);
   }
 }
 
