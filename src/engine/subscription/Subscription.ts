@@ -242,6 +242,7 @@ export const processEntitySubscriptions = (
       });
 
       if (subscription.type === SUBSCRIPTION_TYPE_CREATE) {
+        // todo : remove this check ?
         const missingAttributeNames = requiredAttributeNames.filter(
           requiredAttributeName => {
             return !subscription.attributes.includes(requiredAttributeName);
