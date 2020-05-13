@@ -35,6 +35,7 @@ import {
 } from '../engine/action/Action';
 import { isViewEntity } from '../engine/entity/ViewEntity';
 import { isShadowEntity } from '../engine/entity/ShadowEntity';
+import { generateInstanceUniquenessInputs } from './operation';
 
 export const getTypeForEntityFromGraphRegistry = entity => {
   const typeName = entity.graphql.typeName;
@@ -342,6 +343,8 @@ export const generateGraphQLSchema = configuration => {
     }
   });
 
+  generateInstanceUniquenessInputs(graphRegistry);
+
   // build the query type
   const queryType = new GraphQLObjectType({
     name: 'Query',
@@ -388,12 +391,6 @@ export const generateGraphQLSchema = configuration => {
 
     fields: () => {
       const subscriptions = generateSubscriptions(graphRegistry);
-      // Object.keys(subscriptions).forEach(sub => {
-      //   console.log('generate subscriptions', {
-      //     name: sub,
-      //     args: subscriptions[sub].args,
-      //   });
-      // });
 
       return subscriptions;
     },
