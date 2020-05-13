@@ -40,8 +40,30 @@ export type MutationSetup = {
   type?: string;
   description?: string;
   attributes?: string[];
-  preProcessor?: Function;
-  postProcessor?: Function;
+  // preProcessor?: Function;
+  // postProcessor?: Function;
+  preProcessor?: (
+    entity?: Entity,
+    id?: string | number,
+    source?: any,
+    input?: any,
+    typeName?: string,
+    entityMutation?: Mutation,
+    context?: any,
+    info?: any,
+  ) => Promise<any> | any;
+  postProcessor?: (
+    error?: any,
+    result?: any,
+    entity?: Entity,
+    id?: string | number,
+    source?: any,
+    input?: any,
+    typeName?: string,
+    entityMutation?: Mutation,
+    context?: any,
+    info?: any,
+  ) => Promise<void> | void;
   fromState?: string | string[];
   toState?: string | string[];
 };
