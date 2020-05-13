@@ -45,6 +45,24 @@ Object {
 }
 `;
 
+exports[`i18n should merge existing translations with provided translations containing apostrophe 1`] = `
+Object {
+  "author": "Leo Tolstoy",
+  "i18n": null,
+  "reviews": null,
+  "shortSummary": null,
+  "shortSummary.i18n": Object {
+    "de": "The author's vision was awesome",
+    "en": null,
+  },
+  "title": "War and Peace",
+  "title.i18n": Object {
+    "de": "Krieg und Frieden",
+    "en": "War and Peace",
+  },
+}
+`;
+
 exports[`i18n should reject translations of unknown languages 1`] = `[Error: Unknown language 'fr' provided in translation of mutation 'create']`;
 
 exports[`i18n should store translations if provided 1`] = `

@@ -38,7 +38,7 @@ describe('i18n', () => {
       author: 'Leo Tolstoy',
     };
 
-    await mutate(Book, 'create', payload, null, asAdmin()).catch(e => {
+    await mutate(Book, 'create', payload, null, asAdmin()).catch((e) => {
       expect(e).toMatchSnapshot();
     });
   });
@@ -103,6 +103,28 @@ describe('i18n', () => {
     payload = {
       'shortSummary.i18n': {
         de: '⚔️ & ☮️',
+      },
+    };
+
+    result = await mutate(Book, 'update', payload, id, asAdmin());
+    expect(removeId(result)).toMatchSnapshot();
+  });
+
+  it('should merge existing translations with provided translations containing apostrophe', async () => {
+    let payload = {
+      'title.i18n': {
+        en: 'War and Peace',
+        de: 'Krieg und Frieden',
+      },
+      author: 'Leo Tolstoy',
+    };
+
+    let result = await mutate(Book, 'create', payload, null, asAdmin());
+    const { id } = result;
+
+    payload = {
+      'shortSummary.i18n': {
+        de: "The author's vision was awesome",
       },
     };
 
