@@ -125,16 +125,17 @@ export class Subscription {
 
     if (this.type === SUBSCRIPTION_TYPE_CREATE) {
       this.isTypeCreate = true;
+      this.ignoreRequired = true;
     }
 
     if (this.type === SUBSCRIPTION_TYPE_UPDATE) {
-      this.needsInstance = true;
+      // this.needsInstance = true;
       this.ignoreRequired = true;
       this.isTypeUpdate = true;
     }
 
     if (this.type === SUBSCRIPTION_TYPE_DELETE) {
-      this.needsInstance = true;
+      // this.needsInstance = true;
       this.isTypeDelete = true;
     }
 
@@ -241,24 +242,23 @@ export const processEntitySubscriptions = (
         );
       });
 
-      if (subscription.type === SUBSCRIPTION_TYPE_CREATE) {
-        // todo : remove this check ?
-        const missingAttributeNames = requiredAttributeNames.filter(
-          requiredAttributeName => {
-            return !subscription.attributes.includes(requiredAttributeName);
-          },
-        );
+      // if (subscription.type === SUBSCRIPTION_TYPE_CREATE) {
+      //   const missingAttributeNames = requiredAttributeNames.filter(
+      //     requiredAttributeName => {
+      //       return !subscription.attributes.includes(requiredAttributeName);
+      //     },
+      //   );
 
-        passOrThrow(
-          missingAttributeNames.length === 0,
-          () =>
-            `Missing required attributes in subscription '${entity.name}.${
-              subscription.name
-            }' need to have a defaultValue() function: [ ${missingAttributeNames.join(
-              ', ',
-            )} ]`,
-        );
-      }
+      //   passOrThrow(
+      //     missingAttributeNames.length === 0,
+      //     () =>
+      //       `Missing required attributes in subscription '${entity.name}.${
+      //         subscription.name
+      //       }' need to have a defaultValue() function: [ ${missingAttributeNames.join(
+      //         ', ',
+      //       )} ]`,
+      //   );
+      // }
     } else if (
       subscription.type === SUBSCRIPTION_TYPE_CREATE ||
       subscription.type === SUBSCRIPTION_TYPE_UPDATE
