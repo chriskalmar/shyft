@@ -74,8 +74,22 @@ export type EntitySetup = {
   permissions?: any;
   subscriptions?: any;
   states?: any;
-  preProcessor?: Function;
-  postProcessor?: Function;
+  // preProcessor?: Function;
+  // postProcessor?: Function;
+  preProcessor?: (
+    entity?: Entity,
+    args?: any,
+    context?: any,
+    info?: any,
+  ) => Promise<any> | any;
+  postProcessor?: (
+    translatedRow?: any,
+    entity?: Entity,
+    source?: any,
+    args?: any,
+    context?: any,
+    info?: any,
+  ) => Promise<any> | any;
   preFilters?: PreFilterType;
   preFiltersGenerator?: PreFilterGeneratorType;
   meta?: any;

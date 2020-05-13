@@ -23,8 +23,24 @@ export type ActionSetup = {
   resolve?: Function;
   type?: string;
   permissions?: Function | Permission | Permission[];
-  preProcessor?: Function;
-  postProcessor?: Function;
+  // preProcessor?: Function;
+  // postProcessor?: Function;
+  preProcessor?: (
+    action?: Action,
+    source?: any,
+    payload?: any,
+    context?: any,
+    info?: any,
+  ) => Promise<void> | void;
+  postProcessor?: (
+    error?: any,
+    result?: any,
+    action?: Action,
+    source?: any,
+    payload?: any,
+    context?: any,
+    info?: any,
+  ) => Promise<void> | void;
 };
 
 export class Action {
