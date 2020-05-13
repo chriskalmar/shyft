@@ -1,6 +1,6 @@
 {
   "name": "shyft",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Model driven GraphQL API framework",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
