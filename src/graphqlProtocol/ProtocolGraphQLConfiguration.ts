@@ -7,7 +7,7 @@ import {
 } from './util';
 import { MAX_PAGE_SIZE } from './protocolGraphqlConstants';
 import { ProtocolConfiguration } from '../engine/protocol/ProtocolConfiguration';
-import { Mutation, Subscription, Entity } from '..';
+import { Mutation, Subscription, Entity, Action, ViewEntity } from '..';
 
 export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   constructor() {
@@ -35,33 +35,39 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
 
   /* name generators */
 
-  generateEntityTypeName(entity) {
+  generateEntityTypeName(entity: Entity | ViewEntity): string {
     return generateTypeName(entity.name);
   }
 
-  generateEntityTypeNamePlural(entity) {
+  generateEntityTypeNamePlural(entity: Entity | ViewEntity): string {
     return generateTypeNamePlural(entity.name);
   }
 
-  generateEntityTypeNamePascalCase(entity) {
+  generateEntityTypeNamePascalCase(entity: Entity | ViewEntity): string {
     return generateTypeNamePascalCase(entity.name);
   }
 
-  generateEntityTypeNamePluralPascalCase(entity) {
+  generateEntityTypeNamePluralPascalCase(entity: Entity | ViewEntity): string {
     return generateTypeNamePluralPascalCase(entity.name);
   }
 
-  generateReverseConnectionFieldName(sourceEntity, sourceAttributeName) {
+  generateReverseConnectionFieldName(
+    sourceEntity: Entity | ViewEntity,
+    sourceAttributeName,
+  ): string {
     const typeNamePlural = this.generateEntityTypeNamePlural(sourceEntity);
     return generateTypeName(`${typeNamePlural}-by-${sourceAttributeName}`);
   }
 
-  generateReferenceFieldName(referenceEntity, attribute) {
+  generateReferenceFieldName(
+    referenceEntity: Entity | ViewEntity,
+    attribute,
+  ): string {
     const fieldName = this.generateFieldName(attribute);
     return generateTypeName(`${referenceEntity.name}-by-${fieldName}`);
   }
 
-  generateReferenceFieldListName(referenceEntity, attribute) {
+  generateReferenceFieldListName(referenceEntity, attribute): string {
     const fieldName = this.generateFieldName(attribute);
     const referenceEntityNamePlural = this.generateEntityTypeNamePlural(
       referenceEntity,
@@ -69,72 +75,85 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     return generateTypeName(`${referenceEntityNamePlural}-by-${fieldName}`);
   }
 
-  generateFieldName(attribute) {
+  generateFieldName(attribute): string {
     return generateTypeName(attribute.name);
   }
 
-  generateI18nJsonFieldName(attribute) {
+  generateI18nJsonFieldName(attribute): string {
     const fieldName = this.generateFieldName(attribute);
     return `${fieldName}_i18nJson`;
   }
 
-  generateI18nFieldName(attribute) {
+  generateI18nFieldName(attribute): string {
     const fieldName = this.generateFieldName(attribute);
     return `${fieldName}_i18n`;
   }
 
-  generateI18nFieldTypeName(entity, attribute) {
+  generateI18nFieldTypeName(entity: Entity | ViewEntity, attribute) {
     const typeName = this.generateEntityTypeName(entity);
     const fieldName = this.generateFieldName(attribute);
     return generateTypeNamePascalCase(`${typeName}-${fieldName}-i18n`);
   }
 
-  generateListQueryTypeName(entity) {
+  generateListQueryTypeName(entity: Entity | ViewEntity) {
     const typeNamePlural = this.generateEntityTypeNamePlural(entity);
     return generateTypeName(`all-${typeNamePlural}`);
   }
 
-  generateInstanceQueryTypeName(entity) {
+  generateInstanceQueryTypeName(entity: Entity | ViewEntity): string {
     return this.generateEntityTypeName(entity);
   }
 
-  generateInstanceByUniqueQueryTypeName(entity, attribute) {
+  generateInstanceByUniqueQueryTypeName(
+    entity: Entity | ViewEntity,
+    attribute,
+  ): string {
     const typeName = this.generateEntityTypeName(entity);
     const fieldName = this.generateFieldName(attribute);
     return generateTypeName(`${typeName}-by-${fieldName}`);
   }
 
-  generateUniquenessAttributesName(_entity, attributes) {
+  generateUniquenessAttributesName(
+    _entity: Entity | ViewEntity,
+    attributes,
+  ): string {
     return generateTypeName(attributes.join('-and-'));
   }
 
   generateUniquenessAttributesFieldName(
-    _entity,
+    _entity: Entity | ViewEntity,
     attribute,
-    uniquenessAttributesName,
-  ) {
+    uniquenessAttributesName: string,
+  ): string {
     const fieldName = this.generateFieldName(attribute);
     return generateTypeName(
       `${fieldName}-by-unique-${uniquenessAttributesName}`,
     );
   }
 
-  generateInstanceUniquenessInputTypeName(entity, uniquenessAttributesName) {
+  generateInstanceUniquenessInputTypeName(
+    entity: Entity | ViewEntity,
+    uniquenessAttributesName,
+  ): string {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeNamePascalCase(
       `${typeName}-instance-uniqueness-on-${uniquenessAttributesName}-input`,
     );
   }
 
-  generateActionTypeName(action) {
+  generateActionTypeName(action: Action): string {
     return generateTypeName(action.name);
   }
 
-  generateDataInputTypeName(baseName) {
+  generateDataInputTypeName(baseName: string): string {
     return generateTypeNamePascalCase(`${baseName}-data-input`);
   }
 
-  generateNestedDataInputTypeName(baseName, nestedParamName, level) {
+  generateNestedDataInputTypeName(
+    baseName: string,
+    nestedParamName: string,
+    level: number,
+  ): string {
     const levelStr = level > 1 ? `L${level}` : '';
 
     return generateTypeNamePascalCase(
@@ -142,11 +161,11 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     );
   }
 
-  generateInputTypeName(baseName: string) {
+  generateInputTypeName(baseName: string): string {
     return generateTypeNamePascalCase(`${baseName}-input`);
   }
 
-  generateDataOutPutTypeName(baseName: string) {
+  generateDataOutPutTypeName(baseName: string): string {
     return generateTypeNamePascalCase(`${baseName}-data-output`);
   }
 
@@ -154,7 +173,7 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     baseName: string,
     nestedParamName: string,
     level?: number,
-  ) {
+  ): string {
     const levelStr = level > 1 ? `L${level}` : '';
 
     return generateTypeNamePascalCase(
@@ -162,44 +181,47 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     );
   }
 
-  generateOutPutTypeName(baseName: string) {
+  generateOutPutTypeName(baseName: string): string {
     return generateTypeNamePascalCase(`${baseName}-output`);
   }
 
-  generateSortKeyName(attribute: any, ascending?: boolean) {
+  generateSortKeyName(attribute: any, ascending?: boolean): string {
     const direction = ascending ? 'ASC' : 'DESC';
 
     return `${generateTypeNameUpperCase(attribute.name)}_${direction}`;
   }
 
-  generateSortInputTypeName(entity) {
+  generateSortInputTypeName(entity: Entity | ViewEntity): string {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeNamePascalCase(`${typeName}-order-by`);
   }
 
-  generateFilterInputTypeName(entity) {
+  generateFilterInputTypeName(entity: Entity | ViewEntity): string {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeNamePascalCase(`${typeName}-filter`);
   }
 
-  generateFilterPreFilterInputTypeName(entity) {
+  generateFilterPreFilterInputTypeName(entity: Entity | ViewEntity): string {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeNamePascalCase(`${typeName}-pre-filter`);
   }
 
-  generateFilterPreFilterParamsInputTypeName(entity, preFilter) {
+  generateFilterPreFilterParamsInputTypeName(
+    entity: Entity | ViewEntity,
+    preFilter,
+  ): string {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeNamePascalCase(
       `${typeName}-pre-filter-${preFilter}-params`,
     );
   }
 
-  generateConnectionEdgeTypeName(entity) {
+  generateConnectionEdgeTypeName(entity: Entity | ViewEntity): string {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeNamePascalCase(`${typeName}-edge`);
   }
 
-  generateConnectionTypeName(entity): string {
+  generateConnectionTypeName(entity: Entity | ViewEntity): string {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeNamePascalCase(`${typeName}-connection`);
   }
@@ -208,7 +230,7 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     entity: Entity | any,
     operation: Mutation | Subscription | any,
     attribute,
-  ) {
+  ): string {
     const typeName = this.generateEntityTypeName(entity);
     const fieldName = this.generateFieldName(attribute);
     return generateTypeNamePascalCase(
@@ -219,7 +241,7 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   generateOperationInstanceInputTypeName(
     entity: Entity,
     operation: Mutation | Subscription,
-  ) {
+  ): string {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeNamePascalCase(
       `${operation.name}-${typeName}-instance-input`,
@@ -229,7 +251,7 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   generateOperationInputTypeName(
     entity: Entity,
     operation: Mutation | Subscription,
-  ) {
+  ): string {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeNamePascalCase(`${operation.name}-${typeName}-input`);
   }
@@ -238,7 +260,7 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     entity: Entity,
     operation: Mutation | Subscription,
     attribute,
-  ) {
+  ): string {
     const typeName = this.generateEntityTypeName(entity);
     const fieldName = this.generateFieldName(attribute);
     return generateTypeNamePascalCase(
@@ -249,7 +271,7 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   generateOperationInstanceNestedInputTypeName(
     entity: Entity,
     operation: Mutation | Subscription,
-  ) {
+  ): string {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeNamePascalCase(
       `${operation.name}-${typeName}-instance-nested-input`,
@@ -259,7 +281,7 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   generateOperationNestedInputTypeName(
     entity: Entity,
     operation: Mutation | Subscription,
-  ) {
+  ): string {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeNamePascalCase(
       `${operation.name}-${typeName}-nested-input`,
@@ -269,7 +291,7 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   generateOperationOutputTypeName(
     entity: Entity,
     operation: Mutation | Subscription,
-  ) {
+  ): string {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeNamePascalCase(`${operation.name}-${typeName}-output`);
   }
@@ -277,7 +299,7 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   generateOperationTypeName(
     entity: Entity,
     operation: Mutation | Subscription,
-  ) {
+  ): string {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeName(`${operation.name}-${typeName}`);
   }
@@ -285,7 +307,7 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   generateOperationNestedTypeName(
     entity: Entity,
     operation: Mutation | Subscription,
-  ) {
+  ): string {
     const typeName = this.generateEntityTypeName(entity);
     return generateTypeName(`${operation.name}-${typeName}-nested`);
   }
@@ -294,7 +316,7 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
     entity: Entity,
     operation: Mutation | Subscription,
     attribute,
-  ) {
+  ): string {
     const typeName = this.generateEntityTypeName(entity);
     const fieldName = this.generateFieldName(attribute);
     return generateTypeName(`${operation.name}-${typeName}-by-${fieldName}`);

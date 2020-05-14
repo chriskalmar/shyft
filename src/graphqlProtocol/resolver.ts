@@ -22,17 +22,19 @@ import {
   getEntityUniquenessAttributes,
   checkRequiredI18nInputs,
 } from './helper';
-import { isEntity } from '../engine/entity/Entity';
+import { isEntity, Entity } from '../engine/entity/Entity';
 import {
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
+  Mutation,
 } from '../engine/mutation/Mutation';
 import {
   SUBSCRIPTION_TYPE_CREATE,
   SUBSCRIPTION_TYPE_UPDATE,
   // SUBSCRIPTION_TYPE_DELETE,
   pubsub,
+  Subscription,
 } from '../engine/subscription/Subscription';
 import { CustomError } from '../engine/CustomError';
 import {
@@ -41,6 +43,16 @@ import {
   serializeValues,
 } from '../engine/helpers';
 import { validateMutationPayload } from '../engine/validation';
+import {
+  buildActionPermissionFilter,
+  Permission,
+} from '../engine/permission/Permission';
+
+const AccessDeniedError = new CustomError(
+  'Access denied',
+  'PermissionError',
+  403,
+);
 
 export const resolveByFind = (entity, parentConnectionCollector?: any) => {
   const storageType = entity.storageType;
@@ -297,11 +309,11 @@ export const getNestedPayloadResolver = (
 };
 
 export const getMutationResolver = (
-  entity,
-  entityMutation,
-  typeName,
-  nested,
-  idResolver,
+  entity: Entity | any,
+  entityMutation: Mutation,
+  typeName: string,
+  nested: boolean,
+  idResolver: Function,
 ) => {
   const storageType = entity.storageType;
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
@@ -458,15 +470,78 @@ export const getMutationResolver = (
   };
 };
 
+export const handleSubscriptionPermission = async (
+  context: any,
+  entity: Entity,
+  entitySubscription: Subscription,
+  input: any,
+) => {
+  const permissionsMap = entity.getPermissions();
+  if (
+    !permissionsMap ||
+    !permissionsMap.subscriptions ||
+    !Object.keys(permissionsMap.subscriptions).length
+  ) {
+    return null;
+  }
+
+  const subPermissions = ([] as Permission[]).concat(
+    ...Object.values(permissionsMap.subscriptions as Permission | Permission[]),
+  );
+
+  const { userId, userRoles } = context;
+
+  const {
+    where: permissionWhere,
+    lookupPermissionEntity,
+  } = await buildActionPermissionFilter(
+    subPermissions,
+    userId,
+    userRoles,
+    entitySubscription,
+    input,
+    context,
+  );
+
+  if (!permissionWhere) {
+    throw AccessDeniedError;
+  }
+
+  // console.log('handleSubscriptionPermission', {
+  //   permissionWhere,
+  //   lookupPermissionEntity,
+  // });
+
+  // only if non-empty where clause
+  if (Object.keys(permissionWhere).length > 0) {
+    const storageType = lookupPermissionEntity.getStorageType();
+    const found = await storageType.checkLookupPermission(
+      lookupPermissionEntity,
+      permissionWhere,
+      context,
+    );
+
+    if (!found) {
+      throw AccessDeniedError;
+    }
+  }
+
+  return permissionWhere;
+};
+
+export const setTopicEnd = (entitySubscription: Subscription): string =>
+  entitySubscription.wildCard
+    ? entitySubscription.delimiter + entitySubscription.wildCard
+    : '';
+
 export const getSubscriptionResolver = (
-  entity,
-  entitySubscription,
-  typeName,
-  nested,
-  idResolver,
+  entity: Entity,
+  entitySubscription: Subscription,
+  typeName: string,
+  nested: boolean,
+  idResolver: Function,
 ) => {
   const storageType = entity.storageType;
-  // const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const nestedPayloadResolver = getNestedPayloadResolver(
     entity,
@@ -485,6 +560,13 @@ export const getSubscriptionResolver = (
       entitySubscription,
       args.input[typeName],
       // context,
+    );
+
+    await handleSubscriptionPermission(
+      context,
+      entity,
+      entitySubscription,
+      args.input[typeName],
     );
 
     if (nested) {
@@ -530,30 +612,21 @@ export const getSubscriptionResolver = (
     //   );
     // }
 
-    let topic;
+    let extraTopic: string;
     const delimiter = entitySubscription.delimiter;
-    if (entitySubscription.pattern) {
-      // const delimiter = entitySubscription.delimiter;
-      // const filled = entitySubscription.attributes
-      //   .map(attribute => input[attribute])
-      //   .reduce((acc, curr) => `${acc + delimiter + curr}`, '');
+    const baseTopic = `${entitySubscription.name}${entity.name}`;
 
+    if (entitySubscription.pattern) {
       const params = entitySubscription.pattern
         .split(delimiter)
         .reduce((acc, curr) => (acc[curr] = args.input[typeName][curr]), {});
-      console.log('getSubscriptionResolver', { params });
+      // console.log('getSubscriptionResolver', { params });
 
       const filled = Object.values(params).join(delimiter);
-
-      console.log('getSubscriptionResolver', { filled });
-
-      topic = `${entitySubscription.name}${entity.name}/${filled}${
-        entitySubscription.wildCard
-          ? delimiter + entitySubscription.wildCard
-          : ''
-      }`;
+      // console.log('getSubscriptionResolver', { filled });
+      extraTopic = `${delimiter}${filled}${setTopicEnd(entitySubscription)}`;
     } else if (entitySubscription.preProcessor) {
-      topic = await entitySubscription.preProcessor(
+      extraTopic = await entitySubscription.preProcessor(
         entity,
         id,
         source,
@@ -564,15 +637,11 @@ export const getSubscriptionResolver = (
         info,
       );
     }
-    if (!topic) {
-      topic = `${entitySubscription.name}${entity.name}${
-        entitySubscription.wildCard
-          ? delimiter + entitySubscription.wildCard
-          : ''
-      }`;
+    if (!extraTopic) {
+      extraTopic = setTopicEnd(entitySubscription);
     }
 
-    // console.log('getSubscriptionResolver', { topic });
+    const topic = `${baseTopic}${extraTopic}`;
 
     return context.pubsub
       ? context.pubsub.asyncIterator(topic)
@@ -581,8 +650,8 @@ export const getSubscriptionResolver = (
 };
 
 export const getSubscriptionPayloadResolver = (
-  entity,
-  entitySubscription,
+  entity: Entity,
+  entitySubscription: Subscription,
   typeName,
 ) => {
   return async (source, args, context, info) => {
@@ -618,8 +687,6 @@ export const getSubscriptionPayloadResolver = (
     } else {
       ret[typeName] = result;
     }
-
-    // console.log('getSubscriptionPayloadResolver', JSON.stringify(ret, null, 2));
 
     return ret;
   };

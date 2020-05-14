@@ -499,8 +499,6 @@ export const buildUserAttributesPermissionFilter = ({
   if (permission.userAttributes.length > 0) {
     passOrThrow(userId, () => 'missing userId in permission object');
     where = {};
-    // where = where || {};
-    // where.$or = where.$or || [];
 
     permission.userAttributes.map(attributeName => {
       const userAttrFilter = {
@@ -533,8 +531,6 @@ export const buildStatesPermissionFilter = ({
   if (permission.states.length > 0) {
     passOrThrow(entity, () => 'missing entity in permission object');
     where = {};
-    // where = where || {};
-    // where.$or = where.$or || [];
 
     const states = entity.getStates();
     const stateIds = permission.states.map(stateName => {
@@ -573,8 +569,6 @@ export const buildValuesPermissionFilter = ({
 
   if (permission.values.length > 0) {
     where = {};
-    // where = where || {};
-    // where.$or = where.$or || [];
 
     permission.values.map(({ attributeName, value }) => {
       const filter = {
@@ -625,8 +619,6 @@ export const buildLookupsPermissionFilter = async ({
 
   if (permission.lookups.length > 0) {
     where = {};
-    // where = where || {};
-    // where.$or = where.$or || [];
 
     await Promise.all(
       permission.lookups.map(async ({ entity, lookupMap }) => {
@@ -812,10 +804,11 @@ export type ActionPermissionFilter = {
 };
 
 export const buildActionPermissionFilter = async (
-  _permissions: Permission | Permission[],
+  _permissions: Function | Permission | Permission[],
   userId = null,
   userRoles = [],
-  action: Action,
+  action: Action | Subscription,
+  // action: Action,
   input?: any,
   context?: any,
 ): Promise<
@@ -829,10 +822,22 @@ export const buildActionPermissionFilter = async (
     return undefined;
   }
 
-  // const permissions = isArray(_permissions) ? _permissions : [_permissions];
-  const permissions = isArray(_permissions as Permission[])
-    ? (_permissions as Permission[])
-    : ([_permissions] as Permission[]);
+  let permissions: Permission[];
+  if (isFunction(_permissions)) {
+    const permissionFn = _permissions as Function;
+    const permissionResult = permissionFn();
+    permissions = isArray(permissionResult)
+      ? permissionResult
+      : [permissionResult];
+  } else if (isArray(_permissions as Permission[])) {
+    permissions = _permissions as Permission[];
+  } else {
+    permissions = [_permissions] as Permission[];
+  }
+
+  // const permissions = isArray(_permissions as Permission[])
+  //   ? (_permissions as Permission[])
+  //   : ([_permissions] as Permission[]);
 
   let foundSimplePermission = false;
 
@@ -1032,6 +1037,18 @@ export const findEmptyEntityPermissions = (permissions): string[] => {
         hasEmptyPermissions(permissions.mutations[mutationName])
       ) {
         emptyPermissionsIn.push(`mutations.${mutationName}`);
+      }
+    });
+  }
+
+  if (permissions.subscriptions) {
+    const subscriptionNames = Object.keys(permissions.subscriptions);
+    subscriptionNames.map(subscriptionName => {
+      if (
+        permissions.subscriptions[subscriptionName] &&
+        hasEmptyPermissions(permissions.subscriptions[subscriptionName])
+      ) {
+        emptyPermissionsIn.push(`subscriptions.${subscriptionName}`);
       }
     });
   }
