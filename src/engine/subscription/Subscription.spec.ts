@@ -375,8 +375,7 @@ describe('Subscription', () => {
                 .map(attribute => input[attribute])
                 .reduce((acc, curr) => `${acc + delimiter + curr}`, '');
 
-              const topic = `${entitySubscription.name}${_entity.name}${filled}`;
-              return topic;
+              return filled;
             }
 
             return null;
