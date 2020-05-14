@@ -43,7 +43,10 @@ import {
   serializeValues,
 } from '../engine/helpers';
 import { validateMutationPayload } from '../engine/validation';
-import { buildActionPermissionFilter } from '../engine/permission/Permission';
+import {
+  buildActionPermissionFilter,
+  Permission,
+} from '../engine/permission/Permission';
 
 const AccessDeniedError = new CustomError(
   'Access denied',
@@ -473,28 +476,26 @@ export const handleSubscriptionPermission = async (
   entitySubscription: Subscription,
   input: any,
 ) => {
-  const permission = entity.getPermissions();
-
-  console.log('handleSubscriptionPermission', { permission });
-
-  if (!permission) {
+  const permissionsMap = entity.getPermissions();
+  if (
+    !permissionsMap ||
+    !permissionsMap.subscriptions ||
+    !Object.keys(permissionsMap.subscriptions).length
+  ) {
     return null;
   }
 
-  const subPermission = permission.subscriptions;
-  if (!subPermission) {
-    return null;
-  }
+  const subPermissions = ([] as Permission[]).concat(
+    ...Object.values(permissionsMap.subscriptions as Permission | Permission[]),
+  );
 
   const { userId, userRoles } = context;
-
-  console.log('handleSubscriptionPermission', { subPermission });
 
   const {
     where: permissionWhere,
     lookupPermissionEntity,
   } = await buildActionPermissionFilter(
-    subPermission,
+    subPermissions,
     userId,
     userRoles,
     entitySubscription,
@@ -506,10 +507,10 @@ export const handleSubscriptionPermission = async (
     throw AccessDeniedError;
   }
 
-  console.log('handleSubscriptionPermission', {
-    permissionWhere,
-    lookupPermissionEntity,
-  });
+  // console.log('handleSubscriptionPermission', {
+  //   permissionWhere,
+  //   lookupPermissionEntity,
+  // });
 
   // only if non-empty where clause
   if (Object.keys(permissionWhere).length > 0) {
@@ -541,7 +542,6 @@ export const getSubscriptionResolver = (
   idResolver: Function,
 ) => {
   const storageType = entity.storageType;
-  // const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const nestedPayloadResolver = getNestedPayloadResolver(
     entity,
@@ -687,8 +687,6 @@ export const getSubscriptionPayloadResolver = (
     } else {
       ret[typeName] = result;
     }
-
-    // console.log('getSubscriptionPayloadResolver', JSON.stringify(ret, null, 2));
 
     return ret;
   };

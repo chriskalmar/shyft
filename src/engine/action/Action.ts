@@ -56,7 +56,7 @@ export class Action {
   private _output: any;
   resolve: Function;
   type: string;
-  permissions: Function | Permission | Permission[];
+  permissions: Permission | Permission[];
   private _permissions: Function | Permission | Permission[];
   private _defaultPermissions: Permission | Permission[];
   descriptionPermissions: string | boolean;
@@ -252,7 +252,7 @@ export class Action {
     this._defaultPermissions = defaultPermissions;
   }
 
-  getPermissions(): Function | Permission | Permission[] {
+  getPermissions(): Permission | Permission[] {
     if ((!this._permissions && !this._defaultPermissions) || this.permissions) {
       return this.permissions;
     }
