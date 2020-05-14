@@ -13,7 +13,7 @@ import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 import { isObjectDataType } from '../engine/datatype/ObjectDataType';
 import { isListDataType } from '../engine/datatype/ListDataType';
 import { validateActionPayload } from '../engine/validation';
-import { ACTION_TYPE_MUTATION } from '../engine/action/Action';
+import { ACTION_TYPE_MUTATION, Action } from '../engine/action/Action';
 import { buildActionPermissionFilter } from '../engine/permission/Permission';
 import { CustomError } from '../engine/CustomError';
 
@@ -80,7 +80,11 @@ const fillNestedDefaultValues = async (params, payload, context) => {
 const fillDefaultValues = async (param, payload, context) =>
   fillSingleDefaultValues(param, payload, context);
 
-export const handlePermission = async (context, action, input) => {
+export const handlePermission = async (
+  context: any,
+  action: Action,
+  input: any,
+) => {
   const permission = action.getPermissions();
 
   if (!permission) {

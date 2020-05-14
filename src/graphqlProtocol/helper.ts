@@ -4,6 +4,7 @@ import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 
 import { INDEX_UNIQUE } from '../engine/index/Index';
 import { CustomError } from '../engine/CustomError';
+import { Entity, Mutation, Subscription } from '..';
 
 export const getEntityUniquenessAttributes = entity => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
@@ -33,10 +34,14 @@ export const getEntityUniquenessAttributes = entity => {
   return ret;
 };
 
-export const checkRequiredI18nInputs = (entity, entityMutation, input) => {
+export const checkRequiredI18nInputs = (
+  entity: Entity | any,
+  operation: Mutation | Subscription,
+  input: any,
+) => {
   const entityAttributes = entity.getAttributes();
 
-  _.forEach(entityMutation.attributes, attributeName => {
+  _.forEach(operation.attributes, attributeName => {
     const attribute = entityAttributes[attributeName];
     const { gqlFieldName, gqlFieldNameI18n } = attribute;
 
@@ -52,7 +57,7 @@ export const checkRequiredI18nInputs = (entity, entityMutation, input) => {
         );
       }
 
-      if (attribute.required && !entityMutation.ignoreRequired) {
+      if (attribute.required && !operation.ignoreRequired) {
         if (!input[gqlFieldName] && !input[gqlFieldNameI18n]) {
           throw new CustomError(
             `Provide one of these fields: ${gqlFieldName}, ${gqlFieldNameI18n}`,

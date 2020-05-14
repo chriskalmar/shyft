@@ -1,10 +1,10 @@
 import * as _ from 'lodash';
-import { Entity } from '..';
+import { Entity, Subscription } from '..';
 import { Mutation } from './mutation/Mutation';
 
 export const fillSystemAttributesDefaultValues = (
   entity: Entity,
-  entityMutation: Mutation,
+  operation: Mutation | Subscription,
   payload: any,
   context: Record<string, any>,
 ): any => {
@@ -22,7 +22,7 @@ export const fillSystemAttributesDefaultValues = (
     const attributeName = attribute.name;
     const defaultValue = attribute.defaultValue;
 
-    const value = defaultValue(ret, entityMutation, entity, context);
+    const value = defaultValue(ret, operation, entity, context);
     if (typeof value !== 'undefined') {
       ret[attributeName] = value;
     }
