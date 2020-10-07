@@ -2028,7 +2028,7 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-casual@1.6.2:
+casual@1.6.2, casual@^1.6.2:
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/casual/-/casual-1.6.2.tgz#f56b87113ae99a6bba45e04bdfa068ca443f9e85"
   integrity sha512-NQObL800rg32KZ9bBajHbyDjxLXxxuShChQg7A4tbSeG3n1t7VYGOSkzFSI9gkSgOHp+xilEJ7G0L5l6M30KYA==
@@ -3293,6 +3293,13 @@ graphql-relay@^0.6.0:
   dependencies:
     prettier "^1.16.0"
 
+graphql-subscriptions@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/graphql-subscriptions/-/graphql-subscriptions-1.1.0.tgz#5f2fa4233eda44cf7570526adfcf3c16937aef11"
+  integrity sha512-6WzlBFC0lWmXJbIVE8OgFgXIP4RJi3OQgTPa0DVMsDXdpRDjTsM1K9wfl5HSYX7R87QAGlvcv2Y4BIZa/ItonA==
+  dependencies:
+    iterall "^1.2.1"
+
 graphql-type-json@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/graphql-type-json/-/graphql-type-json-0.3.0.tgz#bb32e1b74bf52ebc690f9df12b4067bc061f818a"
@@ -3869,6 +3876,11 @@ istanbul-reports@^3.0.2:
   dependencies:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
+
+iterall@^1.2.1:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.3.0.tgz#afcb08492e2915cbd8a0884eb93a8c94d0d72fea"
+  integrity sha512-QZ9qOMdF+QLHxy1QIpUHUU1D5pS2CG2P69LF6L6CPjPYA/XMOmKV3PZpawHoAjHNyB0swdVTRxdYT4tbBbxqwg==
 
 iterall@^1.2.2:
   version "1.2.2"
@@ -5943,15 +5955,17 @@ shellwords@^0.1.1:
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
 
-shyft@0.5.2:
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/shyft/-/shyft-0.5.2.tgz#47b2942853e0501a7dd167e76c3499a8245c5865"
-  integrity sha512-afFL9FuDy882jgKBDQMDAxt5Toh+OUeSD7te4Bce6z6f4fpJtPjHflbO3UKricN55zT7DG9uOQLc7HSdqk2EXQ==
+shyft@0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/shyft/-/shyft-0.7.2.tgz#722daa10cee54e2fe082b1a8aaf818d59d1785a6"
+  integrity sha512-pwQd/AI4jdfdJ1EN797aBaKQSXcd3Sem6O79zBuUHOF9X3kJZp/jYLYC69Z8tDfLPzZUOKNEkoCS/jsfG/bbxw==
   dependencies:
     "@types/graphql" "^14.5.0"
+    casual "^1.6.2"
     date-fns "^2.1.0"
     graphql "^14.5.8"
     graphql-relay "^0.6.0"
+    graphql-subscriptions "^1.1.0"
     graphql-type-json "^0.3.0"
     json-shaper "^1.2.0"
     lodash "^4.17.10"
