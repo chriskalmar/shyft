@@ -83,6 +83,7 @@ export const loadModels = configuration => {
     const references = [];
     const dataShaperMap = {};
     const filterShaperMap = {};
+    const foreignKeyIndices = [];
 
     const Skeleton = () => {};
 
@@ -107,7 +108,7 @@ export const loadModels = configuration => {
       if (attribute.meta && attribute.meta.storageAttributeName) {
         storageAttributeName = attribute.meta.storageAttributeName;
       } else if (isViewEntity(entity)) {
-        storageAttributeName = attribute.name
+        storageAttributeName = attribute.name;
       } else {
         storageAttributeName = _.snakeCase(attribute.name);
       }
@@ -144,6 +145,17 @@ export const loadModels = configuration => {
             targetAttributeName: primaryAttribute.name,
             targetEntityName,
           });
+
+          const foreignKeyIndexName = generateIndexName(
+            _.snakeCase(entityName),
+            [_.snakeCase(attributeName)],
+            'key',
+          );
+
+          Index(foreignKeyIndexName, [attributeName], { unique: false })(
+            Skeleton,
+          );
+          foreignKeyIndices.push(foreignKeyIndexName);
         }
 
         ManyToOne(() => modelRegistry[targetEntityName].model, {
@@ -202,7 +214,9 @@ export const loadModels = configuration => {
           );
 
           const unique = index.type === INDEX_UNIQUE;
-          Index(indexName, index.attributes, { unique })(Skeleton);
+          if (!foreignKeyIndices.includes(indexName)) {
+            Index(indexName, index.attributes, { unique })(Skeleton);
+          }
 
           constraints.unique[indexName] = {
             attributes: index.attributes,
