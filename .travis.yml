@@ -1,8 +1,8 @@
 language: node_js
 node_js:
+  - '14'
   - '12'
   - '10'
-  - '8'
 
 services:
   - postgresql
@@ -30,4 +30,4 @@ deploy:
   on:
     tags: true
     repo: chriskalmar/shyft-storage-connector
-    node: '10'
+    node: '12'
