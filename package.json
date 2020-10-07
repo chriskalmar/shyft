@@ -84,7 +84,7 @@
     "typeorm": "0.2.28"
   },
   "dependencies": {
-    "dataloader": "^1.4.0",
+    "dataloader": "^2.0.0",
     "json-shaper": "^1.2.0",
     "lodash": "^4.17.10",
     "toposort": "^2.0.2"
