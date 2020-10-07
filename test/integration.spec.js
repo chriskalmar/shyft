@@ -8,6 +8,7 @@ import { counts } from './testSetGenerator';
 import { Profile } from './models/Profile';
 import { Board } from './models/Board';
 import { BoardMember } from './models/BoardMember';
+import { StorageTypePostgres } from '../src/StorageTypePostgres';
 
 describe('postgres', () => {
   it('test data imported correctly', async () => {
@@ -19,5 +20,19 @@ describe('postgres', () => {
 
     const memberCount = await count(BoardMember, {}, asAdmin());
     expect(memberCount).toEqual(counts.joinCount + counts.inviteCount);
+  });
+
+  it('should check the generated indexes', async () => {
+    const storageInstance = StorageTypePostgres.getStorageInstance();
+    const manager = storageInstance.manager;
+    const indexes = await manager.query(`
+      select indexname
+      from pg_indexes
+      where tablename = 'board'
+      order by indexname
+    `);
+
+    const indexList = indexes.map(i => i.indexname);
+    expect(indexList).toMatchSnapshot('indexList');
   });
 });
