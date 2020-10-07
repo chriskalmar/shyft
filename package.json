@@ -74,7 +74,7 @@
     "husky": "4.3.0",
     "jest": "26.5.2",
     "lint-staged": "10.4.0",
-    "pg": "7.14.0",
+    "pg": "8.4.0",
     "prettier": "2.1.2",
     "prettier-eslint": "11.0.0",
     "prettier-eslint-cli": "5.0.0",
