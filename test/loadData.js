@@ -27,10 +27,11 @@ export const loadData = async () => {
 
   const boards = readRows('boards');
 
-  await asyncForEach(boards, async ([name, userId, isPrivate]) => {
+  await asyncForEach(boards, async ([name, userId, isPrivate, vip]) => {
     const payload = {
       name,
       isPrivate: isPrivate === '1',
+      vip,
     };
 
     await mutate(Board, 'build', payload, null, asUser(userId));

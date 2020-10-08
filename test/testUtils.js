@@ -35,6 +35,10 @@ export const removeDynamicData = (entity, payload) => {
     delete ret.registeredAt;
   }
 
+  if (entity.name === 'Board') {
+    delete ret.vip;
+  }
+
   return ret;
 };
 

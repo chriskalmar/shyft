@@ -26,13 +26,14 @@ describe('postgres', () => {
     const storageInstance = StorageTypePostgres.getStorageInstance();
     const manager = storageInstance.manager;
     const indexes = await manager.query(`
-      select indexname
+      select
+        indexname,
+        indexdef ILIKE '%UNIQUE%' AS unique
       from pg_indexes
       where tablename = 'board'
       order by indexname
     `);
 
-    const indexList = indexes.map(i => i.indexname);
-    expect(indexList).toMatchSnapshot('indexList');
+    expect(indexes).toMatchSnapshot('indexList');
   });
 });

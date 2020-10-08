@@ -153,9 +153,18 @@ export const loadModels = configuration => {
             'key',
           );
 
-          Index(foreignKeyIndexName, [attributeName], { unique: false })(
-            Skeleton,
-          );
+          let unique = false;
+          // checking if there is a defined index for the foreign key
+          if (entity.indexes) {
+            const definedForeignKeyIndex = entity.indexes.filter(index =>
+              _.isEqual(index.attributes, [attributeName]),
+            );
+            if (definedForeignKeyIndex && definedForeignKeyIndex.length > 0) {
+              unique = definedForeignKeyIndex[0].type === INDEX_UNIQUE;
+            }
+          }
+
+          Index(foreignKeyIndexName, [attributeName], { unique })(Skeleton);
           foreignKeyIndices.push(foreignKeyIndexName);
         }
 
