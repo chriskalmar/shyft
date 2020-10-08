@@ -481,6 +481,7 @@ export const connectStorage = async (
   configuration,
   synchronize = false,
   dropSchema = false,
+  onConnect,
 ) => {
   const storageConfiguration = configuration.getStorageConfiguration();
   const connectionConfig = storageConfiguration.getConnectionConfig();
@@ -498,6 +499,10 @@ export const connectStorage = async (
     dropSchema,
     entities,
   });
+
+  if (onConnect) {
+    onConnect(connection);
+  }
 
   storageConfiguration.setStorageInstance(connection);
   storageConfiguration.setStorageModels(modelRegistry);
