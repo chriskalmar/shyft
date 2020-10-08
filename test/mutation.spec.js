@@ -114,6 +114,7 @@ describe('mutation', () => {
     const payload = {
       name: 'New Board',
       isPrivate: false,
+      vip: 1,
     };
 
     await mutate(Board, 'build', payload, null, asUser(99));

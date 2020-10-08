@@ -2,11 +2,33 @@
 
 exports[`postgres should check the generated indexes: indexList 1`] = `
 Array [
-  "PK_865a0f2e22c140d261b1df80eb1",
-  "board_created_by_key",
-  "board_is_private_key",
-  "board_name_key",
-  "board_owner_key",
-  "board_updated_by_key",
+  Object {
+    "indexname": "PK_865a0f2e22c140d261b1df80eb1",
+    "unique": true,
+  },
+  Object {
+    "indexname": "board_created_by_key",
+    "unique": false,
+  },
+  Object {
+    "indexname": "board_is_private_key",
+    "unique": false,
+  },
+  Object {
+    "indexname": "board_name_key",
+    "unique": true,
+  },
+  Object {
+    "indexname": "board_owner_key",
+    "unique": false,
+  },
+  Object {
+    "indexname": "board_updated_by_key",
+    "unique": false,
+  },
+  Object {
+    "indexname": "board_vip_key",
+    "unique": true,
+  },
 ]
 `;
