@@ -44,6 +44,10 @@ export const Board = new Entity({
       type: INDEX_GENERIC,
       attributes: ['owner'],
     }),
+    new Index({
+      type: INDEX_UNIQUE,
+      attributes: ['vip'],
+    }),
   ],
 
   mutations: ({ createMutation }) => [
@@ -52,13 +56,13 @@ export const Board = new Entity({
       name: 'build',
       description: 'build a new board',
       type: MUTATION_TYPE_CREATE,
-      attributes: ['name', 'isPrivate'],
+      attributes: ['name', 'isPrivate', 'vip'],
     }),
     new Mutation({
       name: 'update',
       description: 'update a board',
       type: MUTATION_TYPE_UPDATE,
-      attributes: ['name', 'isPrivate'],
+      attributes: ['name', 'isPrivate', 'vip'],
     }),
   ],
 
@@ -84,6 +88,12 @@ export const Board = new Entity({
       defaultValue(payload, mutation, entity, { userId }) {
         return userId;
       },
+    },
+
+    vip: {
+      type: Profile,
+      description: 'VIP guest of the board',
+      required: true,
     },
 
     isPrivate: {
