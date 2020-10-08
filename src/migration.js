@@ -97,7 +97,7 @@ const getMigrationsFullPath = connectionConfig => {
     );
   }
 
-  return path.join(process.cwd(), 'migrations2');
+  return path.join(process.cwd(), 'migrations');
 };
 
 export const generateMigration = async (
