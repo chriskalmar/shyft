@@ -93,7 +93,9 @@ const upgradeMigrationQuery = (_query, isUpMigration = false) => {
 const getMigrationsFullPath = connectionConfig => {
   if (connectionConfig.migrations && connectionConfig.migrations[0]) {
     return path.dirname(
-      path.join(process.cwd(), connectionConfig.migrations[0]),
+      connectionConfig.migrations[0].indexOf('/') === 0
+        ? connectionConfig.migrations[0]
+        : path.join(process.cwd(), connectionConfig.migrations[0]),
     );
   }
 
