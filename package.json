@@ -1,6 +1,6 @@
 {
   "name": "shyft-storage-connector",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Storage connector for Shyft",
   "main": "lib/index.js",
   "scripts": {
