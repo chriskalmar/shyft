@@ -64,12 +64,12 @@
     "url": "https://github.com/chriskalmar/shyft-storage-connector"
   },
   "devDependencies": {
-    "@babel/cli": "7.11.6",
-    "@babel/core": "7.11.6",
-    "@babel/plugin-proposal-class-properties": "7.10.4",
-    "@babel/plugin-transform-runtime": "7.11.5",
-    "@babel/preset-env": "7.11.5",
-    "@babel/runtime": "7.11.2",
+    "@babel/cli": "7.12.1",
+    "@babel/core": "7.12.3",
+    "@babel/plugin-proposal-class-properties": "7.12.1",
+    "@babel/plugin-transform-runtime": "7.12.1",
+    "@babel/preset-env": "7.12.1",
+    "@babel/runtime": "7.12.1",
     "babel-eslint": "10.1.0",
     "casual": "1.6.2",
     "codecov": "3.8.0",
