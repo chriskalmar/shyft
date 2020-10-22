@@ -7,27 +7,27 @@ Array [
     "unique": true,
   },
   Object {
-    "indexname": "board_created_by_key",
+    "indexname": "board_created_by_117dbb19db_key",
     "unique": false,
   },
   Object {
-    "indexname": "board_is_private_key",
+    "indexname": "board_is_private_e34a1f4ba1_key",
     "unique": false,
   },
   Object {
-    "indexname": "board_name_key",
+    "indexname": "board_name_82a3537ff0_key",
     "unique": true,
   },
   Object {
-    "indexname": "board_owner_key",
+    "indexname": "board_owner_4c1029697e_key",
     "unique": false,
   },
   Object {
-    "indexname": "board_updated_by_key",
+    "indexname": "board_updated_by_d9a2ae5845_key",
     "unique": false,
   },
   Object {
-    "indexname": "board_vip_key",
+    "indexname": "board_vip_f9505a739a_key",
     "unique": true,
   },
 ]
