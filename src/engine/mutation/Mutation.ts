@@ -13,6 +13,14 @@ export const mutationTypes = [
   MUTATION_TYPE_DELETE,
 ];
 
+export interface MutationMap {
+  [key: string]: Mutation;
+}
+
+export interface MutationGenerator {
+  (mutations: MutationMap): Mutation[];
+}
+
 export const defaultEntityMutations = [
   {
     name: 'create',

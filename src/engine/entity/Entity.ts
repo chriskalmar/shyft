@@ -9,11 +9,12 @@ import {
   stateNameRegex,
 } from '../constants';
 
-import { processEntityIndexes } from '../index/Index';
+import { Index, processEntityIndexes } from '../index/Index';
 import {
   Mutation,
   defaultEntityMutations,
   processEntityMutations,
+  MutationGenerator,
 } from '../mutation/Mutation';
 
 import {
@@ -28,7 +29,7 @@ import {
 } from '../subscription/Subscription';
 
 import { DataType, isDataType, DataTypeFunction } from '../datatype/DataType';
-import { isStorageType } from '../storage/StorageType';
+import { isStorageType, StorageType } from '../storage/StorageType';
 import { StorageTypeNull } from '../storage/StorageTypeNull';
 import { isComplexDataType } from '../datatype/ComplexDataType';
 
@@ -65,9 +66,8 @@ export interface EntitySetup {
   isUserEntity?: boolean;
   includeTimeTracking?: boolean;
   includeUserTracking?: boolean;
-  indexes?: any;
-  // improve typings ?
-  mutations?: any;
+  indexes?: Index[];
+  mutations?: Mutation[] | MutationGenerator;
   permissions?: any;
   subscriptions?: any;
   states?: any;
@@ -96,12 +96,12 @@ export interface EntitySetup {
 export class Entity {
   name: string;
   description: string;
-  storageType?: any;
+  storageType?: StorageType;
   isUserEntity?: boolean;
   includeTimeTracking?: boolean;
   includeUserTracking?: boolean;
-  indexes?: any;
-  mutations?: any;
+  indexes?: Index[];
+  mutations?: Mutation[];
   permissions?: any;
   subscriptions?: any;
   states?: any;
@@ -112,8 +112,8 @@ export class Entity {
   private _attributesMap: AttributesSetupMap | AttributesMapGenerator;
   private _primaryAttribute: Attribute;
   private referencedByEntities: any;
-  private _indexes: any;
-  private _mutations: any;
+  private _indexes: Index[];
+  private _mutations: Mutation[] | MutationGenerator;
   private _subscriptions: any;
   private _states: any;
   private _permissions: any;
@@ -270,9 +270,10 @@ export class Entity {
     if (!this._mutations) {
       mutations = Object.values(this._getDefaultMutations());
     } else {
-      mutations = isFunction(this._mutations)
-        ? this._mutations(this._getDefaultMutations())
-        : this._mutations;
+      mutations =
+        typeof this._mutations === 'function'
+          ? this._mutations(this._getDefaultMutations())
+          : this._mutations;
     }
 
     return processEntityMutations(this, mutations);
@@ -718,7 +719,7 @@ export class Entity {
     return i18nAttributeNames.length ? i18nAttributeNames : null;
   }
 
-  _getDefaultMutations() {
+  _getDefaultMutations(): { [key: string]: Mutation } {
     const nonSystemAttributeNames = [];
 
     mapOverProperties(this.getAttributes(), (attribute, attributeName) => {
