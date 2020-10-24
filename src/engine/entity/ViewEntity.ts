@@ -38,8 +38,7 @@ type PreFilterGeneratorType = () => PreFilterType;
 export type ViewEntitySetup = {
   name: string;
   description: string;
-  attributes?: AttributesSetupMap;
-  attributesGenerator?: AttributesMapGenerator;
+  attributes?: AttributesSetupMap | AttributesMapGenerator;
   storageType?: any;
   viewExpression: any;
   permissions?: any;
@@ -60,8 +59,7 @@ export class ViewEntity {
   postProcessor?: Function;
   preFilters?: PreFilterType;
   meta?: any;
-  private _attributesMap: AttributesSetupMap;
-  private _attributesGenerator: AttributesMapGenerator;
+  private _attributesMap: AttributesSetupMap | AttributesMapGenerator;
   private _primaryAttribute: Attribute;
   private referencedByEntities: any;
   private _permissions: any;
@@ -82,7 +80,6 @@ export class ViewEntity {
       name,
       description,
       attributes,
-      attributesGenerator,
       storageType,
       viewExpression,
       permissions,
@@ -105,26 +102,12 @@ export class ViewEntity {
       description,
       () => `Missing description for view entity '${name}'`,
     );
-    passOrThrow(
-      (attributes && !attributesGenerator) ||
-        (!attributes && attributesGenerator),
-      () =>
-        `ViewEntity '${name}' needs either attributes or attributesGenerator defined`,
-    );
 
-    if (attributes) {
-      passOrThrow(
-        isMap(attributes),
-        () =>
-          `'attributes' for view entity '${name}' needs to be a map of attributes`,
-      );
-    } else if (attributesGenerator) {
-      passOrThrow(
-        isFunction(attributesGenerator),
-        () =>
-          `'attributesGenerator' for view entity '${name}' needs to return a map of attributes`,
-      );
-    }
+    passOrThrow(
+      isMap(attributes) || isFunction(attributes),
+      () =>
+        `'attributes' for view entity '${name}' needs to be a map of attributes or a function returning a map of attributes`,
+    );
 
     passOrThrow(
       viewExpression,
@@ -134,7 +117,6 @@ export class ViewEntity {
     this.name = name;
     this.description = description;
     this._attributesMap = attributes;
-    this._attributesGenerator = attributesGenerator;
     this._primaryAttribute = null;
     this.referencedByEntities = [];
     this.viewExpression = viewExpression;
@@ -340,9 +322,10 @@ export class ViewEntity {
 
   _processAttributeMap() {
     // if it's a function, resolve it to get that map
-    const attributeMap = this._attributesMap
-      ? { ...this._attributesMap }
-      : this._attributesGenerator();
+    const attributeMap =
+      typeof this._attributesMap === 'object'
+        ? { ...this._attributesMap }
+        : this._attributesMap();
 
     passOrThrow(
       isMap(attributeMap),

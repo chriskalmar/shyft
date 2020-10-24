@@ -8,7 +8,7 @@ exports[`ShadowEntity isShadowEntity should recognize non-ShadowEntity objects 1
 
 exports[`ShadowEntity references should throw if invalid attribute is to be referenced 1`] = `"Cannot reference attribute 'Country.notHere' as it does not exist"`;
 
-exports[`ShadowEntity should accept only maps or functions as attributes definition 1`] = `"'attributes' for shadow entity 'Example' needs to be a map of attributes"`;
+exports[`ShadowEntity should accept only maps or functions as attributes definition 1`] = `"'attributes' for shadow entity 'Example' needs to be a map of attributes or a function returning a map of attributes"`;
 
 exports[`ShadowEntity should have a name 1`] = `"Missing shadow entity name"`;
 

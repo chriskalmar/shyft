@@ -44,7 +44,7 @@ describe('ViewEntity', () => {
       name: 'SomeViewEntityName',
       description: 'Just some description',
       viewExpression: 'SELECT 1 as "someName"',
-      attributesGenerator: () => ({} as any),
+      attributes: () => ({} as any),
     });
 
     expect(viewEntity.name).toBe('SomeViewEntityName');
@@ -57,7 +57,7 @@ describe('ViewEntity', () => {
       new ViewEntity({
         name: 'Example',
         description: 'Just some description',
-        attributesGenerator: () => ({} as any),
+        attributes: () => ({} as any),
       } as any);
     }
 
@@ -85,7 +85,7 @@ describe('ViewEntity', () => {
         name: 'Example',
         description: 'Just some description',
         viewExpression: 'SELECT 1 as "someName"',
-        attributesGenerator: () => {
+        attributes: () => {
           return [2, 7, 13] as any;
         },
       });
@@ -125,7 +125,7 @@ describe('ViewEntity', () => {
         name: 'SomeViewEntityName',
         description: 'Just some description',
         viewExpression: 'SELECT 1 as "someName"',
-        attributesGenerator: () => {
+        attributes: () => {
           return {
             id: {
               type: DataTypeID,
@@ -172,7 +172,7 @@ describe('ViewEntity', () => {
         name: 'SomeViewEntityName',
         description: 'Just some description',
         viewExpression: 'SELECT 1 as "someName"',
-        attributesGenerator() {
+        attributes() {
           return null;
         },
       });

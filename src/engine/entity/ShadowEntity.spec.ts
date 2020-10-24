@@ -18,7 +18,7 @@ describe('ShadowEntity', () => {
   it("should return it's name", () => {
     const shadowEntity = new ShadowEntity({
       name: 'ShadowViewEntityName',
-      attributesGenerator: () => ({} as any),
+      attributes: () => ({} as any),
     });
 
     expect(shadowEntity.name).toBe('ShadowViewEntityName');
@@ -42,7 +42,7 @@ describe('ShadowEntity', () => {
       // eslint-disable-next-line no-new
       const shadowEntity = new ShadowEntity({
         name: 'Example',
-        attributesGenerator: () => {
+        attributes: () => {
           return [2, 7, 13] as any;
         },
       });
@@ -79,7 +79,7 @@ describe('ShadowEntity', () => {
     it('as a function return a map', () => {
       const shadowEntity = new ShadowEntity({
         name: 'ShadowViewEntityName',
-        attributesGenerator: () => {
+        attributes: () => {
           return {
             id: {
               type: DataTypeID,
@@ -124,7 +124,7 @@ describe('ShadowEntity', () => {
     it('should recognize objects of type ShadowEntity', () => {
       const shadowEntity = new ShadowEntity({
         name: 'ShadowViewEntityName',
-        attributesGenerator() {
+        attributes() {
           return null;
         },
       });

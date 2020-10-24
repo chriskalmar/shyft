@@ -25,8 +25,7 @@ import { systemAttributePrimary } from './systemAttributes';
 export type ShadowEntitySetup = {
   name: string;
   isUserEntity?: boolean;
-  attributes?: AttributesSetupMap;
-  attributesGenerator?: AttributesMapGenerator;
+  attributes?: AttributesSetupMap | AttributesMapGenerator;
   storageType?: any;
   meta?: any;
 };
@@ -36,8 +35,7 @@ export class ShadowEntity {
   storageType?: any;
   isUserEntity?: boolean;
   meta?: any;
-  private _attributesMap: AttributesSetupMap;
-  private _attributesGenerator: AttributesMapGenerator;
+  private _attributesMap: AttributesSetupMap | AttributesMapGenerator;
   private _primaryAttribute: Attribute;
   private referencedByEntities: any;
   private _attributes: AttributesMap;
@@ -46,14 +44,7 @@ export class ShadowEntity {
   constructor(setup: ShadowEntitySetup) {
     passOrThrow(isMap(setup), () => 'ShadowEntity requires a setup object');
 
-    const {
-      name,
-      attributes,
-      attributesGenerator,
-      storageType,
-      isUserEntity,
-      meta,
-    } = setup;
+    const { name, attributes, storageType, isUserEntity, meta } = setup;
 
     Object.keys(setup).map((prop) => {
       passOrThrow(
@@ -64,24 +55,15 @@ export class ShadowEntity {
 
     passOrThrow(name, () => 'Missing shadow entity name');
 
-    if (attributes) {
-      passOrThrow(
-        isMap(attributes),
-        () =>
-          `'attributes' for shadow entity '${name}' needs to be a map of attributes`,
-      );
-    } else if (attributesGenerator) {
-      passOrThrow(
-        isFunction(attributesGenerator),
-        () =>
-          `'attributesGenerator' for shadow entity '${name}' needs to return a map of attributes`,
-      );
-    }
+    passOrThrow(
+      isMap(attributes) || isFunction(attributes),
+      () =>
+        `'attributes' for shadow entity '${name}' needs to be a map of attributes or a function returning a map of attributes`,
+    );
 
     this.name = name;
     this.isUserEntity = !!isUserEntity;
     this._attributesMap = attributes;
-    this._attributesGenerator = attributesGenerator || (() => ({}));
     this._primaryAttribute = null;
     this.referencedByEntities = [];
     this.meta = meta;
@@ -261,9 +243,10 @@ export class ShadowEntity {
 
   _processAttributeMap() {
     // if it's a function, resolve it to get that map
-    const attributeMap = this._attributesMap
-      ? { ...this._attributesMap }
-      : this._attributesGenerator();
+    const attributeMap =
+      typeof this._attributesMap === 'object'
+        ? { ...this._attributesMap }
+        : this._attributesMap();
 
     passOrThrow(
       isMap(attributeMap),

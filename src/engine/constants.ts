@@ -85,7 +85,6 @@ export const viewEntityPropertiesWhitelist: Array<string> = [
   'name',
   'description',
   'attributes',
-  'attributesGenerator',
   'storageType',
   'viewExpression',
   'permissions',
@@ -110,7 +109,6 @@ export const viewAttributePropertiesWhitelist: Array<string> = [
 export const shadowEntityPropertiesWhitelist: Array<string> = [
   'name',
   'attributes',
-  'attributesGenerator',
   'storageType',
   'isUserEntity',
   'meta',

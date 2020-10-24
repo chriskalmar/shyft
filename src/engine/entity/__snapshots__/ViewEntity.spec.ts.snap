@@ -16,11 +16,11 @@ exports[`ViewEntity permissions should throw if empty permissions are provided 1
 
 exports[`ViewEntity references should throw if invalid attribute is to be referenced 1`] = `"Cannot reference attribute 'Country.notHere' as it does not exist"`;
 
-exports[`ViewEntity should accept only maps or functions as attributes definition 1`] = `"'attributes' for view entity 'Example' needs to be a map of attributes"`;
+exports[`ViewEntity should accept only maps or functions as attributes definition 1`] = `"'attributes' for view entity 'Example' needs to be a map of attributes or a function returning a map of attributes"`;
 
 exports[`ViewEntity should have a description 1`] = `"Missing description for view entity 'Example'"`;
 
-exports[`ViewEntity should have a map of attributes 1`] = `"ViewEntity 'Example' needs either attributes or attributesGenerator defined"`;
+exports[`ViewEntity should have a map of attributes 1`] = `"'attributes' for view entity 'Example' needs to be a map of attributes or a function returning a map of attributes"`;
 
 exports[`ViewEntity should have a name 1`] = `"Missing view entity name"`;
 
