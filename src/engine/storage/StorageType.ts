@@ -238,6 +238,6 @@ export class StorageType {
   }
 }
 
-export const isStorageType = obj => {
+export const isStorageType = (obj) => {
   return obj instanceof StorageType;
 };

@@ -17,7 +17,7 @@ import {
   extractIdFromNodeId,
 } from './operation';
 
-export const generateSubscriptions = graphRegistry => {
+export const generateSubscriptions = (graphRegistry) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
   const subscriptions = {};
 
@@ -36,7 +36,7 @@ export const generateSubscriptions = graphRegistry => {
       return;
     }
 
-    entitySubscriptions.map(entitySubscription => {
+    entitySubscriptions.map((entitySubscription) => {
       const subscriptionName = protocolConfiguration.generateOperationTypeName(
         entity,
         entitySubscription,

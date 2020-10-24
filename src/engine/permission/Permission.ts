@@ -62,10 +62,10 @@ export class Permission {
   _checkCompatibility(type): void {
     this.types[type] = true;
 
-    const found = compatibilityList.find(list => {
+    const found = compatibilityList.find((list) => {
       let allFound = true;
 
-      Object.keys(this.types).map(key => {
+      Object.keys(this.types).map((key) => {
         if (!list.includes(key)) {
           allFound = false;
         }
@@ -211,7 +211,7 @@ export const findInvalidPermissionAttributes = (
 ) => {
   const attributes = entity.getAttributes();
 
-  permission.userAttributes.map(userAttribute => {
+  permission.userAttributes.map((userAttribute) => {
     const attribute = attributes[userAttribute];
     const attributeTypeAsEntity = attribute.type as Entity;
     const entityAsEntity = entity as Entity;
@@ -236,14 +236,14 @@ export const findMissingPermissionAttributes = (
   const entityAttributeNames = Object.keys(permissionEntity.getAttributes());
 
   const missinguserAttribute = permission.userAttributes.find(
-    userAttribute => !entityAttributeNames.includes(userAttribute),
+    (userAttribute) => !entityAttributeNames.includes(userAttribute),
   );
   if (missinguserAttribute) {
     return missinguserAttribute;
   }
 
   let missingLookupAttribute: string;
-  permission.lookups.map(lookup => {
+  permission.lookups.map((lookup) => {
     const { entity: _entity, lookupMap } = lookup;
     let entity = _entity;
 
@@ -298,7 +298,9 @@ export const findMissingPermissionStates = (
   const entityStates = permissionEntity.getStates();
 
   if (entityStates) {
-    const missingState = permission.states.find(state => !entityStates[state]);
+    const missingState = permission.states.find(
+      (state) => !entityStates[state],
+    );
     if (missingState) {
       return missingState;
     }
@@ -311,7 +313,7 @@ export const validateActionLookupPermission = (
   permission: Permission,
   permissionAction: Action,
 ): void => {
-  permission.lookups.map(lookup => {
+  permission.lookups.map((lookup) => {
     const { entity: _entity, lookupMap } = lookup;
     let entity = _entity;
 
@@ -346,7 +348,7 @@ export const generatePermissionDescription = (
     ? (permissions as Permission[])
     : ([permissions] as Permission[]);
 
-  permissionsArray.map(permission => {
+  permissionsArray.map((permission) => {
     const lines = [];
 
     passOrThrow(
@@ -447,7 +449,7 @@ export const checkPermissionSimple = (
 
   if (userId && userRoles) {
     let foundRole = false;
-    permission.roles.map(role => {
+    permission.roles.map((role) => {
       if (userRoles.includes(role)) {
         foundRole = true;
       }
@@ -500,7 +502,7 @@ export const buildUserAttributesPermissionFilter = ({
     passOrThrow(userId, () => 'missing userId in permission object');
     where = {};
 
-    permission.userAttributes.map(attributeName => {
+    permission.userAttributes.map((attributeName) => {
       const userAttrFilter = {
         [attributeName]: userId,
       };
@@ -533,7 +535,7 @@ export const buildStatesPermissionFilter = ({
     where = {};
 
     const states = entity.getStates();
-    const stateIds = permission.states.map(stateName => {
+    const stateIds = permission.states.map((stateName) => {
       const state = states[stateName];
 
       passOrThrow(
@@ -626,7 +628,7 @@ export const buildLookupsPermissionFilter = async ({
 
         const targetAttributes = Object.keys(lookupMap);
         await Promise.all(
-          targetAttributes.map(async targetAttribute => {
+          targetAttributes.map(async (targetAttribute) => {
             const sourceAttribute = lookupMap[targetAttribute];
             let operator = '$eq';
 
@@ -648,7 +650,7 @@ export const buildLookupsPermissionFilter = async ({
                 const states = entity.getStates();
 
                 value = isArray(value)
-                  ? value.map(stateName => states[stateName] || stateName)
+                  ? value.map((stateName) => states[stateName] || stateName)
                   : states[value] || value;
               }
 
@@ -717,7 +719,7 @@ export const buildPermissionFilterSingle = async (
     await buildLookupsPermissionFilter(params),
   ];
 
-  permissionFilters.map(permissionFilter => {
+  permissionFilters.map((permissionFilter) => {
     if (permissionFilter) {
       where = where || {};
       // where.$and = where.$and || [];
@@ -760,7 +762,7 @@ export const buildPermissionFilter = async (
 
   let foundSimplePermission = false;
 
-  await asyncForEach(permissions, async permission => {
+  await asyncForEach(permissions, async (permission) => {
     if (foundSimplePermission) {
       return;
     }
@@ -812,7 +814,7 @@ export const buildActionPermissionFilter = async (
   input?: any,
   context?: any,
 ): Promise<
-{ where: ActionPermissionFilter; lookupPermissionEntity: Entity } | undefined
+  { where: ActionPermissionFilter; lookupPermissionEntity: Entity } | undefined
 > => {
   let where: ActionPermissionFilter;
   let lookupPermissionEntity: Entity;
@@ -842,7 +844,7 @@ export const buildActionPermissionFilter = async (
   let foundSimplePermission = false;
 
   await Promise.all(
-    permissions.map(async permission => {
+    permissions.map(async (permission) => {
       if (foundSimplePermission) {
         return;
       }
@@ -903,7 +905,7 @@ export const checkPermissionAdvanced = (
       return false;
     }
 
-    const matchesUser = permission.userAttributes.find(attributeName => {
+    const matchesUser = permission.userAttributes.find((attributeName) => {
       return data[attributeName] === userId;
     });
 
@@ -930,7 +932,7 @@ const validatePermissionAttributesAndStates = (
     ? mutationAsMutation.name
     : String(_mutation);
 
-  permissionsArray.map(permission => {
+  permissionsArray.map((permission) => {
     const invalidAttribute = findMissingPermissionAttributes(
       permission,
       entity,
@@ -972,7 +974,7 @@ const validatePermissionMutationTypes = (
       ? (permissions as Permission[])
       : ([permissions] as Permission[]);
 
-    permissionsArray.map(permission => {
+    permissionsArray.map((permission) => {
       passOrThrow(
         !permission.userAttributes.length &&
           !permission.states.length &&
@@ -994,7 +996,7 @@ const validatePermissionSubscriptionTypes = (
       ? (permissions as Permission[])
       : ([permissions] as Permission[]);
 
-    permissionsArray.map(permission => {
+    permissionsArray.map((permission) => {
       passOrThrow(
         !permission.userAttributes.length &&
           !permission.states.length &&
@@ -1031,7 +1033,7 @@ export const findEmptyEntityPermissions = (permissions): string[] => {
 
   if (permissions.mutations) {
     const mutationNames = Object.keys(permissions.mutations);
-    mutationNames.map(mutationName => {
+    mutationNames.map((mutationName) => {
       if (
         permissions.mutations[mutationName] &&
         hasEmptyPermissions(permissions.mutations[mutationName])
@@ -1043,7 +1045,7 @@ export const findEmptyEntityPermissions = (permissions): string[] => {
 
   if (permissions.subscriptions) {
     const subscriptionNames = Object.keys(permissions.subscriptions);
-    subscriptionNames.map(subscriptionName => {
+    subscriptionNames.map((subscriptionName) => {
       if (
         permissions.subscriptions[subscriptionName] &&
         hasEmptyPermissions(permissions.subscriptions[subscriptionName])
@@ -1166,9 +1168,9 @@ export const processEntityPermissions = (
   if (permissions.mutations && entityMutations) {
     const permissionMutationNames = Object.keys(permissions.mutations);
 
-    const mutationNames = entityMutations.map(mutation => mutation.name);
+    const mutationNames = entityMutations.map((mutation) => mutation.name);
 
-    permissionMutationNames.map(permissionMutationName => {
+    permissionMutationNames.map((permissionMutationName) => {
       passOrThrow(
         mutationNames.includes(permissionMutationName),
         () =>
@@ -1176,7 +1178,7 @@ export const processEntityPermissions = (
       );
     });
 
-    entityMutations.map(mutation => {
+    entityMutations.map((mutation) => {
       const mutationName = mutation.name;
       const permission = permissions.mutations[mutationName];
 
@@ -1191,10 +1193,10 @@ export const processEntityPermissions = (
     const permissionSubscriptionNames = Object.keys(permissions.subscriptions);
 
     const subscriptionNames = entitySubscriptions.map(
-      subscription => subscription.name,
+      (subscription) => subscription.name,
     );
 
-    permissionSubscriptionNames.map(permissionSubscriptionName => {
+    permissionSubscriptionNames.map((permissionSubscriptionName) => {
       passOrThrow(
         subscriptionNames.includes(permissionSubscriptionName),
         () =>
@@ -1202,7 +1204,7 @@ export const processEntityPermissions = (
       );
     });
 
-    entitySubscriptions.map(subscription => {
+    entitySubscriptions.map((subscription) => {
       const subscriptionName = subscription.name;
       const permission = permissions.subscriptions[subscriptionName];
       if (permission) {
@@ -1298,7 +1300,7 @@ export const processActionPermissions = (
     ? (permissions as Permission[])
     : ([permissions] as Permission[]);
 
-  permissionsArray.map(permission => {
+  permissionsArray.map((permission) => {
     passOrThrow(
       !permission.userAttributes.length &&
         !permission.values.length &&

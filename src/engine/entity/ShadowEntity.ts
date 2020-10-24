@@ -55,7 +55,7 @@ export class ShadowEntity {
       meta,
     } = setup;
 
-    Object.keys(setup).map(prop => {
+    Object.keys(setup).map((prop) => {
       passOrThrow(
         shadowEntityPropertiesWhitelist.includes(prop),
         () => `Invalid setup property '${prop}' in shadow entity '${name}'`,
@@ -133,7 +133,7 @@ export class ShadowEntity {
         `Invalid attribute name '${attributeName}' in shadow entity '${this.name}' (Regex: /${ATTRIBUTE_NAME_PATTERN}/)`,
     );
 
-    Object.keys(rawAttribute).map(prop => {
+    Object.keys(rawAttribute).map((prop) => {
       passOrThrow(
         shadowEntityAttributePropertiesWhitelist.includes(prop),
         () =>
@@ -186,7 +186,7 @@ export class ShadowEntity {
       );
 
       const localAttributeNames = Object.keys(attribute.targetAttributesMap);
-      localAttributeNames.map(localAttributeName => {
+      localAttributeNames.map((localAttributeName) => {
         const targetAttribute =
           attribute.targetAttributesMap[localAttributeName];
 
@@ -275,19 +275,19 @@ export class ShadowEntity {
 
     const resultAttributes = {};
 
-    attributeNames.forEach(attributeName => {
+    attributeNames.forEach((attributeName) => {
       resultAttributes[attributeName] = this._processAttribute(
         attributeMap[attributeName],
         attributeName,
       );
     });
 
-    attributeNames.forEach(attributeName => {
+    attributeNames.forEach((attributeName) => {
       const attribute = resultAttributes[attributeName];
 
       if (attribute.targetAttributesMap) {
         const localAttributeNames = Object.keys(attribute.targetAttributesMap);
-        localAttributeNames.map(localAttributeName => {
+        localAttributeNames.map((localAttributeName) => {
           passOrThrow(
             resultAttributes[localAttributeName],
             () =>
@@ -300,7 +300,7 @@ export class ShadowEntity {
 
     const systemAttributeNames = this._collectSystemAttributes(attributeMap);
 
-    systemAttributeNames.forEach(attributeName => {
+    systemAttributeNames.forEach((attributeName) => {
       resultAttributes[attributeName] = this._processAttribute(
         attributeMap[attributeName],
         attributeName,
@@ -310,13 +310,13 @@ export class ShadowEntity {
 
     const rankedResultAttributes = {};
 
-    Object.keys(resultAttributes).map(attributeName => {
+    Object.keys(resultAttributes).map((attributeName) => {
       const attribute = resultAttributes[attributeName];
       if (attribute.primary) {
         rankedResultAttributes[attributeName] = attribute;
       }
     });
-    Object.keys(resultAttributes).map(attributeName => {
+    Object.keys(resultAttributes).map((attributeName) => {
       const attribute = resultAttributes[attributeName];
       if (!attribute.primary) {
         rankedResultAttributes[attributeName] = attribute;
@@ -351,6 +351,6 @@ export class ShadowEntity {
   }
 }
 
-export const isShadowEntity = obj => {
+export const isShadowEntity = (obj) => {
   return obj instanceof ShadowEntity;
 };

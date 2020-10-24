@@ -37,16 +37,16 @@ import { isViewEntity } from '../engine/entity/ViewEntity';
 import { isShadowEntity } from '../engine/entity/ShadowEntity';
 import { generateInstanceUniquenessInputs } from './operation';
 
-export const getTypeForEntityFromGraphRegistry = entity => {
+export const getTypeForEntityFromGraphRegistry = (entity) => {
   const typeName = entity.graphql.typeName;
   return graphRegistry.types[typeName];
 };
 
 // prepare models for graphql
-export const extendModelsForGql = entities => {
+export const extendModelsForGql = (entities) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
-  _.forEach(entities, entity => {
+  _.forEach(entities, (entity) => {
     entity.graphql = entity.graphql || {};
     // generate type names for various cases
     entity.graphql.typeName = protocolConfiguration.generateEntityTypeName(
@@ -64,7 +64,7 @@ export const extendModelsForGql = entities => {
 
     const dataShaperMap = {};
 
-    _.forEach(entity.getAttributes(), attribute => {
+    _.forEach(entity.getAttributes(), (attribute) => {
       attribute.gqlFieldName = attribute.primary
         ? 'id'
         : protocolConfiguration.generateFieldName(attribute);
@@ -91,22 +91,22 @@ export const extendModelsForGql = entities => {
 
     // generate json shaper - translate schema attribute names to graphql attribute names
     const dataShaper = shaper(dataShaperMap);
-    entity.graphql.dataShaper = data => {
+    entity.graphql.dataShaper = (data) => {
       return data ? dataShaper(data) : data;
     };
-    entity.graphql.dataSetShaper = set => {
+    entity.graphql.dataSetShaper = (set) => {
       return set.map(entity.graphql.dataShaper);
     };
 
     // remove i18n JSON output mapping so it doesn't overwrite values in mutation inputs
-    _.forEach(entity.getAttributes(), attribute => {
+    _.forEach(entity.getAttributes(), (attribute) => {
       if (attribute.i18n) {
         delete dataShaperMap[attribute.gqlFieldNameI18nJson];
       }
     });
 
     const reverseDataShaper = shaper(_.invert(dataShaperMap));
-    entity.graphql.reverseDataShaper = data => {
+    entity.graphql.reverseDataShaper = (data) => {
       return data ? reverseDataShaper(data) : data;
     };
   });
@@ -130,7 +130,7 @@ const getNodeDefinitions = () => {
     return null;
   };
 
-  const typeResolver = obj => {
+  const typeResolver = (obj) => {
     const typeName = obj[RELAY_TYPE_PROMOTER_FIELD];
 
     return graphRegistry.types[typeName]
@@ -144,18 +144,18 @@ const getNodeDefinitions = () => {
   };
 };
 
-const registerAction = action => {
+const registerAction = (action) => {
   const actionName = action.name;
   graphRegistry.actions[actionName] = {
     action,
   };
 };
 
-export const registerActions = actions => {
-  _.forEach(actions, action => registerAction(action));
+export const registerActions = (actions) => {
+  _.forEach(actions, (action) => registerAction(action));
 };
 
-export const generateGraphQLSchema = configuration => {
+export const generateGraphQLSchema = (configuration) => {
   if (!isConfiguration(configuration)) {
     throw new Error(
       'Invalid configuration object provided to generateGraphQLSchema()',
@@ -174,7 +174,7 @@ export const generateGraphQLSchema = configuration => {
   // prepare models for graphql
   extendModelsForGql(schema.getEntities());
 
-  _.forEach(schema.getEntities(), entity => {
+  _.forEach(schema.getEntities(), (entity) => {
     const typeName = entity.graphql.typeName;
 
     const objectType = new GraphQLObjectType({
@@ -190,14 +190,14 @@ export const generateGraphQLSchema = configuration => {
           nodeId: {
             description: 'The node ID of an object',
             type: new GraphQLNonNull(GraphQLID),
-            resolve: obj => toGlobalId(typeName, obj.id),
+            resolve: (obj) => toGlobalId(typeName, obj.id),
           },
         };
 
         const fieldsReference = {};
         const fieldsI18n = {};
 
-        _.forEach(entity.getAttributes(), attribute => {
+        _.forEach(entity.getAttributes(), (attribute) => {
           if (attribute.hidden || attribute.mutationInput) {
             return;
           }

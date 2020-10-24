@@ -27,7 +27,7 @@ export class DataTypeEnum extends DataType {
     const valueNames = Object.keys(values);
     const uniqueIds = [];
 
-    valueNames.map(valueName => {
+    valueNames.map((valueName) => {
       const valueId = values[valueName];
       uniqueIds.push(valueId);
 

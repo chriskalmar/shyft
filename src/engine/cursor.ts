@@ -54,7 +54,7 @@ export const processCursor = (
 
     let foundUniqueAttribute = false;
 
-    cursor[entity.name].map(filter => {
+    cursor[entity.name].map((filter) => {
       if (filter.length !== 2) {
         throw new Error('Cursor malformed');
       }
@@ -113,7 +113,7 @@ export const processCursor = (
     } else {
       where.$not = {};
 
-      cursor[entity.name].map(filter => {
+      cursor[entity.name].map((filter) => {
         const attributeName = filter[0];
         const value = filter[1];
 

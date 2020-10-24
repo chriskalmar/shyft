@@ -148,7 +148,7 @@ const generateDataInputFields = (
   _.forEach(inputParams, (param, paramName) => {
     const generated = generateDataInputField(param, paramName, baseName, level);
 
-    Object.keys(generated).map(paramN => {
+    Object.keys(generated).map((paramN) => {
       fields[paramN] = generated[paramN];
     });
   });
@@ -243,8 +243,8 @@ export const generateInput = (
         fields.data = isField
           ? dataInputType
           : {
-            type: new GraphQLNonNull(dataInputType),
-          };
+              type: new GraphQLNonNull(dataInputType),
+            };
       }
 
       return fields;
@@ -348,7 +348,7 @@ const generateDataOutputField = (
             return Promise.resolve(null);
           }
 
-          return referenceIds.map(referenceId => {
+          return referenceIds.map((referenceId) => {
             return referenceField.resolve(
               { [paramName]: referenceId },
               args,
@@ -507,8 +507,8 @@ export const generateOutput = (
         fields.result = isField
           ? dataOutputType
           : {
-            type: dataOutputType,
-          };
+              type: dataOutputType,
+            };
       }
 
       return fields;

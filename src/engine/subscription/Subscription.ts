@@ -202,7 +202,7 @@ export const processEntitySubscriptions = (
 
   const subscriptionNames = [];
 
-  subscriptions.map(subscription => {
+  subscriptions.map((subscription) => {
     passOrThrow(
       !subscriptionNames.includes(subscription.name),
       () =>
@@ -220,7 +220,7 @@ export const processEntitySubscriptions = (
           `Subscription '${entity.name}.${subscription.name}' needs to have a list of attributes`,
       );
 
-      subscription.attributes.map(attribute => {
+      subscription.attributes.map((attribute) => {
         passOrThrow(
           typeof attribute === 'string',
           () =>
@@ -234,7 +234,7 @@ export const processEntitySubscriptions = (
           `Subscription '${entity.name}.${subscription.name}' needs to have a list of unique attribute names`,
       );
 
-      subscription.attributes.map(attributeName => {
+      subscription.attributes.map((attributeName) => {
         passOrThrow(
           entityAttributes[attributeName],
           () =>

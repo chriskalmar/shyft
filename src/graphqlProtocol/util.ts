@@ -32,17 +32,16 @@ export function generateTypeNameUpperCase(name) {
   return _.snakeCase(name).toUpperCase();
 }
 
-export const toBase64 = value =>
+export const toBase64 = (value) =>
   new Buffer(value.toString()).toString('base64');
-export const fromBase64 = value =>
+export const fromBase64 = (value) =>
   new Buffer(value.toString(), 'base64').toString();
 
-export const serializeCursor = cursor => toBase64(JSON.stringify(cursor));
-export const deserializeCursor = cursor => {
+export const serializeCursor = (cursor) => toBase64(JSON.stringify(cursor));
+export const deserializeCursor = (cursor) => {
   try {
     return JSON.parse(fromBase64(cursor));
-  }
-  catch (e) {
+  } catch (e) {
     // TODO: check
     // should throw error, not return
     // https://github.com/graphql/graphql-js/issues/910
@@ -60,19 +59,19 @@ export const addRelayTypePromoterToInstance = (typeName, instance) => {
 };
 
 export const addRelayTypePromoterToList = (typeName, list) => {
-  return list.map(instance => {
+  return list.map((instance) => {
     return addRelayTypePromoterToInstance(typeName, instance);
   });
 };
 
-export const addRelayTypePromoterToInstanceFn = typeName => {
-  return instance => {
+export const addRelayTypePromoterToInstanceFn = (typeName) => {
+  return (instance) => {
     return addRelayTypePromoterToInstance(typeName, instance);
   };
 };
 
-export const addRelayTypePromoterToListFn = typeName => {
-  return list => {
+export const addRelayTypePromoterToListFn = (typeName) => {
+  return (list) => {
     return addRelayTypePromoterToList(typeName, list);
   };
 };
@@ -95,7 +94,7 @@ export const translateInstance = (
   const attributes = entity.getAttributes();
   const i18nAttributeNames = entity.getI18nAttributeNames();
 
-  i18nAttributeNames.map(attributeName => {
+  i18nAttributeNames.map((attributeName) => {
     const { gqlFieldName, gqlFieldNameI18n, required } = attributes[
       attributeName
     ];
@@ -108,12 +107,11 @@ export const translateInstance = (
       instance[gqlFieldName] =
         !isDefined(translation) && required
           ? new CustomError(
-            `Translation for '${gqlFieldName}' not found`,
-            'TranslationNotFoundError',
-          )
+              `Translation for '${gqlFieldName}' not found`,
+              'TranslationNotFoundError',
+            )
           : translation;
-    }
-    else if (isDefined(translation)) {
+    } else if (isDefined(translation)) {
       instance[gqlFieldName] = translation;
     }
   });
@@ -122,19 +120,19 @@ export const translateInstance = (
 };
 
 export const translateList = (entity, list, context) => {
-  return list.map(instance => {
+  return list.map((instance) => {
     return translateInstance(entity, instance, context);
   });
 };
 
 export const translateInstanceFn = (entity, context) => {
-  return instance => {
+  return (instance) => {
     return translateInstance(entity, instance, context);
   };
 };
 
 export const translateListFn = (entity, context) => {
-  return list => {
+  return (list) => {
     return translateList(entity, list, context);
   };
 };

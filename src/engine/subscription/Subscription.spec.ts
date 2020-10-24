@@ -372,7 +372,7 @@ describe('Subscription', () => {
             if (entitySubscription.attributes && Object.keys(input).length) {
               const delimiter = entitySubscription.delimiter;
               const filled = entitySubscription.attributes
-                .map(attribute => input[attribute])
+                .map((attribute) => input[attribute])
                 .reduce((acc, curr) => `${acc + delimiter + curr}`, '');
 
               return filled;

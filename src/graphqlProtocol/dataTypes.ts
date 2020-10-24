@@ -34,7 +34,7 @@ export const GraphQLBigInt = new GraphQLScalarType({
 export const GraphQLDateTime = new GraphQLScalarType({
   name: 'DateTime',
   description: 'The `DateTime` scalar type represents a date and time string.',
-  serialize: value => {
+  serialize: (value) => {
     return value;
   },
   parseValue: String,
@@ -42,14 +42,14 @@ export const GraphQLDateTime = new GraphQLScalarType({
     if (ast.kind !== Kind.STRING) {
       throw new GraphQLError(
         `Query error: Can only parse strings but got a: ${ast.kind}`,
-        [ ast ],
+        [ast],
       );
     }
 
     if (!dateTimeRegex.test(ast.value)) {
       throw new GraphQLError(
         'Query error: String is not a valid date time string',
-        [ ast ],
+        [ast],
       );
     }
 
@@ -62,7 +62,7 @@ export const GraphQLDateTime = new GraphQLScalarType({
     ) {
       throw new GraphQLError(
         'Query error: String is not a valid date time string',
-        [ ast ],
+        [ast],
       );
     }
 
@@ -73,7 +73,7 @@ export const GraphQLDateTime = new GraphQLScalarType({
 export const GraphQLDate = new GraphQLScalarType({
   name: 'Date',
   description: 'The `Date` scalar type represents a date string.',
-  serialize: value => {
+  serialize: (value) => {
     return value;
   },
   parseValue: String,
@@ -81,7 +81,7 @@ export const GraphQLDate = new GraphQLScalarType({
     if (ast.kind !== Kind.STRING) {
       throw new GraphQLError(
         `Query error: Can only parse strings but got a: ${ast.kind}`,
-        [ ast ],
+        [ast],
       );
     }
 
@@ -103,7 +103,7 @@ export const GraphQLDate = new GraphQLScalarType({
 export const GraphQLTime = new GraphQLScalarType({
   name: 'Time',
   description: 'The `Time` scalar type represents a time string.',
-  serialize: value => {
+  serialize: (value) => {
     return value;
   },
   parseValue: String,
@@ -111,7 +111,7 @@ export const GraphQLTime = new GraphQLScalarType({
     if (ast.kind !== Kind.STRING) {
       throw new GraphQLError(
         `Query error: Can only parse strings but got a: ${ast.kind}`,
-        [ ast ],
+        [ast],
       );
     }
 

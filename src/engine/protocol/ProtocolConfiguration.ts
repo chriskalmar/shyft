@@ -37,7 +37,7 @@ export class ProtocolConfiguration {
       () => 'enableFeatures() expects an array of feature names',
     );
 
-    features.map(feature => this.enableFeature(feature, enable));
+    features.map((feature) => this.enableFeature(feature, enable));
   }
 
   getEnabledFeatures(): { [key: string]: boolean } {

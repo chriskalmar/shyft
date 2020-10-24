@@ -9,7 +9,7 @@ import {
 } from './util';
 import { isObjectDataType } from './datatype/ObjectDataType';
 
-const logicFilters = [ '$and', '$or' ];
+const logicFilters = ['$and', '$or'];
 const deepFilter = '$filter';
 const preFilter = '$pre_filter';
 const noResultFilter = '$noResult';
@@ -37,7 +37,7 @@ export const validateFilterLevel = (filters, attributes, path, storageType) => {
       const newPath = path ? path.slice() : [];
 
       newPath.push(filter);
-      value.map(newFilter =>
+      value.map((newFilter) =>
         validateFilterLevel(newFilter, attributes, path, storageType),
       );
 
@@ -81,14 +81,13 @@ export const validateFilterLevel = (filters, attributes, path, storageType) => {
         storageDataType = storageType.convertToStorageDataType(
           primaryAttribute.type,
         );
-      }
-      else {
+      } else {
         storageDataType = storageType.convertToStorageDataType(attribute.type);
       }
 
       const operators = Object.keys(value);
 
-      operators.map(operator => {
+      operators.map((operator) => {
         if (operator === noResultFilter) {
           return;
         }
@@ -132,23 +131,21 @@ export const convertFilterLevel = (filterShaper, filterLevel) => {
   const filterLevelKeys = Object.keys(converted);
   const ret = {};
 
-  filterLevelKeys.map(key => {
+  filterLevelKeys.map((key) => {
     const filter = filterLevel[key];
 
     if (filter) {
       if (isMap(filter)) {
         ret[key] = convertFilterLevel(filterShaper, filter);
-      }
-      else if (logicFilters.includes(key)) {
-        ret[key] = filter.map(item => convertFilterLevel(filterShaper, item));
-      }
-      else {
+      } else if (logicFilters.includes(key)) {
+        ret[key] = filter.map((item) => convertFilterLevel(filterShaper, item));
+      } else {
         ret[key] = converted[key];
       }
     }
   });
 
-  filterLevelKeys.map(key => {
+  filterLevelKeys.map((key) => {
     if (
       typeof converted[key] !== 'undefined' &&
       typeof ret[key] === 'undefined'
@@ -160,7 +157,7 @@ export const convertFilterLevel = (filterShaper, filterLevel) => {
   return ret;
 };
 
-const isPreFilter = preFilterDefinition => {
+const isPreFilter = (preFilterDefinition) => {
   if (isMap(preFilterDefinition)) {
     if (isFunction(preFilterDefinition.resolve)) {
       if (
@@ -179,20 +176,16 @@ export const processPreFilters = (entity, preFilters) => {
   passOrThrow(
     isMap(preFilters),
     () =>
-      `Entity '${
-        entity.name
-      }' preFilters definition needs to be a map with individual preFilters`,
+      `Entity '${entity.name}' preFilters definition needs to be a map with individual preFilters`,
   );
 
-  Object.keys(preFilters).map(preFilterName => {
+  Object.keys(preFilters).map((preFilterName) => {
     const preFilterDefinition = preFilters[preFilterName];
 
     passOrThrow(
       isPreFilter(preFilterDefinition),
       () =>
-        `Invalid preFilter definition '${preFilterName}' for entity '${
-          entity.name
-        }'`,
+        `Invalid preFilter definition '${preFilterName}' for entity '${entity.name}'`,
     );
   });
 

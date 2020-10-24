@@ -117,16 +117,16 @@ export const resolveByFind = (entity, parentConnectionCollector?: any) => {
     const translated = translateList(entity, transformed, context);
 
     const transformedData = entity.postProcessor
-      ? translated.map(translatedRow =>
-        entity.postProcessor(
-          translatedRow,
-          entity,
-          source,
-          args,
-          context,
-          info,
-        ),
-      )
+      ? translated.map((translatedRow) =>
+          entity.postProcessor(
+            translatedRow,
+            entity,
+            source,
+            args,
+            context,
+            info,
+          ),
+        )
       : translated;
 
     return connectionFromData(
@@ -165,16 +165,16 @@ export const resolveByFindOne = (entity, idCollector) => {
       )
       .then(entity.graphql.dataShaper)
       .then(translateInstanceFn(entity, context))
-      .then(translated => {
+      .then((translated) => {
         return entity.postProcessor
           ? entity.postProcessor(
-            translated,
-            entity,
-            source,
-            args,
-            context,
-            info,
-          )
+              translated,
+              entity,
+              source,
+              args,
+              context,
+              info,
+            )
           : translated;
       });
   };
@@ -193,7 +193,7 @@ export const getNestedPayloadResolver = (
     const entityAttributes = entity.getAttributes();
 
     await Promise.all(
-      attributeNames.map(async attributeName => {
+      attributeNames.map(async (attributeName) => {
         const attribute = entityAttributes[attributeName];
         const attributeType = attribute.type;
 
@@ -219,7 +219,7 @@ export const getNestedPayloadResolver = (
 
             let foundInput = null;
 
-            uniquenessFieldNames.map(uniquenessFieldName => {
+            uniquenessFieldNames.map((uniquenessFieldName) => {
               if (args[uniquenessFieldName]) {
                 if (foundInput) {
                   throw new CustomError(

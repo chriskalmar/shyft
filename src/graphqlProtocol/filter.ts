@@ -57,7 +57,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
         },
       };
 
-      _.forEach(entity.getAttributes(), attribute => {
+      _.forEach(entity.getAttributes(), (attribute) => {
         let attributeType = attribute.type;
         const isPrimary = attribute.primary;
 
@@ -100,7 +100,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
           };
         }
 
-        storageDataType.capabilities.map(capability => {
+        storageDataType.capabilities.map((capability) => {
           const fieldName = `${attribute.gqlFieldName}__${capability}`;
           const field = {} as any;
 
@@ -152,7 +152,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
             fields: () => {
               const preFilterFields = {};
 
-              Object.keys(preFilters).map(preFilterName => {
+              Object.keys(preFilters).map((preFilterName) => {
                 const preFilter = preFilters[preFilterName];
                 // TODO:
                 // const preFilterParamsInputTypeName = protocolConfiguration.generateFilterPreFilterParamsInputTypeName(
@@ -190,7 +190,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
   };
 };
 
-export const splitAttributeAndFilterOperator = str => {
+export const splitAttributeAndFilterOperator = (str) => {
   let ret;
 
   if (typeof str === 'string') {
@@ -284,7 +284,7 @@ export const transformFilterLevel = async (
 
   const filterKeys = Object.keys(filters);
   await Promise.all(
-    filterKeys.map(async filter => {
+    filterKeys.map(async (filter) => {
       const value = filters[filter];
       if (filter === AND_OPERATOR || filter === OR_OPERATOR) {
         const logicalKey = logicalKeysMap[filter];
@@ -314,7 +314,7 @@ export const transformFilterLevel = async (
       let attribute;
       const attributesNames = Object.keys(attributes);
 
-      attributesNames.map(name => {
+      attributesNames.map((name) => {
         const { gqlFieldName } = attributes[name];
 
         if (attributeName === gqlFieldName) {
@@ -384,7 +384,7 @@ export const transformFilterLevel = async (
           }
         } else if (operator === PRE_FILTER_OPERATOR) {
           const preFilters = entity.getPreFilters();
-          const usedPreFilters = Object.keys(value).filter(preFilterName => {
+          const usedPreFilters = Object.keys(value).filter((preFilterName) => {
             const preFilterValue = value[preFilterName];
             return isMap(preFilterValue) || preFilterValue === true;
           });

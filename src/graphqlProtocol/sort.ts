@@ -5,14 +5,14 @@ import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 import { isEntity } from '../engine/entity/Entity';
 import { isShadowEntity } from '../engine/entity/ShadowEntity';
 
-export const generateSortInput = entity => {
+export const generateSortInput = (entity) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
   const storageType = entity.storageType;
 
   const sortNames = {};
   let defaultSortValue;
 
-  _.forEach(entity.getAttributes(), attribute => {
+  _.forEach(entity.getAttributes(), (attribute) => {
     if (
       isEntity(attribute.type) ||
       isShadowEntity(attribute.type) ||

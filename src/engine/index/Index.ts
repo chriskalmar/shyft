@@ -34,7 +34,7 @@ export class Index {
         `Index definition of type '${type}' needs to have a list of attributes`,
     );
 
-    attributes.map(attribute => {
+    attributes.map((attribute) => {
       passOrThrow(
         typeof attribute === 'string',
         () =>
@@ -79,7 +79,7 @@ export const processEntityIndexes = (entity: Entity, indexes: Index[]) => {
         `Invalid index definition for entity '${entity.name}' at position '${idx}'`,
     );
 
-    index.attributes.map(attributeName => {
+    index.attributes.map((attributeName) => {
       passOrThrow(
         entityAttributes[attributeName],
         () =>
@@ -111,7 +111,7 @@ export const processEntityIndexes = (entity: Entity, indexes: Index[]) => {
   });
 
   // add new index for single attributes with the 'index' flag set but not defined in an index object by the user
-  Object.keys(entityAttributes).map(attributeName => {
+  Object.keys(entityAttributes).map((attributeName) => {
     if (entityAttributes[attributeName].index) {
       if (!singleAttributeIndexes.includes(attributeName)) {
         indexes.push(

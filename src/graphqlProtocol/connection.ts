@@ -134,7 +134,7 @@ const pageInfoType = new GraphQLObjectType({
   }),
 });
 
-export const generateConnectionType = config => {
+export const generateConnectionType = (config) => {
   // const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
@@ -239,7 +239,7 @@ export const connectionFromData = (
       node,
     });
   } else {
-    nodeToEdge = node => ({
+    nodeToEdge = (node) => ({
       node,
     });
   }
@@ -313,8 +313,9 @@ export const generateReverseConnections = (
 
       fields[fieldName] = {
         type: graphRegistry.types[sourceEntityTypeName].connection,
-        description: `Fetch a list of **\`${typeNamePluralListName}\`** for a given **\`${typeNamePascalCase}\`**\n${sourceEntity.descriptionPermissionsFind ||
-          ''}`,
+        description: `Fetch a list of **\`${typeNamePluralListName}\`** for a given **\`${typeNamePascalCase}\`**\n${
+          sourceEntity.descriptionPermissionsFind || ''
+        }`,
         args: graphRegistry.types[sourceEntityTypeName].connectionArgs,
 
         resolve: resolveByFind(sourceEntity, ({ source, info }) => {

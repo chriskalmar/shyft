@@ -5,7 +5,7 @@ export const StorageDataTypeBoolean = new StorageDataType({
   description: 'Data type representing a boolean value',
   nativeDataType: Boolean,
   isSortable: true,
-  serialize: value => !!value,
+  serialize: (value) => !!value,
 });
 
 export const StorageDataTypeNumber = new StorageDataType({
@@ -29,7 +29,7 @@ export const StorageDataTypeObject = new StorageDataType({
   description: 'Data type representing a json object',
   nativeDataType: Object,
   isSortable: false,
-  serialize: value => value,
+  serialize: (value) => value,
 });
 
 export const StorageDataTypeTimestamp = new StorageDataType({
@@ -37,7 +37,7 @@ export const StorageDataTypeTimestamp = new StorageDataType({
   description: 'Data type representing a date and time value',
   nativeDataType: Date,
   isSortable: true,
-  serialize: value => value,
+  serialize: (value) => value,
 });
 
 export const StorageDataTypeDate = new StorageDataType({
@@ -45,7 +45,7 @@ export const StorageDataTypeDate = new StorageDataType({
   description: 'Data type representing a date value',
   nativeDataType: Date,
   isSortable: true,
-  serialize: value => value,
+  serialize: (value) => value,
 });
 
 export const StorageDataTypeTime = new StorageDataType({
@@ -53,5 +53,5 @@ export const StorageDataTypeTime = new StorageDataType({
   description: 'Data type representing a time value',
   nativeDataType: Date,
   isSortable: true,
-  serialize: value => value,
+  serialize: (value) => value,
 });

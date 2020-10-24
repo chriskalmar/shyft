@@ -9,11 +9,11 @@ export const Language = new Entity({
   indexes: [
     new Index({
       type: INDEX_UNIQUE,
-      attributes: [ 'name' ],
+      attributes: ['name'],
     }),
     new Index({
       type: INDEX_UNIQUE,
-      attributes: [ 'isoCode' ],
+      attributes: ['isoCode'],
     }),
   ],
 

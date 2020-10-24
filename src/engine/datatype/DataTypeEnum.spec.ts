@@ -123,7 +123,7 @@ describe('DataTypeEnum', () => {
     const valueNames = Object.keys(values);
     const uniqueIds = [];
 
-    valueNames.map(valueName => {
+    valueNames.map((valueName) => {
       const valueId = values[valueName];
       uniqueIds.push(valueId);
     });

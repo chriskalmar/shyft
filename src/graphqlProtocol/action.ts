@@ -42,7 +42,7 @@ const fillSingleDefaultValues = async (param, payload, context) => {
     const paramType = param.type.getItemType();
 
     ret = await Promise.all(
-      payload.map(async itemPayload => {
+      payload.map(async (itemPayload) => {
         if (isObjectDataType(paramType)) {
           const attributes = paramType.getAttributes();
           // eslint-disable-next-line no-use-before-define, @typescript-eslint/no-use-before-define
@@ -64,7 +64,7 @@ const fillNestedDefaultValues = async (params, payload, context) => {
 
   const paramNames = Object.keys(params);
   await Promise.all(
-    paramNames.map(async paramName => {
+    paramNames.map(async (paramName) => {
       const param = params[paramName];
       ret[paramName] = await fillSingleDefaultValues(
         param,
@@ -188,8 +188,9 @@ export const generateActions = (graphRegistry, actionTypeFilter) => {
 
     actions[queryName] = {
       type: actionOutputType,
-      description: `${action.description}\n${action.descriptionPermissions ||
-        ''}`,
+      description: `${action.description}\n${
+        action.descriptionPermissions || ''
+      }`,
 
       args: inputArgs,
 

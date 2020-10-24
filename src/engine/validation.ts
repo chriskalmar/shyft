@@ -39,7 +39,7 @@ const validatePayload = async (
     if (isObjectDataType(paramType)) {
       const attributes = paramType.getAttributes();
 
-      await asyncForEach(Object.keys(attributes), async attributeName => {
+      await asyncForEach(Object.keys(attributes), async (attributeName) => {
         const attribute = attributes[attributeName];
 
         const newPath = [...path, attribute.name];
@@ -59,7 +59,7 @@ const validatePayload = async (
 
       if (typeof payloadList !== 'undefined') {
         await Promise.all(
-          payloadList.map(async itemPayload => {
+          payloadList.map(async (itemPayload) => {
             if (isObjectDataType(paramType)) {
               await validateDataTypePayload(paramType, itemPayload, context);
 
@@ -68,7 +68,7 @@ const validatePayload = async (
 
               await asyncForEach(
                 Object.keys(attributes),
-                async attributeName => {
+                async (attributeName) => {
                   const attribute = attributes[attributeName];
 
                   passOrThrow(
@@ -153,11 +153,11 @@ export const validateMutationPayload = async (
   const attributes: any = entity.getAttributes();
   const systemAttributes = _.filter(
     attributes,
-    attribute => attribute.isSystemAttribute && attribute.defaultValue,
-  ).map(attribute => attribute.name);
+    (attribute) => attribute.isSystemAttribute && attribute.defaultValue,
+  ).map((attribute) => attribute.name);
 
   await Promise.all(
-    systemAttributes.map(async attributeName => {
+    systemAttributes.map(async (attributeName) => {
       const attribute = attributes[attributeName];
       await validatePayload(attribute, payload, { mutation, entity }, context);
     }),
@@ -166,7 +166,7 @@ export const validateMutationPayload = async (
   const attributesToValidate = mutation.attributes || [];
 
   await Promise.all(
-    attributesToValidate.map(async attributeName => {
+    attributesToValidate.map(async (attributeName) => {
       const attribute = attributes[attributeName];
 
       if (mutation.type === MUTATION_TYPE_CREATE && !attribute.i18n) {

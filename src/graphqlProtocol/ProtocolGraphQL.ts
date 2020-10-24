@@ -73,7 +73,7 @@ const dataTypesRegistry = {
   enum: {},
 };
 
-ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeState, attributeType => {
+ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeState, (attributeType) => {
   const name = attributeType.name;
   const values = {};
 
@@ -85,7 +85,7 @@ ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeState, attributeType => {
 
   const states = attributeType.states;
   const stateNames = Object.keys(states);
-  stateNames.map(stateName => {
+  stateNames.map((stateName) => {
     values[stateName] = {
       value: states[stateName],
     };
@@ -104,7 +104,7 @@ ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeState, attributeType => {
   return type;
 });
 
-ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeEnum, attributeType => {
+ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeEnum, (attributeType) => {
   const name = attributeType.name;
   const values = {};
 
@@ -116,7 +116,7 @@ ProtocolGraphQL.addDynamicDataTypeMap(isDataTypeEnum, attributeType => {
 
   const enumValues = attributeType.values;
   const enumValuesNames = Object.keys(enumValues);
-  enumValuesNames.map(valueName => {
+  enumValuesNames.map((valueName) => {
     values[valueName] = {
       value: enumValues[valueName],
     };

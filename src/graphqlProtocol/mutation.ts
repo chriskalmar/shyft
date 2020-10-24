@@ -14,7 +14,7 @@ import {
   extractIdFromNodeId,
 } from './operation';
 
-export const generateMutations = graphRegistry => {
+export const generateMutations = (graphRegistry) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
   const mutations = {};
 
@@ -31,7 +31,7 @@ export const generateMutations = graphRegistry => {
       return;
     }
 
-    entityMutations.map(entityMutation => {
+    entityMutations.map((entityMutation) => {
       const mutationName = protocolConfiguration.generateOperationTypeName(
         entity,
         entityMutation,

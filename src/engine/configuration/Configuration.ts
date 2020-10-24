@@ -55,7 +55,7 @@ export class Configuration {
       () => 'Configuration.setLanguages() expects a list of language iso codes',
     );
 
-    languages.map(language => {
+    languages.map((language) => {
       passOrThrow(
         languageIsoCodeRegex.test(language),
         () =>

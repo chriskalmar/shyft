@@ -248,7 +248,7 @@ export const processEntityMutations = (
 
   const mutationNames = [];
 
-  mutations.map(mutation => {
+  mutations.map((mutation) => {
     passOrThrow(
       !mutationNames.includes(mutation.name),
       () =>
@@ -266,7 +266,7 @@ export const processEntityMutations = (
           `Mutation '${entity.name}.${mutation.name}' needs to have a list of attributes`,
       );
 
-      mutation.attributes.map(attribute => {
+      mutation.attributes.map((attribute) => {
         passOrThrow(
           typeof attribute === 'string',
           () =>
@@ -280,7 +280,7 @@ export const processEntityMutations = (
           `Mutation '${entity.name}.${mutation.name}' needs to have a list of unique attribute names`,
       );
 
-      mutation.attributes.map(attributeName => {
+      mutation.attributes.map((attributeName) => {
         passOrThrow(
           entityAttributes[attributeName],
           () =>
@@ -290,7 +290,7 @@ export const processEntityMutations = (
 
       if (mutation.type === MUTATION_TYPE_CREATE) {
         const missingAttributeNames = requiredAttributeNames.filter(
-          requiredAttributeName => {
+          (requiredAttributeName) => {
             return !mutation.attributes.includes(requiredAttributeName);
           },
         );
@@ -320,12 +320,12 @@ export const processEntityMutations = (
       mutation.attributes = nonSystemAttributeNames;
     }
 
-    const checkMutationStates = stateStringOrArray => {
+    const checkMutationStates = (stateStringOrArray) => {
       const stateNames = isArray(stateStringOrArray)
         ? stateStringOrArray
         : [stateStringOrArray];
 
-      stateNames.map(stateName => {
+      stateNames.map((stateName) => {
         passOrThrow(
           entityStates[stateName],
           () =>

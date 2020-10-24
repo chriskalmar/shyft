@@ -62,7 +62,7 @@ export class StorageDataType {
         () => `Storage data type '${name}' has an invalid list of capabilities`,
       );
 
-      capabilities.map(capability => {
+      capabilities.map((capability) => {
         passOrThrow(
           storageDataTypeCapabilities[capability],
           () =>

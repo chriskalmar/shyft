@@ -95,7 +95,7 @@ export class Schema {
       );
 
       const permissionsMapKeys = Object.keys(permissionsMap);
-      permissionsMapKeys.map(key => {
+      permissionsMapKeys.map((key) => {
         passOrThrow(
           ['entities', 'actions'].includes(key),
           () =>
@@ -111,7 +111,7 @@ export class Schema {
 
         const entityNames = Object.keys(permissionsMap.entities);
 
-        entityNames.map(entityName => {
+        entityNames.map((entityName) => {
           const entityPermissions = permissionsMap.entities[entityName];
 
           if (entityPermissions) {
@@ -146,7 +146,7 @@ export class Schema {
               );
 
               const mutationNames = Object.keys(entityPermissions.mutations);
-              mutationNames.map(mutationName => {
+              mutationNames.map((mutationName) => {
                 passOrThrow(
                   isPermission(entityPermissions.mutations[mutationName]) ||
                     isPermissionsArray(
@@ -180,7 +180,7 @@ export class Schema {
         () => "Schema needs 'entities' to be an array of type Entity",
       );
 
-      entities.map(entity => this.addEntity(entity));
+      entities.map((entity) => this.addEntity(entity));
     }
 
     if (actions) {
@@ -189,7 +189,7 @@ export class Schema {
         () => "Schema needs 'actions' to be an array of type Action",
       );
 
-      actions.map(action => this.addAction(action));
+      actions.map((action) => this.addAction(action));
     }
   }
 
@@ -270,13 +270,13 @@ export class Schema {
 
     const entityNames = Object.keys(this._entityMap);
 
-    entityNames.forEach(entityName => {
+    entityNames.forEach((entityName) => {
       const entity = this._entityMap[entityName];
       const attributes = entity.getAttributes();
 
       const attributeNames = Object.keys(attributes);
 
-      attributeNames.forEach(attributeName => {
+      attributeNames.forEach((attributeName) => {
         const attribute = attributes[attributeName];
 
         if (isEntity(attribute.type)) {
@@ -318,7 +318,7 @@ export class Schema {
         this.permissionsMap.entities,
       );
 
-      permissionsMapEntityNames.map(permissionsMapEntityName => {
+      permissionsMapEntityNames.map((permissionsMapEntityName) => {
         passOrThrow(
           entityNames.includes(permissionsMapEntityName) ||
             permissionsMapEntityName === '_defaultPermissions',
@@ -328,7 +328,7 @@ export class Schema {
       });
     }
 
-    entityNames.forEach(entityName => {
+    entityNames.forEach((entityName) => {
       const entity = this._entityMap[entityName];
       const attributes = entity.getAttributes();
 
@@ -343,7 +343,7 @@ export class Schema {
         entityAsEntity.getIndexes();
       }
 
-      attributeNames.forEach(attributeName => {
+      attributeNames.forEach((attributeName) => {
         const attribute = attributes[attributeName];
 
         if (isEntity(attribute.type)) {
@@ -367,7 +367,7 @@ export class Schema {
 
     const actionNames = Object.keys(this._actionMap);
 
-    actionNames.forEach(actionName => {
+    actionNames.forEach((actionName) => {
       const action = this._actionMap[actionName];
 
       // trigger validation and generation of permissions

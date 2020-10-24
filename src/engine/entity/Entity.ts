@@ -154,7 +154,7 @@ export class Entity {
       meta,
     } = setup;
 
-    Object.keys(setup).map(prop => {
+    Object.keys(setup).map((prop) => {
       passOrThrow(
         entityPropertiesWhitelist.includes(prop),
         () => `Invalid setup property '${prop}' in entity '${name}'`,
@@ -314,7 +314,7 @@ export class Entity {
     const mutations = this.getMutations();
 
     return mutations
-      ? mutations.find(mutation => String(mutation) === name)
+      ? mutations.find((mutation) => String(mutation) === name)
       : null;
   }
 
@@ -331,7 +331,7 @@ export class Entity {
       const stateNames = Object.keys(states);
       const uniqueIds = [];
 
-      stateNames.map(stateName => {
+      stateNames.map((stateName) => {
         const stateId = states[stateName];
         uniqueIds.push(stateId);
 
@@ -371,7 +371,7 @@ export class Entity {
 
     const subscriptions = {};
 
-    defaultEntitySubscription.map(defaultSubscription => {
+    defaultEntitySubscription.map((defaultSubscription) => {
       const key = `${defaultSubscription.name}Subscription`;
 
       subscriptions[key] = new Subscription({
@@ -412,7 +412,7 @@ export class Entity {
     const subscriptions = this.getSubscriptions();
 
     return subscriptions
-      ? subscriptions.find(subscription => String(subscription) === name)
+      ? subscriptions.find((subscription) => String(subscription) === name)
       : null;
   }
 
@@ -440,7 +440,7 @@ export class Entity {
     }
 
     if (this.includeTimeTracking) {
-      systemAttributesTimeTracking.map(attribute => {
+      systemAttributesTimeTracking.map((attribute) => {
         const { name } = attribute;
         this._checkSystemAttributeNameCollision(attributeMap, name);
         attributeMap[name] = attribute;
@@ -449,7 +449,7 @@ export class Entity {
     }
 
     if (this.includeUserTracking && !this.isUserEntity) {
-      systemAttributesUserTracking.map(attribute => {
+      systemAttributesUserTracking.map((attribute) => {
         const { name } = attribute;
         this._checkSystemAttributeNameCollision(attributeMap, name);
         attributeMap[name] = attribute;
@@ -466,7 +466,7 @@ export class Entity {
 
     const attributeNames = Object.keys(attributeMap);
     const i18nAttributeNames = attributeNames.filter(
-      attributeName => attributeMap[attributeName].i18n,
+      (attributeName) => attributeMap[attributeName].i18n,
     );
 
     if (i18nAttributeNames.length) {
@@ -494,7 +494,7 @@ export class Entity {
         `Invalid attribute name '${attributeName}' in entity '${this.name}' (Regex: /${ATTRIBUTE_NAME_PATTERN}/)`,
     );
 
-    Object.keys(rawAttribute).map(prop => {
+    Object.keys(rawAttribute).map((prop) => {
       passOrThrow(
         attributePropertiesWhitelist.includes(prop),
         () =>
@@ -578,7 +578,7 @@ export class Entity {
       );
 
       const localAttributeNames = Object.keys(attribute.targetAttributesMap);
-      localAttributeNames.map(localAttributeName => {
+      localAttributeNames.map((localAttributeName) => {
         const targetAttribute =
           attribute.targetAttributesMap[localAttributeName];
 
@@ -662,19 +662,19 @@ export class Entity {
 
     const resultAttributes = {};
 
-    attributeNames.forEach(attributeName => {
+    attributeNames.forEach((attributeName) => {
       resultAttributes[attributeName] = this._processAttribute(
         attributeMap[attributeName],
         attributeName,
       );
     });
 
-    attributeNames.forEach(attributeName => {
+    attributeNames.forEach((attributeName) => {
       const attribute = resultAttributes[attributeName];
 
       if (attribute.targetAttributesMap) {
         const localAttributeNames = Object.keys(attribute.targetAttributesMap);
-        localAttributeNames.map(localAttributeName => {
+        localAttributeNames.map((localAttributeName) => {
           passOrThrow(
             resultAttributes[localAttributeName],
             () =>
@@ -687,7 +687,7 @@ export class Entity {
 
     const systemAttributeNames = this._collectSystemAttributes(attributeMap);
 
-    systemAttributeNames.forEach(attributeName => {
+    systemAttributeNames.forEach((attributeName) => {
       resultAttributes[attributeName] = this._processAttribute(
         attributeMap[attributeName],
         attributeName,
@@ -697,13 +697,13 @@ export class Entity {
 
     const rankedResultAttributes = {};
 
-    Object.keys(resultAttributes).map(attributeName => {
+    Object.keys(resultAttributes).map((attributeName) => {
       const attribute = resultAttributes[attributeName];
       if (attribute.primary) {
         rankedResultAttributes[attributeName] = attribute;
       }
     });
-    Object.keys(resultAttributes).map(attributeName => {
+    Object.keys(resultAttributes).map((attributeName) => {
       const attribute = resultAttributes[attributeName];
       if (!attribute.primary) {
         rankedResultAttributes[attributeName] = attribute;
@@ -733,7 +733,7 @@ export class Entity {
     const attributes = this.getAttributes();
     const attributeNames = Object.keys(attributes);
     const i18nAttributeNames = attributeNames.filter(
-      attributeName => attributes[attributeName].i18n,
+      (attributeName) => attributes[attributeName].i18n,
     );
 
     return i18nAttributeNames.length ? i18nAttributeNames : null;
@@ -750,7 +750,7 @@ export class Entity {
 
     const mutations = {};
 
-    defaultEntityMutations.map(defaultMutation => {
+    defaultEntityMutations.map((defaultMutation) => {
       const key = `${defaultMutation.name}Mutation`;
 
       mutations[key] = new Mutation({
@@ -797,7 +797,7 @@ export class Entity {
       }
 
       if (this.permissions.mutations && this.mutations) {
-        this.mutations.map(mutation => {
+        this.mutations.map((mutation) => {
           const mutationName = mutation.name;
           const permission = this.permissions.mutations[mutationName];
 
@@ -813,7 +813,7 @@ export class Entity {
       }
 
       if (this.permissions.subscriptions && this.subscriptions) {
-        this.subscriptions.map(subscription => {
+        this.subscriptions.map((subscription) => {
           const subscriptionName = subscription.name;
           const permission = this.permissions.subscriptions[subscriptionName];
 
@@ -875,7 +875,7 @@ export class Entity {
 
     let found = false;
 
-    this.referencedByEntities.map(entry => {
+    this.referencedByEntities.map((entry) => {
       if (
         entry.sourceEntityName === sourceEntityName &&
         entry.sourceAttributeName === sourceAttributeName
@@ -901,6 +901,6 @@ export class Entity {
   }
 }
 
-export const isEntity = obj => {
+export const isEntity = (obj) => {
   return obj instanceof Entity;
 };

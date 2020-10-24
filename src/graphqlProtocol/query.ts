@@ -7,7 +7,7 @@ import { resolveByFind, resolveByFindOne } from './resolver';
 import { isEntity } from '../engine/entity/Entity';
 import { isViewEntity } from '../engine/entity/ViewEntity';
 
-export const generateListQueries = graphRegistry => {
+export const generateListQueries = (graphRegistry) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const listQueries = {};
@@ -22,8 +22,9 @@ export const generateListQueries = graphRegistry => {
 
     listQueries[queryName] = {
       type: graphRegistry.types[typeName].connection,
-      description: `Fetch a list of **\`${typeNamePluralListName}\`**\n${entity.descriptionPermissionsFind ||
-        ''}`,
+      description: `Fetch a list of **\`${typeNamePluralListName}\`**\n${
+        entity.descriptionPermissionsFind || ''
+      }`,
       args: graphRegistry.types[typeName].connectionArgs,
       resolve: resolveByFind(entity),
     };
@@ -48,8 +49,9 @@ export const generateInstanceQueries = (graphRegistry, idFetcher) => {
 
     instanceQueries[queryName] = {
       type: type,
-      description: `Fetch a single **\`${typeNamePascalCase}\`** using its node ID\n${entity.descriptionPermissionsRead ||
-        ''}`,
+      description: `Fetch a single **\`${typeNamePascalCase}\`** using its node ID\n${
+        entity.descriptionPermissionsRead || ''
+      }`,
       args: {
         nodeId: {
           type: new GraphQLNonNull(GraphQLID),
@@ -79,8 +81,9 @@ export const generateInstanceQueries = (graphRegistry, idFetcher) => {
 
       instanceQueries[queryNamePrimaryAttribute] = {
         type: type,
-        description: `Fetch a single **\`${typeNamePascalCase}\`** using its **\`${fieldName}\`**\n${entity.descriptionPermissionsRead ||
-          ''}`,
+        description: `Fetch a single **\`${typeNamePascalCase}\`** using its **\`${fieldName}\`**\n${
+          entity.descriptionPermissionsRead || ''
+        }`,
         args: {
           [fieldName]: {
             type: new GraphQLNonNull(graphqlDataType),

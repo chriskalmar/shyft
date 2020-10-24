@@ -94,7 +94,7 @@ export const generateOperationInstanceInput = (entity, entityOperation) => {
 
       const entityAttributes = entity.getAttributes();
 
-      _.forEach(entityOperation.attributes, attributeName => {
+      _.forEach(entityOperation.attributes, (attributeName) => {
         const attribute = entityAttributes[attributeName];
 
         let attributeType = attribute.type;
@@ -268,7 +268,7 @@ export const generateInstanceUniquenessInput = (
 
       const entityAttributes = entity.getAttributes();
 
-      _.forEach(uniquenessAttributes.attributes, attributeName => {
+      _.forEach(uniquenessAttributes.attributes, (attributeName) => {
         const attribute = entityAttributes[attributeName];
 
         let attributeType = attribute.type;
@@ -335,7 +335,7 @@ export const generateInstanceUniquenessInput = (
   return entityInstanceInputType;
 };
 
-export const generateInstanceUniquenessInputs = graphRegistry => {
+export const generateInstanceUniquenessInputs = (graphRegistry) => {
   _.forEach(graphRegistry.types, ({ entity }, typeName) => {
     const uniquenessAttributesList = getEntityUniquenessAttributes(entity);
 
@@ -343,7 +343,7 @@ export const generateInstanceUniquenessInputs = graphRegistry => {
     registryType.instanceUniquenessInputs =
       registryType.instanceUniquenessInputs || {};
 
-    uniquenessAttributesList.map(uniquenessAttributes => {
+    uniquenessAttributesList.map((uniquenessAttributes) => {
       const instanceUniquenessInput = generateInstanceUniquenessInput(
         entity,
         uniquenessAttributes,
@@ -384,7 +384,7 @@ export const generateOperationInstanceNestedInput = (
 
       const entityAttributes = entity.getAttributes();
 
-      _.forEach(entityOperation.attributes, attributeName => {
+      _.forEach(entityOperation.attributes, (attributeName) => {
         const attribute = entityAttributes[attributeName];
 
         let attributeType = attribute.type;

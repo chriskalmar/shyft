@@ -68,7 +68,7 @@ function convertDataTypeToCasualFunction(dataType) {
   );
 }
 
-export const generateMemoryDB = schema => {
+export const generateMemoryDB = (schema) => {
   const memoryDB = {};
 
   _.map(schema.getEntities(), (entity, entityName) => {
@@ -83,7 +83,7 @@ export const generateMemoryDB = schema => {
       fields: () => {
         const fields = {};
 
-        _.map(entity.getAttributes(), attribute => {
+        _.map(entity.getAttributes(), (attribute) => {
           // skip for computed values
           if (attribute.resolve) {
             return;
@@ -166,9 +166,9 @@ function generateItem(entity) {
 }
 
 // where getPrimaryAttribute has been inherited ?
-export const generateData = memoryDB => {
+export const generateData = (memoryDB) => {
   // generate basic data
-  _.forEach(memoryDB, entity => {
+  _.forEach(memoryDB, (entity) => {
     _.times(_.random(10, 100), () => {
       generateItem(entity);
     });
@@ -184,11 +184,11 @@ export const generateData = memoryDB => {
           const primaryAttribute = type.getPrimaryAttribute();
           const primaryAttributeName = primaryAttribute.gqlFieldName;
 
-          data.map(item => {
+          data.map((item) => {
             item[name] = _.sample(referencingData)[primaryAttributeName];
           });
         } else {
-          data.map(item => {
+          data.map((item) => {
             item[name] = null;
           });
         }

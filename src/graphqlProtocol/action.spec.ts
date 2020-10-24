@@ -182,7 +182,7 @@ describe('action', () => {
     actions: {},
   };
 
-  actions.map(action => {
+  actions.map((action) => {
     graphRegistry.actions[action.name] = {
       action,
     };
@@ -198,7 +198,7 @@ describe('action', () => {
     const actionNames = Object.keys(generatedActions);
     expect(actionNames.length).toEqual(4);
 
-    actionNames.map(actionName => {
+    actionNames.map((actionName) => {
       const action = generatedActions[actionName];
       const outputType = action.type;
 

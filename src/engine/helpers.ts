@@ -15,10 +15,10 @@ export const fillSystemAttributesDefaultValues = (
   const entityAttributes: any = entity.getAttributes();
   const systemAttributes = _.filter(
     entityAttributes,
-    attribute => attribute.isSystemAttribute && attribute.defaultValue,
+    (attribute) => attribute.isSystemAttribute && attribute.defaultValue,
   );
 
-  systemAttributes.map(attribute => {
+  systemAttributes.map((attribute) => {
     const attributeName = attribute.name;
     const defaultValue = attribute.defaultValue;
 
@@ -45,11 +45,11 @@ export const fillDefaultValues = async (
   const payloadAttributes = Object.keys(payload);
   const requiredAttributes = _.filter(
     entityAttributes,
-    attribute => attribute.required && !attribute.isSystemAttribute,
+    (attribute) => attribute.required && !attribute.isSystemAttribute,
   );
 
   await Promise.all(
-    requiredAttributes.map(async attribute => {
+    requiredAttributes.map(async (attribute) => {
       const attributeName = attribute.name;
       if (!payloadAttributes.includes(attributeName)) {
         if (attribute.defaultValue) {
@@ -80,13 +80,13 @@ export const serializeValues = (
 
   const entityAttributes = entity.getAttributes();
 
-  _.forEach(entityAttributes, attribute => {
+  _.forEach(entityAttributes, (attribute) => {
     const attributeName = attribute.name;
     const gqlFieldNameI18n = attribute.gqlFieldNameI18n;
 
     if (attribute.serialize) {
       if (attribute.i18n && typeof ret[gqlFieldNameI18n] !== 'undefined') {
-        Object.keys(ret[gqlFieldNameI18n]).map(language => {
+        Object.keys(ret[gqlFieldNameI18n]).map((language) => {
           ret[gqlFieldNameI18n][language] = attribute.serialize(
             ret[gqlFieldNameI18n][language],
             ret,

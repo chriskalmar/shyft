@@ -4,8 +4,8 @@ import { viewAttributePropertiesWhitelist } from './constants';
 
 type StringFunction = () => string;
 
-export const deleteUndefinedProps = obj =>
-  Object.keys(obj).forEach(key => obj[key] === undefined && delete obj[key]);
+export const deleteUndefinedProps = (obj) =>
+  Object.keys(obj).forEach((key) => obj[key] === undefined && delete obj[key]);
 
 export const passOrThrow = (
   condition: any,
@@ -22,7 +22,7 @@ export const passOrThrow = (
   }
 };
 
-export const resolveFunctionMap = functionOrMap => {
+export const resolveFunctionMap = (functionOrMap) => {
   return typeof functionOrMap === 'function'
     ? functionOrMap()
     : { ...functionOrMap };
@@ -72,7 +72,7 @@ export const mapOverProperties = (
 
   const keys = Object.keys(object);
 
-  keys.forEach(key => {
+  keys.forEach((key) => {
     iteratee(object[key], key);
   });
 };
@@ -134,11 +134,8 @@ export const sortDataByKeys = (
   return result;
 };
 
-export const reverseString = str => {
-  return str
-    .split('')
-    .reverse()
-    .join('');
+export const reverseString = (str) => {
+  return str.split('').reverse().join('');
 };
 
 export const randomJson = () => {
@@ -166,7 +163,7 @@ export const asyncForEach = async (
 
 export const isDefined = (val: any): boolean => typeof val !== 'undefined';
 
-export const convertEntityToViewAttribute = attribute => {
+export const convertEntityToViewAttribute = (attribute) => {
   if (!_.isObject(attribute)) {
     throw new Error(
       'convertEntityToViewAttribute() expects an attribute as input',
@@ -175,14 +172,14 @@ export const convertEntityToViewAttribute = attribute => {
 
   const newAttribute = {};
 
-  viewAttributePropertiesWhitelist.map(prop => {
+  viewAttributePropertiesWhitelist.map((prop) => {
     newAttribute[prop] = attribute[prop];
   });
 
   return newAttribute;
 };
 
-export const convertEntityToViewAttributesMap = attributesMap => {
+export const convertEntityToViewAttributesMap = (attributesMap) => {
   const newAttributesMap = {};
 
   if (!_.isObject(attributesMap)) {

@@ -332,7 +332,7 @@ describe('Permission', () => {
         .userAttribute('id')
         .lookup(User, {
           city: 'id',
-          id: userId => userId,
+          id: (userId) => userId,
         })
         // https://en.wikipedia.org/wiki/Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu
         .value(
@@ -348,7 +348,7 @@ describe('Permission', () => {
     it('should reject lookup mappings other than value functions when used with a create type mutation', () => {
       const permission = new Permission().userAttribute('id').lookup(User, {
         city: 'id',
-        id: userId => userId,
+        id: (userId) => userId,
       });
 
       const createMutation = User.getMutationByName('create');
@@ -839,10 +839,7 @@ describe('Permission', () => {
 
       it('should generate filters for eligible permissions only', async () => {
         const multiPermissions = [
-          new Permission()
-            .authenticated()
-            .role('customer')
-            .state('open'),
+          new Permission().authenticated().role('customer').state('open'),
           new Permission()
             .authenticated()
             .userAttribute('author')
@@ -864,10 +861,7 @@ describe('Permission', () => {
 
       it('should generate empty filter if a simple permission applies', async () => {
         const multiPermissions = [
-          new Permission()
-            .authenticated()
-            .role('customer')
-            .state('open'),
+          new Permission().authenticated().role('customer').state('open'),
           new Permission()
             .authenticated()
             .userAttribute('author')

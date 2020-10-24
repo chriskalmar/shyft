@@ -31,7 +31,7 @@ describe('validation', () => {
       firstName: {
         type: DataTypeString,
         description: 'First name',
-        validate: async value =>
+        validate: async (value) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
               if (value.length > 2) {

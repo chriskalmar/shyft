@@ -93,7 +93,7 @@ export class ViewEntity {
       meta,
     } = setup;
 
-    Object.keys(setup).map(prop => {
+    Object.keys(setup).map((prop) => {
       passOrThrow(
         viewEntityPropertiesWhitelist.includes(prop),
         () => `Invalid setup property '${prop}' in view entity '${name}'`,
@@ -222,7 +222,7 @@ export class ViewEntity {
         `Invalid attribute name '${attributeName}' in view entity '${this.name}' (Regex: /${ATTRIBUTE_NAME_PATTERN}/)`,
     );
 
-    Object.keys(rawAttribute).map(prop => {
+    Object.keys(rawAttribute).map((prop) => {
       passOrThrow(
         viewAttributePropertiesWhitelist.includes(prop),
         () =>
@@ -280,7 +280,7 @@ export class ViewEntity {
       );
 
       const localAttributeNames = Object.keys(attribute.targetAttributesMap);
-      localAttributeNames.map(localAttributeName => {
+      localAttributeNames.map((localAttributeName) => {
         const targetAttribute =
           attribute.targetAttributesMap[localAttributeName];
 
@@ -358,19 +358,19 @@ export class ViewEntity {
 
     const resultAttributes = {};
 
-    attributeNames.forEach(attributeName => {
+    attributeNames.forEach((attributeName) => {
       resultAttributes[attributeName] = this._processAttribute(
         attributeMap[attributeName],
         attributeName,
       );
     });
 
-    attributeNames.forEach(attributeName => {
+    attributeNames.forEach((attributeName) => {
       const attribute = resultAttributes[attributeName];
 
       if (attribute.targetAttributesMap) {
         const localAttributeNames = Object.keys(attribute.targetAttributesMap);
-        localAttributeNames.map(localAttributeName => {
+        localAttributeNames.map((localAttributeName) => {
           passOrThrow(
             resultAttributes[localAttributeName],
             () =>
@@ -383,13 +383,13 @@ export class ViewEntity {
 
     const rankedResultAttributes = {};
 
-    Object.keys(resultAttributes).map(attributeName => {
+    Object.keys(resultAttributes).map((attributeName) => {
       const attribute = resultAttributes[attributeName];
       if (attribute.primary) {
         rankedResultAttributes[attributeName] = attribute;
       }
     });
-    Object.keys(resultAttributes).map(attributeName => {
+    Object.keys(resultAttributes).map((attributeName) => {
       const attribute = resultAttributes[attributeName];
       if (!attribute.primary) {
         rankedResultAttributes[attributeName] = attribute;
@@ -485,6 +485,6 @@ export class ViewEntity {
   }
 }
 
-export const isViewEntity = obj => {
+export const isViewEntity = (obj) => {
   return obj instanceof ViewEntity;
 };

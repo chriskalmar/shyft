@@ -138,7 +138,7 @@ export class ObjectDataType extends ComplexDataType {
 
     const resultAttributes = {};
 
-    attributeNames.forEach(attributeName => {
+    attributeNames.forEach((attributeName) => {
       resultAttributes[attributeName] = this._processAttribute(
         attributeMap[attributeName],
         attributeName,

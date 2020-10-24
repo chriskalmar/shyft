@@ -26,7 +26,7 @@ export class DataTypeState extends DataType {
     const stateNames = Object.keys(states);
     const uniqueIds = [];
 
-    stateNames.map(stateName => {
+    stateNames.map((stateName) => {
       const stateId = states[stateName];
       uniqueIds.push(stateId);
 

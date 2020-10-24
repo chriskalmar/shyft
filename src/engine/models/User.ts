@@ -14,11 +14,11 @@ export const User = new Entity({
   indexes: [
     new Index({
       type: INDEX_UNIQUE,
-      attributes: [ 'username' ],
+      attributes: ['username'],
     }),
     new Index({
       type: INDEX_UNIQUE,
-      attributes: [ 'email' ],
+      attributes: ['email'],
     }),
   ],
 
