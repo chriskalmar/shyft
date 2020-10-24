@@ -17,13 +17,6 @@ module.exports = {
     jest: true,
   },
   rules: {
-    // 'prettier/prettier': [
-    //   'error',
-    //   {
-    //     singleQuote: true,
-    //     bracketSpacing: true,
-    //   },
-    // ],
     'no-var': 'error',
     'prefer-const': 'error',
     'prefer-template': 'error',
@@ -37,13 +30,6 @@ module.exports = {
         args: 'after-used',
       },
     ],
-    // 'no-use-before-define': [
-    //   'error',
-    //   {
-    //     functions: false,
-    //     classes: true,
-    //   },
-    // ],
     'no-cond-assign': ['error', 'always'],
     'no-console': 'warn',
     'no-debugger': 'error',
@@ -105,13 +91,6 @@ module.exports = {
     'vars-on-top': 'error',
     'wrap-iife': ['error', 'any'],
     yoda: 'error',
-    indent: [
-      2,
-      2,
-      {
-        SwitchCase: 1,
-      },
-    ],
     quotes: ['error', 'single', 'avoid-escape'],
     camelcase: [
       2,
@@ -142,12 +121,6 @@ module.exports = {
         newIsCap: true,
       },
     ],
-    'no-multiple-empty-lines': [
-      2,
-      {
-        max: 3,
-      },
-    ],
     'no-nested-ternary': 'error',
     'no-new-object': 'error',
     'no-spaced-func': 'error',
@@ -156,22 +129,8 @@ module.exports = {
     'no-extra-parens': ['error', 'functions'],
     'no-underscore-dangle': 0,
     'one-var': ['error', 'never'],
-    'semi-spacing': [
-      2,
-      {
-        before: false,
-        after: true,
-      },
-    ],
-    'require-jsdoc': 0,
-    '@typescript-eslint/indent': [
-      'error',
-      2,
-      {
-        SwitchCase: 1,
-      },
-    ],
+    'require-jsdoc': 1,
     'require-atomic-updates': 0,
-    // '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
   },
 };
