@@ -91,7 +91,6 @@ export const viewEntityPropertiesWhitelist: Array<string> = [
   'preProcessor',
   'postProcessor',
   'preFilters',
-  'preFiltersGenerator',
   'meta',
 ];
 

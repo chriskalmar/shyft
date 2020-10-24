@@ -107,7 +107,7 @@ export class Entity {
   states?: any;
   preProcessor?: Function;
   postProcessor?: Function;
-  preFilters?: PreFilterType | (() => PreFilterType);
+  preFilters?: PreFilterType;
   meta?: any;
   private _attributesMap: AttributesSetupMap | AttributesMapGenerator;
   private _primaryAttribute: Attribute;
