@@ -13,15 +13,11 @@
   "[typescript]": {
     "editor.formatOnSave": true
   },
-  "eslint.autoFixOnSave": true,
-  "eslint.validate": [
-    "javascript",
-    {
-      "language": "typescript",
-      "autoFix": true
-    }
-  ],
+  "eslint.validate": ["javascript"],
   "workbench.colorCustomizations": {
     "activityBar.background": "#1c3350"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
   }
 }
