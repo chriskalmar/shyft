@@ -50,12 +50,12 @@ import {
 } from '../attribute/Attribute';
 import { processPreFilters } from '../filter';
 
-type PreFilterType = {
+interface PreFilterType {
   [key: string]: {
     resolve: Function;
-    attributes: any;
+    attributes: unknown;
   };
-};
+}
 
 export interface EntitySetup {
   name: string;
@@ -87,10 +87,11 @@ export interface EntitySetup {
     context?: any,
     info?: any,
   ) => Promise<any> | any;
-  preFilters?: PreFilterType;
-  preFiltersGenerator?: PreFilterGeneratorType;
-  meta?: any;
-};
+  preFilters?: PreFilterType | (() => PreFilterType);
+  meta?: {
+    [key: string]: unknown;
+  };
+}
 
 export class Entity {
   name: string;
@@ -106,7 +107,7 @@ export class Entity {
   states?: any;
   preProcessor?: Function;
   postProcessor?: Function;
-  preFilters?: PreFilterType;
+  preFilters?: PreFilterType | (() => PreFilterType);
   meta?: any;
   private _attributesMap: AttributesSetupMap | AttributesMapGenerator;
   private _primaryAttribute: Attribute;
@@ -120,8 +121,7 @@ export class Entity {
   private _attributes: AttributesMap;
   private descriptionPermissionsFind: any;
   private descriptionPermissionsRead: any;
-  private _preFilters: PreFilterType;
-  private _preFiltersGenerator: () => PreFilterType;
+  private _preFilters: PreFilterType | (() => PreFilterType);
   isFallbackStorageType: any;
   findOne: any;
   find: any;
@@ -145,7 +145,6 @@ export class Entity {
       preProcessor,
       postProcessor,
       preFilters,
-      preFiltersGenerator,
       meta,
     } = setup;
 
@@ -179,7 +178,6 @@ export class Entity {
     this._states = states;
     this._permissions = permissions;
     this._preFilters = preFilters;
-    this._preFiltersGenerator = preFiltersGenerator;
     this.meta = meta;
 
     if (preProcessor) {
@@ -822,8 +820,8 @@ export class Entity {
       return this.preFilters;
     }
 
-    if (this._preFiltersGenerator) {
-      this._preFilters = this._preFiltersGenerator();
+    if (typeof this._preFilters === 'function') {
+      this._preFilters = this._preFilters();
     }
 
     this.preFilters = this._processPreFilters();
