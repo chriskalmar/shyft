@@ -62,11 +62,11 @@ exports[`Entity primary attribute should catch primary attributes with invalid d
 
 exports[`Entity references should throw if invalid attribute is to be referenced 1`] = `"Cannot reference attribute 'Country.notHere' as it does not exist"`;
 
-exports[`Entity should accept only maps or functions as attributes definition 1`] = `"'attributes' for entity 'Example' needs to be a map of attributes"`;
+exports[`Entity should accept only maps or functions as attributes definition 1`] = `"'attributes' for entity 'Example' needs to be a map of attributes or a function returning a map of attributes"`;
 
 exports[`Entity should have a description 1`] = `"Missing description for entity 'Example'"`;
 
-exports[`Entity should have a map of attributes 1`] = `"Entity 'Example' needs either attributes or attributesGenerator defined"`;
+exports[`Entity should have a map of attributes 1`] = `"'attributes' for entity 'Example' needs to be a map of attributes or a function returning a map of attributes"`;
 
 exports[`Entity should have a name 1`] = `"Missing entity name"`;
 

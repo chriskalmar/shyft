@@ -51,7 +51,7 @@ describe('Entity', () => {
     const entity = new Entity({
       name: 'SomeEntityName',
       description: 'Just some description',
-      attributesGenerator: () => {
+      attributes: () => {
         return {} as any;
       },
     });
@@ -79,7 +79,7 @@ describe('Entity', () => {
       const entity = new Entity({
         name: 'Example',
         description: 'Just some description',
-        attributesGenerator: () => {
+        attributes: () => {
           return [2, 7, 13] as any;
         },
       });
@@ -118,7 +118,7 @@ describe('Entity', () => {
       const entity = new Entity({
         name: 'SomeEntityName',
         description: 'Just some description',
-        attributesGenerator: () => {
+        attributes: () => {
           return {
             id: {
               type: DataTypeID,
@@ -165,7 +165,7 @@ describe('Entity', () => {
       const entity = new Entity({
         name: 'SomeEntityName',
         description: 'Just some description',
-        attributesGenerator() {
+        attributes() {
           return null as any;
         },
       });

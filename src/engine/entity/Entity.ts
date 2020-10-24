@@ -57,13 +57,10 @@ type PreFilterType = {
   };
 };
 
-type PreFilterGeneratorType = () => PreFilterType;
-
-export type EntitySetup = {
+export interface EntitySetup {
   name: string;
   description: string;
-  attributes?: AttributesSetupMap;
-  attributesGenerator?: AttributesMapGenerator;
+  attributes?: AttributesSetupMap | AttributesMapGenerator;
   storageType?: any;
   isUserEntity?: boolean;
   includeTimeTracking?: boolean;
@@ -111,8 +108,7 @@ export class Entity {
   postProcessor?: Function;
   preFilters?: PreFilterType;
   meta?: any;
-  private _attributesMap: AttributesSetupMap;
-  private _attributesGenerator: AttributesMapGenerator;
+  private _attributesMap: AttributesSetupMap | AttributesMapGenerator;
   private _primaryAttribute: Attribute;
   private referencedByEntities: any;
   private _indexes: any;
@@ -137,7 +133,6 @@ export class Entity {
       name,
       description,
       attributes,
-      attributesGenerator,
       storageType,
       isUserEntity,
       includeTimeTracking,
@@ -163,26 +158,12 @@ export class Entity {
 
     passOrThrow(name, () => 'Missing entity name');
     passOrThrow(description, () => `Missing description for entity '${name}'`);
-    passOrThrow(
-      (attributes && !attributesGenerator) ||
-        (!attributes && attributesGenerator),
-      () =>
-        `Entity '${name}' needs either attributes or attributesGenerator defined`,
-    );
 
-    if (attributes) {
-      passOrThrow(
-        isMap(attributes),
-        () =>
-          `'attributes' for entity '${name}' needs to be a map of attributes`,
-      );
-    } else if (attributesGenerator) {
-      passOrThrow(
-        isFunction(attributesGenerator),
-        () =>
-          `'attributesGenerator' for entity '${name}' needs to return a map of attributes`,
-      );
-    }
+    passOrThrow(
+      isMap(attributes) || isFunction(attributes),
+      () =>
+        `'attributes' for entity '${name}' needs to be a map of attributes or a function returning a map of attributes`,
+    );
 
     this.name = name;
     this.description = description;
@@ -190,7 +171,6 @@ export class Entity {
     this.includeTimeTracking = !!includeTimeTracking;
     this.includeUserTracking = !!includeUserTracking;
     this._attributesMap = attributes;
-    this._attributesGenerator = attributesGenerator;
     this._primaryAttribute = null;
     this.referencedByEntities = [];
     this._indexes = indexes;
@@ -644,9 +624,10 @@ export class Entity {
 
   _processAttributeMap() {
     // if it's a function, resolve it to get that map
-    const attributeMap = this._attributesMap
-      ? { ...this._attributesMap }
-      : this._attributesGenerator();
+    const attributeMap =
+      typeof this._attributesMap === 'object'
+        ? { ...this._attributesMap }
+        : this._attributesMap();
 
     passOrThrow(
       isMap(attributeMap),
