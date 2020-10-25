@@ -471,7 +471,7 @@ export class Entity {
     );
   }
 
-  _processAttribute(rawAttribute, attributeName) {
+  private processAttribute(rawAttribute, attributeName): Attribute {
     passOrThrow(
       attributeNameRegex.test(attributeName),
       () =>
@@ -648,7 +648,7 @@ export class Entity {
     const resultAttributes = {};
 
     attributeNames.forEach((attributeName) => {
-      resultAttributes[attributeName] = this._processAttribute(
+      resultAttributes[attributeName] = this.processAttribute(
         attributeMap[attributeName],
         attributeName,
       );
