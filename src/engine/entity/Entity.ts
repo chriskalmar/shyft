@@ -62,7 +62,7 @@ export interface EntitySetup {
   name: string;
   description: string;
   attributes?: AttributesSetupMap | AttributesMapGenerator;
-  storageType?: any;
+  storageType?: StorageType;
   isUserEntity?: boolean;
   includeTimeTracking?: boolean;
   includeUserTracking?: boolean;
@@ -108,20 +108,24 @@ export class Entity {
   preProcessor?: Function;
   postProcessor?: Function;
   preFilters?: PreFilterType;
-  meta?: any;
-  private _attributesMap: AttributesSetupMap | AttributesMapGenerator;
+  meta?: {
+    [key: string]: unknown;
+  };
+  private setup: EntitySetup;
+  // private _attributesMap: AttributesSetupMap | AttributesMapGenerator;
   private _primaryAttribute: Attribute;
   private referencedByEntities: any;
-  private _indexes: Index[];
-  private _mutations: Mutation[] | MutationGenerator;
-  private _subscriptions: any;
-  private _states: any;
-  private _permissions: any;
-  private _defaultPermissions: any;
-  private _attributes: AttributesMap;
+  // private _indexes: Index[];
+  // private _mutations: Mutation[] | MutationGenerator;
+  // private _subscriptions: any;
+  // private _states: any;
+  // private _permissions: any;
+  // private _defaultPermissions: any;
+  // private _attributes: AttributesMap;
+  private attributes: AttributesMap;
   private descriptionPermissionsFind: any;
   private descriptionPermissionsRead: any;
-  private _preFilters: PreFilterType | (() => PreFilterType);
+  // private _preFilters: PreFilterType | (() => PreFilterType);
   isFallbackStorageType: any;
   findOne: any;
   find: any;
@@ -137,14 +141,14 @@ export class Entity {
       isUserEntity,
       includeTimeTracking,
       includeUserTracking,
-      indexes,
-      mutations,
-      permissions,
-      subscriptions,
-      states,
+      // indexes,
+      // mutations,
+      // permissions,
+      // subscriptions,
+      // states,
       preProcessor,
       postProcessor,
-      preFilters,
+      // preFilters,
       meta,
     } = setup;
 
@@ -164,20 +168,21 @@ export class Entity {
         `'attributes' for entity '${name}' needs to be a map of attributes or a function returning a map of attributes`,
     );
 
+    this.setup = setup;
     this.name = name;
     this.description = description;
     this.isUserEntity = !!isUserEntity;
     this.includeTimeTracking = !!includeTimeTracking;
     this.includeUserTracking = !!includeUserTracking;
-    this._attributesMap = attributes;
+    // this._attributesMap = attributes;
     this._primaryAttribute = null;
     this.referencedByEntities = [];
-    this._indexes = indexes;
-    this._mutations = mutations;
-    this._subscriptions = subscriptions;
-    this._states = states;
-    this._permissions = permissions;
-    this._preFilters = preFilters;
+    // this._indexes = indexes;
+    // this._mutations = mutations;
+    // this._subscriptions = subscriptions;
+    // this._states = states;
+    // this._permissions = permissions;
+    // this._preFilters = preFilters;
     this.meta = meta;
 
     if (preProcessor) {
@@ -242,11 +247,11 @@ export class Entity {
   }
 
   getAttributes() {
-    if (this._attributes) {
-      return this._attributes;
+    if (this.attributes) {
+      return this.attributes;
     }
 
-    const ret = (this._attributes = this._processAttributeMap());
+    const ret = (this.attributes = this.processAttributeMap());
     return ret;
   }
 
@@ -621,12 +626,12 @@ export class Entity {
     return attribute;
   }
 
-  _processAttributeMap() {
+  private processAttributeMap() {
     // if it's a function, resolve it to get that map
     const attributeMap =
-      typeof this._attributesMap === 'object'
-        ? { ...this._attributesMap }
-        : this._attributesMap();
+      typeof this.setup.attributes === 'object'
+        ? { ...this.setup.attributes }
+        : this.setup.attributes();
 
     passOrThrow(
       isMap(attributeMap),
