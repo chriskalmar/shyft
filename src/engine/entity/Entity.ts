@@ -315,7 +315,7 @@ export class Entity {
         );
 
         passOrThrow(
-          stateId === Number(stateId) && stateId > 0,
+          stateId === parseInt(String(stateId), 10) && stateId > 0,
           () =>
             `State '${stateName}' in entity '${this.name}' has an invalid unique ID (needs to be a positive integer)`,
         );
