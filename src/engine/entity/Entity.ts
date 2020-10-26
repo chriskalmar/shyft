@@ -61,6 +61,10 @@ interface PreFilterType {
   };
 }
 
+interface StateMap {
+  [key: string]: number;
+}
+
 export interface EntitySetup {
   name: string;
   description: string;
@@ -73,7 +77,7 @@ export interface EntitySetup {
   mutations?: Mutation[] | MutationGenerator;
   permissions?: PermissionMap | PermissionMapGenerator;
   subscriptions?: any;
-  states?: any;
+  states?: StateMap;
   preProcessor?: (
     entity?: Entity,
     args?: any,
@@ -105,7 +109,7 @@ export class Entity {
   mutations?: Mutation[];
   permissions?: PermissionMap;
   subscriptions?: any;
-  states?: any;
+  states?: StateMap;
   preProcessor?: Function;
   postProcessor?: Function;
   preFilters?: PreFilterType;
@@ -282,7 +286,7 @@ export class Entity {
       : null;
   }
 
-  _processStates() {
+  private processStates() {
     if (this.setup.states) {
       const states = this.setup.states;
 
@@ -306,7 +310,7 @@ export class Entity {
         );
 
         passOrThrow(
-          stateId === parseInt(stateId, 10) && stateId > 0,
+          stateId === Number(stateId) && stateId > 0,
           () =>
             `State '${stateName}' in entity '${this.name}' has an invalid unique ID (needs to be a positive integer)`,
         );
@@ -380,12 +384,12 @@ export class Entity {
       : null;
   }
 
-  getStates() {
+  getStates(): StateMap {
     if (!this.setup.states || this.states) {
       return this.states;
     }
 
-    this.states = this._processStates();
+    this.states = this.processStates();
     return this.states;
   }
 
