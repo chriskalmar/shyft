@@ -15,6 +15,7 @@ import {
   defaultEntityMutations,
   processEntityMutations,
   MutationGenerator,
+  MutationMap,
 } from '../mutation/Mutation';
 
 import {
@@ -272,15 +273,15 @@ export class Entity {
   }
 
   _processMutations() {
-    let mutations;
+    let mutations: Mutation[];
 
-    if (!this._mutations) {
-      mutations = Object.values(this._getDefaultMutations());
+    if (!this.setup.mutations) {
+      mutations = Object.values(this.getDefaultMutations());
     } else {
       mutations =
-        typeof this._mutations === 'function'
-          ? this._mutations(this._getDefaultMutations())
-          : this._mutations;
+        typeof this.setup.mutations === 'function'
+          ? this.setup.mutations(this.getDefaultMutations())
+          : this.setup.mutations;
     }
 
     return processEntityMutations(this, mutations);
@@ -726,7 +727,7 @@ export class Entity {
     return i18nAttributeNames.length ? i18nAttributeNames : null;
   }
 
-  _getDefaultMutations(): { [key: string]: Mutation } {
+  private getDefaultMutations(): MutationMap {
     const nonSystemAttributeNames = [];
 
     mapOverProperties(this.getAttributes(), (attribute, attributeName) => {
