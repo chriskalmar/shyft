@@ -16,7 +16,6 @@ import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 import { generateSortInput } from './sort';
 import { generateFilterInput } from './filter';
 import { ConnectionNode } from './types';
-// import { Entity } from '../engine/entity/Entity';
 
 export const generateConnectionArgs = (entity, graphRegistry) => {
   const sortInput = generateSortInput(entity);
@@ -214,6 +213,17 @@ export const buildCursor = (entityName, primaryAttributeName, args, data) => {
   };
 };
 
+export interface Connection {
+  edges: ConnectionNode[];
+  totalCount: () => Promise<number>;
+  pageInfo: {
+    startCursor: string | null;
+    endCursor: string | null;
+    hasPreviousPage: boolean;
+    hasNextPage: boolean;
+  };
+}
+
 export const connectionFromData = (
   { transformedData, originalData },
   entity,
@@ -223,7 +233,7 @@ export const connectionFromData = (
   _info,
   parentConnection,
   pageInfoFromData,
-) => {
+): Connection => {
   const entityName = entity.name;
   let nodeToEdge: (node: any, idx?: number) => ConnectionNode;
 

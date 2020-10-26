@@ -73,7 +73,12 @@ export type EntityPreProcessor = (params: {
   args: { [key: string]: unknown };
   context: Context;
   info: GraphQLResolveInfo;
-}) => { [key: string]: unknown };
+}) => Promise<{
+  args?: {
+    [key: string]: unknown;
+  };
+  context?: Context;
+}>;
 
 export type EntityPostProcessor = (params: {
   result?: { [key: string]: unknown };

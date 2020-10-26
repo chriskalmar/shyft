@@ -12,6 +12,7 @@ import {
   validateConnectionArgs,
   forceSortByUnique,
   connectionFromData,
+  Connection,
 } from './connection';
 
 import { transformFilterLevel } from './filter';
@@ -56,14 +57,21 @@ const AccessDeniedError = new CustomError(
   403,
 );
 
+type GraphQLFieldResolveFn = (
+  source?: any,
+  args?: { [key: string]: unknown },
+  context?: Context,
+  info?: GraphQLResolveInfo,
+) => any;
+
 export const resolveByFind = (
   entity: Entity,
   parentConnectionCollector?: any,
-) => {
+): GraphQLFieldResolveFn => {
   const storageType = entity.storageType;
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
-  return async (source, args, context, info) => {
+  return async (source, args, context, info): Promise<Connection> => {
     const parentConnection = parentConnectionCollector
       ? parentConnectionCollector({ source, args, context, info })
       : null;
@@ -71,6 +79,9 @@ export const resolveByFind = (
     // validateConnectionArgs(source, args, context, info);
     validateConnectionArgs(source, args);
     forceSortByUnique(args.orderBy, entity);
+
+    let finalContext = context;
+    let finalArgs = args;
 
     if (entity.preProcessor) {
       const preProcessorResult = await entity.preProcessor({
@@ -80,35 +91,32 @@ export const resolveByFind = (
         context,
         info,
       });
+
       if (preProcessorResult) {
-        /* eslint-disable no-param-reassign */
-        // console.log('after preProcessor', args, preProcessorResult);
-        args = preProcessorResult.args
-          ? { ...args, ...preProcessorResult.args }
+        finalArgs = preProcessorResult.args
+          ? { ...finalArgs, ...preProcessorResult.args }
           : args;
         if (preProcessorResult.context) {
-          if (Object.keys(context).length > 0) {
-            context = { ...context, ...preProcessorResult.context };
+          if (Object.keys(finalContext).length > 0) {
+            finalContext = { ...finalContext, ...preProcessorResult.context };
           } else {
-            context = preProcessorResult.context;
+            finalContext = preProcessorResult.context;
           }
         }
-
-        /* eslint-enable no-param-reassign */
       }
     }
 
-    args.filter = await transformFilterLevel(
+    finalArgs.filter = await transformFilterLevel(
       entity,
-      args.filter,
+      finalArgs.filter,
       entity.getAttributes(),
-      context,
+      finalContext,
     );
 
     const { data, pageInfo } = await storageType.find(
       entity,
-      args,
-      context,
+      finalArgs,
+      finalContext,
       parentConnection,
     );
 
@@ -119,7 +127,7 @@ export const resolveByFind = (
       ),
     );
 
-    const translated = translateList(entity, transformed, context);
+    const translated = translateList(entity, transformed, finalContext);
 
     const transformedData = entity.postProcessor
       ? translated.map((translatedRow) =>
@@ -127,8 +135,8 @@ export const resolveByFind = (
             result: translatedRow,
             entity,
             source,
-            args,
-            context,
+            args: finalArgs,
+            context: finalContext,
             info,
           }),
         )
@@ -141,8 +149,8 @@ export const resolveByFind = (
       },
       entity,
       source,
-      args,
-      context,
+      finalArgs,
+      finalContext,
       info,
       parentConnection,
       pageInfo,
@@ -150,16 +158,14 @@ export const resolveByFind = (
   };
 };
 
-export const resolveByFindOne = (entity: Entity, idCollector) => {
+export const resolveByFindOne = (
+  entity: Entity,
+  idCollector,
+): GraphQLFieldResolveFn => {
   const storageType = entity.storageType;
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
-  return async (
-    source: any,
-    args: any,
-    context?: Context,
-    info?: GraphQLResolveInfo,
-  ) => {
+  return (source, args, context, info) => {
     const id = idCollector({ source, args, context });
 
     if (id === null || typeof id === 'undefined') {
