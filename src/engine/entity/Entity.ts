@@ -53,6 +53,8 @@ import {
   AttributesMapGenerator,
 } from '../attribute/Attribute';
 import { processPreFilters } from '../filter';
+import { Context } from '../context/Context';
+import { GraphQLResolveInfo } from 'graphql';
 
 interface PreFilterType {
   [key: string]: {
@@ -61,7 +63,7 @@ interface PreFilterType {
   };
 }
 
-interface StateMap {
+export interface StateMap {
   [key: string]: number;
 }
 
@@ -80,17 +82,17 @@ export interface EntitySetup {
   states?: StateMap;
   preProcessor?: (
     entity?: Entity,
-    args?: any,
-    context?: any,
-    info?: any,
+    args?: { [key: string]: unknown },
+    context?: Context,
+    info?: GraphQLResolveInfo,
   ) => Promise<any> | any;
   postProcessor?: (
-    translatedRow?: any,
+    translatedRow?: { [key: string]: unknown },
     entity?: Entity,
     source?: any,
-    args?: any,
-    context?: any,
-    info?: any,
+    args?: { [key: string]: unknown },
+    context?: Context,
+    info?: GraphQLResolveInfo,
   ) => Promise<any> | any;
   preFilters?: PreFilterType | (() => PreFilterType);
   meta?: {
@@ -118,14 +120,17 @@ export class Entity {
   };
   private setup: EntitySetup;
   private _primaryAttribute: Attribute;
-  private referencedByEntities: any;
+  private referencedByEntities: {
+    sourceEntityName: string;
+    sourceAttributeName: string;
+  }[];
   private defaultPermissions: PermissionMap;
   private attributes: AttributesMap;
-  private descriptionPermissionsFind: any;
-  private descriptionPermissionsRead: any;
-  isFallbackStorageType: any;
-  findOne: any;
-  find: any;
+  private descriptionPermissionsFind: string | boolean;
+  private descriptionPermissionsRead: string | boolean;
+  isFallbackStorageType: boolean;
+  findOne: Function;
+  find: Function;
 
   constructor(setup: EntitySetup) {
     passOrThrow(isMap(setup), () => 'Entity requires a setup object');

@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { graphql, GraphQLSchema } from 'graphql';
 import { Entity, isEntity } from './Entity';
@@ -153,7 +154,7 @@ describe('Entity', () => {
             primary: true,
           },
         },
-        storageType: {},
+        storageType: {} as any,
       });
     }
 
@@ -728,7 +729,7 @@ describe('Entity', () => {
       function fn() {
         const entity = new Entity({
           ...entityDefinition,
-          states: ['bad'],
+          states: ['bad'] as any,
         });
 
         entity.getStates();
@@ -797,7 +798,7 @@ describe('Entity', () => {
           ...entityDefinition,
           states: {
             open: 'not a number',
-          },
+          } as any,
         });
 
         entity.getStates();
