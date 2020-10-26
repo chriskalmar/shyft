@@ -74,8 +74,6 @@ export interface EntitySetup {
   permissions?: PermissionMap | PermissionMapGenerator;
   subscriptions?: any;
   states?: any;
-  // preProcessor?: Function;
-  // postProcessor?: Function;
   preProcessor?: (
     entity?: Entity,
     args?: any,
@@ -115,20 +113,12 @@ export class Entity {
     [key: string]: unknown;
   };
   private setup: EntitySetup;
-  // private _attributesMap: AttributesSetupMap | AttributesMapGenerator;
   private _primaryAttribute: Attribute;
   private referencedByEntities: any;
-  // private _indexes: Index[];
-  // private _mutations: Mutation[] | MutationGenerator;
-  // private _subscriptions: any;
-  // private _states: any;
-  // private _permissions: any;
   private defaultPermissions: PermissionMap;
-  // private _attributes: AttributesMap;
   private attributes: AttributesMap;
   private descriptionPermissionsFind: any;
   private descriptionPermissionsRead: any;
-  // private _preFilters: PreFilterType | (() => PreFilterType);
   isFallbackStorageType: any;
   findOne: any;
   find: any;
@@ -144,14 +134,8 @@ export class Entity {
       isUserEntity,
       includeTimeTracking,
       includeUserTracking,
-      // indexes,
-      // mutations,
-      // permissions,
-      // subscriptions,
-      // states,
       preProcessor,
       postProcessor,
-      // preFilters,
       meta,
     } = setup;
 
@@ -177,15 +161,8 @@ export class Entity {
     this.isUserEntity = !!isUserEntity;
     this.includeTimeTracking = !!includeTimeTracking;
     this.includeUserTracking = !!includeUserTracking;
-    // this._attributesMap = attributes;
     this._primaryAttribute = null;
     this.referencedByEntities = [];
-    // this._indexes = indexes;
-    // this._mutations = mutations;
-    // this._subscriptions = subscriptions;
-    // this._states = states;
-    // this._permissions = permissions;
-    // this._preFilters = preFilters;
     this.meta = meta;
 
     if (preProcessor) {
@@ -306,8 +283,8 @@ export class Entity {
   }
 
   _processStates() {
-    if (this._states) {
-      const states = this._states;
+    if (this.setup.states) {
+      const states = this.setup.states;
 
       passOrThrow(
         isMap(states),
@@ -375,12 +352,12 @@ export class Entity {
   _processSubscriptions() {
     let subscriptions;
 
-    if (!this._subscriptions) {
+    if (!this.setup.subscriptions) {
       subscriptions = Object.values(this._getDefaultSubscriptions());
     } else {
-      subscriptions = isFunction(this._subscriptions)
-        ? this._subscriptions(this._getDefaultSubscriptions())
-        : this._subscriptions;
+      subscriptions = isFunction(this.setup.subscriptions)
+        ? this.setup.subscriptions(this._getDefaultSubscriptions())
+        : this.setup.subscriptions;
     }
 
     return processEntitySubscriptions(this, subscriptions);
@@ -404,7 +381,7 @@ export class Entity {
   }
 
   getStates() {
-    if (!this._states || this.states) {
+    if (!this.setup.states || this.states) {
       return this.states;
     }
 
@@ -820,8 +797,8 @@ export class Entity {
   }
 
   _processPreFilters(): PreFilterType {
-    return this._preFilters
-      ? (processPreFilters(this, this._preFilters) as any)
+    return this.setup.preFilters
+      ? (processPreFilters(this, this.setup.preFilters) as any)
       : null;
   }
 
@@ -830,8 +807,8 @@ export class Entity {
       return this.preFilters;
     }
 
-    if (typeof this._preFilters === 'function') {
-      this._preFilters = this._preFilters();
+    if (typeof this.setup.preFilters === 'function') {
+      this.setup.preFilters = this.setup.preFilters();
     }
 
     this.preFilters = this._processPreFilters();
