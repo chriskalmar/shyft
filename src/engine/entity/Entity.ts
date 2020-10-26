@@ -257,8 +257,8 @@ export class Entity {
     return ret;
   }
 
-  _processIndexes() {
-    return processEntityIndexes(this, this._indexes || []);
+  private processIndexes() {
+    return processEntityIndexes(this, this.setup.indexes || []);
   }
 
   getIndexes() {
@@ -267,7 +267,7 @@ export class Entity {
     }
 
     this.getAttributes();
-    this.indexes = this._processIndexes();
+    this.indexes = this.processIndexes();
     return this.indexes;
   }
 
