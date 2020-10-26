@@ -47,6 +47,8 @@ import {
   buildActionPermissionFilter,
   Permission,
 } from '../engine/permission/Permission';
+import { Context } from '../engine/context/Context';
+import { GraphQLResolveInfo } from 'graphql';
 
 const AccessDeniedError = new CustomError(
   'Access denied',
@@ -54,7 +56,10 @@ const AccessDeniedError = new CustomError(
   403,
 );
 
-export const resolveByFind = (entity, parentConnectionCollector?: any) => {
+export const resolveByFind = (
+  entity: Entity,
+  parentConnectionCollector?: any,
+) => {
   const storageType = entity.storageType;
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
@@ -68,13 +73,13 @@ export const resolveByFind = (entity, parentConnectionCollector?: any) => {
     forceSortByUnique(args.orderBy, entity);
 
     if (entity.preProcessor) {
-      const preProcessorResult = await entity.preProcessor(
+      const preProcessorResult = await entity.preProcessor({
         entity,
         source,
         args,
         context,
         info,
-      );
+      });
       if (preProcessorResult) {
         /* eslint-disable no-param-reassign */
         // console.log('after preProcessor', args, preProcessorResult);
@@ -118,14 +123,14 @@ export const resolveByFind = (entity, parentConnectionCollector?: any) => {
 
     const transformedData = entity.postProcessor
       ? translated.map((translatedRow) =>
-          entity.postProcessor(
-            translatedRow,
+          entity.postProcessor({
+            result: translatedRow,
             entity,
             source,
             args,
             context,
             info,
-          ),
+          }),
         )
       : translated;
 
@@ -145,11 +150,16 @@ export const resolveByFind = (entity, parentConnectionCollector?: any) => {
   };
 };
 
-export const resolveByFindOne = (entity, idCollector) => {
+export const resolveByFindOne = (entity: Entity, idCollector) => {
   const storageType = entity.storageType;
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
-  return async (source: any, args: any, context?: object, info?: object) => {
+  return async (
+    source: any,
+    args: any,
+    context?: Context,
+    info?: GraphQLResolveInfo,
+  ) => {
     const id = idCollector({ source, args, context });
 
     if (id === null || typeof id === 'undefined') {
@@ -167,14 +177,14 @@ export const resolveByFindOne = (entity, idCollector) => {
       .then(translateInstanceFn(entity, context))
       .then((translated) => {
         return entity.postProcessor
-          ? entity.postProcessor(
-              translated,
+          ? entity.postProcessor({
+              result: translated,
               entity,
               source,
               args,
               context,
               info,
-            )
+            })
           : translated;
       });
   };

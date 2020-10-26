@@ -1,7 +1,12 @@
 /* eslint-disable require-jsdoc */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { graphql, GraphQLSchema } from 'graphql';
-import { Entity, isEntity } from './Entity';
+import {
+  Entity,
+  EntityPostProcessor,
+  EntityPreProcessor,
+  isEntity,
+} from './Entity';
 import { Index, INDEX_UNIQUE, isIndex } from '../index/Index';
 import {
   Mutation,
@@ -828,13 +833,19 @@ describe('Entity', () => {
     let graphqlSchema: GraphQLSchema;
 
     beforeAll(async () => {
-      const preProcessor = (entity, source, args, context, info) => {
+      const preProcessor: EntityPreProcessor = ({
+        // entity,
+        // source,
+        args,
+        context,
+        info,
+      }) => {
         ({ context, info }); // overcome linter warnings
 
         return args;
       };
 
-      const postProcessor = (
+      const postProcessor: EntityPostProcessor = ({
         result,
         entity,
         id,
@@ -843,7 +854,7 @@ describe('Entity', () => {
         typeName,
         mutation,
         context,
-      ) => {
+      }) => {
         ({ entity, id, source, input, typeName, mutation, context }); // overcome linter warnings
 
         result.something = 'someotherthing';

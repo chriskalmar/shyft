@@ -67,6 +67,23 @@ export interface StateMap {
   [key: string]: number;
 }
 
+export type EntityPreProcessor = (params: {
+  entity: Entity;
+  source: any;
+  args: { [key: string]: unknown };
+  context: Context;
+  info: GraphQLResolveInfo;
+}) => { [key: string]: unknown };
+
+export type EntityPostProcessor = (params: {
+  result?: { [key: string]: unknown };
+  entity?: Entity;
+  source?: any;
+  args?: { [key: string]: unknown };
+  context?: Context;
+  info?: GraphQLResolveInfo;
+}) => { [key: string]: unknown };
+
 export interface EntitySetup {
   name: string;
   description: string;
@@ -80,20 +97,8 @@ export interface EntitySetup {
   permissions?: PermissionMap | PermissionMapGenerator;
   subscriptions?: any;
   states?: StateMap;
-  preProcessor?: (
-    entity?: Entity,
-    args?: { [key: string]: unknown },
-    context?: Context,
-    info?: GraphQLResolveInfo,
-  ) => Promise<any> | any;
-  postProcessor?: (
-    translatedRow?: { [key: string]: unknown },
-    entity?: Entity,
-    source?: any,
-    args?: { [key: string]: unknown },
-    context?: Context,
-    info?: GraphQLResolveInfo,
-  ) => Promise<any> | any;
+  preProcessor?: EntityPreProcessor;
+  postProcessor?: EntityPostProcessor;
   preFilters?: PreFilterType | (() => PreFilterType);
   meta?: {
     [key: string]: unknown;
@@ -112,8 +117,8 @@ export class Entity {
   permissions?: PermissionMap;
   subscriptions?: any;
   states?: StateMap;
-  preProcessor?: Function;
-  postProcessor?: Function;
+  preProcessor?: EntityPreProcessor;
+  postProcessor?: EntityPostProcessor;
   preFilters?: PreFilterType;
   meta?: {
     [key: string]: unknown;
