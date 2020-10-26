@@ -30,12 +30,16 @@ const compatibilityList = [
   ['role', 'userAttribute', 'lookup', 'value', 'state'],
 ];
 
-export type PermissionMap = {
+export interface PermissionMap {
   read?: Permission | Permission[];
   find?: Permission | Permission[];
-  mutations?: {} | Permission | Permission[];
+  mutations?: {
+    [key: string]: Permission | Permission[];
+  };
   subscriptions?: {} | Permission | Permission[];
-};
+}
+
+export type PermissionMapGenerator = () => PermissionMap;
 
 export class Permission {
   /* eslint-disable no-undef */

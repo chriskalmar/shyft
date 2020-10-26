@@ -19,6 +19,8 @@ import {
 
 import {
   generatePermissionDescription,
+  PermissionMap,
+  PermissionMapGenerator,
   processEntityPermissions,
 } from '../permission/Permission';
 
@@ -68,7 +70,7 @@ export interface EntitySetup {
   includeUserTracking?: boolean;
   indexes?: Index[];
   mutations?: Mutation[] | MutationGenerator;
-  permissions?: any;
+  permissions?: PermissionMap | PermissionMapGenerator;
   subscriptions?: any;
   states?: any;
   // preProcessor?: Function;
@@ -102,7 +104,7 @@ export class Entity {
   includeUserTracking?: boolean;
   indexes?: Index[];
   mutations?: Mutation[];
-  permissions?: any;
+  permissions?: PermissionMap;
   subscriptions?: any;
   states?: any;
   preProcessor?: Function;
@@ -120,7 +122,7 @@ export class Entity {
   // private _subscriptions: any;
   // private _states: any;
   // private _permissions: any;
-  // private _defaultPermissions: any;
+  private defaultPermissions: PermissionMap;
   // private _attributes: AttributesMap;
   private attributes: AttributesMap;
   private descriptionPermissionsFind: any;
@@ -239,11 +241,11 @@ export class Entity {
       () => 'Provided defaultPermissions is invalid',
     );
 
-    if (!this._permissions) {
-      this._permissions = {};
+    if (!this.permissions) {
+      this.permissions = {};
     }
 
-    this._defaultPermissions = defaultPermissions;
+    this.defaultPermissions = defaultPermissions;
   }
 
   getAttributes() {
@@ -673,7 +675,7 @@ export class Entity {
     const systemAttributeNames = this._collectSystemAttributes(attributeMap);
 
     systemAttributeNames.forEach((attributeName) => {
-      resultAttributes[attributeName] = this._processAttribute(
+      resultAttributes[attributeName] = this.processAttribute(
         attributeMap[attributeName],
         attributeName,
       );
@@ -749,19 +751,20 @@ export class Entity {
     return mutations;
   }
 
-  _processPermissions() {
-    if (this._permissions) {
-      const permissions = isFunction(this._permissions)
-        ? this._permissions()
-        : this._permissions;
+  private processPermissions(): PermissionMap {
+    if (this.setup.permissions) {
+      const permissions =
+        typeof this.setup.permissions === 'function'
+          ? this.setup.permissions()
+          : this.setup.permissions;
 
       return processEntityPermissions(
         this,
         permissions,
-        this._defaultPermissions,
+        this.defaultPermissions,
       );
-    } else if (this._defaultPermissions) {
-      return processEntityPermissions(this, this._defaultPermissions);
+    } else if (this.defaultPermissions) {
+      return processEntityPermissions(this, this.defaultPermissions);
     }
 
     return null;
@@ -835,13 +838,13 @@ export class Entity {
   }
 
   getPermissions() {
-    if (!this._permissions || this.permissions) {
+    if (!this.setup.permissions || this.permissions) {
       return this.permissions;
     }
 
     this.getMutations();
     this.getSubscriptions();
-    this.permissions = this._processPermissions();
+    this.permissions = this.processPermissions();
     this._generatePermissionDescriptions();
     return this.permissions;
   }
