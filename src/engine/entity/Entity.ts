@@ -67,18 +67,20 @@ export interface StateMap {
   [key: string]: number;
 }
 
+interface EntityPreProcessorResponse {
+  args?: {
+    [key: string]: unknown;
+  };
+  context?: Context;
+}
+
 export type EntityPreProcessor = (params: {
   entity: Entity;
   source: any;
   args: { [key: string]: unknown };
   context: Context;
   info: GraphQLResolveInfo;
-}) => Promise<{
-  args?: {
-    [key: string]: unknown;
-  };
-  context?: Context;
-}>;
+}) => EntityPreProcessorResponse | Promise<EntityPreProcessorResponse>;
 
 export type EntityPostProcessor = (params: {
   result?: { [key: string]: unknown };
