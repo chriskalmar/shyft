@@ -127,6 +127,15 @@ export type Attribute = AttributeBase & {
    * internal flag for system attributes (e.g. time tracking, state, ...)
    */
   isSystemAttribute?: boolean;
+
+  /**
+   * internal meta data for GraphQL
+   */
+  graphqlMeta: {
+    fieldName: string;
+    fieldNameI18n: string;
+    fieldNameI18nJson: string;
+  };
 };
 
 /**
