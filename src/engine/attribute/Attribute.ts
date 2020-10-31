@@ -104,8 +104,6 @@ export type AttributeBase = {
    * place to store custom (project-related) meta data
    */
   meta?: any;
-
-  gqlFieldNameI18n?: any;
 };
 
 /**
