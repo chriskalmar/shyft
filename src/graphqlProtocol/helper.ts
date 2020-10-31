@@ -5,6 +5,7 @@ import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 import { INDEX_UNIQUE } from '../engine/index/Index';
 import { CustomError } from '../engine/CustomError';
 import { Entity, Mutation, Subscription } from '..';
+import { getRegisteredEntityAttribute } from './registry';
 
 export const getEntityUniquenessAttributes = (entity) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
@@ -43,7 +44,10 @@ export const checkRequiredI18nInputs = (
 
   _.forEach(operation.attributes, (attributeName) => {
     const attribute = entityAttributes[attributeName];
-    const { gqlFieldName, gqlFieldNameI18n } = attribute;
+    const {
+      fieldName: gqlFieldName,
+      fieldNameI18n: gqlFieldNameI18n,
+    } = getRegisteredEntityAttribute(entity.name, attribute.name);
 
     if (attribute.i18n) {
       if (

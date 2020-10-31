@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import { Entity, Subscription } from '..';
+import { getRegisteredEntityAttribute } from '../graphqlProtocol/registry';
 import { Mutation } from './mutation/Mutation';
 
 export const fillSystemAttributesDefaultValues = (
@@ -82,7 +83,10 @@ export const serializeValues = (
 
   _.forEach(entityAttributes, (attribute) => {
     const attributeName = attribute.name;
-    const gqlFieldNameI18n = attribute.gqlFieldNameI18n;
+    const { fieldNameI18n: gqlFieldNameI18n } = getRegisteredEntityAttribute(
+      entity.name,
+      attribute.name,
+    );
 
     if (attribute.serialize) {
       if (attribute.i18n && typeof ret[gqlFieldNameI18n] !== 'undefined') {

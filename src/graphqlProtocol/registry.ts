@@ -45,9 +45,6 @@ export const registerEntity = ({
   reverseDataShaper,
 }: RegistryEntity) => {
   const entityName = entity.name;
-  if (registry[entityName]) {
-    throw new Error(`Entity '${entityName}' is already registered`);
-  }
 
   registry[entityName] = {
     entity,

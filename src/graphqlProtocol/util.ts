@@ -3,6 +3,7 @@ import * as pluralize from 'pluralize';
 import { RELAY_TYPE_PROMOTER_FIELD } from './protocolGraphqlConstants';
 import { CustomError } from '../engine/CustomError';
 import { isDefined } from '../engine/util';
+import { getRegisteredEntityAttribute } from './registry';
 
 export function generateTypeName(name) {
   return _.camelCase(name);
@@ -95,9 +96,14 @@ export const translateInstance = (
   const i18nAttributeNames = entity.getI18nAttributeNames();
 
   i18nAttributeNames.map((attributeName) => {
-    const { gqlFieldName, gqlFieldNameI18n, required } = attributes[
-      attributeName
-    ];
+    const { required } = attributes[attributeName];
+    const {
+      fieldName: gqlFieldName,
+      fieldNameI18n: gqlFieldNameI18n,
+    } = getRegisteredEntityAttribute(
+      entity.name,
+      attributes[attributeName].name,
+    );
 
     const translation = instance[gqlFieldNameI18n]
       ? instance[gqlFieldNameI18n][i18nLanguage]

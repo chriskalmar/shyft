@@ -324,7 +324,11 @@ export const generateGraphQLSchema = (configuration) => {
               },
             });
 
-            fieldsI18n[attribute.gqlFieldNameI18n] = {
+            const {
+              fieldNameI18n: gqlFieldNameI18n,
+            } = getRegisteredEntityAttribute(entity.name, attribute.name);
+
+            fieldsI18n[gqlFieldNameI18n] = {
               type: attribute.required
                 ? new GraphQLNonNull(i18nFieldType)
                 : i18nFieldType,

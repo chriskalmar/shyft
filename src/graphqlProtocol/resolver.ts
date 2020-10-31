@@ -51,7 +51,7 @@ import {
 import { Context } from '../engine/context/Context';
 import { GraphQLResolveInfo } from 'graphql';
 import { ShadowEntity } from '../engine/entity/ShadowEntity';
-import { getRegisteredEntity } from './registry';
+import { getRegisteredEntity, getRegisteredEntityAttribute } from './registry';
 
 const AccessDeniedError = new CustomError(
   'Access denied',
@@ -218,6 +218,11 @@ export const getNestedPayloadResolver = (
         const attribute = entityAttributes[attributeName];
         const attributeType = attribute.type;
 
+        const {
+          fieldName: gqlFieldName,
+          fieldNameI18n: gqlFieldNameI18n,
+        } = getRegisteredEntityAttribute(entity.name, attribute.name);
+
         if (isEntity(attributeType)) {
           const targetEntity = attributeType;
           const uniquenessAttributesList = getEntityUniquenessAttributes(
@@ -225,7 +230,7 @@ export const getNestedPayloadResolver = (
           );
 
           if (uniquenessAttributesList.length > 0) {
-            const uniquenessFieldNames = [attribute.gqlFieldName];
+            const uniquenessFieldNames = [gqlFieldName];
             const fieldNameToUniquenessAttributesMap = {};
 
             uniquenessAttributesList.map(({ uniquenessName, attributes }) => {
@@ -305,23 +310,20 @@ export const getNestedPayloadResolver = (
                 }
 
                 if (result) {
-                  resultPayload[attribute.gqlFieldName] =
-                    result[primaryAttributeName];
+                  resultPayload[gqlFieldName] = result[primaryAttributeName];
                 }
               } else {
-                resultPayload[attribute.gqlFieldName] = args[foundInput];
+                resultPayload[gqlFieldName] = args[foundInput];
               }
             }
           } else {
-            resultPayload[attribute.gqlFieldName] =
-              args[attribute.gqlFieldName];
+            resultPayload[gqlFieldName] = args[gqlFieldName];
           }
         } else {
-          resultPayload[attribute.gqlFieldName] = args[attribute.gqlFieldName];
+          resultPayload[gqlFieldName] = args[gqlFieldName];
 
           if (attribute.i18n) {
-            resultPayload[attribute.gqlFieldNameI18n] =
-              args[attribute.gqlFieldNameI18n];
+            resultPayload[gqlFieldNameI18n] = args[gqlFieldNameI18n];
           }
         }
       }),

@@ -6,6 +6,7 @@ import * as casual from 'casual';
 import { shaper } from 'json-shaper';
 import { isEntity } from '../engine/entity/Entity';
 import { AttributeBase } from '../engine/attribute/Attribute';
+import { getRegisteredEntityAttribute } from '../graphqlProtocol/registry';
 
 type StorageAttribute = AttributeBase & {
   // dataGenerator?: string | Function;
@@ -156,9 +157,12 @@ function generateItem(entity) {
   });
 
   const primaryAttribute = model.getPrimaryAttribute();
-  const primaryAttributeName = primaryAttribute.gqlFieldName;
+  const { fieldName } = getRegisteredEntityAttribute(
+    entity.name,
+    primaryAttribute.name,
+  );
 
-  item[primaryAttributeName] = nextId;
+  item[fieldName] = nextId;
 
   entity.data.push(item);
 
@@ -182,10 +186,13 @@ export const generateData = (memoryDB) => {
           const referencingData = memoryDB[type.name].data;
 
           const primaryAttribute = type.getPrimaryAttribute();
-          const primaryAttributeName = primaryAttribute.gqlFieldName;
+          const { fieldName } = getRegisteredEntityAttribute(
+            type.name,
+            primaryAttribute.name,
+          );
 
           data.map((item) => {
-            item[name] = _.sample(referencingData)[primaryAttributeName];
+            item[name] = _.sample(referencingData)[fieldName];
           });
         } else {
           data.map((item) => {

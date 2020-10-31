@@ -13,6 +13,7 @@ import {
   generateOperationByPrimaryAttributeInput,
   extractIdFromNodeId,
 } from './operation';
+import { getRegisteredEntityAttribute } from './registry';
 
 export const generateMutations = (graphRegistry) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
@@ -134,7 +135,11 @@ export const generateMutations = (graphRegistry) => {
         const primaryAttribute = entity.getPrimaryAttribute();
 
         if (primaryAttribute) {
-          const fieldName = primaryAttribute.gqlFieldName;
+          const { fieldName } = getRegisteredEntityAttribute(
+            entity.name,
+            primaryAttribute.name,
+          );
+
           const mutationByPrimaryAttributeInputType = generateOperationByPrimaryAttributeInput(
             entity,
             typeName,

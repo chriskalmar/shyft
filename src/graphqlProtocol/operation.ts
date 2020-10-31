@@ -19,7 +19,7 @@ import { isEntity } from '../engine/entity/Entity';
 import { Mutation, isMutation } from '../engine/mutation/Mutation';
 import { Subscription } from '..';
 import { isSubscription } from '../engine/subscription/Subscription';
-import { getRegisteredEntity } from './registry';
+import { getRegisteredEntity, getRegisteredEntityAttribute } from './registry';
 
 const i18nInputFieldTypesCache = {};
 
@@ -51,9 +51,14 @@ const generateI18nInputFieldType = (
     true,
   );
 
+  const { fieldName: gqlFieldName } = getRegisteredEntityAttribute(
+    entity.name,
+    attribute.name,
+  );
+
   const i18nFieldType = new GraphQLInputObjectType({
     name: i18nFieldTypeName,
-    description: `**\`${entityOperation.name}\`** operation translations input type for **\`${typeNamePascalCase}.${attribute.gqlFieldName}\`**`,
+    description: `**\`${entityOperation.name}\`** operation translations input type for **\`${typeNamePascalCase}.${gqlFieldName}\`**`,
 
     fields: () => {
       const i18nFields = {};
@@ -98,6 +103,11 @@ export const generateOperationInstanceInput = (entity, entityOperation) => {
       _.forEach(entityOperation.attributes, (attributeName) => {
         const attribute = entityAttributes[attributeName];
 
+        const {
+          fieldName: gqlFieldName,
+          fieldNameI18n: gqlFieldNameI18n,
+        } = getRegisteredEntityAttribute(entity.name, attribute.name);
+
         let attributeType = attribute.type;
 
         // it's a reference
@@ -113,7 +123,7 @@ export const generateOperationInstanceInput = (entity, entityOperation) => {
           true,
         );
 
-        fields[attribute.gqlFieldName] = {
+        fields[gqlFieldName] = {
           type:
             attribute.required &&
             !entityOperation.ignoreRequired &&
@@ -130,7 +140,7 @@ export const generateOperationInstanceInput = (entity, entityOperation) => {
             attribute,
           );
 
-          fields[attribute.gqlFieldNameI18n] = {
+          fields[gqlFieldNameI18n] = {
             type: i18nFieldType,
           };
         }
@@ -200,7 +210,11 @@ export const generateOperationByPrimaryAttributeInput = (
 ) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
-  const fieldName = primaryAttribute.gqlFieldName;
+  const { fieldName } = getRegisteredEntityAttribute(
+    entity.name,
+    primaryAttribute.name,
+  );
+
   const fieldType = ProtocolGraphQL.convertToProtocolDataType(
     primaryAttribute.type,
     entity.name,
@@ -272,6 +286,11 @@ export const generateInstanceUniquenessInput = (
       _.forEach(uniquenessAttributes.attributes, (attributeName) => {
         const attribute = entityAttributes[attributeName];
 
+        const { fieldName: gqlFieldName } = getRegisteredEntityAttribute(
+          entity.name,
+          attribute.name,
+        );
+
         let attributeType = attribute.type;
 
         if (isEntity(attributeType)) {
@@ -293,13 +312,13 @@ export const generateInstanceUniquenessInput = (
           );
 
           if (uniquenessAttributesList.length === 0) {
-            fields[attribute.gqlFieldName] = {
+            fields[gqlFieldName] = {
               type: attribute.required
                 ? new GraphQLNonNull(fieldType)
                 : fieldType,
             };
           } else {
-            fields[attribute.gqlFieldName] = {
+            fields[gqlFieldName] = {
               type: fieldType,
             };
 
@@ -325,7 +344,7 @@ export const generateInstanceUniquenessInput = (
             true,
           );
 
-          fields[attribute.gqlFieldName] = {
+          fields[gqlFieldName] = {
             type: new GraphQLNonNull(fieldType),
           };
         }
@@ -390,6 +409,11 @@ export const generateOperationInstanceNestedInput = (
       _.forEach(entityOperation.attributes, (attributeName) => {
         const attribute = entityAttributes[attributeName];
 
+        const {
+          fieldName: gqlFieldName,
+          fieldNameI18n: gqlFieldNameI18n,
+        } = getRegisteredEntityAttribute(entity.name, attribute.name);
+
         let attributeType = attribute.type;
 
         if (isEntity(attributeType)) {
@@ -411,7 +435,7 @@ export const generateOperationInstanceNestedInput = (
           );
 
           if (uniquenessAttributesList.length === 0) {
-            fields[attribute.gqlFieldName] = {
+            fields[gqlFieldName] = {
               type:
                 attribute.required &&
                 !entityOperation.ignoreRequired &&
@@ -420,7 +444,7 @@ export const generateOperationInstanceNestedInput = (
                   : fieldType,
             };
           } else {
-            fields[attribute.gqlFieldName] = {
+            fields[gqlFieldName] = {
               type: fieldType,
             };
 
@@ -446,7 +470,7 @@ export const generateOperationInstanceNestedInput = (
             true,
           );
 
-          fields[attribute.gqlFieldName] = {
+          fields[gqlFieldName] = {
             type:
               attribute.required &&
               !entityOperation.ignoreRequired &&
@@ -463,7 +487,7 @@ export const generateOperationInstanceNestedInput = (
               attribute,
             );
 
-            fields[attribute.gqlFieldNameI18n] = {
+            fields[gqlFieldNameI18n] = {
               type: i18nFieldType,
             };
           }
@@ -563,7 +587,10 @@ export const generateOperationOutput = (
         const primaryAttribute = entity.getPrimaryAttribute();
 
         if (primaryAttribute) {
-          const fieldName = primaryAttribute.gqlFieldName;
+          const { fieldName } = getRegisteredEntityAttribute(
+            entity.name,
+            primaryAttribute.name,
+          );
           const fieldType = ProtocolGraphQL.convertToProtocolDataType(
             primaryAttribute.type,
             entity.name,

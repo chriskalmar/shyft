@@ -4,6 +4,7 @@ import { ProtocolGraphQL } from './ProtocolGraphQL';
 import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 import { isEntity } from '../engine/entity/Entity';
 import { isShadowEntity } from '../engine/entity/ShadowEntity';
+import { getRegisteredEntityAttribute } from './registry';
 
 export const generateSortInput = (entity) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
@@ -22,6 +23,11 @@ export const generateSortInput = (entity) => {
       return;
     }
 
+    const { fieldName: gqlFieldName } = getRegisteredEntityAttribute(
+      entity.name,
+      attribute.name,
+    );
+
     const storageDataType = storageType.convertToStorageDataType(
       attribute.type,
     );
@@ -35,7 +41,7 @@ export const generateSortInput = (entity) => {
 
     // add ascending key
     sortNames[keyAsc] = {
-      description: `Order by **\`${attribute.gqlFieldName}\`** ascending`,
+      description: `Order by **\`${gqlFieldName}\`** ascending`,
       value: {
         attribute: attribute.name,
         direction: 'ASC',
@@ -48,7 +54,7 @@ export const generateSortInput = (entity) => {
 
     // add descending key
     sortNames[keyDesc] = {
-      description: `Order by **\`${attribute.gqlFieldName}\`** descending`,
+      description: `Order by **\`${gqlFieldName}\`** descending`,
       value: {
         attribute: attribute.name,
         direction: 'DESC',

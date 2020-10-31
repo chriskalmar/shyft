@@ -16,7 +16,7 @@ import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 import { generateSortInput } from './sort';
 import { generateFilterInput } from './filter';
 import { ConnectionNode } from './types';
-import { getRegisteredEntity } from './registry';
+import { getRegisteredEntity, getRegisteredEntityAttribute } from './registry';
 
 export const generateConnectionArgs = (entity, graphRegistry) => {
   const sortInput = generateSortInput(entity);
@@ -340,8 +340,13 @@ export const generateReverseConnections = (
           const parentEntity = graphRegistry.types[parentEntityTypeName].entity;
           const parentAttribute = parentEntity.getPrimaryAttribute();
 
+          const { fieldName: gqlFieldName } = getRegisteredEntityAttribute(
+            parentEntity.name,
+            parentAttribute.name,
+          );
+
           const parentConnection = {
-            id: source[parentAttribute.gqlFieldName],
+            id: source[gqlFieldName],
             attribute: sourceAttributeName,
           };
 

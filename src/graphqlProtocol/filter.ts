@@ -17,7 +17,7 @@ import { isArray, isMap } from '../engine/util';
 import { isViewEntity, ViewEntity } from '../engine/entity/ViewEntity';
 import { isShadowEntity } from '../engine/entity/ShadowEntity';
 import { DataTypeBoolean, DataTypeString } from '../engine/datatype/dataTypes';
-import { getRegisteredEntity } from './registry';
+import { getRegisteredEntity, getRegisteredEntityAttribute } from './registry';
 
 const AND_OPERATOR = 'AND';
 const OR_OPERATOR = 'OR';
@@ -68,6 +68,11 @@ export const generateFilterInput = (entity, graphRegistry) => {
           return;
         }
 
+        const { fieldName: gqlFieldName } = getRegisteredEntityAttribute(
+          entity.name,
+          attribute.name,
+        );
+
         // it's a reference
         if (isEntity(attributeType)) {
           const targetEntity = attributeType;
@@ -78,7 +83,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
           const targetRegistryType = graphRegistry.types[targetTypeName];
           const targetConnectionArgs = targetRegistryType.connectionArgs;
 
-          const fieldName = `${attribute.gqlFieldName}__${DEEP_FILTER_OPERATOR}`;
+          const fieldName = `${gqlFieldName}__${DEEP_FILTER_OPERATOR}`;
           fields[fieldName] = targetConnectionArgs.filter;
 
           const primaryAttribute = targetEntity.getPrimaryAttribute();
@@ -101,13 +106,13 @@ export const generateFilterInput = (entity, graphRegistry) => {
         );
 
         if (!isComplexDataType(attributeType)) {
-          fields[attribute.gqlFieldName] = {
+          fields[gqlFieldName] = {
             type: fieldType,
           };
         }
 
         storageDataType.capabilities.map((capability) => {
-          const fieldName = `${attribute.gqlFieldName}__${capability}`;
+          const fieldName = `${gqlFieldName}__${capability}`;
           const field = {} as any;
 
           if (
@@ -150,7 +155,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
             entity,
           );
 
-          const fieldName = `${attribute.gqlFieldName}__${PRE_FILTER_OPERATOR}`;
+          const fieldName = `${gqlFieldName}__${PRE_FILTER_OPERATOR}`;
           const preFilterFieldType = new GraphQLInputObjectType({
             name: preFilterInputTypeName,
             description: `Filter **\`${typeNamePluralListName}\`** by a custom pre-filter`,
@@ -321,7 +326,10 @@ export const transformFilterLevel = async (
       const attributesNames = Object.keys(attributes);
 
       attributesNames.map((name) => {
-        const { gqlFieldName } = attributes[name];
+        const { fieldName: gqlFieldName } = getRegisteredEntityAttribute(
+          entity.name,
+          attributes[name].name,
+        );
 
         if (attributeName === gqlFieldName) {
           attribute = attributes[name];

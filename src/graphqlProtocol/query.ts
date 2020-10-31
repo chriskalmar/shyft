@@ -6,7 +6,7 @@ import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 import { resolveByFind, resolveByFindOne } from './resolver';
 import { isEntity } from '../engine/entity/Entity';
 import { isViewEntity } from '../engine/entity/ViewEntity';
-import { getRegisteredEntity } from './registry';
+import { getRegisteredEntity, getRegisteredEntityAttribute } from './registry';
 
 export const generateListQueries = (graphRegistry) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
@@ -71,7 +71,11 @@ export const generateInstanceQueries = (graphRegistry, idFetcher) => {
     if (primaryAttributeName) {
       const primaryAttribute = attributes[primaryAttributeName];
 
-      const fieldName = primaryAttribute.gqlFieldName;
+      const { fieldName } = getRegisteredEntityAttribute(
+        entity.name,
+        primaryAttribute.name,
+      );
+
       const graphqlDataType = ProtocolGraphQL.convertToProtocolDataType(
         primaryAttribute.type,
         entity.name,
