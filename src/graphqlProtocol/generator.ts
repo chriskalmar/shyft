@@ -3,31 +3,22 @@ import { RELAY_TYPE_PROMOTER_FIELD } from './protocolGraphqlConstants';
 import { graphRegistry } from './graphRegistry';
 import { ProtocolGraphQL } from './ProtocolGraphQL';
 import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
-
 import { shaper } from 'json-shaper';
-
 import {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLNonNull,
   GraphQLID,
 } from 'graphql';
-
 import { nodeDefinitions, fromGlobalId, toGlobalId } from 'graphql-relay';
-
 import { registerConnection, generateReverseConnections } from './connection';
-
 import { generateListQueries, generateInstanceQueries } from './query';
-
 import { generateMutations } from './mutation';
-
 import { generateActions } from './action';
-
 import { generateSubscriptions } from './subscription';
-
 import { resolveByFindOne } from './resolver';
 import { isConfiguration } from '../engine/configuration/Configuration';
-import { isEntity } from '../engine/entity/Entity';
+import { Entity, isEntity } from '../engine/entity/Entity';
 import { DataTypeI18n } from '../engine/datatype/dataTypes';
 import {
   ACTION_TYPE_MUTATION,
@@ -43,47 +34,50 @@ export const getTypeForEntityFromGraphRegistry = (entity) => {
 };
 
 // prepare models for graphql
-export const extendModelsForGql = (entities) => {
+export const extendModelsForGql = (entities: Entity[]) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   _.forEach(entities, (entity) => {
-    entity.graphql = entity.graphql || {};
-    // generate type names for various cases
-    entity.graphql.typeName = protocolConfiguration.generateEntityTypeName(
-      entity,
-    );
-    entity.graphql.typeNamePlural = protocolConfiguration.generateEntityTypeNamePlural(
-      entity,
-    );
-    entity.graphql.typeNamePascalCase = protocolConfiguration.generateEntityTypeNamePascalCase(
-      entity,
-    );
-    entity.graphql.typeNamePluralPascalCase = protocolConfiguration.generateEntityTypeNamePluralPascalCase(
-      entity,
-    );
+    entity.setGraphqlMeta({
+      typeName: protocolConfiguration.generateEntityTypeName(entity),
+      typeNamePlural: protocolConfiguration.generateEntityTypeNamePlural(
+        entity,
+      ),
+      typeNamePascalCase: protocolConfiguration.generateEntityTypeNamePascalCase(
+        entity,
+      ),
+      typeNamePluralPascalCase: protocolConfiguration.generateEntityTypeNamePluralPascalCase(
+        entity,
+      ),
+    });
 
     const dataShaperMap = {};
 
     _.forEach(entity.getAttributes(), (attribute) => {
-      attribute.gqlFieldName = attribute.primary
+      const fieldName = attribute.primary
         ? 'id'
         : protocolConfiguration.generateFieldName(attribute);
 
-      dataShaperMap[attribute.gqlFieldName] = attribute.name;
+      dataShaperMap[fieldName] = attribute.name;
+
+      let fieldNameI18n: string;
+      let fieldNameI18nJson: string;
 
       if (attribute.i18n) {
-        attribute.gqlFieldNameI18n = protocolConfiguration.generateI18nFieldName(
-          attribute,
-        );
-        dataShaperMap[attribute.gqlFieldNameI18n] = `${attribute.name}.i18n`;
+        fieldNameI18n = protocolConfiguration.generateI18nFieldName(attribute);
+        dataShaperMap[fieldNameI18n] = `${attribute.name}.i18n`;
 
-        attribute.gqlFieldNameI18nJson = protocolConfiguration.generateI18nJsonFieldName(
+        fieldNameI18nJson = protocolConfiguration.generateI18nJsonFieldName(
           attribute,
         );
-        dataShaperMap[
-          attribute.gqlFieldNameI18nJson
-        ] = `${attribute.name}.i18n`;
+        dataShaperMap[fieldNameI18nJson] = `${attribute.name}.i18n`;
       }
+
+      entity.setAttributeGraphqlMeta(attribute.name, {
+        fieldName,
+        fieldNameI18n,
+        fieldNameI18nJson,
+      });
     });
 
     // forward relay type promoter field as well
@@ -101,7 +95,7 @@ export const extendModelsForGql = (entities) => {
     // remove i18n JSON output mapping so it doesn't overwrite values in mutation inputs
     _.forEach(entity.getAttributes(), (attribute) => {
       if (attribute.i18n) {
-        delete dataShaperMap[attribute.gqlFieldNameI18nJson];
+        delete dataShaperMap[attribute.graphqlMeta.fieldNameI18nJson];
       }
     });
 
