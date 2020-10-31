@@ -27,7 +27,7 @@ import {
 import { isViewEntity } from '../engine/entity/ViewEntity';
 import { isShadowEntity } from '../engine/entity/ShadowEntity';
 import { generateInstanceUniquenessInputs } from './operation';
-import { registerEntity } from './registry';
+import { registerEntity, RegistryEntityAttributes } from './registry';
 
 export const getTypeForEntityFromGraphRegistry = (entity) => {
   const typeName = entity.graphql.typeName;
@@ -41,6 +41,7 @@ export const extendModelsForGql = (entities: Entity[]) => {
   _.forEach(entities, (entity) => {
     const dataShaperMap = {};
     const reverseDataShaperMap = {};
+    const attributes: RegistryEntityAttributes = {};
 
     _.forEach(entity.getAttributes(), (attribute) => {
       const fieldName = attribute.primary
@@ -66,11 +67,11 @@ export const extendModelsForGql = (entities: Entity[]) => {
         // so it doesn't overwrite values in mutation inputs
       }
 
-      // entity.setAttributeGraphqlMeta(attribute.name, {
-      //   fieldName,
-      //   fieldNameI18n,
-      //   fieldNameI18nJson,
-      // });
+      attributes[attribute.name] = {
+        fieldName,
+        fieldNameI18n,
+        fieldNameI18nJson,
+      };
     });
 
     // forward relay type promoter field as well
@@ -93,7 +94,7 @@ export const extendModelsForGql = (entities: Entity[]) => {
       typeNamePluralPascalCase: protocolConfiguration.generateEntityTypeNamePluralPascalCase(
         entity,
       ),
-      attributes: {},
+      attributes,
       dataShaper: (data) => {
         return data ? dataShaper(data) : data;
       },

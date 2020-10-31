@@ -4,19 +4,21 @@ interface Data {
   [key: string]: unknown;
 }
 
+export interface RegistryEntityAttributes {
+  [key: string]: {
+    fieldName: string;
+    fieldNameI18n: string;
+    fieldNameI18nJson: string;
+  };
+}
+
 export interface RegistryEntity {
   entity: Entity;
   typeName: string;
   typeNamePlural: string;
   typeNamePascalCase: string;
   typeNamePluralPascalCase: string;
-  attributes: {
-    [key: string]: {
-      fieldName: string;
-      fieldNameI18n: string;
-      fieldNameI18nJson: string;
-    };
-  };
+  attributes: RegistryEntityAttributes;
   dataShaper: (data: Data) => Data;
   dataSetShaper: (set: Data[]) => Data[];
   reverseDataShaper: (data: Data) => Data;
