@@ -1,3 +1,4 @@
+import { ViewEntity } from '..';
 import { Entity } from '../engine/entity/Entity';
 
 interface Data {
@@ -13,7 +14,7 @@ export interface RegistryEntityAttributes {
 }
 
 export interface RegistryEntity {
-  entity: Entity;
+  entity: Entity | ViewEntity;
   typeName: string;
   typeNamePlural: string;
   typeNamePascalCase: string;

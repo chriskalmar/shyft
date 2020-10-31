@@ -39,8 +39,8 @@ type SchemaViewEntity = ViewEntity & {
   _isRegistered: boolean;
 };
 
-type EntityMap = {
-  [entityName: string]: SchemaEntity | SchemaViewEntity;
+export type EntityMap = {
+  [entityName: string]: Entity | ViewEntity;
 };
 
 type ActionMap = {

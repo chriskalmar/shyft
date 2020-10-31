@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { RELAY_TYPE_PROMOTER_FIELD } from './protocolGraphqlConstants';
 import { graphRegistry } from './graphRegistry';
 import { ProtocolGraphQL } from './ProtocolGraphQL';
@@ -18,7 +17,7 @@ import { generateActions } from './action';
 import { generateSubscriptions } from './subscription';
 import { resolveByFindOne } from './resolver';
 import { isConfiguration } from '../engine/configuration/Configuration';
-import { Entity, isEntity } from '../engine/entity/Entity';
+import { isEntity } from '../engine/entity/Entity';
 import { DataTypeI18n } from '../engine/datatype/dataTypes';
 import {
   ACTION_TYPE_MUTATION,
@@ -28,6 +27,7 @@ import { isViewEntity } from '../engine/entity/ViewEntity';
 import { isShadowEntity } from '../engine/entity/ShadowEntity';
 import { generateInstanceUniquenessInputs } from './operation';
 import { registerEntity, RegistryEntityAttributes } from './registry';
+import { Schema, EntityMap } from '../engine/schema/Schema';
 
 export const getTypeForEntityFromGraphRegistry = (entity) => {
   const typeName = entity.graphql.typeName;
@@ -35,15 +35,15 @@ export const getTypeForEntityFromGraphRegistry = (entity) => {
 };
 
 // prepare models for graphql
-export const extendModelsForGql = (entities: Entity[]) => {
+export const extendModelsForGql = (entities: EntityMap) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
-  _.forEach(entities, (entity) => {
+  for (const entity of Object.values(entities)) {
     const dataShaperMap = {};
     const reverseDataShaperMap = {};
     const attributes: RegistryEntityAttributes = {};
 
-    _.forEach(entity.getAttributes(), (attribute) => {
+    for (const attribute of Object.values(entity.getAttributes())) {
       const fieldName = attribute.primary
         ? 'id'
         : protocolConfiguration.generateFieldName(attribute);
@@ -72,7 +72,7 @@ export const extendModelsForGql = (entities: Entity[]) => {
         fieldNameI18n,
         fieldNameI18nJson,
       };
-    });
+    }
 
     // forward relay type promoter field as well
     dataShaperMap[RELAY_TYPE_PROMOTER_FIELD] = RELAY_TYPE_PROMOTER_FIELD;
@@ -105,7 +105,7 @@ export const extendModelsForGql = (entities: Entity[]) => {
         return data ? reverseDataShaper(data) : data;
       },
     });
-  });
+  }
 };
 
 // get node definitions for relay
@@ -148,7 +148,9 @@ const registerAction = (action) => {
 };
 
 export const registerActions = (actions) => {
-  _.forEach(actions, (action) => registerAction(action));
+  for (const action of Object.values(actions)) {
+    registerAction(action);
+  }
 };
 
 export const generateGraphQLSchema = (configuration) => {
@@ -158,7 +160,7 @@ export const generateGraphQLSchema = (configuration) => {
     );
   }
 
-  const schema = configuration.getSchema();
+  const schema: Schema = configuration.getSchema();
   const protocolConfiguration = configuration.getProtocolConfiguration();
 
   ProtocolGraphQL.setProtocolConfiguration(protocolConfiguration);
@@ -170,7 +172,7 @@ export const generateGraphQLSchema = (configuration) => {
   // prepare models for graphql
   extendModelsForGql(schema.getEntities());
 
-  _.forEach(schema.getEntities(), (entity) => {
+  for (const entity of Object.values(schema.getEntities())) {
     const typeName = entity.graphql.typeName;
 
     const objectType = new GraphQLObjectType({
@@ -193,7 +195,7 @@ export const generateGraphQLSchema = (configuration) => {
         const fieldsReference = {};
         const fieldsI18n = {};
 
-        _.forEach(entity.getAttributes(), (attribute) => {
+        for (const attribute of Object.values(entity.getAttributes())) {
           if (attribute.hidden || attribute.mutationInput) {
             return;
           }
@@ -316,7 +318,7 @@ export const generateGraphQLSchema = (configuration) => {
                 : i18nFieldType,
             };
           }
-        });
+        }
 
         Object.assign(
           fields,
@@ -337,7 +339,7 @@ export const generateGraphQLSchema = (configuration) => {
     if (isEntity(entity) || isViewEntity(entity)) {
       registerConnection(graphRegistry, entity);
     }
-  });
+  }
 
   generateInstanceUniquenessInputs(graphRegistry);
 
