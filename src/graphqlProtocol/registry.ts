@@ -5,12 +5,14 @@ interface Data {
   [key: string]: unknown;
 }
 
+export interface RegistryEntityAttribute {
+  fieldName: string;
+  fieldNameI18n: string;
+  fieldNameI18nJson: string;
+}
+
 export interface RegistryEntityAttributes {
-  [key: string]: {
-    fieldName: string;
-    fieldNameI18n: string;
-    fieldNameI18nJson: string;
-  };
+  [key: string]: RegistryEntityAttribute;
 }
 
 export interface RegistryEntity {
