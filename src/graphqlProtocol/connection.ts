@@ -16,6 +16,7 @@ import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 import { generateSortInput } from './sort';
 import { generateFilterInput } from './filter';
 import { ConnectionNode } from './types';
+import { getRegisteredEntity } from './registry';
 
 export const generateConnectionArgs = (entity, graphRegistry) => {
   const sortInput = generateSortInput(entity);
@@ -138,7 +139,10 @@ export const generateConnectionType = (config) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const { nodeType, entity } = config;
-  const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase;
+  const {
+    typeNamePluralPascalCase: typeNamePluralListName,
+  } = getRegisteredEntity(entity.name);
+
   let cursor;
 
   if (entity.getPrimaryAttribute()) {
@@ -275,7 +279,7 @@ export const connectionFromData = (
 };
 
 export const registerConnection = (graphRegistry, entity) => {
-  const typeName = entity.graphql.typeName;
+  const { typeName } = getRegisteredEntity(entity.name);
   const type = graphRegistry.types[typeName].type;
 
   const { connectionType } = generateConnectionType({
@@ -300,7 +304,7 @@ export const generateReverseConnections = (
 
   const fields = {};
 
-  const typeNamePascalCase = entity.graphql.typeNamePascalCase;
+  const { typeNamePascalCase } = getRegisteredEntity(entity.name);
 
   entity.referencedByEntities.map(
     ({ sourceEntityName, sourceAttributeName }) => {
@@ -318,8 +322,9 @@ export const generateReverseConnections = (
         sourceEntity,
         sourceAttributeName,
       );
-      const typeNamePluralListName =
-        sourceEntity.graphql.typeNamePluralPascalCase;
+      const {
+        typeNamePluralPascalCase: typeNamePluralListName,
+      } = getRegisteredEntity(sourceEntity.name);
 
       fields[fieldName] = {
         type: graphRegistry.types[sourceEntityTypeName].connection,

@@ -6,6 +6,7 @@ import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 import { resolveByFind, resolveByFindOne } from './resolver';
 import { isEntity } from '../engine/entity/Entity';
 import { isViewEntity } from '../engine/entity/ViewEntity';
+import { getRegisteredEntity } from './registry';
 
 export const generateListQueries = (graphRegistry) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
@@ -17,7 +18,9 @@ export const generateListQueries = (graphRegistry) => {
       return;
     }
 
-    const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase;
+    const {
+      typeNamePluralPascalCase: typeNamePluralListName,
+    } = getRegisteredEntity(entity.name);
     const queryName = protocolConfiguration.generateListQueryTypeName(entity);
 
     listQueries[queryName] = {
@@ -42,7 +45,7 @@ export const generateInstanceQueries = (graphRegistry, idFetcher) => {
       return;
     }
 
-    const typeNamePascalCase = entity.graphql.typeNamePascalCase;
+    const { typeNamePascalCase } = getRegisteredEntity(entity.name);
     const queryName = protocolConfiguration.generateInstanceQueryTypeName(
       entity,
     );

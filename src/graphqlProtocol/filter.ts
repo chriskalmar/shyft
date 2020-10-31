@@ -17,6 +17,7 @@ import { isArray, isMap } from '../engine/util';
 import { isViewEntity, ViewEntity } from '../engine/entity/ViewEntity';
 import { isShadowEntity } from '../engine/entity/ShadowEntity';
 import { DataTypeBoolean, DataTypeString } from '../engine/datatype/dataTypes';
+import { getRegisteredEntity } from './registry';
 
 const AND_OPERATOR = 'AND';
 const OR_OPERATOR = 'OR';
@@ -31,7 +32,9 @@ const PRE_FILTER_OPERATOR = 'pre_filter';
 export const generateFilterInput = (entity, graphRegistry) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
-  const typeNamePluralListName = entity.graphql.typeNamePluralPascalCase;
+  const {
+    typeNamePluralPascalCase: typeNamePluralListName,
+  } = getRegisteredEntity(entity.name);
 
   const storageType = entity.storageType;
 
@@ -68,7 +71,10 @@ export const generateFilterInput = (entity, graphRegistry) => {
         // it's a reference
         if (isEntity(attributeType)) {
           const targetEntity = attributeType;
-          const targetTypeName = targetEntity.graphql.typeName;
+          const { typeName: targetTypeName } = getRegisteredEntity(
+            targetEntity.name,
+          );
+
           const targetRegistryType = graphRegistry.types[targetTypeName];
           const targetConnectionArgs = targetRegistryType.connectionArgs;
 

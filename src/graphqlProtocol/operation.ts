@@ -19,6 +19,7 @@ import { isEntity } from '../engine/entity/Entity';
 import { Mutation, isMutation } from '../engine/mutation/Mutation';
 import { Subscription } from '..';
 import { isSubscription } from '../engine/subscription/Subscription';
+import { getRegisteredEntity } from './registry';
 
 const i18nInputFieldTypesCache = {};
 
@@ -40,7 +41,7 @@ const generateI18nInputFieldType = (
   }
 
   const attributeType = attribute.type;
-  const typeNamePascalCase = entity.graphql.typeNamePascalCase;
+  const { typeNamePascalCase } = getRegisteredEntity(entity.name);
   const languages = protocolConfiguration
     .getParentConfiguration()
     .getLanguages();
@@ -80,7 +81,7 @@ const generateI18nInputFieldType = (
 export const generateOperationInstanceInput = (entity, entityOperation) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
-  const typeNamePascalCase = entity.graphql.typeNamePascalCase;
+  const { typeNamePascalCase } = getRegisteredEntity(entity.name);
 
   const entityOperationInstanceInputType = new GraphQLInputObjectType({
     name: protocolConfiguration.generateOperationInstanceInputTypeName(
@@ -150,7 +151,7 @@ export const generateOperationInput = (
 ) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
-  const typeNamePascalCase = entity.graphql.typeNamePascalCase;
+  const { typeNamePascalCase } = getRegisteredEntity(entity.name);
 
   const entityOperationInputType = new GraphQLInputObjectType({
     name: protocolConfiguration.generateOperationInputTypeName(
@@ -205,7 +206,7 @@ export const generateOperationByPrimaryAttributeInput = (
     entity.name,
     true,
   );
-  const typeNamePascalCase = entity.graphql.typeNamePascalCase;
+  const { typeNamePascalCase } = getRegisteredEntity(entity.name);
 
   const entityOperationInputType = new GraphQLInputObjectType({
     name: protocolConfiguration.generateOperationByPrimaryAttributeInputTypeName(
@@ -253,7 +254,7 @@ export const generateInstanceUniquenessInput = (
 ) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
-  const typeNamePascalCase = entity.graphql.typeNamePascalCase;
+  const { typeNamePascalCase } = getRegisteredEntity(entity.name);
 
   // todo watch out for duplicate !
   const entityInstanceInputType = new GraphQLInputObjectType({
@@ -276,7 +277,9 @@ export const generateInstanceUniquenessInput = (
         if (isEntity(attributeType)) {
           const targetEntity = attributeType;
           const primaryAttribute = targetEntity.getPrimaryAttribute();
-          const targetTypeName = targetEntity.graphql.typeName;
+          const { typeName: targetTypeName } = getRegisteredEntity(
+            targetEntity.name,
+          );
 
           attributeType = primaryAttribute.type;
           const fieldType = ProtocolGraphQL.convertToProtocolDataType(
@@ -370,7 +373,7 @@ export const generateOperationInstanceNestedInput = (
 ) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
-  const typeNamePascalCase = entity.graphql.typeNamePascalCase;
+  const { typeNamePascalCase } = getRegisteredEntity(entity.name);
 
   const entityOperationInstanceInputType = new GraphQLInputObjectType({
     name: protocolConfiguration.generateOperationInstanceNestedInputTypeName(
@@ -392,7 +395,9 @@ export const generateOperationInstanceNestedInput = (
         if (isEntity(attributeType)) {
           const targetEntity = attributeType;
           const primaryAttribute = targetEntity.getPrimaryAttribute();
-          const targetTypeName = targetEntity.graphql.typeName;
+          const { typeName: targetTypeName } = getRegisteredEntity(
+            targetEntity.name,
+          );
 
           attributeType = primaryAttribute.type;
           const fieldType = ProtocolGraphQL.convertToProtocolDataType(
@@ -480,7 +485,7 @@ export const generateOperationNestedInput = (
 ) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
-  const typeNamePascalCase = entity.graphql.typeNamePascalCase;
+  const { typeNamePascalCase } = getRegisteredEntity(entity.name);
 
   const entityOperationInputType = new GraphQLInputObjectType({
     name: protocolConfiguration.generateOperationNestedInputTypeName(
@@ -528,7 +533,7 @@ export const generateOperationOutput = (
 ) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
-  const typeNamePascalCase = entity.graphql.typeNamePascalCase;
+  const { typeNamePascalCase } = getRegisteredEntity(entity.name);
 
   const entityOperationOutputType = new GraphQLObjectType({
     name: protocolConfiguration.generateOperationOutputTypeName(

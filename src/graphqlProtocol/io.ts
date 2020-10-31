@@ -24,6 +24,7 @@ import { isEntity } from '../engine/entity/Entity';
 import { isObjectDataType } from '../engine/datatype/ObjectDataType';
 import { isListDataType } from '../engine/datatype/ListDataType';
 import { isArray } from '../engine/util';
+import { getRegisteredEntity } from './registry';
 
 const generateDataInputField = (
   param,
@@ -304,7 +305,7 @@ const generateDataOutputField = (
     const result = {};
     const targetEntity = paramType;
 
-    const targetTypeName = targetEntity.graphql.typeName;
+    const { typeName: targetTypeName } = getRegisteredEntity(targetEntity.name);
     const primaryAttribute = targetEntity.getPrimaryAttribute();
 
     const simpleFieldType = ProtocolGraphQL.convertToProtocolDataType(
