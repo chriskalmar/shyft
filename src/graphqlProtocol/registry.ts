@@ -61,3 +61,26 @@ export const registerEntity = ({
     reverseDataShaper,
   };
 };
+
+export const getRegisteredEntity = (entityName: string): RegistryEntity => {
+  if (!registry[entityName]) {
+    throw new Error(`Cannot find entity '${entityName}' in registry`);
+  }
+
+  return registry[entityName];
+};
+
+export const getRegisteredEntityAttribute = (
+  entityName: string,
+  attributeName: string,
+): RegistryEntityAttribute => {
+  const entity = getRegisteredEntity(entityName);
+
+  if (!entity.attributes[attributeName]) {
+    throw new Error(
+      `Cannot find entity attribute '${entityName}.${attributeName}' in registry`,
+    );
+  }
+
+  return entity.attributes[attributeName];
+};
