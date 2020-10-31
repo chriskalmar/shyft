@@ -17,20 +17,25 @@ import { generateActions } from './action';
 import { generateSubscriptions } from './subscription';
 import { resolveByFindOne } from './resolver';
 import { isConfiguration } from '../engine/configuration/Configuration';
-import { isEntity } from '../engine/entity/Entity';
+import { Entity, isEntity } from '../engine/entity/Entity';
 import { DataTypeI18n } from '../engine/datatype/dataTypes';
 import {
   ACTION_TYPE_MUTATION,
   ACTION_TYPE_QUERY,
 } from '../engine/action/Action';
 import { isViewEntity } from '../engine/entity/ViewEntity';
-import { isShadowEntity } from '../engine/entity/ShadowEntity';
+import { isShadowEntity, ShadowEntity } from '../engine/entity/ShadowEntity';
 import { generateInstanceUniquenessInputs } from './operation';
-import { registerEntity, RegistryEntityAttributes } from './registry';
+import {
+  getRegisteredEntity,
+  getRegisteredEntityAttribute,
+  registerEntity,
+  RegistryEntityAttributes,
+} from './registry';
 import { Schema, EntityMap } from '../engine/schema/Schema';
 
-export const getTypeForEntityFromGraphRegistry = (entity) => {
-  const typeName = entity.graphql.typeName;
+export const getTypeForEntityFromGraphRegistry = (entity: Entity) => {
+  const { typeName } = getRegisteredEntity(entity.name);
   return graphRegistry.types[typeName];
 };
 
@@ -173,7 +178,7 @@ export const generateGraphQLSchema = (configuration) => {
   extendModelsForGql(schema.getEntities());
 
   for (const entity of Object.values(schema.getEntities())) {
-    const typeName = entity.graphql.typeName;
+    const { typeName } = getRegisteredEntity(entity.name);
 
     const objectType = new GraphQLObjectType({
       name: protocolConfiguration.generateEntityTypeNamePascalCase(entity),
@@ -200,6 +205,11 @@ export const generateGraphQLSchema = (configuration) => {
             return;
           }
 
+          const {
+            fieldName: gqlFieldName,
+            fieldNameI18nJson: gqlFieldNameI18nJson,
+          } = getRegisteredEntityAttribute(entity.name, attribute.name);
+
           // const field = {
           //   description: attribute.description,
           // };
@@ -208,7 +218,7 @@ export const generateGraphQLSchema = (configuration) => {
 
           // it's a reference
           if (isEntity(attributeType) || isShadowEntity(attributeType)) {
-            const targetEntity = attributeType;
+            const targetEntity = attributeType as Entity | ShadowEntity;
             const primaryAttribute = targetEntity.getPrimaryAttribute();
             attributeType = primaryAttribute.type;
 
@@ -216,12 +226,14 @@ export const generateGraphQLSchema = (configuration) => {
             //   description: attribute.description,
             // };
 
-            const targetTypeName = targetEntity.graphql.typeName;
+            const { typeName: targetTypeName } = getRegisteredEntity(
+              targetEntity.name,
+            );
 
             // reference.type = graphRegistry.types[targetTypeName].type;
             // reference.resolve = resolveByFindOne(
             //   targetEntity,
-            //   ({ source }) => source[attribute.gqlFieldName],
+            //   ({ source }) => source[gqlFieldName],
             // );
 
             const reference = {
@@ -229,7 +241,7 @@ export const generateGraphQLSchema = (configuration) => {
               type: graphRegistry.types[targetTypeName].type,
               resolve: resolveByFindOne(
                 targetEntity,
-                ({ source }) => source[attribute.gqlFieldName],
+                ({ source }) => source[gqlFieldName],
               ),
             };
 
@@ -266,7 +278,7 @@ export const generateGraphQLSchema = (configuration) => {
             resolve: attribute.resolve ? attribute.resolve : undefined,
           };
 
-          fields[attribute.gqlFieldName] = field;
+          fields[gqlFieldName] = field;
 
           if (attribute.i18n) {
             // JSON i18n output
@@ -280,10 +292,10 @@ export const generateGraphQLSchema = (configuration) => {
               type: attribute.required
                 ? new GraphQLNonNull(i18nJsonFieldType)
                 : i18nJsonFieldType,
-              description: `Translations of **\`${attribute.gqlFieldName}\`** in JSON format`,
+              description: `Translations of **\`${gqlFieldName}\`** in JSON format`,
             };
 
-            fieldsI18n[attribute.gqlFieldNameI18nJson] = i18nJsonField;
+            fieldsI18n[gqlFieldNameI18nJson] = i18nJsonField;
 
             // Object Type i18n output
             const i18nFieldType = new GraphQLObjectType({
@@ -291,7 +303,7 @@ export const generateGraphQLSchema = (configuration) => {
                 entity,
                 attribute,
               ),
-              description: `Translations of **\`${attribute.gqlFieldName}\`**`,
+              description: `Translations of **\`${gqlFieldName}\`**`,
 
               fields: () => {
                 const languages = configuration.getLanguages();
