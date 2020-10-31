@@ -50,6 +50,8 @@ import {
 } from '../engine/permission/Permission';
 import { Context } from '../engine/context/Context';
 import { GraphQLResolveInfo } from 'graphql';
+import { ShadowEntity } from '../engine/entity/ShadowEntity';
+import { getRegisteredEntity } from './registry';
 
 const AccessDeniedError = new CustomError(
   'Access denied',
@@ -120,7 +122,8 @@ export const resolveByFind = (
       parentConnection,
     );
 
-    const transformed = entity.graphql.dataSetShaper(
+    const { dataSetShaper } = getRegisteredEntity(entity.name);
+    const transformed = dataSetShaper(
       addRelayTypePromoterToList(
         protocolConfiguration.generateEntityTypeName(entity),
         data,
@@ -159,7 +162,7 @@ export const resolveByFind = (
 };
 
 export const resolveByFindOne = (
-  entity: Entity,
+  entity: Entity | ShadowEntity,
   idCollector,
 ): GraphQLFieldResolveFn => {
   const storageType = entity.storageType;
@@ -172,6 +175,8 @@ export const resolveByFindOne = (
       return Promise.resolve(null);
     }
 
+    const { dataShaper } = getRegisteredEntity(entity.name);
+
     return storageType
       .findOne(entity, id, args, context)
       .then(
@@ -179,7 +184,7 @@ export const resolveByFindOne = (
           protocolConfiguration.generateEntityTypeName(entity),
         ),
       )
-      .then(entity.graphql.dataShaper)
+      .then(dataShaper)
       .then(translateInstanceFn(entity, context))
       .then((translated) => {
         return entity.postProcessor
@@ -284,9 +289,11 @@ export const getNestedPayloadResolver = (
                   info,
                 );
 
+                const { dataShaper } = getRegisteredEntity(targetEntity.name);
+
                 result = await storageType
                   .findOneByValues(targetEntity, args[foundInput], context)
-                  .then(targetEntity.graphql.dataShaper);
+                  .then(dataShaper);
 
                 if (!result) {
                   throw new CustomError(
@@ -418,7 +425,11 @@ export const getMutationResolver = (
         clientMutationId: args.input.clientMutationId,
       };
 
-      const input = entity.graphql.reverseDataShaper(args.input[typeName]);
+      const { dataShaper, reverseDataShaper } = getRegisteredEntity(
+        entity.name,
+      );
+      const input = reverseDataShaper(args.input[typeName]);
+
       let result = await storageType.mutate(
         entity,
         id,
@@ -429,7 +440,7 @@ export const getMutationResolver = (
 
       if (result) {
         if (entityMutation.type !== MUTATION_TYPE_DELETE) {
-          result = entity.graphql.dataShaper(
+          result = dataShaper(
             addRelayTypePromoterToInstance(
               protocolConfiguration.generateEntityTypeName(entity),
               result,
