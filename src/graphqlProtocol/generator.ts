@@ -27,6 +27,7 @@ import {
 import { isViewEntity } from '../engine/entity/ViewEntity';
 import { isShadowEntity } from '../engine/entity/ShadowEntity';
 import { generateInstanceUniquenessInputs } from './operation';
+import { registerEntity } from './registry';
 
 export const getTypeForEntityFromGraphRegistry = (entity) => {
   const typeName = entity.graphql.typeName;
@@ -38,7 +39,50 @@ export const extendModelsForGql = (entities: Entity[]) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   _.forEach(entities, (entity) => {
-    entity.setGraphqlMeta({
+    const dataShaperMap = {};
+    const reverseDataShaperMap = {};
+
+    _.forEach(entity.getAttributes(), (attribute) => {
+      const fieldName = attribute.primary
+        ? 'id'
+        : protocolConfiguration.generateFieldName(attribute);
+
+      dataShaperMap[fieldName] = attribute.name;
+      reverseDataShaperMap[attribute.name] = fieldName;
+
+      let fieldNameI18n: string;
+      let fieldNameI18nJson: string;
+
+      if (attribute.i18n) {
+        fieldNameI18n = protocolConfiguration.generateI18nFieldName(attribute);
+        dataShaperMap[fieldNameI18n] = `${attribute.name}.i18n`;
+        reverseDataShaperMap[`${attribute.name}.i18n`] = fieldNameI18n;
+
+        fieldNameI18nJson = protocolConfiguration.generateI18nJsonFieldName(
+          attribute,
+        );
+        dataShaperMap[fieldNameI18nJson] = `${attribute.name}.i18n`;
+        // no i18n JSON output mapping for reverse shaper map
+        // so it doesn't overwrite values in mutation inputs
+      }
+
+      // entity.setAttributeGraphqlMeta(attribute.name, {
+      //   fieldName,
+      //   fieldNameI18n,
+      //   fieldNameI18nJson,
+      // });
+    });
+
+    // forward relay type promoter field as well
+    dataShaperMap[RELAY_TYPE_PROMOTER_FIELD] = RELAY_TYPE_PROMOTER_FIELD;
+    reverseDataShaperMap[RELAY_TYPE_PROMOTER_FIELD] = RELAY_TYPE_PROMOTER_FIELD;
+
+    // generate json shaper - translate schema attribute names to graphql attribute names
+    const dataShaper = shaper(dataShaperMap);
+    const reverseDataShaper = shaper(reverseDataShaperMap);
+
+    registerEntity({
+      entity,
       typeName: protocolConfiguration.generateEntityTypeName(entity),
       typeNamePlural: protocolConfiguration.generateEntityTypeNamePlural(
         entity,
@@ -49,60 +93,17 @@ export const extendModelsForGql = (entities: Entity[]) => {
       typeNamePluralPascalCase: protocolConfiguration.generateEntityTypeNamePluralPascalCase(
         entity,
       ),
+      attributes: {},
+      dataShaper: (data) => {
+        return data ? dataShaper(data) : data;
+      },
+      dataSetShaper: (set) => {
+        return set.map(dataShaper);
+      },
+      reverseDataShaper: (data) => {
+        return data ? reverseDataShaper(data) : data;
+      },
     });
-
-    const dataShaperMap = {};
-
-    _.forEach(entity.getAttributes(), (attribute) => {
-      const fieldName = attribute.primary
-        ? 'id'
-        : protocolConfiguration.generateFieldName(attribute);
-
-      dataShaperMap[fieldName] = attribute.name;
-
-      let fieldNameI18n: string;
-      let fieldNameI18nJson: string;
-
-      if (attribute.i18n) {
-        fieldNameI18n = protocolConfiguration.generateI18nFieldName(attribute);
-        dataShaperMap[fieldNameI18n] = `${attribute.name}.i18n`;
-
-        fieldNameI18nJson = protocolConfiguration.generateI18nJsonFieldName(
-          attribute,
-        );
-        dataShaperMap[fieldNameI18nJson] = `${attribute.name}.i18n`;
-      }
-
-      entity.setAttributeGraphqlMeta(attribute.name, {
-        fieldName,
-        fieldNameI18n,
-        fieldNameI18nJson,
-      });
-    });
-
-    // forward relay type promoter field as well
-    dataShaperMap[RELAY_TYPE_PROMOTER_FIELD] = RELAY_TYPE_PROMOTER_FIELD;
-
-    // generate json shaper - translate schema attribute names to graphql attribute names
-    const dataShaper = shaper(dataShaperMap);
-    entity.graphql.dataShaper = (data) => {
-      return data ? dataShaper(data) : data;
-    };
-    entity.graphql.dataSetShaper = (set) => {
-      return set.map(entity.graphql.dataShaper);
-    };
-
-    // remove i18n JSON output mapping so it doesn't overwrite values in mutation inputs
-    _.forEach(entity.getAttributes(), (attribute) => {
-      if (attribute.i18n) {
-        delete dataShaperMap[attribute.graphqlMeta.fieldNameI18nJson];
-      }
-    });
-
-    const reverseDataShaper = shaper(_.invert(dataShaperMap));
-    entity.graphql.reverseDataShaper = (data) => {
-      return data ? reverseDataShaper(data) : data;
-    };
   });
 };
 
