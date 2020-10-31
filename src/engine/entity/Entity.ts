@@ -143,12 +143,6 @@ export class Entity {
   isFallbackStorageType: boolean;
   findOne: Function;
   find: Function;
-  readonly graphqlMeta: {
-    typeName: string;
-    typeNamePlural: string;
-    typeNamePascalCase: string;
-    typeNamePluralPascalCase: string;
-  };
 
   constructor(setup: EntitySetup) {
     passOrThrow(isMap(setup), () => 'Entity requires a setup object');
@@ -503,7 +497,6 @@ export class Entity {
       i18n: !!rawAttribute.i18n,
       mutationInput: !!rawAttribute.mutationInput,
       name: attributeName,
-      graphqlMeta: {},
     };
 
     passOrThrow(
@@ -890,39 +883,11 @@ export class Entity {
     return this.storageType;
   }
 
-  setGraphqlMeta({
-    typeName,
-    typeNamePlural,
-    typeNamePascalCase,
-    typeNamePluralPascalCase,
-  }) {
-    this.graphqlMeta.typeName = typeName;
-    this.graphqlMeta.typeNamePlural = typeNamePlural;
-    this.graphqlMeta.typeNamePascalCase = typeNamePascalCase;
-    this.graphqlMeta.typeNamePluralPascalCase = typeNamePluralPascalCase;
-  }
-
-  setAttributeGraphqlMeta(
-    attributeName,
-    { fieldName, fieldNameI18n, fieldNameI18nJson },
-  ) {
-    const attribute = this.attributes[attributeName];
-    passOrThrow(
-      attribute,
-      () =>
-        `Unknown attribute '${this.name}.${attributeName}' used for GraphQL meta`,
-    );
-
-    attribute.graphqlMeta.fieldName = fieldName;
-    attribute.graphqlMeta.fieldNameI18n = fieldNameI18n;
-    attribute.graphqlMeta.fieldNameI18nJson = fieldNameI18nJson;
-  }
-
   toString() {
     return this.name;
   }
 }
 
-export const isEntity = (obj) => {
+export const isEntity = (obj: unknown) => {
   return obj instanceof Entity;
 };
