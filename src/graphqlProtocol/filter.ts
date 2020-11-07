@@ -16,6 +16,7 @@ import { isComplexDataType } from '../engine/datatype/ComplexDataType';
 import { isArray, isMap } from '../engine/util';
 import { isViewEntity, ViewEntity } from '../engine/entity/ViewEntity';
 import { isShadowEntity } from '../engine/entity/ShadowEntity';
+import { DataTypeString } from '../engine/datatype/dataTypes';
 
 const AND_OPERATOR = 'AND';
 const OR_OPERATOR = 'OR';
@@ -60,7 +61,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
         let attributeType = attribute.type;
         const isPrimary = attribute.primary;
 
-        if (isComplexDataType(attributeType) || attribute.mutationInput) {
+        if (attribute.mutationInput) {
           return;
         }
 
@@ -93,15 +94,25 @@ export const generateFilterInput = (entity, graphRegistry) => {
           attributeType,
         );
 
-        fields[attribute.gqlFieldName] = {
-          type: fieldType,
-        };
+        if (!isComplexDataType(attributeType)) {
+          fields[attribute.gqlFieldName] = {
+            type: fieldType,
+          };
+        }
 
         storageDataType.capabilities.map(capability => {
           const fieldName = `${attribute.gqlFieldName}__${capability}`;
           const field = {} as any;
 
-          if (
+          if (isComplexDataType(attributeType)) {
+            // object types and list types can only accept a string as filter
+            field.type = ProtocolGraphQL.convertToProtocolDataType(
+              DataTypeString,
+              entity.name,
+              true,
+            );
+          }
+          else if (
             storageDataTypeCapabilities[capability] ===
             storageDataTypeCapabilityType.VALUE
           ) {
