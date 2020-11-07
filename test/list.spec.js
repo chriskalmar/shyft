@@ -673,5 +673,29 @@ describe('list', () => {
 
       expect(resultList).toMatchSnapshot('list');
     });
+
+    it('$isNull', async () => {
+      const resultObj = await runVariant({
+        metaData: {
+          $is_null: true,
+        },
+        mods: {
+          $is_null: false,
+        },
+      });
+
+      expect(resultObj).toMatchSnapshot('object');
+
+      const resultList = await runVariant({
+        metaData: {
+          $is_null: false,
+        },
+        mods: {
+          $is_null: true,
+        },
+      });
+
+      expect(resultList).toMatchSnapshot('list');
+    });
   });
 });
