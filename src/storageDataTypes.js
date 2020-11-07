@@ -80,7 +80,7 @@ export const StorageDataTypeJSON = new StorageDataType({
   nativeDataType: 'jsonb',
   isSortable: false,
   serialize: (val) => val,
-  capabilities: ['includes', 'not_includes'],
+  capabilities: ['includes', 'not_includes', 'is_null'],
 });
 
 export const StorageDataTypeTimestamp = new StorageDataType({

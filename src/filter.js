@@ -177,6 +177,14 @@ const buildWhereAttributeOperatorConditionQuery = (
       qBuilder.andWhere(`NOT ${leftExpression} ? :${placeholderName}`, data);
       break;
 
+    case '$isNull':
+      if (!!value) {
+        qBuilder.andWhere(`${leftExpression} IS NULL`, data);
+      } else {
+        qBuilder.andWhere(`${leftExpression} IS NOT NULL`, data);
+      }
+      break;
+
     case '$noResult':
       qBuilder.andWhere(noResultClause);
       break;

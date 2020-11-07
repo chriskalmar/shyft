@@ -53,6 +53,8 @@ const filterOperatorMap = {
   $includes: '$includes',
   $notIncludes: '$not_includes',
 
+  $isNull: '$is_null',
+
   $noResult: '$noResult',
 
   $not: '$not',
