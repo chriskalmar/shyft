@@ -170,6 +170,13 @@ const buildWhereAttributeOperatorConditionQuery = (
       });
       break;
 
+    case '$includes':
+      qBuilder.andWhere(`${leftExpression} ? :${placeholderName}`, data);
+      break;
+    case '$notIncludes':
+      qBuilder.andWhere(`NOT ${leftExpression} ? :${placeholderName}`, data);
+      break;
+
     case '$noResult':
       qBuilder.andWhere(noResultClause);
       break;

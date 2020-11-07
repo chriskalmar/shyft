@@ -50,6 +50,9 @@ const filterOperatorMap = {
   $notContains: '$not_contains',
   $notEndsWith: '$not_ends_with',
 
+  $includes: '$includes',
+  $notIncludes: '$not_includes',
+
   $noResult: '$noResult',
 
   $not: '$not',
