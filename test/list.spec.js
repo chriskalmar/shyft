@@ -205,7 +205,7 @@ describe('list', () => {
       someAttributes: 'Veritatis nihil cum',
     };
 
-    await find(Board, { ...orderByIdAsc, filter }, asAdmin()).catch(e => {
+    await find(Board, { ...orderByIdAsc, filter }, asAdmin()).catch((e) => {
       expect(e).toMatchSnapshot();
     });
   });
@@ -418,7 +418,7 @@ describe('list', () => {
       { ...orderByIdAsc },
       asAdmin(),
       parentConnection,
-    ).catch(e => {
+    ).catch((e) => {
       expect(e).toMatchSnapshot();
     });
   });
@@ -432,12 +432,12 @@ describe('list', () => {
     ]);
 
     expect(
-      result.map(profile => removeListDynamicData(Profile, profile.data)),
+      result.map((profile) => removeListDynamicData(Profile, profile.data)),
     ).toMatchSnapshot();
   });
 
   describe('filter variants', () => {
-    const runVariant = async filter => {
+    const runVariant = async (filter) => {
       const result = await find(Board, { ...orderByIdAsc, filter }, asAdmin());
       result.data = removeListDynamicData(Board, result.data);
       return result;
@@ -634,6 +634,27 @@ describe('list', () => {
       });
 
       expect(result).toMatchSnapshot();
+    });
+
+    it('$includes', async () => {
+      const resultObj = await runVariant({
+        metaData: {
+          $includes: 'description',
+        },
+      });
+
+      expect(resultObj).toMatchSnapshot('object');
+    });
+
+    it('$includes + $notIncludes', async () => {
+      const resultObj = await runVariant({
+        metaData: {
+          $includes: 'externalLinks',
+          $not_includes: 'description',
+        },
+      });
+
+      expect(resultObj).toMatchSnapshot('object');
     });
   });
 });

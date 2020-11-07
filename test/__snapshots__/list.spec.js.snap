@@ -584,6 +584,131 @@ Object {
 }
 `;
 
+exports[`list filter variants $includes + $notIncludes: object 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "27",
+      "id": "41",
+      "isPrivate": false,
+      "metaData": Object {
+        "externalLinks": Object {
+          "web": "https://example.com",
+        },
+      },
+      "mods": null,
+      "name": "Enim dolore",
+      "owner": "27",
+      "updatedBy": "27",
+    },
+    Object {
+      "createdBy": "61",
+      "id": "43",
+      "isPrivate": true,
+      "metaData": Object {
+        "externalLinks": Object {
+          "web": "https://example.com",
+        },
+      },
+      "mods": Array [
+        "John",
+        "Jack",
+      ],
+      "name": "Sapiente laborum non",
+      "owner": "61",
+      "updatedBy": "61",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $includes: object 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "42",
+      "id": "4",
+      "isPrivate": false,
+      "metaData": Object {
+        "description": "Fuga facilis",
+      },
+      "mods": Array [
+        "Jane",
+        "Martha",
+        "Tom",
+      ],
+      "name": "Delectus qui maxime",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "62",
+      "id": "21",
+      "isPrivate": false,
+      "metaData": Object {
+        "description": "Qui fnecessitatibus",
+      },
+      "mods": null,
+      "name": "Quia sapiente",
+      "owner": "62",
+      "updatedBy": "62",
+    },
+    Object {
+      "createdBy": "13",
+      "id": "28",
+      "isPrivate": false,
+      "metaData": Object {
+        "description": "Necessitatibus facilis blanditiis",
+      },
+      "mods": Array [
+        "Bart",
+      ],
+      "name": "Deleniti esse itaque",
+      "owner": "13",
+      "updatedBy": "13",
+    },
+    Object {
+      "createdBy": "71",
+      "id": "34",
+      "isPrivate": false,
+      "metaData": Object {
+        "description": "Consequatur facilis",
+      },
+      "mods": Array [
+        "Martha",
+        "Tom",
+      ],
+      "name": "Voluptas dolor",
+      "owner": "71",
+      "updatedBy": "71",
+    },
+    Object {
+      "createdBy": "37",
+      "id": "38",
+      "isPrivate": false,
+      "metaData": Object {
+        "description": "Est voluptates",
+        "externalLinks": Object {
+          "web": "https://example.com",
+        },
+      },
+      "mods": null,
+      "name": "Nesciunt nihil enim",
+      "owner": "37",
+      "updatedBy": "37",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`list filter variants $lt 1`] = `
 Object {
   "data": Array [
