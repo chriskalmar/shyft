@@ -4,12 +4,12 @@ import { quote } from './util';
 
 const noResultClause = 'TRUE IS FALSE';
 
-export const purifyFilter = filter => {
+export const purifyFilter = (filter) => {
   if (isMap(filter)) {
     if (isMap(filter, true)) {
       const ret = {};
 
-      Object.keys(filter).map(key => {
+      Object.keys(filter).map((key) => {
         const isOperator = key.indexOf('$') === 0;
 
         if (['$in', '$notIn'].includes(key) && isArray(filter[key])) {
@@ -32,7 +32,7 @@ export const purifyFilter = filter => {
     if (isArray(filter, true)) {
       const ret = [];
 
-      filter.map(subFilter => {
+      filter.map((subFilter) => {
         const pureFilter = purifyFilter(subFilter);
         if (pureFilter !== null && typeof pureFilter !== 'undefined') {
           ret.push(pureFilter);
@@ -62,11 +62,11 @@ export const processAndConvertFilter = (
   return convertedWhere;
 };
 
-const escapeILikePattern = pattern => {
+const escapeILikePattern = (pattern) => {
   return pattern.replace(/%/g, '\\%').replace(/_/g, '\\_');
 };
 
-const defaultTransformFilterAttributeName = attributeName => attributeName;
+const defaultTransformFilterAttributeName = (attributeName) => attributeName;
 
 const buildWhereAttributeOperatorConditionQuery = (
   qBuilder,
@@ -192,7 +192,7 @@ const buildWhereAttributeConditionQuery = (
   if (isMap(filter)) {
     const operators = Object.keys(filter);
 
-    operators.map(operator => {
+    operators.map((operator) => {
       const value = filter[operator];
       buildWhereAttributeOperatorConditionQuery(
         qBuilder,
@@ -255,7 +255,7 @@ const buildWhereTypeSubQuery = (
     }
   }
 
-  qBuilder.andWhere(qbSub => {
+  qBuilder.andWhere((qbSub) => {
     let subQuery;
 
     if (qbSub.subQuery) {
@@ -282,7 +282,7 @@ const buildWhereTypeSubQuery = (
 
     const conditions =
       isGetMany && inOperatorLink
-        ? filter.condition.filter(condition => condition !== inOperatorLink)
+        ? filter.condition.filter((condition) => condition !== inOperatorLink)
         : filter.condition;
 
     conditions.map(({ targetAttribute, operator, sourceAttribute, value }) => {
@@ -291,9 +291,9 @@ const buildWhereTypeSubQuery = (
 
       if (sourceAttribute) {
         const { storageTableName } = modelRegistry[entityName];
-        const sourceAttributeName = `${storageTableName}.${dataShaperMap[
-          sourceAttribute
-        ] || sourceAttribute}`;
+        const sourceAttributeName = `${storageTableName}.${
+          dataShaperMap[sourceAttribute] || sourceAttribute
+        }`;
 
         subQuery.andWhere(
           `${quote(targetAttributeName)} = ${quote(sourceAttributeName)}`,
@@ -343,10 +343,10 @@ export const buildWhereTypeQuery = (
 
   if (isMap(filter)) {
     if (isMap(filter, true)) {
-      return new Brackets(qbAnd => {
+      return new Brackets((qbAnd) => {
         const keys = Object.keys(filter);
 
-        keys.map(key => {
+        keys.map((key) => {
           const newFilter = filter[key];
 
           if (key === '$and') {
@@ -355,14 +355,14 @@ export const buildWhereTypeQuery = (
             }
 
             const andFilters = [];
-            newFilter.map(andFilter => {
+            newFilter.map((andFilter) => {
               if (isMap(andFilter, true)) {
                 andFilters.push(andFilter);
               }
             });
 
             if (andFilters.length) {
-              newFilter.map(val => {
+              newFilter.map((val) => {
                 const where = buildWhereTypeQuery(
                   val,
                   entityName,
@@ -382,15 +382,15 @@ export const buildWhereTypeQuery = (
             }
 
             const orFilters = [];
-            newFilter.map(orFilter => {
+            newFilter.map((orFilter) => {
               if (isMap(orFilter, true)) {
                 orFilters.push(orFilter);
               }
             });
 
             if (orFilters.length) {
-              const orBrackets = new Brackets(qbOr => {
-                newFilter.map(val => {
+              const orBrackets = new Brackets((qbOr) => {
+                newFilter.map((val) => {
                   const where = buildWhereTypeQuery(
                     val,
                     entityName,
@@ -432,7 +432,7 @@ export const buildWhereTypeQuery = (
                 placeholderIdx,
               );
               if (where) {
-                const notBrackets = new Brackets(qbNot => {
+                const notBrackets = new Brackets((qbNot) => {
                   qbNot.andWhere(where);
                 });
 

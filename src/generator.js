@@ -57,7 +57,7 @@ const filterOperatorMap = {
   $and: '$and',
 };
 
-export const loadModels = configuration => {
+export const loadModels = (configuration) => {
   if (!isConfiguration(configuration)) {
     throw new Error('Invalid configuration object provided to loadModels()');
   }
@@ -92,7 +92,7 @@ export const loadModels = configuration => {
       value: entityName,
     });
 
-    _.map(entity.getAttributes(), attribute => {
+    _.map(entity.getAttributes(), (attribute) => {
       // skip for computed values
       if (attribute.resolve) {
         return;
@@ -156,7 +156,7 @@ export const loadModels = configuration => {
           let unique = false;
           // checking if there is a defined index for the foreign key
           if (entity.indexes) {
-            const definedForeignKeyIndex = entity.indexes.filter(index =>
+            const definedForeignKeyIndex = entity.indexes.filter((index) =>
               _.isEqual(index.attributes, [attributeName]),
             );
             if (definedForeignKeyIndex && definedForeignKeyIndex.length > 0) {
@@ -214,7 +214,7 @@ export const loadModels = configuration => {
     };
 
     if (entity.indexes) {
-      entity.indexes.map(index => {
+      entity.indexes.map((index) => {
         if (index.type === INDEX_UNIQUE || index.type === INDEX_GENERIC) {
           const indexAttributes = index.attributes.map(_.snakeCase);
           const indexName = generateIndexName(
@@ -265,7 +265,7 @@ export const loadModels = configuration => {
   return modelRegistry;
 };
 
-export const generateMockData = async configuration => {
+export const generateMockData = async (configuration) => {
   if (!isConfiguration(configuration)) {
     throw new Error(
       'Invalid configuration object provided to generateMockData()',
@@ -282,8 +282,8 @@ export const generateMockData = async configuration => {
   const entities = schema.getEntities();
   const mockInstancesMemory = {};
 
-  _.map(entities, entity => {
-    _.map(entity.getAttributes(), attribute => {
+  _.map(entities, (entity) => {
+    _.map(entity.getAttributes(), (attribute) => {
       if (isEntity(attribute.type)) {
         // skip cyclic dependencies
         if (entity.name === attribute.type.name) {
@@ -298,7 +298,7 @@ export const generateMockData = async configuration => {
   const dependencySortedEntityNames = toposort(edges);
 
   // add independent entities
-  _.map(entities, entity => {
+  _.map(entities, (entity) => {
     if (dependencySortedEntityNames.indexOf(entity.name) === -1) {
       dependencySortedEntityNames.push(entity.name);
     }
@@ -436,7 +436,7 @@ export const installStorageScripts = async (
     modelFeatures.language = true;
   }
 
-  _.forEach(schema.getEntities(), entity => {
+  _.forEach(schema.getEntities(), (entity) => {
     if (entity.getI18nAttributeNames && entity.getI18nAttributeNames()) {
       modelFeatures.i18n = true;
     }
@@ -497,7 +497,7 @@ export const connectStorage = async (
 
   const modelRegistry = loadModels(configuration);
 
-  const entities = Object.keys(modelRegistry).map(entityName => {
+  const entities = Object.keys(modelRegistry).map((entityName) => {
     return modelRegistry[entityName].model;
   });
 

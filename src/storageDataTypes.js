@@ -1,17 +1,17 @@
 import { StorageDataType } from 'shyft';
 import { i18nDataParser, i18nDataSerializer } from './i18n';
 
-const isNotSet = val => val === null || typeof val === 'undefined';
+const isNotSet = (val) => val === null || typeof val === 'undefined';
 
-const toString = val => {
+const toString = (val) => {
   return isNotSet(val) ? val : String(val);
 };
 
-const toInt = val => {
+const toInt = (val) => {
   return isNotSet(val) ? val : parseInt(val, 10);
 };
 
-const toFloat = val => {
+const toFloat = (val) => {
   return isNotSet(val) ? val : parseFloat(val);
 };
 
@@ -47,7 +47,7 @@ export const StorageDataTypeBoolean = new StorageDataType({
   description: 'Data type representing a boolean value',
   nativeDataType: 'boolean',
   isSortable: true,
-  serialize: value => value,
+  serialize: (value) => value,
   capabilities: ['ne'],
 });
 
@@ -79,7 +79,7 @@ export const StorageDataTypeJSON = new StorageDataType({
   description: 'Data type representing a json object',
   nativeDataType: 'jsonb',
   isSortable: false,
-  serialize: val => val,
+  serialize: (val) => val,
 });
 
 export const StorageDataTypeTimestamp = new StorageDataType({
