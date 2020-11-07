@@ -16,7 +16,7 @@ import { isComplexDataType } from '../engine/datatype/ComplexDataType';
 import { isArray, isMap } from '../engine/util';
 import { isViewEntity, ViewEntity } from '../engine/entity/ViewEntity';
 import { isShadowEntity } from '../engine/entity/ShadowEntity';
-import { DataTypeString } from '../engine/datatype/dataTypes';
+import { DataTypeBoolean, DataTypeString } from '../engine/datatype/dataTypes';
 
 const AND_OPERATOR = 'AND';
 const OR_OPERATOR = 'OR';
@@ -104,7 +104,10 @@ export const generateFilterInput = (entity, graphRegistry) => {
           const fieldName = `${attribute.gqlFieldName}__${capability}`;
           const field = {} as any;
 
-          if (isComplexDataType(attributeType)) {
+          if (
+            storageDataTypeCapabilities[capability] ===
+            storageDataTypeCapabilityType.STRING
+          ) {
             // object types and list types can only accept a string as filter
             field.type = ProtocolGraphQL.convertToProtocolDataType(
               DataTypeString,
@@ -122,6 +125,15 @@ export const generateFilterInput = (entity, graphRegistry) => {
             storageDataTypeCapabilityType.LIST
           ) {
             field.type = new GraphQLList(new GraphQLNonNull(fieldType));
+          } else if (
+            storageDataTypeCapabilities[capability] ===
+            storageDataTypeCapabilityType.BOOLEAN
+          ) {
+            field.type = ProtocolGraphQL.convertToProtocolDataType(
+              DataTypeBoolean,
+              entity.name,
+              true,
+            );
           }
 
           fields[fieldName] = field;

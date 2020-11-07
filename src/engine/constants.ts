@@ -15,10 +15,14 @@ export const languageIsoCodeRegex = new RegExp(LANGUAGE_ISO_CODE_PATTERN);
 export const storageDataTypeCapabilityType = {
   VALUE: 1,
   LIST: 2,
+  STRING: 3,
+  BOOLEAN: 4
 };
 
 const sdtcVALUE = storageDataTypeCapabilityType.VALUE;
 const sdtcLIST = storageDataTypeCapabilityType.LIST;
+const sdtcSTRING = storageDataTypeCapabilityType.STRING;
+const sdtcBOOLEAN = storageDataTypeCapabilityType.BOOLEAN;
 
 export const storageDataTypeCapabilities = {
   in: sdtcLIST,
@@ -34,8 +38,9 @@ export const storageDataTypeCapabilities = {
   not_contains: sdtcVALUE,
   not_starts_with: sdtcVALUE,
   not_ends_with: sdtcVALUE,
-  includes: sdtcVALUE,
-  not_includes: sdtcVALUE,
+  includes: sdtcSTRING,
+  not_includes: sdtcSTRING,
+  is_null: sdtcBOOLEAN,
 };
 
 export const entityPropertiesWhitelist: Array<string> = [
