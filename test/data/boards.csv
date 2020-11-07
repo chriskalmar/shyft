@@ -40,9 +40,9 @@ Expedita qui,61,1,41,,
 Dignissimos est perferendis,65,0,107,,
 Enim dolore,27,0,17,{"externalLinks": {"web": "https://example.com"}},
 Quo ut rerum,37,1,7,,
-Sapiente laborum non,61,1,70,,["John"\, "Jack"]
+Sapiente laborum non,61,1,70,{"externalLinks": {"web": "https://example.com"}},["John"\, "Jack"]
 Qui rem ut,9,0,29,,
-Sed necessitatibus facilis,85,1,74,,
+Sed necessitatibus facilis,85,1,74,{},
 Et architecto,63,1,109,,
 Accusamus sequi,23,0,32,,
 Nobis totam,41,1,35,,
