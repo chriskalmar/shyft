@@ -588,6 +588,60 @@ Object {
 }
 `;
 
+exports[`list filter variants $includes + $notIncludes: list 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "48",
+      "id": "19",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": Array [
+        "Jane",
+        "Josh",
+        "Jack",
+        "Bart",
+      ],
+      "name": "Rerum ad",
+      "owner": "48",
+      "updatedBy": "48",
+    },
+    Object {
+      "createdBy": "37",
+      "id": "42",
+      "isPrivate": true,
+      "metaData": null,
+      "mods": Array [
+        "Ben",
+        "Mark",
+        "Jane",
+      ],
+      "name": "Quo ut rerum",
+      "owner": "37",
+      "updatedBy": "37",
+    },
+    Object {
+      "createdBy": "23",
+      "id": "47",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": Array [
+        "Phil",
+        "Jane",
+        "Jack",
+      ],
+      "name": "Accusamus sequi",
+      "owner": "23",
+      "updatedBy": "23",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
 exports[`list filter variants $includes + $notIncludes: object 1`] = `
 Object {
   "data": Array [
@@ -621,6 +675,90 @@ Object {
       "name": "Sapiente laborum non",
       "owner": "61",
       "updatedBy": "61",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`list filter variants $includes: list 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "42",
+      "id": "4",
+      "isPrivate": false,
+      "metaData": Object {
+        "description": "Fuga facilis",
+      },
+      "mods": Array [
+        "Jane",
+        "Martha",
+        "Tom",
+      ],
+      "name": "Delectus qui maxime",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "84",
+      "id": "13",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": Array [
+        "John",
+        "Tom",
+        "Jane",
+      ],
+      "name": "Suscipit aut cum",
+      "owner": "84",
+      "updatedBy": "84",
+    },
+    Object {
+      "createdBy": "48",
+      "id": "19",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": Array [
+        "Jane",
+        "Josh",
+        "Jack",
+        "Bart",
+      ],
+      "name": "Rerum ad",
+      "owner": "48",
+      "updatedBy": "48",
+    },
+    Object {
+      "createdBy": "37",
+      "id": "42",
+      "isPrivate": true,
+      "metaData": null,
+      "mods": Array [
+        "Ben",
+        "Mark",
+        "Jane",
+      ],
+      "name": "Quo ut rerum",
+      "owner": "37",
+      "updatedBy": "37",
+    },
+    Object {
+      "createdBy": "23",
+      "id": "47",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": Array [
+        "Phil",
+        "Jane",
+        "Jack",
+      ],
+      "name": "Accusamus sequi",
+      "owner": "23",
+      "updatedBy": "23",
     },
   ],
   "pageInfo": Object {

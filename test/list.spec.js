@@ -644,6 +644,14 @@ describe('list', () => {
       });
 
       expect(resultObj).toMatchSnapshot('object');
+
+      const resultList = await runVariant({
+        mods: {
+          $includes: 'Jane',
+        },
+      });
+
+      expect(resultList).toMatchSnapshot('list');
     });
 
     it('$includes + $notIncludes', async () => {
@@ -655,6 +663,15 @@ describe('list', () => {
       });
 
       expect(resultObj).toMatchSnapshot('object');
+
+      const resultList = await runVariant({
+        mods: {
+          $includes: 'Jane',
+          $not_includes: 'Tom',
+        },
+      });
+
+      expect(resultList).toMatchSnapshot('list');
     });
   });
 });
