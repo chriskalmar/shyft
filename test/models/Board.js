@@ -9,7 +9,10 @@ import {
   Index,
   INDEX_UNIQUE,
   INDEX_GENERIC,
+  buildObjectDataType,
+  buildListDataType,
 } from 'shyft';
+import { DataTypeJson } from '../../node_modules/shyft/lib/index';
 
 import { Profile } from './Profile';
 
@@ -99,6 +102,29 @@ export const Board = new Entity({
     isPrivate: {
       type: DataTypeBoolean,
       description: 'It is a private board',
+    },
+
+    metaData: {
+      type: buildObjectDataType({
+        attributes: {
+          description: {
+            type: DataTypeString,
+            description: 'Board description',
+          },
+          externalLinks: {
+            type: DataTypeJson,
+            description: 'External links',
+          },
+        },
+      }),
+      description: 'Meta data',
+    },
+
+    mods: {
+      type: buildListDataType({
+        itemType: DataTypeString,
+      }),
+      description: 'List of moderators',
     },
   },
 });
