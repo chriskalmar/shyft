@@ -81,11 +81,11 @@ export class Mutation {
   type: string;
   description: string;
   attributes: string[];
-  fromState: string | string[];
-  toState: string | string[];
+  fromState?: string | string[];
+  toState?: string | string[];
 
-  preProcessor: Function;
-  postProcessor: Function;
+  preProcessor?: Function;
+  postProcessor?: Function;
 
   isTypeCreate?: boolean;
   isTypeDelete?: boolean;
