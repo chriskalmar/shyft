@@ -6160,10 +6160,10 @@ shellwords@^0.1.1:
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
 
-shyft@0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/shyft/-/shyft-0.7.2.tgz#722daa10cee54e2fe082b1a8aaf818d59d1785a6"
-  integrity sha512-pwQd/AI4jdfdJ1EN797aBaKQSXcd3Sem6O79zBuUHOF9X3kJZp/jYLYC69Z8tDfLPzZUOKNEkoCS/jsfG/bbxw==
+shyft@0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/shyft/-/shyft-0.8.0.tgz#b2aeb5309569053d46e5eee7a123fc69369ffeb2"
+  integrity sha512-/MWPV7Oa1Ay751NFMIplRS9ZbDfF+rl9UEguXqqkybhvhf/1u/YMjWEkn6zAaaLSXis2iwq5u7/Mh6vTMNBLcA==
   dependencies:
     "@types/graphql" "^14.5.0"
     casual "^1.6.2"
