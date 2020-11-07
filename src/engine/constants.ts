@@ -34,6 +34,8 @@ export const storageDataTypeCapabilities = {
   not_contains: sdtcVALUE,
   not_starts_with: sdtcVALUE,
   not_ends_with: sdtcVALUE,
+  includes: sdtcVALUE,
+  not_includes: sdtcVALUE,
 };
 
 export const entityPropertiesWhitelist: Array<string> = [
