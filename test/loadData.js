@@ -27,15 +27,20 @@ export const loadData = async () => {
 
   const boards = readRows('boards');
 
-  await asyncForEach(boards, async ([name, userId, isPrivate, vip]) => {
-    const payload = {
-      name,
-      isPrivate: isPrivate === '1',
-      vip,
-    };
+  await asyncForEach(
+    boards,
+    async ([name, userId, isPrivate, vip, metaData, mods]) => {
+      const payload = {
+        name,
+        isPrivate: isPrivate === '1',
+        vip,
+        metaData: metaData ? JSON.parse(metaData) : null,
+        mods: mods ? JSON.parse(mods) : null,
+      };
 
-    await mutate(Board, 'build', payload, null, asUser(userId));
-  });
+      await mutate(Board, 'build', payload, null, asUser(userId));
+    },
+  );
 
   const boardsCache = {};
 
