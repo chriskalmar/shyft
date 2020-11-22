@@ -7,7 +7,6 @@ import {
   Configuration,
   fillSystemAttributesDefaultValues,
   fillDefaultValues,
-  serializeValues,
   validateMutationPayload,
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
@@ -60,6 +59,39 @@ export const initDB = async () => {
 
 export const disconnectDB = async () => {
   await disconnectStorage();
+};
+
+const serializeAttributeValues = (
+  entity,
+  entityMutation,
+  payload,
+  model,
+  context,
+) => {
+  const ret = {
+    ...payload,
+  };
+
+  const entityAttributes = entity.getAttributes();
+
+  for (const attribute of Object.values(entityAttributes)) {
+    const attributeName = attribute.name;
+
+    if (attribute.serialize) {
+      if (typeof ret[attributeName] !== 'undefined') {
+        ret[attributeName] = attribute.serialize(
+          ret[attributeName],
+          ret,
+          entityMutation,
+          entity,
+          model,
+          context,
+        );
+      }
+    }
+  }
+
+  return ret;
 };
 
 export const mutate = async (entity, mutationName, payload, id, context) => {
@@ -117,7 +149,7 @@ export const mutate = async (entity, mutationName, payload, id, context) => {
     );
 
     if (entityMutation.type !== MUTATION_TYPE_DELETE) {
-      args.input[typeName] = serializeValues(
+      args.input[typeName] = serializeAttributeValues(
         entity,
         entityMutation,
         args.input[typeName],
