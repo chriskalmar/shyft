@@ -66,7 +66,7 @@
     "@typescript-eslint/eslint-plugin": "2.34.0",
     "@typescript-eslint/parser": "2.34.0",
     "babel-jest": "26.5.2",
-    "codecov": "3.8.0",
+    "codecov": "3.8.1",
     "cross-env": "7.0.2",
     "eslint": "7.10.0",
     "eslint-config-prettier": "6.12.0",
