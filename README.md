@@ -65,3 +65,17 @@ Run in watch mode:
 ```
 yarn run test-watch
 ```
+
+## Integration Tests
+
+Run once:
+
+```
+yarn run test-integration
+```
+
+Run in watch mode:
+
+```
+yarn run test-integration-watch
+```
