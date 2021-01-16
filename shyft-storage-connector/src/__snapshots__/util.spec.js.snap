@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`util generateIndexName should generate index names 1`] = `"some_entity_first_name_last_name_44c3ffd0e4__idx"`;
+
+exports[`util generateIndexName should generate index with custom suffix 1`] = `"some_entity_last_name_first_name_44c3ffd0e4_my_suffix"`;
+
+exports[`util generateIndexName should generate unique index names based on attribute order 1`] = `"some_entity_last_name_first_name_44c3ffd0e4__idx"`;
+
+exports[`util quote should quote attributes 1`] = `"\\"someAttributeName\\""`;
+
+exports[`util quote should quote attributes with JSON pointers 1`] = `"\\"someAttributeName\\"->'someProp'"`;
+
+exports[`util quote should quote fully qualified attributes 1`] = `"someEntity.\\"someAttributeName\\""`;
+
+exports[`util quote should quote fully qualified attributes with JSON pointers 1`] = `"someEntity.\\"someAttributeName\\"->'someProp'"`;

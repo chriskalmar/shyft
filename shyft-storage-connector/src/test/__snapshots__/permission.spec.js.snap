@@ -1,0 +1,1267 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`permission story a user should be able to accept invitations to private boards 1`] = `
+Object {
+  "board": "45",
+  "id": "304",
+  "invitee": "30",
+  "inviter": "85",
+  "state": 20,
+}
+`;
+
+exports[`permission story a user should be able to invite users to an owned boards 1`] = `
+Object {
+  "board": "45",
+  "id": "304",
+  "invitee": "30",
+  "inviter": "85",
+  "state": 10,
+}
+`;
+
+exports[`permission story a user should be able to invite users to an owned boards 2`] = `
+Object {
+  "board": "45",
+  "id": "305",
+  "invitee": "33",
+  "inviter": "85",
+  "state": 10,
+}
+`;
+
+exports[`permission story a user should be able to invite users to an owned boards 3`] = `
+Object {
+  "board": "45",
+  "id": "306",
+  "invitee": "79",
+  "inviter": "85",
+  "state": 10,
+}
+`;
+
+exports[`permission story a user should be able to join public boards 1`] = `
+Object {
+  "board": "11",
+  "id": "301",
+  "invitee": "30",
+  "inviter": "30",
+  "state": 50,
+}
+`;
+
+exports[`permission story a user should be able to join public boards 2`] = `
+Object {
+  "board": "11",
+  "id": "302",
+  "invitee": "33",
+  "inviter": "33",
+  "state": 50,
+}
+`;
+
+exports[`permission story a user should be able to join public boards 3`] = `
+Object {
+  "board": "11",
+  "id": "303",
+  "invitee": "79",
+  "inviter": "79",
+  "state": 50,
+}
+`;
+
+exports[`permission story a user should be able to leave public boards 1`] = `
+Object {
+  "deleteRowCount": 1,
+  "id": "301",
+  "rows": Array [
+    Object {
+      "board": "11",
+      "id": "301",
+      "invitee": "30",
+      "inviter": "30",
+      "state": 50,
+    },
+  ],
+}
+`;
+
+exports[`permission story a user should be able to remove a user from a group as owner 1`] = `
+Object {
+  "deleteRowCount": 1,
+  "id": "302",
+  "rows": Array [
+    Object {
+      "board": "11",
+      "id": "302",
+      "invitee": "33",
+      "inviter": "33",
+      "state": 50,
+    },
+  ],
+}
+`;
+
+exports[`permission story a user should not be able to accept invitations to private boards on someone's behalf 1`] = `[Error: Instance with ID '302' not found or access denied]`;
+
+exports[`permission story a user should not be able to invite users to others boards 1`] = `[Error: Mutation 'invite' denied]`;
+
+exports[`permission story a user should not be able to invite users to others boards 2`] = `[Error: Mutation 'invite' denied]`;
+
+exports[`permission story a user should not be able to invite users to others boards 3`] = `[Error: Mutation 'invite' denied]`;
+
+exports[`permission story a user should not be able to join private boards 1`] = `[Error: Mutation 'join' denied]`;
+
+exports[`permission story a user should not be able to join private boards 2`] = `[Error: Mutation 'join' denied]`;
+
+exports[`permission story a user should not be able to join private boards 3`] = `[Error: Mutation 'join' denied]`;
+
+exports[`permission story a user should not be able to leave public boards on someone's behalf 1`] = `[Error: Instance with ID '302' not found or access denied]`;
+
+exports[`permission story a user should not be able to remove a user from a group as a non-owner 1`] = `[Error: Instance with ID '302' not found or access denied]`;
+
+exports[`permission story a user should only see members of boards the user is part of: count 1`] = `23`;
+
+exports[`permission story a user should only see members of boards the user is part of: count 2`] = `15`;
+
+exports[`permission story a user should only see members of boards the user is part of: count 3`] = `43`;
+
+exports[`permission story a user should only see members of boards the user is part of: count 4`] = `19`;
+
+exports[`permission story a user should only see members of boards the user is part of: count 5`] = `13`;
+
+exports[`permission story a user should only see members of boards the user is part of: count 6`] = `36`;
+
+exports[`permission story a user should only see members of boards the user is part of: list 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "16",
+      "id": "9",
+      "invitee": "93",
+      "inviter": "93",
+      "state": 50,
+    },
+    Object {
+      "board": "16",
+      "id": "14",
+      "invitee": "92",
+      "inviter": "92",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "31",
+      "invitee": "57",
+      "inviter": "57",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "76",
+      "invitee": "40",
+      "inviter": "40",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "85",
+      "invitee": "95",
+      "inviter": "95",
+      "state": 50,
+    },
+    Object {
+      "board": "16",
+      "id": "107",
+      "invitee": "46",
+      "inviter": "46",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "150",
+      "invitee": "69",
+      "inviter": "69",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "152",
+      "invitee": "46",
+      "inviter": "46",
+      "state": 50,
+    },
+    Object {
+      "board": "16",
+      "id": "177",
+      "invitee": "5",
+      "inviter": "5",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "196",
+      "invitee": "25",
+      "inviter": "25",
+      "state": 50,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`permission story a user should only see members of boards the user is part of: list 2`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "14",
+      "id": "31",
+      "invitee": "57",
+      "inviter": "57",
+      "state": 50,
+    },
+    Object {
+      "board": "31",
+      "id": "43",
+      "invitee": "80",
+      "inviter": "80",
+      "state": 50,
+    },
+    Object {
+      "board": "31",
+      "id": "57",
+      "invitee": "28",
+      "inviter": "28",
+      "state": 50,
+    },
+    Object {
+      "board": "31",
+      "id": "75",
+      "invitee": "21",
+      "inviter": "21",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "76",
+      "invitee": "40",
+      "inviter": "40",
+      "state": 50,
+    },
+    Object {
+      "board": "31",
+      "id": "77",
+      "invitee": "81",
+      "inviter": "81",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "85",
+      "invitee": "95",
+      "inviter": "95",
+      "state": 50,
+    },
+    Object {
+      "board": "31",
+      "id": "101",
+      "invitee": "69",
+      "inviter": "69",
+      "state": 50,
+    },
+    Object {
+      "board": "31",
+      "id": "113",
+      "invitee": "55",
+      "inviter": "55",
+      "state": 50,
+    },
+    Object {
+      "board": "31",
+      "id": "144",
+      "invitee": "99",
+      "inviter": "99",
+      "state": 50,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`permission story a user should only see members of boards the user is part of: list 3`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "13",
+      "id": "5",
+      "invitee": "40",
+      "inviter": "40",
+      "state": 50,
+    },
+    Object {
+      "board": "36",
+      "id": "7",
+      "invitee": "81",
+      "inviter": "81",
+      "state": 50,
+    },
+    Object {
+      "board": "13",
+      "id": "30",
+      "invitee": "79",
+      "inviter": "79",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "31",
+      "invitee": "57",
+      "inviter": "57",
+      "state": 50,
+    },
+    Object {
+      "board": "36",
+      "id": "32",
+      "invitee": "41",
+      "inviter": "41",
+      "state": 50,
+    },
+    Object {
+      "board": "18",
+      "id": "35",
+      "invitee": "12",
+      "inviter": "12",
+      "state": 50,
+    },
+    Object {
+      "board": "13",
+      "id": "37",
+      "invitee": "64",
+      "inviter": "64",
+      "state": 50,
+    },
+    Object {
+      "board": "18",
+      "id": "48",
+      "invitee": "44",
+      "inviter": "44",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "76",
+      "invitee": "40",
+      "inviter": "40",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "85",
+      "invitee": "95",
+      "inviter": "95",
+      "state": 50,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`permission story a user should only see members of boards the user is part of: list 4`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "16",
+      "id": "9",
+      "invitee": "93",
+      "inviter": "93",
+      "state": 50,
+    },
+    Object {
+      "board": "16",
+      "id": "14",
+      "invitee": "92",
+      "inviter": "92",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "31",
+      "invitee": "57",
+      "inviter": "57",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "76",
+      "invitee": "40",
+      "inviter": "40",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "85",
+      "invitee": "95",
+      "inviter": "95",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "150",
+      "invitee": "69",
+      "inviter": "69",
+      "state": 50,
+    },
+    Object {
+      "board": "16",
+      "id": "177",
+      "invitee": "5",
+      "inviter": "5",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "196",
+      "invitee": "25",
+      "inviter": "25",
+      "state": 50,
+    },
+    Object {
+      "board": "9",
+      "id": "202",
+      "invitee": "7",
+      "inviter": "52",
+      "state": 20,
+    },
+    Object {
+      "board": "9",
+      "id": "208",
+      "invitee": "58",
+      "inviter": "52",
+      "state": 20,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`permission story a user should only see members of boards the user is part of: list 5`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "14",
+      "id": "31",
+      "invitee": "57",
+      "inviter": "57",
+      "state": 50,
+    },
+    Object {
+      "board": "31",
+      "id": "43",
+      "invitee": "80",
+      "inviter": "80",
+      "state": 50,
+    },
+    Object {
+      "board": "31",
+      "id": "57",
+      "invitee": "28",
+      "inviter": "28",
+      "state": 50,
+    },
+    Object {
+      "board": "31",
+      "id": "75",
+      "invitee": "21",
+      "inviter": "21",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "76",
+      "invitee": "40",
+      "inviter": "40",
+      "state": 50,
+    },
+    Object {
+      "board": "31",
+      "id": "77",
+      "invitee": "81",
+      "inviter": "81",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "85",
+      "invitee": "95",
+      "inviter": "95",
+      "state": 50,
+    },
+    Object {
+      "board": "31",
+      "id": "113",
+      "invitee": "55",
+      "inviter": "55",
+      "state": 50,
+    },
+    Object {
+      "board": "31",
+      "id": "144",
+      "invitee": "99",
+      "inviter": "99",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "152",
+      "invitee": "46",
+      "inviter": "46",
+      "state": 50,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`permission story a user should only see members of boards the user is part of: list 6`] = `
+Object {
+  "data": Array [
+    Object {
+      "board": "36",
+      "id": "7",
+      "invitee": "81",
+      "inviter": "81",
+      "state": 50,
+    },
+    Object {
+      "board": "13",
+      "id": "30",
+      "invitee": "79",
+      "inviter": "79",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "31",
+      "invitee": "57",
+      "inviter": "57",
+      "state": 50,
+    },
+    Object {
+      "board": "36",
+      "id": "32",
+      "invitee": "41",
+      "inviter": "41",
+      "state": 50,
+    },
+    Object {
+      "board": "18",
+      "id": "35",
+      "invitee": "12",
+      "inviter": "12",
+      "state": 50,
+    },
+    Object {
+      "board": "13",
+      "id": "37",
+      "invitee": "64",
+      "inviter": "64",
+      "state": 50,
+    },
+    Object {
+      "board": "18",
+      "id": "48",
+      "invitee": "44",
+      "inviter": "44",
+      "state": 50,
+    },
+    Object {
+      "board": "14",
+      "id": "85",
+      "invitee": "95",
+      "inviter": "95",
+      "state": 50,
+    },
+    Object {
+      "board": "36",
+      "id": "117",
+      "invitee": "9",
+      "inviter": "9",
+      "state": 50,
+    },
+    Object {
+      "board": "18",
+      "id": "120",
+      "invitee": "95",
+      "inviter": "95",
+      "state": 50,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: count 1`] = `33`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: count 2`] = `30`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: count 3`] = `34`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: list 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "37",
+      "id": "1",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Reiciendis quaerat",
+      "owner": "37",
+      "updatedBy": "37",
+    },
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "metaData": null,
+      "mods": null,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "42",
+      "id": "4",
+      "isPrivate": false,
+      "metaData": Object {
+        "description": "Fuga facilis",
+      },
+      "mods": Array [
+        "Jane",
+        "Martha",
+        "Tom",
+      ],
+      "name": "Delectus qui maxime",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "52",
+      "id": "9",
+      "isPrivate": true,
+      "metaData": null,
+      "mods": null,
+      "name": "Veritatis nihil cum",
+      "owner": "52",
+      "updatedBy": "52",
+    },
+    Object {
+      "createdBy": "81",
+      "id": "11",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Aut incidunt consequatur",
+      "owner": "81",
+      "updatedBy": "81",
+    },
+    Object {
+      "createdBy": "23",
+      "id": "12",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Tenetur porro",
+      "owner": "23",
+      "updatedBy": "23",
+    },
+    Object {
+      "createdBy": "84",
+      "id": "13",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": Array [
+        "John",
+        "Tom",
+        "Jane",
+      ],
+      "name": "Suscipit aut cum",
+      "owner": "84",
+      "updatedBy": "84",
+    },
+    Object {
+      "createdBy": "26",
+      "id": "14",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Id cum",
+      "owner": "26",
+      "updatedBy": "26",
+    },
+    Object {
+      "createdBy": "60",
+      "id": "15",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Sunt nobis",
+      "owner": "60",
+      "updatedBy": "60",
+    },
+    Object {
+      "createdBy": "73",
+      "id": "16",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Est adipisci inventore",
+      "owner": "73",
+      "updatedBy": "73",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: list 2`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "37",
+      "id": "1",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Reiciendis quaerat",
+      "owner": "37",
+      "updatedBy": "37",
+    },
+    Object {
+      "createdBy": "42",
+      "id": "4",
+      "isPrivate": false,
+      "metaData": Object {
+        "description": "Fuga facilis",
+      },
+      "mods": Array [
+        "Jane",
+        "Martha",
+        "Tom",
+      ],
+      "name": "Delectus qui maxime",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "81",
+      "id": "11",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Aut incidunt consequatur",
+      "owner": "81",
+      "updatedBy": "81",
+    },
+    Object {
+      "createdBy": "23",
+      "id": "12",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Tenetur porro",
+      "owner": "23",
+      "updatedBy": "23",
+    },
+    Object {
+      "createdBy": "84",
+      "id": "13",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": Array [
+        "John",
+        "Tom",
+        "Jane",
+      ],
+      "name": "Suscipit aut cum",
+      "owner": "84",
+      "updatedBy": "84",
+    },
+    Object {
+      "createdBy": "26",
+      "id": "14",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Id cum",
+      "owner": "26",
+      "updatedBy": "26",
+    },
+    Object {
+      "createdBy": "60",
+      "id": "15",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Sunt nobis",
+      "owner": "60",
+      "updatedBy": "60",
+    },
+    Object {
+      "createdBy": "73",
+      "id": "16",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Est adipisci inventore",
+      "owner": "73",
+      "updatedBy": "73",
+    },
+    Object {
+      "createdBy": "24",
+      "id": "17",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Est et",
+      "owner": "24",
+      "updatedBy": "24",
+    },
+    Object {
+      "createdBy": "75",
+      "id": "18",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "In ipsum est",
+      "owner": "75",
+      "updatedBy": "75",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: list 3`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "37",
+      "id": "1",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Reiciendis quaerat",
+      "owner": "37",
+      "updatedBy": "37",
+    },
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "metaData": null,
+      "mods": null,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "42",
+      "id": "4",
+      "isPrivate": false,
+      "metaData": Object {
+        "description": "Fuga facilis",
+      },
+      "mods": Array [
+        "Jane",
+        "Martha",
+        "Tom",
+      ],
+      "name": "Delectus qui maxime",
+      "owner": "42",
+      "updatedBy": "42",
+    },
+    Object {
+      "createdBy": "81",
+      "id": "11",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Aut incidunt consequatur",
+      "owner": "81",
+      "updatedBy": "81",
+    },
+    Object {
+      "createdBy": "23",
+      "id": "12",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Tenetur porro",
+      "owner": "23",
+      "updatedBy": "23",
+    },
+    Object {
+      "createdBy": "84",
+      "id": "13",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": Array [
+        "John",
+        "Tom",
+        "Jane",
+      ],
+      "name": "Suscipit aut cum",
+      "owner": "84",
+      "updatedBy": "84",
+    },
+    Object {
+      "createdBy": "26",
+      "id": "14",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Id cum",
+      "owner": "26",
+      "updatedBy": "26",
+    },
+    Object {
+      "createdBy": "60",
+      "id": "15",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Sunt nobis",
+      "owner": "60",
+      "updatedBy": "60",
+    },
+    Object {
+      "createdBy": "73",
+      "id": "16",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Est adipisci inventore",
+      "owner": "73",
+      "updatedBy": "73",
+    },
+    Object {
+      "createdBy": "24",
+      "id": "17",
+      "isPrivate": false,
+      "metaData": null,
+      "mods": null,
+      "name": "Est et",
+      "owner": "24",
+      "updatedBy": "24",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: private count 1`] = `3`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: private count 2`] = `0`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: private count 3`] = `4`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: private list 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "metaData": null,
+      "mods": null,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "52",
+      "id": "9",
+      "isPrivate": true,
+      "metaData": null,
+      "mods": null,
+      "name": "Veritatis nihil cum",
+      "owner": "52",
+      "updatedBy": "52",
+    },
+    Object {
+      "createdBy": "26",
+      "id": "49",
+      "isPrivate": true,
+      "metaData": null,
+      "mods": null,
+      "name": "Odit qui",
+      "owner": "26",
+      "updatedBy": "26",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: private list 2`] = `
+Object {
+  "data": Array [],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: private list 3`] = `
+Object {
+  "data": Array [
+    Object {
+      "createdBy": "46",
+      "id": "2",
+      "isPrivate": true,
+      "metaData": null,
+      "mods": null,
+      "name": "Et eum",
+      "owner": "46",
+      "updatedBy": "46",
+    },
+    Object {
+      "createdBy": "30",
+      "id": "24",
+      "isPrivate": true,
+      "metaData": null,
+      "mods": null,
+      "name": "Non iusto unde",
+      "owner": "30",
+      "updatedBy": "30",
+    },
+    Object {
+      "createdBy": "47",
+      "id": "33",
+      "isPrivate": true,
+      "metaData": null,
+      "mods": null,
+      "name": "Suscipit quas",
+      "owner": "47",
+      "updatedBy": "47",
+    },
+    Object {
+      "createdBy": "63",
+      "id": "46",
+      "isPrivate": true,
+      "metaData": null,
+      "mods": null,
+      "name": "Et architecto",
+      "owner": "63",
+      "updatedBy": "63",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`permission story an anonymous user should be able to see all books: list 1`] = `
+Object {
+  "data": Array [
+    Book {
+      "author": " natus in",
+      "i18n": null,
+      "id": "1",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "aut nihil natus iste eos",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "aut nihil natus iste eos",
+      },
+    },
+    Book {
+      "author": " omnis dolorem",
+      "i18n": null,
+      "id": "2",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "ipsum ex placeat quos",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "ipsum ex placeat quos",
+      },
+    },
+    Book {
+      "author": " et et",
+      "i18n": null,
+      "id": "3",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "quae optio repellendus minima reprehenderit",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "quae optio repellendus minima reprehenderit",
+      },
+    },
+    Book {
+      "author": " vero numquam",
+      "i18n": null,
+      "id": "4",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "est repellat necessitatibus ipsa nisi",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "est repellat necessitatibus ipsa nisi",
+      },
+    },
+    Book {
+      "author": " consequatur eos",
+      "i18n": null,
+      "id": "5",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "nobis qui beatae minus incidunt",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "nobis qui beatae minus incidunt",
+      },
+    },
+    Book {
+      "author": " aliquid ea",
+      "i18n": null,
+      "id": "6",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "autem qui inventore sapiente",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "autem qui inventore sapiente",
+      },
+    },
+    Book {
+      "author": " tempora labore",
+      "i18n": null,
+      "id": "7",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "sit culpa necessitatibus sit culpa",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "sit culpa necessitatibus sit culpa",
+      },
+    },
+    Book {
+      "author": " dolorem quae",
+      "i18n": null,
+      "id": "8",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "error qui at nemo magni",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "error qui at nemo magni",
+      },
+    },
+    Book {
+      "author": " voluptas velit",
+      "i18n": null,
+      "id": "9",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "consequatur fugiat a nobis",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "consequatur fugiat a nobis",
+      },
+    },
+    Book {
+      "author": " vel sed",
+      "i18n": null,
+      "id": "10",
+      "reviews": null,
+      "shortSummary": null,
+      "shortSummary.i18n": Object {
+        "de": undefined,
+        "en": null,
+      },
+      "title": "molestiae eos omnis omnis enim",
+      "title.i18n": Object {
+        "de": undefined,
+        "en": "molestiae eos omnis omnis enim",
+      },
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;

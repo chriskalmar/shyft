@@ -1,0 +1,620 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cursor after + before + filter + offset 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Elza",
+      "id": "98",
+      "lastname": "Gorczany",
+      "password": "c632a6ac63ec64dd2bec50c1535e96d21c7ab3335eb7a5c488326a3ec6c6e430",
+      "username": "elza510",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Ella",
+      "id": "103",
+      "lastname": "Roberts",
+      "password": "f056b8cae37dc3ed60ee52da9a2951f8a6c531fe3222a3ad6835dbdd905c7d2a",
+      "username": "ella377",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`cursor after + before + filter + offset 2`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Emilia",
+      "id": "90",
+      "lastname": "Marks",
+      "password": "469cc643a19fb75901e5d331b8dc14befa8b98810b246c2fb22fff0c382dc39e",
+      "username": "emilia189",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Emelie",
+      "id": "53",
+      "lastname": "Schamberger",
+      "password": "96844bc86a7b7c7f058c0a6ae141c162f33ddfca412f2d5899ead8ee713d7418",
+      "username": "emelie578",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`cursor after + filter 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Elza",
+      "id": "98",
+      "lastname": "Gorczany",
+      "password": "c632a6ac63ec64dd2bec50c1535e96d21c7ab3335eb7a5c488326a3ec6c6e430",
+      "username": "elza510",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Emelie",
+      "id": "53",
+      "lastname": "Schamberger",
+      "password": "96844bc86a7b7c7f058c0a6ae141c162f33ddfca412f2d5899ead8ee713d7418",
+      "username": "emelie578",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Emilia",
+      "id": "90",
+      "lastname": "Marks",
+      "password": "469cc643a19fb75901e5d331b8dc14befa8b98810b246c2fb22fff0c382dc39e",
+      "username": "emilia189",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Emmet",
+      "id": "12",
+      "lastname": "Boyle",
+      "password": "8405ae6de3ebde2abffb2531d437a163a31dc42a109c7369b66b93258c7e1d67",
+      "username": "emmet741",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`cursor after 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Angeline",
+      "id": "39",
+      "lastname": "Tremblay",
+      "password": "928748d0d4126492733ed8f2c522ed8fa84aa642c1c6a04e7d641476bfbd3e0c",
+      "username": "angeline447",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Annabel",
+      "id": "1",
+      "lastname": "Bergstrom",
+      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
+      "username": "annabel711",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Anne",
+      "id": "84",
+      "lastname": "Wyman",
+      "password": "49321648dc8383b8ba73c037dbcdb14873222077d3709bffe454100e5f809773",
+      "username": "anne750",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Antone",
+      "id": "69",
+      "lastname": "Schmitt",
+      "password": "f056b8cae37dc3ed60ee52da9a2951f8a6c531fe3222a3ad6835dbdd905c7d2a",
+      "username": "antone347",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Antonia",
+      "id": "46",
+      "lastname": "Gutkowski",
+      "password": "9dab09bbccf2cc2c187d7df4c5fc5326ebb050aac7d351284a079529e6e5637b",
+      "username": "antonia919",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Antonina",
+      "id": "99",
+      "lastname": "Lesch",
+      "password": "863a6b632034d24c2d404f944dde121158683787b89cd065fd00d5fa76f68853",
+      "username": "antonina448",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Anya",
+      "id": "2",
+      "lastname": "Conn",
+      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
+      "username": "anya543",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Araceli",
+      "id": "26",
+      "lastname": "Lind",
+      "password": "10a3d43aba9613d935422f749c8cb2751db62090e246894a3e96407498e5ce22",
+      "username": "araceli794",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Arlie",
+      "id": "34",
+      "lastname": "Kemmer",
+      "password": "80c980ff9125cd274a3a1cd88cd9dfa4ba0bec9c6336182c78095a90db65b1de",
+      "username": "arlie128",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Athena",
+      "id": "15",
+      "lastname": "Stamm",
+      "password": "09b47655056ff5f96694fd9ea16b86998c853046ca7adc60587fa152c02f7b4b",
+      "username": "athena557",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`cursor before + filter 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Edward",
+      "id": "8",
+      "lastname": "Dach",
+      "password": "5f53b0a2be22e28dc4b056f663910c046a33f9b2d779eaf997ea771fe1881a13",
+      "username": "edward969",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Eladio",
+      "id": "58",
+      "lastname": "Botsford",
+      "password": "4d8e7438a0573b2895ab0f49fe82596b564e8ba985bc8be657ac764bbd0d7895",
+      "username": "eladio832",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Ella",
+      "id": "103",
+      "lastname": "Roberts",
+      "password": "f056b8cae37dc3ed60ee52da9a2951f8a6c531fe3222a3ad6835dbdd905c7d2a",
+      "username": "ella377",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Elza",
+      "id": "98",
+      "lastname": "Gorczany",
+      "password": "c632a6ac63ec64dd2bec50c1535e96d21c7ab3335eb7a5c488326a3ec6c6e430",
+      "username": "elza510",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`cursor before 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Aida",
+      "id": "24",
+      "lastname": "Lakin",
+      "password": "f22e89c251e50eec7c9e184f5584b99fdf48fdbde7317acd6388ce05ea691a43",
+      "username": "aida285",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Alice",
+      "id": "31",
+      "lastname": "Howell",
+      "password": "5ad1ebea0aafeb88c3114324ceb91db18605e498e476a787b5c2d2aec09d31e0",
+      "username": "alice157",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Alva",
+      "id": "42",
+      "lastname": "Jacobson",
+      "password": "72ddd2cc4594aa1134b8eaa9da845a31e70ad31ef81b0968f6d58b310c9a9926",
+      "username": "alva280",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Alvera",
+      "id": "72",
+      "lastname": "Miller",
+      "password": "87143c4a0ff67290eb9f0b0098e015e27dc06bd527a5010ccd04265b69320bcc",
+      "username": "alvera707",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`cursor mutli-key after + before 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "confirmedAt": null,
+      "firstname": "Joel",
+      "id": "95",
+      "lastname": "Lakin",
+      "password": "c6520201ad739678e8e86c983c072c1fd95dba3b98d5023e40a8d895924b429f",
+      "username": "joel356",
+    },
+    Object {
+      "confirmedAt": null,
+      "firstname": "Jonathon",
+      "id": "67",
+      "lastname": "Gusikowski",
+      "password": "11e91a3f6d8635f3d7aa79678c64bde99e94d2a5f8276403e7e1917e0118fb1c",
+      "username": "jonathon586",
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`cursor time-based after + first: id: 7 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "author": "54",
+      "board": "43",
+      "content": "fugiat quis a a debitis et culpa",
+      "id": "20",
+      "writtenAt": 2018-03-26T20:47:46.578Z,
+    },
+    Object {
+      "author": "78",
+      "board": "30",
+      "content": "expedita eveniet dicta deleniti aut distinctio molestiae 😆",
+      "id": "40",
+      "writtenAt": 2018-03-26T20:47:46.578Z,
+    },
+    Object {
+      "author": "88",
+      "board": "26",
+      "content": "enim vel et rem labore amet recusandae 🙌",
+      "id": "38",
+      "writtenAt": 2018-03-26T20:47:46.556Z,
+    },
+    Object {
+      "author": "25",
+      "board": "48",
+      "content": "deserunt voluptates eum aut libero nam sit 🚀",
+      "id": "48",
+      "writtenAt": 2018-03-26T20:47:46.519Z,
+    },
+    Object {
+      "author": "28",
+      "board": "13",
+      "content": "et ut qui eum et consequatur numquam 😆",
+      "id": "47",
+      "writtenAt": 2018-03-26T20:47:46.480Z,
+    },
+    Object {
+      "author": "59",
+      "board": "12",
+      "content": "ut distinctio sint dolores ut est corrupti",
+      "id": "29",
+      "writtenAt": 2018-03-26T20:47:46.422Z,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`cursor time-based after + first: id: 20 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "author": "78",
+      "board": "30",
+      "content": "expedita eveniet dicta deleniti aut distinctio molestiae 😆",
+      "id": "40",
+      "writtenAt": 2018-03-26T20:47:46.578Z,
+    },
+    Object {
+      "author": "88",
+      "board": "26",
+      "content": "enim vel et rem labore amet recusandae 🙌",
+      "id": "38",
+      "writtenAt": 2018-03-26T20:47:46.556Z,
+    },
+    Object {
+      "author": "25",
+      "board": "48",
+      "content": "deserunt voluptates eum aut libero nam sit 🚀",
+      "id": "48",
+      "writtenAt": 2018-03-26T20:47:46.519Z,
+    },
+    Object {
+      "author": "28",
+      "board": "13",
+      "content": "et ut qui eum et consequatur numquam 😆",
+      "id": "47",
+      "writtenAt": 2018-03-26T20:47:46.480Z,
+    },
+    Object {
+      "author": "59",
+      "board": "12",
+      "content": "ut distinctio sint dolores ut est corrupti",
+      "id": "29",
+      "writtenAt": 2018-03-26T20:47:46.422Z,
+    },
+    Object {
+      "author": "65",
+      "board": "37",
+      "content": "voluptatem vero optio mollitia et qui nihil",
+      "id": "11",
+      "writtenAt": 2018-03-26T20:47:46.084Z,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`cursor time-based after + first: id: 40 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "author": "88",
+      "board": "26",
+      "content": "enim vel et rem labore amet recusandae 🙌",
+      "id": "38",
+      "writtenAt": 2018-03-26T20:47:46.556Z,
+    },
+    Object {
+      "author": "25",
+      "board": "48",
+      "content": "deserunt voluptates eum aut libero nam sit 🚀",
+      "id": "48",
+      "writtenAt": 2018-03-26T20:47:46.519Z,
+    },
+    Object {
+      "author": "28",
+      "board": "13",
+      "content": "et ut qui eum et consequatur numquam 😆",
+      "id": "47",
+      "writtenAt": 2018-03-26T20:47:46.480Z,
+    },
+    Object {
+      "author": "59",
+      "board": "12",
+      "content": "ut distinctio sint dolores ut est corrupti",
+      "id": "29",
+      "writtenAt": 2018-03-26T20:47:46.422Z,
+    },
+    Object {
+      "author": "65",
+      "board": "37",
+      "content": "voluptatem vero optio mollitia et qui nihil",
+      "id": "11",
+      "writtenAt": 2018-03-26T20:47:46.084Z,
+    },
+    Object {
+      "author": "88",
+      "board": "47",
+      "content": "voluptatum eius deleniti et consequatur qui architecto 😀",
+      "id": "12",
+      "writtenAt": 2018-03-26T20:47:45.854Z,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": true,
+    "hasPreviousPage": false,
+  },
+}
+`;
+
+exports[`cursor time-based before + last: id: 7 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "author": "88",
+      "board": "47",
+      "content": "voluptatum eius deleniti et consequatur qui architecto 😀",
+      "id": "12",
+      "writtenAt": 2018-03-26T20:47:45.854Z,
+    },
+    Object {
+      "author": "65",
+      "board": "37",
+      "content": "voluptatem vero optio mollitia et qui nihil",
+      "id": "11",
+      "writtenAt": 2018-03-26T20:47:46.084Z,
+    },
+    Object {
+      "author": "59",
+      "board": "12",
+      "content": "ut distinctio sint dolores ut est corrupti",
+      "id": "29",
+      "writtenAt": 2018-03-26T20:47:46.422Z,
+    },
+    Object {
+      "author": "28",
+      "board": "13",
+      "content": "et ut qui eum et consequatur numquam 😆",
+      "id": "47",
+      "writtenAt": 2018-03-26T20:47:46.480Z,
+    },
+    Object {
+      "author": "25",
+      "board": "48",
+      "content": "deserunt voluptates eum aut libero nam sit 🚀",
+      "id": "48",
+      "writtenAt": 2018-03-26T20:47:46.519Z,
+    },
+    Object {
+      "author": "88",
+      "board": "26",
+      "content": "enim vel et rem labore amet recusandae 🙌",
+      "id": "38",
+      "writtenAt": 2018-03-26T20:47:46.556Z,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`cursor time-based before + last: id: 20 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "author": "65",
+      "board": "37",
+      "content": "voluptatem vero optio mollitia et qui nihil",
+      "id": "11",
+      "writtenAt": 2018-03-26T20:47:46.084Z,
+    },
+    Object {
+      "author": "59",
+      "board": "12",
+      "content": "ut distinctio sint dolores ut est corrupti",
+      "id": "29",
+      "writtenAt": 2018-03-26T20:47:46.422Z,
+    },
+    Object {
+      "author": "28",
+      "board": "13",
+      "content": "et ut qui eum et consequatur numquam 😆",
+      "id": "47",
+      "writtenAt": 2018-03-26T20:47:46.480Z,
+    },
+    Object {
+      "author": "25",
+      "board": "48",
+      "content": "deserunt voluptates eum aut libero nam sit 🚀",
+      "id": "48",
+      "writtenAt": 2018-03-26T20:47:46.519Z,
+    },
+    Object {
+      "author": "88",
+      "board": "26",
+      "content": "enim vel et rem labore amet recusandae 🙌",
+      "id": "38",
+      "writtenAt": 2018-03-26T20:47:46.556Z,
+    },
+    Object {
+      "author": "7",
+      "board": "26",
+      "content": "velit magnam nobis aspernatur corporis voluptas sed 😀",
+      "id": "7",
+      "writtenAt": 2018-03-26T20:47:46.578Z,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
+
+exports[`cursor time-based before + last: id: 40 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "author": "59",
+      "board": "12",
+      "content": "ut distinctio sint dolores ut est corrupti",
+      "id": "29",
+      "writtenAt": 2018-03-26T20:47:46.422Z,
+    },
+    Object {
+      "author": "28",
+      "board": "13",
+      "content": "et ut qui eum et consequatur numquam 😆",
+      "id": "47",
+      "writtenAt": 2018-03-26T20:47:46.480Z,
+    },
+    Object {
+      "author": "25",
+      "board": "48",
+      "content": "deserunt voluptates eum aut libero nam sit 🚀",
+      "id": "48",
+      "writtenAt": 2018-03-26T20:47:46.519Z,
+    },
+    Object {
+      "author": "88",
+      "board": "26",
+      "content": "enim vel et rem labore amet recusandae 🙌",
+      "id": "38",
+      "writtenAt": 2018-03-26T20:47:46.556Z,
+    },
+    Object {
+      "author": "7",
+      "board": "26",
+      "content": "velit magnam nobis aspernatur corporis voluptas sed 😀",
+      "id": "7",
+      "writtenAt": 2018-03-26T20:47:46.578Z,
+    },
+    Object {
+      "author": "54",
+      "board": "43",
+      "content": "fugiat quis a a debitis et culpa",
+      "id": "20",
+      "writtenAt": 2018-03-26T20:47:46.578Z,
+    },
+  ],
+  "pageInfo": Object {
+    "hasNextPage": false,
+    "hasPreviousPage": true,
+  },
+}
+`;
