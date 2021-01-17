@@ -1,4 +1,4 @@
-import { Entity, DataTypeString } from 'shyft';
+import { Entity, DataTypeString } from '../../src';
 
 import { ClusterZone } from './ClusterZone';
 

@@ -5,7 +5,7 @@ import {
   Permission,
   DataTypeString,
   DataTypeTimestampTz,
-} from 'shyft';
+} from '../../src';
 
 import { Profile } from './Profile';
 import { Board } from './Board';

@@ -2,9 +2,9 @@ import { createConnection } from 'typeorm';
 import { buildWhereQuery, purifyFilter } from './filter';
 import { StorageTypePostgres } from './StorageTypePostgres';
 import { loadModels } from './generator';
-import { Server } from '../test/models/Server';
+import { Server } from '../../test/models/Server';
 import StoragePostgresConfiguration from './StoragePostgresConfiguration';
-import { Schema, Configuration } from 'shyft';
+import { Schema, Configuration } from '../';
 
 let connection;
 let modelRegistry;
@@ -25,7 +25,7 @@ beforeAll(async () => {
 
   modelRegistry = loadModels(configuration);
 
-  const entities = Object.keys(modelRegistry).map(entityName => {
+  const entities = Object.keys(modelRegistry).map((entityName) => {
     return modelRegistry[entityName].model;
   });
 

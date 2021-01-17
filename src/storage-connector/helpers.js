@@ -1,5 +1,5 @@
 import StorageTypePostgres from './StorageTypePostgres';
-import { isEntity, isShadowEntity } from 'shyft';
+import { isEntity, isShadowEntity } from '../';
 import _ from 'lodash';
 
 export const parseValues = (entity, data, model, context) => {
@@ -9,7 +9,7 @@ export const parseValues = (entity, data, model, context) => {
 
   const entityAttributes = entity.getAttributes();
 
-  _.forEach(entityAttributes, attribute => {
+  _.forEach(entityAttributes, (attribute) => {
     const attributeName = attribute.name;
     const value = data[attributeName];
 
@@ -45,14 +45,14 @@ export const parseValues = (entity, data, model, context) => {
 };
 
 export const parseValuesMap = (entity, rows, model, context) => {
-  return rows.map(row => parseValues(entity, row, model, context));
+  return rows.map((row) => parseValues(entity, row, model, context));
 };
 
 export const serializeValues = (entity, mutation, data, model, context) => {
   const entityAttributes = entity.getAttributes();
   const mutationAttributes = mutation.attributes || [];
 
-  _.forEach(entityAttributes, attribute => {
+  _.forEach(entityAttributes, (attribute) => {
     if (attribute.mutationInput) {
       return;
     }

@@ -11,7 +11,7 @@ import {
   INDEX_GENERIC,
   buildObjectDataType,
   buildListDataType,
-} from 'shyft';
+} from '../../src';
 import { DataTypeJson } from '../../node_modules/shyft/lib/index';
 
 import { Profile } from './Profile';

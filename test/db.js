@@ -11,7 +11,7 @@ import {
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
-} from 'shyft';
+} from '../src/';
 
 import { Profile } from './models/Profile';
 import { Message } from './models/Message';

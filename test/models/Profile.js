@@ -7,7 +7,7 @@ import {
   Mutation,
   MUTATION_TYPE_CREATE,
   Permission,
-} from 'shyft';
+} from '../../src';
 
 import crypto from 'crypto';
 

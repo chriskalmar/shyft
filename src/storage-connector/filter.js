@@ -1,4 +1,4 @@
-import { processFilter, isMap, isArray, convertFilterLevel } from 'shyft';
+import { processFilter, isMap, isArray, convertFilterLevel } from '..';
 import { Brackets } from 'typeorm';
 import { quote } from './util';
 

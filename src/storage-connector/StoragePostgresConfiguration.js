@@ -1,19 +1,17 @@
-import { StorageConfiguration } from 'shyft';
+import { StorageConfiguration } from '../';
 import { generateIndexName } from './util';
 import fs from 'fs';
 import _ from 'lodash';
 
 const templatesPath = `${__dirname}/../storageScripts`;
 
-const loadTemplate = templateFileName =>
+const loadTemplate = (templateFileName) =>
   fs.readFileSync(`${templatesPath}/${templateFileName}`, 'UTF8');
 
-const formatJSON = obj =>
-  JSON.stringify(obj, null, 2)
-    .split('\n')
-    .join('\n  ');
+const formatJSON = (obj) =>
+  JSON.stringify(obj, null, 2).split('\n').join('\n  ');
 
-const formatArray = arr => `{${arr.map(JSON.stringify).join(', ')}}`;
+const formatArray = (arr) => `{${arr.map(JSON.stringify).join(', ')}}`;
 
 class StoragePostgresConfiguration extends StorageConfiguration {
   constructor(setup = {}) {
@@ -32,7 +30,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
     const statesMap = {};
     const statesMapFlipped = {};
 
-    _.forEach(schema.getEntities(), entity => {
+    _.forEach(schema.getEntities(), (entity) => {
       if (entity.getStates) {
         const states = entity.getStates();
 
@@ -55,7 +53,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
 
   generateGetStateIdFunctionName = () => 'get_state_id';
 
-  generateGetStateIdFunction = configuration => {
+  generateGetStateIdFunction = (configuration) => {
     return this._generateGetStateFunction(
       configuration,
       'get_state_id.tpl.sql',
@@ -65,7 +63,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
 
   generateGetStateIdsFunctionName = () => 'get_state_ids';
 
-  generateGetStateIdsFunction = configuration => {
+  generateGetStateIdsFunction = (configuration) => {
     return this._generateGetStateFunction(
       configuration,
       'get_state_ids.tpl.sql',
@@ -75,7 +73,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
 
   generateGetStateMapFunctionName = () => 'get_state_map';
 
-  generateGetStateMapFunction = configuration => {
+  generateGetStateMapFunction = (configuration) => {
     return this._generateGetStateFunction(
       configuration,
       'get_state_map.tpl.sql',
@@ -85,7 +83,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
 
   generateGetStateNameFunctionName = () => 'get_state_name';
 
-  generateGetStateNameFunction = configuration => {
+  generateGetStateNameFunction = (configuration) => {
     return this._generateGetStateFunction(
       configuration,
       'get_state_name.tpl.sql',
@@ -114,7 +112,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
   generateGetAttributeTranslationFunctionName = () =>
     'get_attribute_translation';
 
-  generateGetAttributeTranslationFunction = configuration => {
+  generateGetAttributeTranslationFunction = (configuration) => {
     return this._generateGetAttributeTranslationFunction(
       configuration,
       'get_attribute_translation.tpl.sql',
@@ -125,7 +123,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
   generateGetAttributeTranslationsFunctionName = () =>
     'get_attribute_translations';
 
-  generateGetAttributeTranslationsFunction = configuration => {
+  generateGetAttributeTranslationsFunction = (configuration) => {
     return this._generateGetAttributeTranslationFunction(
       configuration,
       'get_attribute_translations.tpl.sql',
@@ -135,7 +133,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
 
   generateMergeTranslationsFunctionName = () => 'merge_translations';
 
-  generateMergeTranslationsFunction = configuration => {
+  generateMergeTranslationsFunction = (configuration) => {
     return this._generateGetAttributeTranslationFunction(
       configuration,
       'merge_translations.tpl.sql',
@@ -143,13 +141,13 @@ class StoragePostgresConfiguration extends StorageConfiguration {
     );
   };
 
-  generateI18nIndices = configuration => {
+  generateI18nIndices = (configuration) => {
     const indices = [];
 
     const languages = configuration.getLanguages();
     const languageIds = Object.keys(languages)
-      .filter(languageName => languageName !== 'default')
-      .map(languageName => languages[languageName]);
+      .filter((languageName) => languageName !== 'default')
+      .map((languageName) => languages[languageName]);
 
     const schema = configuration.getSchema();
     const storageConfiguration = configuration.getStorageConfiguration();
@@ -158,7 +156,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
     const textIndexTemplate = loadTemplate('i18n_text_index.tpl.sql');
     const trgmIndexTemplate = loadTemplate('i18n_trgm_index.tpl.sql');
 
-    _.forEach(schema.getEntities(), entity => {
+    _.forEach(schema.getEntities(), (entity) => {
       const i18nAttributeNames = entity.getI18nAttributeNames
         ? entity.getI18nAttributeNames()
         : null;
@@ -171,14 +169,14 @@ class StoragePostgresConfiguration extends StorageConfiguration {
       const { dataShaperMap } = modelRegistry[entityName];
       const { storageTableName } = entity;
 
-      i18nAttributeNames.map(i18nAttributeName => {
+      i18nAttributeNames.map((i18nAttributeName) => {
         const attributeName = dataShaperMap[i18nAttributeName];
 
         if (!attributeName) {
           return;
         }
 
-        languageIds.map(languageId => {
+        languageIds.map((languageId) => {
           const textIndexName = generateIndexName(
             storageTableName,
             [attributeName],
@@ -217,7 +215,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
     return indices;
   };
 
-  createI18nIndices = configuration => {
+  createI18nIndices = (configuration) => {
     let result = '';
     const extensionTemplate = loadTemplate('trigram_extension.tpl.sql');
 
@@ -245,14 +243,14 @@ class StoragePostgresConfiguration extends StorageConfiguration {
       WHERE indexname ~ '__i18n_.*(text|trgm)_idx'
     `);
 
-    foundIndices.forEach(foundIndex => {
+    foundIndices.forEach((foundIndex) => {
       if (!indices.find(({ name }) => name === foundIndex.indexname)) {
         upQueries.push(`DROP INDEX IF EXISTS ${foundIndex.indexname}`);
         downQueries.push(foundIndex.indexdef);
       }
     });
 
-    indices.forEach(index => {
+    indices.forEach((index) => {
       if (!foundIndices.find(({ indexname }) => indexname === index.name)) {
         upQueries.push(index.query.replace(new RegExp('\n', 'g'), ' '));
         downQueries.push(`DROP INDEX IF EXISTS ${index.name}`);
@@ -268,6 +266,6 @@ class StoragePostgresConfiguration extends StorageConfiguration {
 
 export default StoragePostgresConfiguration;
 
-export const isStoragePostgresConfiguration = obj => {
+export const isStoragePostgresConfiguration = (obj) => {
   return obj instanceof StoragePostgresConfiguration;
 };

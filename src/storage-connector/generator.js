@@ -12,7 +12,7 @@ import {
   mapOverProperties,
   isComplexDataType,
   isConfiguration,
-} from 'shyft';
+} from '../';
 
 import { shaper } from 'json-shaper';
 

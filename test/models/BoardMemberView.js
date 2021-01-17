@@ -1,8 +1,8 @@
-import { ViewEntity, Permission } from 'shyft';
+import { ViewEntity, Permission } from '../../src';
 
 import { Profile } from './Profile';
 import { Board } from './Board';
-import { DataTypeString, DataTypeInteger, buildListDataType } from 'shyft';
+import { DataTypeString, DataTypeInteger, buildListDataType } from '../../src';
 
 const readPermissions = () => [
   new Permission().role('admin'),

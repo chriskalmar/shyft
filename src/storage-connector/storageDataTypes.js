@@ -1,4 +1,4 @@
-import { StorageDataType } from 'shyft';
+import { StorageDataType } from '../';
 import { i18nDataParser, i18nDataSerializer } from './i18n';
 
 const isNotSet = (val) => val === null || typeof val === 'undefined';

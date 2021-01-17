@@ -4,7 +4,7 @@ import {
   buildListDataType,
   buildObjectDataType,
   Permission,
-} from 'shyft';
+} from '../../src';
 
 export const Book = new Entity({
   name: 'Book',

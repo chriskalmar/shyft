@@ -8,7 +8,7 @@ import {
   Index,
   INDEX_UNIQUE,
   INDEX_GENERIC,
-} from 'shyft';
+} from '../../src';
 
 import { Profile } from './Profile';
 import { Board } from './Board';

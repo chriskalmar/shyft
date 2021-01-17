@@ -1,5 +1,5 @@
 import StorageTypePostgres from './StorageTypePostgres';
-import { CustomError } from 'shyft';
+import { CustomError } from '../';
 
 export const i18nDataParser = (value, data, entity, { dataShaperMap }) => {
   const i18nAttributeNames = entity.getI18nAttributeNames();
@@ -12,7 +12,7 @@ export const i18nDataParser = (value, data, entity, { dataShaperMap }) => {
     .getParentConfiguration()
     .getLanguages();
 
-  i18nAttributeNames.map(attributeName => {
+  i18nAttributeNames.map((attributeName) => {
     const attributeStorageName = dataShaperMap[attributeName];
 
     const i18nValues = data.i18n ? data.i18n[attributeStorageName] || {} : {};
@@ -52,13 +52,13 @@ export const i18nDataSerializer = (
     .getParentConfiguration()
     .getLanguages();
 
-  i18nAttributeNames.map(attributeName => {
+  i18nAttributeNames.map((attributeName) => {
     const key = `${attributeName}.i18n`;
     if (!data[key]) {
       return;
     }
 
-    Object.keys(data[key]).map(language => {
+    Object.keys(data[key]).map((language) => {
       if (!languages.includes(language)) {
         throw new CustomError(
           `Unknown language '${language}' provided in translation of mutation '${mutation.name}'`,
@@ -94,7 +94,7 @@ export const i18nTransformFilterAttributeName = (
   modelRegistry,
 ) => {
   if (!context || !entity || !modelRegistry) {
-    return attributeName => attributeName;
+    return (attributeName) => attributeName;
   }
 
   const { i18nLanguage, i18nDefaultLanguage } = context;
@@ -103,7 +103,7 @@ export const i18nTransformFilterAttributeName = (
 
   const { reverseDataShaperMap } = modelRegistry[entity.name];
 
-  return storageAttributeName => {
+  return (storageAttributeName) => {
     const attributeName = reverseDataShaperMap[storageAttributeName];
     const attribute = attributes[attributeName];
 

@@ -2,7 +2,7 @@ import casual from 'casual';
 import _ from 'lodash';
 import { generateRows, readRows, writeTestDataFile } from './testingData';
 
-const mockProfiles = profileCount => {
+const mockProfiles = (profileCount) => {
   generateRows(profileCount, 'profiles', () => {
     const firstName = casual.first_name;
     return [
@@ -30,7 +30,7 @@ const mockInvites = (inviteCount, profileCount) => {
   const invites = [];
 
   while (invites.length < inviteCount) {
-    const [ name, owner, isPrivate ] = _.sample(boards);
+    const [name, owner, isPrivate] = _.sample(boards);
 
     if (isPrivate === '1') {
       const invitee = casual.integer(1, profileCount);
@@ -56,7 +56,7 @@ const mockJoins = (joinCount, profileCount) => {
   const joins = [];
 
   while (joins.length < joinCount) {
-    const [ name, owner, isPrivate ] = _.sample(boards);
+    const [name, owner, isPrivate] = _.sample(boards);
 
     if (isPrivate === '0') {
       const invitee = casual.integer(1, profileCount);
@@ -82,7 +82,7 @@ const mockMessages = (messageCount, boardCount, profileCount) => {
     const now = new Date().getTime();
     const randomFuture = now + casual.integer(0, 10000);
     const emoji = casual.coin_flip
-      ? ' ' + emojiList[casual.integer(0, emojiList.length - 1)]
+      ? ` ${emojiList[casual.integer(0, emojiList.length - 1)]}`
       : '';
 
     return [

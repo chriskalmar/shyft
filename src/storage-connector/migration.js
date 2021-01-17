@@ -3,7 +3,7 @@ import path from 'path';
 import { CommandUtils } from 'typeorm/commands/CommandUtils';
 import { MigrationExecutor } from 'typeorm/migration/MigrationExecutor';
 
-import format from 'prettier-eslint';
+import format from './prettier-eslint';
 import {
   connectStorage,
   getConnection,
@@ -90,7 +90,7 @@ const upgradeMigrationQuery = (_query, isUpMigration = false) => {
   return sqls;
 };
 
-const getMigrationsFullPath = connectionConfig => {
+const getMigrationsFullPath = (connectionConfig) => {
   if (connectionConfig.migrations && connectionConfig.migrations[0]) {
     return path.dirname(
       connectionConfig.migrations[0].indexOf('/') === 0
@@ -127,23 +127,23 @@ export const generateMigration = async (
       manager,
     );
 
-    i18nMigrations.upQueries.forEach(query => {
-      upgradeMigrationQuery({ query }, true).map(sql => upSqls.push(sql));
+    i18nMigrations.upQueries.forEach((query) => {
+      upgradeMigrationQuery({ query }, true).map((sql) => upSqls.push(sql));
     });
 
-    i18nMigrations.downQueries.forEach(query => {
-      upgradeMigrationQuery({ query }, false).map(sql => downSqls.push(sql));
+    i18nMigrations.downQueries.forEach((query) => {
+      upgradeMigrationQuery({ query }, false).map((sql) => downSqls.push(sql));
     });
   }
 
   const sqlInMemory = await connection.driver.createSchemaBuilder().log();
 
-  sqlInMemory.upQueries.forEach(query => {
-    upgradeMigrationQuery(query, true).map(sql => upSqls.push(sql));
+  sqlInMemory.upQueries.forEach((query) => {
+    upgradeMigrationQuery(query, true).map((sql) => upSqls.push(sql));
   });
 
-  sqlInMemory.downQueries.forEach(query => {
-    upgradeMigrationQuery(query, false).map(sql => downSqls.push(sql));
+  sqlInMemory.downQueries.forEach((query) => {
+    upgradeMigrationQuery(query, false).map((sql) => downSqls.push(sql));
   });
 
   if (upSqls.length || downSqls.length || enforce) {
@@ -181,7 +181,7 @@ export const generateMigration = async (
   return upSqls.length || downSqls.length || enforce ? timestamp : null;
 };
 
-export const runMigration = async configuration => {
+export const runMigration = async (configuration) => {
   await connectStorage(configuration, false);
   const connection = getConnection();
 
@@ -199,7 +199,7 @@ export const runMigration = async configuration => {
   await disconnectStorage(configuration);
 };
 
-export const revertMigration = async configuration => {
+export const revertMigration = async (configuration) => {
   await connectStorage(configuration, false);
   const connection = getConnection();
 
@@ -225,12 +225,12 @@ export const fillMigrationsTable = async () => {
   await migrationExecutor.createMigrationsTableIfNotExist(queryRunner);
   const allMigrations = migrationExecutor.getMigrations();
 
-  await asyncForEach(allMigrations, async migration => {
+  await asyncForEach(allMigrations, async (migration) => {
     await migrationExecutor.insertExecutedMigration(queryRunner, migration);
   });
 };
 
-export const migrateI18nIndices = async configuration => {
+export const migrateI18nIndices = async (configuration) => {
   await connectStorage(configuration, false);
   const connection = getConnection();
   const storageConfiguration = configuration.getStorageConfiguration();
@@ -250,7 +250,7 @@ export const migrateI18nIndices = async configuration => {
 
       await asyncForEach(
         upQueries,
-        async query => await queryRunner.query(query),
+        async (query) => await queryRunner.query(query),
       );
 
       await queryRunner.commitTransaction();

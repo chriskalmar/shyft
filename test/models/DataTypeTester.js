@@ -13,7 +13,7 @@ import {
   DataTypeTime,
   DataTypeTimeTz,
   DataTypeUUID,
-} from 'shyft';
+} from '../../src';
 
 export const DataTypeTester = new Entity({
   name: 'DataTypeTester',

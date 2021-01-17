@@ -27,7 +27,7 @@ import {
   deleteUndefinedProps,
   isArray,
   isMap,
-} from 'shyft';
+} from '../';
 
 import {
   StorageDataTypeInteger,
@@ -100,7 +100,7 @@ const createDataLoader = (context, entity, StorageTypePostgres) => {
   const modelRegistry = StorageTypePostgres.getStorageModels();
   const manager = storageInstance.manager;
 
-  const loader = new Dataloader(async ids => {
+  const loader = new Dataloader(async (ids) => {
     const entityName = entity.name;
     const { filterShaper, storageTableName } = modelRegistry[entityName];
     const { name: primaryAttributeName } = entity.getPrimaryAttribute();
@@ -160,21 +160,21 @@ const createDataLoader = (context, entity, StorageTypePostgres) => {
   return loader;
 };
 
-const buildInstanceNotFoundError = id => {
+const buildInstanceNotFoundError = (id) => {
   return new CustomError(
     `Instance with ID '${id}' not found`,
     'InstanceNotFound',
   );
 };
 
-const buildInstanceNotFoundOrAccessDeniedError = id => {
+const buildInstanceNotFoundOrAccessDeniedError = (id) => {
   return new CustomError(
     `Instance with ID '${id}' not found or access denied`,
     'InstanceNotFoundOrAccessDenied',
   );
 };
 
-const buildMutationDeniedError = mutationName => {
+const buildMutationDeniedError = (mutationName) => {
   return new CustomError(
     `Mutation '${mutationName}' denied`,
     'PermissionError',
@@ -191,16 +191,13 @@ export const preMutationPermissionCheckQueryGenerator = (
   const storageInstance = StorageTypePostgres.getStorageInstance();
   const manager = storageInstance.manager;
 
-  const qBuilder = manager
-    .createQueryBuilder()
-    .select()
-    .from('');
+  const qBuilder = manager.createQueryBuilder().select().from('');
 
   buildWhereQuery(qBuilder, permissionWhere, entityName, modelRegistry);
 
   const [query, queryParams] = qBuilder.getQueryAndParameters();
 
-  return [query.replace(/ \* FROM  WHERE /, ' ') + ' AS found', queryParams];
+  return [`${query.replace(/ \* FROM {2}WHERE /, ' ')} AS found`, queryParams];
 };
 
 export const extendWithFromStateCheck = (where, entity, entityMutation) => {
@@ -213,7 +210,7 @@ export const extendWithFromStateCheck = (where, entity, entityMutation) => {
 
   const fromStates = isArray(fromState) ? fromState : [fromState];
 
-  const stateIds = fromStates.map(stateName => {
+  const stateIds = fromStates.map((stateName) => {
     return states[stateName];
   });
 
@@ -436,7 +433,7 @@ export const StorageTypePostgres = new StorageType({
         loader = loaders[entityName] = createDataLoader(context, entity, this);
       }
 
-      result.map(row => {
+      result.map((row) => {
         loader.prime(row[primaryAttributeName], row);
       });
     }
@@ -564,7 +561,7 @@ export const StorageTypePostgres = new StorageType({
 
       const knownAttributes = Object.keys(dataShaperMap);
       Object.keys(data).forEach(
-        key => !knownAttributes.includes(key) && delete data[key],
+        (key) => !knownAttributes.includes(key) && delete data[key],
       );
     }
 
