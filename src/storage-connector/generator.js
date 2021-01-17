@@ -91,7 +91,9 @@ export const loadModels = (configuration) => {
     const filterShaperMap = {};
     const foreignKeyIndices = [];
 
-    const Skeleton = () => {};
+    function Skeleton() {
+      // empty
+    }
 
     Object.defineProperty(Skeleton, 'name', {
       value: entityName,
