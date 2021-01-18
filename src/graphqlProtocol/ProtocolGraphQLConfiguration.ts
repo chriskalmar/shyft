@@ -8,6 +8,7 @@ import {
 import { MAX_PAGE_SIZE } from './protocolGraphqlConstants';
 import { ProtocolConfiguration } from '../engine/protocol/ProtocolConfiguration';
 import { Mutation, Subscription, Entity, Action, ViewEntity } from '..';
+import { ShadowEntity } from '../engine/entity/ShadowEntity';
 
 export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   constructor() {
@@ -35,24 +36,30 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
 
   /* name generators */
 
-  generateEntityTypeName(entity: Entity | ViewEntity): string {
+  generateEntityTypeName(entity: Entity | ViewEntity | ShadowEntity): string {
     return generateTypeName(entity.name);
   }
 
-  generateEntityTypeNamePlural(entity: Entity | ViewEntity): string {
+  generateEntityTypeNamePlural(
+    entity: Entity | ViewEntity | ShadowEntity,
+  ): string {
     return generateTypeNamePlural(entity.name);
   }
 
-  generateEntityTypeNamePascalCase(entity: Entity | ViewEntity): string {
+  generateEntityTypeNamePascalCase(
+    entity: Entity | ViewEntity | ShadowEntity,
+  ): string {
     return generateTypeNamePascalCase(entity.name);
   }
 
-  generateEntityTypeNamePluralPascalCase(entity: Entity | ViewEntity): string {
+  generateEntityTypeNamePluralPascalCase(
+    entity: Entity | ViewEntity | ShadowEntity,
+  ): string {
     return generateTypeNamePluralPascalCase(entity.name);
   }
 
   generateReverseConnectionFieldName(
-    sourceEntity: Entity | ViewEntity,
+    sourceEntity: Entity | ViewEntity | ShadowEntity,
     sourceAttributeName,
   ): string {
     const typeNamePlural = this.generateEntityTypeNamePlural(sourceEntity);
@@ -60,7 +67,7 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   }
 
   generateReferenceFieldName(
-    referenceEntity: Entity | ViewEntity,
+    referenceEntity: Entity | ViewEntity | ShadowEntity,
     attribute,
   ): string {
     const fieldName = this.generateFieldName(attribute);
