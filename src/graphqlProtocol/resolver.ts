@@ -187,7 +187,7 @@ export const resolveByFindOne = (
       .then(dataShaper)
       .then(translateInstanceFn(entity, context))
       .then((translated) => {
-        return entity.postProcessor
+        return isEntity(entity) && entity.postProcessor
           ? entity.postProcessor({
               result: translated,
               entity,
