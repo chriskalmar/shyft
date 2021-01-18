@@ -4,11 +4,18 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier/@typescript-eslint',
     'eslint:recommended',
+    'plugin:import/errors',
+    'plugin:import/warnings',
   ],
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'import'],
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
+  },
+  settings: {
+    'import/resolver': {
+      typescript: {},
+    },
   },
   env: {
     es6: true,
@@ -33,7 +40,7 @@ module.exports = {
     'no-cond-assign': ['error', 'always'],
     'no-console': 'warn',
     'no-debugger': 'error',
-    'no-constant-condition': 1,
+    'no-constant-condition': 'warning',
     'no-dupe-keys': 'error',
     'no-duplicate-case': 'error',
     'no-empty': 'error',
@@ -53,7 +60,7 @@ module.exports = {
     curly: ['error', 'multi-line'],
     'default-case': 'error',
     'dot-notation': [
-      2,
+      'error',
       {
         allowKeywords: true,
       },
@@ -93,13 +100,13 @@ module.exports = {
     yoda: 'error',
     quotes: ['error', 'single', 'avoid-escape'],
     camelcase: [
-      2,
+      'error',
       {
         properties: 'never',
       },
     ],
     'comma-spacing': [
-      2,
+      'error',
       {
         before: false,
         after: true,
@@ -107,9 +114,9 @@ module.exports = {
     ],
     'comma-style': ['error', 'last'],
     'eol-last': 'error',
-    'func-names': 1,
+    'func-names': 'warning',
     'key-spacing': [
-      2,
+      'error',
       {
         beforeColon: false,
         afterColon: true,
@@ -129,8 +136,12 @@ module.exports = {
     'no-extra-parens': ['error', 'functions'],
     'no-underscore-dangle': 0,
     'one-var': ['error', 'never'],
-    'require-jsdoc': 1,
+    'require-jsdoc': 'warning',
     'require-atomic-updates': 0,
     '@typescript-eslint/explicit-function-return-type': 'off',
+    'import/prefer-default-export': 0,
+    'import/named': 'error',
+    'import/no-cycle': 0,
+    'import/no-unresolved': 'error',
   },
 };
