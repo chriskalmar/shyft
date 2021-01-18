@@ -28,7 +28,7 @@ export const resolveFunctionMap = (functionOrMap) => {
     : { ...functionOrMap };
 };
 
-export const isMap = (map: object, nonEmpty?: boolean): boolean => {
+export const isMap = (map: object, nonEmpty?: boolean): map is object => {
   return (
     map !== null &&
     typeof map === 'object' &&
@@ -37,11 +37,11 @@ export const isMap = (map: object, nonEmpty?: boolean): boolean => {
   );
 };
 
-export const isFunction = (fn: any): boolean => {
+export const isFunction = (fn: unknown): fn is Function => {
   return typeof fn === 'function';
 };
 
-export const isArray = (set: any[], nonEmpty?: boolean): boolean => {
+export const isArray = (set: unknown[], nonEmpty?: boolean): set is [] => {
   return (
     set !== null &&
     Array.isArray(set) === true &&
@@ -49,7 +49,8 @@ export const isArray = (set: any[], nonEmpty?: boolean): boolean => {
   );
 };
 
-export const isString = (str: any): boolean => typeof str === 'string';
+export const isString = (str: unknown): str is string =>
+  typeof str === 'string';
 
 export const mergeMaps = (first, second) => {
   if (!isMap(first) || !isMap(second)) {
@@ -161,7 +162,7 @@ export const asyncForEach = async (
   }
 };
 
-export const isDefined = (val: any): boolean => typeof val !== 'undefined';
+export const isDefined = (val: unknown): boolean => typeof val !== 'undefined';
 
 export const convertEntityToViewAttribute = (attribute) => {
   if (!_.isObject(attribute)) {
