@@ -195,11 +195,11 @@ export class Permission {
   }
 }
 
-export const isPermission = (obj: any): boolean => {
+export const isPermission = (obj: unknown): obj is Permission => {
   return obj instanceof Permission;
 };
 
-export const isPermissionsArray = (obj?: any): boolean => {
+export const isPermissionsArray = (obj: unknown): obj is Permission[] => {
   if (isArray(obj, true)) {
     return obj.reduce(
       (prev, permission) => prev && isPermission(permission),
@@ -475,7 +475,7 @@ export const checkPermissionSimple = (
   return false;
 };
 
-export const isPermissionSimple = (permission: any): boolean => {
+export const isPermissionSimple = (permission: unknown): boolean => {
   passOrThrow(
     isPermission(permission),
     () => 'isPermissionSimple needs a valid permission object',

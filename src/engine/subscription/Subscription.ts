@@ -165,7 +165,7 @@ export class Subscription {
   }
 }
 
-export const isSubscription = (obj: any) => {
+export const isSubscription = (obj: unknown): obj is Subscription => {
   return obj instanceof Subscription;
 };
 

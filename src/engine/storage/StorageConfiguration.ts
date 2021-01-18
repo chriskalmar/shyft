@@ -78,6 +78,8 @@ export class StorageConfiguration {
   }
 }
 
-export const isStorageConfiguration = (obj) => {
+export const isStorageConfiguration = (
+  obj: unknown,
+): obj is StorageConfiguration => {
   return obj instanceof StorageConfiguration;
 };

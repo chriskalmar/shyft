@@ -46,6 +46,8 @@ export class ProtocolConfiguration {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const isProtocolConfiguration = (obj: any): boolean => {
+export const isProtocolConfiguration = (
+  obj: unknown,
+): obj is ProtocolConfiguration => {
   return obj instanceof ProtocolConfiguration;
 };

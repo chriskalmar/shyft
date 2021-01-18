@@ -178,6 +178,6 @@ export class ProtocolType {
   }
 }
 
-export const isProtocolType = (obj: any): boolean => {
+export const isProtocolType = (obj: unknown): obj is ProtocolType => {
   return obj instanceof ProtocolType;
 };

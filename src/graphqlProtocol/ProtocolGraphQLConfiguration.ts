@@ -323,6 +323,8 @@ export class ProtocolGraphQLConfiguration extends ProtocolConfiguration {
   }
 }
 
-export const isProtocolGraphQLConfiguration = (obj: any): boolean => {
+export const isProtocolGraphQLConfiguration = (
+  obj: any,
+): obj is ProtocolGraphQLConfiguration => {
   return obj instanceof ProtocolGraphQLConfiguration;
 };

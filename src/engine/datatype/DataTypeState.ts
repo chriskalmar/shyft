@@ -67,6 +67,6 @@ export class DataTypeState extends DataType {
   }
 }
 
-export const isDataTypeState = (obj: any): boolean => {
+export const isDataTypeState = (obj: unknown): obj is DataTypeState => {
   return obj instanceof DataTypeState;
 };

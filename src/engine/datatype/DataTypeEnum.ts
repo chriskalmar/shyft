@@ -68,6 +68,6 @@ export class DataTypeEnum extends DataType {
   }
 }
 
-export const isDataTypeEnum = (obj: any): boolean => {
+export const isDataTypeEnum = (obj: unknown): obj is DataTypeEnum => {
   return obj instanceof DataTypeEnum;
 };

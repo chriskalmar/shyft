@@ -219,7 +219,7 @@ export class Mutation {
   }
 }
 
-export const isMutation = (obj: any) => {
+export const isMutation = (obj: unknown): obj is Mutation => {
   return obj instanceof Mutation;
 };
 

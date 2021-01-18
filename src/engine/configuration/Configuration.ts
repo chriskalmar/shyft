@@ -133,6 +133,6 @@ export class Configuration {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const isConfiguration = (obj: any): boolean => {
+export const isConfiguration = (obj: unknown): obj is Configuration => {
   return obj instanceof Configuration;
 };

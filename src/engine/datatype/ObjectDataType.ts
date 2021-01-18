@@ -162,13 +162,13 @@ export class ObjectDataType extends ComplexDataType {
   }
 }
 
-export const isObjectDataType = (obj: any): boolean => {
+export const isObjectDataType = (obj: unknown): obj is ObjectDataType => {
   return obj instanceof ObjectDataType;
 };
 
 export const buildObjectDataType = (obj: {
   // attributes: AttributesMap | AttributesMapGenerator | AttributeBase;
-  attributes: any;
+  attributes: unknown;
 }): Function => {
   return ({ name, description }): ObjectDataType =>
     new ObjectDataType({

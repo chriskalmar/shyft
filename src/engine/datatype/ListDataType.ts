@@ -135,12 +135,12 @@ export class ListDataType extends ComplexDataType {
   }
 }
 
-export const isListDataType = (obj: any): boolean => {
+export const isListDataType = (obj: unknown): obj is ListDataType => {
   return obj instanceof ListDataType;
 };
 
 export const buildListDataType = (obj: {
-  itemType: any;
+  itemType: unknown;
   // itemType: Entity | ComplexDataType | DataTypeFunction;
 }): Function => {
   return ({ name, description }): ListDataType =>

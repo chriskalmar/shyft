@@ -57,7 +57,7 @@ export class Index {
   }
 }
 
-export const isIndex = (obj: any) => {
+export const isIndex = (obj: unknown): obj is Index => {
   return obj instanceof Index;
 };
 

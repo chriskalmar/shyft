@@ -86,6 +86,6 @@ export class StorageDataType {
   }
 }
 
-export const isStorageDataType = (obj: any) => {
+export const isStorageDataType = (obj: unknown): obj is StorageDataType => {
   return obj instanceof StorageDataType;
 };

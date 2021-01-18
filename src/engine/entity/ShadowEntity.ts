@@ -334,6 +334,6 @@ export class ShadowEntity {
   }
 }
 
-export const isShadowEntity = (obj) => {
+export const isShadowEntity = (obj: unknown): obj is ShadowEntity => {
   return obj instanceof ShadowEntity;
 };

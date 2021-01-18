@@ -267,6 +267,6 @@ export class Action {
   }
 }
 
-export const isAction = (obj: any): boolean => {
+export const isAction = (obj: unknown): obj is Action => {
   return obj instanceof Action;
 };

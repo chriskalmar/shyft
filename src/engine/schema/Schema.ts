@@ -407,6 +407,6 @@ export class Schema {
   }
 }
 
-export const isSchema = (obj: any): boolean => {
+export const isSchema = (obj: unknown): obj is Schema => {
   return obj instanceof Schema;
 };

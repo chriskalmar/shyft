@@ -462,6 +462,6 @@ export class ViewEntity {
   }
 }
 
-export const isViewEntity = (obj) => {
+export const isViewEntity = (obj: unknown): obj is ViewEntity => {
   return obj instanceof ViewEntity;
 };

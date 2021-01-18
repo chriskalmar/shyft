@@ -888,6 +888,6 @@ export class Entity {
   }
 }
 
-export const isEntity = (obj: unknown) => {
+export const isEntity = (obj: unknown): obj is Entity => {
   return obj instanceof Entity;
 };

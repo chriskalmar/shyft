@@ -89,6 +89,6 @@ export class DataType {
   }
 }
 
-export const isDataType = (obj: any): boolean => {
+export const isDataType = (obj: unknown): obj is DataType => {
   return obj instanceof DataType;
 };
