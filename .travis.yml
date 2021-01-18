@@ -3,6 +3,15 @@ node_js:
   - '12'
   - '10'
 
+services:
+  - postgresql
+
+addons:
+  postgresql: '9.6'
+
+before_script:
+  - psql -c 'CREATE DATABASE shyft_tests;' -U postgres
+
 script:
   - npm run lint &&
     npm run coverage-ci
