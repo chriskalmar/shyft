@@ -113,13 +113,17 @@ export type Attribute = AttributeBase & {
   /**
    * name of the attribute
    */
-  // name: string;
-  name?: string;
+  name: string;
 
   /**
    * map of target attributes when referencing another entity
    */
-  targetAttributesMap?: any;
+  targetAttributesMap?: {
+    [key: string]: {
+      name: string;
+      type: DataType;
+    };
+  };
 
   /**
    * internal flag for system attributes (e.g. time tracking, state, ...)
