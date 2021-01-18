@@ -167,13 +167,18 @@ export const isObjectDataType = (obj: unknown): obj is ObjectDataType => {
 };
 
 export const buildObjectDataType = (obj: {
-  // attributes: AttributesMap | AttributesMapGenerator | AttributeBase;
-  attributes: unknown;
+  attributes: AttributesMap | AttributesMapGenerator;
 }): Function => {
-  return ({ name, description }): ObjectDataType =>
+  return ({
+    name,
+    description,
+  }: {
+    name: string;
+    description: string;
+  }): ObjectDataType =>
     new ObjectDataType({
       description,
-      ...obj,
+      attributes: obj.attributes,
       name,
     });
 };
