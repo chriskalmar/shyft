@@ -7,6 +7,8 @@ import {
   ProtocolConfiguration,
   isProtocolConfiguration,
 } from './ProtocolConfiguration';
+import { ComplexDataType } from '../..';
+import { isComplexDataType } from '../datatype/ComplexDataType';
 
 export type ProtocolTypeSetup = {
   name?: string;
@@ -121,7 +123,7 @@ export class ProtocolType {
   }
 
   convertToProtocolDataType(
-    schemaDataType: DataType | DataTypeFunction,
+    schemaDataType: DataType | ComplexDataType | DataTypeFunction,
     sourceName?: string,
     asInput?: boolean,
   ): any {
@@ -140,19 +142,19 @@ export class ProtocolType {
       return protocolDataType;
     }
 
-    passOrThrow(
-      isDataType(schemaDataType),
-      () =>
-        `Provided schemaDataType is not a valid data type in protocol type '${this.name}'`,
-    );
+    if (isDataType(schemaDataType)) {
+      passOrThrow(
+        this._dataTypeMap[schemaDataType.name],
+        () =>
+          `No data type mapping found for '${schemaDataType.name}' in protocol type '${this.name}'`,
+      );
 
-    passOrThrow(
-      this._dataTypeMap[schemaDataType.name],
-      () =>
-        `No data type mapping found for '${schemaDataType.name}' in protocol type '${this.name}'`,
-    );
+      return this._dataTypeMap[schemaDataType.name];
+    }
 
-    return this._dataTypeMap[schemaDataType.name];
+    throw new Error(
+      `Provided schemaDataType is not a valid data type in protocol type '${this.name}'`,
+    );
   }
 
   setProtocolConfiguration(protocolConfiguration): void {
