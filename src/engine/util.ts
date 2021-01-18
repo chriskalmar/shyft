@@ -41,10 +41,13 @@ export const isFunction = (fn: unknown): fn is Function => {
   return typeof fn === 'function';
 };
 
-export const isArray = (set: unknown[], nonEmpty?: boolean): set is [] => {
+export const isArray = (
+  set: unknown | unknown[],
+  nonEmpty?: boolean,
+): set is [] => {
   return (
     set !== null &&
-    Array.isArray(set) === true &&
+    Array.isArray(set) &&
     (!nonEmpty || (nonEmpty && set.length > 0))
   );
 };
