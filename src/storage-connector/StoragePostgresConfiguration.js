@@ -3,7 +3,7 @@ import { generateIndexName } from './util';
 import fs from 'fs';
 import _ from 'lodash';
 
-const templatesPath = `${__dirname}/../storageScripts`;
+const templatesPath = `${__dirname}/../../storageScripts`;
 
 const loadTemplate = (templateFileName) =>
   fs.readFileSync(`${templatesPath}/${templateFileName}`, 'UTF8');

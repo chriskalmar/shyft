@@ -5,8 +5,8 @@ import { BoardMember } from './models/BoardMember';
 import { Message } from './models/Message';
 import { mutate, findOneByValue } from './db';
 import { asAdmin, asUser } from './testUtils';
-import { asyncForEach } from '../src/util';
 import { Book } from './models/Book';
+import { asyncForEach } from '../src/engine/util';
 
 export const loadData = async () => {
   const profiles = readRows('profiles');

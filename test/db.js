@@ -1,6 +1,9 @@
-import { connectStorage, disconnectStorage } from '../src/generator';
-import { StorageTypePostgres } from '../src/StorageTypePostgres';
-import StoragePostgresConfiguration from '../src/StoragePostgresConfiguration';
+import {
+  connectStorage,
+  disconnectStorage,
+} from '../src/storage-connector/generator';
+import { StorageTypePostgres } from '../src/storage-connector/StorageTypePostgres';
+import StoragePostgresConfiguration from '../src/storage-connector/StoragePostgresConfiguration';
 
 import {
   Schema,

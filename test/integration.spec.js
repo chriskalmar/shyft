@@ -8,7 +8,7 @@ import { counts } from './testSetGenerator';
 import { Profile } from './models/Profile';
 import { Board } from './models/Board';
 import { BoardMember } from './models/BoardMember';
-import { StorageTypePostgres } from '../src/StorageTypePostgres';
+import { StorageTypePostgres } from '../src/storage-connector/StorageTypePostgres';
 
 describe('postgres', () => {
   it('test data imported correctly', async () => {
