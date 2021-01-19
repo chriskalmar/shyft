@@ -7,7 +7,14 @@ import {
   mapOverProperties,
   isFunction,
 } from './util';
-import { isObjectDataType } from './datatype/ObjectDataType';
+import { isObjectDataType, ObjectDataType } from './datatype/ObjectDataType';
+
+type PreFilter = {
+  [key: string]: {
+    resolve: Function;
+    attributes?: ObjectDataType;
+  };
+};
 
 const logicFilters = ['$and', '$or'];
 const deepFilter = '$filter';
@@ -157,7 +164,7 @@ export const convertFilterLevel = (filterShaper, filterLevel) => {
   return ret;
 };
 
-const isPreFilter = (preFilterDefinition) => {
+const isPreFilter = (preFilterDefinition: PreFilter) => {
   if (isMap(preFilterDefinition)) {
     if (isFunction(preFilterDefinition.resolve)) {
       if (
