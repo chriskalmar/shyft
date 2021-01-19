@@ -75,11 +75,11 @@ interface EntityPreProcessorResponse {
 }
 
 export type EntityPreProcessor = (params: {
-  entity: Entity;
-  source: any;
-  args: { [key: string]: unknown };
-  context: Context;
-  info: GraphQLResolveInfo;
+  entity?: Entity;
+  source?: any;
+  args?: { [key: string]: unknown };
+  context?: Context;
+  info?: GraphQLResolveInfo;
 }) => EntityPreProcessorResponse | Promise<EntityPreProcessorResponse>;
 
 export type EntityPostProcessor = (params: {
@@ -138,8 +138,8 @@ export class Entity {
   }[];
   private defaultPermissions: PermissionMap;
   private attributes: AttributesMap;
-  private descriptionPermissionsFind: string | boolean;
-  private descriptionPermissionsRead: string | boolean;
+  descriptionPermissionsFind: string | boolean;
+  descriptionPermissionsRead: string | boolean;
   isFallbackStorageType: boolean;
   findOne: Function;
   find: Function;

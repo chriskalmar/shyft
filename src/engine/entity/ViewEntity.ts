@@ -9,11 +9,12 @@ import {
 
 import {
   generatePermissionDescription,
+  PermissionMap,
   processViewEntityPermissions,
 } from '../permission/Permission';
 
 import { DataType, isDataType, DataTypeFunction } from '../datatype/DataType';
-import { isStorageType } from '../storage/StorageType';
+import { isStorageType, StorageType } from '../storage/StorageType';
 import { StorageTypeNull } from '../storage/StorageTypeNull';
 import { isComplexDataType } from '../datatype/ComplexDataType';
 
@@ -24,6 +25,8 @@ import {
   AttributesMapGenerator,
 } from '../attribute/Attribute';
 import { processPreFilters } from '../filter';
+import { Context } from '../context/Context';
+import { GraphQLResolveInfo } from 'graphql';
 import { Entity } from './Entity';
 
 interface PreFilterType {
@@ -33,15 +36,39 @@ interface PreFilterType {
   };
 }
 
+interface ViewEntityPreProcessorResponse {
+  args?: {
+    [key: string]: unknown;
+  };
+  context?: Context;
+}
+
+export type ViewEntityPreProcessor = (params: {
+  entity?: ViewEntity;
+  source?: any;
+  args?: { [key: string]: unknown };
+  context?: Context;
+  info?: GraphQLResolveInfo;
+}) => ViewEntityPreProcessorResponse | Promise<ViewEntityPreProcessorResponse>;
+
+export type ViewEntityPostProcessor = (params: {
+  result?: { [key: string]: unknown };
+  entity?: ViewEntity;
+  source?: any;
+  args?: { [key: string]: unknown };
+  context?: Context;
+  info?: GraphQLResolveInfo;
+}) => { [key: string]: unknown };
+
 export interface ViewEntitySetup {
   name: string;
   description: string;
   attributes?: AttributesSetupMap | AttributesMapGenerator;
-  storageType?: any;
+  storageType?: StorageType;
   viewExpression: any;
-  permissions?: any;
-  preProcessor?: Function;
-  postProcessor?: Function;
+  permissions?: PermissionMap;
+  preProcessor?: ViewEntityPreProcessor;
+  postProcessor?: ViewEntityPostProcessor;
   preFilters?: PreFilterType | (() => PreFilterType);
   meta?: any;
 }
@@ -49,25 +76,28 @@ export interface ViewEntitySetup {
 export class ViewEntity {
   name: string;
   description: string;
-  storageType?: any;
+  storageType?: StorageType;
   viewExpression: any;
-  permissions?: any;
-  preProcessor?: Function;
-  postProcessor?: Function;
+  permissions?: PermissionMap;
+  preProcessor?: ViewEntityPreProcessor;
+  postProcessor?: ViewEntityPostProcessor;
   preFilters?: PreFilterType;
   meta?: any;
   private _attributesMap: AttributesSetupMap | AttributesMapGenerator;
   private _primaryAttribute: Attribute;
-  private referencedByEntities: any;
-  private _permissions: any;
-  private _defaultPermissions: any;
+  private referencedByEntities: {
+    sourceEntityName: string;
+    sourceAttributeName: string;
+  }[];
+  private _permissions: PermissionMap;
+  private _defaultPermissions: PermissionMap;
   private _attributes: AttributesMap;
-  private descriptionPermissionsFind: any;
-  private descriptionPermissionsRead: any;
+  descriptionPermissionsFind: string | boolean;
+  descriptionPermissionsRead: string | boolean;
   private _preFilters: PreFilterType | (() => PreFilterType);
   isFallbackStorageType: any;
-  findOne: any;
-  find: any;
+  findOne: Function;
+  find: Function;
 
   constructor(setup: ViewEntitySetup) {
     passOrThrow(isMap(setup), () => 'ViewEntity requires a setup object');
