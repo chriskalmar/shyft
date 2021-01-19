@@ -3,12 +3,12 @@ import path from 'path';
 import { CommandUtils } from 'typeorm/commands/CommandUtils';
 import { MigrationExecutor } from 'typeorm/migration/MigrationExecutor';
 
-import format from './prettier-eslint';
+import format from 'prettier-eslint';
 import {
   connectStorage,
   getConnection,
   disconnectStorage,
-} from '../lib/generator';
+} from '../../lib/storage-connector/generator';
 import { asyncForEach } from './util';
 
 const defaultTemplate = (migrationName, timestamp, upSqls, downSqls) => {
