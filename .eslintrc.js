@@ -40,7 +40,7 @@ module.exports = {
     'no-cond-assign': ['error', 'always'],
     'no-console': 'warn',
     'no-debugger': 'error',
-    'no-constant-condition': 'warning',
+    'no-constant-condition': 'warn',
     'no-dupe-keys': 'error',
     'no-duplicate-case': 'error',
     'no-empty': 'error',
@@ -114,7 +114,7 @@ module.exports = {
     ],
     'comma-style': ['error', 'last'],
     'eol-last': 'error',
-    'func-names': 'warning',
+    'func-names': 'warn',
     'key-spacing': [
       'error',
       {
@@ -136,7 +136,7 @@ module.exports = {
     'no-extra-parens': ['error', 'functions'],
     'no-underscore-dangle': 0,
     'one-var': ['error', 'never'],
-    'require-jsdoc': 'warning',
+    'require-jsdoc': 'warn',
     'require-atomic-updates': 0,
     '@typescript-eslint/explicit-function-return-type': 'off',
     'import/prefer-default-export': 0,
