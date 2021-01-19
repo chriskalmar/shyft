@@ -166,7 +166,7 @@ export const generateGraphQLSchema = (configuration) => {
   }
 
   const schema: Schema = configuration.getSchema();
-  const protocolConfiguration = configuration.getProtocolConfiguration();
+  const protocolConfiguration: ProtocolGraphQLConfiguration = configuration.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   ProtocolGraphQL.setProtocolConfiguration(protocolConfiguration);
 
