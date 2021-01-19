@@ -20,6 +20,7 @@ const readPermissions = [
   new Permission().role('admin'),
   new Permission().value('isPrivate', false),
   new Permission().userAttribute('owner'),
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   new Permission().lookup(() => require('./BoardMember').BoardMember, {
     board: 'id',
     invitee: ({ userId }) => userId,

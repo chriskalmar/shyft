@@ -632,7 +632,7 @@ export const StorageTypePostgres = new StorageType({
       const where = applyPermission(baseWhere, permissionWhere);
 
       if (isMap(data.i18n, true)) {
-        const i18nSerialized = JSON.stringify(data.i18n).replace(/\'/g, "''");
+        const i18nSerialized = JSON.stringify(data.i18n).replace(/'/g, "''");
         data.i18n = () => `merge_translations(i18n, '${i18nSerialized}')`;
       } else {
         delete data.i18n;

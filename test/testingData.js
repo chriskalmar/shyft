@@ -20,7 +20,7 @@ export const readRows = (fileName) => {
 
 export const writeTestDataFile = (fileName, content) => {
   const filePath = `${__dirname}/data/${fileName}.csv`;
-  fs.writeFileSync(filePath, content.join('\n') + '\n', 'utf8');
+  fs.writeFileSync(filePath, `${content.join('\n')}\n`, 'utf8');
 };
 
 export const generateRows = (count, fileName, generator) => {
