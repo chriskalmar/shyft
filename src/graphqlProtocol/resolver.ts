@@ -52,6 +52,8 @@ import { Context } from '../engine/context/Context';
 import { GraphQLResolveInfo } from 'graphql';
 import { ShadowEntity } from '../engine/entity/ShadowEntity';
 import { getRegisteredEntity, getRegisteredEntityAttribute } from './registry';
+import { ViewEntity } from '..';
+import { isViewEntity } from '../engine/entity/ViewEntity';
 
 const AccessDeniedError = new CustomError(
   'Access denied',
@@ -67,7 +69,7 @@ type GraphQLFieldResolveFn = (
 ) => any;
 
 export const resolveByFind = (
-  entity: Entity,
+  entity: Entity | ViewEntity,
   parentConnectionCollector?: any,
 ): GraphQLFieldResolveFn => {
   const storageType = entity.storageType;
@@ -86,13 +88,21 @@ export const resolveByFind = (
     let finalArgs = args;
 
     if (entity.preProcessor) {
-      const preProcessorResult = await entity.preProcessor({
-        entity,
-        source,
-        args,
-        context,
-        info,
-      });
+      const preProcessorResult = isEntity(entity)
+        ? await entity.preProcessor({
+            entity,
+            source,
+            args,
+            context,
+            info,
+          })
+        : await entity.preProcessor({
+            entity,
+            source,
+            args,
+            context,
+            info,
+          });
 
       if (preProcessorResult) {
         finalArgs = preProcessorResult.args
@@ -134,14 +144,23 @@ export const resolveByFind = (
 
     const transformedData = entity.postProcessor
       ? translated.map((translatedRow) =>
-          entity.postProcessor({
-            result: translatedRow,
-            entity,
-            source,
-            args: finalArgs,
-            context: finalContext,
-            info,
-          }),
+          isEntity(entity)
+            ? entity.postProcessor({
+                result: translatedRow,
+                entity,
+                source,
+                args: finalArgs,
+                context: finalContext,
+                info,
+              })
+            : entity.postProcessor({
+                result: translatedRow,
+                entity,
+                source,
+                args: finalArgs,
+                context: finalContext,
+                info,
+              }),
         )
       : translated;
 
@@ -162,7 +181,7 @@ export const resolveByFind = (
 };
 
 export const resolveByFindOne = (
-  entity: Entity | ShadowEntity,
+  entity: Entity | ViewEntity | ShadowEntity,
   idCollector,
 ): GraphQLFieldResolveFn => {
   const storageType = entity.storageType;
