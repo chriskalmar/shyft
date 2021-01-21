@@ -7,8 +7,9 @@
     "noUnusedLocals": false,
     "noUnusedParameters": true,
     "typeRoots": ["./node_modules/@types"],
-    "lib": ["es2017", "esnext.asynciterable"]
+    "lib": ["es2017", "esnext.asynciterable"],
+    "esModuleInterop": true,
   },
   "include": ["./src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.js", "**/*.spec.ts"]
+  "exclude": ["node_modules", "./lib/**/*" , "**/*.spec.js", "**/*.spec.ts"]
 }
