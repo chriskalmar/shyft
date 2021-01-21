@@ -55,15 +55,18 @@ export class ShadowEntity {
 
     passOrThrow(name, () => 'Missing shadow entity name');
 
-    passOrThrow(
-      isMap(attributes) || isFunction(attributes),
-      () =>
-        `'attributes' for shadow entity '${name}' needs to be a map of attributes or a function returning a map of attributes`,
-    );
+    if (attributes) {
+      passOrThrow(
+        isMap(attributes) || isFunction(attributes),
+        () =>
+          `'attributes' for shadow entity '${name}' needs to be a map of attributes or a function returning a map of attributes`,
+      );
+    }
 
     this.name = name;
     this.isUserEntity = !!isUserEntity;
-    this._attributesMap = attributes;
+    this._attributesMap = attributes || (() => ({}));
+
     this._primaryAttribute = null;
     this.referencedByEntities = [];
     this.meta = meta;
