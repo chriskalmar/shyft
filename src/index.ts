@@ -242,3 +242,60 @@ export {
   convertEntityToViewAttribute,
   convertEntityToViewAttributesMap,
 };
+
+import StorageTypePostgres from './storage-connector/StorageTypePostgres';
+import StoragePostgresConfiguration, {
+  isStoragePostgresConfiguration,
+} from './storage-connector/StoragePostgresConfiguration';
+
+import {
+  loadModels,
+  generateMockData,
+  connectStorage,
+  disconnectStorage,
+  getConnection,
+} from './storage-connector/generator';
+
+import {
+  generateMigration,
+  runMigration,
+  revertMigration,
+  fillMigrationsTable,
+  migrateI18nIndices,
+} from './storage-connector/migration';
+
+import { runTestPlaceholderQuery } from './storage-connector/helpers';
+
+export {
+  StorageTypePostgres,
+  loadModels,
+  generateMockData,
+  connectStorage,
+  disconnectStorage,
+  getConnection,
+  StoragePostgresConfiguration,
+  isStoragePostgresConfiguration,
+  generateMigration,
+  runMigration,
+  revertMigration,
+  fillMigrationsTable,
+  migrateI18nIndices,
+  runTestPlaceholderQuery,
+};
+
+export default {
+  StorageTypePostgres,
+  loadModels,
+  generateMockData,
+  connectStorage,
+  disconnectStorage,
+  getConnection,
+  StoragePostgresConfiguration,
+  isStoragePostgresConfiguration,
+  generateMigration,
+  runMigration,
+  revertMigration,
+  fillMigrationsTable,
+  migrateI18nIndices,
+  runTestPlaceholderQuery,
+};
