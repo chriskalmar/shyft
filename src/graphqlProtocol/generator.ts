@@ -202,7 +202,7 @@ export const generateGraphQLSchema = (configuration) => {
 
         for (const attribute of Object.values(entity.getAttributes())) {
           if (attribute.hidden || attribute.mutationInput) {
-            return;
+            continue;
           }
 
           const {
