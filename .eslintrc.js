@@ -30,13 +30,8 @@ module.exports = {
     'no-shadow': 'error',
     'no-shadow-restricted-names': 'error',
     'no-undef': 'error',
-    'no-unused-vars': [
-      'error',
-      {
-        vars: 'local',
-        args: 'after-used',
-      },
-    ],
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
     'no-cond-assign': ['error', 'always'],
     'no-console': 'warn',
     'no-debugger': 'error',
