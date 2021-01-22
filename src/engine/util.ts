@@ -156,10 +156,10 @@ export const randomJson = () => {
   return ret;
 };
 
-export const asyncForEach = async (
-  array: any[],
-  callback: (val, idx, arr) => any,
-) => {
+export const asyncForEach = async <T>(
+  array: T[],
+  callback: (val: T, idx: number, arr: T[]) => void,
+): Promise<void> => {
   for (let index = 0; index < array.length; index++) {
     await callback(array[index], index, array);
   }
