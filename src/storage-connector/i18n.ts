@@ -1,5 +1,5 @@
 import StorageTypePostgres from './StorageTypePostgres';
-import { CustomError } from '../';
+import { CustomError } from '..';
 
 export const i18nDataParser = (value, data, entity, { dataShaperMap }) => {
   const i18nAttributeNames = entity.getI18nAttributeNames();

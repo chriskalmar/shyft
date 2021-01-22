@@ -12,7 +12,7 @@ import {
   mapOverProperties,
   isComplexDataType,
   isConfiguration,
-} from '../';
+} from '..';
 
 import { shaper } from 'json-shaper';
 

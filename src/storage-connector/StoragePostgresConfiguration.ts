@@ -1,4 +1,4 @@
-import { StorageConfiguration } from '../';
+import { StorageConfiguration } from '..';
 import { generateIndexName } from './util';
 import fs from 'fs';
 import _ from 'lodash';

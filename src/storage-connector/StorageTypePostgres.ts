@@ -27,7 +27,7 @@ import {
   deleteUndefinedProps,
   isArray,
   isMap,
-} from '../';
+} from '..';
 
 import {
   StorageDataTypeInteger,

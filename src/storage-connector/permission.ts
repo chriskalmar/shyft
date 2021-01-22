@@ -1,4 +1,4 @@
-import { CustomError, buildPermissionFilter } from '../';
+import { CustomError, buildPermissionFilter } from '..';
 
 export const PERMISSION_TYPES = {
   read: 10,

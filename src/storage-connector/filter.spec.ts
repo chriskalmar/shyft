@@ -4,7 +4,7 @@ import { StorageTypePostgres } from './StorageTypePostgres';
 import { loadModels } from './generator';
 import { Server } from '../../test/models/Server';
 import StoragePostgresConfiguration from './StoragePostgresConfiguration';
-import { Schema, Configuration } from '../';
+import { Schema, Configuration } from '..';
 
 let connection;
 let modelRegistry;
