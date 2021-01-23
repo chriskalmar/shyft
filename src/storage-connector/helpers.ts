@@ -31,13 +31,12 @@ export const parseValues = (entity, data, model, context) => {
     );
 
     if (storageDataType.parse) {
-      data[attributeName] = storageDataType.parse(
-        value,
+      data[attributeName] = storageDataType.parse(value, {
         data,
         entity,
         model,
         context,
-      );
+      });
     }
   });
 
@@ -81,14 +80,13 @@ export const serializeValues = (entity, mutation, data, model, context) => {
     }
 
     if (storageDataType.serialize) {
-      data[attributeName] = storageDataType.serialize(
-        value,
+      data[attributeName] = storageDataType.serialize(value, {
         data,
         entity,
         mutation,
         model,
         context,
-      );
+      });
     }
   });
 

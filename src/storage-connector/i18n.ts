@@ -7,9 +7,7 @@ import {
 
 export const i18nDataParser: StorageDataTypeParser = (
   _,
-  data,
-  entity,
-  { dataShaperMap },
+  { data, entity, model: { dataShaperMap } },
 ) => {
   const i18nAttributeNames = entity.getI18nAttributeNames();
 

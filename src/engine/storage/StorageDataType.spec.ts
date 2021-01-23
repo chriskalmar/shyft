@@ -115,8 +115,8 @@ describe('StorageDataType', () => {
       serialize() {},
     });
 
-    const parsed1 = storageDataType.parse(123, null, null, null);
-    const parsed2 = storageDataType.parse('Hello there!', null, null, null);
+    const parsed1 = storageDataType.parse(123);
+    const parsed2 = storageDataType.parse('Hello there!');
 
     expect(parsed1).toBe(123);
     expect(parsed2).toBe('Hello there!');

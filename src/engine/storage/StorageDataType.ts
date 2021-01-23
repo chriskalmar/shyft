@@ -3,23 +3,31 @@ import { passOrThrow, isFunction, isArray } from '../util';
 import { storageDataTypeCapabilities } from '../constants';
 import { Entity } from '../entity/Entity';
 import { Mutation } from '../mutation/Mutation';
+import { Context } from '../context/Context';
+import { RegistryEntity } from '../../graphqlProtocol/registry';
 
 export type StorageDataTypeSerializer = {
   (
     value: unknown,
-    data: Record<string, unknown>,
-    entity: Entity,
-    mutation: Mutation,
-    { dataShaperMap },
+    options?: {
+      data?: Record<string, unknown>;
+      entity?: Entity;
+      mutation?: Mutation;
+      model?: RegistryEntity;
+      context?: Context;
+    },
   ): unknown;
 };
 
 export type StorageDataTypeParser = {
   (
     value: unknown,
-    data: Record<string, unknown>,
-    entity: Entity,
-    { dataShaperMap },
+    options?: {
+      data?: Record<string, unknown>;
+      entity?: Entity;
+      model?: RegistryEntity;
+      context?: Context;
+    },
   ): unknown;
 };
 
@@ -97,7 +105,7 @@ export class StorageDataType {
     this.isSortable = !!isSortable;
     this.serialize = serialize;
     this.enforceSerialize = !!enforceSerialize;
-    this.parse = parse || ((value: any) => value);
+    this.parse = parse || ((value: unknown) => value);
     this.capabilities = capabilities || [];
   }
 
