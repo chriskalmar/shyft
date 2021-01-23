@@ -11,7 +11,6 @@ import { Schema } from '../engine/schema/Schema';
 import { StorageType } from '../engine/storage/StorageType';
 import { StorageDataType } from '../engine/storage/StorageDataType';
 import { Action } from '..';
-// import { StorageTypeMemory } from '../memory-connector/StorageTypeMemory';
 
 // const {
 //   where: permissionWhere,
@@ -148,7 +147,6 @@ export const generateTestSchema = async (
 
   const schema = new Schema({
     defaultStorageType: TestStorage,
-    // defaultStorageType: StorageTypeMemory,
     defaultActionPermissions: null,
     permissionsMap: null,
     actions: actions || [],
