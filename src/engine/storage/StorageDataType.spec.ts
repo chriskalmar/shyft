@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable no-new */
 
 import { StorageDataType, isStorageDataType } from './StorageDataType';
 import { passOrThrow } from '../util';
@@ -16,7 +17,7 @@ describe('StorageDataType', () => {
 
   it('should have a description', () => {
     function fn() {
-      // eslint-disable-next-line no-new
+      // @ts-expect-error test input validators
       new StorageDataType({
         name: 'example',
       });
@@ -27,7 +28,7 @@ describe('StorageDataType', () => {
 
   it('should have a native data type', () => {
     function fn() {
-      // eslint-disable-next-line no-new
+      // @ts-expect-error test input validators
       new StorageDataType({
         name: 'someStorageDataType',
         description: 'Just some description',
@@ -52,12 +53,12 @@ describe('StorageDataType', () => {
 
   it('should have a valid parse function if provided', () => {
     function fn() {
-      // eslint-disable-next-line no-new
       new StorageDataType({
         name: 'someStorageDataType',
         description: 'Just some description',
         nativeDataType: String,
         serialize() {},
+        // @ts-expect-error test input validators
         parse: 12345,
       });
     }
@@ -67,12 +68,12 @@ describe('StorageDataType', () => {
 
   it('should have a valid list of capabilities if provided', () => {
     function fn() {
-      // eslint-disable-next-line no-new
       new StorageDataType({
         name: 'someStorageDataType',
         description: 'Just some description',
         nativeDataType: String,
         serialize() {},
+        // @ts-expect-error test input validators
         capabilities: 123,
       });
     }
@@ -82,7 +83,6 @@ describe('StorageDataType', () => {
 
   it('should reject invalid capabilities', () => {
     function fn() {
-      // eslint-disable-next-line no-new
       new StorageDataType({
         name: 'someStorageDataType',
         description: 'Just some description',
@@ -115,8 +115,8 @@ describe('StorageDataType', () => {
       serialize() {},
     });
 
-    const parsed1 = storageDataType.parse(123);
-    const parsed2 = storageDataType.parse('Hello there!');
+    const parsed1 = storageDataType.parse(123, null, null, null);
+    const parsed2 = storageDataType.parse('Hello there!', null, null, null);
 
     expect(parsed1).toBe(123);
     expect(parsed2).toBe('Hello there!');

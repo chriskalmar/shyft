@@ -1,18 +1,19 @@
 import { StorageDataType } from '..';
 import { i18nDataParser, i18nDataSerializer } from './i18n';
 
-const isNotSet = (val) => val === null || typeof val === 'undefined';
+const isNotSet = (val: unknown): boolean =>
+  val === null || typeof val === 'undefined';
 
-const toString = (val) => {
+const toString = (val: unknown) => {
   return isNotSet(val) ? val : String(val);
 };
 
-const toInt = (val) => {
-  return isNotSet(val) ? val : parseInt(val, 10);
+const toInt = (val: unknown): number | null | undefined => {
+  return isNotSet(val) ? (val as undefined) : parseInt(val as string, 10);
 };
 
-const toFloat = (val) => {
-  return isNotSet(val) ? val : parseFloat(val);
+const toFloat = (val: unknown): number | null | undefined => {
+  return isNotSet(val) ? (val as undefined) : parseFloat(val as string);
 };
 
 export const StorageDataTypeInteger = new StorageDataType({
@@ -47,7 +48,7 @@ export const StorageDataTypeBoolean = new StorageDataType({
   description: 'Data type representing a boolean value',
   nativeDataType: 'boolean',
   isSortable: true,
-  serialize: (value) => value,
+  serialize: (val: unknown) => val,
   capabilities: ['ne'],
 });
 
@@ -79,7 +80,7 @@ export const StorageDataTypeJSON = new StorageDataType({
   description: 'Data type representing a json object',
   nativeDataType: 'jsonb',
   isSortable: false,
-  serialize: (val) => val,
+  serialize: (val: unknown) => val,
   capabilities: ['includes', 'not_includes', 'is_null'],
 });
 

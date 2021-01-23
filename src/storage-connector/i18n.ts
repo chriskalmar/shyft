@@ -1,7 +1,16 @@
 import StorageTypePostgres from './StorageTypePostgres';
 import { CustomError } from '..';
+import {
+  StorageDataTypeSerializer,
+  StorageDataTypeParser,
+} from '../engine/storage/StorageDataType';
 
-export const i18nDataParser = (value, data, entity, { dataShaperMap }) => {
+export const i18nDataParser: StorageDataTypeParser = (
+  _,
+  data,
+  entity,
+  { dataShaperMap },
+) => {
   const i18nAttributeNames = entity.getI18nAttributeNames();
 
   if (!i18nAttributeNames || !data) {
@@ -33,13 +42,10 @@ export const i18nDataParser = (value, data, entity, { dataShaperMap }) => {
   return null;
 };
 
-export const i18nDataSerializer = (
-  value,
-  data,
-  entity,
-  mutation,
-  { dataShaperMap },
-) => {
+export const i18nDataSerializer: StorageDataTypeSerializer<Record<
+  string,
+  unknown
+>> = (_, data, entity, mutation, { dataShaperMap }) => {
   const i18nAttributeNames = entity.getI18nAttributeNames();
 
   if (!i18nAttributeNames || !data) {

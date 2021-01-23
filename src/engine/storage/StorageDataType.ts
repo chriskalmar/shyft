@@ -1,16 +1,36 @@
 import { passOrThrow, isFunction, isArray } from '../util';
 
 import { storageDataTypeCapabilities } from '../constants';
+import { Entity } from '../entity/Entity';
+import { Mutation } from '../mutation/Mutation';
+
+export type StorageDataTypeSerializer<T> = {
+  (
+    value: unknown,
+    data: Record<string, unknown>,
+    entity: Entity,
+    mutation: Mutation,
+    { dataShaperMap },
+  ): T;
+};
+
+export type StorageDataTypeParser = {
+  (
+    value: unknown,
+    data: Record<string, unknown>,
+    entity: Entity,
+    { dataShaperMap },
+  ): unknown;
+};
 
 export type StorageDataTypeSetup = {
-  name?: string;
-  description?: string;
-  // improve nativeDataType typing
-  nativeDataType?: any;
+  name: string;
+  description: string;
+  nativeDataType: any;
   isSortable?: boolean;
-  serialize?: Function;
+  serialize?: StorageDataTypeSerializer;
   enforceSerialize?: boolean;
-  parse?: Function;
+  parse?: StorageDataTypeParser;
   capabilities?: string[];
 };
 
@@ -19,9 +39,9 @@ export class StorageDataType {
   description: string;
   nativeDataType: any;
   isSortable?: boolean;
-  serialize: Function;
+  serialize?: StorageDataTypeSerializer;
   enforceSerialize?: boolean;
-  parse?: Function;
+  parse?: StorageDataTypeParser;
   capabilities?: string[];
 
   constructor(setup: StorageDataTypeSetup = {} as StorageDataTypeSetup) {
