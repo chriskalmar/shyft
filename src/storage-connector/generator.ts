@@ -451,11 +451,11 @@ export const installStorageScripts = async (
   }
 
   _.forEach(schema.getEntities(), (entity) => {
-    if (entity.getI18nAttributeNames && entity.getI18nAttributeNames()) {
+    if (isEntity(entity) && entity?.getI18nAttributeNames()) {
       modelFeatures.i18n = true;
     }
 
-    if (entity.hasStates && entity.hasStates()) {
+    if (isEntity(entity) && entity?.hasStates()) {
       modelFeatures.state = true;
     }
   });
@@ -492,7 +492,7 @@ export const installStorageScripts = async (
 
     if (synchronize) {
       await manager.query(
-        storageConfiguration.createI18nIndices(configuration, manager),
+        storageConfiguration.createI18nIndices(configuration),
       );
     }
   }

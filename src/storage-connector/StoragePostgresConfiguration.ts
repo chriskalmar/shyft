@@ -1,7 +1,9 @@
-import { StorageConfiguration } from '..';
+import { Configuration, StorageConfiguration } from '..';
 import { generateIndexName } from './util';
 import * as fs from 'fs';
 import * as _ from 'lodash';
+import { isEntity } from '../engine/entity/Entity';
+import { EntityManager } from 'typeorm';
 
 const templatesPath = `${__dirname}/../../storageScripts`;
 
@@ -22,16 +24,16 @@ class StoragePostgresConfiguration extends StorageConfiguration {
   }
 
   _generateGetStateFunction = (
-    configuration,
-    templateFileName,
-    functionName,
-  ) => {
+    configuration: Configuration,
+    templateFileName: string,
+    functionName: string,
+  ): string => {
     const schema = configuration.getSchema();
     const statesMap = {};
     const statesMapFlipped = {};
 
     _.forEach(schema.getEntities(), (entity) => {
-      if (entity.getStates) {
+      if (isEntity(entity) && entity.getStates) {
         const states = entity.getStates();
 
         if (states) {
@@ -53,7 +55,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
 
   generateGetStateIdFunctionName = () => 'get_state_id';
 
-  generateGetStateIdFunction = (configuration) => {
+  generateGetStateIdFunction = (configuration: Configuration): string => {
     return this._generateGetStateFunction(
       configuration,
       'get_state_id.tpl.sql',
@@ -63,7 +65,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
 
   generateGetStateIdsFunctionName = () => 'get_state_ids';
 
-  generateGetStateIdsFunction = (configuration) => {
+  generateGetStateIdsFunction = (configuration: Configuration): string => {
     return this._generateGetStateFunction(
       configuration,
       'get_state_ids.tpl.sql',
@@ -73,7 +75,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
 
   generateGetStateMapFunctionName = () => 'get_state_map';
 
-  generateGetStateMapFunction = (configuration) => {
+  generateGetStateMapFunction = (configuration: Configuration): string => {
     return this._generateGetStateFunction(
       configuration,
       'get_state_map.tpl.sql',
@@ -83,7 +85,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
 
   generateGetStateNameFunctionName = () => 'get_state_name';
 
-  generateGetStateNameFunction = (configuration) => {
+  generateGetStateNameFunction = (configuration: Configuration): string => {
     return this._generateGetStateFunction(
       configuration,
       'get_state_name.tpl.sql',
@@ -112,7 +114,9 @@ class StoragePostgresConfiguration extends StorageConfiguration {
   generateGetAttributeTranslationFunctionName = () =>
     'get_attribute_translation';
 
-  generateGetAttributeTranslationFunction = (configuration) => {
+  generateGetAttributeTranslationFunction = (
+    configuration: Configuration,
+  ): string => {
     return this._generateGetAttributeTranslationFunction(
       configuration,
       'get_attribute_translation.tpl.sql',
@@ -123,7 +127,9 @@ class StoragePostgresConfiguration extends StorageConfiguration {
   generateGetAttributeTranslationsFunctionName = () =>
     'get_attribute_translations';
 
-  generateGetAttributeTranslationsFunction = (configuration) => {
+  generateGetAttributeTranslationsFunction = (
+    configuration: Configuration,
+  ): string => {
     return this._generateGetAttributeTranslationFunction(
       configuration,
       'get_attribute_translations.tpl.sql',
@@ -133,7 +139,9 @@ class StoragePostgresConfiguration extends StorageConfiguration {
 
   generateMergeTranslationsFunctionName = () => 'merge_translations';
 
-  generateMergeTranslationsFunction = (configuration) => {
+  generateMergeTranslationsFunction = (
+    configuration: Configuration,
+  ): string => {
     return this._generateGetAttributeTranslationFunction(
       configuration,
       'merge_translations.tpl.sql',
@@ -215,7 +223,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
     return indices;
   };
 
-  createI18nIndices = (configuration) => {
+  createI18nIndices = (configuration: Configuration): string => {
     let result = '';
     const extensionTemplate = loadTemplate('trigram_extension.tpl.sql');
 
@@ -231,7 +239,10 @@ class StoragePostgresConfiguration extends StorageConfiguration {
     return result;
   };
 
-  generateI18nIndicesMigration = async (configuration, manager) => {
+  generateI18nIndicesMigration = async (
+    configuration: Configuration,
+    manager: EntityManager,
+  ): Promise<{ upQueries: string[]; downQueries: string[] }> => {
     const upQueries = [];
     const downQueries = [];
 
@@ -252,6 +263,7 @@ class StoragePostgresConfiguration extends StorageConfiguration {
 
     indices.forEach((index) => {
       if (!foundIndices.find(({ indexname }) => indexname === index.name)) {
+        // eslint-disable-next-line no-control-regex
         upQueries.push(index.query.replace(new RegExp('\n', 'g'), ' '));
         downQueries.push(`DROP INDEX IF EXISTS ${index.name}`);
       }
