@@ -61,7 +61,7 @@ import { parseValues, parseValuesMap, serializeValues } from './helpers';
 
 import { i18nTransformFilterAttributeName } from './i18n';
 
-const processOrmError = (err, storageInstance, qBuilder, constraints) => {
+const processOrmError = (err, storageInstance, qBuilder, constraints?) => {
   if (String(err.code) === '23505') {
     let meta;
 
@@ -486,7 +486,7 @@ export const StorageTypePostgres = new StorageType({
     const baseWhere = {
       $and: [
         {
-          ...processAndConvertFilter(entity, filterShaper, args, this, context),
+          ...processAndConvertFilter(entity, filterShaper, args, this),
         },
       ],
     };

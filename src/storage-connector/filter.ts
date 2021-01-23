@@ -198,8 +198,8 @@ const buildWhereAttributeConditionQuery = (
   qBuilder,
   attributeName,
   filter,
-  transformFilterAttributeNameFn,
-  _placeholderIdx,
+  transformFilterAttributeNameFn?,
+  _placeholderIdx?,
 ) => {
   const placeholderIdx = _placeholderIdx || { idx: 0 };
   placeholderIdx.idx++;
@@ -236,8 +236,8 @@ const buildWhereTypeSubQuery = (
   entityName,
   modelRegistry,
   isGetMany,
-  transformFilterAttributeNameFn,
-  _placeholderIdx,
+  transformFilterAttributeNameFn?,
+  _placeholderIdx?,
 ) => {
   if (!filter.entity) {
     throw new Error('$sub expects an entity name');
@@ -348,8 +348,8 @@ export const buildWhereTypeQuery = (
   entityName,
   modelRegistry,
   isGetMany,
-  transformFilterAttributeNameFn,
-  _placeholderIdx,
+  transformFilterAttributeNameFn?,
+  _placeholderIdx?,
 ) => {
   const placeholderIdx = _placeholderIdx || { idx: 0 };
   placeholderIdx.idx++;
@@ -487,8 +487,8 @@ export const buildWhereQuery = (
   filter,
   entityName,
   modelRegistry,
-  isGetMany,
-  transformFilterAttributeNameFn,
+  isGetMany?,
+  transformFilterAttributeNameFn?,
 ) => {
   if (!modelRegistry || !modelRegistry[entityName]) {
     throw new Error(

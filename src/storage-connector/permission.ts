@@ -43,8 +43,8 @@ export const handlePermission = async (
   context,
   entity,
   permissionType,
-  entityMutation,
-  input,
+  entityMutation?,
+  input?,
 ) => {
   const permission = loadPermission(entity, permissionType, entityMutation);
 
