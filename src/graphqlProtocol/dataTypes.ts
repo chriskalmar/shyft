@@ -34,9 +34,7 @@ export const GraphQLBigInt = new GraphQLScalarType({
 export const GraphQLDateTime = new GraphQLScalarType({
   name: 'DateTime',
   description: 'The `DateTime` scalar type represents a date and time string.',
-  serialize: (value) => {
-    return value;
-  },
+  serialize: (value) => value,
   parseValue: String,
   parseLiteral(ast) {
     if (ast.kind !== Kind.STRING) {
@@ -73,9 +71,7 @@ export const GraphQLDateTime = new GraphQLScalarType({
 export const GraphQLDate = new GraphQLScalarType({
   name: 'Date',
   description: 'The `Date` scalar type represents a date string.',
-  serialize: (value) => {
-    return value;
-  },
+  serialize: (value) => value,
   parseValue: String,
   parseLiteral(ast) {
     if (ast.kind !== Kind.STRING) {
@@ -103,9 +99,7 @@ export const GraphQLDate = new GraphQLScalarType({
 export const GraphQLTime = new GraphQLScalarType({
   name: 'Time',
   description: 'The `Time` scalar type represents a time string.',
-  serialize: (value) => {
-    return value;
-  },
+  serialize: (value) => value,
   parseValue: String,
   parseLiteral(ast) {
     if (ast.kind !== Kind.STRING) {
@@ -122,5 +116,19 @@ export const GraphQLTime = new GraphQLScalarType({
     }
 
     return ast.value;
+  },
+});
+
+export const GraphQLUpload = new GraphQLScalarType({
+  name: 'Upload',
+  description: 'The `Upload` scalar type represents a file upload promise',
+  parseValue: (value) => value,
+  parseLiteral() {
+    throw new GraphQLError('Upload scalar literal not supported');
+  },
+  serialize() {
+    throw new GraphQLError(
+      'Upload scalar serialization not supported. Please upload a file via a multipart request.',
+    );
   },
 });

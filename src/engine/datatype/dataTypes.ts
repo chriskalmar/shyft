@@ -111,3 +111,9 @@ export const DataTypeI18n = new DataType({
   /* istanbul ignore next */
   mock: randomJson,
 });
+
+export const DataTypeUpload = new DataType({
+  name: 'DataTypeUpload',
+  description: 'Data type representing a file upload',
+  mock: () => null,
+});
