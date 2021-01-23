@@ -29,6 +29,7 @@ import {
 } from 'typeorm';
 
 import { isStoragePostgresConfiguration } from './StoragePostgresConfiguration';
+import { PrimaryAttribute } from '../engine/attribute/Attribute';
 
 const filterOperatorMap = {
   $ne: '$ne',
@@ -128,7 +129,7 @@ export const loadModels = (configuration) => {
 
       // it's a reference
       if (isEntity(attribute.type) || isShadowEntity(attribute.type)) {
-        const primaryAttribute = attribute.type.getPrimaryAttribute();
+        const primaryAttribute = attribute.type.getPrimaryAttribute() as PrimaryAttribute;
         storageDataType = StorageTypePostgres.convertToStorageDataType(
           primaryAttribute.type,
         );
