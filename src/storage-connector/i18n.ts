@@ -42,10 +42,13 @@ export const i18nDataParser: StorageDataTypeParser = (
   return null;
 };
 
-export const i18nDataSerializer: StorageDataTypeSerializer<Record<
-  string,
-  unknown
->> = (_, data, entity, mutation, { dataShaperMap }) => {
+export const i18nDataSerializer: StorageDataTypeSerializer = (
+  _,
+  data,
+  entity,
+  mutation,
+  { dataShaperMap },
+): Record<string, unknown> => {
   const i18nAttributeNames = entity.getI18nAttributeNames();
 
   if (!i18nAttributeNames || !data) {

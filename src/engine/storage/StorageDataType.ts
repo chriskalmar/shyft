@@ -4,14 +4,14 @@ import { storageDataTypeCapabilities } from '../constants';
 import { Entity } from '../entity/Entity';
 import { Mutation } from '../mutation/Mutation';
 
-export type StorageDataTypeSerializer<T> = {
+export type StorageDataTypeSerializer = {
   (
     value: unknown,
     data: Record<string, unknown>,
     entity: Entity,
     mutation: Mutation,
     { dataShaperMap },
-  ): T;
+  ): unknown;
 };
 
 export type StorageDataTypeParser = {
