@@ -221,7 +221,7 @@ export const loadModels = (configuration) => {
       unique: {},
     };
 
-    if (entity.indexes) {
+    if (isEntity(entity) && entity.indexes) {
       entity.indexes.map((index) => {
         if (index.type === INDEX_UNIQUE || index.type === INDEX_GENERIC) {
           const indexAttributes = index.attributes.map(_.snakeCase);
