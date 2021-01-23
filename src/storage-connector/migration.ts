@@ -4,8 +4,10 @@ import { CommandUtils } from 'typeorm/commands/CommandUtils';
 import { MigrationExecutor } from 'typeorm/migration/MigrationExecutor';
 
 import format from 'prettier-eslint';
-import { connectStorage, getConnection, disconnectStorage } from './generator';
+import { connectStorage, disconnectStorage } from './generator';
 import { asyncForEach } from './util';
+import { Configuration } from '..';
+import { Connection } from 'typeorm';
 
 const defaultTemplate = (migrationName, timestamp, upSqls, downSqls) => {
   return `
@@ -99,14 +101,14 @@ const getMigrationsFullPath = (connectionConfig) => {
 };
 
 export const generateMigration = async (
-  configuration,
-  migrationName,
+  configuration: Configuration,
+  migrationName: string,
   customTemplate,
   includeI18n = false,
   enforce = false,
 ): Promise<number | null> => {
-  await connectStorage(configuration, false);
-  const connection = getConnection();
+  const connection = await connectStorage(configuration, false, false);
+
   const storageConfiguration = configuration.getStorageConfiguration();
   const manager = connection.manager;
   const connectionConfig = storageConfiguration.getConnectionConfig();
@@ -173,13 +175,12 @@ export const generateMigration = async (
     console.log('No changes were found in database schema.');
   }
 
-  await disconnectStorage(configuration);
+  await disconnectStorage(connection);
   return upSqls.length || downSqls.length || enforce ? timestamp : null;
 };
 
 export const runMigration = async (configuration) => {
-  await connectStorage(configuration, false);
-  const connection = getConnection();
+  const connection = await connectStorage(configuration, false);
 
   try {
     await connection.runMigrations({
@@ -188,16 +189,15 @@ export const runMigration = async (configuration) => {
   } catch (err) {
     console.error('Migration failed');
     console.error(err);
-    await disconnectStorage(configuration);
+    await disconnectStorage(connection);
     process.exit(1);
   }
 
-  await disconnectStorage(configuration);
+  await disconnectStorage(connection);
 };
 
 export const revertMigration = async (configuration) => {
-  await connectStorage(configuration, false);
-  const connection = getConnection();
+  const connection = await connectStorage(configuration, false);
 
   try {
     await connection.undoLastMigration({
@@ -206,15 +206,14 @@ export const revertMigration = async (configuration) => {
   } catch (err) {
     console.error('Migration reversion failed');
     console.error(err);
-    await disconnectStorage(configuration);
+    await disconnectStorage(connection);
     process.exit(1);
   }
 
-  await disconnectStorage(configuration);
+  await disconnectStorage(connection);
 };
 
-export const fillMigrationsTable = async () => {
-  const connection = getConnection();
+export const fillMigrationsTable = async (connection: Connection) => {
   const queryRunner = connection.createQueryRunner();
 
   const migrationExecutor = new MigrationExecutor(connection);
@@ -227,8 +226,8 @@ export const fillMigrationsTable = async () => {
 };
 
 export const migrateI18nIndices = async (configuration) => {
-  await connectStorage(configuration, false);
-  const connection = getConnection();
+  const connection = await connectStorage(configuration, false);
+
   const storageConfiguration = configuration.getStorageConfiguration();
   const manager = connection.manager;
   const queryRunner = connection.createQueryRunner();
@@ -254,9 +253,9 @@ export const migrateI18nIndices = async (configuration) => {
   } catch (err) {
     console.error('I18n migration failed');
     console.error(err);
-    await disconnectStorage(configuration);
+    await disconnectStorage(connection);
     process.exit(1);
   }
 
-  await disconnectStorage(configuration);
+  await disconnectStorage(connection);
 };

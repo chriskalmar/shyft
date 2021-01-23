@@ -253,7 +253,6 @@ import {
   generateMockData,
   connectStorage,
   disconnectStorage,
-  getConnection,
 } from './storage-connector/generator';
 
 import {
@@ -272,7 +271,6 @@ export {
   generateMockData,
   connectStorage,
   disconnectStorage,
-  getConnection,
   StoragePostgresConfiguration,
   isStoragePostgresConfiguration,
   generateMigration,
@@ -289,7 +287,6 @@ export default {
   generateMockData,
   connectStorage,
   disconnectStorage,
-  getConnection,
   StoragePostgresConfiguration,
   isStoragePostgresConfiguration,
   generateMigration,

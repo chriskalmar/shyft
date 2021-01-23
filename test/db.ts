@@ -14,7 +14,7 @@ import {
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
-} from '../src/';
+} from '../src';
 
 import { Profile } from './models/Profile';
 import { Message } from './models/Message';
@@ -47,7 +47,7 @@ export const initDB = async () => {
   const storageConfiguration = new StoragePostgresConfiguration({
     connectionConfig: {
       host: process.env.PGHOST || 'localhost',
-      port: parseInt(process.env.PGPORT || 5432, 10),
+      port: parseInt(process.env.PGPORT || '5432', 10),
       username: process.env.PGUSER || 'postgres',
       password: process.env.PGPASSWORD || null,
       database: process.env.SHYFT_TEST_DB || 'shyft_tests',

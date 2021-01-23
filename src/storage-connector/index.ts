@@ -8,7 +8,6 @@ import {
   generateMockData,
   connectStorage,
   disconnectStorage,
-  getConnection,
 } from './generator';
 
 import {
@@ -27,7 +26,6 @@ export {
   generateMockData,
   connectStorage,
   disconnectStorage,
-  getConnection,
   StoragePostgresConfiguration,
   isStoragePostgresConfiguration,
   generateMigration,
@@ -44,7 +42,6 @@ export default {
   generateMockData,
   connectStorage,
   disconnectStorage,
-  getConnection,
   StoragePostgresConfiguration,
   isStoragePostgresConfiguration,
   generateMigration,

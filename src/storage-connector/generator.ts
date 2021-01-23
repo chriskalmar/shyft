@@ -500,14 +500,12 @@ export const installStorageScripts = async (
 
 export type OnConnectionHandler = (connection: Connection) => void;
 
-let connection: Connection;
-
 export const connectStorage = async (
   configuration: Configuration,
   synchronize = false,
   dropSchema = false,
-  onConnect: OnConnectionHandler,
-): Promise<void> => {
+  onConnect?: OnConnectionHandler,
+): Promise<Connection> => {
   const storageConfiguration = configuration.getStorageConfiguration();
   const connectionConfig = storageConfiguration.getConnectionConfig();
 
@@ -517,7 +515,7 @@ export const connectStorage = async (
     return modelRegistry[entityName].model;
   });
 
-  connection = await createConnection({
+  const connection: Connection = await createConnection({
     ...connectionConfig,
     type: 'postgres',
     synchronize,
@@ -543,12 +541,14 @@ export const connectStorage = async (
   // bring back logger options
   // @ts-expect-error untyped property
   connection.logger.options = loggerOptions;
+
+  return connection;
 };
 
-export const disconnectStorage = async (): Promise<void> => {
+export const disconnectStorage = async (
+  connection: Connection,
+): Promise<void> => {
   if (connection) {
     await connection.close();
   }
 };
-
-export const getConnection = (): Connection => connection;
