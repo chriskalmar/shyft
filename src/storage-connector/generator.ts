@@ -162,7 +162,7 @@ export const loadModels = (configuration) => {
 
           let unique = false;
           // checking if there is a defined index for the foreign key
-          if (entity.indexes) {
+          if (isEntity(entity) && entity.indexes) {
             const definedForeignKeyIndex = entity.indexes.filter((index) =>
               _.isEqual(index.attributes, [attributeName]),
             );
@@ -436,7 +436,11 @@ export const installStorageScripts = async (
   const languages = configuration.getLanguages();
   const storageInstance = storageConfiguration.getStorageInstance();
   const manager = storageInstance.manager;
-  const modelFeatures = {};
+  const modelFeatures = {
+    language: false,
+    i18n: false,
+    state: false,
+  };
   const schema = configuration.getSchema();
 
   if (languages.length > 1) {
