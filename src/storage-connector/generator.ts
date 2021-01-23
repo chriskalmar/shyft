@@ -1,5 +1,5 @@
 import StorageTypePostgres from './StorageTypePostgres';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import toposort from 'toposort';
 import { generateIndexName } from './util';
 

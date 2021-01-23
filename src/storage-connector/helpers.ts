@@ -1,6 +1,6 @@
 import StorageTypePostgres from './StorageTypePostgres';
 import { isEntity, isShadowEntity } from '..';
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 export const parseValues = (entity, data, model, context) => {
   if (!data) {

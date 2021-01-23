@@ -1,5 +1,5 @@
 import casual from 'casual';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { generateRows, readRows, writeTestDataFile } from './testingData';
 
 const mockProfiles = (profileCount) => {

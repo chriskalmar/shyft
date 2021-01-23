@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import path from 'path';
+import * as _ from 'lodash';
+import * as path from 'path';
 import { CommandUtils } from 'typeorm/commands/CommandUtils';
 import { MigrationExecutor } from 'typeorm/migration/MigrationExecutor';
 

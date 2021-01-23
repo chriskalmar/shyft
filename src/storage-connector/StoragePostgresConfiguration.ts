@@ -1,12 +1,12 @@
 import { StorageConfiguration } from '..';
 import { generateIndexName } from './util';
-import fs from 'fs';
-import _ from 'lodash';
+import * as fs from 'fs';
+import * as _ from 'lodash';
 
 const templatesPath = `${__dirname}/../../storageScripts`;
 
 const loadTemplate = (templateFileName) =>
-  fs.readFileSync(`${templatesPath}/${templateFileName}`, 'UTF8');
+  fs.readFileSync(`${templatesPath}/${templateFileName}`, 'utf8');
 
 const formatJSON = (obj) =>
   JSON.stringify(obj, null, 2).split('\n').join('\n  ');
