@@ -131,7 +131,7 @@ module.exports = {
     'no-extra-parens': ['error', 'functions'],
     'no-underscore-dangle': 0,
     'one-var': ['error', 'never'],
-    'require-jsdoc': 'warn',
+    'require-jsdoc': 'off',
     'require-atomic-updates': 0,
     '@typescript-eslint/explicit-function-return-type': 'off',
     'import/prefer-default-export': 0,
