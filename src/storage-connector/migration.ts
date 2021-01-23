@@ -104,7 +104,7 @@ export const generateMigration = async (
   customTemplate,
   includeI18n = false,
   enforce = false,
-) => {
+): Promise<number | null> => {
   await connectStorage(configuration, false);
   const connection = getConnection();
   const storageConfiguration = configuration.getStorageConfiguration();
@@ -112,7 +112,7 @@ export const generateMigration = async (
   const connectionConfig = storageConfiguration.getConnectionConfig();
 
   const migrationsPath = getMigrationsFullPath(connectionConfig);
-  const timestamp = new Date().getTime();
+  const timestamp: number = new Date().getTime();
 
   const upSqls = [];
   const downSqls = [];

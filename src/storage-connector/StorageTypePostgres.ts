@@ -100,7 +100,7 @@ const createDataLoader = (context, entity, StorageTypePostgres) => {
   const modelRegistry = StorageTypePostgres.getStorageModels();
   const manager = storageInstance.manager;
 
-  const loader = new Dataloader(async (ids) => {
+  const loader = new Dataloader(async (ids: string[]) => {
     const entityName = entity.name;
     const { filterShaper, storageTableName } = modelRegistry[entityName];
     const { name: primaryAttributeName } = entity.getPrimaryAttribute();

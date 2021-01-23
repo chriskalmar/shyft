@@ -26,10 +26,12 @@ import {
   createConnection,
   ViewEntity,
   ViewColumn,
+  Connection,
 } from 'typeorm';
 
 import { isStoragePostgresConfiguration } from './StoragePostgresConfiguration';
 import { PrimaryAttribute } from '../engine/attribute/Attribute';
+import { Configuration } from '../engine/configuration/Configuration';
 
 const filterOperatorMap = {
   $ne: '$ne',
@@ -430,9 +432,9 @@ async function generateItem(
 }
 
 export const installStorageScripts = async (
-  configuration,
+  configuration: Configuration,
   synchronize = false,
-) => {
+): Promise<void> => {
   const storageConfiguration = configuration.getStorageConfiguration();
   const languages = configuration.getLanguages();
   const storageInstance = storageConfiguration.getStorageInstance();
@@ -496,14 +498,16 @@ export const installStorageScripts = async (
   }
 };
 
-let connection;
+export type OnConnectionHandler = (connection: Connection) => void;
+
+let connection: Connection;
 
 export const connectStorage = async (
-  configuration,
+  configuration: Configuration,
   synchronize = false,
   dropSchema = false,
-  onConnect,
-) => {
+  onConnect: OnConnectionHandler,
+): Promise<void> => {
   const storageConfiguration = configuration.getStorageConfiguration();
   const connectionConfig = storageConfiguration.getConnectionConfig();
 
@@ -529,19 +533,22 @@ export const connectStorage = async (
   storageConfiguration.setStorageModels(modelRegistry);
 
   // remember logger settings and disable logger
+  // @ts-expect-error untyped property
   const loggerOptions = connection.logger.options;
+  // @ts-expect-error untyped property
   connection.logger.options = false;
 
   await installStorageScripts(configuration, synchronize);
 
   // bring back logger options
+  // @ts-expect-error untyped property
   connection.logger.options = loggerOptions;
 };
 
-export const disconnectStorage = async () => {
+export const disconnectStorage = async (): Promise<void> => {
   if (connection) {
     await connection.close();
   }
 };
 
-export const getConnection = () => connection;
+export const getConnection = (): Connection => connection;
