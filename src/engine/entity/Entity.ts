@@ -115,6 +115,7 @@ export interface EntitySetup {
 
 export class Entity {
   name: string;
+  storageTableName: string;
   description: string;
   storageType?: StorageType;
   isUserEntity?: boolean;

@@ -75,6 +75,7 @@ export interface ViewEntitySetup {
 
 export class ViewEntity {
   name: string;
+  storageTableName: string;
   description: string;
   storageType?: StorageType;
   viewExpression: any;
