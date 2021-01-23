@@ -6,7 +6,7 @@ import {
   StorageConfiguration,
   isStorageConfiguration,
 } from './StorageConfiguration';
-import { Entity, StorageDataType } from '../..';
+import { ComplexDataType, Entity, StorageDataType } from '../..';
 import { Mutation } from '../mutation/Mutation';
 
 export type StorageTypeSetup = {
@@ -176,10 +176,13 @@ export class StorageType {
     });
   }
 
-  convertToStorageDataType(schemaDataType: DataType) {
+  convertToStorageDataType(
+    schemaDataType: DataType | ComplexDataType,
+  ): StorageDataType {
     const foundDynamicDataType = this._dynamicDataTypeMap.find(
       ({ schemaDataTypeDetector }) => schemaDataTypeDetector(schemaDataType),
     );
+
     if (foundDynamicDataType) {
       const storageDataType = foundDynamicDataType.storageDataType;
 
@@ -191,12 +194,13 @@ export class StorageType {
       return storageDataType;
     }
 
-    passOrThrow(
-      isDataType(schemaDataType),
-      () =>
-        `Provided schemaDataType is not a valid data type in storage type '${this.name}', ` +
-        `got this instead: ${String(schemaDataType)}`,
-    );
+    if (!isDataType(schemaDataType)) {
+      throw new Error(
+        `Provided schemaDataType is not a valid data type in storage type '${
+          this.name
+        }', got this instead: ${String(schemaDataType)}`,
+      );
+    }
 
     passOrThrow(
       this._dataTypeMap[schemaDataType.name],
