@@ -51,6 +51,7 @@ import {
   AttributesMap,
   AttributesSetupMap,
   AttributesMapGenerator,
+  PrimaryAttribute,
 } from '../attribute/Attribute';
 import { processPreFilters } from '../filter';
 import { Context } from '../context/Context';
@@ -131,7 +132,7 @@ export class Entity {
     [key: string]: unknown;
   };
   private setup: EntitySetup;
-  private _primaryAttribute: Attribute;
+  private _primaryAttribute: PrimaryAttribute;
   private referencedByEntities: {
     sourceEntityName: string;
     sourceAttributeName: string;
@@ -599,7 +600,7 @@ export class Entity {
       );
 
       attribute.isSystemAttribute = true;
-      this._primaryAttribute = attribute;
+      this._primaryAttribute = attribute as PrimaryAttribute;
     }
 
     passOrThrow(
@@ -699,7 +700,7 @@ export class Entity {
     return rankedResultAttributes;
   }
 
-  getPrimaryAttribute() {
+  getPrimaryAttribute(): PrimaryAttribute {
     return this._primaryAttribute;
   }
 

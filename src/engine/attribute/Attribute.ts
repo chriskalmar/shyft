@@ -132,6 +132,33 @@ export type Attribute = AttributeBase & {
 };
 
 /**
+ * a model attribute
+ */
+export type PrimaryAttribute = AttributeBase & {
+  /**
+   * name of the attribute
+   */
+  name: string;
+
+  /**
+   * map of target attributes when referencing another entity
+   */
+  // targetAttributesMap?: {
+  //   [key: string]: {
+  //     name: string;
+  //     type: DataType;
+  //   };
+  // };
+
+  /**
+   * internal flag for system attributes (e.g. time tracking, state, ...)
+   */
+  isSystemAttribute?: boolean;
+
+  type: DataType;
+};
+
+/**
  * setup of an attribute
  */
 export type AttributeSetup = AttributeBase;
