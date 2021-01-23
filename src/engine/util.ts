@@ -83,9 +83,9 @@ export const mapOverProperties = (
 
 export const sortDataByKeys = (
   keys: string[],
-  data: object[],
+  data: unknown[],
   keyProperty = 'id',
-) => {
+): unknown[] => {
   const map = {};
   const result = [];
   const order = {};
