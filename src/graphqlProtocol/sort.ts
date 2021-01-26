@@ -14,12 +14,7 @@ export const generateSortInput = (entity) => {
   let defaultSortValue;
 
   _.forEach(entity.getAttributes(), (attribute) => {
-    if (
-      isEntity(attribute.type) ||
-      isShadowEntity(attribute.type) ||
-      attribute.hidden ||
-      attribute.mutationInput
-    ) {
+    if (attribute.hidden || attribute.mutationInput) {
       return;
     }
 
@@ -28,9 +23,16 @@ export const generateSortInput = (entity) => {
       attribute.name,
     );
 
-    const storageDataType = storageType.convertToStorageDataType(
-      attribute.type,
-    );
+    let storageDataType;
+
+    if (isEntity(attribute.type) || isShadowEntity(attribute.type)) {
+      const targetPrimaryAttribute = attribute.type.getPrimaryAttribute();
+      storageDataType = storageType.convertToStorageDataType(
+        targetPrimaryAttribute.type,
+      );
+    } else {
+      storageDataType = storageType.convertToStorageDataType(attribute.type);
+    }
 
     if (!storageDataType.isSortable) {
       return;
