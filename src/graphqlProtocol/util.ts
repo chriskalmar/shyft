@@ -142,3 +142,6 @@ export const translateListFn = (entity, context) => {
     return translateList(entity, list, context);
   };
 };
+
+// emulate gql tag for prettier
+export const gql = String.raw;
