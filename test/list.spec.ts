@@ -1,8 +1,8 @@
 import './setupAndTearDown';
 
-import { asAdmin, removeDynamicData } from './testUtils';
+import { asAdmin, removeDynamicData, removeListDynamicData } from './testUtils';
 
-import { testGraphql } from './db';
+import { find, testGraphql } from './db';
 import { gql } from '../src/graphqlProtocol/util';
 import DataLoader from 'dataloader';
 import { Profile } from './models/Profile';
@@ -1210,5 +1210,20 @@ describe('list', () => {
 
     const result = removeDynamicData(Profile, await loader.load('5'));
     expect(result).toMatchSnapshot();
+  });
+
+  it('should read data via connector', async () => {
+    const orderByIdDesc = {
+      orderBy: [
+        {
+          attribute: 'id',
+          direction: 'DESC',
+        },
+      ],
+    };
+
+    const profiles = await find(Profile, { ...orderByIdDesc }, asAdmin());
+    profiles.data = removeListDynamicData(Profile, profiles.data);
+    expect(profiles).toMatchSnapshot();
   });
 });
