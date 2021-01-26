@@ -22,6 +22,12 @@ import { BoardMember } from './models/BoardMember';
 import { Book } from './models/Book';
 import { DataTypeTester } from './models/DataTypeTester';
 import { BoardMemberView } from './models/BoardMemberView';
+import { Connection } from 'typeorm';
+import { generateGraphQLSchema } from '../src/graphqlProtocol/generator';
+import { ExecutionResult, graphql, GraphQLSchema, Source } from 'graphql';
+import Maybe from 'graphql/tsutils/Maybe';
+import { ExecutionResultDataDefault } from 'graphql/execution/execute';
+import { ProtocolGraphQLConfiguration } from '../src/graphqlProtocol/ProtocolGraphQLConfiguration';
 
 const schema = new Schema({
   defaultStorageType: StorageTypePostgres,
@@ -41,9 +47,13 @@ const languages = ['en', 'de'];
 const configuration = new Configuration({
   languages,
   schema,
+  protocolConfiguration: new ProtocolGraphQLConfiguration(),
 });
 
-export const initDB = async () => {
+let connection: Connection;
+let graphqlSchema: GraphQLSchema;
+
+export const initDB = async (): Promise<void> => {
   const storageConfiguration = new StoragePostgresConfiguration({
     connectionConfig: {
       host: process.env.PGHOST || 'localhost',
@@ -57,12 +67,24 @@ export const initDB = async () => {
 
   configuration.setStorageConfiguration(storageConfiguration);
 
-  await connectStorage(configuration, true, true);
+  connection = await connectStorage(configuration, true, true);
 };
 
 export const disconnectDB = async () => {
-  await disconnectStorage();
+  await disconnectStorage(connection);
 };
+
+export const initGraphQLSchema = (): void => {
+  graphqlSchema = generateGraphQLSchema(configuration);
+};
+
+export async function testGraphql(
+  query: Source | string,
+  context?: unknown,
+  payload?: Maybe<{ [key: string]: unknown }>,
+): Promise<ExecutionResult<ExecutionResultDataDefault>> {
+  return graphql(graphqlSchema, query, null, context || {}, payload);
+}
 
 const serializeAttributeValues = (
   entity,
@@ -179,7 +201,7 @@ export const findOneByValue = async (entity, payload, context) => {
   return await StorageTypePostgres.findOneByValues(entity, payload, context);
 };
 
-export const find = async (entity, payload, context, parentConnection) => {
+export const find = async (entity, payload, context, parentConnection?) => {
   return await StorageTypePostgres.find(
     entity,
     payload,
