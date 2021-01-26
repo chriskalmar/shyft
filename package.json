@@ -20,7 +20,8 @@
     "release": "np --no-publish"
   },
   "files": [
-    "lib"
+    "lib",
+    "storageScripts"
   ],
   "jest": {
     "testEnvironment": "node"
