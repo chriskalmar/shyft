@@ -1,450 +1,983 @@
 import './setupAndTearDown';
-import { find } from './db';
 
-import { asAdmin, removeListDynamicData } from './testUtils';
+import { asAdmin, removeDynamicData } from './testUtils';
 
+import { testGraphql } from './db';
+import { gql } from '../src/graphqlProtocol/util';
+import DataLoader from 'dataloader';
 import { Profile } from './models/Profile';
-import { Board } from './models/Board';
-import { BoardMember } from './models/BoardMember';
-
-const orderByIdAsc = {
-  orderBy: [
-    {
-      attribute: 'id',
-      direction: 'ASC',
-    },
-  ],
-};
-
-const orderByIdDesc = {
-  orderBy: [
-    {
-      attribute: 'id',
-      direction: 'DESC',
-    },
-  ],
-};
 
 describe('list', () => {
   it('orderBy', async () => {
-    const profiles = await find(Profile, { ...orderByIdAsc }, asAdmin());
-    profiles.data = removeListDynamicData(Profile, profiles.data);
-    expect(profiles).toMatchSnapshot();
+    const result = await testGraphql(
+      gql`
+        query allProfiles {
+          allProfiles(orderBy: [ID_ASC]) {
+            edges {
+              node {
+                id
+                username
+                firstname
+                lastname
+                confirmedAt
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
+      asAdmin(),
+    );
+
+    expect(result).toMatchSnapshot();
   });
 
   it('orderBy + first', async () => {
-    const profiles = await find(
-      Profile,
-      { ...orderByIdAsc, first: 3 },
+    const result = await testGraphql(
+      gql`
+        query allProfiles {
+          allProfiles(orderBy: [ID_ASC], first: 3) {
+            edges {
+              node {
+                id
+                username
+                firstname
+                lastname
+                confirmedAt
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
       asAdmin(),
     );
-    profiles.data = removeListDynamicData(Profile, profiles.data);
-    expect(profiles).toMatchSnapshot();
+
+    expect(result).toMatchSnapshot();
   });
 
   it('orderBy + first 0', async () => {
-    const profiles = await find(
-      Profile,
-      { ...orderByIdAsc, first: 0 },
+    const result = await testGraphql(
+      gql`
+        query allProfiles {
+          allProfiles(orderBy: [ID_ASC], first: 0) {
+            edges {
+              node {
+                id
+                username
+                firstname
+                lastname
+                confirmedAt
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
       asAdmin(),
     );
-    expect(profiles).toMatchSnapshot();
+
+    expect(result).toMatchSnapshot();
   });
 
   it('orderBy + last', async () => {
-    const profiles = await find(
-      Profile,
-      { ...orderByIdAsc, last: 3 },
+    const result = await testGraphql(
+      gql`
+        query allProfiles {
+          allProfiles(orderBy: [ID_ASC], last: 3) {
+            edges {
+              node {
+                id
+                username
+                firstname
+                lastname
+                confirmedAt
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
       asAdmin(),
     );
-    profiles.data = removeListDynamicData(Profile, profiles.data);
-    expect(profiles).toMatchSnapshot();
+
+    expect(result).toMatchSnapshot();
   });
 
   it('descending orderBy', async () => {
-    const profiles = await find(Profile, { ...orderByIdDesc }, asAdmin());
-    profiles.data = removeListDynamicData(Profile, profiles.data);
-    expect(profiles).toMatchSnapshot();
+    const result = await testGraphql(
+      gql`
+        query allProfiles {
+          allProfiles(orderBy: [ID_DESC]) {
+            edges {
+              node {
+                id
+                username
+                firstname
+                lastname
+                confirmedAt
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
+      asAdmin(),
+    );
+
+    expect(result).toMatchSnapshot();
   });
 
   it('descending orderBy + first', async () => {
-    const profiles = await find(
-      Profile,
-      { ...orderByIdDesc, first: 3 },
+    const result = await testGraphql(
+      gql`
+        query allProfiles {
+          allProfiles(orderBy: [ID_DESC], first: 3) {
+            edges {
+              node {
+                id
+                username
+                firstname
+                lastname
+                confirmedAt
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
       asAdmin(),
     );
-    profiles.data = removeListDynamicData(Profile, profiles.data);
-    expect(profiles).toMatchSnapshot();
+
+    expect(result).toMatchSnapshot();
   });
 
   it('descending orderBy + last', async () => {
-    const profiles = await find(
-      Profile,
-      { ...orderByIdDesc, last: 3 },
+    const result = await testGraphql(
+      gql`
+        query allProfiles {
+          allProfiles(orderBy: [ID_DESC], last: 3) {
+            edges {
+              node {
+                id
+                username
+                firstname
+                lastname
+                confirmedAt
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
       asAdmin(),
     );
-    profiles.data = removeListDynamicData(Profile, profiles.data);
-    expect(profiles).toMatchSnapshot();
+
+    expect(result).toMatchSnapshot();
   });
 
   it('orderBy + offset', async () => {
-    const profiles = await find(
-      Profile,
-      { ...orderByIdAsc, offset: 5 },
+    const result = await testGraphql(
+      gql`
+        query allProfiles {
+          allProfiles(orderBy: [ID_ASC], offset: 5) {
+            edges {
+              node {
+                id
+                username
+                firstname
+                lastname
+                confirmedAt
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
       asAdmin(),
     );
-    profiles.data = removeListDynamicData(Profile, profiles.data);
-    expect(profiles).toMatchSnapshot();
+
+    expect(result).toMatchSnapshot();
   });
 
   it('orderBy + first + offset', async () => {
-    const profiles = await find(
-      Profile,
-      { ...orderByIdAsc, first: 3, offset: 5 },
+    const result = await testGraphql(
+      gql`
+        query allProfiles {
+          allProfiles(orderBy: [ID_ASC], first: 3, offset: 5) {
+            edges {
+              node {
+                id
+                username
+                firstname
+                lastname
+                confirmedAt
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
       asAdmin(),
     );
-    profiles.data = removeListDynamicData(Profile, profiles.data);
-    expect(profiles).toMatchSnapshot();
+
+    expect(result).toMatchSnapshot();
   });
 
   it('orderBy + last + offset', async () => {
-    const profiles = await find(
-      Profile,
-      { ...orderByIdAsc, last: 3, offset: 5 },
+    const result = await testGraphql(
+      gql`
+        query allProfiles {
+          allProfiles(orderBy: [ID_ASC], last: 3, offset: 5) {
+            edges {
+              node {
+                id
+                username
+                firstname
+                lastname
+                confirmedAt
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
       asAdmin(),
     );
-    profiles.data = removeListDynamicData(Profile, profiles.data);
-    expect(profiles).toMatchSnapshot();
+
+    expect(result).toMatchSnapshot();
   });
 
   it('descending orderBy + offset', async () => {
-    const profiles = await find(
-      Profile,
-      { ...orderByIdDesc, offset: 5 },
+    const result = await testGraphql(
+      gql`
+        query allProfiles {
+          allProfiles(orderBy: [ID_DESC], offset: 5) {
+            edges {
+              node {
+                id
+                username
+                firstname
+                lastname
+                confirmedAt
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
       asAdmin(),
     );
-    profiles.data = removeListDynamicData(Profile, profiles.data);
-    expect(profiles).toMatchSnapshot();
+
+    expect(result).toMatchSnapshot();
   });
 
   it('descending orderBy + first + offset', async () => {
-    const profiles = await find(
-      Profile,
-      { ...orderByIdDesc, first: 3, offset: 5 },
+    const result = await testGraphql(
+      gql`
+        query allProfiles {
+          allProfiles(orderBy: [ID_DESC], first: 3, offset: 5) {
+            edges {
+              node {
+                id
+                username
+                firstname
+                lastname
+                confirmedAt
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
       asAdmin(),
     );
-    profiles.data = removeListDynamicData(Profile, profiles.data);
-    expect(profiles).toMatchSnapshot();
+
+    expect(result).toMatchSnapshot();
   });
 
   it('descending orderBy + last + offset', async () => {
-    const profiles = await find(
-      Profile,
-      { ...orderByIdDesc, last: 3, offset: 5 },
+    const result = await testGraphql(
+      gql`
+        query allProfiles {
+          allProfiles(orderBy: [ID_DESC], last: 3, offset: 5) {
+            edges {
+              node {
+                id
+                username
+                firstname
+                lastname
+                confirmedAt
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
       asAdmin(),
     );
-    profiles.data = removeListDynamicData(Profile, profiles.data);
-    expect(profiles).toMatchSnapshot();
+
+    expect(result).toMatchSnapshot();
   });
 
   it('multi-key orderBy + first + offset', async () => {
-    const orderByDesc = {
-      orderBy: [
-        {
-          attribute: 'board',
-          direction: 'ASC',
-        },
-        {
-          attribute: 'invitee',
-          direction: 'DESC',
-        },
-      ],
-    };
-    const result = await find(
-      BoardMember,
-      { ...orderByDesc, first: 5, offset: 5 },
+    const result = await testGraphql(
+      gql`
+        query allBoardMembers {
+          allBoardMembers(
+            orderBy: [BOARD_ASC, INVITEE_DESC]
+            first: 5
+            offset: 5
+          ) {
+            edges {
+              node {
+                board
+                id
+                invitee
+                inviter
+                state
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
       asAdmin(),
     );
-    result.data = removeListDynamicData(Profile, result.data);
+
     expect(result).toMatchSnapshot();
   });
 
   it('filter', async () => {
-    const filter = {
-      username: 'hazel528',
-    };
+    const result = await testGraphql(
+      gql`
+        query allProfiles {
+          allProfiles(orderBy: [ID_ASC], filter: { username: "hazel528" }) {
+            edges {
+              node {
+                id
+                username
+                firstname
+                lastname
+                confirmedAt
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
+      asAdmin(),
+    );
 
-    const result = await find(Profile, { ...orderByIdAsc, filter }, asAdmin());
-    result.data = removeListDynamicData(Profile, result.data);
     expect(result).toMatchSnapshot();
   });
 
   it('filter with no results', async () => {
-    const filter = {
-      username: '---not-found---',
-    };
+    const result = await testGraphql(
+      gql`
+        query allProfiles {
+          allProfiles(
+            orderBy: [ID_ASC]
+            filter: { username: "---not-found---" }
+          ) {
+            edges {
+              node {
+                id
+                username
+                firstname
+                lastname
+                confirmedAt
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
+      asAdmin(),
+    );
 
-    const result = await find(Profile, { ...orderByIdAsc, filter }, asAdmin());
-    result.data = removeListDynamicData(Profile, result.data);
     expect(result).toMatchSnapshot();
   });
 
   it('filter with mutliple attributes', async () => {
-    const filter = {
-      name: 'Veritatis nihil cum',
-      isPrivate: true,
-    };
+    const result = await testGraphql(
+      gql`
+        query allBoards {
+          allBoards(
+            orderBy: [ID_ASC]
+            filter: { name: "Veritatis nihil cum", isPrivate: true }
+          ) {
+            edges {
+              node {
+                name
+                owner
+                vip
+                isPrivate
+                metaData {
+                  description
+                  externalLinks
+                }
+                mods
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
+      asAdmin(),
+    );
 
-    const result = await find(Board, { ...orderByIdAsc, filter }, asAdmin());
-    result.data = removeListDynamicData(Board, result.data);
     expect(result).toMatchSnapshot();
   });
 
   it('filter with invalid attributes (reject)', async () => {
-    const filter = {
-      someAttributes: 'Veritatis nihil cum',
-    };
+    const result = await testGraphql(
+      gql`
+        query allBoards {
+          allBoards(
+            orderBy: [ID_ASC]
+            filter: { someAttributes: "Veritatis nihil cum" }
+          ) {
+            edges {
+              node {
+                name
+                owner
+                vip
+                isPrivate
+                metaData {
+                  description
+                  externalLinks
+                }
+                mods
+              }
+            }
+            resultCount
+            totalCount
+            pageInfo {
+              startCursor
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+          }
+        }
+      `,
+      asAdmin(),
+    );
 
-    await find(Board, { ...orderByIdAsc, filter }, asAdmin()).catch((e) => {
-      expect(e).toMatchSnapshot();
-    });
+    expect(result).toMatchSnapshot();
   });
 
   describe('filter with logical operators', () => {
     describe('OR', () => {
-      const orderBy = [
-        {
-          attribute: 'registeredAt',
-          direction: 'DESC',
-        },
-      ];
-
-      const filter = {
-        $or: [
-          {
-            username: 'dana768',
-          },
-          {
-            username: 'weston422',
-          },
-          {
-            username: {
-              $starts_with: 'jo',
-              $ends_with: '56',
-            },
-          },
-        ],
-      };
-
       it('OR + orderBy', async () => {
-        const result = await find(Profile, { orderBy, filter }, asAdmin());
-        result.data = removeListDynamicData(Profile, result.data);
+        const result = await testGraphql(
+          gql`
+            query allProfiles {
+              allProfiles(
+                orderBy: [REGISTERED_AT_DESC]
+                filter: {
+                  OR: [
+                    { username: "dana768" }
+                    { username: "weston422" }
+                    { username__starts_with: "jo", username__ends_with: "56" }
+                  ]
+                }
+              ) {
+                edges {
+                  node {
+                    id
+                    username
+                    firstname
+                    lastname
+                    confirmedAt
+                  }
+                }
+                resultCount
+                totalCount
+                pageInfo {
+                  hasNextPage
+                  hasPreviousPage
+                }
+              }
+            }
+          `,
+          asAdmin(),
+        );
+
         expect(result).toMatchSnapshot();
       });
 
       it('OR + offset', async () => {
-        const result = await find(
-          Profile,
-          { orderBy, filter, offset: 1 },
+        const result = await testGraphql(
+          gql`
+            query allProfiles {
+              allProfiles(
+                orderBy: [REGISTERED_AT_DESC]
+                offset: 1
+                filter: {
+                  OR: [
+                    { username: "dana768" }
+                    { username: "weston422" }
+                    { username__starts_with: "jo", username__ends_with: "56" }
+                  ]
+                }
+              ) {
+                edges {
+                  node {
+                    id
+                    username
+                    firstname
+                    lastname
+                    confirmedAt
+                  }
+                }
+                resultCount
+                totalCount
+                pageInfo {
+                  hasNextPage
+                  hasPreviousPage
+                }
+              }
+            }
+          `,
           asAdmin(),
         );
-        result.data = removeListDynamicData(Profile, result.data);
+
         expect(result).toMatchSnapshot();
       });
 
       it('OR + last', async () => {
-        const result = await find(
-          Profile,
-          { orderBy, filter, last: 3 },
+        const result = await testGraphql(
+          gql`
+            query allProfiles {
+              allProfiles(
+                orderBy: [REGISTERED_AT_DESC]
+                last: 3
+                filter: {
+                  OR: [
+                    { username: "dana768" }
+                    { username: "weston422" }
+                    { username__starts_with: "jo", username__ends_with: "56" }
+                  ]
+                }
+              ) {
+                edges {
+                  node {
+                    id
+                    username
+                    firstname
+                    lastname
+                    confirmedAt
+                  }
+                }
+                resultCount
+                totalCount
+                pageInfo {
+                  hasNextPage
+                  hasPreviousPage
+                }
+              }
+            }
+          `,
           asAdmin(),
         );
-        result.data = removeListDynamicData(Profile, result.data);
+
         expect(result).toMatchSnapshot();
       });
     });
 
     describe('AND', () => {
-      const orderBy = [
-        {
-          attribute: 'createdAt',
-          direction: 'DESC',
-        },
-      ];
-
-      const filter = {
-        $and: [
-          {
-            board: {
-              $gt: 30,
-              $lt: 40,
-            },
-          },
-          {
-            state: {
-              $in: [20, 50],
-            },
-          },
-          {
-            inviter: {
-              $in: [61, 78],
-            },
-          },
-        ],
-      };
-
       it('AND + orderBy', async () => {
-        const result = await find(BoardMember, { orderBy, filter }, asAdmin());
-        result.data = removeListDynamicData(BoardMember, result.data);
+        const result = await testGraphql(
+          gql`
+            query allBoardMembers {
+              allBoardMembers(
+                orderBy: [CREATED_AT_DESC]
+                filter: {
+                  AND: [
+                    { board__gt: 30, board__lt: 40 }
+                    { state__in: [accepted, joined] }
+                    { inviter__in: [61, 78] }
+                  ]
+                }
+              ) {
+                edges {
+                  node {
+                    board
+                    id
+                    invitee
+                    inviter
+                    state
+                  }
+                }
+                resultCount
+                totalCount
+                pageInfo {
+                  hasNextPage
+                  hasPreviousPage
+                }
+              }
+            }
+          `,
+          asAdmin(),
+        );
+
         expect(result).toMatchSnapshot();
       });
 
       it('AND + offset', async () => {
-        const result = await find(
-          BoardMember,
-          { orderBy, filter, offset: 4 },
+        const result = await testGraphql(
+          gql`
+            query allBoardMembers {
+              allBoardMembers(
+                orderBy: [CREATED_AT_DESC]
+                offset: 4
+                filter: {
+                  AND: [
+                    { board__gt: 30, board__lt: 40 }
+                    { state__in: [accepted, joined] }
+                    { inviter__in: [61, 78] }
+                  ]
+                }
+              ) {
+                edges {
+                  node {
+                    board
+                    id
+                    invitee
+                    inviter
+                    state
+                  }
+                }
+                resultCount
+                totalCount
+                pageInfo {
+                  hasNextPage
+                  hasPreviousPage
+                }
+              }
+            }
+          `,
           asAdmin(),
         );
-        result.data = removeListDynamicData(BoardMember, result.data);
+
         expect(result).toMatchSnapshot();
       });
 
       it('AND + last', async () => {
-        const result = await find(
-          BoardMember,
-          { orderBy, filter, last: 4 },
+        const result = await testGraphql(
+          gql`
+            query allBoardMembers {
+              allBoardMembers(
+                orderBy: [CREATED_AT_DESC]
+                last: 4
+                filter: {
+                  AND: [
+                    { board__gt: 30, board__lt: 40 }
+                    { state__in: [accepted, joined] }
+                    { inviter__in: [61, 78] }
+                  ]
+                }
+              ) {
+                edges {
+                  node {
+                    board
+                    id
+                    invitee
+                    inviter
+                    state
+                  }
+                }
+                resultCount
+                totalCount
+                pageInfo {
+                  hasNextPage
+                  hasPreviousPage
+                }
+              }
+            }
+          `,
           asAdmin(),
         );
-        result.data = removeListDynamicData(BoardMember, result.data);
+
         expect(result).toMatchSnapshot();
       });
     });
 
     describe('filter with nested logical operators', () => {
-      const orderBy = [
-        {
-          attribute: 'board',
-          direction: 'ASC',
-        },
-      ];
-
-      const filter = {
-        $and: [
-          {
-            board: {
-              $gt: 30,
-              $lt: 40,
-            },
-          },
-          {
-            state: {
-              $in: [20, 50],
-            },
-          },
-          {
-            inviter: {
-              $in: [61, 78],
-            },
-          },
-          {
-            $or: [
-              {
-                invitee: 107,
-              },
-              {
-                invitee: 21,
-              },
-              {
-                invitee: 38,
-              },
-              {
-                invitee: {
-                  $gt: 60,
-                  $lt: 62,
-                },
-              },
-            ],
-          },
-        ],
-      };
-
       it('AND + OR', async () => {
-        const result = await find(BoardMember, { orderBy, filter }, asAdmin());
-        result.data = removeListDynamicData(BoardMember, result.data);
+        const result = await testGraphql(
+          gql`
+            query allBoardMembers {
+              allBoardMembers(
+                orderBy: [BOARD_ASC]
+                filter: {
+                  AND: [
+                    { board__gt: 30, board__lt: 40 }
+                    { state__in: [accepted, joined] }
+                    { inviter__in: [61, 78] }
+                    {
+                      OR: [
+                        { invitee: 107 }
+                        { invitee: 21 }
+                        { invitee: 38 }
+                        { invitee__gt: 60, invitee__lt: 62 }
+                      ]
+                    }
+                  ]
+                }
+              ) {
+                edges {
+                  node {
+                    board
+                    id
+                    invitee
+                    inviter
+                    state
+                  }
+                }
+                resultCount
+                totalCount
+                pageInfo {
+                  hasNextPage
+                  hasPreviousPage
+                }
+              }
+            }
+          `,
+          asAdmin(),
+        );
+
         expect(result).toMatchSnapshot();
       });
     });
   });
 
-  it('parentConnection', async () => {
-    const parentConnection = {
-      id: 60,
-      attribute: 'inviter',
-    };
-
-    const result = await find(
-      BoardMember,
-      { ...orderByIdAsc },
+  it('reverse connection', async () => {
+    const result = await testGraphql(
+      gql`
+        query inviterById {
+          profileById(id: 60) {
+            id
+            boardMembersByInviter(orderBy: [ID_ASC]) {
+              edges {
+                node {
+                  board
+                  id
+                  invitee
+                  inviter
+                  state
+                }
+              }
+              resultCount
+              totalCount
+              pageInfo {
+                hasNextPage
+                hasPreviousPage
+              }
+            }
+          }
+        }
+      `,
       asAdmin(),
-      parentConnection,
     );
-    result.data = removeListDynamicData(BoardMember, result.data);
+
     expect(result).toMatchSnapshot();
   });
 
-  it('parentConnection + first', async () => {
-    const parentConnection = {
-      id: 60,
-      attribute: 'inviter',
-    };
-
-    const result = await find(
-      BoardMember,
-      { ...orderByIdAsc, first: 1 },
+  it('reverse connection + first', async () => {
+    const result = await testGraphql(
+      gql`
+        query inviterById {
+          profileById(id: 60) {
+            id
+            boardMembersByInviter(orderBy: [ID_ASC], first: 1) {
+              edges {
+                node {
+                  board
+                  id
+                  invitee
+                  inviter
+                  state
+                }
+              }
+              resultCount
+              totalCount
+              pageInfo {
+                hasNextPage
+                hasPreviousPage
+              }
+            }
+          }
+        }
+      `,
       asAdmin(),
-      parentConnection,
     );
-    result.data = removeListDynamicData(BoardMember, result.data);
+
     expect(result).toMatchSnapshot();
-  });
-
-  it('parentConnection with invalid attribute (reject)', async () => {
-    const parentConnection = {
-      id: 60,
-      attribute: 'invalidAttributeName',
-    };
-
-    await find(
-      BoardMember,
-      { ...orderByIdAsc },
-      asAdmin(),
-      parentConnection,
-    ).catch((e) => {
-      expect(e).toMatchSnapshot();
-    });
-  });
-
-  it('should utilize data loader', async () => {
-    const context = asAdmin();
-
-    const result = await Promise.all([
-      find(Profile, { ...orderByIdAsc, first: 2 }, context),
-      find(Profile, { ...orderByIdAsc, first: 2 }, context),
-    ]);
-
-    expect(
-      result.map((profile) => removeListDynamicData(Profile, profile.data)),
-    ).toMatchSnapshot();
   });
 
   describe('filter variants', () => {
-    const runVariant = async (filter) => {
-      const result = await find(Board, { ...orderByIdAsc, filter }, asAdmin());
-      result.data = removeListDynamicData(Board, result.data);
-      return result;
+    const runFilterVariant = async (boardFilter: {
+      [key: string]: unknown;
+    }) => {
+      return await testGraphql(
+        gql`
+          query allBoards($boardFilter: BoardFilter) {
+            allBoards(orderBy: [ID_ASC], filter: $boardFilter) {
+              edges {
+                node {
+                  name
+                  owner
+                  vip
+                  isPrivate
+                  metaData {
+                    description
+                    externalLinks
+                  }
+                  mods
+                  createdBy
+                  updatedBy
+                }
+              }
+              resultCount
+              totalCount
+              pageInfo {
+                startCursor
+                endCursor
+                hasNextPage
+                hasPreviousPage
+              }
+            }
+          }
+        `,
+        asAdmin(),
+        {
+          boardFilter: boardFilter,
+        },
+      );
     };
 
     it('equals (null)', async () => {
-      const result = await runVariant({
+      const result = await runFilterVariant({
         name: null,
       });
 
@@ -452,250 +985,230 @@ describe('list', () => {
     });
 
     it('$ne', async () => {
-      const result = await runVariant({
-        name: {
-          $ne: 'Reiciendis quaerat',
-        },
+      const result = await runFilterVariant({
+        name__ne: 'Reiciendis quaerat',
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$ne (null)', async () => {
-      const result = await runVariant({
-        name: {
-          $ne: null,
-        },
+      const result = await runFilterVariant({
+        name__ne: null,
       });
       expect(result).toMatchSnapshot();
     });
 
     it('$in', async () => {
-      const result = await runVariant({
-        name: {
-          $in: ['Ut et', 'Rerum ad'],
-        },
+      const result = await runFilterVariant({
+        name__in: ['Ut et', 'Rerum ad'],
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$not_in', async () => {
-      const result = await runVariant({
-        owner: {
-          $not_in: [37, 79, 42],
-        },
+      const result = await runFilterVariant({
+        owner__not_in: [37, 79, 42],
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$lt', async () => {
-      const result = await runVariant({
-        id: {
-          $lt: 4,
-        },
+      const result = await runFilterVariant({
+        id__lt: 4,
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$lte', async () => {
-      const result = await runVariant({
-        id: {
-          $lte: 4,
-        },
+      const result = await runFilterVariant({
+        id__lte: 4,
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$gt', async () => {
-      const result = await runVariant({
-        id: {
-          $gt: 47,
-        },
+      const result = await runFilterVariant({
+        id__gt: 47,
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$gte', async () => {
-      const result = await runVariant({
-        id: {
-          $gte: 47,
-        },
+      const result = await runFilterVariant({
+        id__gte: 47,
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$contains', async () => {
-      const result = await runVariant({
-        name: {
-          $contains: 'quia',
-        },
+      const result = await runFilterVariant({
+        name__contains: 'quia',
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$starts_with', async () => {
-      const result = await runVariant({
-        name: {
-          $starts_with: 'est',
-        },
+      const result = await runFilterVariant({
+        name__starts_with: 'est',
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$ends_with', async () => {
-      const result = await runVariant({
-        name: {
-          $ends_with: 'et',
-        },
+      const result = await runFilterVariant({
+        name__ends_with: 'et',
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$contains + $starts_with + $ends_with', async () => {
-      const result = await runVariant({
-        name: {
-          $starts_with: 'e',
-          $contains: 'dol',
-          $ends_with: 'e',
-        },
+      const result = await runFilterVariant({
+        name__starts_with: 'e',
+        name__contains: 'dol',
+        name__ends_with: 'e',
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$not_contains', async () => {
-      const result = await runVariant({
-        name: {
-          $not_contains: 'e',
-        },
+      const result = await runFilterVariant({
+        name__not_contains: 'e',
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$not_starts_with', async () => {
-      const result = await runVariant({
-        name: {
-          $not_starts_with: 've',
-        },
+      const result = await runFilterVariant({
+        name__not_starts_with: 've',
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$not_ends_with', async () => {
-      const result = await runVariant({
-        name: {
-          $not_ends_with: 't',
-        },
+      const result = await runFilterVariant({
+        name__not_ends_with: 't',
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$not_contains + $not_starts_with + $not_ends_with', async () => {
-      const result = await runVariant({
-        name: {
-          $not_starts_with: 'r',
-          $not_contains: 'i',
-          $not_ends_with: 'e',
-        },
+      const result = await runFilterVariant({
+        name__not_starts_with: 'r',
+        name__not_contains: 'i',
+        name__not_ends_with: 'e',
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$contains + $not_contains', async () => {
-      const result = await runVariant({
-        name: {
-          $contains: 'r',
-          $not_contains: 'e',
-        },
+      const result = await runFilterVariant({
+        name__contains: 'r',
+        name__not_contains: 'e',
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$starts_with + $not_ends_with', async () => {
-      const result = await runVariant({
-        name: {
-          $starts_with: 'su',
-          $not_ends_with: 's',
-        },
+      const result = await runFilterVariant({
+        name__starts_with: 'su',
+        name__not_ends_with: 's',
       });
 
       expect(result).toMatchSnapshot();
     });
 
     it('$includes', async () => {
-      const resultObj = await runVariant({
-        metaData: {
-          $includes: 'description',
-        },
+      const resultObj = await runFilterVariant({
+        metaData__includes: 'description',
       });
 
       expect(resultObj).toMatchSnapshot('object');
 
-      const resultList = await runVariant({
-        mods: {
-          $includes: 'Jane',
-        },
+      const resultList = await runFilterVariant({
+        mods__includes: 'Jane',
       });
 
       expect(resultList).toMatchSnapshot('list');
     });
 
     it('$includes + $notIncludes', async () => {
-      const resultObj = await runVariant({
-        metaData: {
-          $includes: 'externalLinks',
-          $not_includes: 'description',
-        },
+      const resultObj = await runFilterVariant({
+        metaData__includes: 'externalLinks',
+        metaData__not_includes: 'description',
       });
 
       expect(resultObj).toMatchSnapshot('object');
 
-      const resultList = await runVariant({
-        mods: {
-          $includes: 'Jane',
-          $not_includes: 'Tom',
-        },
+      const resultList = await runFilterVariant({
+        mods__includes: 'Jane',
+        mods__not_includes: 'Tom',
       });
 
       expect(resultList).toMatchSnapshot('list');
     });
 
     it('$isNull', async () => {
-      const resultObj = await runVariant({
-        metaData: {
-          $is_null: true,
-        },
-        mods: {
-          $is_null: false,
-        },
+      const resultObj = await runFilterVariant({
+        metaData__is_null: true,
+        mods__is_null: false,
       });
 
       expect(resultObj).toMatchSnapshot('object');
 
-      const resultList = await runVariant({
-        metaData: {
-          $is_null: false,
-        },
-        mods: {
-          $is_null: true,
-        },
+      const resultList = await runFilterVariant({
+        metaData__is_null: false,
+        mods__is_null: true,
       });
 
       expect(resultList).toMatchSnapshot('list');
     });
+  });
+
+  it('should utilize data loader', async () => {
+    const context = asAdmin();
+
+    await testGraphql(
+      gql`
+        query allProfiles {
+          allProfiles(orderBy: [ID_ASC]) {
+            edges {
+              node {
+                id
+                username
+                firstname
+                lastname
+                confirmedAt
+              }
+            }
+          }
+        }
+      `,
+      context,
+    );
+
+    const loader = context.loaders.Profile as DataLoader<
+      string,
+      unknown,
+      string
+    >;
+
+    const result = removeDynamicData(Profile, await loader.load('5'));
+    expect(result).toMatchSnapshot();
   });
 });

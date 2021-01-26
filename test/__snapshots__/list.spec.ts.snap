@@ -2,2769 +2,3527 @@
 
 exports[`list descending orderBy + first + offset 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Brandi",
-      "id": "105",
-      "lastname": "Grimes",
-      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
-      "username": "brandi646",
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Brandi",
+            "id": "105",
+            "lastname": "Grimes",
+            "username": "brandi646",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Joe",
+            "id": "104",
+            "lastname": "Ratke",
+            "username": "joe154",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Ella",
+            "id": "103",
+            "lastname": "Roberts",
+            "username": "ella377",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjEwMyJdXX0=",
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "startCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjEwNSJdXX0=",
+      },
+      "resultCount": 3,
+      "totalCount": 110,
     },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Joe",
-      "id": "104",
-      "lastname": "Ratke",
-      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
-      "username": "joe154",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Ella",
-      "id": "103",
-      "lastname": "Roberts",
-      "password": "f056b8cae37dc3ed60ee52da9a2951f8a6c531fe3222a3ad6835dbdd905c7d2a",
-      "username": "ella377",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list descending orderBy + first 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Krystel",
-      "id": "110",
-      "lastname": "Bauch",
-      "password": "e97188c43aaf749ffa43df9286c35eb150174bb7bfe69dc6df7689fb782b976a",
-      "username": "krystel170",
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Krystel",
+            "id": "110",
+            "lastname": "Bauch",
+            "username": "krystel170",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Muriel",
+            "id": "109",
+            "lastname": "Howe",
+            "username": "muriel707",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Tianna",
+            "id": "108",
+            "lastname": "Kulas",
+            "username": "tianna226",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjEwOCJdXX0=",
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "startCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjExMCJdXX0=",
+      },
+      "resultCount": 3,
+      "totalCount": 110,
     },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Muriel",
-      "id": "109",
-      "lastname": "Howe",
-      "password": "bf94deb712f9040ba1effa106091e0a1ca330f4b1f311e44b021e955ad203100",
-      "username": "muriel707",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Tianna",
-      "id": "108",
-      "lastname": "Kulas",
-      "password": "b00046da5a1751e46b557fab4edb5d91e13c44c8a0205fc2d89275d422df49ad",
-      "username": "tianna226",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list descending orderBy + last + offset 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Edward",
-      "id": "8",
-      "lastname": "Dach",
-      "password": "5f53b0a2be22e28dc4b056f663910c046a33f9b2d779eaf997ea771fe1881a13",
-      "username": "edward969",
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Edward",
+            "id": "8",
+            "lastname": "Dach",
+            "username": "edward969",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Autumn",
+            "id": "7",
+            "lastname": "Ullrich",
+            "username": "autumn520",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Jeremy",
+            "id": "6",
+            "lastname": "Larkin",
+            "username": "jeremy386",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjYiXV19",
+        "hasNextPage": false,
+        "hasPreviousPage": true,
+        "startCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjgiXV19",
+      },
+      "resultCount": 3,
+      "totalCount": 110,
     },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Autumn",
-      "id": "7",
-      "lastname": "Ullrich",
-      "password": "a71d5794449a7019156a0a06fccf3e5ef522fc8767edee6b08292050c52c25d3",
-      "username": "autumn520",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Jeremy",
-      "id": "6",
-      "lastname": "Larkin",
-      "password": "bbd72dedbd01e6593f9bdb72cb6372f299c686e922fc992aafbe820985dce209",
-      "username": "jeremy386",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": true,
   },
 }
 `;
 
 exports[`list descending orderBy + last 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Fleta",
-      "id": "3",
-      "lastname": "Williamson",
-      "password": "d36dc0a7b548fe7a1e0da69049ea1b14db66b6ea408e297c8f700e666843b020",
-      "username": "fleta342",
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Fleta",
+            "id": "3",
+            "lastname": "Williamson",
+            "username": "fleta342",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Anya",
+            "id": "2",
+            "lastname": "Conn",
+            "username": "anya543",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Annabel",
+            "id": "1",
+            "lastname": "Bergstrom",
+            "username": "annabel711",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjEiXV19",
+        "hasNextPage": false,
+        "hasPreviousPage": true,
+        "startCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjMiXV19",
+      },
+      "resultCount": 3,
+      "totalCount": 110,
     },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Anya",
-      "id": "2",
-      "lastname": "Conn",
-      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
-      "username": "anya543",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Annabel",
-      "id": "1",
-      "lastname": "Bergstrom",
-      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
-      "username": "annabel711",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": true,
   },
 }
 `;
 
 exports[`list descending orderBy + offset 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Brandi",
-      "id": "105",
-      "lastname": "Grimes",
-      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
-      "username": "brandi646",
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Brandi",
+            "id": "105",
+            "lastname": "Grimes",
+            "username": "brandi646",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Joe",
+            "id": "104",
+            "lastname": "Ratke",
+            "username": "joe154",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Ella",
+            "id": "103",
+            "lastname": "Roberts",
+            "username": "ella377",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Garfield",
+            "id": "102",
+            "lastname": "Langosh",
+            "username": "garfield347",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Isidro",
+            "id": "101",
+            "lastname": "Heaney",
+            "username": "isidro418",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Vernice",
+            "id": "100",
+            "lastname": "Sipes",
+            "username": "vernice306",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Antonina",
+            "id": "99",
+            "lastname": "Lesch",
+            "username": "antonina448",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Elza",
+            "id": "98",
+            "lastname": "Gorczany",
+            "username": "elza510",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Xander",
+            "id": "97",
+            "lastname": "Sipes",
+            "username": "xander627",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Faustino",
+            "id": "96",
+            "lastname": "Bartell",
+            "username": "faustino795",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjk2Il1dfQ==",
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "startCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjEwNSJdXX0=",
+      },
+      "resultCount": 10,
+      "totalCount": 110,
     },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Joe",
-      "id": "104",
-      "lastname": "Ratke",
-      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
-      "username": "joe154",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Ella",
-      "id": "103",
-      "lastname": "Roberts",
-      "password": "f056b8cae37dc3ed60ee52da9a2951f8a6c531fe3222a3ad6835dbdd905c7d2a",
-      "username": "ella377",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Garfield",
-      "id": "102",
-      "lastname": "Langosh",
-      "password": "e97188c43aaf749ffa43df9286c35eb150174bb7bfe69dc6df7689fb782b976a",
-      "username": "garfield347",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Isidro",
-      "id": "101",
-      "lastname": "Heaney",
-      "password": "e44591879052d99a7509f498e6e65985123b34c9b69ff6eafacb9b05f9deb1eb",
-      "username": "isidro418",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Vernice",
-      "id": "100",
-      "lastname": "Sipes",
-      "password": "dadc57fdb1d64a471dddbae70acc7fe56e3865a8e7249771c8f2f3c36c2b6283",
-      "username": "vernice306",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Antonina",
-      "id": "99",
-      "lastname": "Lesch",
-      "password": "863a6b632034d24c2d404f944dde121158683787b89cd065fd00d5fa76f68853",
-      "username": "antonina448",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Elza",
-      "id": "98",
-      "lastname": "Gorczany",
-      "password": "c632a6ac63ec64dd2bec50c1535e96d21c7ab3335eb7a5c488326a3ec6c6e430",
-      "username": "elza510",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Xander",
-      "id": "97",
-      "lastname": "Sipes",
-      "password": "dc8129307ca44153649c267e2bedd7bf4b02d72bca9370074b10005899a527a5",
-      "username": "xander627",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Faustino",
-      "id": "96",
-      "lastname": "Bartell",
-      "password": "a56145270ce6b3bebd1dd012b73948677dd618d496488bc608a3cb43ce3547dd",
-      "username": "faustino795",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list descending orderBy 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Krystel",
-      "id": "110",
-      "lastname": "Bauch",
-      "password": "e97188c43aaf749ffa43df9286c35eb150174bb7bfe69dc6df7689fb782b976a",
-      "username": "krystel170",
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Krystel",
+            "id": "110",
+            "lastname": "Bauch",
+            "username": "krystel170",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Muriel",
+            "id": "109",
+            "lastname": "Howe",
+            "username": "muriel707",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Tianna",
+            "id": "108",
+            "lastname": "Kulas",
+            "username": "tianna226",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Leanna",
+            "id": "107",
+            "lastname": "Leuschke",
+            "username": "leanna128",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Stan",
+            "id": "106",
+            "lastname": "VonRueden",
+            "username": "stan321",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Brandi",
+            "id": "105",
+            "lastname": "Grimes",
+            "username": "brandi646",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Joe",
+            "id": "104",
+            "lastname": "Ratke",
+            "username": "joe154",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Ella",
+            "id": "103",
+            "lastname": "Roberts",
+            "username": "ella377",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Garfield",
+            "id": "102",
+            "lastname": "Langosh",
+            "username": "garfield347",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Isidro",
+            "id": "101",
+            "lastname": "Heaney",
+            "username": "isidro418",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjEwMSJdXX0=",
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "startCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjExMCJdXX0=",
+      },
+      "resultCount": 10,
+      "totalCount": 110,
     },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Muriel",
-      "id": "109",
-      "lastname": "Howe",
-      "password": "bf94deb712f9040ba1effa106091e0a1ca330f4b1f311e44b021e955ad203100",
-      "username": "muriel707",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Tianna",
-      "id": "108",
-      "lastname": "Kulas",
-      "password": "b00046da5a1751e46b557fab4edb5d91e13c44c8a0205fc2d89275d422df49ad",
-      "username": "tianna226",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Leanna",
-      "id": "107",
-      "lastname": "Leuschke",
-      "password": "f735b74ca8ad9b0f7ae8190fa71acfa15f6a5a4f5b7a8ac2ef790c59eb185e3c",
-      "username": "leanna128",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Stan",
-      "id": "106",
-      "lastname": "VonRueden",
-      "password": "507b91e6b0ae6ea80e7c0d1642304ce8cd713527d36db297fef1504598ecd79c",
-      "username": "stan321",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Brandi",
-      "id": "105",
-      "lastname": "Grimes",
-      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
-      "username": "brandi646",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Joe",
-      "id": "104",
-      "lastname": "Ratke",
-      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
-      "username": "joe154",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Ella",
-      "id": "103",
-      "lastname": "Roberts",
-      "password": "f056b8cae37dc3ed60ee52da9a2951f8a6c531fe3222a3ad6835dbdd905c7d2a",
-      "username": "ella377",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Garfield",
-      "id": "102",
-      "lastname": "Langosh",
-      "password": "e97188c43aaf749ffa43df9286c35eb150174bb7bfe69dc6df7689fb782b976a",
-      "username": "garfield347",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Isidro",
-      "id": "101",
-      "lastname": "Heaney",
-      "password": "e44591879052d99a7509f498e6e65985123b34c9b69ff6eafacb9b05f9deb1eb",
-      "username": "isidro418",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Hazel",
-      "id": "11",
-      "lastname": "King",
-      "password": "70e88c7a26a5e6daca0dc1c611bbf05e26b7e1d645faeaa30c1d316c67ed9869",
-      "username": "hazel528",
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Hazel",
+            "id": "11",
+            "lastname": "King",
+            "username": "hazel528",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjExIl1dfQ==",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjExIl1dfQ==",
+      },
+      "resultCount": 1,
+      "totalCount": 1,
     },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $contains + $not_contains 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "71",
-      "id": "34",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Consequatur facilis",
-      },
-      "mods": Array [
-        "Martha",
-        "Tom",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "71",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Consequatur facilis",
+              "externalLinks": null,
+            },
+            "mods": Array [
+              "Martha",
+              "Tom",
+            ],
+            "name": "Voluptas dolor",
+            "owner": "71",
+            "updatedBy": "71",
+            "vip": "69",
+          },
+        },
       ],
-      "name": "Voluptas dolor",
-      "owner": "71",
-      "updatedBy": "71",
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCIzNCJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCIzNCJdXX0=",
+      },
+      "resultCount": 1,
+      "totalCount": 1,
     },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $contains + $starts_with + $ends_with 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "27",
-      "id": "41",
-      "isPrivate": false,
-      "metaData": Object {
-        "externalLinks": Object {
-          "web": "https://example.com",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "27",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": null,
+              "externalLinks": Object {
+                "web": "https://example.com",
+              },
+            },
+            "mods": null,
+            "name": "Enim dolore",
+            "owner": "27",
+            "updatedBy": "27",
+            "vip": "17",
+          },
         },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCI0MSJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCI0MSJdXX0=",
       },
-      "mods": null,
-      "name": "Enim dolore",
-      "owner": "27",
-      "updatedBy": "27",
+      "resultCount": 1,
+      "totalCount": 1,
     },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $contains 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "59",
-      "id": "8",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Illo sit quia",
-      "owner": "59",
-      "updatedBy": "59",
-    },
-    Object {
-      "createdBy": "62",
-      "id": "21",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Qui fnecessitatibus",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "59",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Illo sit quia",
+            "owner": "59",
+            "updatedBy": "59",
+            "vip": "21",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "62",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Qui fnecessitatibus",
+              "externalLinks": null,
+            },
+            "mods": null,
+            "name": "Quia sapiente",
+            "owner": "62",
+            "updatedBy": "62",
+            "vip": "93",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCIyMSJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCI4Il1dfQ==",
       },
-      "mods": null,
-      "name": "Quia sapiente",
-      "owner": "62",
-      "updatedBy": "62",
+      "resultCount": 2,
+      "totalCount": 2,
     },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $ends_with 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "42",
-      "id": "6",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Ut et",
-      "owner": "42",
-      "updatedBy": "42",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "42",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Ut et",
+            "owner": "42",
+            "updatedBy": "42",
+            "vip": "102",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "24",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Est et",
+            "owner": "24",
+            "updatedBy": "24",
+            "vip": "55",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCIxNyJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCI2Il1dfQ==",
+      },
+      "resultCount": 2,
+      "totalCount": 2,
     },
-    Object {
-      "createdBy": "24",
-      "id": "17",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Est et",
-      "owner": "24",
-      "updatedBy": "24",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $gt 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "41",
-      "id": "48",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Nobis totam",
-      "owner": "41",
-      "updatedBy": "41",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "41",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Nobis totam",
+            "owner": "41",
+            "updatedBy": "41",
+            "vip": "35",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "26",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Odit qui",
+            "owner": "26",
+            "updatedBy": "26",
+            "vip": "101",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "84",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Sed assumenda repellendus",
+            "owner": "84",
+            "updatedBy": "84",
+            "vip": "16",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCI1MCJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCI0OCJdXX0=",
+      },
+      "resultCount": 3,
+      "totalCount": 3,
     },
-    Object {
-      "createdBy": "26",
-      "id": "49",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Odit qui",
-      "owner": "26",
-      "updatedBy": "26",
-    },
-    Object {
-      "createdBy": "84",
-      "id": "50",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Sed assumenda repellendus",
-      "owner": "84",
-      "updatedBy": "84",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $gte 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "23",
-      "id": "47",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "Phil",
-        "Jane",
-        "Jack",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "23",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "Phil",
+              "Jane",
+              "Jack",
+            ],
+            "name": "Accusamus sequi",
+            "owner": "23",
+            "updatedBy": "23",
+            "vip": "32",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "41",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Nobis totam",
+            "owner": "41",
+            "updatedBy": "41",
+            "vip": "35",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "26",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Odit qui",
+            "owner": "26",
+            "updatedBy": "26",
+            "vip": "101",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "84",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Sed assumenda repellendus",
+            "owner": "84",
+            "updatedBy": "84",
+            "vip": "16",
+          },
+        },
       ],
-      "name": "Accusamus sequi",
-      "owner": "23",
-      "updatedBy": "23",
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCI1MCJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCI0NyJdXX0=",
+      },
+      "resultCount": 4,
+      "totalCount": 4,
     },
-    Object {
-      "createdBy": "41",
-      "id": "48",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Nobis totam",
-      "owner": "41",
-      "updatedBy": "41",
-    },
-    Object {
-      "createdBy": "26",
-      "id": "49",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Odit qui",
-      "owner": "26",
-      "updatedBy": "26",
-    },
-    Object {
-      "createdBy": "84",
-      "id": "50",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Sed assumenda repellendus",
-      "owner": "84",
-      "updatedBy": "84",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $in 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "42",
-      "id": "6",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Ut et",
-      "owner": "42",
-      "updatedBy": "42",
-    },
-    Object {
-      "createdBy": "48",
-      "id": "19",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "Jane",
-        "Josh",
-        "Jack",
-        "Bart",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "42",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Ut et",
+            "owner": "42",
+            "updatedBy": "42",
+            "vip": "102",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "48",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "Jane",
+              "Josh",
+              "Jack",
+              "Bart",
+            ],
+            "name": "Rerum ad",
+            "owner": "48",
+            "updatedBy": "48",
+            "vip": "71",
+          },
+        },
       ],
-      "name": "Rerum ad",
-      "owner": "48",
-      "updatedBy": "48",
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCIxOSJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCI2Il1dfQ==",
+      },
+      "resultCount": 2,
+      "totalCount": 2,
     },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $includes + $notIncludes: list 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "48",
-      "id": "19",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "Jane",
-        "Josh",
-        "Jack",
-        "Bart",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "48",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "Jane",
+              "Josh",
+              "Jack",
+              "Bart",
+            ],
+            "name": "Rerum ad",
+            "owner": "48",
+            "updatedBy": "48",
+            "vip": "71",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "37",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": Array [
+              "Ben",
+              "Mark",
+              "Jane",
+            ],
+            "name": "Quo ut rerum",
+            "owner": "37",
+            "updatedBy": "37",
+            "vip": "7",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "23",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "Phil",
+              "Jane",
+              "Jack",
+            ],
+            "name": "Accusamus sequi",
+            "owner": "23",
+            "updatedBy": "23",
+            "vip": "32",
+          },
+        },
       ],
-      "name": "Rerum ad",
-      "owner": "48",
-      "updatedBy": "48",
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCI0NyJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCIxOSJdXX0=",
+      },
+      "resultCount": 3,
+      "totalCount": 3,
     },
-    Object {
-      "createdBy": "37",
-      "id": "42",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": Array [
-        "Ben",
-        "Mark",
-        "Jane",
-      ],
-      "name": "Quo ut rerum",
-      "owner": "37",
-      "updatedBy": "37",
-    },
-    Object {
-      "createdBy": "23",
-      "id": "47",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "Phil",
-        "Jane",
-        "Jack",
-      ],
-      "name": "Accusamus sequi",
-      "owner": "23",
-      "updatedBy": "23",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $includes + $notIncludes: object 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "27",
-      "id": "41",
-      "isPrivate": false,
-      "metaData": Object {
-        "externalLinks": Object {
-          "web": "https://example.com",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "27",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": null,
+              "externalLinks": Object {
+                "web": "https://example.com",
+              },
+            },
+            "mods": null,
+            "name": "Enim dolore",
+            "owner": "27",
+            "updatedBy": "27",
+            "vip": "17",
+          },
         },
-      },
-      "mods": null,
-      "name": "Enim dolore",
-      "owner": "27",
-      "updatedBy": "27",
-    },
-    Object {
-      "createdBy": "61",
-      "id": "43",
-      "isPrivate": true,
-      "metaData": Object {
-        "externalLinks": Object {
-          "web": "https://example.com",
+        Object {
+          "node": Object {
+            "createdBy": "61",
+            "isPrivate": true,
+            "metaData": Object {
+              "description": null,
+              "externalLinks": Object {
+                "web": "https://example.com",
+              },
+            },
+            "mods": Array [
+              "John",
+              "Jack",
+            ],
+            "name": "Sapiente laborum non",
+            "owner": "61",
+            "updatedBy": "61",
+            "vip": "70",
+          },
         },
-      },
-      "mods": Array [
-        "John",
-        "Jack",
       ],
-      "name": "Sapiente laborum non",
-      "owner": "61",
-      "updatedBy": "61",
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCI0MyJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCI0MSJdXX0=",
+      },
+      "resultCount": 2,
+      "totalCount": 2,
     },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $includes: list 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "42",
-      "id": "4",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Fuga facilis",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "42",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Fuga facilis",
+              "externalLinks": null,
+            },
+            "mods": Array [
+              "Jane",
+              "Martha",
+              "Tom",
+            ],
+            "name": "Delectus qui maxime",
+            "owner": "42",
+            "updatedBy": "42",
+            "vip": "10",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "84",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "John",
+              "Tom",
+              "Jane",
+            ],
+            "name": "Suscipit aut cum",
+            "owner": "84",
+            "updatedBy": "84",
+            "vip": "89",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "48",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "Jane",
+              "Josh",
+              "Jack",
+              "Bart",
+            ],
+            "name": "Rerum ad",
+            "owner": "48",
+            "updatedBy": "48",
+            "vip": "71",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "37",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": Array [
+              "Ben",
+              "Mark",
+              "Jane",
+            ],
+            "name": "Quo ut rerum",
+            "owner": "37",
+            "updatedBy": "37",
+            "vip": "7",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "23",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "Phil",
+              "Jane",
+              "Jack",
+            ],
+            "name": "Accusamus sequi",
+            "owner": "23",
+            "updatedBy": "23",
+            "vip": "32",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCI0NyJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCI0Il1dfQ==",
       },
-      "mods": Array [
-        "Jane",
-        "Martha",
-        "Tom",
-      ],
-      "name": "Delectus qui maxime",
-      "owner": "42",
-      "updatedBy": "42",
+      "resultCount": 5,
+      "totalCount": 5,
     },
-    Object {
-      "createdBy": "84",
-      "id": "13",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "John",
-        "Tom",
-        "Jane",
-      ],
-      "name": "Suscipit aut cum",
-      "owner": "84",
-      "updatedBy": "84",
-    },
-    Object {
-      "createdBy": "48",
-      "id": "19",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "Jane",
-        "Josh",
-        "Jack",
-        "Bart",
-      ],
-      "name": "Rerum ad",
-      "owner": "48",
-      "updatedBy": "48",
-    },
-    Object {
-      "createdBy": "37",
-      "id": "42",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": Array [
-        "Ben",
-        "Mark",
-        "Jane",
-      ],
-      "name": "Quo ut rerum",
-      "owner": "37",
-      "updatedBy": "37",
-    },
-    Object {
-      "createdBy": "23",
-      "id": "47",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "Phil",
-        "Jane",
-        "Jack",
-      ],
-      "name": "Accusamus sequi",
-      "owner": "23",
-      "updatedBy": "23",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $includes: object 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "42",
-      "id": "4",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Fuga facilis",
-      },
-      "mods": Array [
-        "Jane",
-        "Martha",
-        "Tom",
-      ],
-      "name": "Delectus qui maxime",
-      "owner": "42",
-      "updatedBy": "42",
-    },
-    Object {
-      "createdBy": "62",
-      "id": "21",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Qui fnecessitatibus",
-      },
-      "mods": null,
-      "name": "Quia sapiente",
-      "owner": "62",
-      "updatedBy": "62",
-    },
-    Object {
-      "createdBy": "13",
-      "id": "28",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Necessitatibus facilis blanditiis",
-      },
-      "mods": Array [
-        "Bart",
-      ],
-      "name": "Deleniti esse itaque",
-      "owner": "13",
-      "updatedBy": "13",
-    },
-    Object {
-      "createdBy": "71",
-      "id": "34",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Consequatur facilis",
-      },
-      "mods": Array [
-        "Martha",
-        "Tom",
-      ],
-      "name": "Voluptas dolor",
-      "owner": "71",
-      "updatedBy": "71",
-    },
-    Object {
-      "createdBy": "37",
-      "id": "38",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Est voluptates",
-        "externalLinks": Object {
-          "web": "https://example.com",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "42",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Fuga facilis",
+              "externalLinks": null,
+            },
+            "mods": Array [
+              "Jane",
+              "Martha",
+              "Tom",
+            ],
+            "name": "Delectus qui maxime",
+            "owner": "42",
+            "updatedBy": "42",
+            "vip": "10",
+          },
         },
+        Object {
+          "node": Object {
+            "createdBy": "62",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Qui fnecessitatibus",
+              "externalLinks": null,
+            },
+            "mods": null,
+            "name": "Quia sapiente",
+            "owner": "62",
+            "updatedBy": "62",
+            "vip": "93",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "13",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Necessitatibus facilis blanditiis",
+              "externalLinks": null,
+            },
+            "mods": Array [
+              "Bart",
+            ],
+            "name": "Deleniti esse itaque",
+            "owner": "13",
+            "updatedBy": "13",
+            "vip": "48",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "71",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Consequatur facilis",
+              "externalLinks": null,
+            },
+            "mods": Array [
+              "Martha",
+              "Tom",
+            ],
+            "name": "Voluptas dolor",
+            "owner": "71",
+            "updatedBy": "71",
+            "vip": "69",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "37",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Est voluptates",
+              "externalLinks": Object {
+                "web": "https://example.com",
+              },
+            },
+            "mods": null,
+            "name": "Nesciunt nihil enim",
+            "owner": "37",
+            "updatedBy": "37",
+            "vip": "52",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCIzOCJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCI0Il1dfQ==",
       },
-      "mods": null,
-      "name": "Nesciunt nihil enim",
-      "owner": "37",
-      "updatedBy": "37",
+      "resultCount": 5,
+      "totalCount": 5,
     },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $isNull: list 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "62",
-      "id": "21",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Qui fnecessitatibus",
-      },
-      "mods": null,
-      "name": "Quia sapiente",
-      "owner": "62",
-      "updatedBy": "62",
-    },
-    Object {
-      "createdBy": "37",
-      "id": "38",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Est voluptates",
-        "externalLinks": Object {
-          "web": "https://example.com",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "62",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Qui fnecessitatibus",
+              "externalLinks": null,
+            },
+            "mods": null,
+            "name": "Quia sapiente",
+            "owner": "62",
+            "updatedBy": "62",
+            "vip": "93",
+          },
         },
-      },
-      "mods": null,
-      "name": "Nesciunt nihil enim",
-      "owner": "37",
-      "updatedBy": "37",
-    },
-    Object {
-      "createdBy": "27",
-      "id": "41",
-      "isPrivate": false,
-      "metaData": Object {
-        "externalLinks": Object {
-          "web": "https://example.com",
+        Object {
+          "node": Object {
+            "createdBy": "37",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Est voluptates",
+              "externalLinks": Object {
+                "web": "https://example.com",
+              },
+            },
+            "mods": null,
+            "name": "Nesciunt nihil enim",
+            "owner": "37",
+            "updatedBy": "37",
+            "vip": "52",
+          },
         },
+        Object {
+          "node": Object {
+            "createdBy": "27",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": null,
+              "externalLinks": Object {
+                "web": "https://example.com",
+              },
+            },
+            "mods": null,
+            "name": "Enim dolore",
+            "owner": "27",
+            "updatedBy": "27",
+            "vip": "17",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "85",
+            "isPrivate": true,
+            "metaData": Object {
+              "description": null,
+              "externalLinks": null,
+            },
+            "mods": null,
+            "name": "Sed necessitatibus facilis",
+            "owner": "85",
+            "updatedBy": "85",
+            "vip": "74",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCI0NSJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCIyMSJdXX0=",
       },
-      "mods": null,
-      "name": "Enim dolore",
-      "owner": "27",
-      "updatedBy": "27",
+      "resultCount": 4,
+      "totalCount": 4,
     },
-    Object {
-      "createdBy": "85",
-      "id": "45",
-      "isPrivate": true,
-      "metaData": Object {},
-      "mods": null,
-      "name": "Sed necessitatibus facilis",
-      "owner": "85",
-      "updatedBy": "85",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $isNull: object 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "84",
-      "id": "13",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "John",
-        "Tom",
-        "Jane",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "84",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "John",
+              "Tom",
+              "Jane",
+            ],
+            "name": "Suscipit aut cum",
+            "owner": "84",
+            "updatedBy": "84",
+            "vip": "89",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "48",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "Jane",
+              "Josh",
+              "Jack",
+              "Bart",
+            ],
+            "name": "Rerum ad",
+            "owner": "48",
+            "updatedBy": "48",
+            "vip": "71",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "38",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [],
+            "name": "Libero similique vitae",
+            "owner": "38",
+            "updatedBy": "38",
+            "vip": "91",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "37",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": Array [
+              "Ben",
+              "Mark",
+              "Jane",
+            ],
+            "name": "Quo ut rerum",
+            "owner": "37",
+            "updatedBy": "37",
+            "vip": "7",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "23",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "Phil",
+              "Jane",
+              "Jack",
+            ],
+            "name": "Accusamus sequi",
+            "owner": "23",
+            "updatedBy": "23",
+            "vip": "32",
+          },
+        },
       ],
-      "name": "Suscipit aut cum",
-      "owner": "84",
-      "updatedBy": "84",
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCI0NyJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCIxMyJdXX0=",
+      },
+      "resultCount": 5,
+      "totalCount": 5,
     },
-    Object {
-      "createdBy": "48",
-      "id": "19",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "Jane",
-        "Josh",
-        "Jack",
-        "Bart",
-      ],
-      "name": "Rerum ad",
-      "owner": "48",
-      "updatedBy": "48",
-    },
-    Object {
-      "createdBy": "38",
-      "id": "25",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [],
-      "name": "Libero similique vitae",
-      "owner": "38",
-      "updatedBy": "38",
-    },
-    Object {
-      "createdBy": "37",
-      "id": "42",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": Array [
-        "Ben",
-        "Mark",
-        "Jane",
-      ],
-      "name": "Quo ut rerum",
-      "owner": "37",
-      "updatedBy": "37",
-    },
-    Object {
-      "createdBy": "23",
-      "id": "47",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "Phil",
-        "Jane",
-        "Jack",
-      ],
-      "name": "Accusamus sequi",
-      "owner": "23",
-      "updatedBy": "23",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $lt 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "37",
-      "id": "1",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Reiciendis quaerat",
-      "owner": "37",
-      "updatedBy": "37",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "37",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Reiciendis quaerat",
+            "owner": "37",
+            "updatedBy": "37",
+            "vip": "103",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "46",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Et eum",
+            "owner": "46",
+            "updatedBy": "46",
+            "vip": "62",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "79",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Occaecati adipisci vel",
+            "owner": "79",
+            "updatedBy": "79",
+            "vip": "50",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCIzIl1dfQ==",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCIxIl1dfQ==",
+      },
+      "resultCount": 3,
+      "totalCount": 3,
     },
-    Object {
-      "createdBy": "46",
-      "id": "2",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Et eum",
-      "owner": "46",
-      "updatedBy": "46",
-    },
-    Object {
-      "createdBy": "79",
-      "id": "3",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Occaecati adipisci vel",
-      "owner": "79",
-      "updatedBy": "79",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $lte 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "37",
-      "id": "1",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Reiciendis quaerat",
-      "owner": "37",
-      "updatedBy": "37",
-    },
-    Object {
-      "createdBy": "46",
-      "id": "2",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Et eum",
-      "owner": "46",
-      "updatedBy": "46",
-    },
-    Object {
-      "createdBy": "79",
-      "id": "3",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Occaecati adipisci vel",
-      "owner": "79",
-      "updatedBy": "79",
-    },
-    Object {
-      "createdBy": "42",
-      "id": "4",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Fuga facilis",
-      },
-      "mods": Array [
-        "Jane",
-        "Martha",
-        "Tom",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "37",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Reiciendis quaerat",
+            "owner": "37",
+            "updatedBy": "37",
+            "vip": "103",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "46",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Et eum",
+            "owner": "46",
+            "updatedBy": "46",
+            "vip": "62",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "79",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Occaecati adipisci vel",
+            "owner": "79",
+            "updatedBy": "79",
+            "vip": "50",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "42",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Fuga facilis",
+              "externalLinks": null,
+            },
+            "mods": Array [
+              "Jane",
+              "Martha",
+              "Tom",
+            ],
+            "name": "Delectus qui maxime",
+            "owner": "42",
+            "updatedBy": "42",
+            "vip": "10",
+          },
+        },
       ],
-      "name": "Delectus qui maxime",
-      "owner": "42",
-      "updatedBy": "42",
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCI0Il1dfQ==",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCIxIl1dfQ==",
+      },
+      "resultCount": 4,
+      "totalCount": 4,
     },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $ne (null) 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "37",
-      "id": "1",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Reiciendis quaerat",
-      "owner": "37",
-      "updatedBy": "37",
-    },
-    Object {
-      "createdBy": "46",
-      "id": "2",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Et eum",
-      "owner": "46",
-      "updatedBy": "46",
-    },
-    Object {
-      "createdBy": "79",
-      "id": "3",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Occaecati adipisci vel",
-      "owner": "79",
-      "updatedBy": "79",
-    },
-    Object {
-      "createdBy": "42",
-      "id": "4",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Fuga facilis",
-      },
-      "mods": Array [
-        "Jane",
-        "Martha",
-        "Tom",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "37",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Reiciendis quaerat",
+            "owner": "37",
+            "updatedBy": "37",
+            "vip": "103",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "46",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Et eum",
+            "owner": "46",
+            "updatedBy": "46",
+            "vip": "62",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "79",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Occaecati adipisci vel",
+            "owner": "79",
+            "updatedBy": "79",
+            "vip": "50",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "42",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Fuga facilis",
+              "externalLinks": null,
+            },
+            "mods": Array [
+              "Jane",
+              "Martha",
+              "Tom",
+            ],
+            "name": "Delectus qui maxime",
+            "owner": "42",
+            "updatedBy": "42",
+            "vip": "10",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "55",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Cumque impedit est",
+            "owner": "55",
+            "updatedBy": "55",
+            "vip": "4",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "42",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Ut et",
+            "owner": "42",
+            "updatedBy": "42",
+            "vip": "102",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "72",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Vel ullam",
+            "owner": "72",
+            "updatedBy": "72",
+            "vip": "9",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "59",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Illo sit quia",
+            "owner": "59",
+            "updatedBy": "59",
+            "vip": "21",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "52",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Veritatis nihil cum",
+            "owner": "52",
+            "updatedBy": "52",
+            "vip": "61",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "71",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Sit aut",
+            "owner": "71",
+            "updatedBy": "71",
+            "vip": "73",
+          },
+        },
       ],
-      "name": "Delectus qui maxime",
-      "owner": "42",
-      "updatedBy": "42",
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCIxMCJdXX0=",
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCIxIl1dfQ==",
+      },
+      "resultCount": 10,
+      "totalCount": 50,
     },
-    Object {
-      "createdBy": "55",
-      "id": "5",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Cumque impedit est",
-      "owner": "55",
-      "updatedBy": "55",
-    },
-    Object {
-      "createdBy": "42",
-      "id": "6",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Ut et",
-      "owner": "42",
-      "updatedBy": "42",
-    },
-    Object {
-      "createdBy": "72",
-      "id": "7",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Vel ullam",
-      "owner": "72",
-      "updatedBy": "72",
-    },
-    Object {
-      "createdBy": "59",
-      "id": "8",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Illo sit quia",
-      "owner": "59",
-      "updatedBy": "59",
-    },
-    Object {
-      "createdBy": "52",
-      "id": "9",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Veritatis nihil cum",
-      "owner": "52",
-      "updatedBy": "52",
-    },
-    Object {
-      "createdBy": "71",
-      "id": "10",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Sit aut",
-      "owner": "71",
-      "updatedBy": "71",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $ne 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "46",
-      "id": "2",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Et eum",
-      "owner": "46",
-      "updatedBy": "46",
-    },
-    Object {
-      "createdBy": "79",
-      "id": "3",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Occaecati adipisci vel",
-      "owner": "79",
-      "updatedBy": "79",
-    },
-    Object {
-      "createdBy": "42",
-      "id": "4",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Fuga facilis",
-      },
-      "mods": Array [
-        "Jane",
-        "Martha",
-        "Tom",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "46",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Et eum",
+            "owner": "46",
+            "updatedBy": "46",
+            "vip": "62",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "79",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Occaecati adipisci vel",
+            "owner": "79",
+            "updatedBy": "79",
+            "vip": "50",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "42",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Fuga facilis",
+              "externalLinks": null,
+            },
+            "mods": Array [
+              "Jane",
+              "Martha",
+              "Tom",
+            ],
+            "name": "Delectus qui maxime",
+            "owner": "42",
+            "updatedBy": "42",
+            "vip": "10",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "55",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Cumque impedit est",
+            "owner": "55",
+            "updatedBy": "55",
+            "vip": "4",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "42",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Ut et",
+            "owner": "42",
+            "updatedBy": "42",
+            "vip": "102",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "72",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Vel ullam",
+            "owner": "72",
+            "updatedBy": "72",
+            "vip": "9",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "59",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Illo sit quia",
+            "owner": "59",
+            "updatedBy": "59",
+            "vip": "21",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "52",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Veritatis nihil cum",
+            "owner": "52",
+            "updatedBy": "52",
+            "vip": "61",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "71",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Sit aut",
+            "owner": "71",
+            "updatedBy": "71",
+            "vip": "73",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "81",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Aut incidunt consequatur",
+            "owner": "81",
+            "updatedBy": "81",
+            "vip": "12",
+          },
+        },
       ],
-      "name": "Delectus qui maxime",
-      "owner": "42",
-      "updatedBy": "42",
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCIxMSJdXX0=",
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCIyIl1dfQ==",
+      },
+      "resultCount": 10,
+      "totalCount": 49,
     },
-    Object {
-      "createdBy": "55",
-      "id": "5",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Cumque impedit est",
-      "owner": "55",
-      "updatedBy": "55",
-    },
-    Object {
-      "createdBy": "42",
-      "id": "6",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Ut et",
-      "owner": "42",
-      "updatedBy": "42",
-    },
-    Object {
-      "createdBy": "72",
-      "id": "7",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Vel ullam",
-      "owner": "72",
-      "updatedBy": "72",
-    },
-    Object {
-      "createdBy": "59",
-      "id": "8",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Illo sit quia",
-      "owner": "59",
-      "updatedBy": "59",
-    },
-    Object {
-      "createdBy": "52",
-      "id": "9",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Veritatis nihil cum",
-      "owner": "52",
-      "updatedBy": "52",
-    },
-    Object {
-      "createdBy": "71",
-      "id": "10",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Sit aut",
-      "owner": "71",
-      "updatedBy": "71",
-    },
-    Object {
-      "createdBy": "81",
-      "id": "11",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Aut incidunt consequatur",
-      "owner": "81",
-      "updatedBy": "81",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $not_contains + $not_starts_with + $not_ends_with 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "46",
-      "id": "2",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Et eum",
-      "owner": "46",
-      "updatedBy": "46",
-    },
-    Object {
-      "createdBy": "42",
-      "id": "6",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Ut et",
-      "owner": "42",
-      "updatedBy": "42",
-    },
-    Object {
-      "createdBy": "72",
-      "id": "7",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Vel ullam",
-      "owner": "72",
-      "updatedBy": "72",
-    },
-    Object {
-      "createdBy": "23",
-      "id": "12",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Tenetur porro",
-      "owner": "23",
-      "updatedBy": "23",
-    },
-    Object {
-      "createdBy": "24",
-      "id": "17",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Est et",
-      "owner": "24",
-      "updatedBy": "24",
-    },
-    Object {
-      "createdBy": "10",
-      "id": "20",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Sunt quo",
-      "owner": "10",
-      "updatedBy": "10",
-    },
-    Object {
-      "createdBy": "71",
-      "id": "34",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Consequatur facilis",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "46",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Et eum",
+            "owner": "46",
+            "updatedBy": "46",
+            "vip": "62",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "42",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Ut et",
+            "owner": "42",
+            "updatedBy": "42",
+            "vip": "102",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "72",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Vel ullam",
+            "owner": "72",
+            "updatedBy": "72",
+            "vip": "9",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "23",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Tenetur porro",
+            "owner": "23",
+            "updatedBy": "23",
+            "vip": "83",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "24",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Est et",
+            "owner": "24",
+            "updatedBy": "24",
+            "vip": "55",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "10",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Sunt quo",
+            "owner": "10",
+            "updatedBy": "10",
+            "vip": "59",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "71",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Consequatur facilis",
+              "externalLinks": null,
+            },
+            "mods": Array [
+              "Martha",
+              "Tom",
+            ],
+            "name": "Voluptas dolor",
+            "owner": "71",
+            "updatedBy": "71",
+            "vip": "69",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "37",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": Array [
+              "Ben",
+              "Mark",
+              "Jane",
+            ],
+            "name": "Quo ut rerum",
+            "owner": "37",
+            "updatedBy": "37",
+            "vip": "7",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "84",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Sed assumenda repellendus",
+            "owner": "84",
+            "updatedBy": "84",
+            "vip": "16",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCI1MCJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCIyIl1dfQ==",
       },
-      "mods": Array [
-        "Martha",
-        "Tom",
-      ],
-      "name": "Voluptas dolor",
-      "owner": "71",
-      "updatedBy": "71",
+      "resultCount": 9,
+      "totalCount": 9,
     },
-    Object {
-      "createdBy": "37",
-      "id": "42",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": Array [
-        "Ben",
-        "Mark",
-        "Jane",
-      ],
-      "name": "Quo ut rerum",
-      "owner": "37",
-      "updatedBy": "37",
-    },
-    Object {
-      "createdBy": "84",
-      "id": "50",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Sed assumenda repellendus",
-      "owner": "84",
-      "updatedBy": "84",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $not_contains 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "59",
-      "id": "8",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Illo sit quia",
-      "owner": "59",
-      "updatedBy": "59",
-    },
-    Object {
-      "createdBy": "71",
-      "id": "10",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Sit aut",
-      "owner": "71",
-      "updatedBy": "71",
-    },
-    Object {
-      "createdBy": "84",
-      "id": "13",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "John",
-        "Tom",
-        "Jane",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "59",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Illo sit quia",
+            "owner": "59",
+            "updatedBy": "59",
+            "vip": "21",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "71",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Sit aut",
+            "owner": "71",
+            "updatedBy": "71",
+            "vip": "73",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "84",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "John",
+              "Tom",
+              "Jane",
+            ],
+            "name": "Suscipit aut cum",
+            "owner": "84",
+            "updatedBy": "84",
+            "vip": "89",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "26",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Id cum",
+            "owner": "26",
+            "updatedBy": "26",
+            "vip": "26",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "60",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Sunt nobis",
+            "owner": "60",
+            "updatedBy": "60",
+            "vip": "72",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "10",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Sunt quo",
+            "owner": "10",
+            "updatedBy": "10",
+            "vip": "59",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "14",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Mollitia qui",
+            "owner": "14",
+            "updatedBy": "14",
+            "vip": "45",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "20",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Culpa facilis",
+            "owner": "20",
+            "updatedBy": "20",
+            "vip": "15",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "47",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Suscipit quas",
+            "owner": "47",
+            "updatedBy": "47",
+            "vip": "96",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "71",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Consequatur facilis",
+              "externalLinks": null,
+            },
+            "mods": Array [
+              "Martha",
+              "Tom",
+            ],
+            "name": "Voluptas dolor",
+            "owner": "71",
+            "updatedBy": "71",
+            "vip": "69",
+          },
+        },
       ],
-      "name": "Suscipit aut cum",
-      "owner": "84",
-      "updatedBy": "84",
-    },
-    Object {
-      "createdBy": "26",
-      "id": "14",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Id cum",
-      "owner": "26",
-      "updatedBy": "26",
-    },
-    Object {
-      "createdBy": "60",
-      "id": "15",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Sunt nobis",
-      "owner": "60",
-      "updatedBy": "60",
-    },
-    Object {
-      "createdBy": "10",
-      "id": "20",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Sunt quo",
-      "owner": "10",
-      "updatedBy": "10",
-    },
-    Object {
-      "createdBy": "14",
-      "id": "27",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Mollitia qui",
-      "owner": "14",
-      "updatedBy": "14",
-    },
-    Object {
-      "createdBy": "20",
-      "id": "31",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Culpa facilis",
-      "owner": "20",
-      "updatedBy": "20",
-    },
-    Object {
-      "createdBy": "47",
-      "id": "33",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Suscipit quas",
-      "owner": "47",
-      "updatedBy": "47",
-    },
-    Object {
-      "createdBy": "71",
-      "id": "34",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Consequatur facilis",
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCIzNCJdXX0=",
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCI4Il1dfQ==",
       },
-      "mods": Array [
-        "Martha",
-        "Tom",
-      ],
-      "name": "Voluptas dolor",
-      "owner": "71",
-      "updatedBy": "71",
+      "resultCount": 10,
+      "totalCount": 12,
     },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $not_ends_with 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "46",
-      "id": "2",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Et eum",
-      "owner": "46",
-      "updatedBy": "46",
-    },
-    Object {
-      "createdBy": "79",
-      "id": "3",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Occaecati adipisci vel",
-      "owner": "79",
-      "updatedBy": "79",
-    },
-    Object {
-      "createdBy": "42",
-      "id": "4",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Fuga facilis",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "46",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Et eum",
+            "owner": "46",
+            "updatedBy": "46",
+            "vip": "62",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "79",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Occaecati adipisci vel",
+            "owner": "79",
+            "updatedBy": "79",
+            "vip": "50",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "42",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Fuga facilis",
+              "externalLinks": null,
+            },
+            "mods": Array [
+              "Jane",
+              "Martha",
+              "Tom",
+            ],
+            "name": "Delectus qui maxime",
+            "owner": "42",
+            "updatedBy": "42",
+            "vip": "10",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "72",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Vel ullam",
+            "owner": "72",
+            "updatedBy": "72",
+            "vip": "9",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "59",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Illo sit quia",
+            "owner": "59",
+            "updatedBy": "59",
+            "vip": "21",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "52",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Veritatis nihil cum",
+            "owner": "52",
+            "updatedBy": "52",
+            "vip": "61",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "81",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Aut incidunt consequatur",
+            "owner": "81",
+            "updatedBy": "81",
+            "vip": "12",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "23",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Tenetur porro",
+            "owner": "23",
+            "updatedBy": "23",
+            "vip": "83",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "84",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "John",
+              "Tom",
+              "Jane",
+            ],
+            "name": "Suscipit aut cum",
+            "owner": "84",
+            "updatedBy": "84",
+            "vip": "89",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "26",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Id cum",
+            "owner": "26",
+            "updatedBy": "26",
+            "vip": "26",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCIxNCJdXX0=",
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCIyIl1dfQ==",
       },
-      "mods": Array [
-        "Jane",
-        "Martha",
-        "Tom",
-      ],
-      "name": "Delectus qui maxime",
-      "owner": "42",
-      "updatedBy": "42",
+      "resultCount": 10,
+      "totalCount": 43,
     },
-    Object {
-      "createdBy": "72",
-      "id": "7",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Vel ullam",
-      "owner": "72",
-      "updatedBy": "72",
-    },
-    Object {
-      "createdBy": "59",
-      "id": "8",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Illo sit quia",
-      "owner": "59",
-      "updatedBy": "59",
-    },
-    Object {
-      "createdBy": "52",
-      "id": "9",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Veritatis nihil cum",
-      "owner": "52",
-      "updatedBy": "52",
-    },
-    Object {
-      "createdBy": "81",
-      "id": "11",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Aut incidunt consequatur",
-      "owner": "81",
-      "updatedBy": "81",
-    },
-    Object {
-      "createdBy": "23",
-      "id": "12",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Tenetur porro",
-      "owner": "23",
-      "updatedBy": "23",
-    },
-    Object {
-      "createdBy": "84",
-      "id": "13",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "John",
-        "Tom",
-        "Jane",
-      ],
-      "name": "Suscipit aut cum",
-      "owner": "84",
-      "updatedBy": "84",
-    },
-    Object {
-      "createdBy": "26",
-      "id": "14",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Id cum",
-      "owner": "26",
-      "updatedBy": "26",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $not_in 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "46",
-      "id": "2",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Et eum",
-      "owner": "46",
-      "updatedBy": "46",
-    },
-    Object {
-      "createdBy": "55",
-      "id": "5",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Cumque impedit est",
-      "owner": "55",
-      "updatedBy": "55",
-    },
-    Object {
-      "createdBy": "72",
-      "id": "7",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Vel ullam",
-      "owner": "72",
-      "updatedBy": "72",
-    },
-    Object {
-      "createdBy": "59",
-      "id": "8",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Illo sit quia",
-      "owner": "59",
-      "updatedBy": "59",
-    },
-    Object {
-      "createdBy": "52",
-      "id": "9",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Veritatis nihil cum",
-      "owner": "52",
-      "updatedBy": "52",
-    },
-    Object {
-      "createdBy": "71",
-      "id": "10",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Sit aut",
-      "owner": "71",
-      "updatedBy": "71",
-    },
-    Object {
-      "createdBy": "81",
-      "id": "11",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Aut incidunt consequatur",
-      "owner": "81",
-      "updatedBy": "81",
-    },
-    Object {
-      "createdBy": "23",
-      "id": "12",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Tenetur porro",
-      "owner": "23",
-      "updatedBy": "23",
-    },
-    Object {
-      "createdBy": "84",
-      "id": "13",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "John",
-        "Tom",
-        "Jane",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "46",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Et eum",
+            "owner": "46",
+            "updatedBy": "46",
+            "vip": "62",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "55",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Cumque impedit est",
+            "owner": "55",
+            "updatedBy": "55",
+            "vip": "4",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "72",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Vel ullam",
+            "owner": "72",
+            "updatedBy": "72",
+            "vip": "9",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "59",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Illo sit quia",
+            "owner": "59",
+            "updatedBy": "59",
+            "vip": "21",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "52",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Veritatis nihil cum",
+            "owner": "52",
+            "updatedBy": "52",
+            "vip": "61",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "71",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Sit aut",
+            "owner": "71",
+            "updatedBy": "71",
+            "vip": "73",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "81",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Aut incidunt consequatur",
+            "owner": "81",
+            "updatedBy": "81",
+            "vip": "12",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "23",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Tenetur porro",
+            "owner": "23",
+            "updatedBy": "23",
+            "vip": "83",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "84",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "John",
+              "Tom",
+              "Jane",
+            ],
+            "name": "Suscipit aut cum",
+            "owner": "84",
+            "updatedBy": "84",
+            "vip": "89",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "26",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Id cum",
+            "owner": "26",
+            "updatedBy": "26",
+            "vip": "26",
+          },
+        },
       ],
-      "name": "Suscipit aut cum",
-      "owner": "84",
-      "updatedBy": "84",
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCIxNCJdXX0=",
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCIyIl1dfQ==",
+      },
+      "resultCount": 10,
+      "totalCount": 43,
     },
-    Object {
-      "createdBy": "26",
-      "id": "14",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Id cum",
-      "owner": "26",
-      "updatedBy": "26",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $not_starts_with 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "37",
-      "id": "1",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Reiciendis quaerat",
-      "owner": "37",
-      "updatedBy": "37",
-    },
-    Object {
-      "createdBy": "46",
-      "id": "2",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Et eum",
-      "owner": "46",
-      "updatedBy": "46",
-    },
-    Object {
-      "createdBy": "79",
-      "id": "3",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Occaecati adipisci vel",
-      "owner": "79",
-      "updatedBy": "79",
-    },
-    Object {
-      "createdBy": "42",
-      "id": "4",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Fuga facilis",
-      },
-      "mods": Array [
-        "Jane",
-        "Martha",
-        "Tom",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "37",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Reiciendis quaerat",
+            "owner": "37",
+            "updatedBy": "37",
+            "vip": "103",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "46",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Et eum",
+            "owner": "46",
+            "updatedBy": "46",
+            "vip": "62",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "79",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Occaecati adipisci vel",
+            "owner": "79",
+            "updatedBy": "79",
+            "vip": "50",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "42",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Fuga facilis",
+              "externalLinks": null,
+            },
+            "mods": Array [
+              "Jane",
+              "Martha",
+              "Tom",
+            ],
+            "name": "Delectus qui maxime",
+            "owner": "42",
+            "updatedBy": "42",
+            "vip": "10",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "55",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Cumque impedit est",
+            "owner": "55",
+            "updatedBy": "55",
+            "vip": "4",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "42",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Ut et",
+            "owner": "42",
+            "updatedBy": "42",
+            "vip": "102",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "59",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Illo sit quia",
+            "owner": "59",
+            "updatedBy": "59",
+            "vip": "21",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "71",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Sit aut",
+            "owner": "71",
+            "updatedBy": "71",
+            "vip": "73",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "81",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Aut incidunt consequatur",
+            "owner": "81",
+            "updatedBy": "81",
+            "vip": "12",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "23",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Tenetur porro",
+            "owner": "23",
+            "updatedBy": "23",
+            "vip": "83",
+          },
+        },
       ],
-      "name": "Delectus qui maxime",
-      "owner": "42",
-      "updatedBy": "42",
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCIxMiJdXX0=",
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCIxIl1dfQ==",
+      },
+      "resultCount": 10,
+      "totalCount": 48,
     },
-    Object {
-      "createdBy": "55",
-      "id": "5",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Cumque impedit est",
-      "owner": "55",
-      "updatedBy": "55",
-    },
-    Object {
-      "createdBy": "42",
-      "id": "6",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Ut et",
-      "owner": "42",
-      "updatedBy": "42",
-    },
-    Object {
-      "createdBy": "59",
-      "id": "8",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Illo sit quia",
-      "owner": "59",
-      "updatedBy": "59",
-    },
-    Object {
-      "createdBy": "71",
-      "id": "10",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Sit aut",
-      "owner": "71",
-      "updatedBy": "71",
-    },
-    Object {
-      "createdBy": "81",
-      "id": "11",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Aut incidunt consequatur",
-      "owner": "81",
-      "updatedBy": "81",
-    },
-    Object {
-      "createdBy": "23",
-      "id": "12",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Tenetur porro",
-      "owner": "23",
-      "updatedBy": "23",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $starts_with + $not_ends_with 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "84",
-      "id": "13",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "John",
-        "Tom",
-        "Jane",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "84",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "John",
+              "Tom",
+              "Jane",
+            ],
+            "name": "Suscipit aut cum",
+            "owner": "84",
+            "updatedBy": "84",
+            "vip": "89",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "10",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Sunt quo",
+            "owner": "10",
+            "updatedBy": "10",
+            "vip": "59",
+          },
+        },
       ],
-      "name": "Suscipit aut cum",
-      "owner": "84",
-      "updatedBy": "84",
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCIyMCJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCIxMyJdXX0=",
+      },
+      "resultCount": 2,
+      "totalCount": 2,
     },
-    Object {
-      "createdBy": "10",
-      "id": "20",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Sunt quo",
-      "owner": "10",
-      "updatedBy": "10",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants $starts_with 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "73",
-      "id": "16",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Est adipisci inventore",
-      "owner": "73",
-      "updatedBy": "73",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "createdBy": "73",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Est adipisci inventore",
+            "owner": "73",
+            "updatedBy": "73",
+            "vip": "14",
+          },
+        },
+        Object {
+          "node": Object {
+            "createdBy": "24",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Est et",
+            "owner": "24",
+            "updatedBy": "24",
+            "vip": "55",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCIxNyJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCIxNiJdXX0=",
+      },
+      "resultCount": 2,
+      "totalCount": 2,
     },
-    Object {
-      "createdBy": "24",
-      "id": "17",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Est et",
-      "owner": "24",
-      "updatedBy": "24",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter variants equals (null) 1`] = `
 Object {
-  "data": Array [],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [],
+      "pageInfo": Object {
+        "endCursor": null,
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": null,
+      },
+      "resultCount": 0,
+      "totalCount": 0,
+    },
   },
 }
 `;
 
-exports[`list filter with invalid attributes (reject) 1`] = `[Error: Unknown attribute name 'someAttributes' used in filter]`;
+exports[`list filter with invalid attributes (reject) 1`] = `
+Object {
+  "errors": Array [
+    [GraphQLError: Field "someAttributes" is not defined by type BoardFilter.],
+  ],
+}
+`;
 
 exports[`list filter with logical operators AND AND + last 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "board": "32",
-      "id": "241",
-      "invitee": "68",
-      "inviter": "78",
-      "state": 20,
+  "data": Object {
+    "allBoardMembers": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "board": "32",
+            "id": "241",
+            "invitee": "68",
+            "inviter": "78",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "39",
+            "id": "232",
+            "invitee": "38",
+            "inviter": "61",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "32",
+            "id": "220",
+            "invitee": "21",
+            "inviter": "78",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "38",
+            "id": "104",
+            "invitee": "61",
+            "inviter": "61",
+            "state": "joined",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "hasNextPage": false,
+        "hasPreviousPage": true,
+      },
+      "resultCount": 4,
+      "totalCount": 7,
     },
-    Object {
-      "board": "39",
-      "id": "232",
-      "invitee": "38",
-      "inviter": "61",
-      "state": 20,
-    },
-    Object {
-      "board": "32",
-      "id": "220",
-      "invitee": "21",
-      "inviter": "78",
-      "state": 20,
-    },
-    Object {
-      "board": "38",
-      "id": "104",
-      "invitee": "61",
-      "inviter": "61",
-      "state": 50,
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": true,
   },
 }
 `;
 
 exports[`list filter with logical operators AND AND + offset 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "board": "39",
-      "id": "232",
-      "invitee": "38",
-      "inviter": "61",
-      "state": 20,
+  "data": Object {
+    "allBoardMembers": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "board": "39",
+            "id": "232",
+            "invitee": "38",
+            "inviter": "61",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "32",
+            "id": "220",
+            "invitee": "21",
+            "inviter": "78",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "38",
+            "id": "104",
+            "invitee": "61",
+            "inviter": "61",
+            "state": "joined",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+      },
+      "resultCount": 3,
+      "totalCount": 7,
     },
-    Object {
-      "board": "32",
-      "id": "220",
-      "invitee": "21",
-      "inviter": "78",
-      "state": 20,
-    },
-    Object {
-      "board": "38",
-      "id": "104",
-      "invitee": "61",
-      "inviter": "61",
-      "state": 50,
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter with logical operators AND AND + orderBy 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "board": "32",
-      "id": "265",
-      "invitee": "36",
-      "inviter": "78",
-      "state": 20,
+  "data": Object {
+    "allBoardMembers": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "board": "32",
+            "id": "265",
+            "invitee": "36",
+            "inviter": "78",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "32",
+            "id": "247",
+            "invitee": "107",
+            "inviter": "78",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "32",
+            "id": "242",
+            "invitee": "61",
+            "inviter": "78",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "32",
+            "id": "241",
+            "invitee": "68",
+            "inviter": "78",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "39",
+            "id": "232",
+            "invitee": "38",
+            "inviter": "61",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "32",
+            "id": "220",
+            "invitee": "21",
+            "inviter": "78",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "38",
+            "id": "104",
+            "invitee": "61",
+            "inviter": "61",
+            "state": "joined",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+      },
+      "resultCount": 7,
+      "totalCount": 7,
     },
-    Object {
-      "board": "32",
-      "id": "247",
-      "invitee": "107",
-      "inviter": "78",
-      "state": 20,
-    },
-    Object {
-      "board": "32",
-      "id": "242",
-      "invitee": "61",
-      "inviter": "78",
-      "state": 20,
-    },
-    Object {
-      "board": "32",
-      "id": "241",
-      "invitee": "68",
-      "inviter": "78",
-      "state": 20,
-    },
-    Object {
-      "board": "39",
-      "id": "232",
-      "invitee": "38",
-      "inviter": "61",
-      "state": 20,
-    },
-    Object {
-      "board": "32",
-      "id": "220",
-      "invitee": "21",
-      "inviter": "78",
-      "state": 20,
-    },
-    Object {
-      "board": "38",
-      "id": "104",
-      "invitee": "61",
-      "inviter": "61",
-      "state": 50,
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter with logical operators OR OR + last 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Joe",
-      "id": "37",
-      "lastname": "Quitzon",
-      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
-      "username": "joe656",
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Joe",
+            "id": "37",
+            "lastname": "Quitzon",
+            "username": "joe656",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Weston",
+            "id": "21",
+            "lastname": "Borer",
+            "username": "weston422",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Dana",
+            "id": "13",
+            "lastname": "Thiel",
+            "username": "dana768",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "hasNextPage": false,
+        "hasPreviousPage": true,
+      },
+      "resultCount": 3,
+      "totalCount": 4,
     },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Weston",
-      "id": "21",
-      "lastname": "Borer",
-      "password": "95c8cee20eec57331edfd8bae64e2066c2f9b6231480df20362669d7fe65c52a",
-      "username": "weston422",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Dana",
-      "id": "13",
-      "lastname": "Thiel",
-      "password": "3256618f4558bee91e9b096351ef86e6e1eb84cb7be7eece6031d7174f321a93",
-      "username": "dana768",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": true,
   },
 }
 `;
 
 exports[`list filter with logical operators OR OR + offset 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Joe",
-      "id": "37",
-      "lastname": "Quitzon",
-      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
-      "username": "joe656",
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Joe",
+            "id": "37",
+            "lastname": "Quitzon",
+            "username": "joe656",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Weston",
+            "id": "21",
+            "lastname": "Borer",
+            "username": "weston422",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Dana",
+            "id": "13",
+            "lastname": "Thiel",
+            "username": "dana768",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+      },
+      "resultCount": 3,
+      "totalCount": 4,
     },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Weston",
-      "id": "21",
-      "lastname": "Borer",
-      "password": "95c8cee20eec57331edfd8bae64e2066c2f9b6231480df20362669d7fe65c52a",
-      "username": "weston422",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Dana",
-      "id": "13",
-      "lastname": "Thiel",
-      "password": "3256618f4558bee91e9b096351ef86e6e1eb84cb7be7eece6031d7174f321a93",
-      "username": "dana768",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter with logical operators OR OR + orderBy 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Joel",
-      "id": "95",
-      "lastname": "Lakin",
-      "password": "c6520201ad739678e8e86c983c072c1fd95dba3b98d5023e40a8d895924b429f",
-      "username": "joel356",
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Joel",
+            "id": "95",
+            "lastname": "Lakin",
+            "username": "joel356",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Joe",
+            "id": "37",
+            "lastname": "Quitzon",
+            "username": "joe656",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Weston",
+            "id": "21",
+            "lastname": "Borer",
+            "username": "weston422",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Dana",
+            "id": "13",
+            "lastname": "Thiel",
+            "username": "dana768",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+      },
+      "resultCount": 4,
+      "totalCount": 4,
     },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Joe",
-      "id": "37",
-      "lastname": "Quitzon",
-      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
-      "username": "joe656",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Weston",
-      "id": "21",
-      "lastname": "Borer",
-      "password": "95c8cee20eec57331edfd8bae64e2066c2f9b6231480df20362669d7fe65c52a",
-      "username": "weston422",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Dana",
-      "id": "13",
-      "lastname": "Thiel",
-      "password": "3256618f4558bee91e9b096351ef86e6e1eb84cb7be7eece6031d7174f321a93",
-      "username": "dana768",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter with logical operators filter with nested logical operators AND + OR 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "board": "32",
-      "id": "220",
-      "invitee": "21",
-      "inviter": "78",
-      "state": 20,
+  "data": Object {
+    "allBoardMembers": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "board": "32",
+            "id": "220",
+            "invitee": "21",
+            "inviter": "78",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "32",
+            "id": "242",
+            "invitee": "61",
+            "inviter": "78",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "32",
+            "id": "247",
+            "invitee": "107",
+            "inviter": "78",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "38",
+            "id": "104",
+            "invitee": "61",
+            "inviter": "61",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "39",
+            "id": "232",
+            "invitee": "38",
+            "inviter": "61",
+            "state": "accepted",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+      },
+      "resultCount": 5,
+      "totalCount": 5,
     },
-    Object {
-      "board": "32",
-      "id": "242",
-      "invitee": "61",
-      "inviter": "78",
-      "state": 20,
-    },
-    Object {
-      "board": "32",
-      "id": "247",
-      "invitee": "107",
-      "inviter": "78",
-      "state": 20,
-    },
-    Object {
-      "board": "38",
-      "id": "104",
-      "invitee": "61",
-      "inviter": "61",
-      "state": 50,
-    },
-    Object {
-      "board": "39",
-      "id": "232",
-      "invitee": "38",
-      "inviter": "61",
-      "state": 20,
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter with mutliple attributes 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "52",
-      "id": "9",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Veritatis nihil cum",
-      "owner": "52",
-      "updatedBy": "52",
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Veritatis nihil cum",
+            "owner": "52",
+            "vip": "61",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJCb2FyZCI6W1siaWQiLCI5Il1dfQ==",
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "eyJCb2FyZCI6W1siaWQiLCI5Il1dfQ==",
+      },
+      "resultCount": 1,
+      "totalCount": 1,
     },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list filter with no results 1`] = `
 Object {
-  "data": Array [],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [],
+      "pageInfo": Object {
+        "endCursor": null,
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": null,
+      },
+      "resultCount": 0,
+      "totalCount": 0,
+    },
   },
 }
 `;
 
 exports[`list multi-key orderBy + first + offset 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "board": "2",
-      "id": "214",
-      "invitee": "92",
-      "inviter": "46",
-      "state": 20,
+  "data": Object {
+    "allBoardMembers": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "board": "2",
+            "id": "214",
+            "invitee": "92",
+            "inviter": "46",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "2",
+            "id": "281",
+            "invitee": "40",
+            "inviter": "46",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "3",
+            "id": "207",
+            "invitee": "61",
+            "inviter": "79",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "3",
+            "id": "262",
+            "invitee": "38",
+            "inviter": "79",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "3",
+            "id": "264",
+            "invitee": "24",
+            "inviter": "79",
+            "state": "invited",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+      },
+      "resultCount": 5,
+      "totalCount": 300,
     },
-    Object {
-      "board": "2",
-      "id": "281",
-      "invitee": "40",
-      "inviter": "46",
-      "state": 10,
-    },
-    Object {
-      "board": "3",
-      "id": "207",
-      "invitee": "61",
-      "inviter": "79",
-      "state": 10,
-    },
-    Object {
-      "board": "3",
-      "id": "262",
-      "invitee": "38",
-      "inviter": "79",
-      "state": 10,
-    },
-    Object {
-      "board": "3",
-      "id": "264",
-      "invitee": "24",
-      "inviter": "79",
-      "state": 10,
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list orderBy + first + offset 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Jeremy",
-      "id": "6",
-      "lastname": "Larkin",
-      "password": "bbd72dedbd01e6593f9bdb72cb6372f299c686e922fc992aafbe820985dce209",
-      "username": "jeremy386",
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Jeremy",
+            "id": "6",
+            "lastname": "Larkin",
+            "username": "jeremy386",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Autumn",
+            "id": "7",
+            "lastname": "Ullrich",
+            "username": "autumn520",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Edward",
+            "id": "8",
+            "lastname": "Dach",
+            "username": "edward969",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjgiXV19",
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "startCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjYiXV19",
+      },
+      "resultCount": 3,
+      "totalCount": 110,
     },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Autumn",
-      "id": "7",
-      "lastname": "Ullrich",
-      "password": "a71d5794449a7019156a0a06fccf3e5ef522fc8767edee6b08292050c52c25d3",
-      "username": "autumn520",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Edward",
-      "id": "8",
-      "lastname": "Dach",
-      "password": "5f53b0a2be22e28dc4b056f663910c046a33f9b2d779eaf997ea771fe1881a13",
-      "username": "edward969",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list orderBy + first 0 1`] = `
 Object {
-  "data": Array [],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [],
+      "pageInfo": Object {
+        "endCursor": null,
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": null,
+      },
+      "resultCount": 0,
+      "totalCount": 110,
+    },
   },
 }
 `;
 
 exports[`list orderBy + first 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Annabel",
-      "id": "1",
-      "lastname": "Bergstrom",
-      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
-      "username": "annabel711",
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Annabel",
+            "id": "1",
+            "lastname": "Bergstrom",
+            "username": "annabel711",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Anya",
+            "id": "2",
+            "lastname": "Conn",
+            "username": "anya543",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Fleta",
+            "id": "3",
+            "lastname": "Williamson",
+            "username": "fleta342",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjMiXV19",
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "startCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjEiXV19",
+      },
+      "resultCount": 3,
+      "totalCount": 110,
     },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Anya",
-      "id": "2",
-      "lastname": "Conn",
-      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
-      "username": "anya543",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Fleta",
-      "id": "3",
-      "lastname": "Williamson",
-      "password": "d36dc0a7b548fe7a1e0da69049ea1b14db66b6ea408e297c8f700e666843b020",
-      "username": "fleta342",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list orderBy + last + offset 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Ella",
-      "id": "103",
-      "lastname": "Roberts",
-      "password": "f056b8cae37dc3ed60ee52da9a2951f8a6c531fe3222a3ad6835dbdd905c7d2a",
-      "username": "ella377",
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Ella",
+            "id": "103",
+            "lastname": "Roberts",
+            "username": "ella377",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Joe",
+            "id": "104",
+            "lastname": "Ratke",
+            "username": "joe154",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Brandi",
+            "id": "105",
+            "lastname": "Grimes",
+            "username": "brandi646",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjEwNSJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": true,
+        "startCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjEwMyJdXX0=",
+      },
+      "resultCount": 3,
+      "totalCount": 110,
     },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Joe",
-      "id": "104",
-      "lastname": "Ratke",
-      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
-      "username": "joe154",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Brandi",
-      "id": "105",
-      "lastname": "Grimes",
-      "password": "bac53a2cdcbf0a3d8fc1b1e573e81699382ed1080821d20ec1b47c7dddd02fa5",
-      "username": "brandi646",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": true,
   },
 }
 `;
 
 exports[`list orderBy + last 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Tianna",
-      "id": "108",
-      "lastname": "Kulas",
-      "password": "b00046da5a1751e46b557fab4edb5d91e13c44c8a0205fc2d89275d422df49ad",
-      "username": "tianna226",
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Tianna",
+            "id": "108",
+            "lastname": "Kulas",
+            "username": "tianna226",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Muriel",
+            "id": "109",
+            "lastname": "Howe",
+            "username": "muriel707",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Krystel",
+            "id": "110",
+            "lastname": "Bauch",
+            "username": "krystel170",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjExMCJdXX0=",
+        "hasNextPage": false,
+        "hasPreviousPage": true,
+        "startCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjEwOCJdXX0=",
+      },
+      "resultCount": 3,
+      "totalCount": 110,
     },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Muriel",
-      "id": "109",
-      "lastname": "Howe",
-      "password": "bf94deb712f9040ba1effa106091e0a1ca330f4b1f311e44b021e955ad203100",
-      "username": "muriel707",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Krystel",
-      "id": "110",
-      "lastname": "Bauch",
-      "password": "e97188c43aaf749ffa43df9286c35eb150174bb7bfe69dc6df7689fb782b976a",
-      "username": "krystel170",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": true,
   },
 }
 `;
 
 exports[`list orderBy + offset 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Jeremy",
-      "id": "6",
-      "lastname": "Larkin",
-      "password": "bbd72dedbd01e6593f9bdb72cb6372f299c686e922fc992aafbe820985dce209",
-      "username": "jeremy386",
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Jeremy",
+            "id": "6",
+            "lastname": "Larkin",
+            "username": "jeremy386",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Autumn",
+            "id": "7",
+            "lastname": "Ullrich",
+            "username": "autumn520",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Edward",
+            "id": "8",
+            "lastname": "Dach",
+            "username": "edward969",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Omari",
+            "id": "9",
+            "lastname": "White",
+            "username": "omari409",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Leon",
+            "id": "10",
+            "lastname": "Smitham",
+            "username": "leon807",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Hazel",
+            "id": "11",
+            "lastname": "King",
+            "username": "hazel528",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Emmet",
+            "id": "12",
+            "lastname": "Boyle",
+            "username": "emmet741",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Dana",
+            "id": "13",
+            "lastname": "Thiel",
+            "username": "dana768",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Clark",
+            "id": "14",
+            "lastname": "Abshire",
+            "username": "clark218",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Athena",
+            "id": "15",
+            "lastname": "Stamm",
+            "username": "athena557",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjE1Il1dfQ==",
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "startCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjYiXV19",
+      },
+      "resultCount": 10,
+      "totalCount": 110,
     },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Autumn",
-      "id": "7",
-      "lastname": "Ullrich",
-      "password": "a71d5794449a7019156a0a06fccf3e5ef522fc8767edee6b08292050c52c25d3",
-      "username": "autumn520",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Edward",
-      "id": "8",
-      "lastname": "Dach",
-      "password": "5f53b0a2be22e28dc4b056f663910c046a33f9b2d779eaf997ea771fe1881a13",
-      "username": "edward969",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Omari",
-      "id": "9",
-      "lastname": "White",
-      "password": "913a5aa81861da1fe643478d72c343152b38d0fe841a6b02bbe74bab7004a2de",
-      "username": "omari409",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Leon",
-      "id": "10",
-      "lastname": "Smitham",
-      "password": "16149626b0365e04a9a52d02e17ca8aeb63680b9f5ee2ba334b0b1a38a833cfe",
-      "username": "leon807",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Hazel",
-      "id": "11",
-      "lastname": "King",
-      "password": "70e88c7a26a5e6daca0dc1c611bbf05e26b7e1d645faeaa30c1d316c67ed9869",
-      "username": "hazel528",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Emmet",
-      "id": "12",
-      "lastname": "Boyle",
-      "password": "8405ae6de3ebde2abffb2531d437a163a31dc42a109c7369b66b93258c7e1d67",
-      "username": "emmet741",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Dana",
-      "id": "13",
-      "lastname": "Thiel",
-      "password": "3256618f4558bee91e9b096351ef86e6e1eb84cb7be7eece6031d7174f321a93",
-      "username": "dana768",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Clark",
-      "id": "14",
-      "lastname": "Abshire",
-      "password": "87ba65bd3e47783927b0035d5537c2bfc92362955d3a6fe39289ab03075b5b7c",
-      "username": "clark218",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Athena",
-      "id": "15",
-      "lastname": "Stamm",
-      "password": "09b47655056ff5f96694fd9ea16b86998c853046ca7adc60587fa152c02f7b4b",
-      "username": "athena557",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
 exports[`list orderBy 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Annabel",
-      "id": "1",
-      "lastname": "Bergstrom",
-      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
-      "username": "annabel711",
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Annabel",
+            "id": "1",
+            "lastname": "Bergstrom",
+            "username": "annabel711",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Anya",
+            "id": "2",
+            "lastname": "Conn",
+            "username": "anya543",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Fleta",
+            "id": "3",
+            "lastname": "Williamson",
+            "username": "fleta342",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Victor",
+            "id": "4",
+            "lastname": "Keeling",
+            "username": "victor821",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Griffin",
+            "id": "5",
+            "lastname": "Frami",
+            "username": "griffin807",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Jeremy",
+            "id": "6",
+            "lastname": "Larkin",
+            "username": "jeremy386",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Autumn",
+            "id": "7",
+            "lastname": "Ullrich",
+            "username": "autumn520",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Edward",
+            "id": "8",
+            "lastname": "Dach",
+            "username": "edward969",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Omari",
+            "id": "9",
+            "lastname": "White",
+            "username": "omari409",
+          },
+        },
+        Object {
+          "node": Object {
+            "confirmedAt": null,
+            "firstname": "Leon",
+            "id": "10",
+            "lastname": "Smitham",
+            "username": "leon807",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjEwIl1dfQ==",
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "startCursor": "eyJQcm9maWxlIjpbWyJpZCIsIjEiXV19",
+      },
+      "resultCount": 10,
+      "totalCount": 110,
     },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Anya",
-      "id": "2",
-      "lastname": "Conn",
-      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
-      "username": "anya543",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Fleta",
-      "id": "3",
-      "lastname": "Williamson",
-      "password": "d36dc0a7b548fe7a1e0da69049ea1b14db66b6ea408e297c8f700e666843b020",
-      "username": "fleta342",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Victor",
-      "id": "4",
-      "lastname": "Keeling",
-      "password": "94b5f0fa59e958580234a46304f711dbf0276bcee26ce8ef14e9c750fcaa5a2b",
-      "username": "victor821",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Griffin",
-      "id": "5",
-      "lastname": "Frami",
-      "password": "7679f40138809eb3e012b29a46160f797b3afd72227099bde320fbc7e725e59d",
-      "username": "griffin807",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Jeremy",
-      "id": "6",
-      "lastname": "Larkin",
-      "password": "bbd72dedbd01e6593f9bdb72cb6372f299c686e922fc992aafbe820985dce209",
-      "username": "jeremy386",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Autumn",
-      "id": "7",
-      "lastname": "Ullrich",
-      "password": "a71d5794449a7019156a0a06fccf3e5ef522fc8767edee6b08292050c52c25d3",
-      "username": "autumn520",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Edward",
-      "id": "8",
-      "lastname": "Dach",
-      "password": "5f53b0a2be22e28dc4b056f663910c046a33f9b2d779eaf997ea771fe1881a13",
-      "username": "edward969",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Omari",
-      "id": "9",
-      "lastname": "White",
-      "password": "913a5aa81861da1fe643478d72c343152b38d0fe841a6b02bbe74bab7004a2de",
-      "username": "omari409",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Leon",
-      "id": "10",
-      "lastname": "Smitham",
-      "password": "16149626b0365e04a9a52d02e17ca8aeb63680b9f5ee2ba334b0b1a38a833cfe",
-      "username": "leon807",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
-exports[`list parentConnection + first 1`] = `
+exports[`list reverse connection + first 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "board": "41",
-      "id": "80",
-      "invitee": "60",
-      "inviter": "60",
-      "state": 50,
+  "data": Object {
+    "profileById": Object {
+      "boardMembersByInviter": Object {
+        "edges": Array [
+          Object {
+            "node": Object {
+              "board": "41",
+              "id": "80",
+              "invitee": "60",
+              "inviter": "60",
+              "state": "joined",
+            },
+          },
+        ],
+        "pageInfo": Object {
+          "hasNextPage": true,
+          "hasPreviousPage": false,
+        },
+        "resultCount": 1,
+        "totalCount": 2,
+      },
+      "id": "60",
     },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
-exports[`list parentConnection 1`] = `
+exports[`list reverse connection 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "board": "41",
-      "id": "80",
-      "invitee": "60",
-      "inviter": "60",
-      "state": 50,
+  "data": Object {
+    "profileById": Object {
+      "boardMembersByInviter": Object {
+        "edges": Array [
+          Object {
+            "node": Object {
+              "board": "41",
+              "id": "80",
+              "invitee": "60",
+              "inviter": "60",
+              "state": "joined",
+            },
+          },
+          Object {
+            "node": Object {
+              "board": "47",
+              "id": "109",
+              "invitee": "60",
+              "inviter": "60",
+              "state": "joined",
+            },
+          },
+        ],
+        "pageInfo": Object {
+          "hasNextPage": false,
+          "hasPreviousPage": false,
+        },
+        "resultCount": 2,
+        "totalCount": 2,
+      },
+      "id": "60",
     },
-    Object {
-      "board": "47",
-      "id": "109",
-      "invitee": "60",
-      "inviter": "60",
-      "state": 50,
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
-
-exports[`list parentConnection with invalid attribute (reject) 1`] = `[Error: column "invalidAttributeName" does not exist]`;
 
 exports[`list should utilize data loader 1`] = `
-Array [
-  Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Annabel",
-      "id": "1",
-      "lastname": "Bergstrom",
-      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
-      "username": "annabel711",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Anya",
-      "id": "2",
-      "lastname": "Conn",
-      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
-      "username": "anya543",
-    },
-  ],
-  Array [
-    Object {
-      "confirmedAt": null,
-      "firstname": "Annabel",
-      "id": "1",
-      "lastname": "Bergstrom",
-      "password": "8fed8061e1e33d96169b9026605172a8fe21eb1ce51756187195be0330536fb7",
-      "username": "annabel711",
-    },
-    Object {
-      "confirmedAt": null,
-      "firstname": "Anya",
-      "id": "2",
-      "lastname": "Conn",
-      "password": "0ba4c26f03ae3c7c7a85bf4204539884e52a0e1e511aeaf11d3b2fd627b5957d",
-      "username": "anya543",
-    },
-  ],
-]
+Object {
+  "_type_": "profile",
+  "confirmedAt": null,
+  "firstname": "Griffin",
+  "id": "5",
+  "lastname": "Frami",
+  "password": "7679f40138809eb3e012b29a46160f797b3afd72227099bde320fbc7e725e59d",
+  "username": "griffin807",
+}
 `;
