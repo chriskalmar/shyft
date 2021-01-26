@@ -46,7 +46,7 @@ jobs:
       - name: Test
         run: npm run coverage-ci
         env:
-          PGHOST: postgres
+          PGHOST: localhost
           PGUSER: postgres
           PGPASSWORD: postgres
           SHYFT_TEST_DB: postgres
