@@ -16,7 +16,10 @@ import { generateMutations } from './mutation';
 import { generateActions } from './action';
 import { generateSubscriptions } from './subscription';
 import { resolveByFindOne } from './resolver';
-import { isConfiguration } from '../engine/configuration/Configuration';
+import {
+  Configuration,
+  isConfiguration,
+} from '../engine/configuration/Configuration';
 import { Entity, isEntity } from '../engine/entity/Entity';
 import { DataTypeI18n } from '../engine/datatype/dataTypes';
 import {
@@ -158,7 +161,9 @@ export const registerActions = (actions) => {
   }
 };
 
-export const generateGraphQLSchema = (configuration) => {
+export const generateGraphQLSchema = (
+  configuration: Configuration,
+): GraphQLSchema => {
   if (!isConfiguration(configuration)) {
     throw new Error(
       'Invalid configuration object provided to generateGraphQLSchema()',
