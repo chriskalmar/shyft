@@ -4,6 +4,7 @@ import { RELAY_TYPE_PROMOTER_FIELD } from './protocolGraphqlConstants';
 import { CustomError } from '../engine/CustomError';
 import { isDefined } from '../engine/util';
 import { getRegisteredEntityAttribute } from './registry';
+import { GraphQLError } from 'graphql';
 
 export function generateTypeName(name) {
   return _.camelCase(name);
@@ -145,3 +146,20 @@ export const translateListFn = (entity, context) => {
 
 // emulate gql tag for prettier
 export const gql = String.raw;
+
+export const formatGraphQLError = (err: GraphQLError): GraphQLError => {
+  if (err.originalError && err.originalError.message) {
+    const { message, code, meta } = err.originalError;
+    const { locations, path } = err;
+
+    return {
+      message,
+      locations,
+      path,
+      meta,
+      extensions: { code },
+    };
+  }
+
+  return err;
+};

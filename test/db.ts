@@ -35,6 +35,7 @@ import {
 import Maybe from 'graphql/tsutils/Maybe';
 import { ExecutionResultDataDefault } from 'graphql/execution/execute';
 import { ProtocolGraphQLConfiguration } from '../src/graphqlProtocol/ProtocolGraphQLConfiguration';
+import { formatGraphQLError } from '../src/graphqlProtocol/util';
 
 const schema = new Schema({
   defaultStorageType: StorageTypePostgres,
@@ -91,7 +92,22 @@ export async function testGraphql(
   context?: unknown,
   payload?: Maybe<{ [key: string]: unknown }>,
 ): Promise<ExecutionResult<ExecutionResultDataDefault>> {
-  return graphql(graphqlSchema, query, null, context || {}, payload);
+  const result = await graphql(
+    graphqlSchema,
+    query,
+    null,
+    context || {},
+    payload,
+  );
+
+  if (result.errors) {
+    return {
+      ...result,
+      errors: result.errors.map(formatGraphQLError),
+    };
+  }
+
+  return result;
 }
 
 const serializeAttributeValues = (
