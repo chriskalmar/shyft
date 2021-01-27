@@ -4,6 +4,7 @@ import {
 } from '../src/storage-connector/generator';
 import { StorageTypePostgres } from '../src/storage-connector/StorageTypePostgres';
 import StoragePostgresConfiguration from '../src/storage-connector/StoragePostgresConfiguration';
+import { writeFileSync } from 'fs';
 
 import {
   Schema,
@@ -24,7 +25,13 @@ import { DataTypeTester } from './models/DataTypeTester';
 import { BoardMemberView } from './models/BoardMemberView';
 import { Connection } from 'typeorm';
 import { generateGraphQLSchema } from '../src/graphqlProtocol/generator';
-import { ExecutionResult, graphql, GraphQLSchema, Source } from 'graphql';
+import {
+  ExecutionResult,
+  graphql,
+  GraphQLSchema,
+  printSchema,
+  Source,
+} from 'graphql';
 import Maybe from 'graphql/tsutils/Maybe';
 import { ExecutionResultDataDefault } from 'graphql/execution/execute';
 import { ProtocolGraphQLConfiguration } from '../src/graphqlProtocol/ProtocolGraphQLConfiguration';
@@ -76,6 +83,7 @@ export const disconnectDB = async () => {
 
 export const initGraphQLSchema = (): void => {
   graphqlSchema = generateGraphQLSchema(configuration);
+  writeFileSync('./test-schema.gql', printSchema(graphqlSchema), 'utf8');
 };
 
 export async function testGraphql(

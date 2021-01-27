@@ -55,3 +55,6 @@ playground/*
 
 # build
 lib/*
+
+# test schema
+test-schema.graphql
