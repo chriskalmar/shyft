@@ -1,134 +1,219 @@
 import './setupAndTearDown';
-import { mutate, find } from './db';
-
-import { asAdmin, removeId } from './testUtils';
-
-import { Book } from './models/Book';
-
-const orderByIdAsc = {
-  orderBy: [
-    {
-      attribute: 'id',
-      direction: 'ASC',
-    },
-  ],
-};
+import { testGraphql } from './db';
+import { asAdmin, asUser } from './testUtils';
+import { gql } from '../src/graphqlProtocol/util';
 
 describe('i18n', () => {
-  it('should store translations if provided', async () => {
-    const payload = {
-      title: 'War and Peace',
-      'title.i18n': {
-        de: 'Krieg und Frieden',
-      },
-      author: 'Leo Tolstoy',
-    };
+  const createBookMutation = gql`
+    mutation createBook($input: CreateBookInput!) {
+      createBook(input: $input) {
+        book {
+          id
+          title_i18n {
+            en
+            de
+          }
+          title_i18nJson
+          shortSummary_i18n {
+            en
+            de
+          }
+          shortSummary_i18nJson
+          author
+          reviews {
+            reviewer
+            reviewText
+            bookAttributes {
+              attribute
+              value
+            }
+          }
+        }
+      }
+    }
+  `;
 
-    const result = await mutate(Book, 'create', payload, null, asAdmin());
-    expect(removeId(result)).toMatchSnapshot();
+  const updateBookMutation = gql`
+    mutation updateBookById($input: UpdateBookByIdInput!) {
+      updateBookById(input: $input) {
+        book {
+          id
+          title_i18n {
+            en
+            de
+          }
+          title_i18nJson
+          shortSummary_i18n {
+            en
+            de
+          }
+          shortSummary_i18nJson
+          author
+          reviews {
+            reviewer
+            reviewText
+            bookAttributes {
+              attribute
+              value
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const findBookQuery = gql`
+    query allBooks($bookFilter: BookFilter) {
+      allBooks(filter: $bookFilter) {
+        edges {
+          node {
+            id
+            title_i18nJson
+            shortSummary_i18nJson
+          }
+        }
+      }
+    }
+  `;
+
+  it('should store translations if provided', async () => {
+    const result = await testGraphql(createBookMutation, asUser(99), {
+      input: {
+        book: {
+          title_i18n: {
+            en: 'War and Peace',
+            de: 'Krieg und Frieden',
+          },
+          author: 'Leo Tolstoy',
+        },
+      },
+    });
+
+    expect(result).toMatchSnapshot();
   });
 
   it('should reject translations of unknown languages', async () => {
-    const payload = {
-      title: 'War and Peace',
-      'title.i18n': {
-        de: 'Krieg und Frieden',
-        fr: 'Guerre et Paix',
+    const result = await testGraphql(createBookMutation, asUser(99), {
+      input: {
+        book: {
+          title_i18n: {
+            en: 'War and Peace',
+            de: 'Krieg und Frieden',
+            fr: 'Guerre et Paix',
+          },
+          author: 'Leo Tolstoy',
+        },
       },
-      author: 'Leo Tolstoy',
-    };
-
-    await mutate(Book, 'create', payload, null, asAdmin()).catch((e) => {
-      expect(e).toMatchSnapshot();
     });
+
+    expect(result).toMatchSnapshot();
   });
 
   it('should take main value form translations object if provided', async () => {
-    const payload = {
-      'title.i18n': {
-        en: 'War and Peace',
-        de: 'Krieg und Frieden',
+    const result = await testGraphql(createBookMutation, asUser(99), {
+      input: {
+        book: {
+          title_i18n: {
+            en: 'War and Peace',
+            de: 'Krieg und Frieden',
+          },
+          author: 'Leo Tolstoy',
+        },
       },
-      author: 'Leo Tolstoy',
-    };
+    });
 
-    const result = await mutate(Book, 'create', payload, null, asAdmin());
-    expect(removeId(result)).toMatchSnapshot();
+    expect(result).toMatchSnapshot();
   });
 
   it('should store translations of multiple attributes', async () => {
-    const payload = {
-      'title.i18n': {
-        en: 'War and Peace',
-        de: 'Krieg und Frieden',
+    const result = await testGraphql(createBookMutation, asUser(99), {
+      input: {
+        book: {
+          title_i18n: {
+            en: 'War and Peace',
+            de: 'Krieg und Frieden',
+          },
+          shortSummary_i18n: {
+            en: 'The novel chronicles the history of ...',
+            de: 'Krieg und Frieden ist ein historischer Roman des ...',
+          },
+          author: 'Leo Tolstoy',
+        },
       },
-      shortSummary: 'The novel chronicles the history of ...',
-      'shortSummary.i18n': {
-        de: 'Krieg und Frieden ist ein historischer Roman des ...',
-      },
-      author: 'Leo Tolstoy',
-    };
+    });
 
-    const result = await mutate(Book, 'create', payload, null, asAdmin());
-    expect(removeId(result)).toMatchSnapshot();
+    expect(result).toMatchSnapshot();
   });
 
   it('should find items by translation', async () => {
-    const filter = {
-      shortSummary: {
-        $contains: 'ein historischer Roman',
+    const result = await testGraphql(findBookQuery, asAdmin(1, 'de'), {
+      bookFilter: {
+        shortSummary__contains: 'ein historischer Roman',
       },
-    };
+    });
 
-    const result = await find(
-      Book,
-      { ...orderByIdAsc, filter },
-      asAdmin(1, 'de'),
-    );
-    expect(removeId(result)).toMatchSnapshot();
+    expect(result).toMatchSnapshot();
   });
 
   it('should merge existing translations with provided translations', async () => {
-    let payload = {
-      'title.i18n': {
-        en: 'War and Peace',
-        de: 'Krieg und Frieden',
+    const createResult = await testGraphql(createBookMutation, asUser(99), {
+      input: {
+        book: {
+          title_i18n: {
+            en: 'War and Peace',
+            de: 'Krieg und Frieden',
+          },
+          author: 'Leo Tolstoy',
+        },
       },
-      author: 'Leo Tolstoy',
-    };
+    });
 
-    let result = await mutate(Book, 'create', payload, null, asAdmin());
-    const { id } = result;
+    expect(createResult).toMatchSnapshot('create');
 
-    payload = {
-      'shortSummary.i18n': {
-        de: '⚔️ & ☮️',
+    const bookId = createResult.data.createBook.book.id;
+
+    const updateResult = await testGraphql(updateBookMutation, asUser(99), {
+      input: {
+        id: bookId,
+        book: {
+          shortSummary_i18n: {
+            de: '⚔️ & ☮️',
+          },
+        },
       },
-    };
+    });
 
-    result = await mutate(Book, 'update', payload, id, asAdmin());
-    expect(removeId(result)).toMatchSnapshot();
+    expect(updateResult).toMatchSnapshot('update');
   });
 
   it('should merge existing translations with provided translations containing apostrophe', async () => {
-    let payload = {
-      'title.i18n': {
-        en: 'War and Peace',
-        de: 'Krieg und Frieden',
+    const createResult = await testGraphql(createBookMutation, asUser(99), {
+      input: {
+        book: {
+          title_i18n: {
+            en: 'War and Peace',
+            de: 'Krieg und Frieden',
+          },
+          author: 'Leo Tolstoy',
+        },
       },
-      author: 'Leo Tolstoy',
-    };
+    });
 
-    let result = await mutate(Book, 'create', payload, null, asAdmin());
-    const { id } = result;
+    expect(createResult).toMatchSnapshot('create');
 
-    payload = {
-      'shortSummary.i18n': {
-        de: "The author's vision was awesome",
+    const bookId = createResult.data.createBook.book.id;
+
+    const updateResult = await testGraphql(updateBookMutation, asUser(99), {
+      input: {
+        id: bookId,
+        book: {
+          shortSummary_i18n: {
+            de: "The author's vision was awesome",
+          },
+        },
       },
-    };
+    });
 
-    result = await mutate(Book, 'update', payload, id, asAdmin());
-    expect(removeId(result)).toMatchSnapshot();
+    expect(updateResult).toMatchSnapshot('update');
   });
 });

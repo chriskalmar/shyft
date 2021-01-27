@@ -2,119 +2,242 @@
 
 exports[`i18n should find items by translation 1`] = `
 Object {
-  "data": Array [
-    Book {
-      "author": "Leo Tolstoy",
-      "i18n": null,
-      "id": "24",
-      "reviews": null,
-      "shortSummary": "The novel chronicles the history of ...",
-      "shortSummary.i18n": Object {
-        "de": "Krieg und Frieden ist ein historischer Roman des ...",
-        "en": "The novel chronicles the history of ...",
-      },
-      "title": "War and Peace",
-      "title.i18n": Object {
-        "de": "Krieg und Frieden",
-        "en": "War and Peace",
+  "data": Object {
+    "allBooks": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "id": "24",
+            "shortSummary_i18nJson": Object {
+              "de": "Krieg und Frieden ist ein historischer Roman des ...",
+              "en": "The novel chronicles the history of ...",
+            },
+            "title_i18nJson": Object {
+              "de": "Krieg und Frieden",
+              "en": "War and Peace",
+            },
+          },
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`i18n should merge existing translations with provided translations containing apostrophe: create 1`] = `
+Object {
+  "data": Object {
+    "createBook": Object {
+      "book": Object {
+        "author": "Leo Tolstoy",
+        "id": "26",
+        "reviews": null,
+        "shortSummary_i18n": Object {
+          "de": null,
+          "en": null,
+        },
+        "shortSummary_i18nJson": Object {
+          "de": undefined,
+          "en": null,
+        },
+        "title_i18n": Object {
+          "de": "Krieg und Frieden",
+          "en": "War and Peace",
+        },
+        "title_i18nJson": Object {
+          "de": "Krieg und Frieden",
+          "en": "War and Peace",
+        },
       },
     },
+  },
+}
+`;
+
+exports[`i18n should merge existing translations with provided translations containing apostrophe: update 1`] = `
+Object {
+  "data": Object {
+    "updateBookById": Object {
+      "book": Object {
+        "author": "Leo Tolstoy",
+        "id": "26",
+        "reviews": null,
+        "shortSummary_i18n": Object {
+          "de": "The author's vision was awesome",
+          "en": null,
+        },
+        "shortSummary_i18nJson": Object {
+          "de": "The author's vision was awesome",
+          "en": null,
+        },
+        "title_i18n": Object {
+          "de": "Krieg und Frieden",
+          "en": "War and Peace",
+        },
+        "title_i18nJson": Object {
+          "de": "Krieg und Frieden",
+          "en": "War and Peace",
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`i18n should merge existing translations with provided translations: create 1`] = `
+Object {
+  "data": Object {
+    "createBook": Object {
+      "book": Object {
+        "author": "Leo Tolstoy",
+        "id": "25",
+        "reviews": null,
+        "shortSummary_i18n": Object {
+          "de": null,
+          "en": null,
+        },
+        "shortSummary_i18nJson": Object {
+          "de": undefined,
+          "en": null,
+        },
+        "title_i18n": Object {
+          "de": "Krieg und Frieden",
+          "en": "War and Peace",
+        },
+        "title_i18nJson": Object {
+          "de": "Krieg und Frieden",
+          "en": "War and Peace",
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`i18n should merge existing translations with provided translations: update 1`] = `
+Object {
+  "data": Object {
+    "updateBookById": Object {
+      "book": Object {
+        "author": "Leo Tolstoy",
+        "id": "25",
+        "reviews": null,
+        "shortSummary_i18n": Object {
+          "de": "⚔️ & ☮️",
+          "en": null,
+        },
+        "shortSummary_i18nJson": Object {
+          "de": "⚔️ & ☮️",
+          "en": null,
+        },
+        "title_i18n": Object {
+          "de": "Krieg und Frieden",
+          "en": "War and Peace",
+        },
+        "title_i18nJson": Object {
+          "de": "Krieg und Frieden",
+          "en": "War and Peace",
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`i18n should reject translations of unknown languages 1`] = `
+Object {
+  "errors": Array [
+    [GraphQLError: Variable "$input" got invalid value { en: "War and Peace", de: "Krieg und Frieden", fr: "Guerre et Paix" } at "input.book.title_i18n"; Field "fr" is not defined by type CreateBookTitleI18NInput.],
   ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
-  },
 }
 `;
-
-exports[`i18n should merge existing translations with provided translations 1`] = `
-Object {
-  "author": "Leo Tolstoy",
-  "i18n": null,
-  "reviews": null,
-  "shortSummary": null,
-  "shortSummary.i18n": Object {
-    "de": "⚔️ & ☮️",
-    "en": null,
-  },
-  "title": "War and Peace",
-  "title.i18n": Object {
-    "de": "Krieg und Frieden",
-    "en": "War and Peace",
-  },
-}
-`;
-
-exports[`i18n should merge existing translations with provided translations containing apostrophe 1`] = `
-Object {
-  "author": "Leo Tolstoy",
-  "i18n": null,
-  "reviews": null,
-  "shortSummary": null,
-  "shortSummary.i18n": Object {
-    "de": "The author's vision was awesome",
-    "en": null,
-  },
-  "title": "War and Peace",
-  "title.i18n": Object {
-    "de": "Krieg und Frieden",
-    "en": "War and Peace",
-  },
-}
-`;
-
-exports[`i18n should reject translations of unknown languages 1`] = `[Error: Unknown language 'fr' provided in translation of mutation 'create']`;
 
 exports[`i18n should store translations if provided 1`] = `
 Object {
-  "author": "Leo Tolstoy",
-  "i18n": null,
-  "reviews": null,
-  "shortSummary": null,
-  "shortSummary.i18n": Object {
-    "de": undefined,
-    "en": null,
-  },
-  "title": "War and Peace",
-  "title.i18n": Object {
-    "de": "Krieg und Frieden",
-    "en": "War and Peace",
+  "data": Object {
+    "createBook": Object {
+      "book": Object {
+        "author": "Leo Tolstoy",
+        "id": "22",
+        "reviews": null,
+        "shortSummary_i18n": Object {
+          "de": null,
+          "en": null,
+        },
+        "shortSummary_i18nJson": Object {
+          "de": undefined,
+          "en": null,
+        },
+        "title_i18n": Object {
+          "de": "Krieg und Frieden",
+          "en": "War and Peace",
+        },
+        "title_i18nJson": Object {
+          "de": "Krieg und Frieden",
+          "en": "War and Peace",
+        },
+      },
+    },
   },
 }
 `;
 
 exports[`i18n should store translations of multiple attributes 1`] = `
 Object {
-  "author": "Leo Tolstoy",
-  "i18n": null,
-  "reviews": null,
-  "shortSummary": "The novel chronicles the history of ...",
-  "shortSummary.i18n": Object {
-    "de": "Krieg und Frieden ist ein historischer Roman des ...",
-    "en": "The novel chronicles the history of ...",
-  },
-  "title": "War and Peace",
-  "title.i18n": Object {
-    "de": "Krieg und Frieden",
-    "en": "War and Peace",
+  "data": Object {
+    "createBook": Object {
+      "book": Object {
+        "author": "Leo Tolstoy",
+        "id": "24",
+        "reviews": null,
+        "shortSummary_i18n": Object {
+          "de": "Krieg und Frieden ist ein historischer Roman des ...",
+          "en": "The novel chronicles the history of ...",
+        },
+        "shortSummary_i18nJson": Object {
+          "de": "Krieg und Frieden ist ein historischer Roman des ...",
+          "en": "The novel chronicles the history of ...",
+        },
+        "title_i18n": Object {
+          "de": "Krieg und Frieden",
+          "en": "War and Peace",
+        },
+        "title_i18nJson": Object {
+          "de": "Krieg und Frieden",
+          "en": "War and Peace",
+        },
+      },
+    },
   },
 }
 `;
 
 exports[`i18n should take main value form translations object if provided 1`] = `
 Object {
-  "author": "Leo Tolstoy",
-  "i18n": null,
-  "reviews": null,
-  "shortSummary": null,
-  "shortSummary.i18n": Object {
-    "de": undefined,
-    "en": null,
-  },
-  "title": "War and Peace",
-  "title.i18n": Object {
-    "de": "Krieg und Frieden",
-    "en": "War and Peace",
+  "data": Object {
+    "createBook": Object {
+      "book": Object {
+        "author": "Leo Tolstoy",
+        "id": "23",
+        "reviews": null,
+        "shortSummary_i18n": Object {
+          "de": null,
+          "en": null,
+        },
+        "shortSummary_i18nJson": Object {
+          "de": undefined,
+          "en": null,
+        },
+        "title_i18n": Object {
+          "de": "Krieg und Frieden",
+          "en": "War and Peace",
+        },
+        "title_i18nJson": Object {
+          "de": "Krieg und Frieden",
+          "en": "War and Peace",
+        },
+      },
+    },
   },
 }
 `;
