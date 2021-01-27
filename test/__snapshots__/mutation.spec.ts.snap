@@ -1,5 +1,274 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`mutation fail mutation if fromState is not a match: firstAccept 1`] = `
+Object {
+  "data": Object {
+    "acceptBoardMemberById": Object {
+      "boardMember": Object {
+        "board": "48",
+        "id": "308",
+        "invitee": "72",
+        "inviter": "41",
+        "state": "accepted",
+      },
+    },
+  },
+}
+`;
+
+exports[`mutation fail mutation if fromState is not a match: invite 1`] = `
+Object {
+  "data": Object {
+    "inviteBoardMember": Object {
+      "boardMember": Object {
+        "board": "48",
+        "id": "308",
+        "invitee": "72",
+        "inviter": "41",
+        "state": "invited",
+      },
+    },
+  },
+}
+`;
+
+exports[`mutation fail mutation if fromState is not a match: secondAccept 1`] = `
+Object {
+  "data": Object {
+    "acceptBoardMemberById": null,
+  },
+  "errors": Array [
+    Object {
+      "extensions": Object {
+        "code": "InstanceNotFoundOrAccessDenied",
+      },
+      "locations": Array [
+        Object {
+          "column": 11,
+          "line": 3,
+        },
+      ],
+      "message": "Instance with ID '308' not found or access denied",
+      "meta": undefined,
+      "path": Array [
+        "acceptBoardMemberById",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`mutation handle uniqueness constraints: first 1`] = `
+Object {
+  "data": Object {
+    "buildBoard": Object {
+      "board": Object {
+        "id": "53",
+      },
+    },
+  },
+}
+`;
+
+exports[`mutation handle uniqueness constraints: second 1`] = `
+Object {
+  "data": Object {
+    "buildBoard": null,
+  },
+  "errors": Array [
+    Object {
+      "extensions": Object {
+        "code": "UniqueConstraintError",
+      },
+      "locations": Array [
+        Object {
+          "column": 11,
+          "line": 3,
+        },
+      ],
+      "message": "Uniqueness constraint violated",
+      "meta": Object {
+        "attributes": Array [
+          "vip",
+        ],
+      },
+      "path": Array [
+        "buildBoard",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`mutation perform delete mutations: invite 1`] = `
+Object {
+  "data": Object {
+    "inviteBoardMember": Object {
+      "boardMember": Object {
+        "board": "48",
+        "id": "307",
+        "invitee": "75",
+        "inviter": "41",
+        "state": "invited",
+      },
+    },
+  },
+}
+`;
+
+exports[`mutation perform delete mutations: remove 1`] = `
+Object {
+  "data": Object {
+    "removeBoardMemberById": Object {
+      "deleteRowCount": 1,
+      "id": "307",
+    },
+  },
+}
+`;
+
+exports[`mutation perform update mutations with nested JSON attributes 1`] = `
+Object {
+  "data": Object {
+    "updateBookById": Object {
+      "book": Object {
+        "author": "Leo Tolstoy",
+        "id": "22",
+        "reviews": Array [
+          Object {
+            "bookAttributes": Array [
+              Object {
+                "attribute": "Year of publishing",
+                "value": "1867",
+              },
+              Object {
+                "attribute": "Pages",
+                "value": "1225",
+              },
+              Object {
+                "attribute": "Pages",
+                "value": "1225",
+              },
+              Object {
+                "attribute": "Genre",
+                "value": "Novel",
+              },
+            ],
+            "reviewText": "Updated review",
+            "reviewer": "John Connor",
+          },
+        ],
+        "title": "War and Peace",
+      },
+    },
+  },
+}
+`;
+
+exports[`mutation reject mutations if ID not found 1`] = `
+Object {
+  "data": Object {
+    "removeBoardMemberById": null,
+  },
+  "errors": Array [
+    Object {
+      "extensions": Object {
+        "code": "InstanceNotFoundOrAccessDenied",
+      },
+      "locations": Array [
+        Object {
+          "column": 11,
+          "line": 3,
+        },
+      ],
+      "message": "Instance with ID '99999' not found or access denied",
+      "meta": undefined,
+      "path": Array [
+        "removeBoardMemberById",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`mutation via GrahpQL perform create mutations 1`] = `
+Object {
+  "data": Object {
+    "joinBoardMember": Object {
+      "boardMember": Object {
+        "board": "47",
+        "id": "305",
+        "invitee": "98",
+        "inviter": "98",
+        "state": "joined",
+      },
+    },
+  },
+}
+`;
+
+exports[`mutation via GrahpQL perform create mutations with nested JSON attributes 1`] = `
+Object {
+  "data": Object {
+    "createBook": Object {
+      "book": Object {
+        "author": "Leo Tolstoy",
+        "id": "23",
+        "reviews": Array [
+          Object {
+            "bookAttributes": Array [
+              Object {
+                "attribute": "Year of publishing",
+                "value": "1867",
+              },
+              Object {
+                "attribute": "Pages",
+                "value": "1225",
+              },
+            ],
+            "reviewText": "Couldn't stop reading",
+            "reviewer": "John Connor",
+          },
+        ],
+        "title": "War and Peace",
+      },
+    },
+  },
+}
+`;
+
+exports[`mutation via GrahpQL perform update mutations: accept 1`] = `
+Object {
+  "data": Object {
+    "acceptBoardMemberById": Object {
+      "boardMember": Object {
+        "board": "48",
+        "id": "306",
+        "invitee": "70",
+        "inviter": "41",
+        "state": "accepted",
+      },
+    },
+  },
+}
+`;
+
+exports[`mutation via GrahpQL perform update mutations: invite 1`] = `
+Object {
+  "data": Object {
+    "inviteBoardMember": Object {
+      "boardMember": Object {
+        "board": "48",
+        "id": "306",
+        "invitee": "70",
+        "inviter": "41",
+        "state": "invited",
+      },
+    },
+  },
+}
+`;
+
 exports[`mutation via connector fail mutation if fromState is not a match 1`] = `[Error: Instance with ID '304' not found or access denied]`;
 
 exports[`mutation via connector handle uniqueness constraints 1`] = `[Error: Uniqueness constraint violated]`;
