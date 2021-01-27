@@ -74,6 +74,7 @@ export const BoardMember = new Entity({
       type: MUTATION_TYPE_UPDATE,
       fromState: 'invited',
       toState: 'accepted',
+      attributes: [],
     }),
     new Mutation({
       name: 'remove',
