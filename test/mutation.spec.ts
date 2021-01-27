@@ -293,7 +293,7 @@ describe('mutation', () => {
       const acceptResult = await testGraphql(
         gql`
           mutation acceptBoardMemberById($inviteId: ID!) {
-            acceptBoardMemberById(input: { id: $inviteId, boardMember: {} }) {
+            acceptBoardMemberById(input: { id: $inviteId }) {
               boardMember {
                 id
                 board
@@ -473,7 +473,7 @@ describe('mutation', () => {
     const firstAcceptResult = await testGraphql(
       gql`
         mutation acceptBoardMemberById($inviteId: ID!) {
-          acceptBoardMemberById(input: { id: $inviteId, boardMember: {} }) {
+          acceptBoardMemberById(input: { id: $inviteId }) {
             boardMember {
               id
               board
@@ -495,7 +495,7 @@ describe('mutation', () => {
     const secondAcceptResult = await testGraphql(
       gql`
         mutation acceptBoardMemberById($inviteId: ID!) {
-          acceptBoardMemberById(input: { id: $inviteId, boardMember: {} }) {
+          acceptBoardMemberById(input: { id: $inviteId }) {
             boardMember {
               id
               board
