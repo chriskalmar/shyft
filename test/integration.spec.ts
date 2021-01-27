@@ -22,7 +22,7 @@ describe('postgres', () => {
     expect(memberCount).toEqual(counts.joinCount + counts.inviteCount);
   });
 
-  it('should check the generated indexes', async () => {
+  it('should generated indices', async () => {
     const storageInstance = StorageTypePostgres.getStorageInstance();
     const manager = storageInstance.manager;
     const indexes = await manager.query(`

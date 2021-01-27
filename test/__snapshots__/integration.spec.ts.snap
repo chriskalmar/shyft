@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`postgres should check the generated indexes: indexList 1`] = `
+exports[`postgres should generated indices: indexList 1`] = `
 Array [
   Object {
     "indexname": "PK_865a0f2e22c140d261b1df80eb1",
