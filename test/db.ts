@@ -84,7 +84,7 @@ export const disconnectDB = async () => {
 
 export const initGraphQLSchema = (): void => {
   graphqlSchema = generateGraphQLSchema(configuration);
-  writeFileSync('./test-schema.gql', printSchema(graphqlSchema), 'utf8');
+  writeFileSync('./test-schema.graphql', printSchema(graphqlSchema), 'utf8');
 };
 
 export async function testGraphql(
