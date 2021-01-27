@@ -15,6 +15,8 @@ import {
   MUTATION_TYPE_CREATE,
   MUTATION_TYPE_UPDATE,
   MUTATION_TYPE_DELETE,
+  Entity,
+  Mutation,
 } from '../src';
 
 import { Profile } from './models/Profile';
@@ -36,6 +38,7 @@ import Maybe from 'graphql/tsutils/Maybe';
 import { ExecutionResultDataDefault } from 'graphql/execution/execute';
 import { ProtocolGraphQLConfiguration } from '../src/graphqlProtocol/ProtocolGraphQLConfiguration';
 import { formatGraphQLError } from '../src/graphqlProtocol/util';
+import { Context } from '../src/engine/context/Context';
 
 const schema = new Schema({
   defaultStorageType: StorageTypePostgres,
@@ -78,7 +81,7 @@ export const initDB = async (): Promise<void> => {
   connection = await connectStorage(configuration, true, true);
 };
 
-export const disconnectDB = async () => {
+export const disconnectDB = async (): Promise<void> => {
   await disconnectStorage(connection);
 };
 
@@ -111,11 +114,11 @@ export async function testGraphql(
 }
 
 const serializeAttributeValues = (
-  entity,
-  entityMutation,
+  entity: Entity,
+  entityMutation: Mutation,
   payload,
   model,
-  context,
+  context: Context,
 ) => {
   const ret = {
     ...payload,
@@ -143,7 +146,13 @@ const serializeAttributeValues = (
   return ret;
 };
 
-export const mutate = async (entity, mutationName, payload, id, context) => {
+export const mutate = async (
+  entity: Entity,
+  mutationName: string,
+  payload,
+  id,
+  context: Context,
+) => {
   const modelRegistry = StorageTypePostgres.getStorageModels();
 
   const typeName = entity.name;
@@ -234,7 +243,7 @@ export const find = async (entity, payload, context, parentConnection?) => {
   );
 };
 
-export const count = async (entity, payload, context, parentConnection) => {
+export const count = async (entity, payload, context, parentConnection?) => {
   return await StorageTypePostgres.count(
     entity,
     payload,
