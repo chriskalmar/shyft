@@ -2,1266 +2,3225 @@
 
 exports[`permission story a user should be able to accept invitations to private boards 1`] = `
 Object {
-  "board": "45",
-  "id": "304",
-  "invitee": "30",
-  "inviter": "85",
-  "state": 20,
+  "data": Object {
+    "acceptBoardMemberById": Object {
+      "boardMember": Object {
+        "board": "45",
+        "id": "304",
+        "invitee": "30",
+        "inviter": "85",
+        "state": "accepted",
+      },
+    },
+  },
 }
 `;
 
-exports[`permission story a user should be able to invite users to an owned boards 1`] = `
+exports[`permission story a user should be able to invite users to an owned boards: invite | user 30 1`] = `
 Object {
-  "board": "45",
-  "id": "304",
-  "invitee": "30",
-  "inviter": "85",
-  "state": 10,
+  "data": Object {
+    "inviteBoardMember": Object {
+      "boardMember": Object {
+        "board": "45",
+        "id": "304",
+        "invitee": "30",
+        "inviter": "85",
+        "state": "invited",
+      },
+    },
+  },
 }
 `;
 
-exports[`permission story a user should be able to invite users to an owned boards 2`] = `
+exports[`permission story a user should be able to invite users to an owned boards: invite | user 33 1`] = `
 Object {
-  "board": "45",
-  "id": "305",
-  "invitee": "33",
-  "inviter": "85",
-  "state": 10,
+  "data": Object {
+    "inviteBoardMember": Object {
+      "boardMember": Object {
+        "board": "45",
+        "id": "305",
+        "invitee": "33",
+        "inviter": "85",
+        "state": "invited",
+      },
+    },
+  },
 }
 `;
 
-exports[`permission story a user should be able to invite users to an owned boards 3`] = `
+exports[`permission story a user should be able to invite users to an owned boards: invite | user 79 1`] = `
 Object {
-  "board": "45",
-  "id": "306",
-  "invitee": "79",
-  "inviter": "85",
-  "state": 10,
+  "data": Object {
+    "inviteBoardMember": Object {
+      "boardMember": Object {
+        "board": "45",
+        "id": "306",
+        "invitee": "79",
+        "inviter": "85",
+        "state": "invited",
+      },
+    },
+  },
 }
 `;
 
-exports[`permission story a user should be able to join public boards 1`] = `
+exports[`permission story a user should be able to join public boards: join | user 30 1`] = `
 Object {
-  "board": "11",
-  "id": "301",
-  "invitee": "30",
-  "inviter": "30",
-  "state": 50,
+  "data": Object {
+    "joinBoardMember": Object {
+      "boardMember": Object {
+        "board": "11",
+        "id": "301",
+        "invitee": "30",
+        "inviter": "30",
+        "state": "joined",
+      },
+    },
+  },
 }
 `;
 
-exports[`permission story a user should be able to join public boards 2`] = `
+exports[`permission story a user should be able to join public boards: join | user 33 1`] = `
 Object {
-  "board": "11",
-  "id": "302",
-  "invitee": "33",
-  "inviter": "33",
-  "state": 50,
+  "data": Object {
+    "joinBoardMember": Object {
+      "boardMember": Object {
+        "board": "11",
+        "id": "302",
+        "invitee": "33",
+        "inviter": "33",
+        "state": "joined",
+      },
+    },
+  },
 }
 `;
 
-exports[`permission story a user should be able to join public boards 3`] = `
+exports[`permission story a user should be able to join public boards: join | user 79 1`] = `
 Object {
-  "board": "11",
-  "id": "303",
-  "invitee": "79",
-  "inviter": "79",
-  "state": 50,
+  "data": Object {
+    "joinBoardMember": Object {
+      "boardMember": Object {
+        "board": "11",
+        "id": "303",
+        "invitee": "79",
+        "inviter": "79",
+        "state": "joined",
+      },
+    },
+  },
 }
 `;
 
 exports[`permission story a user should be able to leave public boards 1`] = `
 Object {
-  "deleteRowCount": 1,
-  "id": "301",
-  "rows": Array [
-    Object {
-      "board": "11",
+  "data": Object {
+    "leaveBoardMemberById": Object {
+      "deleteRowCount": 1,
       "id": "301",
-      "invitee": "30",
-      "inviter": "30",
-      "state": 50,
     },
-  ],
+  },
 }
 `;
 
 exports[`permission story a user should be able to remove a user from a group as owner 1`] = `
 Object {
-  "deleteRowCount": 1,
-  "id": "302",
-  "rows": Array [
-    Object {
-      "board": "11",
+  "data": Object {
+    "removeBoardMemberById": Object {
+      "deleteRowCount": 1,
       "id": "302",
-      "invitee": "33",
-      "inviter": "33",
-      "state": 50,
     },
-  ],
-}
-`;
-
-exports[`permission story a user should not be able to accept invitations to private boards on someone's behalf 1`] = `[Error: Instance with ID '302' not found or access denied]`;
-
-exports[`permission story a user should not be able to invite users to others boards 1`] = `[Error: Mutation 'invite' denied]`;
-
-exports[`permission story a user should not be able to invite users to others boards 2`] = `[Error: Mutation 'invite' denied]`;
-
-exports[`permission story a user should not be able to invite users to others boards 3`] = `[Error: Mutation 'invite' denied]`;
-
-exports[`permission story a user should not be able to join private boards 1`] = `[Error: Mutation 'join' denied]`;
-
-exports[`permission story a user should not be able to join private boards 2`] = `[Error: Mutation 'join' denied]`;
-
-exports[`permission story a user should not be able to join private boards 3`] = `[Error: Mutation 'join' denied]`;
-
-exports[`permission story a user should not be able to leave public boards on someone's behalf 1`] = `[Error: Instance with ID '302' not found or access denied]`;
-
-exports[`permission story a user should not be able to remove a user from a group as a non-owner 1`] = `[Error: Instance with ID '302' not found or access denied]`;
-
-exports[`permission story a user should only see members of boards the user is part of: count 1`] = `23`;
-
-exports[`permission story a user should only see members of boards the user is part of: count 2`] = `15`;
-
-exports[`permission story a user should only see members of boards the user is part of: count 3`] = `43`;
-
-exports[`permission story a user should only see members of boards the user is part of: count 4`] = `19`;
-
-exports[`permission story a user should only see members of boards the user is part of: count 5`] = `13`;
-
-exports[`permission story a user should only see members of boards the user is part of: count 6`] = `36`;
-
-exports[`permission story a user should only see members of boards the user is part of: list 1`] = `
-Object {
-  "data": Array [
-    Object {
-      "board": "16",
-      "id": "9",
-      "invitee": "93",
-      "inviter": "93",
-      "state": 50,
-    },
-    Object {
-      "board": "16",
-      "id": "14",
-      "invitee": "92",
-      "inviter": "92",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "31",
-      "invitee": "57",
-      "inviter": "57",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "76",
-      "invitee": "40",
-      "inviter": "40",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "85",
-      "invitee": "95",
-      "inviter": "95",
-      "state": 50,
-    },
-    Object {
-      "board": "16",
-      "id": "107",
-      "invitee": "46",
-      "inviter": "46",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "150",
-      "invitee": "69",
-      "inviter": "69",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "152",
-      "invitee": "46",
-      "inviter": "46",
-      "state": 50,
-    },
-    Object {
-      "board": "16",
-      "id": "177",
-      "invitee": "5",
-      "inviter": "5",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "196",
-      "invitee": "25",
-      "inviter": "25",
-      "state": 50,
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;
 
-exports[`permission story a user should only see members of boards the user is part of: list 2`] = `
+exports[`permission story a user should not be able to accept invitations to private boards on someone's behalf 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "board": "14",
-      "id": "31",
-      "invitee": "57",
-      "inviter": "57",
-      "state": 50,
-    },
-    Object {
-      "board": "31",
-      "id": "43",
-      "invitee": "80",
-      "inviter": "80",
-      "state": 50,
-    },
-    Object {
-      "board": "31",
-      "id": "57",
-      "invitee": "28",
-      "inviter": "28",
-      "state": 50,
-    },
-    Object {
-      "board": "31",
-      "id": "75",
-      "invitee": "21",
-      "inviter": "21",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "76",
-      "invitee": "40",
-      "inviter": "40",
-      "state": 50,
-    },
-    Object {
-      "board": "31",
-      "id": "77",
-      "invitee": "81",
-      "inviter": "81",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "85",
-      "invitee": "95",
-      "inviter": "95",
-      "state": 50,
-    },
-    Object {
-      "board": "31",
-      "id": "101",
-      "invitee": "69",
-      "inviter": "69",
-      "state": 50,
-    },
-    Object {
-      "board": "31",
-      "id": "113",
-      "invitee": "55",
-      "inviter": "55",
-      "state": 50,
-    },
-    Object {
-      "board": "31",
-      "id": "144",
-      "invitee": "99",
-      "inviter": "99",
-      "state": 50,
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
+  "data": Object {
+    "acceptBoardMemberById": null,
   },
-}
-`;
-
-exports[`permission story a user should only see members of boards the user is part of: list 3`] = `
-Object {
-  "data": Array [
+  "errors": Array [
     Object {
-      "board": "13",
-      "id": "5",
-      "invitee": "40",
-      "inviter": "40",
-      "state": 50,
-    },
-    Object {
-      "board": "36",
-      "id": "7",
-      "invitee": "81",
-      "inviter": "81",
-      "state": 50,
-    },
-    Object {
-      "board": "13",
-      "id": "30",
-      "invitee": "79",
-      "inviter": "79",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "31",
-      "invitee": "57",
-      "inviter": "57",
-      "state": 50,
-    },
-    Object {
-      "board": "36",
-      "id": "32",
-      "invitee": "41",
-      "inviter": "41",
-      "state": 50,
-    },
-    Object {
-      "board": "18",
-      "id": "35",
-      "invitee": "12",
-      "inviter": "12",
-      "state": 50,
-    },
-    Object {
-      "board": "13",
-      "id": "37",
-      "invitee": "64",
-      "inviter": "64",
-      "state": 50,
-    },
-    Object {
-      "board": "18",
-      "id": "48",
-      "invitee": "44",
-      "inviter": "44",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "76",
-      "invitee": "40",
-      "inviter": "40",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "85",
-      "invitee": "95",
-      "inviter": "95",
-      "state": 50,
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
-  },
-}
-`;
-
-exports[`permission story a user should only see members of boards the user is part of: list 4`] = `
-Object {
-  "data": Array [
-    Object {
-      "board": "16",
-      "id": "9",
-      "invitee": "93",
-      "inviter": "93",
-      "state": 50,
-    },
-    Object {
-      "board": "16",
-      "id": "14",
-      "invitee": "92",
-      "inviter": "92",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "31",
-      "invitee": "57",
-      "inviter": "57",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "76",
-      "invitee": "40",
-      "inviter": "40",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "85",
-      "invitee": "95",
-      "inviter": "95",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "150",
-      "invitee": "69",
-      "inviter": "69",
-      "state": 50,
-    },
-    Object {
-      "board": "16",
-      "id": "177",
-      "invitee": "5",
-      "inviter": "5",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "196",
-      "invitee": "25",
-      "inviter": "25",
-      "state": 50,
-    },
-    Object {
-      "board": "9",
-      "id": "202",
-      "invitee": "7",
-      "inviter": "52",
-      "state": 20,
-    },
-    Object {
-      "board": "9",
-      "id": "208",
-      "invitee": "58",
-      "inviter": "52",
-      "state": 20,
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
-  },
-}
-`;
-
-exports[`permission story a user should only see members of boards the user is part of: list 5`] = `
-Object {
-  "data": Array [
-    Object {
-      "board": "14",
-      "id": "31",
-      "invitee": "57",
-      "inviter": "57",
-      "state": 50,
-    },
-    Object {
-      "board": "31",
-      "id": "43",
-      "invitee": "80",
-      "inviter": "80",
-      "state": 50,
-    },
-    Object {
-      "board": "31",
-      "id": "57",
-      "invitee": "28",
-      "inviter": "28",
-      "state": 50,
-    },
-    Object {
-      "board": "31",
-      "id": "75",
-      "invitee": "21",
-      "inviter": "21",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "76",
-      "invitee": "40",
-      "inviter": "40",
-      "state": 50,
-    },
-    Object {
-      "board": "31",
-      "id": "77",
-      "invitee": "81",
-      "inviter": "81",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "85",
-      "invitee": "95",
-      "inviter": "95",
-      "state": 50,
-    },
-    Object {
-      "board": "31",
-      "id": "113",
-      "invitee": "55",
-      "inviter": "55",
-      "state": 50,
-    },
-    Object {
-      "board": "31",
-      "id": "144",
-      "invitee": "99",
-      "inviter": "99",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "152",
-      "invitee": "46",
-      "inviter": "46",
-      "state": 50,
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
-  },
-}
-`;
-
-exports[`permission story a user should only see members of boards the user is part of: list 6`] = `
-Object {
-  "data": Array [
-    Object {
-      "board": "36",
-      "id": "7",
-      "invitee": "81",
-      "inviter": "81",
-      "state": 50,
-    },
-    Object {
-      "board": "13",
-      "id": "30",
-      "invitee": "79",
-      "inviter": "79",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "31",
-      "invitee": "57",
-      "inviter": "57",
-      "state": 50,
-    },
-    Object {
-      "board": "36",
-      "id": "32",
-      "invitee": "41",
-      "inviter": "41",
-      "state": 50,
-    },
-    Object {
-      "board": "18",
-      "id": "35",
-      "invitee": "12",
-      "inviter": "12",
-      "state": 50,
-    },
-    Object {
-      "board": "13",
-      "id": "37",
-      "invitee": "64",
-      "inviter": "64",
-      "state": 50,
-    },
-    Object {
-      "board": "18",
-      "id": "48",
-      "invitee": "44",
-      "inviter": "44",
-      "state": 50,
-    },
-    Object {
-      "board": "14",
-      "id": "85",
-      "invitee": "95",
-      "inviter": "95",
-      "state": 50,
-    },
-    Object {
-      "board": "36",
-      "id": "117",
-      "invitee": "9",
-      "inviter": "9",
-      "state": 50,
-    },
-    Object {
-      "board": "18",
-      "id": "120",
-      "invitee": "95",
-      "inviter": "95",
-      "state": 50,
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
-  },
-}
-`;
-
-exports[`permission story a user should only see public boards and boards the user was invited to: count 1`] = `33`;
-
-exports[`permission story a user should only see public boards and boards the user was invited to: count 2`] = `30`;
-
-exports[`permission story a user should only see public boards and boards the user was invited to: count 3`] = `34`;
-
-exports[`permission story a user should only see public boards and boards the user was invited to: list 1`] = `
-Object {
-  "data": Array [
-    Object {
-      "createdBy": "37",
-      "id": "1",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Reiciendis quaerat",
-      "owner": "37",
-      "updatedBy": "37",
-    },
-    Object {
-      "createdBy": "46",
-      "id": "2",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Et eum",
-      "owner": "46",
-      "updatedBy": "46",
-    },
-    Object {
-      "createdBy": "42",
-      "id": "4",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Fuga facilis",
+      "extensions": Object {
+        "code": "InstanceNotFoundOrAccessDenied",
       },
-      "mods": Array [
-        "Jane",
-        "Martha",
-        "Tom",
+      "locations": Array [
+        Object {
+          "column": 9,
+          "line": 3,
+        },
       ],
-      "name": "Delectus qui maxime",
-      "owner": "42",
-      "updatedBy": "42",
-    },
-    Object {
-      "createdBy": "52",
-      "id": "9",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Veritatis nihil cum",
-      "owner": "52",
-      "updatedBy": "52",
-    },
-    Object {
-      "createdBy": "81",
-      "id": "11",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Aut incidunt consequatur",
-      "owner": "81",
-      "updatedBy": "81",
-    },
-    Object {
-      "createdBy": "23",
-      "id": "12",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Tenetur porro",
-      "owner": "23",
-      "updatedBy": "23",
-    },
-    Object {
-      "createdBy": "84",
-      "id": "13",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "John",
-        "Tom",
-        "Jane",
+      "message": "Instance with ID '302' not found or access denied",
+      "meta": undefined,
+      "path": Array [
+        "acceptBoardMemberById",
       ],
-      "name": "Suscipit aut cum",
-      "owner": "84",
-      "updatedBy": "84",
-    },
-    Object {
-      "createdBy": "26",
-      "id": "14",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Id cum",
-      "owner": "26",
-      "updatedBy": "26",
-    },
-    Object {
-      "createdBy": "60",
-      "id": "15",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Sunt nobis",
-      "owner": "60",
-      "updatedBy": "60",
-    },
-    Object {
-      "createdBy": "73",
-      "id": "16",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Est adipisci inventore",
-      "owner": "73",
-      "updatedBy": "73",
     },
   ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
-  },
 }
 `;
 
-exports[`permission story a user should only see public boards and boards the user was invited to: list 2`] = `
+exports[`permission story a user should not be able to invite users to others boards: invite | user 30 1`] = `
 Object {
-  "data": Array [
+  "data": Object {
+    "inviteBoardMember": null,
+  },
+  "errors": Array [
     Object {
-      "createdBy": "37",
-      "id": "1",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Reiciendis quaerat",
-      "owner": "37",
-      "updatedBy": "37",
-    },
-    Object {
-      "createdBy": "42",
-      "id": "4",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Fuga facilis",
+      "extensions": Object {
+        "code": "PermissionError",
       },
-      "mods": Array [
-        "Jane",
-        "Martha",
-        "Tom",
+      "locations": Array [
+        Object {
+          "column": 9,
+          "line": 3,
+        },
       ],
-      "name": "Delectus qui maxime",
-      "owner": "42",
-      "updatedBy": "42",
-    },
-    Object {
-      "createdBy": "81",
-      "id": "11",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Aut incidunt consequatur",
-      "owner": "81",
-      "updatedBy": "81",
-    },
-    Object {
-      "createdBy": "23",
-      "id": "12",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Tenetur porro",
-      "owner": "23",
-      "updatedBy": "23",
-    },
-    Object {
-      "createdBy": "84",
-      "id": "13",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "John",
-        "Tom",
-        "Jane",
+      "message": "Mutation 'invite' denied",
+      "meta": undefined,
+      "path": Array [
+        "inviteBoardMember",
       ],
-      "name": "Suscipit aut cum",
-      "owner": "84",
-      "updatedBy": "84",
-    },
-    Object {
-      "createdBy": "26",
-      "id": "14",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Id cum",
-      "owner": "26",
-      "updatedBy": "26",
-    },
-    Object {
-      "createdBy": "60",
-      "id": "15",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Sunt nobis",
-      "owner": "60",
-      "updatedBy": "60",
-    },
-    Object {
-      "createdBy": "73",
-      "id": "16",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Est adipisci inventore",
-      "owner": "73",
-      "updatedBy": "73",
-    },
-    Object {
-      "createdBy": "24",
-      "id": "17",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Est et",
-      "owner": "24",
-      "updatedBy": "24",
-    },
-    Object {
-      "createdBy": "75",
-      "id": "18",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "In ipsum est",
-      "owner": "75",
-      "updatedBy": "75",
     },
   ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
-  },
 }
 `;
 
-exports[`permission story a user should only see public boards and boards the user was invited to: list 3`] = `
+exports[`permission story a user should not be able to invite users to others boards: invite | user 33 1`] = `
 Object {
-  "data": Array [
+  "data": Object {
+    "inviteBoardMember": null,
+  },
+  "errors": Array [
     Object {
-      "createdBy": "37",
-      "id": "1",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Reiciendis quaerat",
-      "owner": "37",
-      "updatedBy": "37",
-    },
-    Object {
-      "createdBy": "46",
-      "id": "2",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Et eum",
-      "owner": "46",
-      "updatedBy": "46",
-    },
-    Object {
-      "createdBy": "42",
-      "id": "4",
-      "isPrivate": false,
-      "metaData": Object {
-        "description": "Fuga facilis",
+      "extensions": Object {
+        "code": "PermissionError",
       },
-      "mods": Array [
-        "Jane",
-        "Martha",
-        "Tom",
+      "locations": Array [
+        Object {
+          "column": 9,
+          "line": 3,
+        },
       ],
-      "name": "Delectus qui maxime",
-      "owner": "42",
-      "updatedBy": "42",
-    },
-    Object {
-      "createdBy": "81",
-      "id": "11",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Aut incidunt consequatur",
-      "owner": "81",
-      "updatedBy": "81",
-    },
-    Object {
-      "createdBy": "23",
-      "id": "12",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Tenetur porro",
-      "owner": "23",
-      "updatedBy": "23",
-    },
-    Object {
-      "createdBy": "84",
-      "id": "13",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": Array [
-        "John",
-        "Tom",
-        "Jane",
+      "message": "Mutation 'invite' denied",
+      "meta": undefined,
+      "path": Array [
+        "inviteBoardMember",
       ],
-      "name": "Suscipit aut cum",
-      "owner": "84",
-      "updatedBy": "84",
-    },
-    Object {
-      "createdBy": "26",
-      "id": "14",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Id cum",
-      "owner": "26",
-      "updatedBy": "26",
-    },
-    Object {
-      "createdBy": "60",
-      "id": "15",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Sunt nobis",
-      "owner": "60",
-      "updatedBy": "60",
-    },
-    Object {
-      "createdBy": "73",
-      "id": "16",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Est adipisci inventore",
-      "owner": "73",
-      "updatedBy": "73",
-    },
-    Object {
-      "createdBy": "24",
-      "id": "17",
-      "isPrivate": false,
-      "metaData": null,
-      "mods": null,
-      "name": "Est et",
-      "owner": "24",
-      "updatedBy": "24",
     },
   ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
+}
+`;
+
+exports[`permission story a user should not be able to invite users to others boards: invite | user 79 1`] = `
+Object {
+  "data": Object {
+    "inviteBoardMember": null,
+  },
+  "errors": Array [
+    Object {
+      "extensions": Object {
+        "code": "PermissionError",
+      },
+      "locations": Array [
+        Object {
+          "column": 9,
+          "line": 3,
+        },
+      ],
+      "message": "Mutation 'invite' denied",
+      "meta": undefined,
+      "path": Array [
+        "inviteBoardMember",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`permission story a user should not be able to join private boards: join | user 30 1`] = `
+Object {
+  "data": Object {
+    "joinBoardMember": null,
+  },
+  "errors": Array [
+    Object {
+      "extensions": Object {
+        "code": "PermissionError",
+      },
+      "locations": Array [
+        Object {
+          "column": 9,
+          "line": 3,
+        },
+      ],
+      "message": "Mutation 'join' denied",
+      "meta": undefined,
+      "path": Array [
+        "joinBoardMember",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`permission story a user should not be able to join private boards: join | user 33 1`] = `
+Object {
+  "data": Object {
+    "joinBoardMember": null,
+  },
+  "errors": Array [
+    Object {
+      "extensions": Object {
+        "code": "PermissionError",
+      },
+      "locations": Array [
+        Object {
+          "column": 9,
+          "line": 3,
+        },
+      ],
+      "message": "Mutation 'join' denied",
+      "meta": undefined,
+      "path": Array [
+        "joinBoardMember",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`permission story a user should not be able to join private boards: join | user 79 1`] = `
+Object {
+  "data": Object {
+    "joinBoardMember": null,
+  },
+  "errors": Array [
+    Object {
+      "extensions": Object {
+        "code": "PermissionError",
+      },
+      "locations": Array [
+        Object {
+          "column": 9,
+          "line": 3,
+        },
+      ],
+      "message": "Mutation 'join' denied",
+      "meta": undefined,
+      "path": Array [
+        "joinBoardMember",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`permission story a user should not be able to leave public boards on someone's behalf 1`] = `
+Object {
+  "data": Object {
+    "leaveBoardMemberById": null,
+  },
+  "errors": Array [
+    Object {
+      "extensions": Object {
+        "code": "InstanceNotFoundOrAccessDenied",
+      },
+      "locations": Array [
+        Object {
+          "column": 9,
+          "line": 3,
+        },
+      ],
+      "message": "Instance with ID '302' not found or access denied",
+      "meta": undefined,
+      "path": Array [
+        "leaveBoardMemberById",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`permission story a user should not be able to remove a user from a group as a non-owner 1`] = `
+Object {
+  "data": Object {
+    "removeBoardMemberById": null,
+  },
+  "errors": Array [
+    Object {
+      "extensions": Object {
+        "code": "InstanceNotFoundOrAccessDenied",
+      },
+      "locations": Array [
+        Object {
+          "column": 9,
+          "line": 3,
+        },
+      ],
+      "message": "Instance with ID '302' not found or access denied",
+      "meta": undefined,
+      "path": Array [
+        "removeBoardMemberById",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`permission story a user should only see members of boards the user is part of: board members | user 40 1`] = `
+Object {
+  "data": Object {
+    "allBoardMembers": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "board": "13",
+            "id": "5",
+            "invitee": "40",
+            "inviter": "40",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "7",
+            "invitee": "81",
+            "inviter": "81",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "13",
+            "id": "30",
+            "invitee": "79",
+            "inviter": "79",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "31",
+            "invitee": "57",
+            "inviter": "57",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "32",
+            "invitee": "41",
+            "inviter": "41",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "18",
+            "id": "35",
+            "invitee": "12",
+            "inviter": "12",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "13",
+            "id": "37",
+            "invitee": "64",
+            "inviter": "64",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "18",
+            "id": "48",
+            "invitee": "44",
+            "inviter": "44",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "76",
+            "invitee": "40",
+            "inviter": "40",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "85",
+            "invitee": "95",
+            "inviter": "95",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "117",
+            "invitee": "9",
+            "inviter": "9",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "18",
+            "id": "120",
+            "invitee": "95",
+            "inviter": "95",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "18",
+            "id": "121",
+            "invitee": "26",
+            "inviter": "26",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "128",
+            "invitee": "8",
+            "inviter": "8",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "18",
+            "id": "147",
+            "invitee": "17",
+            "inviter": "17",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "148",
+            "invitee": "19",
+            "inviter": "19",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "150",
+            "invitee": "69",
+            "inviter": "69",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "152",
+            "invitee": "46",
+            "inviter": "46",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "18",
+            "id": "157",
+            "invitee": "40",
+            "inviter": "40",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "158",
+            "invitee": "64",
+            "inviter": "64",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "160",
+            "invitee": "7",
+            "inviter": "7",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "18",
+            "id": "171",
+            "invitee": "72",
+            "inviter": "72",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "174",
+            "invitee": "106",
+            "inviter": "106",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "18",
+            "id": "189",
+            "invitee": "97",
+            "inviter": "97",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "192",
+            "invitee": "67",
+            "inviter": "67",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "196",
+            "invitee": "25",
+            "inviter": "25",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "24",
+            "id": "203",
+            "invitee": "23",
+            "inviter": "30",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "33",
+            "id": "206",
+            "invitee": "41",
+            "inviter": "47",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "2",
+            "id": "214",
+            "invitee": "92",
+            "inviter": "46",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "33",
+            "id": "215",
+            "invitee": "40",
+            "inviter": "47",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "24",
+            "id": "227",
+            "invitee": "31",
+            "inviter": "30",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "24",
+            "id": "233",
+            "invitee": "40",
+            "inviter": "30",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "46",
+            "id": "244",
+            "invitee": "109",
+            "inviter": "63",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "24",
+            "id": "268",
+            "invitee": "89",
+            "inviter": "30",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "24",
+            "id": "276",
+            "invitee": "37",
+            "inviter": "30",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "2",
+            "id": "281",
+            "invitee": "40",
+            "inviter": "46",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "33",
+            "id": "285",
+            "invitee": "8",
+            "inviter": "47",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "24",
+            "id": "289",
+            "invitee": "51",
+            "inviter": "30",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "33",
+            "id": "290",
+            "invitee": "59",
+            "inviter": "47",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "46",
+            "id": "292",
+            "invitee": "32",
+            "inviter": "63",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "46",
+            "id": "295",
+            "invitee": "45",
+            "inviter": "63",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "46",
+            "id": "297",
+            "invitee": "40",
+            "inviter": "63",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "24",
+            "id": "298",
+            "invitee": "17",
+            "inviter": "30",
+            "state": "accepted",
+          },
+        },
+      ],
+      "resultCount": 43,
+      "totalCount": 43,
+    },
   },
 }
 `;
 
-exports[`permission story a user should only see public boards and boards the user was invited to: private count 1`] = `3`;
-
-exports[`permission story a user should only see public boards and boards the user was invited to: private count 2`] = `0`;
-
-exports[`permission story a user should only see public boards and boards the user was invited to: private count 3`] = `4`;
-
-exports[`permission story a user should only see public boards and boards the user was invited to: private list 1`] = `
+exports[`permission story a user should only see members of boards the user is part of: board members | user 46 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "46",
-      "id": "2",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Et eum",
-      "owner": "46",
-      "updatedBy": "46",
+  "data": Object {
+    "allBoardMembers": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "board": "16",
+            "id": "9",
+            "invitee": "93",
+            "inviter": "93",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "16",
+            "id": "14",
+            "invitee": "92",
+            "inviter": "92",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "31",
+            "invitee": "57",
+            "inviter": "57",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "76",
+            "invitee": "40",
+            "inviter": "40",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "85",
+            "invitee": "95",
+            "inviter": "95",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "16",
+            "id": "107",
+            "invitee": "46",
+            "inviter": "46",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "150",
+            "invitee": "69",
+            "inviter": "69",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "152",
+            "invitee": "46",
+            "inviter": "46",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "16",
+            "id": "177",
+            "invitee": "5",
+            "inviter": "5",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "196",
+            "invitee": "25",
+            "inviter": "25",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "9",
+            "id": "202",
+            "invitee": "7",
+            "inviter": "52",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "9",
+            "id": "208",
+            "invitee": "58",
+            "inviter": "52",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "9",
+            "id": "210",
+            "invitee": "104",
+            "inviter": "52",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "2",
+            "id": "214",
+            "invitee": "92",
+            "inviter": "46",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "9",
+            "id": "230",
+            "invitee": "85",
+            "inviter": "52",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "9",
+            "id": "245",
+            "invitee": "57",
+            "inviter": "52",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "49",
+            "id": "253",
+            "invitee": "70",
+            "inviter": "26",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "49",
+            "id": "263",
+            "invitee": "8",
+            "inviter": "26",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "49",
+            "id": "266",
+            "invitee": "46",
+            "inviter": "26",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "9",
+            "id": "271",
+            "invitee": "46",
+            "inviter": "52",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "2",
+            "id": "281",
+            "invitee": "40",
+            "inviter": "46",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "49",
+            "id": "282",
+            "invitee": "100",
+            "inviter": "26",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "9",
+            "id": "291",
+            "invitee": "35",
+            "inviter": "52",
+            "state": "invited",
+          },
+        },
+      ],
+      "resultCount": 23,
+      "totalCount": 23,
     },
-    Object {
-      "createdBy": "52",
-      "id": "9",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Veritatis nihil cum",
-      "owner": "52",
-      "updatedBy": "52",
-    },
-    Object {
-      "createdBy": "26",
-      "id": "49",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Odit qui",
-      "owner": "26",
-      "updatedBy": "26",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
-exports[`permission story a user should only see public boards and boards the user was invited to: private list 2`] = `
+exports[`permission story a user should only see members of boards the user is part of: board members | user 69 1`] = `
 Object {
-  "data": Array [],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
+  "data": Object {
+    "allBoardMembers": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "31",
+            "invitee": "57",
+            "inviter": "57",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "43",
+            "invitee": "80",
+            "inviter": "80",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "57",
+            "invitee": "28",
+            "inviter": "28",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "75",
+            "invitee": "21",
+            "inviter": "21",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "76",
+            "invitee": "40",
+            "inviter": "40",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "77",
+            "invitee": "81",
+            "inviter": "81",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "85",
+            "invitee": "95",
+            "inviter": "95",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "101",
+            "invitee": "69",
+            "inviter": "69",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "113",
+            "invitee": "55",
+            "inviter": "55",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "144",
+            "invitee": "99",
+            "inviter": "99",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "150",
+            "invitee": "69",
+            "inviter": "69",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "152",
+            "invitee": "46",
+            "inviter": "46",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "166",
+            "invitee": "31",
+            "inviter": "31",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "187",
+            "invitee": "51",
+            "inviter": "51",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "196",
+            "invitee": "25",
+            "inviter": "25",
+            "state": "joined",
+          },
+        },
+      ],
+      "resultCount": 15,
+      "totalCount": 15,
+    },
   },
 }
 `;
 
-exports[`permission story a user should only see public boards and boards the user was invited to: private list 3`] = `
+exports[`permission story a user should only see members of boards the user is part of: board members w/o self | user 40 1`] = `
 Object {
-  "data": Array [
-    Object {
-      "createdBy": "46",
-      "id": "2",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Et eum",
-      "owner": "46",
-      "updatedBy": "46",
+  "data": Object {
+    "allBoardMembers": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "7",
+            "invitee": "81",
+            "inviter": "81",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "13",
+            "id": "30",
+            "invitee": "79",
+            "inviter": "79",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "31",
+            "invitee": "57",
+            "inviter": "57",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "32",
+            "invitee": "41",
+            "inviter": "41",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "18",
+            "id": "35",
+            "invitee": "12",
+            "inviter": "12",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "13",
+            "id": "37",
+            "invitee": "64",
+            "inviter": "64",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "18",
+            "id": "48",
+            "invitee": "44",
+            "inviter": "44",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "85",
+            "invitee": "95",
+            "inviter": "95",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "117",
+            "invitee": "9",
+            "inviter": "9",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "18",
+            "id": "120",
+            "invitee": "95",
+            "inviter": "95",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "18",
+            "id": "121",
+            "invitee": "26",
+            "inviter": "26",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "128",
+            "invitee": "8",
+            "inviter": "8",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "18",
+            "id": "147",
+            "invitee": "17",
+            "inviter": "17",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "148",
+            "invitee": "19",
+            "inviter": "19",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "150",
+            "invitee": "69",
+            "inviter": "69",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "152",
+            "invitee": "46",
+            "inviter": "46",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "158",
+            "invitee": "64",
+            "inviter": "64",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "160",
+            "invitee": "7",
+            "inviter": "7",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "18",
+            "id": "171",
+            "invitee": "72",
+            "inviter": "72",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "174",
+            "invitee": "106",
+            "inviter": "106",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "18",
+            "id": "189",
+            "invitee": "97",
+            "inviter": "97",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "36",
+            "id": "192",
+            "invitee": "67",
+            "inviter": "67",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "196",
+            "invitee": "25",
+            "inviter": "25",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "24",
+            "id": "203",
+            "invitee": "23",
+            "inviter": "30",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "33",
+            "id": "206",
+            "invitee": "41",
+            "inviter": "47",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "2",
+            "id": "214",
+            "invitee": "92",
+            "inviter": "46",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "24",
+            "id": "227",
+            "invitee": "31",
+            "inviter": "30",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "46",
+            "id": "244",
+            "invitee": "109",
+            "inviter": "63",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "24",
+            "id": "268",
+            "invitee": "89",
+            "inviter": "30",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "24",
+            "id": "276",
+            "invitee": "37",
+            "inviter": "30",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "33",
+            "id": "285",
+            "invitee": "8",
+            "inviter": "47",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "24",
+            "id": "289",
+            "invitee": "51",
+            "inviter": "30",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "33",
+            "id": "290",
+            "invitee": "59",
+            "inviter": "47",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "46",
+            "id": "292",
+            "invitee": "32",
+            "inviter": "63",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "46",
+            "id": "295",
+            "invitee": "45",
+            "inviter": "63",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "24",
+            "id": "298",
+            "invitee": "17",
+            "inviter": "30",
+            "state": "accepted",
+          },
+        },
+      ],
+      "resultCount": 36,
+      "totalCount": 36,
     },
-    Object {
-      "createdBy": "30",
-      "id": "24",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Non iusto unde",
-      "owner": "30",
-      "updatedBy": "30",
-    },
-    Object {
-      "createdBy": "47",
-      "id": "33",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Suscipit quas",
-      "owner": "47",
-      "updatedBy": "47",
-    },
-    Object {
-      "createdBy": "63",
-      "id": "46",
-      "isPrivate": true,
-      "metaData": null,
-      "mods": null,
-      "name": "Et architecto",
-      "owner": "63",
-      "updatedBy": "63",
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": false,
-    "hasPreviousPage": false,
   },
 }
 `;
 
-exports[`permission story an anonymous user should be able to see all books: list 1`] = `
+exports[`permission story a user should only see members of boards the user is part of: board members w/o self | user 46 1`] = `
 Object {
-  "data": Array [
-    Book {
-      "author": " natus in",
-      "i18n": null,
-      "id": "1",
-      "reviews": null,
-      "shortSummary": null,
-      "shortSummary.i18n": Object {
-        "de": undefined,
-        "en": null,
-      },
-      "title": "aut nihil natus iste eos",
-      "title.i18n": Object {
-        "de": undefined,
-        "en": "aut nihil natus iste eos",
-      },
+  "data": Object {
+    "allBoardMembers": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "board": "16",
+            "id": "9",
+            "invitee": "93",
+            "inviter": "93",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "16",
+            "id": "14",
+            "invitee": "92",
+            "inviter": "92",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "31",
+            "invitee": "57",
+            "inviter": "57",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "76",
+            "invitee": "40",
+            "inviter": "40",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "85",
+            "invitee": "95",
+            "inviter": "95",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "150",
+            "invitee": "69",
+            "inviter": "69",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "16",
+            "id": "177",
+            "invitee": "5",
+            "inviter": "5",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "196",
+            "invitee": "25",
+            "inviter": "25",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "9",
+            "id": "202",
+            "invitee": "7",
+            "inviter": "52",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "9",
+            "id": "208",
+            "invitee": "58",
+            "inviter": "52",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "9",
+            "id": "210",
+            "invitee": "104",
+            "inviter": "52",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "2",
+            "id": "214",
+            "invitee": "92",
+            "inviter": "46",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "9",
+            "id": "230",
+            "invitee": "85",
+            "inviter": "52",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "9",
+            "id": "245",
+            "invitee": "57",
+            "inviter": "52",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "49",
+            "id": "253",
+            "invitee": "70",
+            "inviter": "26",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "49",
+            "id": "263",
+            "invitee": "8",
+            "inviter": "26",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "2",
+            "id": "281",
+            "invitee": "40",
+            "inviter": "46",
+            "state": "invited",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "49",
+            "id": "282",
+            "invitee": "100",
+            "inviter": "26",
+            "state": "accepted",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "9",
+            "id": "291",
+            "invitee": "35",
+            "inviter": "52",
+            "state": "invited",
+          },
+        },
+      ],
+      "resultCount": 19,
+      "totalCount": 19,
     },
-    Book {
-      "author": " omnis dolorem",
-      "i18n": null,
-      "id": "2",
-      "reviews": null,
-      "shortSummary": null,
-      "shortSummary.i18n": Object {
-        "de": undefined,
-        "en": null,
-      },
-      "title": "ipsum ex placeat quos",
-      "title.i18n": Object {
-        "de": undefined,
-        "en": "ipsum ex placeat quos",
-      },
+  },
+}
+`;
+
+exports[`permission story a user should only see members of boards the user is part of: board members w/o self | user 69 1`] = `
+Object {
+  "data": Object {
+    "allBoardMembers": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "31",
+            "invitee": "57",
+            "inviter": "57",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "43",
+            "invitee": "80",
+            "inviter": "80",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "57",
+            "invitee": "28",
+            "inviter": "28",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "75",
+            "invitee": "21",
+            "inviter": "21",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "76",
+            "invitee": "40",
+            "inviter": "40",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "77",
+            "invitee": "81",
+            "inviter": "81",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "85",
+            "invitee": "95",
+            "inviter": "95",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "113",
+            "invitee": "55",
+            "inviter": "55",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "144",
+            "invitee": "99",
+            "inviter": "99",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "152",
+            "invitee": "46",
+            "inviter": "46",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "166",
+            "invitee": "31",
+            "inviter": "31",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "31",
+            "id": "187",
+            "invitee": "51",
+            "inviter": "51",
+            "state": "joined",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "14",
+            "id": "196",
+            "invitee": "25",
+            "inviter": "25",
+            "state": "joined",
+          },
+        },
+      ],
+      "resultCount": 13,
+      "totalCount": 13,
     },
-    Book {
-      "author": " et et",
-      "i18n": null,
-      "id": "3",
-      "reviews": null,
-      "shortSummary": null,
-      "shortSummary.i18n": Object {
-        "de": undefined,
-        "en": null,
-      },
-      "title": "quae optio repellendus minima reprehenderit",
-      "title.i18n": Object {
-        "de": undefined,
-        "en": "quae optio repellendus minima reprehenderit",
-      },
+  },
+}
+`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: boards | user 40 1`] = `
+Object {
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "id": "1",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Reiciendis quaerat",
+            "owner": "37",
+            "updatedBy": "37",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "2",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Et eum",
+            "owner": "46",
+            "updatedBy": "46",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "4",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Fuga facilis",
+            },
+            "mods": Array [
+              "Jane",
+              "Martha",
+              "Tom",
+            ],
+            "name": "Delectus qui maxime",
+            "owner": "42",
+            "updatedBy": "42",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "11",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Aut incidunt consequatur",
+            "owner": "81",
+            "updatedBy": "81",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "12",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Tenetur porro",
+            "owner": "23",
+            "updatedBy": "23",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "13",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "John",
+              "Tom",
+              "Jane",
+            ],
+            "name": "Suscipit aut cum",
+            "owner": "84",
+            "updatedBy": "84",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "14",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Id cum",
+            "owner": "26",
+            "updatedBy": "26",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "15",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Sunt nobis",
+            "owner": "60",
+            "updatedBy": "60",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "16",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Est adipisci inventore",
+            "owner": "73",
+            "updatedBy": "73",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "17",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Est et",
+            "owner": "24",
+            "updatedBy": "24",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "18",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "In ipsum est",
+            "owner": "75",
+            "updatedBy": "75",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "19",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "Jane",
+              "Josh",
+              "Jack",
+              "Bart",
+            ],
+            "name": "Rerum ad",
+            "owner": "48",
+            "updatedBy": "48",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "20",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Sunt quo",
+            "owner": "10",
+            "updatedBy": "10",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "21",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Qui fnecessitatibus",
+            },
+            "mods": null,
+            "name": "Quia sapiente",
+            "owner": "62",
+            "updatedBy": "62",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "23",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Aut molestiae",
+            "owner": "12",
+            "updatedBy": "12",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "24",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Non iusto unde",
+            "owner": "30",
+            "updatedBy": "30",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "25",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [],
+            "name": "Libero similique vitae",
+            "owner": "38",
+            "updatedBy": "38",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "26",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Blanditiis cumque nisi",
+            "owner": "29",
+            "updatedBy": "29",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "27",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Mollitia qui",
+            "owner": "14",
+            "updatedBy": "14",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "28",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Necessitatibus facilis blanditiis",
+            },
+            "mods": Array [
+              "Bart",
+            ],
+            "name": "Deleniti esse itaque",
+            "owner": "13",
+            "updatedBy": "13",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "29",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Ut provident assumenda",
+            "owner": "73",
+            "updatedBy": "73",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "30",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Fuga accusantium voluptatem",
+            "owner": "6",
+            "updatedBy": "6",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "31",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Culpa facilis",
+            "owner": "20",
+            "updatedBy": "20",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "33",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Suscipit quas",
+            "owner": "47",
+            "updatedBy": "47",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "34",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Consequatur facilis",
+            },
+            "mods": Array [
+              "Martha",
+              "Tom",
+            ],
+            "name": "Voluptas dolor",
+            "owner": "71",
+            "updatedBy": "71",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "35",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Voluptatum necessitatibus molestias",
+            "owner": "17",
+            "updatedBy": "17",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "36",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Consectetur blanditiis consequatur",
+            "owner": "40",
+            "updatedBy": "40",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "37",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Voluptate tempora veritatis",
+            "owner": "42",
+            "updatedBy": "42",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "38",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Est voluptates",
+            },
+            "mods": null,
+            "name": "Nesciunt nihil enim",
+            "owner": "37",
+            "updatedBy": "37",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "40",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Dignissimos est perferendis",
+            "owner": "65",
+            "updatedBy": "65",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "41",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": null,
+            },
+            "mods": null,
+            "name": "Enim dolore",
+            "owner": "27",
+            "updatedBy": "27",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "44",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Qui rem ut",
+            "owner": "9",
+            "updatedBy": "9",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "46",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Et architecto",
+            "owner": "63",
+            "updatedBy": "63",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "47",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "Phil",
+              "Jane",
+              "Jack",
+            ],
+            "name": "Accusamus sequi",
+            "owner": "23",
+            "updatedBy": "23",
+          },
+        },
+      ],
+      "resultCount": 34,
     },
-    Book {
-      "author": " vero numquam",
-      "i18n": null,
-      "id": "4",
-      "reviews": null,
-      "shortSummary": null,
-      "shortSummary.i18n": Object {
-        "de": undefined,
-        "en": null,
-      },
-      "title": "est repellat necessitatibus ipsa nisi",
-      "title.i18n": Object {
-        "de": undefined,
-        "en": "est repellat necessitatibus ipsa nisi",
-      },
+  },
+}
+`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: boards | user 46 1`] = `
+Object {
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "id": "1",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Reiciendis quaerat",
+            "owner": "37",
+            "updatedBy": "37",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "2",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Et eum",
+            "owner": "46",
+            "updatedBy": "46",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "4",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Fuga facilis",
+            },
+            "mods": Array [
+              "Jane",
+              "Martha",
+              "Tom",
+            ],
+            "name": "Delectus qui maxime",
+            "owner": "42",
+            "updatedBy": "42",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "9",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Veritatis nihil cum",
+            "owner": "52",
+            "updatedBy": "52",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "11",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Aut incidunt consequatur",
+            "owner": "81",
+            "updatedBy": "81",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "12",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Tenetur porro",
+            "owner": "23",
+            "updatedBy": "23",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "13",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "John",
+              "Tom",
+              "Jane",
+            ],
+            "name": "Suscipit aut cum",
+            "owner": "84",
+            "updatedBy": "84",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "14",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Id cum",
+            "owner": "26",
+            "updatedBy": "26",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "15",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Sunt nobis",
+            "owner": "60",
+            "updatedBy": "60",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "16",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Est adipisci inventore",
+            "owner": "73",
+            "updatedBy": "73",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "17",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Est et",
+            "owner": "24",
+            "updatedBy": "24",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "18",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "In ipsum est",
+            "owner": "75",
+            "updatedBy": "75",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "19",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "Jane",
+              "Josh",
+              "Jack",
+              "Bart",
+            ],
+            "name": "Rerum ad",
+            "owner": "48",
+            "updatedBy": "48",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "20",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Sunt quo",
+            "owner": "10",
+            "updatedBy": "10",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "21",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Qui fnecessitatibus",
+            },
+            "mods": null,
+            "name": "Quia sapiente",
+            "owner": "62",
+            "updatedBy": "62",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "23",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Aut molestiae",
+            "owner": "12",
+            "updatedBy": "12",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "25",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [],
+            "name": "Libero similique vitae",
+            "owner": "38",
+            "updatedBy": "38",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "26",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Blanditiis cumque nisi",
+            "owner": "29",
+            "updatedBy": "29",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "27",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Mollitia qui",
+            "owner": "14",
+            "updatedBy": "14",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "28",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Necessitatibus facilis blanditiis",
+            },
+            "mods": Array [
+              "Bart",
+            ],
+            "name": "Deleniti esse itaque",
+            "owner": "13",
+            "updatedBy": "13",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "29",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Ut provident assumenda",
+            "owner": "73",
+            "updatedBy": "73",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "30",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Fuga accusantium voluptatem",
+            "owner": "6",
+            "updatedBy": "6",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "31",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Culpa facilis",
+            "owner": "20",
+            "updatedBy": "20",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "34",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Consequatur facilis",
+            },
+            "mods": Array [
+              "Martha",
+              "Tom",
+            ],
+            "name": "Voluptas dolor",
+            "owner": "71",
+            "updatedBy": "71",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "35",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Voluptatum necessitatibus molestias",
+            "owner": "17",
+            "updatedBy": "17",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "36",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Consectetur blanditiis consequatur",
+            "owner": "40",
+            "updatedBy": "40",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "37",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Voluptate tempora veritatis",
+            "owner": "42",
+            "updatedBy": "42",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "38",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Est voluptates",
+            },
+            "mods": null,
+            "name": "Nesciunt nihil enim",
+            "owner": "37",
+            "updatedBy": "37",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "40",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Dignissimos est perferendis",
+            "owner": "65",
+            "updatedBy": "65",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "41",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": null,
+            },
+            "mods": null,
+            "name": "Enim dolore",
+            "owner": "27",
+            "updatedBy": "27",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "44",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Qui rem ut",
+            "owner": "9",
+            "updatedBy": "9",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "47",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "Phil",
+              "Jane",
+              "Jack",
+            ],
+            "name": "Accusamus sequi",
+            "owner": "23",
+            "updatedBy": "23",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "49",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Odit qui",
+            "owner": "26",
+            "updatedBy": "26",
+          },
+        },
+      ],
+      "resultCount": 33,
     },
-    Book {
-      "author": " consequatur eos",
-      "i18n": null,
-      "id": "5",
-      "reviews": null,
-      "shortSummary": null,
-      "shortSummary.i18n": Object {
-        "de": undefined,
-        "en": null,
-      },
-      "title": "nobis qui beatae minus incidunt",
-      "title.i18n": Object {
-        "de": undefined,
-        "en": "nobis qui beatae minus incidunt",
-      },
+  },
+}
+`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: boards | user 69 1`] = `
+Object {
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "id": "1",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Reiciendis quaerat",
+            "owner": "37",
+            "updatedBy": "37",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "4",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Fuga facilis",
+            },
+            "mods": Array [
+              "Jane",
+              "Martha",
+              "Tom",
+            ],
+            "name": "Delectus qui maxime",
+            "owner": "42",
+            "updatedBy": "42",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "11",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Aut incidunt consequatur",
+            "owner": "81",
+            "updatedBy": "81",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "12",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Tenetur porro",
+            "owner": "23",
+            "updatedBy": "23",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "13",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "John",
+              "Tom",
+              "Jane",
+            ],
+            "name": "Suscipit aut cum",
+            "owner": "84",
+            "updatedBy": "84",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "14",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Id cum",
+            "owner": "26",
+            "updatedBy": "26",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "15",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Sunt nobis",
+            "owner": "60",
+            "updatedBy": "60",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "16",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Est adipisci inventore",
+            "owner": "73",
+            "updatedBy": "73",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "17",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Est et",
+            "owner": "24",
+            "updatedBy": "24",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "18",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "In ipsum est",
+            "owner": "75",
+            "updatedBy": "75",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "19",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "Jane",
+              "Josh",
+              "Jack",
+              "Bart",
+            ],
+            "name": "Rerum ad",
+            "owner": "48",
+            "updatedBy": "48",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "20",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Sunt quo",
+            "owner": "10",
+            "updatedBy": "10",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "21",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Qui fnecessitatibus",
+            },
+            "mods": null,
+            "name": "Quia sapiente",
+            "owner": "62",
+            "updatedBy": "62",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "23",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Aut molestiae",
+            "owner": "12",
+            "updatedBy": "12",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "25",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [],
+            "name": "Libero similique vitae",
+            "owner": "38",
+            "updatedBy": "38",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "26",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Blanditiis cumque nisi",
+            "owner": "29",
+            "updatedBy": "29",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "27",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Mollitia qui",
+            "owner": "14",
+            "updatedBy": "14",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "28",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Necessitatibus facilis blanditiis",
+            },
+            "mods": Array [
+              "Bart",
+            ],
+            "name": "Deleniti esse itaque",
+            "owner": "13",
+            "updatedBy": "13",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "29",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Ut provident assumenda",
+            "owner": "73",
+            "updatedBy": "73",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "30",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Fuga accusantium voluptatem",
+            "owner": "6",
+            "updatedBy": "6",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "31",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Culpa facilis",
+            "owner": "20",
+            "updatedBy": "20",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "34",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Consequatur facilis",
+            },
+            "mods": Array [
+              "Martha",
+              "Tom",
+            ],
+            "name": "Voluptas dolor",
+            "owner": "71",
+            "updatedBy": "71",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "35",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Voluptatum necessitatibus molestias",
+            "owner": "17",
+            "updatedBy": "17",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "36",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Consectetur blanditiis consequatur",
+            "owner": "40",
+            "updatedBy": "40",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "37",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Voluptate tempora veritatis",
+            "owner": "42",
+            "updatedBy": "42",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "38",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": "Est voluptates",
+            },
+            "mods": null,
+            "name": "Nesciunt nihil enim",
+            "owner": "37",
+            "updatedBy": "37",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "40",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Dignissimos est perferendis",
+            "owner": "65",
+            "updatedBy": "65",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "41",
+            "isPrivate": false,
+            "metaData": Object {
+              "description": null,
+            },
+            "mods": null,
+            "name": "Enim dolore",
+            "owner": "27",
+            "updatedBy": "27",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "44",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": null,
+            "name": "Qui rem ut",
+            "owner": "9",
+            "updatedBy": "9",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "47",
+            "isPrivate": false,
+            "metaData": null,
+            "mods": Array [
+              "Phil",
+              "Jane",
+              "Jack",
+            ],
+            "name": "Accusamus sequi",
+            "owner": "23",
+            "updatedBy": "23",
+          },
+        },
+      ],
+      "resultCount": 30,
     },
-    Book {
-      "author": " aliquid ea",
-      "i18n": null,
-      "id": "6",
-      "reviews": null,
-      "shortSummary": null,
-      "shortSummary.i18n": Object {
-        "de": undefined,
-        "en": null,
-      },
-      "title": "autem qui inventore sapiente",
-      "title.i18n": Object {
-        "de": undefined,
-        "en": "autem qui inventore sapiente",
-      },
+  },
+}
+`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: private boards | user 40 1`] = `
+Object {
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "id": "2",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Et eum",
+            "owner": "46",
+            "updatedBy": "46",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "24",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Non iusto unde",
+            "owner": "30",
+            "updatedBy": "30",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "33",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Suscipit quas",
+            "owner": "47",
+            "updatedBy": "47",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "46",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Et architecto",
+            "owner": "63",
+            "updatedBy": "63",
+          },
+        },
+      ],
+      "resultCount": 4,
     },
-    Book {
-      "author": " tempora labore",
-      "i18n": null,
-      "id": "7",
-      "reviews": null,
-      "shortSummary": null,
-      "shortSummary.i18n": Object {
-        "de": undefined,
-        "en": null,
-      },
-      "title": "sit culpa necessitatibus sit culpa",
-      "title.i18n": Object {
-        "de": undefined,
-        "en": "sit culpa necessitatibus sit culpa",
-      },
+  },
+}
+`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: private boards | user 46 1`] = `
+Object {
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "id": "2",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Et eum",
+            "owner": "46",
+            "updatedBy": "46",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "9",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Veritatis nihil cum",
+            "owner": "52",
+            "updatedBy": "52",
+          },
+        },
+        Object {
+          "node": Object {
+            "id": "49",
+            "isPrivate": true,
+            "metaData": null,
+            "mods": null,
+            "name": "Odit qui",
+            "owner": "26",
+            "updatedBy": "26",
+          },
+        },
+      ],
+      "resultCount": 3,
     },
-    Book {
-      "author": " dolorem quae",
-      "i18n": null,
-      "id": "8",
-      "reviews": null,
-      "shortSummary": null,
-      "shortSummary.i18n": Object {
-        "de": undefined,
-        "en": null,
-      },
-      "title": "error qui at nemo magni",
-      "title.i18n": Object {
-        "de": undefined,
-        "en": "error qui at nemo magni",
-      },
+  },
+}
+`;
+
+exports[`permission story a user should only see public boards and boards the user was invited to: private boards | user 69 1`] = `
+Object {
+  "data": Object {
+    "allBoards": Object {
+      "edges": Array [],
+      "resultCount": 0,
     },
-    Book {
-      "author": " voluptas velit",
-      "i18n": null,
-      "id": "9",
-      "reviews": null,
-      "shortSummary": null,
-      "shortSummary.i18n": Object {
-        "de": undefined,
-        "en": null,
-      },
-      "title": "consequatur fugiat a nobis",
-      "title.i18n": Object {
-        "de": undefined,
-        "en": "consequatur fugiat a nobis",
-      },
+  },
+}
+`;
+
+exports[`permission story an anonymous user should be able to see all books 1`] = `
+Object {
+  "data": Object {
+    "allBooks": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "author": " natus in",
+            "id": "1",
+            "shortSummary": null,
+            "title_i18n": Object {
+              "de": null,
+              "en": "aut nihil natus iste eos",
+            },
+          },
+        },
+        Object {
+          "node": Object {
+            "author": " omnis dolorem",
+            "id": "2",
+            "shortSummary": null,
+            "title_i18n": Object {
+              "de": null,
+              "en": "ipsum ex placeat quos",
+            },
+          },
+        },
+        Object {
+          "node": Object {
+            "author": " et et",
+            "id": "3",
+            "shortSummary": null,
+            "title_i18n": Object {
+              "de": null,
+              "en": "quae optio repellendus minima reprehenderit",
+            },
+          },
+        },
+        Object {
+          "node": Object {
+            "author": " vero numquam",
+            "id": "4",
+            "shortSummary": null,
+            "title_i18n": Object {
+              "de": null,
+              "en": "est repellat necessitatibus ipsa nisi",
+            },
+          },
+        },
+        Object {
+          "node": Object {
+            "author": " consequatur eos",
+            "id": "5",
+            "shortSummary": null,
+            "title_i18n": Object {
+              "de": null,
+              "en": "nobis qui beatae minus incidunt",
+            },
+          },
+        },
+        Object {
+          "node": Object {
+            "author": " aliquid ea",
+            "id": "6",
+            "shortSummary": null,
+            "title_i18n": Object {
+              "de": null,
+              "en": "autem qui inventore sapiente",
+            },
+          },
+        },
+        Object {
+          "node": Object {
+            "author": " tempora labore",
+            "id": "7",
+            "shortSummary": null,
+            "title_i18n": Object {
+              "de": null,
+              "en": "sit culpa necessitatibus sit culpa",
+            },
+          },
+        },
+        Object {
+          "node": Object {
+            "author": " dolorem quae",
+            "id": "8",
+            "shortSummary": null,
+            "title_i18n": Object {
+              "de": null,
+              "en": "error qui at nemo magni",
+            },
+          },
+        },
+        Object {
+          "node": Object {
+            "author": " voluptas velit",
+            "id": "9",
+            "shortSummary": null,
+            "title_i18n": Object {
+              "de": null,
+              "en": "consequatur fugiat a nobis",
+            },
+          },
+        },
+        Object {
+          "node": Object {
+            "author": " vel sed",
+            "id": "10",
+            "shortSummary": null,
+            "title_i18n": Object {
+              "de": null,
+              "en": "molestiae eos omnis omnis enim",
+            },
+          },
+        },
+      ],
     },
-    Book {
-      "author": " vel sed",
-      "i18n": null,
-      "id": "10",
-      "reviews": null,
-      "shortSummary": null,
-      "shortSummary.i18n": Object {
-        "de": undefined,
-        "en": null,
-      },
-      "title": "molestiae eos omnis omnis enim",
-      "title.i18n": Object {
-        "de": undefined,
-        "en": "molestiae eos omnis omnis enim",
-      },
-    },
-  ],
-  "pageInfo": Object {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
   },
 }
 `;

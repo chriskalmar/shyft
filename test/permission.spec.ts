@@ -1,253 +1,446 @@
 import './setupAndTearDown';
-import { find, count, mutate } from './db';
-
-import {
-  asUser,
-  removeListDynamicData,
-  removeDynamicData,
-  asAnonymous,
-} from './testUtils';
-
-import { Board } from './models/Board';
-import { BoardMember } from './models/BoardMember';
-import { Book } from './models/Book';
-import { asyncForEach } from '../src/engine/util';
-
-const orderByIdAsc = {
-  orderBy: [
-    {
-      attribute: 'id',
-      direction: 'ASC',
-    },
-  ],
-};
+import { testGraphql } from './db';
+import { asAnonymous, asUser } from './testUtils';
+import { gql } from '../src/graphqlProtocol/util';
 
 describe('permission', () => {
   describe('story', () => {
+    const findBoardsQuery = gql`
+      query allBoards($boardFilter: BoardFilter) {
+        allBoards(orderBy: [ID_ASC], first: 100, filter: $boardFilter) {
+          edges {
+            node {
+              id
+              name
+              owner
+              isPrivate
+              metaData {
+                description
+              }
+              mods
+              updatedBy
+            }
+          }
+          resultCount
+        }
+      }
+    `;
+
     it('a user should only see public boards and boards the user was invited to', async () => {
-      const userIds = [46, 69, 40];
+      const result1 = await testGraphql(findBoardsQuery, asUser(46), {});
+      expect(result1).toMatchSnapshot('boards | user 46');
 
-      await asyncForEach(userIds, async (userId) => {
-        const result = await find(Board, { ...orderByIdAsc }, asUser(userId));
-        result.data = removeListDynamicData(Board, result.data);
-        expect(result).toMatchSnapshot('list');
+      const result2 = await testGraphql(findBoardsQuery, asUser(69), {});
+      expect(result2).toMatchSnapshot('boards | user 69');
 
-        const rowCount = await count(Board, {}, asUser(userId));
-        expect(rowCount).toMatchSnapshot('count');
+      const result3 = await testGraphql(findBoardsQuery, asUser(40), {});
+      expect(result3).toMatchSnapshot('boards | user 40');
+
+      const result4 = await testGraphql(findBoardsQuery, asUser(46), {
+        boardFilter: {
+          isPrivate: true,
+        },
       });
+      expect(result4).toMatchSnapshot('private boards | user 46');
 
-      const filter = {
-        isPrivate: true,
-      };
-
-      await asyncForEach(userIds, async (userId) => {
-        const result = await find(
-          Board,
-          { ...orderByIdAsc, filter },
-          asUser(userId),
-        );
-        result.data = removeListDynamicData(Board, result.data);
-        expect(result).toMatchSnapshot('private list');
-
-        const rowCount = await count(Board, { filter }, asUser(userId));
-        expect(rowCount).toMatchSnapshot('private count');
+      const result5 = await testGraphql(findBoardsQuery, asUser(69), {
+        boardFilter: {
+          isPrivate: true,
+        },
       });
+      expect(result5).toMatchSnapshot('private boards | user 69');
+
+      const result6 = await testGraphql(findBoardsQuery, asUser(40), {
+        boardFilter: {
+          isPrivate: true,
+        },
+      });
+      expect(result6).toMatchSnapshot('private boards | user 40');
     });
 
+    const findBoardMembersQuery = gql`
+      query allBoardMembers($boardMemberFilter: BoardMemberFilter) {
+        allBoardMembers(
+          orderBy: [ID_ASC]
+          first: 100
+          filter: $boardMemberFilter
+        ) {
+          edges {
+            node {
+              id
+              inviter
+              invitee
+              board
+              state
+            }
+          }
+          resultCount
+          totalCount
+        }
+      }
+    `;
+
     it('a user should only see members of boards the user is part of', async () => {
-      const userIds = [46, 69, 40];
+      const result1 = await testGraphql(findBoardMembersQuery, asUser(46), {});
+      expect(result1).toMatchSnapshot('board members | user 46');
 
-      await asyncForEach(userIds, async (userId) => {
-        const result = await find(
-          BoardMember,
-          { ...orderByIdAsc },
-          asUser(userId),
-        );
-        result.data = removeListDynamicData(BoardMember, result.data);
-        expect(result).toMatchSnapshot('list');
+      const result2 = await testGraphql(findBoardMembersQuery, asUser(69), {});
+      expect(result2).toMatchSnapshot('board members | user 69');
 
-        const rowCount = await count(BoardMember, {}, asUser(userId));
-        expect(rowCount).toMatchSnapshot('count');
+      const result3 = await testGraphql(findBoardMembersQuery, asUser(40), {});
+      expect(result3).toMatchSnapshot('board members | user 40');
+
+      const result4 = await testGraphql(findBoardMembersQuery, asUser(46), {
+        boardMemberFilter: {
+          invitee__ne: 46,
+        },
       });
+      expect(result4).toMatchSnapshot('board members w/o self | user 46');
 
-      await asyncForEach(userIds, async (userId) => {
-        const filter = {
-          invitee: {
-            $ne: userId,
-          },
-        };
-
-        const result = await find(
-          BoardMember,
-          { ...orderByIdAsc, filter },
-          asUser(userId),
-        );
-        result.data = removeListDynamicData(BoardMember, result.data);
-        expect(result).toMatchSnapshot('list');
-
-        const rowCount = await count(BoardMember, { filter }, asUser(userId));
-        expect(rowCount).toMatchSnapshot('count');
+      const result5 = await testGraphql(findBoardMembersQuery, asUser(69), {
+        boardMemberFilter: {
+          invitee__ne: 69,
+        },
       });
+      expect(result5).toMatchSnapshot('board members w/o self | user 69');
+
+      const result6 = await testGraphql(findBoardMembersQuery, asUser(40), {
+        boardMemberFilter: {
+          invitee__ne: 40,
+        },
+      });
+      expect(result6).toMatchSnapshot('board members w/o self | user 40');
     });
 
     const joinCache = [];
 
-    it('a user should be able to join public boards', async () => {
-      const userIds = [30, 33, 79];
-      const board = 11;
+    const joinBoardMemberMutation = gql`
+      mutation joinBoardMember($input: JoinBoardMemberInput!) {
+        joinBoardMember(input: $input) {
+          boardMember {
+            id
+            board
+            inviter
+            invitee
+            state
+          }
+        }
+      }
+    `;
 
-      await asyncForEach(userIds, async (userId) => {
-        const result = await mutate(
-          BoardMember,
-          'join',
-          { board },
-          null,
-          asUser(userId),
-        );
-        const cleanedResult = removeDynamicData(BoardMember, result);
-        expect(cleanedResult).toMatchSnapshot();
-        joinCache.push(cleanedResult);
+    it('a user should be able to join public boards', async () => {
+      const input = {
+        boardMember: {
+          board: 11,
+        },
+      };
+
+      const result1 = await testGraphql(joinBoardMemberMutation, asUser(30), {
+        input,
       });
+      expect(result1).toMatchSnapshot('join | user 30');
+
+      const result2 = await testGraphql(joinBoardMemberMutation, asUser(33), {
+        input,
+      });
+      expect(result2).toMatchSnapshot('join | user 33');
+
+      const result3 = await testGraphql(joinBoardMemberMutation, asUser(79), {
+        input,
+      });
+      expect(result3).toMatchSnapshot('join | user 79');
+
+      joinCache.push(result1.data.joinBoardMember.boardMember);
+      joinCache.push(result2.data.joinBoardMember.boardMember);
+      joinCache.push(result3.data.joinBoardMember.boardMember);
     });
+
+    const leaveBoardMemberMutation = gql`
+      mutation leaveBoardMember($input: LeaveBoardMemberByIdInput!) {
+        leaveBoardMemberById(input: $input) {
+          deleteRowCount
+          id
+        }
+      }
+    `;
 
     it('a user should be able to leave public boards', async () => {
       const { invitee, id } = joinCache[0];
 
-      const result = await mutate(
-        BoardMember,
-        'leave',
-        {},
-        id,
+      const result = await testGraphql(
+        leaveBoardMemberMutation,
         asUser(invitee),
+        {
+          input: {
+            id,
+          },
+        },
       );
-      const cleanedResult = removeDynamicData(BoardMember, result);
-      cleanedResult.rows = removeListDynamicData(
-        BoardMember,
-        cleanedResult.rows,
-      );
-      expect(cleanedResult).toMatchSnapshot();
+
+      expect(result).toMatchSnapshot();
     });
 
     it("a user should not be able to leave public boards on someone's behalf", async () => {
       const otherUser = '50';
       const { id } = joinCache[1];
 
-      await mutate(BoardMember, 'leave', {}, id, asUser(otherUser)).catch(
-        (e) => {
-          expect(e).toMatchSnapshot();
+      const result = await testGraphql(
+        leaveBoardMemberMutation,
+        asUser(otherUser),
+        {
+          input: {
+            id,
+          },
         },
       );
+
+      expect(result).toMatchSnapshot();
     });
+
+    const removeBoardMemberMutation = gql`
+      mutation removeBoardMember($input: RemoveBoardMemberByIdInput!) {
+        removeBoardMemberById(input: $input) {
+          deleteRowCount
+          id
+        }
+      }
+    `;
 
     it('a user should not be able to remove a user from a group as a non-owner', async () => {
       const notOwner = '50';
       const { id } = joinCache[1];
 
-      await mutate(BoardMember, 'remove', {}, id, asUser(notOwner)).catch(
-        (e) => {
-          expect(e).toMatchSnapshot();
+      const result = await testGraphql(
+        removeBoardMemberMutation,
+        asUser(notOwner),
+        {
+          input: {
+            id,
+          },
         },
       );
+
+      expect(result).toMatchSnapshot();
     });
 
     it('a user should be able to remove a user from a group as owner', async () => {
       const owner = 81;
       const { id } = joinCache[1];
 
-      const result = await mutate(BoardMember, 'remove', {}, id, asUser(owner));
-      const cleanedResult = removeDynamicData(BoardMember, result);
-      cleanedResult.rows = removeListDynamicData(
-        BoardMember,
-        cleanedResult.rows,
+      const result = await testGraphql(
+        removeBoardMemberMutation,
+        asUser(owner),
+        {
+          input: {
+            id,
+          },
+        },
       );
-      expect(cleanedResult).toMatchSnapshot();
+
+      expect(result).toMatchSnapshot();
     });
 
     it('a user should not be able to join private boards', async () => {
-      const userIds = [30, 33, 79];
-      const board = 45;
+      const input = { boardMember: { board: 45 } };
 
-      await asyncForEach(userIds, async (userId) => {
-        await mutate(
-          BoardMember,
-          'join',
-          { board },
-          null,
-          asUser(userId),
-        ).catch((e) => {
-          expect(e).toMatchSnapshot();
-        });
+      const result1 = await testGraphql(joinBoardMemberMutation, asUser(30), {
+        input,
       });
+      expect(result1).toMatchSnapshot('join | user 30');
+
+      const result2 = await testGraphql(joinBoardMemberMutation, asUser(33), {
+        input,
+      });
+      expect(result2).toMatchSnapshot('join | user 33');
+
+      const result3 = await testGraphql(joinBoardMemberMutation, asUser(79), {
+        input,
+      });
+      expect(result3).toMatchSnapshot('join | user 79');
     });
+
+    const inviteBoardMemberMutation = gql`
+      mutation inviteBoardMember($input: InviteBoardMemberInput!) {
+        inviteBoardMember(input: $input) {
+          boardMember {
+            id
+            board
+            inviter
+            invitee
+            state
+          }
+        }
+      }
+    `;
 
     it('a user should not be able to invite users to others boards', async () => {
       const inviter = 10;
-      const userIds = [30, 33, 79];
-      const board = 45;
 
-      await asyncForEach(userIds, async (invitee) => {
-        await mutate(
-          BoardMember,
-          'invite',
-          { board, invitee },
-          null,
-          asUser(inviter),
-        ).catch((e) => {
-          expect(e).toMatchSnapshot();
-        });
-      });
+      const result1 = await testGraphql(
+        inviteBoardMemberMutation,
+        asUser(inviter),
+        {
+          input: {
+            boardMember: {
+              board: 45,
+              invitee: 30,
+            },
+          },
+        },
+      );
+      expect(result1).toMatchSnapshot('invite | user 30');
+
+      const result2 = await testGraphql(
+        inviteBoardMemberMutation,
+        asUser(inviter),
+        {
+          input: {
+            boardMember: {
+              board: 45,
+              invitee: 33,
+            },
+          },
+        },
+      );
+      expect(result2).toMatchSnapshot('invite | user 33');
+
+      const result3 = await testGraphql(
+        inviteBoardMemberMutation,
+        asUser(inviter),
+        {
+          input: {
+            boardMember: {
+              board: 45,
+              invitee: 79,
+            },
+          },
+        },
+      );
+      expect(result3).toMatchSnapshot('invite | user 79');
     });
 
     const invitesCache = [];
 
     it('a user should be able to invite users to an owned boards', async () => {
       const inviter = 85;
-      const userIds = [30, 33, 79];
-      const board = 45;
 
-      await asyncForEach(userIds, async (invitee) => {
-        const result = await mutate(
-          BoardMember,
-          'invite',
-          { board, invitee },
-          null,
-          asUser(inviter),
-        );
-        const cleanedResult = removeDynamicData(BoardMember, result);
-        expect(cleanedResult).toMatchSnapshot();
-        invitesCache.push(cleanedResult);
-      });
+      const result1 = await testGraphql(
+        inviteBoardMemberMutation,
+        asUser(inviter),
+        {
+          input: {
+            boardMember: {
+              board: 45,
+              invitee: 30,
+            },
+          },
+        },
+      );
+      expect(result1).toMatchSnapshot('invite | user 30');
+
+      const result2 = await testGraphql(
+        inviteBoardMemberMutation,
+        asUser(inviter),
+        {
+          input: {
+            boardMember: {
+              board: 45,
+              invitee: 33,
+            },
+          },
+        },
+      );
+      expect(result2).toMatchSnapshot('invite | user 33');
+
+      const result3 = await testGraphql(
+        inviteBoardMemberMutation,
+        asUser(inviter),
+        {
+          input: {
+            boardMember: {
+              board: 45,
+              invitee: 79,
+            },
+          },
+        },
+      );
+      expect(result3).toMatchSnapshot('invite | user 79');
+
+      invitesCache.push(result1.data.inviteBoardMember.boardMember);
+      invitesCache.push(result2.data.inviteBoardMember.boardMember);
+      invitesCache.push(result3.data.inviteBoardMember.boardMember);
     });
+
+    const acceptBoardMemberMutation = gql`
+      mutation acceptBoardMember($input: AcceptBoardMemberByIdInput!) {
+        acceptBoardMemberById(input: $input) {
+          boardMember {
+            id
+            board
+            inviter
+            invitee
+            state
+          }
+        }
+      }
+    `;
 
     it('a user should be able to accept invitations to private boards', async () => {
       const { invitee, id } = invitesCache[0];
 
-      const result = await mutate(
-        BoardMember,
-        'accept',
-        {},
-        id,
+      const result = await testGraphql(
+        acceptBoardMemberMutation,
         asUser(invitee),
+        {
+          input: {
+            id,
+          },
+        },
       );
-      const cleanedResult = removeDynamicData(BoardMember, result);
-      expect(cleanedResult).toMatchSnapshot();
+
+      expect(result).toMatchSnapshot();
     });
 
     it("a user should not be able to accept invitations to private boards on someone's behalf", async () => {
       const otherUser = '50';
       const { id } = joinCache[1];
 
-      await mutate(BoardMember, 'accept', {}, id, asUser(otherUser)).catch(
-        (e) => {
-          expect(e).toMatchSnapshot();
+      const result = await testGraphql(
+        acceptBoardMemberMutation,
+        asUser(otherUser),
+        {
+          input: {
+            id,
+          },
         },
       );
+
+      expect(result).toMatchSnapshot();
     });
 
     it('an anonymous user should be able to see all books', async () => {
-      const result = await find(Book, { ...orderByIdAsc }, asAnonymous());
+      const result = await testGraphql(
+        gql`
+          query allBooks {
+            allBooks(orderBy: [ID_ASC]) {
+              edges {
+                node {
+                  id
+                  author
+                  title_i18n {
+                    en
+                    de
+                  }
+                  shortSummary
+                }
+              }
+            }
+          }
+        `,
+        asAnonymous(),
+      );
 
-      expect(result).toMatchSnapshot('list');
+      expect(result).toMatchSnapshot();
     });
   });
 });
