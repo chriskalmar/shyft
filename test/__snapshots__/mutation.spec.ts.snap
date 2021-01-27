@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`mutation fail mutation if fromState is not a match 1`] = `[Error: Instance with ID '304' not found or access denied]`;
+exports[`mutation via connector fail mutation if fromState is not a match 1`] = `[Error: Instance with ID '304' not found or access denied]`;
 
-exports[`mutation handle uniqueness constraints 1`] = `[Error: Uniqueness constraint violated]`;
+exports[`mutation via connector handle uniqueness constraints 1`] = `[Error: Uniqueness constraint violated]`;
 
-exports[`mutation perform create mutations 1`] = `
+exports[`mutation via connector perform create mutations 1`] = `
 Object {
   "board": "47",
   "id": "301",
@@ -14,7 +14,7 @@ Object {
 }
 `;
 
-exports[`mutation perform create mutations with nested JSON attributes 1`] = `
+exports[`mutation via connector perform create mutations with nested JSON attributes 1`] = `
 Object {
   "author": "Leo Tolstoy",
   "i18n": null,
@@ -47,7 +47,7 @@ Object {
 }
 `;
 
-exports[`mutation perform delete mutations 1`] = `
+exports[`mutation via connector perform delete mutations 1`] = `
 Object {
   "board": "50",
   "id": "303",
@@ -57,7 +57,7 @@ Object {
 }
 `;
 
-exports[`mutation perform delete mutations 2`] = `
+exports[`mutation via connector perform delete mutations 2`] = `
 Object {
   "deleteRowCount": 1,
   "id": "303",
@@ -73,7 +73,7 @@ Object {
 }
 `;
 
-exports[`mutation perform update mutations 1`] = `
+exports[`mutation via connector perform update mutations 1`] = `
 Object {
   "board": "50",
   "id": "302",
@@ -83,7 +83,7 @@ Object {
 }
 `;
 
-exports[`mutation perform update mutations 2`] = `
+exports[`mutation via connector perform update mutations 2`] = `
 Object {
   "board": "50",
   "id": "302",
@@ -93,7 +93,7 @@ Object {
 }
 `;
 
-exports[`mutation perform update mutations with nested JSON attributes 1`] = `
+exports[`mutation via connector perform update mutations with nested JSON attributes 1`] = `
 Object {
   "author": "Leo Tolstoy",
   "i18n": null,
@@ -134,8 +134,8 @@ Object {
 }
 `;
 
-exports[`mutation reject mutations if ID not found 1`] = `[Error: Instance with ID '99999' not found or access denied]`;
+exports[`mutation via connector reject mutations if ID not found 1`] = `[Error: Instance with ID '99999' not found or access denied]`;
 
-exports[`mutation reject mutations without state transitions on stateful entities 1`] = `[Error: State transition (toState) not defined]`;
+exports[`mutation via connector reject mutations without state transitions on stateful entities 1`] = `[Error: State transition (toState) not defined]`;
 
-exports[`mutation reject unknown mutations 1`] = `[Error: Invalid mutation]`;
+exports[`mutation via connector reject unknown mutations 1`] = `[Error: Invalid mutation]`;
