@@ -1,6 +1,1101 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`cursor after + before + filter + offset 1`] = `
+exports[`cursor via GrahpQL after + before + filter + offset: first 1`] = `
+Object {
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImVsemE1MTAiXSxbImlkIiwiOTgiXV19",
+          "node": Object {
+            "firstname": "Elza",
+            "id": "98",
+            "lastname": "Gorczany",
+            "username": "elza510",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImVsbGEzNzciXSxbImlkIiwiMTAzIl1dfQ==",
+          "node": Object {
+            "firstname": "Ella",
+            "id": "103",
+            "lastname": "Roberts",
+            "username": "ella377",
+          },
+        },
+      ],
+      "resultCount": 2,
+      "totalCount": 9,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL after + before + filter + offset: found after 1`] = `
+Object {
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImVzdGVsbDY4NCJdLFsiaWQiLCI3MCJdXX0=",
+          "node": Object {
+            "firstname": "Estell",
+            "id": "70",
+            "lastname": "Waters",
+            "username": "estell684",
+          },
+        },
+      ],
+      "resultCount": 1,
+      "totalCount": 1,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL after + before + filter + offset: found before 1`] = `
+Object {
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImVkd2FyZDk2OSJdLFsiaWQiLCI4Il1dfQ==",
+          "node": Object {
+            "firstname": "Edward",
+            "id": "8",
+            "lastname": "Dach",
+            "username": "edward969",
+          },
+        },
+      ],
+      "resultCount": 1,
+      "totalCount": 1,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL after + before + filter + offset: last 1`] = `
+Object {
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImVtaWxpYTE4OSJdLFsiaWQiLCI5MCJdXX0=",
+          "node": Object {
+            "firstname": "Emilia",
+            "id": "90",
+            "lastname": "Marks",
+            "username": "emilia189",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImVtZWxpZTU3OCJdLFsiaWQiLCI1MyJdXX0=",
+          "node": Object {
+            "firstname": "Emelie",
+            "id": "53",
+            "lastname": "Schamberger",
+            "username": "emelie578",
+          },
+        },
+      ],
+      "resultCount": 2,
+      "totalCount": 9,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL after + filter: found 1`] = `
+Object {
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImVsbGEzNzciXSxbImlkIiwiMTAzIl1dfQ==",
+          "node": Object {
+            "firstname": "Ella",
+            "id": "103",
+            "lastname": "Roberts",
+            "username": "ella377",
+          },
+        },
+      ],
+      "resultCount": 1,
+      "totalCount": 1,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL after + filter: result 1`] = `
+Object {
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImVsemE1MTAiXSxbImlkIiwiOTgiXV19",
+          "node": Object {
+            "firstname": "Elza",
+            "id": "98",
+            "lastname": "Gorczany",
+            "username": "elza510",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImVtZWxpZTU3OCJdLFsiaWQiLCI1MyJdXX0=",
+          "node": Object {
+            "firstname": "Emelie",
+            "id": "53",
+            "lastname": "Schamberger",
+            "username": "emelie578",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImVtaWxpYTE4OSJdLFsiaWQiLCI5MCJdXX0=",
+          "node": Object {
+            "firstname": "Emilia",
+            "id": "90",
+            "lastname": "Marks",
+            "username": "emilia189",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImVtbWV0NzQxIl0sWyJpZCIsIjEyIl1dfQ==",
+          "node": Object {
+            "firstname": "Emmet",
+            "id": "12",
+            "lastname": "Boyle",
+            "username": "emmet741",
+          },
+        },
+      ],
+      "resultCount": 4,
+      "totalCount": 9,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL after: found 1`] = `
+Object {
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImFtYWxpYTk0MyJdLFsiaWQiLCI2NSJdXX0=",
+          "node": Object {
+            "firstname": "Amalia",
+            "id": "65",
+            "lastname": "Stamm",
+            "username": "amalia943",
+          },
+        },
+      ],
+      "resultCount": 1,
+      "totalCount": 1,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL after: result 1`] = `
+Object {
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImFuZ2VsaW5lNDQ3Il0sWyJpZCIsIjM5Il1dfQ==",
+          "node": Object {
+            "firstname": "Angeline",
+            "id": "39",
+            "lastname": "Tremblay",
+            "username": "angeline447",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImFubmFiZWw3MTEiXSxbImlkIiwiMSJdXX0=",
+          "node": Object {
+            "firstname": "Annabel",
+            "id": "1",
+            "lastname": "Bergstrom",
+            "username": "annabel711",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImFubmU3NTAiXSxbImlkIiwiODQiXV19",
+          "node": Object {
+            "firstname": "Anne",
+            "id": "84",
+            "lastname": "Wyman",
+            "username": "anne750",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImFudG9uZTM0NyJdLFsiaWQiLCI2OSJdXX0=",
+          "node": Object {
+            "firstname": "Antone",
+            "id": "69",
+            "lastname": "Schmitt",
+            "username": "antone347",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImFudG9uaWE5MTkiXSxbImlkIiwiNDYiXV19",
+          "node": Object {
+            "firstname": "Antonia",
+            "id": "46",
+            "lastname": "Gutkowski",
+            "username": "antonia919",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImFudG9uaW5hNDQ4Il0sWyJpZCIsIjk5Il1dfQ==",
+          "node": Object {
+            "firstname": "Antonina",
+            "id": "99",
+            "lastname": "Lesch",
+            "username": "antonina448",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImFueWE1NDMiXSxbImlkIiwiMiJdXX0=",
+          "node": Object {
+            "firstname": "Anya",
+            "id": "2",
+            "lastname": "Conn",
+            "username": "anya543",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImFyYWNlbGk3OTQiXSxbImlkIiwiMjYiXV19",
+          "node": Object {
+            "firstname": "Araceli",
+            "id": "26",
+            "lastname": "Lind",
+            "username": "araceli794",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImFybGllMTI4Il0sWyJpZCIsIjM0Il1dfQ==",
+          "node": Object {
+            "firstname": "Arlie",
+            "id": "34",
+            "lastname": "Kemmer",
+            "username": "arlie128",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImF0aGVuYTU1NyJdLFsiaWQiLCIxNSJdXX0=",
+          "node": Object {
+            "firstname": "Athena",
+            "id": "15",
+            "lastname": "Stamm",
+            "username": "athena557",
+          },
+        },
+      ],
+      "resultCount": 10,
+      "totalCount": 110,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL before + filter: found 1`] = `
+Object {
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImVtaWxpYTE4OSJdLFsiaWQiLCI5MCJdXX0=",
+          "node": Object {
+            "firstname": "Emilia",
+            "id": "90",
+            "lastname": "Marks",
+            "username": "emilia189",
+          },
+        },
+      ],
+      "resultCount": 1,
+      "totalCount": 1,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL before + filter: result 1`] = `
+Object {
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImVkd2FyZDk2OSJdLFsiaWQiLCI4Il1dfQ==",
+          "node": Object {
+            "firstname": "Edward",
+            "id": "8",
+            "lastname": "Dach",
+            "username": "edward969",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImVsYWRpbzgzMiJdLFsiaWQiLCI1OCJdXX0=",
+          "node": Object {
+            "firstname": "Eladio",
+            "id": "58",
+            "lastname": "Botsford",
+            "username": "eladio832",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImVsbGEzNzciXSxbImlkIiwiMTAzIl1dfQ==",
+          "node": Object {
+            "firstname": "Ella",
+            "id": "103",
+            "lastname": "Roberts",
+            "username": "ella377",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImVsemE1MTAiXSxbImlkIiwiOTgiXV19",
+          "node": Object {
+            "firstname": "Elza",
+            "id": "98",
+            "lastname": "Gorczany",
+            "username": "elza510",
+          },
+        },
+      ],
+      "resultCount": 4,
+      "totalCount": 9,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL before: found 1`] = `
+Object {
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImFtYWxpYTk0MyJdLFsiaWQiLCI2NSJdXX0=",
+          "node": Object {
+            "firstname": "Amalia",
+            "id": "65",
+            "lastname": "Stamm",
+            "username": "amalia943",
+          },
+        },
+      ],
+      "resultCount": 1,
+      "totalCount": 1,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL before: result 1`] = `
+Object {
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImFpZGEyODUiXSxbImlkIiwiMjQiXV19",
+          "node": Object {
+            "firstname": "Aida",
+            "id": "24",
+            "lastname": "Lakin",
+            "username": "aida285",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImFsaWNlMTU3Il0sWyJpZCIsIjMxIl1dfQ==",
+          "node": Object {
+            "firstname": "Alice",
+            "id": "31",
+            "lastname": "Howell",
+            "username": "alice157",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImFsdmEyODAiXSxbImlkIiwiNDIiXV19",
+          "node": Object {
+            "firstname": "Alva",
+            "id": "42",
+            "lastname": "Jacobson",
+            "username": "alva280",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJ1c2VybmFtZSIsImFsdmVyYTcwNyJdLFsiaWQiLCI3MiJdXX0=",
+          "node": Object {
+            "firstname": "Alvera",
+            "id": "72",
+            "lastname": "Miller",
+            "username": "alvera707",
+          },
+        },
+      ],
+      "resultCount": 4,
+      "totalCount": 110,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL mutli-key after + before: found after 1`] = `
+Object {
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJmaXJzdG5hbWUiLCJKb2UiXSxbImxhc3RuYW1lIiwiUmF0a2UiXSxbImlkIiwiMTA0Il1dfQ==",
+          "node": Object {
+            "firstname": "Joe",
+            "id": "104",
+            "lastname": "Ratke",
+            "username": "joe154",
+          },
+        },
+      ],
+      "resultCount": 1,
+      "totalCount": 1,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL mutli-key after + before: found before 1`] = `
+Object {
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJmaXJzdG5hbWUiLCJKb3NlIl0sWyJsYXN0bmFtZSIsIkxlZmZsZXIiXSxbImlkIiwiNzEiXV19",
+          "node": Object {
+            "firstname": "Jose",
+            "id": "71",
+            "lastname": "Leffler",
+            "username": "jose821",
+          },
+        },
+      ],
+      "resultCount": 1,
+      "totalCount": 1,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL mutli-key after + before: result 1`] = `
+Object {
+  "data": Object {
+    "allProfiles": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJmaXJzdG5hbWUiLCJKb2VsIl0sWyJsYXN0bmFtZSIsIkxha2luIl0sWyJpZCIsIjk1Il1dfQ==",
+          "node": Object {
+            "firstname": "Joel",
+            "id": "95",
+            "lastname": "Lakin",
+            "username": "joel356",
+          },
+        },
+        Object {
+          "cursor": "eyJQcm9maWxlIjpbWyJmaXJzdG5hbWUiLCJKb25hdGhvbiJdLFsibGFzdG5hbWUiLCJHdXNpa293c2tpIl0sWyJpZCIsIjY3Il1dfQ==",
+          "node": Object {
+            "firstname": "Jonathon",
+            "id": "67",
+            "lastname": "Gusikowski",
+            "username": "jonathon586",
+          },
+        },
+      ],
+      "resultCount": 2,
+      "totalCount": 7,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL time-based after + first: found 1 1`] = `
+Object {
+  "data": Object {
+    "allMessages": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU3OFoiXSxbImlkIiwiNyJdXX0=",
+          "node": Object {
+            "author": "7",
+            "board": "26",
+            "content": "velit magnam nobis aspernatur corporis voluptas sed 😀",
+            "id": "7",
+            "writtenAt": 2018-03-26T20:47:46.578Z,
+          },
+        },
+      ],
+      "resultCount": 1,
+      "totalCount": 1,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL time-based after + first: found 2 1`] = `
+Object {
+  "data": Object {
+    "allMessages": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU3OFoiXSxbImlkIiwiNDAiXV19",
+          "node": Object {
+            "author": "78",
+            "board": "30",
+            "content": "expedita eveniet dicta deleniti aut distinctio molestiae 😆",
+            "id": "40",
+            "writtenAt": 2018-03-26T20:47:46.578Z,
+          },
+        },
+      ],
+      "resultCount": 1,
+      "totalCount": 1,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL time-based after + first: found 3 1`] = `
+Object {
+  "data": Object {
+    "allMessages": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU3OFoiXSxbImlkIiwiMjAiXV19",
+          "node": Object {
+            "author": "54",
+            "board": "43",
+            "content": "fugiat quis a a debitis et culpa",
+            "id": "20",
+            "writtenAt": 2018-03-26T20:47:46.578Z,
+          },
+        },
+      ],
+      "resultCount": 1,
+      "totalCount": 1,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL time-based after + first: result 1 1`] = `
+Object {
+  "data": Object {
+    "allMessages": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU3OFoiXSxbImlkIiwiMjAiXV19",
+          "node": Object {
+            "author": "54",
+            "board": "43",
+            "content": "fugiat quis a a debitis et culpa",
+            "id": "20",
+            "writtenAt": 2018-03-26T20:47:46.578Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU3OFoiXSxbImlkIiwiNDAiXV19",
+          "node": Object {
+            "author": "78",
+            "board": "30",
+            "content": "expedita eveniet dicta deleniti aut distinctio molestiae 😆",
+            "id": "40",
+            "writtenAt": 2018-03-26T20:47:46.578Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU1NloiXSxbImlkIiwiMzgiXV19",
+          "node": Object {
+            "author": "88",
+            "board": "26",
+            "content": "enim vel et rem labore amet recusandae 🙌",
+            "id": "38",
+            "writtenAt": 2018-03-26T20:47:46.556Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjUxOVoiXSxbImlkIiwiNDgiXV19",
+          "node": Object {
+            "author": "25",
+            "board": "48",
+            "content": "deserunt voluptates eum aut libero nam sit 🚀",
+            "id": "48",
+            "writtenAt": 2018-03-26T20:47:46.519Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjQ4MFoiXSxbImlkIiwiNDciXV19",
+          "node": Object {
+            "author": "28",
+            "board": "13",
+            "content": "et ut qui eum et consequatur numquam 😆",
+            "id": "47",
+            "writtenAt": 2018-03-26T20:47:46.480Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjQyMloiXSxbImlkIiwiMjkiXV19",
+          "node": Object {
+            "author": "59",
+            "board": "12",
+            "content": "ut distinctio sint dolores ut est corrupti",
+            "id": "29",
+            "writtenAt": 2018-03-26T20:47:46.422Z,
+          },
+        },
+      ],
+      "resultCount": 6,
+      "totalCount": 50,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL time-based after + first: result 2 1`] = `
+Object {
+  "data": Object {
+    "allMessages": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU1NloiXSxbImlkIiwiMzgiXV19",
+          "node": Object {
+            "author": "88",
+            "board": "26",
+            "content": "enim vel et rem labore amet recusandae 🙌",
+            "id": "38",
+            "writtenAt": 2018-03-26T20:47:46.556Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjUxOVoiXSxbImlkIiwiNDgiXV19",
+          "node": Object {
+            "author": "25",
+            "board": "48",
+            "content": "deserunt voluptates eum aut libero nam sit 🚀",
+            "id": "48",
+            "writtenAt": 2018-03-26T20:47:46.519Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjQ4MFoiXSxbImlkIiwiNDciXV19",
+          "node": Object {
+            "author": "28",
+            "board": "13",
+            "content": "et ut qui eum et consequatur numquam 😆",
+            "id": "47",
+            "writtenAt": 2018-03-26T20:47:46.480Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjQyMloiXSxbImlkIiwiMjkiXV19",
+          "node": Object {
+            "author": "59",
+            "board": "12",
+            "content": "ut distinctio sint dolores ut est corrupti",
+            "id": "29",
+            "writtenAt": 2018-03-26T20:47:46.422Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjA4NFoiXSxbImlkIiwiMTEiXV19",
+          "node": Object {
+            "author": "65",
+            "board": "37",
+            "content": "voluptatem vero optio mollitia et qui nihil",
+            "id": "11",
+            "writtenAt": 2018-03-26T20:47:46.084Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ1Ljg1NFoiXSxbImlkIiwiMTIiXV19",
+          "node": Object {
+            "author": "88",
+            "board": "47",
+            "content": "voluptatum eius deleniti et consequatur qui architecto 😀",
+            "id": "12",
+            "writtenAt": 2018-03-26T20:47:45.854Z,
+          },
+        },
+      ],
+      "resultCount": 6,
+      "totalCount": 50,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL time-based after + first: result 3 1`] = `
+Object {
+  "data": Object {
+    "allMessages": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU3OFoiXSxbImlkIiwiNDAiXV19",
+          "node": Object {
+            "author": "78",
+            "board": "30",
+            "content": "expedita eveniet dicta deleniti aut distinctio molestiae 😆",
+            "id": "40",
+            "writtenAt": 2018-03-26T20:47:46.578Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU1NloiXSxbImlkIiwiMzgiXV19",
+          "node": Object {
+            "author": "88",
+            "board": "26",
+            "content": "enim vel et rem labore amet recusandae 🙌",
+            "id": "38",
+            "writtenAt": 2018-03-26T20:47:46.556Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjUxOVoiXSxbImlkIiwiNDgiXV19",
+          "node": Object {
+            "author": "25",
+            "board": "48",
+            "content": "deserunt voluptates eum aut libero nam sit 🚀",
+            "id": "48",
+            "writtenAt": 2018-03-26T20:47:46.519Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjQ4MFoiXSxbImlkIiwiNDciXV19",
+          "node": Object {
+            "author": "28",
+            "board": "13",
+            "content": "et ut qui eum et consequatur numquam 😆",
+            "id": "47",
+            "writtenAt": 2018-03-26T20:47:46.480Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjQyMloiXSxbImlkIiwiMjkiXV19",
+          "node": Object {
+            "author": "59",
+            "board": "12",
+            "content": "ut distinctio sint dolores ut est corrupti",
+            "id": "29",
+            "writtenAt": 2018-03-26T20:47:46.422Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjA4NFoiXSxbImlkIiwiMTEiXV19",
+          "node": Object {
+            "author": "65",
+            "board": "37",
+            "content": "voluptatem vero optio mollitia et qui nihil",
+            "id": "11",
+            "writtenAt": 2018-03-26T20:47:46.084Z,
+          },
+        },
+      ],
+      "resultCount": 6,
+      "totalCount": 50,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL time-based before + last: found 1 1`] = `
+Object {
+  "data": Object {
+    "allMessages": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU3OFoiXSxbImlkIiwiNyJdXX0=",
+          "node": Object {
+            "author": "7",
+            "board": "26",
+            "content": "velit magnam nobis aspernatur corporis voluptas sed 😀",
+            "id": "7",
+            "writtenAt": 2018-03-26T20:47:46.578Z,
+          },
+        },
+      ],
+      "resultCount": 1,
+      "totalCount": 1,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL time-based before + last: found 2 1`] = `
+Object {
+  "data": Object {
+    "allMessages": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU3OFoiXSxbImlkIiwiNDAiXV19",
+          "node": Object {
+            "author": "78",
+            "board": "30",
+            "content": "expedita eveniet dicta deleniti aut distinctio molestiae 😆",
+            "id": "40",
+            "writtenAt": 2018-03-26T20:47:46.578Z,
+          },
+        },
+      ],
+      "resultCount": 1,
+      "totalCount": 1,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL time-based before + last: found 3 1`] = `
+Object {
+  "data": Object {
+    "allMessages": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU3OFoiXSxbImlkIiwiMjAiXV19",
+          "node": Object {
+            "author": "54",
+            "board": "43",
+            "content": "fugiat quis a a debitis et culpa",
+            "id": "20",
+            "writtenAt": 2018-03-26T20:47:46.578Z,
+          },
+        },
+      ],
+      "resultCount": 1,
+      "totalCount": 1,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL time-based before + last: result 1 1`] = `
+Object {
+  "data": Object {
+    "allMessages": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ1Ljg1NFoiXSxbImlkIiwiMTIiXV19",
+          "node": Object {
+            "author": "88",
+            "board": "47",
+            "content": "voluptatum eius deleniti et consequatur qui architecto 😀",
+            "id": "12",
+            "writtenAt": 2018-03-26T20:47:45.854Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjA4NFoiXSxbImlkIiwiMTEiXV19",
+          "node": Object {
+            "author": "65",
+            "board": "37",
+            "content": "voluptatem vero optio mollitia et qui nihil",
+            "id": "11",
+            "writtenAt": 2018-03-26T20:47:46.084Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjQyMloiXSxbImlkIiwiMjkiXV19",
+          "node": Object {
+            "author": "59",
+            "board": "12",
+            "content": "ut distinctio sint dolores ut est corrupti",
+            "id": "29",
+            "writtenAt": 2018-03-26T20:47:46.422Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjQ4MFoiXSxbImlkIiwiNDciXV19",
+          "node": Object {
+            "author": "28",
+            "board": "13",
+            "content": "et ut qui eum et consequatur numquam 😆",
+            "id": "47",
+            "writtenAt": 2018-03-26T20:47:46.480Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjUxOVoiXSxbImlkIiwiNDgiXV19",
+          "node": Object {
+            "author": "25",
+            "board": "48",
+            "content": "deserunt voluptates eum aut libero nam sit 🚀",
+            "id": "48",
+            "writtenAt": 2018-03-26T20:47:46.519Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU1NloiXSxbImlkIiwiMzgiXV19",
+          "node": Object {
+            "author": "88",
+            "board": "26",
+            "content": "enim vel et rem labore amet recusandae 🙌",
+            "id": "38",
+            "writtenAt": 2018-03-26T20:47:46.556Z,
+          },
+        },
+      ],
+      "resultCount": 6,
+      "totalCount": 50,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL time-based before + last: result 2 1`] = `
+Object {
+  "data": Object {
+    "allMessages": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjQyMloiXSxbImlkIiwiMjkiXV19",
+          "node": Object {
+            "author": "59",
+            "board": "12",
+            "content": "ut distinctio sint dolores ut est corrupti",
+            "id": "29",
+            "writtenAt": 2018-03-26T20:47:46.422Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjQ4MFoiXSxbImlkIiwiNDciXV19",
+          "node": Object {
+            "author": "28",
+            "board": "13",
+            "content": "et ut qui eum et consequatur numquam 😆",
+            "id": "47",
+            "writtenAt": 2018-03-26T20:47:46.480Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjUxOVoiXSxbImlkIiwiNDgiXV19",
+          "node": Object {
+            "author": "25",
+            "board": "48",
+            "content": "deserunt voluptates eum aut libero nam sit 🚀",
+            "id": "48",
+            "writtenAt": 2018-03-26T20:47:46.519Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU1NloiXSxbImlkIiwiMzgiXV19",
+          "node": Object {
+            "author": "88",
+            "board": "26",
+            "content": "enim vel et rem labore amet recusandae 🙌",
+            "id": "38",
+            "writtenAt": 2018-03-26T20:47:46.556Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU3OFoiXSxbImlkIiwiNyJdXX0=",
+          "node": Object {
+            "author": "7",
+            "board": "26",
+            "content": "velit magnam nobis aspernatur corporis voluptas sed 😀",
+            "id": "7",
+            "writtenAt": 2018-03-26T20:47:46.578Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU3OFoiXSxbImlkIiwiMjAiXV19",
+          "node": Object {
+            "author": "54",
+            "board": "43",
+            "content": "fugiat quis a a debitis et culpa",
+            "id": "20",
+            "writtenAt": 2018-03-26T20:47:46.578Z,
+          },
+        },
+      ],
+      "resultCount": 6,
+      "totalCount": 50,
+    },
+  },
+}
+`;
+
+exports[`cursor via GrahpQL time-based before + last: result 3 1`] = `
+Object {
+  "data": Object {
+    "allMessages": Object {
+      "edges": Array [
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjA4NFoiXSxbImlkIiwiMTEiXV19",
+          "node": Object {
+            "author": "65",
+            "board": "37",
+            "content": "voluptatem vero optio mollitia et qui nihil",
+            "id": "11",
+            "writtenAt": 2018-03-26T20:47:46.084Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjQyMloiXSxbImlkIiwiMjkiXV19",
+          "node": Object {
+            "author": "59",
+            "board": "12",
+            "content": "ut distinctio sint dolores ut est corrupti",
+            "id": "29",
+            "writtenAt": 2018-03-26T20:47:46.422Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjQ4MFoiXSxbImlkIiwiNDciXV19",
+          "node": Object {
+            "author": "28",
+            "board": "13",
+            "content": "et ut qui eum et consequatur numquam 😆",
+            "id": "47",
+            "writtenAt": 2018-03-26T20:47:46.480Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjUxOVoiXSxbImlkIiwiNDgiXV19",
+          "node": Object {
+            "author": "25",
+            "board": "48",
+            "content": "deserunt voluptates eum aut libero nam sit 🚀",
+            "id": "48",
+            "writtenAt": 2018-03-26T20:47:46.519Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU1NloiXSxbImlkIiwiMzgiXV19",
+          "node": Object {
+            "author": "88",
+            "board": "26",
+            "content": "enim vel et rem labore amet recusandae 🙌",
+            "id": "38",
+            "writtenAt": 2018-03-26T20:47:46.556Z,
+          },
+        },
+        Object {
+          "cursor": "eyJNZXNzYWdlIjpbWyJ3cml0dGVuQXQiLCIyMDE4LTAzLTI2VDIwOjQ3OjQ2LjU3OFoiXSxbImlkIiwiNyJdXX0=",
+          "node": Object {
+            "author": "7",
+            "board": "26",
+            "content": "velit magnam nobis aspernatur corporis voluptas sed 😀",
+            "id": "7",
+            "writtenAt": 2018-03-26T20:47:46.578Z,
+          },
+        },
+      ],
+      "resultCount": 6,
+      "totalCount": 50,
+    },
+  },
+}
+`;
+
+exports[`cursor via connector after + before + filter + offset 1`] = `
 Object {
   "data": Array [
     Object {
@@ -27,7 +1122,7 @@ Object {
 }
 `;
 
-exports[`cursor after + before + filter + offset 2`] = `
+exports[`cursor via connector after + before + filter + offset 2`] = `
 Object {
   "data": Array [
     Object {
@@ -54,7 +1149,7 @@ Object {
 }
 `;
 
-exports[`cursor after + filter 1`] = `
+exports[`cursor via connector after + filter 1`] = `
 Object {
   "data": Array [
     Object {
@@ -97,7 +1192,7 @@ Object {
 }
 `;
 
-exports[`cursor after 1`] = `
+exports[`cursor via connector after 1`] = `
 Object {
   "data": Array [
     Object {
@@ -188,7 +1283,7 @@ Object {
 }
 `;
 
-exports[`cursor before + filter 1`] = `
+exports[`cursor via connector before + filter 1`] = `
 Object {
   "data": Array [
     Object {
@@ -231,7 +1326,7 @@ Object {
 }
 `;
 
-exports[`cursor before 1`] = `
+exports[`cursor via connector before 1`] = `
 Object {
   "data": Array [
     Object {
@@ -274,7 +1369,7 @@ Object {
 }
 `;
 
-exports[`cursor mutli-key after + before 1`] = `
+exports[`cursor via connector mutli-key after + before 1`] = `
 Object {
   "data": Array [
     Object {
@@ -301,7 +1396,7 @@ Object {
 }
 `;
 
-exports[`cursor time-based after + first: id: 7 1`] = `
+exports[`cursor via connector time-based after + first: id: 7 1`] = `
 Object {
   "data": Array [
     Object {
@@ -354,7 +1449,7 @@ Object {
 }
 `;
 
-exports[`cursor time-based after + first: id: 20 1`] = `
+exports[`cursor via connector time-based after + first: id: 20 1`] = `
 Object {
   "data": Array [
     Object {
@@ -407,7 +1502,7 @@ Object {
 }
 `;
 
-exports[`cursor time-based after + first: id: 40 1`] = `
+exports[`cursor via connector time-based after + first: id: 40 1`] = `
 Object {
   "data": Array [
     Object {
@@ -460,7 +1555,7 @@ Object {
 }
 `;
 
-exports[`cursor time-based before + last: id: 7 1`] = `
+exports[`cursor via connector time-based before + last: id: 7 1`] = `
 Object {
   "data": Array [
     Object {
@@ -513,7 +1608,7 @@ Object {
 }
 `;
 
-exports[`cursor time-based before + last: id: 20 1`] = `
+exports[`cursor via connector time-based before + last: id: 20 1`] = `
 Object {
   "data": Array [
     Object {
@@ -566,7 +1661,7 @@ Object {
 }
 `;
 
-exports[`cursor time-based before + last: id: 40 1`] = `
+exports[`cursor via connector time-based before + last: id: 40 1`] = `
 Object {
   "data": Array [
     Object {
