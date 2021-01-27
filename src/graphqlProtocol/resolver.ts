@@ -4,6 +4,8 @@ import {
   addRelayTypePromoterToInstanceFn,
   translateList,
   translateInstanceFn,
+  addRelayTypePromoterToInstance,
+  translateInstance,
 } from './util';
 import { ProtocolGraphQL } from './ProtocolGraphQL';
 import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
@@ -16,8 +18,6 @@ import {
 } from './connection';
 
 import { transformFilterLevel } from './filter';
-
-import { addRelayTypePromoterToInstance, translateInstance } from './util';
 
 import {
   getEntityUniquenessAttributes,
