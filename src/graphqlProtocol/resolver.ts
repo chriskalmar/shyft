@@ -53,7 +53,6 @@ import { GraphQLResolveInfo } from 'graphql';
 import { ShadowEntity } from '../engine/entity/ShadowEntity';
 import { getRegisteredEntity, getRegisteredEntityAttribute } from './registry';
 import { ViewEntity } from '..';
-import { isViewEntity } from '../engine/entity/ViewEntity';
 
 const AccessDeniedError = new CustomError(
   'Access denied',
@@ -89,14 +88,14 @@ export const resolveByFind = (
 
     if (entity.preProcessor) {
       const preProcessorResult = isEntity(entity)
-        ? await entity.preProcessor({
+        ? await (<Entity>entity).preProcessor({
             entity,
             source,
             args,
             context,
             info,
           })
-        : await entity.preProcessor({
+        : await (<ViewEntity>entity).preProcessor({
             entity,
             source,
             args,
@@ -145,7 +144,7 @@ export const resolveByFind = (
     const transformedData = entity.postProcessor
       ? translated.map((translatedRow) =>
           isEntity(entity)
-            ? entity.postProcessor({
+            ? (<Entity>entity).postProcessor({
                 result: translatedRow,
                 entity,
                 source,
@@ -153,7 +152,7 @@ export const resolveByFind = (
                 context: finalContext,
                 info,
               })
-            : entity.postProcessor({
+            : (<ViewEntity>entity).postProcessor({
                 result: translatedRow,
                 entity,
                 source,

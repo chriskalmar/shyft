@@ -833,32 +833,15 @@ describe('Entity', () => {
     let graphqlSchema: GraphQLSchema;
 
     beforeAll(async () => {
-      const preProcessor: EntityPreProcessor = ({
-        // entity,
-        // source,
-        args,
-        context,
-        info,
-      }) => {
-        ({ context, info }); // overcome linter warnings
-
+      const preProcessor: EntityPreProcessor = ({ args }) => {
         return args;
       };
 
-      const postProcessor: EntityPostProcessor = ({
-        result,
-        entity,
-        id,
-        source,
-        input,
-        typeName,
-        mutation,
-        context,
-      }) => {
-        ({ entity, id, source, input, typeName, mutation, context }); // overcome linter warnings
-
-        result.something = 'someotherthing';
-        return result;
+      const postProcessor: EntityPostProcessor = ({ result }) => {
+        return {
+          ...result,
+          something: 'someotherthing',
+        };
       };
 
       const SomeEntityWithPreprocess = new Entity({
@@ -915,6 +898,7 @@ describe('Entity', () => {
               description: 'Just some description',
             },
           },
+          // @ts-expect-error on purpose
           preProcessor: 'not-a-function',
         });
       }
@@ -934,6 +918,7 @@ describe('Entity', () => {
               description: 'Just some description',
             },
           },
+          // @ts-expect-error on purpose
           postProcessor: 'not-a-function',
         });
       }
