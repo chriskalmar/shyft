@@ -388,16 +388,16 @@ export const getMutationResolver = (
 
     try {
       if (entityMutation.preProcessor) {
-        args.input[typeName] = await entityMutation.preProcessor(
+        args.input[typeName] = await entityMutation.preProcessor({
           entity,
           id,
           source,
-          args.input[typeName],
+          input: args.input[typeName],
           typeName,
           entityMutation,
           context,
           info,
-        );
+        });
       }
 
       if (entityMutation.type === MUTATION_TYPE_CREATE) {
@@ -481,35 +481,33 @@ export const getMutationResolver = (
       }
 
       if (entityMutation.postProcessor) {
-        await entityMutation.postProcessor(
-          null,
+        await entityMutation.postProcessor({
           result,
           entity,
           id,
           source,
-          args.input[typeName],
+          input: args.input[typeName],
           typeName,
           entityMutation,
           context,
           info,
-        );
+        });
       }
 
       return ret;
     } catch (error) {
       if (entityMutation.postProcessor) {
-        await entityMutation.postProcessor(
+        await entityMutation.postProcessor({
           error,
-          null,
           entity,
           id,
           source,
-          args.input[typeName],
+          input: args.input[typeName],
           typeName,
           entityMutation,
           context,
           info,
-        );
+        });
       }
 
       throw error;
