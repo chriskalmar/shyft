@@ -2,6 +2,8 @@ import { uniq } from 'lodash';
 import { passOrThrow, isArray, isFunction, mapOverProperties } from '../util';
 
 import { Entity } from '../entity/Entity';
+import { Context } from '../context/Context';
+import { GraphQLResolveInfo } from 'graphql';
 
 export const MUTATION_TYPE_CREATE = 'create';
 export const MUTATION_TYPE_UPDATE = 'update';
@@ -43,35 +45,41 @@ export const defaultEntityMutations = [
   },
 ];
 
+interface MutationPreProcessorResponse {
+  [key: string]: unknown;
+}
+
+export type MutationPreProcessor = (params: {
+  entity: Entity;
+  id?: number | string;
+  source?: any;
+  input?: { [key: string]: unknown };
+  typeName: string;
+  entityMutation: Mutation;
+  context?: Context;
+  info?: GraphQLResolveInfo;
+}) => MutationPreProcessorResponse | Promise<MutationPreProcessorResponse>;
+
+export type MutationPostProcessor = (params: {
+  result?: { [key: string]: unknown };
+  error?: Error;
+  entity: Entity;
+  id?: number | string;
+  source?: any;
+  input?: { [key: string]: unknown };
+  typeName: string;
+  entityMutation: Mutation;
+  context?: Context;
+  info?: GraphQLResolveInfo;
+}) => void | Promise<void>;
+
 export type MutationSetup = {
   name?: string;
   type?: string;
   description?: string;
   attributes?: string[];
-  // preProcessor?: Function;
-  // postProcessor?: Function;
-  preProcessor?: (
-    entity?: Entity,
-    id?: string | number,
-    source?: any,
-    input?: any,
-    typeName?: string,
-    entityMutation?: Mutation,
-    context?: any,
-    info?: any,
-  ) => Promise<any> | any;
-  postProcessor?: (
-    error?: any,
-    result?: any,
-    entity?: Entity,
-    id?: string | number,
-    source?: any,
-    input?: any,
-    typeName?: string,
-    entityMutation?: Mutation,
-    context?: any,
-    info?: any,
-  ) => Promise<void> | void;
+  preProcessor?: MutationPreProcessor;
+  postProcessor?: MutationPostProcessor;
   fromState?: string | string[];
   toState?: string | string[];
 };
@@ -83,10 +91,8 @@ export class Mutation {
   attributes: string[];
   fromState?: string | string[];
   toState?: string | string[];
-
-  preProcessor?: Function;
-  postProcessor?: Function;
-
+  preProcessor?: MutationPreProcessor;
+  postProcessor?: MutationPostProcessor;
   isTypeCreate?: boolean;
   isTypeDelete?: boolean;
   needsInstance?: boolean;
