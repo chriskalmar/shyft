@@ -54,6 +54,7 @@ describe('Mutation', () => {
       // eslint-disable-next-line no-new
       new Mutation({
         name: 'example',
+        // @ts-expect-error on purpose
         type: 12346,
       });
     }
@@ -93,6 +94,7 @@ describe('Mutation', () => {
       name: 'example',
       type: MUTATION_TYPE_CREATE,
       description: 'mutate the world',
+      // @ts-expect-error on purpose
       attributes: ['anything', { foo: 'bar' }],
     });
 
@@ -162,6 +164,7 @@ describe('Mutation', () => {
         type: MUTATION_TYPE_CREATE,
         description: 'mutate the world',
         attributes: ['anything'],
+        // @ts-expect-error on purpose
         preProcessor: 'not-a-function',
       });
     }
@@ -177,6 +180,7 @@ describe('Mutation', () => {
         type: MUTATION_TYPE_CREATE,
         description: 'mutate the world',
         attributes: ['anything'],
+        // @ts-expect-error on purpose
         postProcessor: 'not-a-function',
       });
     }
@@ -192,6 +196,7 @@ describe('Mutation', () => {
         type: MUTATION_TYPE_UPDATE,
         description: 'mutate the world',
         attributes: ['anything'],
+        // @ts-expect-error on purpose
         fromState: { foo: 'bar' },
       });
     }
@@ -207,6 +212,7 @@ describe('Mutation', () => {
         type: MUTATION_TYPE_UPDATE,
         description: 'mutate the world',
         attributes: ['anything'],
+        // @ts-expect-error on purpose
         toState: 123,
       });
     }
@@ -280,7 +286,9 @@ describe('Mutation', () => {
       type: MUTATION_TYPE_UPDATE,
       description: 'mutate the world',
       attributes: ['anything'],
-      preProcessor() {},
+      preProcessor() {
+        return {};
+      },
       postProcessor() {},
     });
 
@@ -332,6 +340,7 @@ describe('Mutation', () => {
       };
 
       function fn() {
+        // @ts-expect-error on purpose
         processEntityMutations(entity, mutations);
       }
 
@@ -342,6 +351,7 @@ describe('Mutation', () => {
       const mutations = [{ foo: 'bar' }];
 
       function fn() {
+        // @ts-expect-error on purpose
         processEntityMutations(entity, mutations);
       }
 
