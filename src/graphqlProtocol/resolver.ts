@@ -351,13 +351,26 @@ export const getNestedPayloadResolver = (
   };
 };
 
-export const getMutationResolver = (
-  entity: Entity | any,
-  entityMutation: Mutation,
-  typeName: string,
-  nested: boolean,
-  idResolver: Function,
-) => {
+export type GetMutationResolverParams = (params: {
+  entity: Entity;
+  entityMutation: Mutation;
+  typeName: string;
+  nested: boolean;
+  idResolver: ({ args }) => number | string;
+}) => (
+  source: any,
+  args: any,
+  context: Context,
+  info: GraphQLResolveInfo,
+) => Promise<Record<string, unknown>>;
+
+export const getMutationResolver: GetMutationResolverParams = ({
+  entity,
+  entityMutation,
+  typeName,
+  nested,
+  idResolver,
+}) => {
   const storageType = entity.storageType;
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
