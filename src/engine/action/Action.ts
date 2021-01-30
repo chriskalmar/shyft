@@ -204,8 +204,10 @@ export class Action {
       const outputAttrType = outputAttr.type as DataTypeFunction;
       this.output = this.output as AttributeBase;
       this.output.type = outputAttrType({
-        name: 'output',
-        description: this.output.description || this.description,
+        setup: {
+          name: 'output',
+          description: this.output.description || this.description,
+        },
       });
     }
 

@@ -1,3 +1,4 @@
+import { Entity, ShadowEntity, ViewEntity } from '../..';
 import { passOrThrow, isFunction } from '../util';
 import { ComplexDataType } from './ComplexDataType';
 
@@ -11,10 +12,10 @@ export type DataTypeSetup = {
   enforceIndex?: boolean;
 };
 
-export type DataTypeFunction = (
-  setup: DataTypeSetup,
-  context?: any,
-) => DataType | ComplexDataType;
+export type DataTypeFunction = (params: {
+  setup: DataTypeSetup;
+  entity?: Entity | ShadowEntity | ViewEntity;
+}) => DataType | ComplexDataType;
 
 export class DataType {
   name: string;

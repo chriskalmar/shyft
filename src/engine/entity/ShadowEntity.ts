@@ -136,7 +136,10 @@ export class ShadowEntity {
 
     if (isFunction(attribute.type)) {
       const dataTypeBuilder: DataTypeFunction = attribute.type as DataTypeFunction;
-      attribute.type = dataTypeBuilder(attribute, this);
+      attribute.type = dataTypeBuilder({
+        setup: attribute as unknown,
+        entity: this,
+      });
     }
 
     passOrThrow(

@@ -10,10 +10,11 @@ import {
 
 import { CustomError } from '../CustomError';
 import { DataTypeState } from '../datatype/DataTypeState';
-import { Entity } from '../entity/Entity';
+import { Entity, isEntity } from '../entity/Entity';
 import { Mutation } from '../mutation/Mutation';
 import { i18nMockGenerator } from '../i18n';
 import { Attribute } from '../attribute/Attribute';
+import { isViewEntity } from './ViewEntity';
 
 export const systemAttributePrimary = {
   name: 'id',
@@ -100,7 +101,7 @@ export const systemAttributesUserTracking: Attribute[] = [
 export const systemAttributeState: Attribute = {
   name: 'state',
   description: 'State of record',
-  type: (attribute: any, entity: Entity) =>
+  type: ({ setup: attribute, entity }) =>
     new DataTypeState({
       ...attribute,
       validate: undefined, // delete from props as it would be handled as a data type validator

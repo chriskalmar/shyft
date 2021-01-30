@@ -80,8 +80,10 @@ export class ListDataType extends ComplexDataType {
       const itemTypeBuilder: DataTypeFunction = this
         .itemType as DataTypeFunction;
       const itemType = itemTypeBuilder({
-        name: this.name,
-        description: this.description,
+        setup: {
+          name: this.name,
+          description: this.description,
+        },
       });
 
       passOrThrow(
