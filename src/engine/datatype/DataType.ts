@@ -62,7 +62,11 @@ export class DataType {
         () => `'Invalid validate function for data type '${name}'`,
       );
 
-      this.validate = validate;
+      this.validate = async (params) => {
+        if (params?.value) {
+          return await validate(params);
+        }
+      };
     }
 
     if (defaultValue) {
