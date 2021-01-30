@@ -5,20 +5,7 @@ import {
 import { StorageTypePostgres } from '../src/storage-connector/StorageTypePostgres';
 import StoragePostgresConfiguration from '../src/storage-connector/StoragePostgresConfiguration';
 import { writeFileSync } from 'fs';
-
-import {
-  Schema,
-  Configuration,
-  fillSystemAttributesDefaultValues,
-  fillDefaultValues,
-  validateMutationPayload,
-  MUTATION_TYPE_CREATE,
-  MUTATION_TYPE_UPDATE,
-  MUTATION_TYPE_DELETE,
-  Entity,
-  Mutation,
-} from '../src';
-
+import { Schema, Configuration, Entity } from '../src';
 import { Profile } from './models/Profile';
 import { Message } from './models/Message';
 import { BoardMember } from './models/BoardMember';
@@ -39,6 +26,8 @@ import { ExecutionResultDataDefault } from 'graphql/execution/execute';
 import { ProtocolGraphQLConfiguration } from '../src/graphqlProtocol/ProtocolGraphQLConfiguration';
 import { formatGraphQLError } from '../src/graphqlProtocol/util';
 import { Context } from '../src/engine/context/Context';
+import { getMutationResolver } from '../src/graphqlProtocol/resolver';
+import { ProtocolGraphQL } from '../src/graphqlProtocol/ProtocolGraphQL';
 
 const schema = new Schema({
   defaultStorageType: StorageTypePostgres,
@@ -78,6 +67,8 @@ export const initDB = async (): Promise<void> => {
 
   configuration.setStorageConfiguration(storageConfiguration);
 
+  ProtocolGraphQL.setProtocolConfiguration(new ProtocolGraphQLConfiguration());
+
   connection = await connectStorage(configuration, true, true);
 };
 
@@ -113,39 +104,6 @@ export async function testGraphql(
   return result;
 }
 
-const serializeAttributeValues = (
-  entity: Entity,
-  entityMutation: Mutation,
-  payload,
-  model,
-  context: Context,
-) => {
-  const ret = {
-    ...payload,
-  };
-
-  const entityAttributes = entity.getAttributes();
-
-  for (const attribute of Object.values(entityAttributes)) {
-    const attributeName = attribute.name;
-
-    if (attribute.serialize) {
-      if (typeof ret[attributeName] !== 'undefined') {
-        ret[attributeName] = attribute.serialize(
-          ret[attributeName],
-          ret,
-          entityMutation,
-          entity,
-          model,
-          context,
-        );
-      }
-    }
-  }
-
-  return ret;
-};
-
 export const mutate = async (
   entity: Entity,
   mutationName: string,
@@ -153,77 +111,19 @@ export const mutate = async (
   id,
   context: Context,
 ) => {
-  const modelRegistry = StorageTypePostgres.getStorageModels();
-
   const typeName = entity.name;
-  const entityMutation = entity.getMutationByName(mutationName);
-  const source = {};
 
-  const args = {
-    input: {
-      [typeName]: payload,
-    },
-  };
-
-  if (entityMutation) {
-    if (entityMutation.preProcessor) {
-      args.input[typeName] = await entityMutation.preProcessor(
-        entity,
-        id,
-        source,
-        args.input[typeName],
-        typeName,
-        entityMutation,
-        context,
-      );
-    }
-
-    if (entityMutation.type === MUTATION_TYPE_CREATE) {
-      args.input[typeName] = await fillDefaultValues(
-        entity,
-        entityMutation,
-        args.input[typeName],
-        context,
-      );
-    }
-
-    if (
-      entityMutation.type === MUTATION_TYPE_CREATE ||
-      entityMutation.type === MUTATION_TYPE_UPDATE
-    ) {
-      args.input[typeName] = fillSystemAttributesDefaultValues(
-        entity,
-        entityMutation,
-        args.input[typeName],
-        context,
-      );
-    }
-
-    await validateMutationPayload(
-      entity,
-      entityMutation,
-      args.input[typeName],
-      context,
-    );
-
-    if (entityMutation.type !== MUTATION_TYPE_DELETE) {
-      args.input[typeName] = serializeAttributeValues(
-        entity,
-        entityMutation,
-        args.input[typeName],
-        modelRegistry[typeName],
-        context,
-      );
-    }
-  }
-
-  return await StorageTypePostgres.mutate(
+  const resolver = getMutationResolver({
     entity,
-    id,
-    args.input[typeName],
-    entityMutation,
-    context,
-  );
+    entityMutation: entity.getMutationByName(mutationName),
+    typeName,
+    nested: false,
+    idResolver: () => {
+      return id;
+    },
+  });
+
+  return resolver({}, { input: { [typeName]: payload } }, context, {});
 };
 
 export const findOne = async (entity, id, payload, context) => {
