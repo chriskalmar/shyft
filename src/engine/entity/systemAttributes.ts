@@ -15,6 +15,7 @@ import { Mutation } from '../mutation/Mutation';
 import { i18nMockGenerator } from '../i18n';
 import { Attribute } from '../attribute/Attribute';
 import { isViewEntity } from './ViewEntity';
+import { Context } from '../context/Context';
 
 export const systemAttributePrimary = {
   name: 'id',
@@ -30,7 +31,7 @@ export const systemAttributesTimeTracking: Attribute[] = [
     description: 'Record was created at this time',
     type: DataTypeTimestampTz,
     required: true,
-    defaultValue: (_: any, mutation: Mutation) => {
+    defaultValue: ({ operation: mutation }: { operation: Mutation }): Date => {
       return mutation.isTypeCreate ? new Date() : undefined;
     },
     mock: (entity: Entity) => {
@@ -52,7 +53,7 @@ export const systemAttributesTimeTracking: Attribute[] = [
     description: 'Record was updated at this time',
     type: DataTypeTimestampTz,
     required: true,
-    defaultValue: (_: any, mutation: Mutation) => {
+    defaultValue: ({ operation: mutation }: { operation: Mutation }): Date => {
       return mutation.isTypeCreate || mutation.isTypeUpdate
         ? new Date()
         : undefined;
@@ -79,7 +80,13 @@ export const systemAttributesUserTracking: Attribute[] = [
     description: 'Record was created by this time',
     type: DataTypeUserID,
     required: true,
-    defaultValue: (_: any, mutation: Mutation, __: Entity, { userId }) => {
+    defaultValue: ({
+      operation: mutation,
+      context: { userId },
+    }: {
+      operation: Mutation;
+      context: Context;
+    }): number | string => {
       // TODO: make overridable
       return mutation.isTypeCreate && userId ? userId : undefined;
     },
@@ -89,7 +96,13 @@ export const systemAttributesUserTracking: Attribute[] = [
     description: 'Record was updated by this user',
     type: DataTypeUserID,
     required: true,
-    defaultValue: (_: any, mutation: Mutation, __: Entity, { userId }) => {
+    defaultValue: ({
+      operation: mutation,
+      context: { userId },
+    }: {
+      operation: Mutation;
+      context: Context;
+    }): number | string => {
       // TODO: make overridable
       return (mutation.isTypeCreate || mutation.isTypeUpdate) && userId
         ? userId
@@ -109,7 +122,11 @@ export const systemAttributeState: Attribute = {
       states: isEntity(entity) ? entity.states : undefined,
     }),
   required: true,
-  defaultValue: (_: any, mutation: Mutation) => {
+  defaultValue: ({
+    operation: mutation,
+  }: {
+    operation: Mutation;
+  }): number | string => {
     if (mutation.isTypeCreate || mutation.isTypeUpdate) {
       if (typeof mutation.toState === 'string') {
         return mutation.toState;
@@ -127,7 +144,7 @@ export const systemAttributeState: Attribute = {
 
     return state;
   },
-  validate: (value: string, __: string, _: any, { mutation }) => {
+  validate: ({ value, source: { mutation } }) => {
     if (mutation.isTypeCreate || mutation.isTypeUpdate) {
       if (typeof mutation.toState !== 'string') {
         if (!mutation.toState) {

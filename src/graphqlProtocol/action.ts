@@ -16,6 +16,7 @@ import { validateActionPayload } from '../engine/validation';
 import { ACTION_TYPE_MUTATION, Action } from '../engine/action/Action';
 import { buildActionPermissionFilter } from '../engine/permission/Permission';
 import { CustomError } from '../engine/CustomError';
+import { Attribute } from '../engine/attribute/Attribute';
 
 const AccessDeniedError = new CustomError(
   'Access denied',
@@ -28,7 +29,7 @@ const fillSingleDefaultValues = async (param, payload, context) => {
 
   if (typeof payload === 'undefined') {
     if (param.defaultValue) {
-      ret = param.defaultValue({}, context);
+      ret = (<Attribute>param).defaultValue({ payload: {}, context });
     }
   }
 

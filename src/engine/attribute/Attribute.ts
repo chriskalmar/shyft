@@ -1,9 +1,10 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, Source } from 'graphql';
 import { Context } from '../context/Context';
 import { ComplexDataType } from '../datatype/ComplexDataType';
 import { DataType, DataTypeFunction } from '../datatype/DataType';
 import { Entity } from '../entity/Entity';
 import { Mutation } from '../mutation/Mutation';
+import { Subscription } from '../subscription/Subscription';
 
 /**
  * base of a model attribute
@@ -55,12 +56,12 @@ export type AttributeBase = {
    * default value generator for create type mutations
    */
 
-  defaultValue?: (
-    payload?: any,
-    entityMutation?: Mutation,
-    entity?: Entity,
-    context?: Record<string, any>,
-  ) => any;
+  defaultValue?: (params: {
+    payload?: { [key: string]: unknown };
+    operation?: Mutation | Subscription;
+    entity?: Entity;
+    context?: Context;
+  }) => unknown;
 
   /**
    * custom data serializer function

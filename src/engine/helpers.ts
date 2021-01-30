@@ -1,14 +1,16 @@
 import * as _ from 'lodash';
 import { Entity, Subscription } from '..';
 import { getRegisteredEntityAttribute } from '../graphqlProtocol/registry';
+import { Attribute } from './attribute/Attribute';
+import { Context } from './context/Context';
 import { Mutation } from './mutation/Mutation';
 
 export const fillSystemAttributesDefaultValues = (
   entity: Entity,
   operation: Mutation | Subscription,
-  payload: any,
-  context: Record<string, any>,
-): any => {
+  payload: Record<string, unknown>,
+  context: Context,
+): Record<string, unknown> => {
   const ret = {
     ...payload,
   };
@@ -19,11 +21,11 @@ export const fillSystemAttributesDefaultValues = (
     (attribute) => attribute.isSystemAttribute && attribute.defaultValue,
   );
 
-  systemAttributes.map((attribute) => {
+  systemAttributes.map((attribute: Attribute) => {
     const attributeName = attribute.name;
     const defaultValue = attribute.defaultValue;
 
-    const value = defaultValue(ret, operation, entity, context);
+    const value = defaultValue({ payload, operation, entity, context });
     if (typeof value !== 'undefined') {
       ret[attributeName] = value;
     }
@@ -54,12 +56,12 @@ export const fillDefaultValues = async (
       const attributeName = attribute.name;
       if (!payloadAttributes.includes(attributeName)) {
         if (attribute.defaultValue) {
-          ret[attributeName] = await attribute.defaultValue(
+          ret[attributeName] = await attribute.defaultValue({
             payload,
-            entityMutation,
+            operation: entityMutation,
             entity,
             context,
-          );
+          });
         }
       }
     }),
