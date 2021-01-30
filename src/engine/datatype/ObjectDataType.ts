@@ -1,6 +1,6 @@
 import { passOrThrow, resolveFunctionMap, isMap, isFunction } from '../util';
 import { isEntity } from '../entity/Entity';
-import { DataTypeFunction, isDataType } from './DataType';
+import { DataTypeFunction, DataTypeValidateType, isDataType } from './DataType';
 import { ComplexDataType, isComplexDataType } from './ComplexDataType';
 import {
   AttributesMap,
@@ -151,12 +151,11 @@ export class ObjectDataType extends ComplexDataType {
     return resultAttributes;
   }
 
-  validate = (value: any): void => {
+  validate: DataTypeValidateType = ({ value }) => {
     if (value) {
-      passOrThrow(
-        isMap(value),
-        () => `Object data type '${this.name}' expects an object`,
-      );
+      if (!isMap(value)) {
+        throw new Error(`Object data type '${this.name}' expects an object`);
+      }
     }
   };
 
