@@ -1,12 +1,16 @@
 import { readRows } from './testingData';
-import { Profile } from './models/Profile';
 import { Board } from './models/Board';
-import { BoardMember } from './models/BoardMember';
-import { Message } from './models/Message';
-import { mutate, findOneByValue } from './db';
+import { findOneByValue, testGraphql } from './db';
 import { asAdmin, asUser } from './testUtils';
-import { Book } from './models/Book';
 import { asyncForEach } from '../src/engine/util';
+import { formatGraphQLError, gql } from '../src/graphqlProtocol/util';
+
+const stopOnError = (result) => {
+  if (result.errors) {
+    result.errors.map(formatGraphQLError).forEach(console.error);
+    throw new Error('Failed on test data import!');
+  }
+};
 
 export const loadData = async () => {
   const profiles = readRows('profiles');
@@ -21,7 +25,23 @@ export const loadData = async () => {
         lastname,
       };
 
-      await mutate(Profile, 'signup', payload, null, asAdmin());
+      const result = await testGraphql(
+        gql`
+          mutation signupProfile($payload: SignupProfileInstanceInput!) {
+            signupProfile(input: { profile: $payload }) {
+              profile {
+                id
+              }
+            }
+          }
+        `,
+        asAdmin(),
+        {
+          payload,
+        },
+      );
+
+      stopOnError(result);
     },
   );
 
@@ -38,7 +58,23 @@ export const loadData = async () => {
         mods: mods ? JSON.parse(mods) : null,
       };
 
-      await mutate(Board, 'build', payload, null, asUser(userId));
+      const result = await testGraphql(
+        gql`
+          mutation buildBoard($payload: BuildBoardInstanceInput!) {
+            buildBoard(input: { board: $payload }) {
+              board {
+                id
+              }
+            }
+          }
+        `,
+        asUser(userId),
+        {
+          payload,
+        },
+      );
+
+      stopOnError(result);
     },
   );
 
@@ -64,7 +100,23 @@ export const loadData = async () => {
       board: await getBoardIdByName(name, userId),
     };
 
-    await mutate(BoardMember, 'join', payload, null, asUser(userId));
+    const result = await testGraphql(
+      gql`
+        mutation joinBoardMember($payload: JoinBoardMemberInstanceInput!) {
+          joinBoardMember(input: { boardMember: $payload }) {
+            boardMember {
+              id
+            }
+          }
+        }
+      `,
+      asUser(userId),
+      {
+        payload,
+      },
+    );
+
+    stopOnError(result);
   });
 
   const invites = readRows('invites');
@@ -75,16 +127,42 @@ export const loadData = async () => {
       invitee,
     };
 
-    const invitation = await mutate(
-      BoardMember,
-      'invite',
-      payload,
-      null,
+    const invitation = await testGraphql(
+      gql`
+        mutation inviteBoardMember($payload: InviteBoardMemberInstanceInput!) {
+          inviteBoardMember(input: { boardMember: $payload }) {
+            boardMember {
+              id
+            }
+          }
+        }
+      `,
       asUser(inviter),
+      {
+        payload,
+      },
     );
 
+    stopOnError(invitation);
+
     if (accept === '1') {
-      await mutate(BoardMember, 'accept', {}, invitation.id, asUser(invitee));
+      const result = await testGraphql(
+        gql`
+          mutation acceptBoardMemberById($id: ID!) {
+            acceptBoardMemberById(input: { id: $id }) {
+              boardMember {
+                id
+              }
+            }
+          }
+        `,
+        asUser(invitee),
+        {
+          id: invitation.data.inviteBoardMember.boardMember.id,
+        },
+      );
+
+      stopOnError(result);
     }
   });
 
@@ -98,7 +176,23 @@ export const loadData = async () => {
       writtenAt,
     };
 
-    await mutate(Message, 'write', payload, null, asAdmin());
+    const result = await testGraphql(
+      gql`
+        mutation writeMessage($payload: WriteMessageInstanceInput!) {
+          writeMessage(input: { message: $payload }) {
+            message {
+              id
+            }
+          }
+        }
+      `,
+      asAdmin(),
+      {
+        payload,
+      },
+    );
+
+    stopOnError(result);
   });
 
   const books = readRows('books');
@@ -109,6 +203,22 @@ export const loadData = async () => {
       author,
     };
 
-    await mutate(Book, 'create', payload, null, asAdmin());
+    const result = await testGraphql(
+      gql`
+        mutation createBook($payload: CreateBookInstanceInput!) {
+          createBook(input: { book: $payload }) {
+            book {
+              id
+            }
+          }
+        }
+      `,
+      asAdmin(),
+      {
+        payload,
+      },
+    );
+
+    stopOnError(result);
   });
 };
