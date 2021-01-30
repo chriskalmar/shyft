@@ -1,6 +1,11 @@
 import { passOrThrow, isFunction, isArray } from '../util';
 import { Entity, isEntity } from '../entity/Entity';
-import { DataType, isDataType, DataTypeFunction } from './DataType';
+import {
+  DataType,
+  isDataType,
+  DataTypeFunction,
+  DataTypeValidateType,
+} from './DataType';
 import { ComplexDataType, isComplexDataType } from './ComplexDataType';
 
 export type ListDataTypeSetupType = {
@@ -111,24 +116,25 @@ export class ListDataType extends ComplexDataType {
     return ret;
   }
 
-  validate = (payload: any): void => {
-    if (payload) {
-      passOrThrow(
-        isArray(payload),
-        () => `List data type '${this.name}' expects an array of items`,
-      );
+  validate: DataTypeValidateType = ({ value }) => {
+    if (value) {
+      if (!isArray(value)) {
+        throw new Error(
+          `List data type '${this.name}' expects an array of items`,
+        );
+      }
 
-      passOrThrow(
-        payload.length >= this.minItems,
-        () =>
+      if (value.length < this.minItems) {
+        throw new Error(
           `List data type '${this.name}' requires a minimum of ${this.minItems} items`,
-      );
+        );
+      }
 
-      passOrThrow(
-        this.maxItems === 0 || payload.length <= this.maxItems,
-        () =>
+      if (this.maxItems !== 0 && value.length > this.maxItems) {
+        throw new Error(
           `List data type '${this.name}' requires a maximum of ${this.maxItems} items`,
-      );
+        );
+      }
     }
   };
 
