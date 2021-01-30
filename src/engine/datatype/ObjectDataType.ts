@@ -6,20 +6,21 @@ import {
   AttributesMap,
   AttributesMapGenerator,
   AttributeBase,
+  AttributesSetupMap,
 } from '../attribute/Attribute';
 
 export type ObjectDataTypeSetupType = {
   name: string;
   description: string;
-  attributes: AttributesMap | AttributesMapGenerator;
+  attributes: AttributesSetupMap | AttributesMapGenerator;
 };
 
 export class ObjectDataType extends ComplexDataType {
   name: string;
   description: string;
   attributes: AttributesMap;
-  _attributesMap: AttributesMap | AttributesMapGenerator;
-  _attributes: AttributesMap;
+  private _attributesMap: AttributesSetupMap | AttributesMapGenerator;
+  private _attributes: AttributesMap;
 
   constructor(setup: ObjectDataTypeSetupType = {} as ObjectDataTypeSetupType) {
     // constructor(setup: ObjectDataTypeSetupType = <ObjectDataTypeSetupType>{}) {
@@ -167,8 +168,8 @@ export const isObjectDataType = (obj: unknown): obj is ObjectDataType => {
 };
 
 export const buildObjectDataType = (obj: {
-  attributes: AttributesMap | AttributesMapGenerator;
-}): Function => {
+  attributes: AttributesSetupMap | AttributesMapGenerator;
+}) => {
   return ({
     name,
     description,
