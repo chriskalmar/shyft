@@ -142,10 +142,9 @@ export const isListDataType = (obj: unknown): obj is ListDataType => {
 };
 
 export const buildListDataType = (obj: {
-  itemType: unknown;
-  // itemType: Entity | ComplexDataType | DataTypeFunction;
-}): Function => {
-  return ({ name, description }): ListDataType =>
+  itemType: Entity | DataType | ComplexDataType | DataTypeFunction;
+}): DataTypeFunction => {
+  return ({ setup: { name, description } }): ListDataType =>
     new ListDataType({
       description,
       ...obj,
