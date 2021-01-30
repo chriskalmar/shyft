@@ -14,6 +14,7 @@ import { buildObjectDataType } from './datatype/ObjectDataType';
 import { buildListDataType } from './datatype/ListDataType';
 
 import { validateActionPayload, validateMutationPayload } from './validation';
+import { Context } from './context/Context';
 
 describe('validation', () => {
   const player = buildObjectDataType({
@@ -22,8 +23,8 @@ describe('validation', () => {
         type: DataTypeInteger,
         description: 'Number on the shirt',
         required: true,
-        validate(value) {
-          if (value % 2 === 1) {
+        validate({ value }) {
+          if (<number>value % 2 === 1) {
             throw new Error(`Players need to have even numbers (got ${value})`);
           }
         },
@@ -31,10 +32,10 @@ describe('validation', () => {
       firstName: {
         type: DataTypeString,
         description: 'First name',
-        validate: async (value) =>
+        validate: async ({ value }) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              if (value.length > 2) {
+              if ((<string>value).length > 2) {
                 resolve();
               } else {
                 reject(new Error('Firstname too short'));
@@ -55,8 +56,8 @@ describe('validation', () => {
       teamName: {
         type: DataTypeString,
         description: 'Name of the team',
-        validate(value, attributeName, row, source, context) {
-          if (value.indexOf('Team') === -1) {
+        validate({ value, context }) {
+          if ((<string>value).indexOf('Team') === -1) {
             throw new Error('Missing "Team" in team name');
           }
           if (!context) {
@@ -94,11 +95,11 @@ describe('validation', () => {
         type: DataTypeString,
         required: true,
         description: 'Just some description',
-        validate(value, attributeName, row, source, context) {
-          if (value.length < 3) {
+        validate({ value, context }) {
+          if ((<string>value).length < 3) {
             throw new Error('Too short');
           }
-          if (value.length > 10) {
+          if ((<string>value).length > 10) {
             throw new Error('Too long');
           }
           if (!context) {
@@ -143,7 +144,7 @@ describe('validation', () => {
     input: {
       type: DataTypeString,
       description: 'percentage value',
-      validate(value, attributeName, row, source, context) {
+      validate({ value, context }) {
         if (value <= 0.0 || value >= 1.0) {
           throw new Error(
             `Value needs to be between 0.0 and 1.0 (got: ${value})`,
@@ -171,8 +172,10 @@ describe('validation', () => {
     resolve() {},
   });
 
-  const context = {
-    lorem: 'impsum',
+  const context: Context = {
+    custom: {
+      lorem: 'impsum',
+    },
   };
 
   it('should accept valid mutation payloads', async () => {
