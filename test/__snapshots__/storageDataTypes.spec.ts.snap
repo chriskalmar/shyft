@@ -2,6 +2,7 @@
 
 exports[`storageDataTypes persist and read data of various types 1`] = `
 Object {
+  "_type_": "dataTypeTester",
   "id": "1",
   "typeBigInt": "34567890987654",
   "typeBoolean": true,

@@ -21,7 +21,7 @@ describe('storageDataTypes', () => {
       typeUuid: '7f7fa058-7072-44a8-a70b-a5846f63b3fd',
     };
 
-    const presist = await mutate(
+    const persist = await mutate(
       DataTypeTester,
       'create',
       payload,
@@ -29,9 +29,14 @@ describe('storageDataTypes', () => {
       asAdmin(),
     );
 
-    expect(presist).toMatchSnapshot();
+    expect(persist.DataTypeTester).toMatchSnapshot();
 
-    const result = await findOne(DataTypeTester, presist.id, {}, asAdmin());
+    const result = await findOne(
+      DataTypeTester,
+      persist.DataTypeTester.id,
+      {},
+      asAdmin(),
+    );
     expect(result).toMatchSnapshot();
   });
 });
