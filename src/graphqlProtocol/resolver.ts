@@ -374,6 +374,10 @@ export const getMutationResolver: GetMutationResolverParams = ({
   const storageType = entity.storageType;
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
+  if (!entityMutation) {
+    throw new CustomError('Invalid mutation', 'InvalidMutationError');
+  }
+
   const nestedPayloadResolver = getNestedPayloadResolver(
     entity,
     entityMutation.attributes,
