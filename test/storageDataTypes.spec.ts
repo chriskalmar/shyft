@@ -29,14 +29,9 @@ describe('storageDataTypes', () => {
       asAdmin(),
     );
 
-    expect(persist.DataTypeTester).toMatchSnapshot();
+    expect(persist).toMatchSnapshot();
 
-    const result = await findOne(
-      DataTypeTester,
-      persist.DataTypeTester.id,
-      {},
-      asAdmin(),
-    );
+    const result = await findOne(DataTypeTester, persist.id, {}, asAdmin());
     expect(result).toMatchSnapshot();
   });
 });
