@@ -158,6 +158,7 @@ export const formatGraphQLError = (err: GraphQLError): GraphQLError => {
       path,
       meta,
       extensions: { code },
+      originalError: err.originalError,
     };
   }
 
