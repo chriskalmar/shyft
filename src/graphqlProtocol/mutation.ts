@@ -69,19 +69,19 @@ export const generateMutations = (graphRegistry) => {
             type: new GraphQLNonNull(mutationInputType),
           },
         },
-        resolve: getMutationResolver(
+        resolve: getMutationResolver({
           entity,
           entityMutation,
           typeName,
-          false,
-          ({ args }) => {
+          nested: false,
+          idResolver: ({ args }) => {
             return extractIdFromNodeId(
               graphRegistry,
               entity.name,
               args.input.nodeId,
             );
           },
-        ),
+        }),
       };
 
       if (entityMutation.isTypeCreate || entityMutation.isTypeUpdate) {
@@ -115,19 +115,19 @@ export const generateMutations = (graphRegistry) => {
               type: new GraphQLNonNull(mutationInputNestedType),
             },
           },
-          resolve: getMutationResolver(
+          resolve: getMutationResolver({
             entity,
             entityMutation,
             typeName,
-            true,
-            ({ args }) => {
+            nested: true,
+            idResolver: ({ args }) => {
               return extractIdFromNodeId(
                 graphRegistry,
                 entity.name,
                 args.input.nodeId,
               );
             },
-          ),
+          }),
         };
       }
 
@@ -162,15 +162,15 @@ export const generateMutations = (graphRegistry) => {
                 type: new GraphQLNonNull(mutationByPrimaryAttributeInputType),
               },
             },
-            resolve: getMutationResolver(
+            resolve: getMutationResolver({
               entity,
               entityMutation,
               typeName,
-              false,
-              ({ args }) => {
+              nested: false,
+              idResolver: ({ args }) => {
                 return args.input[fieldName];
               },
-            ),
+            }),
           };
         }
       }
