@@ -6,12 +6,14 @@ import { isMap, passOrThrow, isDefined, asyncForEach } from './util';
 import { MUTATION_TYPE_CREATE, Mutation } from './mutation/Mutation';
 import { Action } from './action/Action';
 import { Entity } from '..';
+import { Attribute } from './attribute/Attribute';
+import { Context } from './context/Context';
 // import { Attribute } from './attribute/Attribute';
 
 const validateDataTypePayload = async (
   paramType: any,
   payload: any,
-  context?: Record<string, any>,
+  context?: Context,
 ): Promise<void> => {
   const dataTypeValidator = paramType.validate;
 
@@ -24,7 +26,7 @@ const validatePayload = async (
   param: any,
   payload: any,
   source: any,
-  context?: Record<string, any>,
+  context?: Context,
   path = [],
 ): Promise<void> => {
   if (typeof payload !== 'undefined' && payload !== null) {
@@ -124,7 +126,7 @@ export const validateActionPayload = async (
   param: any,
   payload: any,
   action: Action,
-  context?: Record<string, any>,
+  context?: Context,
 ): Promise<void> => {
   const newParam = {
     ...param,
@@ -148,7 +150,7 @@ export const validateMutationPayload = async (
   entity: Entity,
   mutation: Mutation,
   payload: any,
-  context?: Record<string, any>,
+  context?: Context,
 ): Promise<void> => {
   const attributes: any = entity.getAttributes();
   const systemAttributes = _.filter(
