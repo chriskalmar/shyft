@@ -36,7 +36,7 @@ const validateDataTypePayload = async ({
 const validatePayload = async (
   param: any,
   payload: any,
-  source: any,
+  source: Source,
   context?: Context,
   path = [],
 ): Promise<void> => {

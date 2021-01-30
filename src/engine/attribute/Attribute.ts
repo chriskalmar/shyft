@@ -80,13 +80,13 @@ export type AttributeBase = {
   /**
    * custom validation function
    */
-  validate?: (
-    value?: any,
-    attributeName?: string,
-    row?: any,
-    source?: any,
-    context?: Record<string, any>,
-  ) => any;
+  validate?: (params: {
+    value?: unknown;
+    attributeName?: string;
+    input?: { [key: string]: unknown };
+    source?: Source;
+    context?: Context;
+  }) => void | Promise<void>;
 
   /**
    * hide the attribute in the protocol (graphql) layer
