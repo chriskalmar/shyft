@@ -13,6 +13,7 @@ import { DataTypeState } from '../datatype/DataTypeState';
 import { Entity } from '../entity/Entity';
 import { Mutation } from '../mutation/Mutation';
 import { i18nMockGenerator } from '../i18n';
+import { Attribute } from '../attribute/Attribute';
 
 export const systemAttributePrimary = {
   name: 'id',
@@ -22,7 +23,7 @@ export const systemAttributePrimary = {
   primary: true,
 };
 
-export const systemAttributesTimeTracking = [
+export const systemAttributesTimeTracking: Attribute[] = [
   {
     name: 'createdAt',
     description: 'Record was created at this time',
@@ -71,7 +72,7 @@ export const systemAttributesTimeTracking = [
   },
 ];
 
-export const systemAttributesUserTracking = [
+export const systemAttributesUserTracking: Attribute[] = [
   {
     name: 'createdBy',
     description: 'Record was created by this time',
@@ -96,7 +97,7 @@ export const systemAttributesUserTracking = [
   },
 ];
 
-export const systemAttributeState = {
+export const systemAttributeState: Attribute = {
   name: 'state',
   description: 'State of record',
   type: (attribute: any, entity: Entity) =>
@@ -147,7 +148,7 @@ export const systemAttributeState = {
   },
 };
 
-export const systemAttributeI18n = {
+export const systemAttributeI18n: Attribute = {
   name: 'i18n',
   description: 'Translations of record',
   type: DataTypeI18n,
