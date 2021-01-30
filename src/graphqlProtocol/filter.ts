@@ -64,6 +64,10 @@ export const generateFilterInput = (entity, graphRegistry) => {
         let attributeType = attribute.type;
         const isPrimary = attribute.primary;
 
+        if (attribute.hidden) {
+          return;
+        }
+
         if (attribute.mutationInput) {
           return;
         }
@@ -125,8 +129,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
               entity.name,
               true,
             );
-          }
-          else if (
+          } else if (
             storageDataTypeCapabilities[capability] ===
             storageDataTypeCapabilityType.VALUE
           ) {
