@@ -160,8 +160,10 @@ export class Action {
       const inputAttrType = inputAttr.type as DataTypeFunction;
       this.input = this.input as AttributeBase;
       this.input.type = inputAttrType({
-        name: 'input',
-        description: this.input.description || this.description,
+        setup: {
+          name: 'input',
+          description: this.input.description || this.description,
+        },
       });
     }
 
