@@ -1,6 +1,6 @@
 import { passOrThrow, resolveFunctionMap, isMap, isFunction } from '../util';
 import { isEntity } from '../entity/Entity';
-import { isDataType } from './DataType';
+import { DataTypeFunction, isDataType } from './DataType';
 import { ComplexDataType, isComplexDataType } from './ComplexDataType';
 import {
   AttributesMap,
@@ -63,10 +63,12 @@ export class ObjectDataType extends ComplexDataType {
     attributeName: string,
   ): AttributeBase {
     if (isFunction(rawAttribute.type)) {
-      const rawAttributeTypeFn = rawAttribute.type as Function;
+      const rawAttributeTypeFn = rawAttribute.type;
       rawAttribute.type = rawAttributeTypeFn({
-        name: attributeName,
-        description: rawAttribute.description,
+        setup: {
+          name: attributeName,
+          description: rawAttribute.description,
+        },
       });
     }
 
@@ -169,14 +171,8 @@ export const isObjectDataType = (obj: unknown): obj is ObjectDataType => {
 
 export const buildObjectDataType = (obj: {
   attributes: AttributesSetupMap | AttributesMapGenerator;
-}) => {
-  return ({
-    name,
-    description,
-  }: {
-    name: string;
-    description: string;
-  }): ObjectDataType =>
+}): DataTypeFunction => {
+  return ({ setup: { name, description } }): ObjectDataType =>
     new ObjectDataType({
       description,
       attributes: obj.attributes,
