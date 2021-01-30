@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { isObjectDataType, ObjectDataType } from './datatype/ObjectDataType';
-import { isListDataType } from './datatype/ListDataType';
+import { isListDataType, ListDataType } from './datatype/ListDataType';
 import { isComplexDataType } from './datatype/ComplexDataType';
 import { isMap, passOrThrow, isDefined, asyncForEach } from './util';
 import { MUTATION_TYPE_CREATE, Mutation } from './mutation/Mutation';
@@ -10,7 +10,6 @@ import { Attribute } from './attribute/Attribute';
 import { Context } from './context/Context';
 import { Source } from 'graphql';
 import { isDataType } from './datatype/DataType';
-// import { Attribute } from './attribute/Attribute';
 
 const validateDataTypePayload = async ({
   dataType,
@@ -18,16 +17,19 @@ const validateDataTypePayload = async ({
   context,
   source,
 }: {
-  dataType: DataType | ObjectDataType;
-  payload: any;
+  dataType: DataType | ObjectDataType | ListDataType;
+  payload: unknown;
   context?: Context;
   source: Source;
 }): Promise<void> => {
-  if (isDataType(dataType)) {
+  if (
+    isDataType(dataType) ||
+    isObjectDataType(dataType) ||
+    isListDataType(dataType)
+  ) {
     const dataTypeValidator = dataType.validate;
 
     if (dataTypeValidator) {
-      console.log(`==========> ${dataType.name}`);
       await dataTypeValidator({ value: payload, context, source });
     }
   }
@@ -131,19 +133,16 @@ const validatePayload = async (
 
       if (attributeValidator) {
         if (
-          param.isSystemAttribute ||
+          attribute.isSystemAttribute ||
           typeof payload[attributeName] !== 'undefined'
         ) {
-          const result = await attributeValidator(
-            payload[attributeName],
+          await attributeValidator({
+            value: payload[attributeName],
             attributeName,
-            payload,
+            input: payload,
             source,
             context,
-          );
-          if (result instanceof Error) {
-            throw result;
-          }
+          });
         }
       }
     }
