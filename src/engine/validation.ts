@@ -59,7 +59,7 @@ const validatePayload = async (
     if (isListDataType(param.type)) {
       const payloadList = payload[paramName];
 
-      if (typeof payloadList !== 'undefined') {
+      if (typeof payloadList !== 'undefined' && payloadList !== null) {
         await Promise.all(
           payloadList.map(async (itemPayload) => {
             if (isObjectDataType(paramType)) {
