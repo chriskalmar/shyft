@@ -1,3 +1,5 @@
+import { GraphQLResolveInfo } from 'graphql';
+import { Context } from '../context/Context';
 import { ComplexDataType } from '../datatype/ComplexDataType';
 import { DataType, DataTypeFunction } from '../datatype/DataType';
 import { Entity } from '../entity/Entity';
@@ -44,7 +46,9 @@ export type AttributeBase = {
    */
   resolve?: (params: {
     obj?: { [key: string]: unknown };
+    args?: { [key: string]: unknown };
     context?: Context;
+    info?: GraphQLResolveInfo;
   }) => unknown | Promise<unknown>;
 
   /**
