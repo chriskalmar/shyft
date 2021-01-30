@@ -4,15 +4,17 @@ import { Context } from '../context/Context';
 import { passOrThrow, isFunction } from '../util';
 import { ComplexDataType } from './ComplexDataType';
 
+export type DataTypeValidateType = (params: {
+  value?: unknown;
+  source?: Source;
+  context?: Context;
+}) => void | Promise<void>;
+
 export type DataTypeSetup = {
   name?: string;
   description?: string;
   mock?: () => any;
-  validate?: (params: {
-    value?: unknown;
-    source?: Source;
-    context?: Context;
-  }) => void | Promise<void>;
+  validate?: DataTypeValidateType;
   enforceRequired?: boolean;
   defaultValue?: () => any;
   enforceIndex?: boolean;
@@ -27,11 +29,7 @@ export class DataType {
   name: string;
   description: string;
   mock?: () => any;
-  validate?: (params: {
-    value?: unknown;
-    source?: Source;
-    context?: Context;
-  }) => void | Promise<void>;
+  validate?: DataTypeValidateType;
   enforceRequired?: boolean;
   defaultValue?: () => any;
   enforceIndex?: boolean;
