@@ -105,7 +105,7 @@ export const systemAttributeState: Attribute = {
       ...attribute,
       validate: undefined, // delete from props as it would be handled as a data type validator
       name: camelCase(`${entity.name}-instance-state`),
-      states: entity.states,
+      states: isEntity(entity) ? entity.states : undefined,
     }),
   required: true,
   defaultValue: (_: any, mutation: Mutation) => {
