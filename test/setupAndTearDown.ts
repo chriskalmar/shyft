@@ -3,8 +3,8 @@ import { loadData } from './loadData';
 
 beforeAll(async () => {
   await initDB();
-  await loadData();
   initGraphQLSchema();
+  await loadData();
 });
 
 afterAll(() => {
