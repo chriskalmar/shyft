@@ -39,14 +39,20 @@ export const Profile = new Entity({
       description: 'sign up a new user',
       type: MUTATION_TYPE_CREATE,
       attributes: ['username', 'password', 'firstname', 'lastname'],
-      preProcessor(entity, id, source, input) {
-        input.username = input.username.toLowerCase();
-        // do not copy this very unsecure method of password hashing (only for testing purposes)
-        input.password = crypto
-          .createHash('sha256')
-          .update(input.password, 'utf8')
-          .digest('hex');
-        return input;
+      preProcessor({ input }) {
+        /**
+         * ATTENTION!
+         * DO NOT COPY this very unsecure method of password hashing!
+         * This is ONLY for testing purposes!
+         */
+        return {
+          ...input,
+          username: (<string>input.username).toLowerCase(),
+          password: crypto
+            .createHash('sha256')
+            .update(<string>input.password, 'utf8')
+            .digest('hex'),
+        };
       },
     }),
   ],

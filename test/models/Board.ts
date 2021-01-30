@@ -60,7 +60,7 @@ export const Board = new Entity({
       name: 'build',
       description: 'build a new board',
       type: MUTATION_TYPE_CREATE,
-      attributes: ['name', 'isPrivate', 'vip'],
+      attributes: ['name', 'isPrivate', 'vip', 'metaData', 'mods'],
     }),
     new Mutation({
       name: 'update',
@@ -89,7 +89,7 @@ export const Board = new Entity({
       type: Profile,
       description: 'Owner of the board',
       required: true,
-      defaultValue(payload, mutation, entity, { userId }) {
+      defaultValue({ context: { userId } }) {
         return userId;
       },
     },
