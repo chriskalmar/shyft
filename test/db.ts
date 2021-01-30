@@ -113,9 +113,11 @@ export const mutate = async (
 ) => {
   const typeName = entity.name;
 
+  const entityMutation = entity.getMutationByName(mutationName);
+
   const resolver = getMutationResolver({
     entity,
-    entityMutation: entity.getMutationByName(mutationName),
+    entityMutation,
     typeName,
     nested: false,
     idResolver: () => {
@@ -123,7 +125,18 @@ export const mutate = async (
     },
   });
 
-  return resolver({}, { input: { [typeName]: payload } }, context, {});
+  const result = await resolver(
+    {},
+    { input: { [typeName]: payload } },
+    context,
+    {},
+  );
+
+  if (entityMutation.isTypeDelete) {
+    return result;
+  }
+
+  return result[typeName];
 };
 
 export const findOne = async (entity, id, payload, context) => {
