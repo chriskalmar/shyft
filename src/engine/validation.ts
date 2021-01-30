@@ -1,24 +1,35 @@
 import * as _ from 'lodash';
-import { isObjectDataType } from './datatype/ObjectDataType';
+import { isObjectDataType, ObjectDataType } from './datatype/ObjectDataType';
 import { isListDataType } from './datatype/ListDataType';
 import { isComplexDataType } from './datatype/ComplexDataType';
 import { isMap, passOrThrow, isDefined, asyncForEach } from './util';
 import { MUTATION_TYPE_CREATE, Mutation } from './mutation/Mutation';
 import { Action } from './action/Action';
-import { Entity } from '..';
+import { DataType, Entity } from '..';
 import { Attribute } from './attribute/Attribute';
 import { Context } from './context/Context';
+import { Source } from 'graphql';
+import { isDataType } from './datatype/DataType';
 // import { Attribute } from './attribute/Attribute';
 
-const validateDataTypePayload = async (
-  paramType: any,
-  payload: any,
-  context?: Context,
-): Promise<void> => {
-  const dataTypeValidator = paramType.validate;
+const validateDataTypePayload = async ({
+  dataType,
+  payload,
+  context,
+  source,
+}: {
+  dataType: DataType | ObjectDataType;
+  payload: any;
+  context?: Context;
+  source: Source;
+}): Promise<void> => {
+  if (isDataType(dataType)) {
+    const dataTypeValidator = dataType.validate;
 
-  if (dataTypeValidator) {
-    await dataTypeValidator(payload, context);
+    if (dataTypeValidator) {
+      console.log(`==========> ${dataType.name}`);
+      await dataTypeValidator({ value: payload, context, source });
+    }
   }
 };
 
@@ -36,7 +47,12 @@ const validatePayload = async (
       ? param.type.getItemType()
       : param.type;
 
-    await validateDataTypePayload(param.type, payload[paramName], context);
+    await validateDataTypePayload({
+      dataType: param.type,
+      payload: payload[paramName],
+      context,
+      source,
+    });
 
     if (isObjectDataType(paramType)) {
       const attributes = paramType.getAttributes();
@@ -63,7 +79,12 @@ const validatePayload = async (
         await Promise.all(
           payloadList.map(async (itemPayload) => {
             if (isObjectDataType(paramType)) {
-              await validateDataTypePayload(paramType, itemPayload, context);
+              await validateDataTypePayload({
+                dataType: paramType,
+                payload: itemPayload,
+                context,
+                source,
+              });
 
               const attributes = paramType.getAttributes();
               const pathString = path.length ? `${path.join('.')}.` : '';
@@ -96,10 +117,17 @@ const validatePayload = async (
     }
 
     if (!isComplexDataType(paramType)) {
-      const attributeName = param.name;
-      const attributeValidator = param.validate;
+      const attribute: Attribute = param;
 
-      await validateDataTypePayload(paramType, payload[attributeName], context);
+      const attributeName = attribute.name;
+      const attributeValidator = attribute.validate;
+
+      await validateDataTypePayload({
+        dataType: paramType,
+        payload: payload[attributeName],
+        context,
+        source,
+      });
 
       if (attributeValidator) {
         if (

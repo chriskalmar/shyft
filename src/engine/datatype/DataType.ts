@@ -1,4 +1,6 @@
+import { Source } from 'graphql';
 import { Entity, ShadowEntity, ViewEntity } from '../..';
+import { Context } from '../context/Context';
 import { passOrThrow, isFunction } from '../util';
 import { ComplexDataType } from './ComplexDataType';
 
@@ -6,7 +8,11 @@ export type DataTypeSetup = {
   name?: string;
   description?: string;
   mock?: () => any;
-  validate?: () => any;
+  validate?: (params: {
+    value?: unknown;
+    source?: Source;
+    context?: Context;
+  }) => void | Promise<void>;
   enforceRequired?: boolean;
   defaultValue?: () => any;
   enforceIndex?: boolean;
@@ -21,7 +27,11 @@ export class DataType {
   name: string;
   description: string;
   mock?: () => any;
-  validator?: (value: any, context: any) => any;
+  validate?: (params: {
+    value?: unknown;
+    source?: Source;
+    context?: Context;
+  }) => void | Promise<void>;
   enforceRequired?: boolean;
   defaultValue?: () => any;
   enforceIndex?: boolean;
@@ -54,7 +64,7 @@ export class DataType {
         () => `'Invalid validate function for data type '${name}'`,
       );
 
-      this.validator = validate;
+      this.validate = validate;
     }
 
     if (defaultValue) {
@@ -78,12 +88,6 @@ export class DataType {
       this.enforceIndex = enforceIndex;
     }
   }
-
-  validate = async (value: any, context: any): Promise<void> => {
-    if (value && this.validator) {
-      await this.validator(value, context);
-    }
-  };
 
   toString(): string {
     return this.name;
