@@ -71,8 +71,10 @@ describe('io', () => {
       },
     },
   })({
-    name: 'player',
-    description: 'some description',
+    setup: {
+      name: 'player',
+      description: 'some description',
+    },
   });
 
   it('should generate a nested data input type', () => {
