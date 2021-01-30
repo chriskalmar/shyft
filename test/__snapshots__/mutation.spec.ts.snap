@@ -50,6 +50,7 @@ Object {
       ],
       "message": "Instance with ID '308' not found or access denied",
       "meta": undefined,
+      "originalError": [Error: Instance with ID '308' not found or access denied],
       "path": Array [
         "acceptBoardMemberById",
       ],
@@ -92,6 +93,7 @@ Object {
           "vip",
         ],
       },
+      "originalError": [Error: Uniqueness constraint violated],
       "path": Array [
         "buildBoard",
       ],
@@ -183,6 +185,7 @@ Object {
       ],
       "message": "Instance with ID '99999' not found or access denied",
       "meta": undefined,
+      "originalError": [Error: Instance with ID '99999' not found or access denied],
       "path": Array [
         "removeBoardMemberById",
       ],
@@ -275,6 +278,7 @@ exports[`mutation via connector handle uniqueness constraints 1`] = `[Error: Uni
 
 exports[`mutation via connector perform create mutations 1`] = `
 Object {
+  "_type_": "boardMember",
   "board": "47",
   "id": "301",
   "invitee": "99",
@@ -285,8 +289,9 @@ Object {
 
 exports[`mutation via connector perform create mutations with nested JSON attributes 1`] = `
 Object {
+  "_type_": "book",
   "author": "Leo Tolstoy",
-  "i18n": null,
+  "i18N": null,
   "reviews": Array [
     Object {
       "bookAttributes": Array [
@@ -304,12 +309,20 @@ Object {
     },
   ],
   "shortSummary": null,
-  "shortSummary.i18n": Object {
+  "shortSummary_i18n": Object {
+    "de": undefined,
+    "en": null,
+  },
+  "shortSummary_i18nJson": Object {
     "de": undefined,
     "en": null,
   },
   "title": "War and Peace",
-  "title.i18n": Object {
+  "title_i18n": Object {
+    "de": undefined,
+    "en": "War and Peace",
+  },
+  "title_i18nJson": Object {
     "de": undefined,
     "en": "War and Peace",
   },
@@ -318,6 +331,7 @@ Object {
 
 exports[`mutation via connector perform delete mutations 1`] = `
 Object {
+  "_type_": "boardMember",
   "board": "50",
   "id": "303",
   "invitee": "81",
@@ -328,6 +342,7 @@ Object {
 
 exports[`mutation via connector perform delete mutations 2`] = `
 Object {
+  "clientMutationId": undefined,
   "deleteRowCount": 1,
   "id": "303",
   "rows": Array [
@@ -344,6 +359,7 @@ Object {
 
 exports[`mutation via connector perform update mutations 1`] = `
 Object {
+  "_type_": "boardMember",
   "board": "50",
   "id": "302",
   "invitee": "80",
@@ -354,6 +370,7 @@ Object {
 
 exports[`mutation via connector perform update mutations 2`] = `
 Object {
+  "_type_": "boardMember",
   "board": "50",
   "id": "302",
   "invitee": "80",
@@ -364,8 +381,9 @@ Object {
 
 exports[`mutation via connector perform update mutations with nested JSON attributes 1`] = `
 Object {
+  "_type_": "book",
   "author": "Leo Tolstoy",
-  "i18n": null,
+  "i18N": null,
   "reviews": Array [
     Object {
       "bookAttributes": Array [
@@ -391,12 +409,20 @@ Object {
     },
   ],
   "shortSummary": null,
-  "shortSummary.i18n": Object {
+  "shortSummary_i18n": Object {
+    "de": undefined,
+    "en": null,
+  },
+  "shortSummary_i18nJson": Object {
     "de": undefined,
     "en": null,
   },
   "title": "War and Peace",
-  "title.i18n": Object {
+  "title_i18n": Object {
+    "de": undefined,
+    "en": "War and Peace",
+  },
+  "title_i18nJson": Object {
     "de": undefined,
     "en": "War and Peace",
   },
