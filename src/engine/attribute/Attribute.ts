@@ -42,7 +42,10 @@ export type AttributeBase = {
    *
    * @param row instance data
    */
-  resolve?: (row: object) => any;
+  resolve?: (params: {
+    obj?: { [key: string]: unknown };
+    context?: Context;
+  }) => unknown | Promise<unknown>;
 
   /**
    * default value generator for create type mutations

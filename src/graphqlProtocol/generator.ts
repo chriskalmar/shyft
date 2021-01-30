@@ -8,6 +8,7 @@ import {
   GraphQLSchema,
   GraphQLNonNull,
   GraphQLID,
+  GraphQLResolveInfo,
 } from 'graphql';
 import { nodeDefinitions, fromGlobalId, toGlobalId } from 'graphql-relay';
 import { registerConnection, generateReverseConnections } from './connection';
@@ -36,6 +37,7 @@ import {
   RegistryEntityAttributes,
 } from './registry';
 import { Schema, EntityMap } from '../engine/schema/Schema';
+import { Context } from '../engine/context/Context';
 
 export const getTypeForEntityFromGraphRegistry = (entity: Entity) => {
   const { typeName } = getRegisteredEntity(entity.name);
@@ -280,7 +282,14 @@ export const generateGraphQLSchema = (
             type: attribute.required
               ? new GraphQLNonNull(fieldType)
               : fieldType,
-            resolve: attribute.resolve ? attribute.resolve : undefined,
+            resolve: attribute.resolve
+              ? (
+                  obj: { [key: string]: unknown },
+                  args: { [key: string]: unknown },
+                  context: Context,
+                  info: GraphQLResolveInfo,
+                ) => attribute.resolve({ obj, args, context, info })
+              : undefined,
           };
 
           fields[gqlFieldName] = field;
