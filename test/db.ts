@@ -28,6 +28,8 @@ import { formatGraphQLError } from '../src/graphqlProtocol/util';
 import { Context } from '../src/engine/context/Context';
 import { getMutationResolver } from '../src/graphqlProtocol/resolver';
 import { ProtocolGraphQL } from '../src/graphqlProtocol/ProtocolGraphQL';
+import { Website } from './models/Website';
+import { WebsiteTag } from './models/WebsiteTag';
 
 const schema = new Schema({
   defaultStorageType: StorageTypePostgres,
@@ -39,6 +41,8 @@ const schema = new Schema({
     Book,
     DataTypeTester,
     BoardMemberView,
+    Website,
+    WebsiteTag,
   ],
 });
 
