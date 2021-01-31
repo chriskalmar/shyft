@@ -1,8 +1,13 @@
-import { ViewEntity, Permission } from '../../src';
+import {
+  ViewEntity,
+  Permission,
+  DataTypeString,
+  DataTypeInteger,
+  buildListDataType,
+} from '../../src';
 
 import { Profile } from './Profile';
 import { Board } from './Board';
-import { DataTypeString, DataTypeInteger, buildListDataType } from '../../src';
 
 const readPermissions = () => [
   new Permission().role('admin'),

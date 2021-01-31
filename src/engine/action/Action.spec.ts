@@ -382,8 +382,8 @@ describe('Action', () => {
                 value: args,
               };
             },
-            preProcessor: (action, source, payload) => {
-              if (payload === 13) {
+            preProcessor: ({ input }) => {
+              if (typeof input === 'number' && input === 13) {
                 throw new Error('13 brings bad luck');
               }
             },
@@ -459,8 +459,8 @@ describe('Action', () => {
                 value: args,
               };
             },
-            postProcessor: (error, result, action, source, payload) => {
-              if (payload > 1000) {
+            postProcessor: ({ result, input }) => {
+              if (input > 1000) {
                 result.value *= 2;
               }
             },

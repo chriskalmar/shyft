@@ -17,6 +17,7 @@ import { ACTION_TYPE_MUTATION, Action } from '../engine/action/Action';
 import { buildActionPermissionFilter } from '../engine/permission/Permission';
 import { CustomError } from '../engine/CustomError';
 import { Attribute } from '../engine/attribute/Attribute';
+import { GraphRegistryType } from '../graphqlProtocol/graphRegistry';
 
 const AccessDeniedError = new CustomError(
   'Access denied',
@@ -127,7 +128,10 @@ export const handlePermission = async (
   return permissionWhere;
 };
 
-export const generateActions = (graphRegistry, actionTypeFilter) => {
+export const generateActions = (
+  graphRegistry: GraphRegistryType,
+  actionTypeFilter: string,
+) => {
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const actions = {};
@@ -218,21 +222,26 @@ export const generateActions = (graphRegistry, actionTypeFilter) => {
 
         try {
           if (action.preProcessor) {
-            await action.preProcessor(action, source, payload, context, info);
+            await action.preProcessor({
+              action,
+              source,
+              input: payload,
+              context,
+              info,
+            });
           }
 
           const result = await action.resolve(source, payload, context, info);
 
           if (action.postProcessor) {
-            await action.postProcessor(
-              null,
+            await action.postProcessor({
               result,
               action,
               source,
-              payload,
+              input: payload,
               context,
               info,
-            );
+            });
           }
 
           return {
@@ -241,15 +250,14 @@ export const generateActions = (graphRegistry, actionTypeFilter) => {
           };
         } catch (error) {
           if (action.postProcessor) {
-            await action.postProcessor(
+            await action.postProcessor({
               error,
-              null,
               action,
               source,
-              payload,
+              input: payload,
               context,
               info,
-            );
+            });
           }
 
           throw error;

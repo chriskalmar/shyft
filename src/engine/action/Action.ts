@@ -8,10 +8,30 @@ import {
   processActionPermissions,
   Permission,
 } from '../permission/Permission';
+import { Context } from '../context/Context';
+import { GraphQLResolveInfo } from 'graphql';
 
 export const ACTION_TYPE_MUTATION = 'mutation';
 export const ACTION_TYPE_QUERY = 'query';
 export const actionTypes = [ACTION_TYPE_MUTATION, ACTION_TYPE_QUERY];
+
+export type ActionPreProcessor = (params: {
+  action: Action;
+  source?: any;
+  input?: { [key: string]: unknown };
+  context?: Context;
+  info?: GraphQLResolveInfo;
+}) => void | Promise<void>;
+
+export type ActionPostProcessor = (params: {
+  result?: { [key: string]: unknown };
+  error?: Error;
+  action: Action;
+  source?: any;
+  input?: { [key: string]: unknown };
+  context?: Context;
+  info?: GraphQLResolveInfo;
+}) => void | Promise<void>;
 
 export type ActionSetup = {
   name?: string;
@@ -25,22 +45,8 @@ export type ActionSetup = {
   permissions?: Function | Permission | Permission[];
   // preProcessor?: Function;
   // postProcessor?: Function;
-  preProcessor?: (
-    action?: Action,
-    source?: any,
-    payload?: any,
-    context?: any,
-    info?: any,
-  ) => Promise<void> | void;
-  postProcessor?: (
-    error?: any,
-    result?: any,
-    action?: Action,
-    source?: any,
-    payload?: any,
-    context?: any,
-    info?: any,
-  ) => Promise<void> | void;
+  preProcessor?: ActionPreProcessor;
+  postProcessor?: ActionPostProcessor;
 };
 
 export class Action {
@@ -60,8 +66,8 @@ export class Action {
   private _permissions: Function | Permission | Permission[];
   private _defaultPermissions: Permission | Permission[];
   descriptionPermissions: string | boolean;
-  preProcessor: Function;
-  postProcessor: Function;
+  preProcessor?: ActionPreProcessor;
+  postProcessor?: ActionPostProcessor;
 
   constructor(setup: ActionSetup = {} as ActionSetup) {
     const {
