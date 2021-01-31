@@ -58,7 +58,7 @@ export const Profile = new Entity({
   ],
 
   permissions: {
-    read: readPermissions,
+    read: Permission.AUTHENTICATED,
     find: readPermissions,
     mutations: {
       signup: Permission.EVERYONE,
