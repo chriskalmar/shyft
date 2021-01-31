@@ -54,7 +54,7 @@ Object {
 }
 `;
 
-exports[`Action preProcessor should have a valid preProcessor function if defined 1`] = `"preProcessor of of action 'example' needs to be a valid function"`;
+exports[`Action preProcessor should have a valid preProcessor function if defined 1`] = `"preProcessor of action 'example' needs to be a valid function"`;
 
 exports[`Action preProcessor should pass through preProcessor if it is declared 1`] = `
 Object {

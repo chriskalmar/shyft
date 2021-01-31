@@ -118,8 +118,7 @@ export class Action {
     if (preProcessor) {
       passOrThrow(
         isFunction(preProcessor),
-        () =>
-          `preProcessor of of action '${name}' needs to be a valid function`,
+        () => `preProcessor of action '${name}' needs to be a valid function`,
       );
 
       this.preProcessor = preProcessor;
