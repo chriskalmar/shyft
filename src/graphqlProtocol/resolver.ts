@@ -405,7 +405,7 @@ export const getMutationResolver: GetMutationResolverParams = ({
 
     try {
       if (entityMutation.preProcessor) {
-        args.input[typeName] = await entityMutation.preProcessor({
+        const preProcessorResult = await entityMutation.preProcessor({
           entity,
           id,
           source,
@@ -415,6 +415,14 @@ export const getMutationResolver: GetMutationResolverParams = ({
           context,
           info,
         });
+
+        if (!preProcessorResult) {
+          throw new Error(
+            `preProcessor '${entityMutation.name}' of entity '${entity.name}' needs to return a new input object`,
+          );
+        }
+
+        args.input[typeName] = preProcessorResult;
       }
 
       if (entityMutation.type === MUTATION_TYPE_CREATE) {
