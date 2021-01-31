@@ -231,7 +231,12 @@ export const generateActions = (
             });
           }
 
-          const result = await action.resolve(source, payload, context, info);
+          const result = await action.resolve({
+            source,
+            input: payload,
+            context,
+            info,
+          });
 
           if (action.postProcessor) {
             await action.postProcessor({

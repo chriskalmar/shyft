@@ -55,7 +55,7 @@ import {
 } from '../attribute/Attribute';
 import { processPreFilters } from '../filter';
 import { Context } from '../context/Context';
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, Source } from 'graphql';
 
 interface PreFilterType {
   [key: string]: {
@@ -77,7 +77,7 @@ interface EntityPreProcessorResponse {
 
 export type EntityPreProcessor = (params: {
   entity?: Entity;
-  source?: any;
+  source?: Source;
   args?: { [key: string]: unknown };
   context?: Context;
   info?: GraphQLResolveInfo;
@@ -86,7 +86,7 @@ export type EntityPreProcessor = (params: {
 export type EntityPostProcessor = (params: {
   result?: { [key: string]: unknown };
   entity?: Entity;
-  source?: any;
+  source?: Source;
   args?: { [key: string]: unknown };
   context?: Context;
   info?: GraphQLResolveInfo;

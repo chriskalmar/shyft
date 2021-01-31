@@ -9,7 +9,7 @@ import {
   Permission,
 } from '../permission/Permission';
 import { Context } from '../context/Context';
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, Source } from 'graphql';
 
 export const ACTION_TYPE_MUTATION = 'mutation';
 export const ACTION_TYPE_QUERY = 'query';
@@ -27,11 +27,18 @@ export type ActionPostProcessor = (params: {
   result?: { [key: string]: unknown };
   error?: Error;
   action: Action;
-  source?: any;
+  source?: Source;
   input?: { [key: string]: unknown };
   context?: Context;
   info?: GraphQLResolveInfo;
 }) => void | Promise<void>;
+
+export type ActionResolver = (params: {
+  source?: Source;
+  input?: { [key: string]: unknown };
+  context?: Context;
+  info?: GraphQLResolveInfo;
+}) => unknown | Promise<unknown>;
 
 export type ActionSetup = {
   name?: string;
@@ -40,7 +47,7 @@ export type ActionSetup = {
   input?: any;
   // output?: AttributeBase | Function | { [type: string]: Function };
   output?: any;
-  resolve?: Function;
+  resolve: ActionResolver;
   type?: string;
   permissions?: Function | Permission | Permission[];
   // preProcessor?: Function;
@@ -60,7 +67,7 @@ export class Action {
   // private _output: AttributeBase | Function | { [type: string]: Function };
   output: any;
   private _output: any;
-  resolve: Function;
+  resolve: ActionResolver;
   type: string;
   permissions: Permission | Permission[];
   private _permissions: Function | Permission | Permission[];

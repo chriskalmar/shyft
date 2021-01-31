@@ -3,7 +3,7 @@ import { passOrThrow, isArray, isFunction, mapOverProperties } from '../util';
 
 import { Entity } from '../entity/Entity';
 import { Context } from '../context/Context';
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, Source } from 'graphql';
 
 export const MUTATION_TYPE_CREATE = 'create';
 export const MUTATION_TYPE_UPDATE = 'update';
@@ -52,7 +52,7 @@ interface MutationPreProcessorResponse {
 export type MutationPreProcessor = (params: {
   entity: Entity;
   id?: number | string;
-  source?: any;
+  source?: Source;
   input?: { [key: string]: unknown };
   typeName: string;
   entityMutation: Mutation;
@@ -65,7 +65,7 @@ export type MutationPostProcessor = (params: {
   error?: Error;
   entity: Entity;
   id?: number | string;
-  source?: any;
+  source?: Source;
   input?: { [key: string]: unknown };
   typeName: string;
   entityMutation: Mutation;

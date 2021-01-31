@@ -377,9 +377,9 @@ describe('Action', () => {
                 },
               }),
             },
-            resolve(source, args) {
+            resolve({ input }) {
               return {
-                value: args,
+                value: input,
               };
             },
             preProcessor: ({ input }) => {
@@ -454,9 +454,9 @@ describe('Action', () => {
                 },
               }),
             },
-            resolve(source, args) {
+            resolve({ input }) {
               return {
-                value: args,
+                value: input,
               };
             },
             postProcessor: ({ result, input }) => {
@@ -521,9 +521,9 @@ describe('Action', () => {
                 },
               }),
             },
-            resolve(source, args) {
+            resolve({ input }) {
               return {
-                value: args,
+                value: input,
               };
             },
           }),
@@ -580,9 +580,9 @@ describe('Action', () => {
                 },
               }),
             },
-            resolve(source, args) {
+            resolve({ input }) {
               return {
-                value: args.number,
+                value: input.number,
               };
             },
           }),
