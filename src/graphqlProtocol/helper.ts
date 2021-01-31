@@ -57,7 +57,7 @@ export const checkRequiredI18nInputs = (
       ) {
         throw new CustomError(
           `Only one of these fields may be used: ${gqlFieldName}, ${gqlFieldNameI18n}`,
-          'AmbigiousI18nInputError',
+          'AmbiguousI18nInputError',
         );
       }
 

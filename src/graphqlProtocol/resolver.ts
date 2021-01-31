@@ -270,7 +270,7 @@ export const getNestedPayloadResolver = (
                     `Only one of these fields may be used: ${uniquenessFieldNames.join(
                       ', ',
                     )}`,
-                    'AmbigiousNestedInputError',
+                    'AmbiguousNestedInputError',
                   );
                 }
 
