@@ -1,4 +1,5 @@
 import { Context } from '../src/engine/context/Context';
+import { formatGraphQLError } from '../src/graphqlProtocol/util';
 
 export const asUser = (
   userId: number | string,
@@ -62,4 +63,11 @@ export const removeId = (payload) => {
   delete ret.id;
 
   return ret;
+};
+
+export const printOnError = (result) => {
+  if (result.errors) {
+    // eslint-disable-next-line no-console
+    result.errors.map(formatGraphQLError).forEach(console.error);
+  }
 };
