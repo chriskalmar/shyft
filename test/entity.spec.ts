@@ -275,6 +275,9 @@ describe('entity', () => {
             ) {
               tag {
                 id
+                languageByLanguage {
+                  isoCode
+                }
               }
             }
             learning: createTagNested(
@@ -287,6 +290,9 @@ describe('entity', () => {
             ) {
               tag {
                 id
+                languageByLanguage {
+                  isoCode
+                }
               }
             }
             lernen: createTagNested(
@@ -299,6 +305,9 @@ describe('entity', () => {
             ) {
               tag {
                 id
+                languageByLanguage {
+                  isoCode
+                }
               }
             }
             nauka: createTagNested(
@@ -311,6 +320,9 @@ describe('entity', () => {
             ) {
               tag {
                 id
+                languageByLanguage {
+                  isoCode
+                }
               }
             }
             fun: createTagNested(
@@ -320,6 +332,9 @@ describe('entity', () => {
             ) {
               tag {
                 id
+                languageByLanguage {
+                  isoCode
+                }
               }
             }
           }
@@ -349,6 +364,15 @@ describe('entity', () => {
             ) {
               websiteTag {
                 id
+                websiteByWebsite {
+                  url
+                }
+                tagByTag {
+                  name
+                  languageByLanguage {
+                    isoCode
+                  }
+                }
               }
             }
 
@@ -365,6 +389,15 @@ describe('entity', () => {
             ) {
               websiteTag {
                 id
+                websiteByWebsite {
+                  url
+                }
+                tagByTag {
+                  name
+                  languageByLanguage {
+                    isoCode
+                  }
+                }
               }
             }
           }

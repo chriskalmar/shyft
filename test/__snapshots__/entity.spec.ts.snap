@@ -216,11 +216,29 @@ Object {
     "first": Object {
       "websiteTag": Object {
         "id": "1",
+        "tagByTag": Object {
+          "languageByLanguage": Object {
+            "isoCode": "en",
+          },
+          "name": "Fun",
+        },
+        "websiteByWebsite": Object {
+          "url": "https://example.com/path/index.html",
+        },
       },
     },
     "second": Object {
       "websiteTag": Object {
         "id": "2",
+        "tagByTag": Object {
+          "languageByLanguage": Object {
+            "isoCode": "pl",
+          },
+          "name": "Nauka",
+        },
+        "websiteByWebsite": Object {
+          "url": "https://thebestplacetocode.dev/",
+        },
       },
     },
   },
@@ -233,26 +251,41 @@ Object {
     "fun": Object {
       "tag": Object {
         "id": "5",
+        "languageByLanguage": Object {
+          "isoCode": "en",
+        },
       },
     },
     "learning": Object {
       "tag": Object {
         "id": "2",
+        "languageByLanguage": Object {
+          "isoCode": "en",
+        },
       },
     },
     "lernen": Object {
       "tag": Object {
         "id": "3",
+        "languageByLanguage": Object {
+          "isoCode": "de",
+        },
       },
     },
     "nauka": Object {
       "tag": Object {
         "id": "4",
+        "languageByLanguage": Object {
+          "isoCode": "pl",
+        },
       },
     },
     "readLater": Object {
       "tag": Object {
         "id": "1",
+        "languageByLanguage": Object {
+          "isoCode": "en",
+        },
       },
     },
   },
