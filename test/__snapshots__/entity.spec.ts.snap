@@ -1,0 +1,641 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`entity mutation should accept inputs 1`] = `
+Object {
+  "data": Object {
+    "saveWebsite": Object {
+      "website": Object {
+        "category": "CODING",
+        "createdBy": "95",
+        "id": "1",
+        "isSecure": true,
+        "profileByCreatedBy": Object {
+          "id": "95",
+          "username": "joel356",
+        },
+        "url": "https://thebestplacetocode.dev/",
+      },
+    },
+  },
+}
+`;
+
+exports[`entity mutation should fail if nested inputs can't be resolved 1`] = `
+Object {
+  "data": Object {
+    "first": null,
+    "second": null,
+  },
+  "errors": Array [
+    Object {
+      "extensions": Object {
+        "code": "NestedInstanceNotFoundOrAccessDenied",
+      },
+      "locations": Array [
+        Object {
+          "column": 13,
+          "line": 3,
+        },
+      ],
+      "message": "Nested instance at path 'tagByUniqueNameAndLanguage.languageByUniqueIsoCode' not found or access denied",
+      "meta": undefined,
+      "originalError": [Error: Nested instance at path 'tagByUniqueNameAndLanguage.languageByUniqueIsoCode' not found or access denied],
+      "path": Array [
+        "first",
+      ],
+    },
+    Object {
+      "extensions": Object {
+        "code": "NestedInstanceNotFoundOrAccessDenied",
+      },
+      "locations": Array [
+        Object {
+          "column": 13,
+          "line": 21,
+        },
+      ],
+      "message": "Nested instance at path 'tagByUniqueNameAndLanguage' not found or access denied",
+      "meta": undefined,
+      "originalError": [Error: Nested instance at path 'tagByUniqueNameAndLanguage' not found or access denied],
+      "path": Array [
+        "second",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`entity mutation should fail on ambiguous nested inputs 1`] = `
+Object {
+  "data": Object {
+    "createWebsiteTagNested": null,
+  },
+  "errors": Array [
+    Object {
+      "extensions": Object {
+        "code": "AmbiguousNestedInputError",
+      },
+      "locations": Array [
+        Object {
+          "column": 13,
+          "line": 3,
+        },
+      ],
+      "message": "Only one of these fields may be used: language, languageByUniqueName, languageByUniqueIsoCode",
+      "meta": undefined,
+      "originalError": [Error: Only one of these fields may be used: language, languageByUniqueName, languageByUniqueIsoCode],
+      "path": Array [
+        "createWebsiteTagNested",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`entity mutation should fail on incompatible nodeId 1`] = `
+Object {
+  "data": Object {
+    "visitWebsite": null,
+  },
+  "errors": Array [
+    Object {
+      "extensions": Object {
+        "code": undefined,
+      },
+      "locations": Array [
+        Object {
+          "column": 13,
+          "line": 3,
+        },
+      ],
+      "message": "Incompatible nodeId used with this mutation",
+      "meta": undefined,
+      "originalError": [Error: Incompatible nodeId used with this mutation],
+      "path": Array [
+        "visitWebsite",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`entity mutation should run multiple mutations in sequence 1`] = `
+Object {
+  "data": Object {
+    "de": Object {
+      "language": Object {
+        "id": "2",
+      },
+    },
+    "en": Object {
+      "language": Object {
+        "id": "1",
+      },
+    },
+    "pl": Object {
+      "language": Object {
+        "id": "3",
+      },
+    },
+  },
+}
+`;
+
+exports[`entity mutation should use defaults 1`] = `
+Object {
+  "data": Object {
+    "saveWebsite": Object {
+      "website": Object {
+        "category": "MISC",
+        "createdBy": "98",
+        "id": "2",
+        "isSecure": true,
+        "nodeId": "d2Vic2l0ZToy",
+        "profileByCreatedBy": Object {
+          "id": "98",
+          "username": "elza510",
+        },
+        "url": "https://example.com/path/index.html",
+      },
+    },
+  },
+}
+`;
+
+exports[`entity mutation should use validators 1`] = `
+Object {
+  "data": Object {
+    "saveWebsite": null,
+  },
+  "errors": Array [
+    Object {
+      "extensions": Object {
+        "code": undefined,
+      },
+      "locations": Array [
+        Object {
+          "column": 13,
+          "line": 3,
+        },
+      ],
+      "message": "Unknown protocol, should be http:// or https://",
+      "meta": undefined,
+      "originalError": [Error: Unknown protocol, should be http:// or https://],
+      "path": Array [
+        "saveWebsite",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`entity mutation should work a pre processor 1`] = `
+Object {
+  "data": Object {
+    "saveWebsite": Object {
+      "website": Object {
+        "category": "NEWS",
+        "createdBy": "98",
+        "id": "3",
+        "isSecure": false,
+        "nodeId": "d2Vic2l0ZToz",
+        "profileByCreatedBy": Object {
+          "id": "98",
+          "username": "elza510",
+        },
+        "url": "http://a.random.unsecured.news.website.com",
+      },
+    },
+  },
+}
+`;
+
+exports[`entity mutation should work with deep nested inputs 1`] = `
+Object {
+  "data": Object {
+    "first": Object {
+      "websiteTag": Object {
+        "id": "1",
+      },
+    },
+    "second": Object {
+      "websiteTag": Object {
+        "id": "2",
+      },
+    },
+  },
+}
+`;
+
+exports[`entity mutation should work with nested inputs 1`] = `
+Object {
+  "data": Object {
+    "fun": Object {
+      "tag": Object {
+        "id": "5",
+      },
+    },
+    "learning": Object {
+      "tag": Object {
+        "id": "2",
+      },
+    },
+    "lernen": Object {
+      "tag": Object {
+        "id": "3",
+      },
+    },
+    "nauka": Object {
+      "tag": Object {
+        "id": "4",
+      },
+    },
+    "readLater": Object {
+      "tag": Object {
+        "id": "1",
+      },
+    },
+  },
+}
+`;
+
+exports[`entity mutation should work with nodeId 1`] = `
+Object {
+  "data": Object {
+    "visitWebsite": Object {
+      "website": Object {
+        "category": "MISC",
+        "createdBy": "98",
+        "id": "2",
+        "isSecure": true,
+        "profileByCreatedBy": Object {
+          "id": "98",
+          "username": "elza510",
+        },
+        "url": "https://example.com/path/index.html",
+        "visitCount": 2,
+      },
+    },
+  },
+}
+`;
+
+exports[`entity mutation should work with zero-attribute mutations 1`] = `
+Object {
+  "data": Object {
+    "visitWebsiteById": Object {
+      "website": Object {
+        "category": "MISC",
+        "createdBy": "98",
+        "id": "2",
+        "isSecure": true,
+        "profileByCreatedBy": Object {
+          "id": "98",
+          "username": "elza510",
+        },
+        "url": "https://example.com/path/index.html",
+        "visitCount": 1,
+      },
+    },
+  },
+}
+`;
+
+exports[`entity query should deep resolve edges on the graph 1`] = `
+Object {
+  "data": Object {
+    "allBoardMembers": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "board": "41",
+            "boardByBoard": Object {
+              "boardMembersByBoard": Object {
+                "edges": Array [
+                  Object {
+                    "node": Object {
+                      "profileByInvitee": Object {
+                        "boardsByOwner": Object {
+                          "edges": Array [
+                            Object {
+                              "node": Object {
+                                "name": "Sunt quo",
+                                "owner": "10",
+                              },
+                            },
+                          ],
+                          "totalCount": 1,
+                        },
+                        "id": "10",
+                        "username": "leon807",
+                      },
+                    },
+                  },
+                  Object {
+                    "node": Object {
+                      "profileByInvitee": Object {
+                        "boardsByOwner": Object {
+                          "edges": Array [
+                            Object {
+                              "node": Object {
+                                "name": "Culpa facilis",
+                                "owner": "20",
+                              },
+                            },
+                          ],
+                          "totalCount": 1,
+                        },
+                        "id": "20",
+                        "username": "katrina560",
+                      },
+                    },
+                  },
+                  Object {
+                    "node": Object {
+                      "profileByInvitee": Object {
+                        "boardsByOwner": Object {
+                          "edges": Array [
+                            Object {
+                              "node": Object {
+                                "name": "Nobis totam",
+                                "owner": "41",
+                              },
+                            },
+                          ],
+                          "totalCount": 1,
+                        },
+                        "id": "41",
+                        "username": "myrl112",
+                      },
+                    },
+                  },
+                  Object {
+                    "node": Object {
+                      "profileByInvitee": Object {
+                        "boardsByOwner": Object {
+                          "edges": Array [
+                            Object {
+                              "node": Object {
+                                "name": "Illo sit quia",
+                                "owner": "59",
+                              },
+                            },
+                          ],
+                          "totalCount": 1,
+                        },
+                        "id": "59",
+                        "username": "kara119",
+                      },
+                    },
+                  },
+                ],
+                "totalCount": 7,
+              },
+              "id": "41",
+              "name": "Enim dolore",
+            },
+            "id": "1",
+            "invitee": "95",
+            "inviter": "95",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "21",
+            "boardByBoard": Object {
+              "boardMembersByBoard": Object {
+                "edges": Array [
+                  Object {
+                    "node": Object {
+                      "profileByInvitee": Object {
+                        "boardsByOwner": Object {
+                          "edges": Array [
+                            Object {
+                              "node": Object {
+                                "name": "Sunt quo",
+                                "owner": "10",
+                              },
+                            },
+                          ],
+                          "totalCount": 1,
+                        },
+                        "id": "10",
+                        "username": "leon807",
+                      },
+                    },
+                  },
+                  Object {
+                    "node": Object {
+                      "profileByInvitee": Object {
+                        "boardsByOwner": Object {
+                          "edges": Array [
+                            Object {
+                              "node": Object {
+                                "name": "Aut molestiae",
+                                "owner": "12",
+                              },
+                            },
+                          ],
+                          "totalCount": 1,
+                        },
+                        "id": "12",
+                        "username": "emmet741",
+                      },
+                    },
+                  },
+                  Object {
+                    "node": Object {
+                      "profileByInvitee": Object {
+                        "boardsByOwner": Object {
+                          "edges": Array [
+                            Object {
+                              "node": Object {
+                                "name": "Delectus qui maxime",
+                                "owner": "42",
+                              },
+                            },
+                            Object {
+                              "node": Object {
+                                "name": "Ut et",
+                                "owner": "42",
+                              },
+                            },
+                            Object {
+                              "node": Object {
+                                "name": "Voluptate tempora veritatis",
+                                "owner": "42",
+                              },
+                            },
+                          ],
+                          "totalCount": 3,
+                        },
+                        "id": "42",
+                        "username": "alva280",
+                      },
+                    },
+                  },
+                  Object {
+                    "node": Object {
+                      "profileByInvitee": Object {
+                        "boardsByOwner": Object {
+                          "edges": Array [],
+                          "totalCount": 0,
+                        },
+                        "id": "45",
+                        "username": "salvador975",
+                      },
+                    },
+                  },
+                ],
+                "totalCount": 8,
+              },
+              "id": "21",
+              "name": "Quia sapiente",
+            },
+            "id": "2",
+            "invitee": "45",
+            "inviter": "45",
+          },
+        },
+        Object {
+          "node": Object {
+            "board": "4",
+            "boardByBoard": Object {
+              "boardMembersByBoard": Object {
+                "edges": Array [
+                  Object {
+                    "node": Object {
+                      "profileByInvitee": Object {
+                        "boardsByOwner": Object {
+                          "edges": Array [],
+                          "totalCount": 0,
+                        },
+                        "id": "5",
+                        "username": "griffin807",
+                      },
+                    },
+                  },
+                  Object {
+                    "node": Object {
+                      "profileByInvitee": Object {
+                        "boardsByOwner": Object {
+                          "edges": Array [
+                            Object {
+                              "node": Object {
+                                "name": "Qui rem ut",
+                                "owner": "9",
+                              },
+                            },
+                          ],
+                          "totalCount": 1,
+                        },
+                        "id": "9",
+                        "username": "omari409",
+                      },
+                    },
+                  },
+                  Object {
+                    "node": Object {
+                      "profileByInvitee": Object {
+                        "boardsByOwner": Object {
+                          "edges": Array [
+                            Object {
+                              "node": Object {
+                                "name": "Voluptatum necessitatibus molestias",
+                                "owner": "17",
+                              },
+                            },
+                          ],
+                          "totalCount": 1,
+                        },
+                        "id": "17",
+                        "username": "fred777",
+                      },
+                    },
+                  },
+                  Object {
+                    "node": Object {
+                      "profileByInvitee": Object {
+                        "boardsByOwner": Object {
+                          "edges": Array [
+                            Object {
+                              "node": Object {
+                                "name": "Non iusto unde",
+                                "owner": "30",
+                              },
+                            },
+                          ],
+                          "totalCount": 1,
+                        },
+                        "id": "30",
+                        "username": "carissa722",
+                      },
+                    },
+                  },
+                ],
+                "totalCount": 8,
+              },
+              "id": "4",
+              "name": "Delectus qui maxime",
+            },
+            "id": "3",
+            "invitee": "17",
+            "inviter": "17",
+          },
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`entity query should resolve computed values 1`] = `
+Object {
+  "data": Object {
+    "allWebsites": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "category": "CODING",
+            "createdBy": "95",
+            "id": "1",
+            "isSecure": true,
+            "profileByCreatedBy": Object {
+              "id": "95",
+              "username": "joel356",
+            },
+            "url": "https://thebestplacetocode.dev/",
+          },
+        },
+        Object {
+          "node": Object {
+            "category": "MISC",
+            "createdBy": "98",
+            "id": "2",
+            "isSecure": true,
+            "profileByCreatedBy": Object {
+              "id": "98",
+              "username": "elza510",
+            },
+            "url": "https://example.com/path/index.html",
+          },
+        },
+        Object {
+          "node": Object {
+            "category": "NEWS",
+            "createdBy": "98",
+            "id": "3",
+            "isSecure": false,
+            "profileByCreatedBy": Object {
+              "id": "98",
+              "username": "elza510",
+            },
+            "url": "http://a.random.unsecured.news.website.com",
+          },
+        },
+      ],
+      "totalCount": 3,
+    },
+  },
+}
+`;
