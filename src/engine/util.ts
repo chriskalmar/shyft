@@ -1,6 +1,7 @@
 import * as casual from 'casual';
 import * as _ from 'lodash';
 import { viewAttributePropertiesWhitelist } from './constants';
+import { MutationPreProcessor } from './mutation/Mutation';
 
 type StringFunction = () => string;
 
@@ -197,4 +198,32 @@ export const convertEntityToViewAttributesMap = (attributesMap) => {
   }
 
   return newAttributesMap;
+};
+
+export const combineMutationPreProcessors = (
+  preProcessors: MutationPreProcessor[],
+): MutationPreProcessor => {
+  if (!isArray(preProcessors)) {
+    throw new Error(
+      'combineMutationPreProcessors() expects an array of mutation preProcessors',
+    );
+  }
+
+  const wrapperPreProcessor: MutationPreProcessor = async (params) => {
+    let updatedInput = { ...params.input };
+
+    for (const preProcessor of preProcessors) {
+      updatedInput = {
+        ...updatedInput,
+        ...(await (<MutationPreProcessor>preProcessor)({
+          ...params,
+          input: updatedInput,
+        })),
+      };
+    }
+
+    return updatedInput;
+  };
+
+  return wrapperPreProcessor;
 };

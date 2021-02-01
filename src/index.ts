@@ -73,6 +73,7 @@ import {
   isString,
   convertEntityToViewAttribute,
   convertEntityToViewAttributesMap,
+  combineMutationPreProcessors,
 } from './engine/util';
 
 import { processCursors } from './engine/cursor';
@@ -241,6 +242,7 @@ export {
   isStorageConfiguration,
   convertEntityToViewAttribute,
   convertEntityToViewAttributesMap,
+  combineMutationPreProcessors,
 };
 
 import StorageTypePostgres from './storage-connector/StorageTypePostgres';
