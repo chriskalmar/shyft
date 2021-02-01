@@ -5,6 +5,7 @@ Object {
   "firstName": Object {
     "astNode": undefined,
     "defaultValue": undefined,
+    "deprecationReason": undefined,
     "description": "First name",
     "extensions": undefined,
     "name": "firstName",
@@ -13,6 +14,7 @@ Object {
   "lastName": Object {
     "astNode": undefined,
     "defaultValue": undefined,
+    "deprecationReason": undefined,
     "description": "Last name",
     "extensions": undefined,
     "name": "lastName",
@@ -21,6 +23,7 @@ Object {
   "number": Object {
     "astNode": undefined,
     "defaultValue": undefined,
+    "deprecationReason": undefined,
     "description": "Number on the shirt",
     "extensions": undefined,
     "name": "number",
@@ -75,6 +78,7 @@ Object {
   "clientMutationId": Object {
     "astNode": undefined,
     "defaultValue": undefined,
+    "deprecationReason": undefined,
     "description": undefined,
     "extensions": undefined,
     "name": "clientMutationId",
@@ -83,6 +87,7 @@ Object {
   "data": Object {
     "astNode": undefined,
     "defaultValue": undefined,
+    "deprecationReason": undefined,
     "description": undefined,
     "extensions": undefined,
     "name": "data",
@@ -96,6 +101,7 @@ Object {
   "firstName": Object {
     "astNode": undefined,
     "defaultValue": undefined,
+    "deprecationReason": undefined,
     "description": "First name",
     "extensions": undefined,
     "name": "firstName",
@@ -104,6 +110,7 @@ Object {
   "lastName": Object {
     "astNode": undefined,
     "defaultValue": undefined,
+    "deprecationReason": undefined,
     "description": "Last name",
     "extensions": undefined,
     "name": "lastName",
@@ -163,6 +170,7 @@ Object {
   "clientMutationId": Object {
     "astNode": undefined,
     "defaultValue": undefined,
+    "deprecationReason": undefined,
     "description": undefined,
     "extensions": undefined,
     "name": "clientMutationId",
@@ -171,6 +179,7 @@ Object {
   "data": Object {
     "astNode": undefined,
     "defaultValue": undefined,
+    "deprecationReason": undefined,
     "description": undefined,
     "extensions": undefined,
     "name": "data",
@@ -184,6 +193,7 @@ Object {
   "players": Object {
     "astNode": undefined,
     "defaultValue": undefined,
+    "deprecationReason": undefined,
     "description": "List of player",
     "extensions": undefined,
     "name": "players",
@@ -192,6 +202,7 @@ Object {
   "teamName": Object {
     "astNode": undefined,
     "defaultValue": undefined,
+    "deprecationReason": undefined,
     "description": "Name of the team",
     "extensions": undefined,
     "name": "teamName",
@@ -205,6 +216,7 @@ Object {
   "defence": Object {
     "astNode": undefined,
     "defaultValue": undefined,
+    "deprecationReason": undefined,
     "description": "Defence players",
     "extensions": undefined,
     "name": "defence",
@@ -213,6 +225,7 @@ Object {
   "offense": Object {
     "astNode": undefined,
     "defaultValue": undefined,
+    "deprecationReason": undefined,
     "description": "Offense players",
     "extensions": undefined,
     "name": "offense",

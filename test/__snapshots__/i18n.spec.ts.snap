@@ -147,7 +147,7 @@ Object {
 exports[`i18n should reject translations of unknown languages 1`] = `
 Object {
   "errors": Array [
-    [GraphQLError: Variable "$input" got invalid value { en: "War and Peace", de: "Krieg und Frieden", fr: "Guerre et Paix" } at "input.book.title_i18n"; Field "fr" is not defined by type CreateBookTitleI18NInput.],
+    [GraphQLError: Variable "$input" got invalid value { en: "War and Peace", de: "Krieg und Frieden", fr: "Guerre et Paix" } at "input.book.title_i18n"; Field "fr" is not defined by type "CreateBookTitleI18NInput".],
   ],
 }
 `;

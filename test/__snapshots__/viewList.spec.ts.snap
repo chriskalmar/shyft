@@ -543,7 +543,7 @@ Object {
 exports[`view list filter with invalid attributes (reject) 1`] = `
 Object {
   "errors": Array [
-    [GraphQLError: Field "someAttributes" is not defined by type BoardMemberViewFilter.],
+    [GraphQLError: Field "someAttributes" is not defined by type "BoardMemberViewFilter".],
   ],
 }
 `;

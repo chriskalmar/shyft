@@ -2,21 +2,24 @@
 
 exports[`generator test should render GraphQL Schema 1`] = `
 GraphQLSchema {
-  "__allowedLegacyNames": Array [],
   "__validationErrors": undefined,
   "_directives": Array [
     "@include",
     "@skip",
     "@deprecated",
+    "@specifiedBy",
   ],
-  "_implementations": Object {
-    "Node": Array [
-      "TestEntityName",
-    ],
+  "_implementationsMap": Object {
+    "Node": Object {
+      "interfaces": Array [],
+      "objects": Array [
+        "TestEntityName",
+      ],
+    },
   },
   "_mutationType": "Mutation",
-  "_possibleTypeMap": Object {},
   "_queryType": "Query",
+  "_subTypeMap": Object {},
   "_subscriptionType": "Subscription",
   "_typeMap": Object {
     "Boolean": "Boolean",
@@ -70,6 +73,7 @@ GraphQLSchema {
     "__TypeKind": "__TypeKind",
   },
   "astNode": undefined,
+  "description": undefined,
   "extensionASTNodes": undefined,
   "extensions": undefined,
 }

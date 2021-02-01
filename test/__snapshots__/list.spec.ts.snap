@@ -2534,7 +2534,7 @@ Object {
 exports[`list filter with invalid attributes (reject) 1`] = `
 Object {
   "errors": Array [
-    [GraphQLError: Field "someAttributes" is not defined by type BoardFilter.],
+    [GraphQLError: Field "someAttributes" is not defined by type "BoardFilter".],
   ],
 }
 `;
