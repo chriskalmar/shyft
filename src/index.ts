@@ -143,8 +143,23 @@ import {
 } from './engine/attribute/Attribute';
 
 import {
+  getTypeForEntityFromGraphRegistry,
+  extendModelsForGql,
+  registerActions,
   generateGraphQLSchema,
+  GraphQLJSON,
+  GraphQLCursor,
+  GraphQLBigInt,
+  GraphQLDateTime,
+  GraphQLDate,
+  GraphQLTime,
+  ProtocolGraphQL,
+  RELAY_TYPE_PROMOTER_FIELD,
+  MAX_PAGE_SIZE,
   ProtocolGraphQLConfiguration,
+  isProtocolGraphQLConfiguration,
+  fromBase64,
+  toBase64,
 } from './graphqlProtocol';
 
 const coreModels = {
@@ -257,8 +272,23 @@ export {
   asyncForEach,
   AttributesMap,
   AttributesMapGenerator,
+  getTypeForEntityFromGraphRegistry,
+  extendModelsForGql,
+  registerActions,
   generateGraphQLSchema,
+  GraphQLJSON,
+  GraphQLCursor,
+  GraphQLBigInt,
+  GraphQLDateTime,
+  GraphQLDate,
+  GraphQLTime,
+  ProtocolGraphQL,
+  RELAY_TYPE_PROMOTER_FIELD,
+  MAX_PAGE_SIZE,
   ProtocolGraphQLConfiguration,
+  isProtocolGraphQLConfiguration,
+  fromBase64,
+  toBase64,
 };
 
 import StorageTypePostgres from './storage-connector/StorageTypePostgres';
