@@ -74,6 +74,7 @@ import {
   convertEntityToViewAttribute,
   convertEntityToViewAttributesMap,
   combineMutationPreProcessors,
+  asyncForEach,
 } from './engine/util';
 
 import { processCursors } from './engine/cursor';
@@ -135,6 +136,16 @@ import {
 
 import { Language } from './engine/models/Language';
 import { User } from './engine/models/User';
+
+import {
+  AttributesMap,
+  AttributesMapGenerator,
+} from './engine/attribute/Attribute';
+
+import {
+  generateGraphQLSchema,
+  ProtocolGraphQLConfiguration,
+} from './graphqlProtocol';
 
 const coreModels = {
   Language,
@@ -243,6 +254,11 @@ export {
   convertEntityToViewAttribute,
   convertEntityToViewAttributesMap,
   combineMutationPreProcessors,
+  asyncForEach,
+  AttributesMap,
+  AttributesMapGenerator,
+  generateGraphQLSchema,
+  ProtocolGraphQLConfiguration,
 };
 
 import StorageTypePostgres from './storage-connector/StorageTypePostgres';
