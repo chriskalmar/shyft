@@ -768,7 +768,7 @@ export class Entity {
         this.defaultPermissions,
       );
     } else if (this.defaultPermissions) {
-      return processEntityPermissions(this, this.defaultPermissions);
+      return processEntityPermissions(this, {}, this.defaultPermissions);
     }
 
     return null;
@@ -842,7 +842,7 @@ export class Entity {
   }
 
   getPermissions() {
-    if (!this.setup.permissions || this.permissions) {
+    if (!this.setup.permissions && !this.defaultPermissions) {
       return this.permissions;
     }
 

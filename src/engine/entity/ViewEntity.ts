@@ -438,7 +438,7 @@ export class ViewEntity {
         this._defaultPermissions,
       );
     } else if (this._defaultPermissions) {
-      return processViewEntityPermissions(this, this._defaultPermissions);
+      return processViewEntityPermissions(this, {}, this._defaultPermissions);
     }
 
     return null;
@@ -478,7 +478,7 @@ export class ViewEntity {
   }
 
   getPermissions() {
-    if (!this._permissions || this.permissions) {
+    if (!this._permissions && this._defaultPermissions) {
       return this.permissions;
     }
 
