@@ -1,43 +1,43 @@
-import { RELAY_TYPE_PROMOTER_FIELD } from './protocolGraphqlConstants';
-import { graphRegistry } from './graphRegistry';
-import { ProtocolGraphQL } from './ProtocolGraphQL';
-import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
-import { shaper } from 'json-shaper';
 import {
-  GraphQLObjectType,
-  GraphQLSchema,
-  GraphQLNonNull,
   GraphQLID,
+  GraphQLNonNull,
+  GraphQLObjectType,
   GraphQLResolveInfo,
+  GraphQLSchema,
 } from 'graphql';
-import { nodeDefinitions, fromGlobalId, toGlobalId } from 'graphql-relay';
-import { registerConnection, generateReverseConnections } from './connection';
-import { generateListQueries, generateInstanceQueries } from './query';
-import { generateMutations } from './mutation';
-import { generateActions } from './action';
-import { generateSubscriptions } from './subscription';
-import { resolveByFindOne } from './resolver';
-import {
-  Configuration,
-  isConfiguration,
-} from '../engine/configuration/Configuration';
-import { Entity, isEntity } from '../engine/entity/Entity';
-import { DataTypeI18n } from '../engine/datatype/dataTypes';
+import { fromGlobalId, nodeDefinitions, toGlobalId } from 'graphql-relay';
+import { shaper } from 'json-shaper';
 import {
   ACTION_TYPE_MUTATION,
   ACTION_TYPE_QUERY,
 } from '../engine/action/Action';
-import { isViewEntity } from '../engine/entity/ViewEntity';
+import {
+  Configuration,
+  isConfiguration,
+} from '../engine/configuration/Configuration';
+import { Context } from '../engine/context/Context';
+import { DataTypeI18n } from '../engine/datatype/dataTypes';
+import { Entity, isEntity } from '../engine/entity/Entity';
 import { isShadowEntity, ShadowEntity } from '../engine/entity/ShadowEntity';
+import { isViewEntity } from '../engine/entity/ViewEntity';
+import { EntityMap, Schema } from '../engine/schema/Schema';
+import { generateActions } from './action';
+import { generateReverseConnections, registerConnection } from './connection';
+import { graphRegistry } from './graphRegistry';
+import { generateMutations } from './mutation';
 import { generateInstanceUniquenessInputs } from './operation';
+import { ProtocolGraphQL } from './ProtocolGraphQL';
+import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
+import { RELAY_TYPE_PROMOTER_FIELD } from './protocolGraphqlConstants';
+import { generateInstanceQueries, generateListQueries } from './query';
 import {
   getRegisteredEntity,
   getRegisteredEntityAttribute,
   registerEntity,
   RegistryEntityAttributes,
 } from './registry';
-import { Schema, EntityMap } from '../engine/schema/Schema';
-import { Context } from '../engine/context/Context';
+import { resolveByFindOne } from './resolver';
+import { generateSubscriptions } from './subscription';
 
 export const getTypeForEntityFromGraphRegistry = (entity: Entity) => {
   const { typeName } = getRegisteredEntity(entity.name);

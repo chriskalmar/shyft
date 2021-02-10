@@ -1,30 +1,29 @@
 import {
-  GraphQLString,
-  GraphQLNonNull,
-  // GraphQLFieldConfig,
   GraphQLInputFieldConfig,
   GraphQLInputFieldConfigMap,
   GraphQLInputObjectType,
-  GraphQLObjectType,
   GraphQLList,
+  GraphQLNonNull,
+  GraphQLObjectType,
+  GraphQLResolveInfo,
+  GraphQLString,
 } from 'graphql';
 import * as _ from 'lodash';
-
+import { Context } from '../engine/context/Context';
+import { isListDataType } from '../engine/datatype/ListDataType';
+import { isObjectDataType } from '../engine/datatype/ObjectDataType';
+import { isEntity } from '../engine/entity/Entity';
+import { isArray } from '../engine/util';
 import { ProtocolGraphQL } from './ProtocolGraphQL';
 import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
-
+import { getRegisteredEntity } from './registry';
+import { resolveByFindOne } from './resolver';
 import {
   DataOutputField,
   InputFields,
   OutputFields,
   WrappedDataOutputField,
 } from './types';
-import { resolveByFindOne } from './resolver';
-import { isEntity } from '../engine/entity/Entity';
-import { isObjectDataType } from '../engine/datatype/ObjectDataType';
-import { isListDataType } from '../engine/datatype/ListDataType';
-import { isArray } from '../engine/util';
-import { getRegisteredEntity } from './registry';
 
 const generateDataInputField = (
   param,
