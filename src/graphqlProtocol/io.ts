@@ -390,7 +390,12 @@ const generateDataOutputField = (
   };
 
   if (param.resolve) {
-    field.resolve = param.resolve;
+    field.resolve = (
+      obj: { [key: string]: unknown },
+      args: { [key: string]: unknown },
+      context: Context,
+      info: GraphQLResolveInfo,
+    ) => param.resolve({ obj, args, context, info });
   }
 
   return returnAsFieldNameMap ? wrapFieldInFieldName(paramName, field) : field;
