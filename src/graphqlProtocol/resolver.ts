@@ -1,58 +1,55 @@
+import { GraphQLResolveInfo } from 'graphql';
 import * as _ from 'lodash';
-import {
-  addRelayTypePromoterToList,
-  addRelayTypePromoterToInstanceFn,
-  translateList,
-  translateInstanceFn,
-  addRelayTypePromoterToInstance,
-  translateInstance,
-} from './util';
-import { ProtocolGraphQL } from './ProtocolGraphQL';
-import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
-
-import {
-  validateConnectionArgs,
-  forceSortByUnique,
-  connectionFromData,
-  Connection,
-} from './connection';
-
-import { transformFilterLevel } from './filter';
-
-import {
-  getEntityUniquenessAttributes,
-  checkRequiredI18nInputs,
-} from './helper';
-import { isEntity, Entity } from '../engine/entity/Entity';
-import {
-  MUTATION_TYPE_CREATE,
-  MUTATION_TYPE_UPDATE,
-  MUTATION_TYPE_DELETE,
-  Mutation,
-} from '../engine/mutation/Mutation';
-import {
-  SUBSCRIPTION_TYPE_CREATE,
-  SUBSCRIPTION_TYPE_UPDATE,
-  // SUBSCRIPTION_TYPE_DELETE,
-  pubsub,
-  Subscription,
-} from '../engine/subscription/Subscription';
+import { ViewEntity } from '..';
+import { Context } from '../engine/context/Context';
 import { CustomError } from '../engine/CustomError';
+import { Entity, isEntity } from '../engine/entity/Entity';
+import { ShadowEntity } from '../engine/entity/ShadowEntity';
 import {
-  fillSystemAttributesDefaultValues,
   fillDefaultValues,
+  fillSystemAttributesDefaultValues,
   serializeValues,
 } from '../engine/helpers';
-import { validateMutationPayload } from '../engine/validation';
+import {
+  Mutation,
+  MUTATION_TYPE_CREATE,
+  MUTATION_TYPE_DELETE,
+  MUTATION_TYPE_UPDATE,
+} from '../engine/mutation/Mutation';
 import {
   buildActionPermissionFilter,
   Permission,
 } from '../engine/permission/Permission';
-import { Context } from '../engine/context/Context';
-import { GraphQLResolveInfo } from 'graphql';
-import { ShadowEntity } from '../engine/entity/ShadowEntity';
+import {
+  // SUBSCRIPTION_TYPE_DELETE,
+  pubsub,
+  Subscription,
+  SUBSCRIPTION_TYPE_CREATE,
+  SUBSCRIPTION_TYPE_UPDATE,
+} from '../engine/subscription/Subscription';
+import { validateMutationPayload } from '../engine/validation';
+import {
+  Connection,
+  connectionFromData,
+  forceSortByUnique,
+  validateConnectionArgs,
+} from './connection';
+import { transformFilterLevel } from './filter';
+import {
+  checkRequiredI18nInputs,
+  getEntityUniquenessAttributes,
+} from './helper';
+import { ProtocolGraphQL } from './ProtocolGraphQL';
+import { ProtocolGraphQLConfiguration } from './ProtocolGraphQLConfiguration';
 import { getRegisteredEntity, getRegisteredEntityAttribute } from './registry';
-import { ViewEntity } from '..';
+import {
+  addRelayTypePromoterToInstance,
+  addRelayTypePromoterToInstanceFn,
+  addRelayTypePromoterToList,
+  translateInstance,
+  translateInstanceFn,
+  translateList,
+} from './util';
 
 const AccessDeniedError = new CustomError(
   'Access denied',
@@ -409,7 +406,7 @@ export const getMutationResolver: GetMutationResolverParams = ({
           entity,
           id,
           source,
-          input: args.input[typeName],
+          input: args.input[typeName] || {},
           typeName,
           entityMutation,
           context,
@@ -511,7 +508,7 @@ export const getMutationResolver: GetMutationResolverParams = ({
           entity,
           id,
           source,
-          input: args.input[typeName],
+          input: args.input[typeName] || {},
           typeName,
           entityMutation,
           context,
@@ -527,7 +524,7 @@ export const getMutationResolver: GetMutationResolverParams = ({
           entity,
           id,
           source,
-          input: args.input[typeName],
+          input: args.input[typeName] || {},
           typeName,
           entityMutation,
           context,
@@ -609,7 +606,7 @@ export const getSubscriptionResolver = (
   entitySubscription: Subscription,
   typeName: string,
   nested: boolean,
-  idResolver: Function,
+  idResolver: ({ args }) => number | string,
 ) => {
   const storageType = entity.storageType;
 
