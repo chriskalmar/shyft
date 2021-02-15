@@ -8,10 +8,18 @@ import {
 } from './DataType';
 import { ComplexDataType, isComplexDataType } from './ComplexDataType';
 
+export type ListDataTypeBuildSetupType = {
+  description?: string;
+  itemType: Entity | DataType | ComplexDataType | DataTypeFunction;
+  minItems?: number;
+  maxItems?: number;
+  required?: boolean;
+};
+
 export type ListDataTypeSetupType = {
   name: string;
   description: string;
-  itemType: Entity | ComplexDataType | DataTypeFunction;
+  itemType: Entity | DataType | ComplexDataType | DataTypeFunction;
   minItems?: number;
   maxItems?: number;
 };
@@ -147,9 +155,9 @@ export const isListDataType = (obj: unknown): obj is ListDataType => {
   return obj instanceof ListDataType;
 };
 
-export const buildListDataType = (obj: {
-  itemType: Entity | DataType | ComplexDataType | DataTypeFunction;
-}): DataTypeFunction => {
+export const buildListDataType = (
+  obj: ListDataTypeBuildSetupType,
+): DataTypeFunction => {
   return ({ setup: { name, description } }): ListDataType =>
     new ListDataType({
       description,

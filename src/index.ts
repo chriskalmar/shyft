@@ -132,6 +132,7 @@ import {
   ListDataType,
   isListDataType,
   buildListDataType,
+  ListDataTypeSetupType,
 } from './engine/datatype/ListDataType';
 
 import { Language } from './engine/models/Language';
@@ -224,6 +225,7 @@ export {
   ListDataType,
   isListDataType,
   buildListDataType,
+  ListDataTypeSetupType,
   passOrThrow,
   resolveFunctionMap,
   isMap,
