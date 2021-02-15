@@ -135,6 +135,8 @@ import {
   ListDataTypeSetupType,
 } from './engine/datatype/ListDataType';
 
+import { Context } from './engine/context/Context';
+
 import { Language } from './engine/models/Language';
 import { User } from './engine/models/User';
 
@@ -226,6 +228,7 @@ export {
   isListDataType,
   buildListDataType,
   ListDataTypeSetupType,
+  Context,
   passOrThrow,
   resolveFunctionMap,
   isMap,
