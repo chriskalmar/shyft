@@ -16,6 +16,7 @@ import {
   Subscription,
 } from '../subscription/Subscription';
 import { isDataTypeState } from '../datatype/DataTypeState';
+import { Context } from '../..';
 
 /*
   all permission rules are ...
@@ -36,7 +37,7 @@ export interface PermissionMap {
   mutations?: {
     [key: string]: Permission | Permission[];
   };
-  subscriptions?: {} | Permission | Permission[];
+  subscriptions?: Record<string, unknown> | Permission | Permission[];
 }
 
 export type PermissionMapGenerator = () => PermissionMap;
@@ -134,7 +135,10 @@ export class Permission {
     return this;
   }
 
-  lookup(entity: Entity | ViewEntity, lookupMap: object): Permission {
+  lookup(
+    entity: Entity | ViewEntity | (() => Entity) | (() => ViewEntity),
+    lookupMap: Record<string, unknown>,
+  ): Permission {
     this.isEmpty = false;
     this._checkCompatibility('lookup');
 
@@ -811,13 +815,13 @@ export type ActionPermissionFilter = {
 };
 
 export const buildActionPermissionFilter = async (
-  _permissions: Function | Permission | Permission[],
+  _permissions: () => Permission | Permission | Permission[],
   userId = null,
   userRoles = [],
   action: Action | Subscription,
   // action: Action,
-  input?: any,
-  context?: any,
+  input?: Record<string, unknown>,
+  context?: Context,
 ): Promise<
   { where: ActionPermissionFilter; lookupPermissionEntity: Entity } | undefined
 > => {
@@ -831,7 +835,7 @@ export const buildActionPermissionFilter = async (
 
   let permissions: Permission[];
   if (isFunction(_permissions)) {
-    const permissionFn = _permissions as Function;
+    const permissionFn = _permissions as () => Permission;
     const permissionResult = permissionFn();
     permissions = isArray(permissionResult)
       ? permissionResult
