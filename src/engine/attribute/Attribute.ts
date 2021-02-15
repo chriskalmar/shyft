@@ -6,6 +6,38 @@ import { Entity } from '../entity/Entity';
 import { Mutation } from '../mutation/Mutation';
 import { Subscription } from '../subscription/Subscription';
 
+export type AttributeDefaultValue = (params: {
+  payload?: { [key: string]: unknown };
+  operation?: Mutation | Subscription;
+  entity?: Entity;
+  context?: Context;
+}) => unknown | Promise<unknown>;
+
+export type AttributeResolve = (params: {
+  obj?: { [key: string]: unknown };
+  args?: { [key: string]: unknown };
+  context?: Context;
+  info?: GraphQLResolveInfo;
+}) => unknown | Promise<unknown>;
+
+export type AttributeSerialize = (
+  field?: unknown,
+  payload?: unknown,
+  entityMutation?: Mutation,
+  entity?: Entity,
+  model?: unknown,
+  context?: Context,
+  language?: unknown,
+) => unknown;
+
+export type AttributeValidate = (params: {
+  value?: unknown;
+  attributeName?: string;
+  input?: { [key: string]: unknown };
+  source?: Source;
+  context?: Context;
+}) => void | Promise<void>;
+
 /**
  * base of a model attribute
  */
@@ -45,48 +77,24 @@ export type AttributeBase = {
    *
    * @param row instance data
    */
-  resolve?: (params: {
-    obj?: { [key: string]: unknown };
-    args?: { [key: string]: unknown };
-    context?: Context;
-    info?: GraphQLResolveInfo;
-  }) => unknown | Promise<unknown>;
+  resolve?: AttributeResolve;
 
   /**
    * default value generator for create type mutations
    */
 
-  defaultValue?: (params: {
-    payload?: { [key: string]: unknown };
-    operation?: Mutation | Subscription;
-    entity?: Entity;
-    context?: Context;
-  }) => unknown;
+  defaultValue?: AttributeDefaultValue;
 
   /**
    * custom data serializer function
    */
 
-  serialize?: (
-    field?: any,
-    payload?: any,
-    entityMutation?: Mutation,
-    entity?: Entity,
-    model?: any,
-    context?: Record<string, any>,
-    language?: any,
-  ) => any;
+  serialize?: AttributeSerialize;
 
   /**
    * custom validation function
    */
-  validate?: (params: {
-    value?: unknown;
-    attributeName?: string;
-    input?: { [key: string]: unknown };
-    source?: Source;
-    context?: Context;
-  }) => void | Promise<void>;
+  validate?: AttributeValidate;
 
   /**
    * hide the attribute in the protocol (graphql) layer
@@ -178,7 +186,7 @@ export type AttributesMap = {
   /**
    * an attribute
    */
-  [key: string]: Attribute;
+  [key: string]: AttributeSetup;
 };
 
 /**

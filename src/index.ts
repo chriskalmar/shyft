@@ -140,6 +140,10 @@ import { User } from './engine/models/User';
 import {
   AttributesMap,
   AttributesMapGenerator,
+  AttributeDefaultValue,
+  AttributeResolve,
+  AttributeSerialize,
+  AttributeValidate,
 } from './engine/attribute/Attribute';
 
 import {
@@ -272,6 +276,10 @@ export {
   asyncForEach,
   AttributesMap,
   AttributesMapGenerator,
+  AttributeDefaultValue,
+  AttributeResolve,
+  AttributeSerialize,
+  AttributeValidate,
   getTypeForEntityFromGraphRegistry,
   extendModelsForGql,
   registerActions,
