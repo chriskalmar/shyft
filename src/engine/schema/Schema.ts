@@ -14,10 +14,10 @@ import { isShadowEntity } from '../entity/ShadowEntity';
 
 export type SchemaSetup = {
   entities?: Entity[] | null;
-  defaultStorageType?: StorageType | null;
-  actions?: Action[] | null;
-  defaultActionPermissions?: null;
-  permissionsMap?: PermissionsMap | null;
+  defaultStorageType?: StorageType;
+  actions?: Action[];
+  defaultActionPermissions?: Permission;
+  permissionsMap?: PermissionsMap;
 };
 
 type EntityPermission = {
@@ -35,9 +35,9 @@ type SchemaEntity = Entity & {
   _isRegistered: boolean;
 };
 
-type SchemaViewEntity = ViewEntity & {
-  _isRegistered: boolean;
-};
+// type SchemaViewEntity = ViewEntity & {
+//   _isRegistered: boolean;
+// };
 
 export type EntityMap = {
   [entityName: string]: Entity | ViewEntity;
