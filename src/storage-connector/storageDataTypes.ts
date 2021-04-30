@@ -43,6 +43,15 @@ export const StorageDataTypeNumeric = new StorageDataType({
   capabilities: ['in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in'],
 });
 
+export const StorageDataTypeDouble = new StorageDataType({
+  name: 'StorageDataTypeDouble',
+  description: 'Data type representing a double precision value',
+  nativeDataType: 'double precision',
+  isSortable: true,
+  serialize: toFloat,
+  capabilities: ['in', 'lt', 'lte', 'gt', 'gte', 'ne', 'not_in'],
+});
+
 export const StorageDataTypeBoolean = new StorageDataType({
   name: 'StorageDataTypeBoolean',
   description: 'Data type representing a boolean value',
