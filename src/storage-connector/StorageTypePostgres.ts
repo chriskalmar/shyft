@@ -4,6 +4,7 @@ import {
   DataTypeInteger,
   DataTypeBigInt,
   DataTypeFloat,
+  DataTypeDouble,
   DataTypeBoolean,
   DataTypeString,
   DataTypeJson,
@@ -43,6 +44,7 @@ import {
   StorageDataTypeTimeTz,
   StorageDataTypeUUID,
   StorageDataTypeI18n,
+  StorageDataTypeDouble,
 } from './storageDataTypes';
 
 import Dataloader from 'dataloader';
@@ -750,6 +752,7 @@ StorageTypePostgres.addDataTypeMap(DataTypeID, StorageDataTypeBigInt);
 StorageTypePostgres.addDataTypeMap(DataTypeInteger, StorageDataTypeInteger);
 StorageTypePostgres.addDataTypeMap(DataTypeBigInt, StorageDataTypeBigInt);
 StorageTypePostgres.addDataTypeMap(DataTypeFloat, StorageDataTypeNumeric);
+StorageTypePostgres.addDataTypeMap(DataTypeDouble, StorageDataTypeDouble);
 StorageTypePostgres.addDataTypeMap(DataTypeBoolean, StorageDataTypeBoolean);
 StorageTypePostgres.addDataTypeMap(DataTypeString, StorageDataTypeText);
 StorageTypePostgres.addDataTypeMap(DataTypeJson, StorageDataTypeJSON);

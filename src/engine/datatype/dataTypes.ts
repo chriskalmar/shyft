@@ -38,6 +38,13 @@ export const DataTypeFloat = new DataType({
   mock: () => casual.double(-2 ^ 10, 2 ^ 10),
 });
 
+export const DataTypeDouble = new DataType({
+  name: 'DataTypeDouble',
+  description: 'Data type representing double precision values',
+  /* istanbul ignore next */
+  mock: () => casual.double(-2 ^ 10, 2 ^ 10),
+});
+
 export const DataTypeBoolean = new DataType({
   name: 'DataTypeBoolean',
   description: 'Data type representing boolean values',

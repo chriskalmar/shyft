@@ -26,6 +26,7 @@ import {
   DataTypeTimeTz,
   DataTypeUUID,
   DataTypeI18n,
+  DataTypeDouble,
 } from '../engine/datatype/dataTypes';
 
 import { isDataTypeState } from '../engine/datatype/DataTypeState';
@@ -57,6 +58,7 @@ ProtocolGraphQL.addDataTypeMap(DataTypeID, GraphQLID);
 ProtocolGraphQL.addDataTypeMap(DataTypeInteger, GraphQLInt);
 ProtocolGraphQL.addDataTypeMap(DataTypeBigInt, GraphQLBigInt);
 ProtocolGraphQL.addDataTypeMap(DataTypeFloat, GraphQLFloat);
+ProtocolGraphQL.addDataTypeMap(DataTypeDouble, GraphQLFloat);
 ProtocolGraphQL.addDataTypeMap(DataTypeBoolean, GraphQLBoolean);
 ProtocolGraphQL.addDataTypeMap(DataTypeString, GraphQLString);
 ProtocolGraphQL.addDataTypeMap(DataTypeJson, GraphQLJSON);

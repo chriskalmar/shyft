@@ -56,6 +56,8 @@ const upgradeMigrationQuery = (_query, isUpMigration = false) => {
       defaultValue = '0';
     } else if (type.includes('numeric')) {
       defaultValue = '0.0';
+    } else if (type.includes('double precision')) {
+      defaultValue = '0.0';
     } else if (type.includes('boolean')) {
       defaultValue = false;
     } else if (type.includes('json') || type.includes('jsonb')) {
