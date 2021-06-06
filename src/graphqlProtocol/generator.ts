@@ -58,8 +58,10 @@ export const extendModelsForGql = (entities: EntityMap) => {
         ? 'id'
         : protocolConfiguration.generateFieldName(attribute);
 
+      // TODO: name does not exist on AttributeBase
       // eslint-disable-next-line dot-notation
       dataShaperMap[fieldName] = attribute['name'];
+      // TODO: name does not exist on AttributeBase
       // eslint-disable-next-line dot-notation
       reverseDataShaperMap[attribute['name']] = fieldName;
 
@@ -68,20 +70,24 @@ export const extendModelsForGql = (entities: EntityMap) => {
 
       if (attribute.i18n) {
         fieldNameI18n = protocolConfiguration.generateI18nFieldName(attribute);
+        // TODO: name does not exist on AttributeBase
         // eslint-disable-next-line dot-notation
         dataShaperMap[fieldNameI18n] = `${attribute['name']}.i18n`;
+        // TODO: name does not exist on AttributeBase
         // eslint-disable-next-line dot-notation
         reverseDataShaperMap[`${attribute['name']}.i18n`] = fieldNameI18n;
 
         fieldNameI18nJson = protocolConfiguration.generateI18nJsonFieldName(
           attribute,
         );
+        // TODO: name does not exist on AttributeBase
         // eslint-disable-next-line dot-notation
         dataShaperMap[fieldNameI18nJson] = `${attribute['name']}.i18n`;
         // no i18n JSON output mapping for reverse shaper map
         // so it doesn't overwrite values in mutation inputs
       }
 
+      // TODO: name does not exist on AttributeBase
       // eslint-disable-next-line dot-notation
       attributes[attribute['name']] = {
         fieldName,
@@ -221,6 +227,7 @@ export const generateGraphQLSchema = (
           const {
             fieldName: gqlFieldName,
             fieldNameI18nJson: gqlFieldNameI18nJson,
+            // TODO: name does not exist on AttributeBase
             // eslint-disable-next-line dot-notation
           } = getRegisteredEntityAttribute(entity.name, attribute['name']);
 
@@ -347,6 +354,7 @@ export const generateGraphQLSchema = (
 
             const {
               fieldNameI18n: gqlFieldNameI18n,
+              // TODO: name does not exist on AttributeBase
               // eslint-disable-next-line dot-notation
             } = getRegisteredEntityAttribute(entity.name, attribute['name']);
 

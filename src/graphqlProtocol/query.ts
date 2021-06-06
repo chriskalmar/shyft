@@ -73,6 +73,7 @@ export const generateInstanceQueries = (graphRegistry, idFetcher) => {
 
       const { fieldName } = getRegisteredEntityAttribute(
         entity.name,
+        // TODO: name does not exist on AttributeBase
         // eslint-disable-next-line dot-notation
         primaryAttribute['name'],
       );

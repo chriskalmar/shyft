@@ -61,6 +61,7 @@ const validatePayload = async (
 
       await asyncForEach(Object.keys(attributes), async (attributeName) => {
         const attribute = attributes[attributeName];
+        // TODO: name does not exist on AttributeBase
         // eslint-disable-next-line dot-notation
         const newPath = [...path, attribute['name']];
 
@@ -98,12 +99,15 @@ const validatePayload = async (
 
                   passOrThrow(
                     !attribute.required ||
+                      // TODO: name does not exist on AttributeBase
                       // eslint-disable-next-line dot-notation
                       isDefined(itemPayload[attribute['name']]),
                     () =>
+                      // TODO: name does not exist on AttributeBase
                       // eslint-disable-next-line dot-notation
                       `Missing required input attribute '${pathString}${attribute['name']}'`,
                   );
+                  // TODO: name does not exist on AttributeBase
                   // eslint-disable-next-line dot-notation
                   const newPath = [...path, attribute['name']];
                   await validatePayload(

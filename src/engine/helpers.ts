@@ -46,7 +46,7 @@ export const fillDefaultValues = async (
 
   const entityAttributes = entity.getAttributes();
   const payloadAttributes = Object.keys(payload);
-  // attribute.isSystemAttribute does not exist? do we create it?
+  // TODO: isSystemAttribute does not exist? do we create it?
   const requiredAttributes = _.filter(
     entityAttributes,
     // eslint-disable-next-line dot-notation
@@ -55,6 +55,7 @@ export const fillDefaultValues = async (
 
   await Promise.all(
     requiredAttributes.map(async (attribute) => {
+      // TODO: name does not exist on Attribute base
       // eslint-disable-next-line dot-notation
       const attributeName = attribute['name'];
       if (!payloadAttributes.includes(attributeName)) {
@@ -87,10 +88,12 @@ export const serializeValues = (
   const entityAttributes = entity.getAttributes();
 
   _.forEach(entityAttributes, (attribute) => {
+    // TODO: name does not exist on AttributeBase
     // eslint-disable-next-line dot-notation
     const attributeName = attribute['name'];
     const { fieldNameI18n: gqlFieldNameI18n } = getRegisteredEntityAttribute(
       entity.name,
+      // TODO: name does not exist on AttributeBase
       // eslint-disable-next-line dot-notation
       attribute['name'],
     );

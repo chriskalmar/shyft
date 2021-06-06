@@ -113,6 +113,7 @@ export const loadModels = (configuration) => {
         return;
       }
 
+      // TODO: add name to AttributeBase type
       // eslint-disable-next-line dot-notation
       const attributeName = attribute['name'];
       let storageAttributeName;
@@ -120,9 +121,11 @@ export const loadModels = (configuration) => {
       if (attribute.meta && attribute.meta.storageAttributeName) {
         storageAttributeName = attribute.meta.storageAttributeName;
       } else if (isViewEntity(entity)) {
+        // TODO: add name to AttributeBase type
         // eslint-disable-next-line dot-notation
         storageAttributeName = attribute['name'];
       } else {
+        // TODO: add name to AttributeBase type
         // eslint-disable-next-line dot-notation
         storageAttributeName = _.snakeCase(attribute['name']);
       }
@@ -141,10 +144,12 @@ export const loadModels = (configuration) => {
 
         const targetEntityName = attribute.type.name;
 
+        // TODO: add targetAttributesMap to AttributeBase type
         // eslint-disable-next-line dot-notation
         if (attribute['targetAttributesMap']) {
           // TODO: check composite foreign keys support
           mapOverProperties(
+            // TODO: add targetAttributesMap to AttributeBase type
             // eslint-disable-next-line dot-notation
             attribute['targetAttributesMap'],
             (targetAttribute, sourceAttributeName) => {

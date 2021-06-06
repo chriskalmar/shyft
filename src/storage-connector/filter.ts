@@ -452,14 +452,17 @@ export const buildWhereTypeQuery = (
                 });
 
                 // tiny workaround to get the brackets conditions negated
+                // TODO: add expressionMap to WhereExpression type
                 // eslint-disable-next-line dot-notation
                 qbAnd['expressionMap'].wheres.push({
                   type: 'simple',
                   condition: 'NOT',
                 });
+                // TODO: add expressionMap to WhereExpression type
                 // eslint-disable-next-line dot-notation
                 qbAnd['expressionMap'].wheres.push({
                   type: 'simple',
+                  // TODO: computeWhereParameter does not exist on WhereExpression
                   // eslint-disable-next-line dot-notation
                   condition: qbAnd['computeWhereParameter'](notBrackets),
                 });
