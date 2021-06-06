@@ -80,7 +80,7 @@ export class StorageConfiguration {
 
   generateGetStateIdFunction(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    configuration: Configuration,
+    _configuration: Configuration,
   ): string {
     throw new Error(
       `generateGetStateIdFunction() not implemented for storage type '${this.name}'`,
@@ -89,7 +89,7 @@ export class StorageConfiguration {
 
   generateGetStateIdsFunction(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    configuration: Configuration,
+    _configuration: Configuration,
   ): string {
     throw new Error(
       `generateGetStateIdsFunction() not implemented for storage type '${this.name}'`,
@@ -98,7 +98,7 @@ export class StorageConfiguration {
 
   generateGetStateMapFunction(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    configuration: Configuration,
+    _configuration: Configuration,
   ): string {
     throw new Error(
       `generateGetStateMapFunction() not implemented for storage type '${this.name}'`,
@@ -107,7 +107,7 @@ export class StorageConfiguration {
 
   generateGetStateNameFunction(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    configuration: Configuration,
+    _configuration: Configuration,
   ): string {
     throw new Error(
       `generateGetStateNameFunction() not implemented for storage type '${this.name}'`,
@@ -116,7 +116,7 @@ export class StorageConfiguration {
 
   generateGetAttributeTranslationFunction(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    configuration: Configuration,
+    _configuration: Configuration,
   ): string {
     throw new Error(
       `generateGetAttributeTranslationFunction() not implemented for storage type '${this.name}'`,
@@ -125,7 +125,7 @@ export class StorageConfiguration {
 
   generateGetAttributeTranslationsFunction(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    configuration: Configuration,
+    _configuration: Configuration,
   ): string {
     throw new Error(
       `generateGetAttributeTranslationsFunction() not implemented for storage type '${this.name}'`,
@@ -134,7 +134,7 @@ export class StorageConfiguration {
 
   generateMergeTranslationsFunction(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    configuration: Configuration,
+    _configuration: Configuration,
   ): string {
     throw new Error(
       `generateMergeTranslationsFunction() not implemented for storage type '${this.name}'`,
@@ -143,7 +143,7 @@ export class StorageConfiguration {
 
   createI18nIndices(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    configuration: Configuration,
+    _configuration: Configuration,
   ): string {
     throw new Error(
       `createI18nIndices() not implemented for storage type '${this.name}'`,
@@ -152,9 +152,9 @@ export class StorageConfiguration {
 
   generateI18nIndicesMigration(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    configuration: Configuration,
+    _configuration: Configuration,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    manager: unknown,
+    _manager: unknown,
   ): Promise<{ upQueries: string[]; downQueries: string[] }> {
     throw new Error(
       `generateI18nIndicesMigration() not implemented for storage type '${this.name}'`,

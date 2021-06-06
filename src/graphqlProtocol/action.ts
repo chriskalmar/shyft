@@ -17,7 +17,7 @@ import { ACTION_TYPE_MUTATION, Action } from '../engine/action/Action';
 import { buildActionPermissionFilter } from '../engine/permission/Permission';
 import { CustomError } from '../engine/CustomError';
 import { Attribute } from '../engine/attribute/Attribute';
-import { GraphRegistryType } from '../graphqlProtocol/graphRegistry';
+import { GraphRegistryType } from './graphRegistry';
 
 const AccessDeniedError = new CustomError(
   'Access denied',
@@ -99,7 +99,7 @@ export const handlePermission = async (
     where: permissionWhere,
     lookupPermissionEntity,
   } = await buildActionPermissionFilter(
-    permission,
+    () => permission,
     userId,
     userRoles,
     action,
@@ -231,7 +231,7 @@ export const generateActions = (
             });
           }
 
-          const result = await action.resolve({
+          const result: Record<string, any> = await action.resolve({
             source,
             input: payload,
             context,

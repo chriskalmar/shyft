@@ -7,7 +7,25 @@ import format from 'prettier-eslint';
 import { connectStorage, disconnectStorage } from './generator';
 import { asyncForEach } from './util';
 import { Configuration } from '..';
-import { Connection } from 'typeorm';
+import { Connection, Migration, QueryRunner } from 'typeorm';
+
+class CustomMigrationExecuter extends MigrationExecutor {
+  constructor(connection: Connection) {
+    super(connection);
+  }
+
+  public async _createMigrationsTableIfNotExist(queryRunner: QueryRunner): Promise<void> {
+    await this.createMigrationsTableIfNotExist(queryRunner);
+  }
+
+  public _getMigrations(): Migration[] {
+    return this.getMigrations();
+  }
+
+  public async _insertExecutedMigration(queryRunner: QueryRunner, migration: Migration): Promise<void> {
+    await this.insertExecutedMigration(queryRunner, migration);
+  }
+}
 
 const defaultTemplate = (migrationName, timestamp, upSqls, downSqls) => {
   return `
@@ -105,7 +123,7 @@ const getMigrationsFullPath = (connectionConfig) => {
 export const generateMigration = async (
   configuration: Configuration,
   migrationName: string,
-  customTemplate,
+  customTemplate: () => string,
   includeI18n = false,
   enforce = false,
 ): Promise<number | null> => {
@@ -181,7 +199,7 @@ export const generateMigration = async (
   return upSqls.length || downSqls.length || enforce ? timestamp : null;
 };
 
-export const runMigration = async (configuration) => {
+export const runMigration = async (configuration: Configuration): Promise<void> => {
   const connection = await connectStorage(configuration, false);
 
   try {
@@ -198,7 +216,7 @@ export const runMigration = async (configuration) => {
   await disconnectStorage(connection);
 };
 
-export const revertMigration = async (configuration) => {
+export const revertMigration = async (configuration: Configuration): Promise<void> => {
   const connection = await connectStorage(configuration, false);
 
   try {
@@ -215,19 +233,19 @@ export const revertMigration = async (configuration) => {
   await disconnectStorage(connection);
 };
 
-export const fillMigrationsTable = async (connection: Connection) => {
+export const fillMigrationsTable = async (connection: Connection): Promise<void> => {
   const queryRunner = connection.createQueryRunner();
 
-  const migrationExecutor = new MigrationExecutor(connection);
-  await migrationExecutor.createMigrationsTableIfNotExist(queryRunner);
-  const allMigrations = migrationExecutor.getMigrations();
+  const migrationExecutor = new CustomMigrationExecuter(connection);
+  await migrationExecutor._createMigrationsTableIfNotExist(queryRunner);
+  const allMigrations = migrationExecutor._getMigrations();
 
   await asyncForEach(allMigrations, async (migration) => {
-    await migrationExecutor.insertExecutedMigration(queryRunner, migration);
+    await migrationExecutor._insertExecutedMigration(queryRunner, migration);
   });
 };
 
-export const migrateI18nIndices = async (configuration) => {
+export const migrateI18nIndices = async (configuration: Configuration): Promise<void> => {
   const connection = await connectStorage(configuration, false);
 
   const storageConfiguration = configuration.getStorageConfiguration();

@@ -73,7 +73,8 @@ export const generateInstanceQueries = (graphRegistry, idFetcher) => {
 
       const { fieldName } = getRegisteredEntityAttribute(
         entity.name,
-        primaryAttribute.name,
+        // eslint-disable-next-line dot-notation
+        primaryAttribute['name'],
       );
 
       const graphqlDataType = ProtocolGraphQL.convertToProtocolDataType(

@@ -452,13 +452,16 @@ export const buildWhereTypeQuery = (
                 });
 
                 // tiny workaround to get the brackets conditions negated
-                qbAnd.expressionMap.wheres.push({
+                // eslint-disable-next-line dot-notation
+                qbAnd['expressionMap'].wheres.push({
                   type: 'simple',
                   condition: 'NOT',
                 });
-                qbAnd.expressionMap.wheres.push({
+                // eslint-disable-next-line dot-notation
+                qbAnd['expressionMap'].wheres.push({
                   type: 'simple',
-                  condition: qbAnd.computeWhereParameter(notBrackets),
+                  // eslint-disable-next-line dot-notation
+                  condition: qbAnd['computeWhereParameter'](notBrackets),
                 });
               }
             }

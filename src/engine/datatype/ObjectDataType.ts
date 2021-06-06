@@ -63,7 +63,7 @@ export class ObjectDataType extends ComplexDataType {
     attributeName: string,
   ): AttributeBase {
     if (isFunction(rawAttribute.type)) {
-      const rawAttributeTypeFn = rawAttribute.type;
+      const rawAttributeTypeFn = rawAttribute.type as DataTypeFunction;
       rawAttribute.type = rawAttributeTypeFn({
         setup: {
           name: attributeName,
@@ -151,7 +151,7 @@ export class ObjectDataType extends ComplexDataType {
     return resultAttributes;
   }
 
-  validate: DataTypeValidateType = ({ value }) => {
+  validate: DataTypeValidateType = (value) => {
     if (value) {
       if (!isMap(value)) {
         throw new Error(`Object data type '${this.name}' expects an object`);

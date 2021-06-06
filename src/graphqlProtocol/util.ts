@@ -149,7 +149,7 @@ export const gql = String.raw;
 
 export const formatGraphQLError = (err: GraphQLError): GraphQLError => {
   if (err.originalError && err.originalError.message) {
-    const { message, code, meta } = err.originalError;
+    const { message, code, meta } = err.originalError as any;
     const { locations, path } = err;
 
     return {
@@ -159,7 +159,7 @@ export const formatGraphQLError = (err: GraphQLError): GraphQLError => {
       meta,
       extensions: { code },
       originalError: err.originalError,
-    };
+    } as any;
   }
 
   return err;

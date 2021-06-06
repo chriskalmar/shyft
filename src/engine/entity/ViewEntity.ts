@@ -31,7 +31,7 @@ import { Entity } from './Entity';
 
 interface PreFilterType {
   [key: string]: {
-    resolve: Function;
+    resolve: (...args) => any;
     attributes: any;
   };
 }
@@ -84,21 +84,17 @@ export class ViewEntity {
   postProcessor?: ViewEntityPostProcessor;
   preFilters?: PreFilterType;
   meta?: any;
-  private _attributesMap: AttributesSetupMap | AttributesMapGenerator;
+  private readonly _attributesMap: AttributesSetupMap | AttributesMapGenerator;
   private _primaryAttribute: Attribute;
-  private referencedByEntities: {
-    sourceEntityName: string;
-    sourceAttributeName: string;
-  }[];
-  private _permissions: PermissionMap;
+  private _permissions: PermissionMap | ((...args) => any);
   private _defaultPermissions: PermissionMap;
   private _attributes: AttributesMap;
   descriptionPermissionsFind: string | boolean;
   descriptionPermissionsRead: string | boolean;
   private _preFilters: PreFilterType | (() => PreFilterType);
   isFallbackStorageType: any;
-  findOne: Function;
-  find: Function;
+  findOne: (...arg) => any;
+  find: (...args) => any;
 
   constructor(setup: ViewEntitySetup) {
     passOrThrow(isMap(setup), () => 'ViewEntity requires a setup object');
@@ -144,7 +140,6 @@ export class ViewEntity {
     this.description = description;
     this._attributesMap = attributes;
     this._primaryAttribute = null;
-    this.referencedByEntities = [];
     this.viewExpression = viewExpression;
     this._permissions = permissions;
     this._preFilters = preFilters;
@@ -183,7 +178,7 @@ export class ViewEntity {
     }
   }
 
-  _injectStorageTypeBySchema(storageType) {
+  _injectStorageTypeBySchema(storageType: StorageType): void {
     passOrThrow(
       isStorageType(storageType),
       () => `Provided storage type to view entity '${this.name}' is invalid`,
@@ -195,12 +190,12 @@ export class ViewEntity {
     }
   }
 
-  _exposeStorageAccess() {
+  _exposeStorageAccess(): void {
     this.findOne = this.storageType.findOne;
     this.find = this.storageType.find;
   }
 
-  _injectDefaultPermissionsBySchema(defaultPermissions) {
+  _injectDefaultPermissionsBySchema(defaultPermissions): void {
     passOrThrow(
       isMap(defaultPermissions),
       () => 'Provided defaultPermissions is invalid',
@@ -426,11 +421,15 @@ export class ViewEntity {
     return attributes[attributeName];
   }
 
-  _processPermissions() {
+  _processPermissions(): PermissionMap | null {
     if (this._permissions) {
-      const permissions = isFunction(this._permissions)
-        ? this._permissions()
-        : this._permissions;
+      let permissions: PermissionMap;
+
+      if (typeof this._permissions === 'function') {
+        permissions = this._permissions();
+      } else {
+        permissions = this._permissions;
+      }
 
       return processViewEntityPermissions(
         this,

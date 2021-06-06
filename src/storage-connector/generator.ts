@@ -113,15 +113,18 @@ export const loadModels = (configuration) => {
         return;
       }
 
-      const attributeName = attribute.name;
+      // eslint-disable-next-line dot-notation
+      const attributeName = attribute['name'];
       let storageAttributeName;
 
       if (attribute.meta && attribute.meta.storageAttributeName) {
         storageAttributeName = attribute.meta.storageAttributeName;
       } else if (isViewEntity(entity)) {
-        storageAttributeName = attribute.name;
+        // eslint-disable-next-line dot-notation
+        storageAttributeName = attribute['name'];
       } else {
-        storageAttributeName = _.snakeCase(attribute.name);
+        // eslint-disable-next-line dot-notation
+        storageAttributeName = _.snakeCase(attribute['name']);
       }
 
       dataShaperMap[attributeName] = storageAttributeName;
@@ -138,10 +141,12 @@ export const loadModels = (configuration) => {
 
         const targetEntityName = attribute.type.name;
 
-        if (attribute.targetAttributesMap) {
+        // eslint-disable-next-line dot-notation
+        if (attribute['targetAttributesMap']) {
           // TODO: check composite foreign keys support
           mapOverProperties(
-            attribute.targetAttributesMap,
+            // eslint-disable-next-line dot-notation
+            attribute['targetAttributesMap'],
             (targetAttribute, sourceAttributeName) => {
               references.push({
                 sourceAttributeName,
@@ -182,6 +187,9 @@ export const loadModels = (configuration) => {
           onDelete: 'CASCADE',
         })(Skeleton.prototype, storageAttributeName);
 
+        // why ts-ignore? name is not a valid key as function param
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         JoinColumn({
           name: storageAttributeName,
           cascadeAll: true,
@@ -205,6 +213,9 @@ export const loadModels = (configuration) => {
         const primaryGenerator =
           storageDataType.name === 'StorageDataTypeUUID' ? 'uuid' : 'increment';
 
+        // why ts-ignore? PrimaryGeneratedColumn expects 'rowid' as first param
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         PrimaryGeneratedColumn(primaryGenerator, attributes[attributeName])(
           Skeleton.prototype,
           attributeName,

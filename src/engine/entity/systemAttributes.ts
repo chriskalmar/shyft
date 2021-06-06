@@ -10,11 +10,10 @@ import {
 
 import { CustomError } from '../CustomError';
 import { DataTypeState } from '../datatype/DataTypeState';
-import { Entity, isEntity } from '../entity/Entity';
+import { Entity, isEntity } from './Entity';
 import { Mutation } from '../mutation/Mutation';
 import { i18nMockGenerator } from '../i18n';
 import { Attribute } from '../attribute/Attribute';
-import { isViewEntity } from './ViewEntity';
 import { Context } from '../context/Context';
 
 export const systemAttributePrimary = {
@@ -34,7 +33,7 @@ export const systemAttributesTimeTracking: Attribute[] = [
     defaultValue: ({ operation: mutation }: { operation: Mutation }): Date => {
       return mutation.isTypeCreate ? new Date() : undefined;
     },
-    mock: (entity: Entity) => {
+    mock: (entity: Entity): Date => {
       if (entity.meta && entity.meta.mockCreatedAtGenerator) {
         if (!isFunction(entity.meta.mockCreatedAtGenerator)) {
           throw new CustomError(
@@ -117,7 +116,6 @@ export const systemAttributeState: Attribute = {
   type: ({ setup: attribute, entity }) =>
     new DataTypeState({
       ...attribute,
-      validate: undefined, // delete from props as it would be handled as a data type validator
       name: camelCase(`${entity.name}-instance-state`),
       states: isEntity(entity) ? entity.states : undefined,
     }),
@@ -136,7 +134,7 @@ export const systemAttributeState: Attribute = {
   },
   serialize: (value, _: any, __: Mutation, entity: Entity) => {
     const states = entity.getStates();
-    const state = states[value];
+    const state = states[value as any];
 
     if (!state) {
       throw new CustomError('State was not set', 'StateNotSetError');
@@ -144,6 +142,9 @@ export const systemAttributeState: Attribute = {
 
     return state;
   },
+  // why ts-ignore? because mutation does not exist on the graphQl/Source class type as public member
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   validate: ({ value, source: { mutation } }) => {
     if (mutation.isTypeCreate || mutation.isTypeUpdate) {
       if (typeof mutation.toState !== 'string') {
