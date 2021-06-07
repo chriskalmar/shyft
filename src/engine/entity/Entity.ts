@@ -134,7 +134,7 @@ export class Entity {
   };
   private setup: EntitySetup;
   private _primaryAttribute: PrimaryAttribute;
-  private referencedByEntities: {
+  referencedByEntities: {
     sourceEntityName: string;
     sourceAttributeName: string;
   }[];
