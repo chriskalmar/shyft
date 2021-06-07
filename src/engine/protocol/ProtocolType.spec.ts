@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
-import { ProtocolType, isProtocolType } from './ProtocolType';
+import { ProtocolType, isProtocolType, ProtocolDataType } from './ProtocolType';
 import {
   DataTypeID,
   DataTypeString,
   DataTypeInteger,
   DataTypeBoolean,
 } from '../datatype/dataTypes';
+import { DataType } from '../datatype/DataType';
 
 describe('ProtocolType', () => {
   const ProtocolTypeREST = new ProtocolType({
@@ -80,15 +81,15 @@ describe('ProtocolType', () => {
 
   it('should reject invalid data type mappings', () => {
     function fn1() {
-      ProtocolTypeREST.addDataTypeMap('something');
+      ProtocolTypeREST.addDataTypeMap(('something' as unknown) as DataType, undefined);
     }
 
     function fn2() {
-      ProtocolTypeREST.addDataTypeMap(DataTypeID);
+      ProtocolTypeREST.addDataTypeMap(DataTypeID, undefined);
     }
 
     function fn3() {
-      ProtocolTypeREST.addDataTypeMap(DataTypeString, {});
+      ProtocolTypeREST.addDataTypeMap(DataTypeString, ({} as unknown) as ProtocolDataType);
     }
 
     expect(fn1).toThrowErrorMatchingSnapshot();

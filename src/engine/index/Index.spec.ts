@@ -63,7 +63,7 @@ describe('Index', () => {
       // eslint-disable-next-line no-new
       new Index({
         type: INDEX_UNIQUE,
-        attributes: [123],
+        attributes: [((123 as unknown) as string)],
       });
     }
 
@@ -146,7 +146,7 @@ describe('Index', () => {
       };
 
       function fn() {
-        processEntityIndexes(entity, indexes);
+        processEntityIndexes(entity, (indexes as unknown) as Index[]);
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
@@ -156,7 +156,7 @@ describe('Index', () => {
       const indexes = [{ foo: 'bar' }];
 
       function fn() {
-        processEntityIndexes(entity, indexes);
+        processEntityIndexes(entity, (indexes as unknown) as Index[]);
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();

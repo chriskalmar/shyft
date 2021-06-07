@@ -3,6 +3,7 @@ import { ViewEntity, isViewEntity } from './ViewEntity';
 import { Permission, isPermission } from '../permission/Permission';
 import { passOrThrow } from '../util';
 import { DataTypeID, DataTypeString } from '../datatype/dataTypes';
+import { StorageType } from '../storage/StorageType';
 
 describe('ViewEntity', () => {
   it('should have a name', () => {
@@ -159,7 +160,7 @@ describe('ViewEntity', () => {
             description: 'ID of item',
           },
         },
-        storageType: {},
+        storageType: {} as StorageType,
       });
     }
 

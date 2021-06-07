@@ -70,14 +70,14 @@ describe('util', () => {
     });
 
     it('should reject non-maps', () => {
-      expect(isMap()).toBe(false);
+      expect(isMap(undefined)).toBe(false);
       expect(isMap(null)).toBe(false);
       expect(isMap(undefined)).toBe(false);
       expect(isMap([])).toBe(false);
       expect(isMap([1, 2, 3])).toBe(false);
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       expect(isMap(() => {})).toBe(false);
-      expect(isMap(1234567)).toBe(false);
+      expect(isMap((1234567 as unknown) as Record<string, unknown>)).toBe(false);
     });
 
     it('should reject empty maps if flag `nonEmpty` is set', () => {
@@ -93,7 +93,7 @@ describe('util', () => {
     });
 
     it('should reject non-arrays', () => {
-      expect(isArray()).toBe(false);
+      expect(isArray(undefined)).toBe(false);
       expect(isArray(null)).toBe(false);
       expect(isArray(undefined)).toBe(false);
       expect(isArray(Object.create({}))).toBe(false);
@@ -143,7 +143,7 @@ describe('util', () => {
 
     it('should throw if non-maps are provided', () => {
       function fn1() {
-        mergeMaps();
+        mergeMaps(undefined, undefined);
       }
 
       function fn2() {
@@ -184,15 +184,15 @@ describe('util', () => {
 
     it('should throw if non-maps are provided', () => {
       function fn1() {
-        mapOverProperties();
+        mapOverProperties(undefined, undefined);
       }
 
       function fn2() {
-        mapOverProperties([]);
+        mapOverProperties(([] as unknown) as Record<string, unknown>, undefined);
       }
 
       function fn3() {
-        mapOverProperties('string');
+        mapOverProperties(('string' as unknown) as Record<string, unknown>, undefined);
       }
 
       expect(fn1).toThrowErrorMatchingSnapshot();
@@ -202,15 +202,15 @@ describe('util', () => {
 
     it('should throw if iteratee is not a function', () => {
       function fn1() {
-        mapOverProperties({});
+        mapOverProperties(({}as unknown) as Record<string, unknown>, undefined);
       }
 
       function fn2() {
-        mapOverProperties({}, []);
+        mapOverProperties({}, [] as undefined);
       }
 
       function fn3() {
-        mapOverProperties({}, 'string');
+        mapOverProperties({}, 'string' as undefined);
       }
 
       expect(fn1).toThrowErrorMatchingSnapshot();
@@ -221,9 +221,9 @@ describe('util', () => {
 
   describe('sortDataByKeys', () => {
     it('should return empty result if keys list is empty or invalid', () => {
-      const result1 = sortDataByKeys([], { a: 1, b: 3 });
-      const result2 = sortDataByKeys({}, { a: 1, b: 3 });
-      const result3 = sortDataByKeys(null, { a: 1, b: 3 });
+      const result1 = sortDataByKeys([], ({ a: 1, b: 3 } as unknown) as unknown[]);
+      const result2 = sortDataByKeys(({} as unknown) as string[], ({ a: 1, b: 3 } as unknown) as unknown[]);
+      const result3 = sortDataByKeys(null, ({ a: 1, b: 3 } as unknown) as unknown[]);
 
       expect(result1).toEqual([]);
       expect(result2).toEqual([]);
@@ -232,7 +232,7 @@ describe('util', () => {
 
     it('should return null-filled array if data list is empty or invalid', () => {
       const result1 = sortDataByKeys(['a', 'b'], null);
-      const result2 = sortDataByKeys(['a'], {});
+      const result2 = sortDataByKeys(['a'], ({} as unknown) as unknown[]);
       const result3 = sortDataByKeys(['a', 'b', 'f'], []);
 
       expect(result1).toEqual([null, null]);

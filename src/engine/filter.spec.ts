@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
@@ -165,11 +164,11 @@ describe('filter', () => {
 
     it('should throw if provided params are invalid', () => {
       function fn1() {
-        validateFilterLevel();
+        validateFilterLevel(undefined, undefined, undefined, undefined);
       }
 
       function fn2() {
-        validateFilterLevel([], null, []);
+        validateFilterLevel([], null, [], undefined);
       }
 
       function fn3() {
