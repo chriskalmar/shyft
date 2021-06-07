@@ -54,7 +54,7 @@ describe('Schema', () => {
     const schema = new Schema({});
 
     function fn1() {
-      schema.addEntity();
+      schema.addEntity(undefined);
     }
 
     function fn2() {
@@ -88,21 +88,21 @@ describe('Schema', () => {
     function fn2() {
       // eslint-disable-next-line no-new
       new Schema({
-        entities: {},
+        entities: ({} as unknown) as Entity[],
       });
     }
 
     function fn3() {
       // eslint-disable-next-line no-new
       new Schema({
-        entities: 'so-wrong',
+        entities: ('so-wrong' as unknown) as Entity[],
       });
     }
 
     function fn4() {
       // eslint-disable-next-line no-new
       new Schema({
-        entities: ['so-wrong'],
+        entities: (['so-wrong'] as unknown) as Entity[],
       });
     }
 

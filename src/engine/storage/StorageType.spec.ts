@@ -8,6 +8,7 @@ import { passOrThrow } from '../util';
 import { StorageTypeNull } from './StorageTypeNull';
 
 import { DataTypeID, DataTypeString } from '../datatype/dataTypes';
+import { DataType } from '../datatype/DataType';
 
 describe('StorageType', () => {
   it('should have a name', () => {
@@ -135,7 +136,7 @@ describe('StorageType', () => {
 
     it('should reject invalid schema data types', () => {
       function fn() {
-        SomeStorageType.addDataTypeMap({ some: 'thing' }, StorageDataTypeText);
+        SomeStorageType.addDataTypeMap(({ some: 'thing' } as unknown) as DataType, StorageDataTypeText);
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
@@ -143,7 +144,7 @@ describe('StorageType', () => {
 
     it('should reject invalid storage data types', () => {
       function fn() {
-        SomeStorageType.addDataTypeMap(DataTypeString, { someThing: 'else' });
+        SomeStorageType.addDataTypeMap(DataTypeString, ({ someThing: 'else' } as unknown) as StorageDataType);
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();

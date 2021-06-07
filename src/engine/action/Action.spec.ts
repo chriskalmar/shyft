@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
-import { Action, isAction, ACTION_TYPE_QUERY } from './Action';
+import { Action, isAction, ACTION_TYPE_QUERY, ActionPreProcessor, ActionPostProcessor } from './Action';
 import { Permission, isPermission } from '../permission/Permission';
 
 import { DataTypeString, DataTypeInteger } from '../datatype/dataTypes';
@@ -9,7 +9,7 @@ import { buildObjectDataType } from '../datatype/ObjectDataType';
 
 import { passOrThrow } from '../util';
 import { generateTestSchema } from '../../graphqlProtocol/test-helper';
-import { generateGraphQLSchema } from '../../graphqlProtocol/generator';
+import { generateGraphQLSchema } from '../../graphqlProtocol';
 import { graphql } from 'graphql';
 
 describe('Action', () => {
@@ -27,6 +27,7 @@ describe('Action', () => {
       // eslint-disable-next-line no-new
       new Action({
         name: 'example',
+        resolve: () => {}
       });
     }
 
@@ -54,6 +55,7 @@ describe('Action', () => {
         description: 'do something',
         input: 123,
         output: 456,
+        resolve() {}
       });
     }
 
@@ -81,6 +83,7 @@ describe('Action', () => {
         name: 'example',
         description: 'do something',
         input() {},
+        resolve() {},
         output: 'wrong',
       });
     }
@@ -175,6 +178,7 @@ describe('Action', () => {
       new Action({
         name: 'example',
         description: 'do something',
+        resolve: undefined as () => any
       });
     }
 
@@ -350,7 +354,7 @@ describe('Action', () => {
           name: 'example',
           description: 'do something',
           resolve() {},
-          preProcessor: 'not-a-func',
+          preProcessor: ('not-a-func' as unknown) as ActionPreProcessor,
         });
       }
 
@@ -427,7 +431,7 @@ describe('Action', () => {
           name: 'example',
           description: 'do something',
           resolve() {},
-          postProcessor: 'not-a-func',
+          postProcessor: ('not-a-func' as unknown) as ActionPostProcessor,
         });
       }
 
@@ -460,8 +464,8 @@ describe('Action', () => {
               };
             },
             postProcessor: ({ result, input }) => {
-              if (input > 1000) {
-                result.value *= 2;
+              if ((input as any) > 1000) {
+                (result as any).value *= 2;
               }
             },
           }),

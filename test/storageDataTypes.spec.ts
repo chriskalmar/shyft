@@ -31,7 +31,8 @@ describe('storageDataTypes', () => {
 
     expect(persist).toMatchSnapshot();
 
-    const result = await findOne(DataTypeTester, persist.id, {}, asAdmin());
+    // eslint-disable-next-line dot-notation
+    const result = await findOne(DataTypeTester, persist['id'], {}, asAdmin());
     expect(result).toMatchSnapshot();
   });
 });

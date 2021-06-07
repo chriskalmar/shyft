@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import './setupAndTearDown';
 import { mutate, findOneByValue, testGraphql } from './db';
 
@@ -81,7 +82,7 @@ describe('mutation', () => {
         null,
         asUser(84),
       );
-      const inviteId = result.id;
+      const inviteId = result['id'];
       expect(removeDynamicData(BoardMember, result)).toMatchSnapshot();
 
       result = await mutate(BoardMember, 'accept', {}, inviteId, asUser(80));
@@ -153,11 +154,11 @@ describe('mutation', () => {
         null,
         asUser(84),
       );
-      const inviteId = result.id;
+      const inviteId = result['id'];
       expect(removeDynamicData(BoardMember, result)).toMatchSnapshot();
 
       result = await mutate(BoardMember, 'remove', {}, inviteId, asUser(84));
-      result.rows = removeListDynamicData(BoardMember, result.rows);
+      result['rows'] = removeListDynamicData(BoardMember, result['rows']);
       expect(removeDynamicData(BoardMember, result)).toMatchSnapshot();
     });
 
@@ -174,7 +175,7 @@ describe('mutation', () => {
         null,
         asUser(84),
       );
-      const inviteId = result.id;
+      const inviteId = result['id'];
 
       await mutate(BoardMember, 'accept', {}, inviteId, asUser(81));
 

@@ -16,7 +16,7 @@ import {
   buildPermissionFilter,
   buildLookupsPermissionFilter,
   processEntityPermissions,
-  processActionPermissions,
+  processActionPermissions, PermissionMap,
 } from './Permission';
 import { Entity } from '../entity/Entity';
 import { Action } from '../action/Action';
@@ -100,7 +100,7 @@ describe('Permission', () => {
   describe('role permissions', () => {
     it('should reject if role name is missing', () => {
       function fn1() {
-        new Permission().role();
+        new Permission().role((undefined as unknown) as string);
       }
 
       expect(fn1).toThrowErrorMatchingSnapshot();
@@ -118,7 +118,7 @@ describe('Permission', () => {
   describe('userAttribute permissions', () => {
     it('should reject if attribute name is missing', () => {
       function fn1() {
-        new Permission().userAttribute();
+        new Permission().userAttribute((undefined as unknown) as string);
       }
 
       expect(fn1).toThrowErrorMatchingSnapshot();
@@ -136,7 +136,7 @@ describe('Permission', () => {
   describe('lookup permissions', () => {
     it('should reject if entity is missing', () => {
       function fn1() {
-        new Permission().lookup();
+        new Permission().lookup((undefined as unknown) as Entity, undefined);
       }
 
       expect(fn1).toThrowErrorMatchingSnapshot();
@@ -144,7 +144,7 @@ describe('Permission', () => {
 
     it('should reject if lookupMap is missing', () => {
       function fn1() {
-        new Permission().lookup(Language);
+        new Permission().lookup(Language, undefined);
       }
 
       expect(fn1).toThrowErrorMatchingSnapshot();
@@ -154,7 +154,7 @@ describe('Permission', () => {
   describe('value permissions', () => {
     it('should reject if attribute name is missing', () => {
       function fn1() {
-        new Permission().value();
+        new Permission().value((undefined as unknown) as string, undefined);
       }
 
       expect(fn1).toThrowErrorMatchingSnapshot();
@@ -162,7 +162,7 @@ describe('Permission', () => {
 
     it('should reject if value is missing', () => {
       function fn1() {
-        new Permission().value('someAttribute');
+        new Permission().value('someAttribute', undefined);
       }
 
       expect(fn1).toThrowErrorMatchingSnapshot();
@@ -218,17 +218,17 @@ describe('Permission', () => {
 
       function fn() {
         passOrThrow(
-          isPermissionsArray() ||
+          isPermissionsArray(undefined) ||
             isPermissionsArray(null) ||
             isPermissionsArray([]) ||
-            isPermissionsArray({}) ||
-            isPermissionsArray(function test() {}) ||
-            isPermissionsArray(Error) ||
-            isPermissionsArray([{}]) ||
-            isPermissionsArray([function test() {}]) ||
-            isPermissionsArray([Error]) ||
+            isPermissionsArray(({} as unknown) as Permission) ||
+            isPermissionsArray((function test() {} as unknown) as Permission[]) ||
+            isPermissionsArray((Error as unknown) as Permission[]) ||
+            isPermissionsArray(([{}] as unknown) as Permission[]) ||
+            isPermissionsArray(([function test() {}] as unknown) as Permission[]) ||
+            isPermissionsArray(([Error] as unknown) as Permission[]) ||
             isPermissionsArray([permission, null]) ||
-            isPermissionsArray([permission, {}, permission]),
+            isPermissionsArray([permission, {} as Permission, permission]),
           () => 'Not a Permissions array',
         );
       }
@@ -363,7 +363,7 @@ describe('Permission', () => {
   describe('permissions description', () => {
     it('should reject if non-Permission object is provided', () => {
       function fn() {
-        generatePermissionDescription({ foo: 'bar' });
+        generatePermissionDescription(({ foo: 'bar' } as unknown) as Permission);
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
@@ -430,7 +430,7 @@ describe('Permission', () => {
 
     it('should reject if non-Permission object is provided', () => {
       function fn() {
-        checkPermissionSimple({});
+        checkPermissionSimple({} as Permission);
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
@@ -438,7 +438,7 @@ describe('Permission', () => {
 
     it('should reject if user roles are not provided as an array', () => {
       function fn() {
-        checkPermissionSimple(new Permission(), null, { bad: 'roles' });
+        checkPermissionSimple(new Permission(), null, ({ bad: 'roles' } as unknown) as any[]);
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
@@ -521,7 +521,7 @@ describe('Permission', () => {
         function fn() {
           const permission = new Permission().userAttribute('author');
 
-          buildUserAttributesPermissionFilter({ permission });
+          buildUserAttributesPermissionFilter({ permission, userId: undefined });
         }
 
         expect(fn).toThrowErrorMatchingSnapshot();
@@ -569,7 +569,7 @@ describe('Permission', () => {
         function fn() {
           const permission = new Permission().state('completed');
 
-          buildStatesPermissionFilter({ permission });
+          buildStatesPermissionFilter({ permission, entity: undefined });
         }
 
         expect(fn).toThrowErrorMatchingSnapshot();
@@ -913,7 +913,7 @@ describe('Permission', () => {
       const permissions = ['bad'];
 
       function fn() {
-        processEntityPermissions(entity, permissions);
+        processEntityPermissions(entity, (permissions as unknown) as PermissionMap);
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
@@ -925,7 +925,7 @@ describe('Permission', () => {
       };
 
       function fn() {
-        processEntityPermissions(entity, permissions);
+        processEntityPermissions(entity, (permissions as unknown) as PermissionMap);
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
@@ -937,7 +937,7 @@ describe('Permission', () => {
       };
 
       function fn() {
-        processEntityPermissions(entity, permissions);
+        processEntityPermissions(entity, (permissions as unknown) as PermissionMap);
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
@@ -949,7 +949,7 @@ describe('Permission', () => {
       };
 
       function fn1() {
-        processEntityPermissions(entity, permissions1);
+        processEntityPermissions(entity, (permissions1 as unknown) as PermissionMap);
       }
 
       expect(fn1).toThrowErrorMatchingSnapshot();
@@ -959,7 +959,7 @@ describe('Permission', () => {
       };
 
       function fn2() {
-        processEntityPermissions(entity, permissions2);
+        processEntityPermissions(entity, (permissions2 as unknown) as PermissionMap);
       }
 
       expect(fn2).toThrowErrorMatchingSnapshot();
@@ -973,7 +973,7 @@ describe('Permission', () => {
       };
 
       function fn3() {
-        processEntityPermissions(entity, permissions3);
+        processEntityPermissions(entity, (permissions3 as unknown) as PermissionMap);
       }
 
       expect(fn3).toThrowErrorMatchingSnapshot();
@@ -1121,7 +1121,7 @@ describe('Permission', () => {
       const permissions1 = ['bad'];
 
       function fn1() {
-        processActionPermissions(action, permissions1);
+        processActionPermissions(action, (permissions1 as unknown) as Permission[]);
       }
 
       expect(fn1).toThrowErrorMatchingSnapshot();
@@ -1131,7 +1131,7 @@ describe('Permission', () => {
       };
 
       function fn2() {
-        processActionPermissions(action, permissions2);
+        processActionPermissions(action, (permissions2 as unknown) as Permission[]);
       }
 
       expect(fn2).toThrowErrorMatchingSnapshot();

@@ -14,7 +14,7 @@ import { Entity } from '../entity/Entity';
 import { DataTypeString } from '../datatype/dataTypes';
 import { passOrThrow } from '../util';
 import { generateTestSchema } from '../../graphqlProtocol/test-helper';
-import { generateGraphQLSchema } from '../../graphqlProtocol/generator';
+import { generateGraphQLSchema } from '../../graphqlProtocol';
 import { subscribe, parse } from 'graphql';
 
 describe('Subscription', () => {
@@ -58,7 +58,7 @@ describe('Subscription', () => {
       // eslint-disable-next-line no-new
       new Subscription({
         name: 'example',
-        type: 12346,
+        type: (12346 as unknown) as string,
       });
     }
 
@@ -97,7 +97,7 @@ describe('Subscription', () => {
       name: 'example',
       type: SUBSCRIPTION_TYPE_CREATE,
       description: 'subscribe the world',
-      attributes: ['anything', { foo: 'bar' }],
+      attributes: ['anything', ({ foo: 'bar' } as unknown) as string],
     });
 
     function fn() {
@@ -166,7 +166,7 @@ describe('Subscription', () => {
         type: SUBSCRIPTION_TYPE_CREATE,
         description: 'mutate the world',
         attributes: ['anything'],
-        preProcessor: 'not-a-function',
+        preProcessor: 'not-a-function' as any,
       });
     }
 
@@ -181,7 +181,7 @@ describe('Subscription', () => {
         type: SUBSCRIPTION_TYPE_CREATE,
         description: 'mutate the world',
         attributes: ['anything'],
-        postProcessor: 'not-a-function',
+        postProcessor: 'not-a-function'as any,
       });
     }
 
@@ -234,7 +234,7 @@ describe('Subscription', () => {
       };
 
       function fn() {
-        processEntitySubscriptions(entity, subscriptions);
+        processEntitySubscriptions(entity, (subscriptions as unknown) as Subscription[]);
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
@@ -244,7 +244,7 @@ describe('Subscription', () => {
       const subscriptions = [{ foo: 'bar' }];
 
       function fn() {
-        processEntitySubscriptions(entity, subscriptions);
+        processEntitySubscriptions(entity, (subscriptions as unknown) as Subscription[]);
       }
 
       expect(fn).toThrowErrorMatchingSnapshot();
@@ -366,7 +366,7 @@ describe('Subscription', () => {
             _id,
             _source,
             input,
-            typeName,
+            _typeName,
             entitySubscription,
           ) => {
             if (entitySubscription.attributes && Object.keys(input).length) {
@@ -489,9 +489,9 @@ describe('Subscription', () => {
             _entity,
             // _id,
             _source,
-            input,
-            typeName,
-            entitySubscription,
+            _input,
+            _typeName,
+            _entitySubscription,
             context,
           ) => {
             if (context && context.changePayload) {

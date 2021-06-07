@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
 import {
@@ -45,7 +44,7 @@ describe('filter', () => {
     },
   });
 
-  extendModelsForGql([filteredEntity]);
+  extendModelsForGql({ filteredEntity });
 
   describe('splitAttributeAndFilterOperator', () => {
     it('should split attributes from operators', () => {
@@ -89,7 +88,7 @@ describe('filter', () => {
 
     it('should fail on wrong inputs', () => {
       function fn1() {
-        splitAttributeAndFilterOperator();
+        splitAttributeAndFilterOperator(undefined);
       }
 
       function fn2() {
@@ -253,7 +252,7 @@ describe('filter', () => {
 
     it('should throw if provided params are invalid', async () => {
       expect(
-        transformFilterLevel(filteredEntity, 'a'),
+        transformFilterLevel(filteredEntity, 'a' as any, undefined),
       ).rejects.toThrowErrorMatchingSnapshot();
 
       expect(
