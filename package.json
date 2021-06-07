@@ -86,7 +86,7 @@
     "rimraf": "3.0.2",
     "sqlite3": "5.0.1",
     "ts-jest": "26",
-    "typeorm": "0.2.30",
+    "typeorm": "0.2.34",
     "typescript": "4.1.3"
   },
   "dependencies": {
