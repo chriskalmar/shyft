@@ -370,7 +370,9 @@ export const generateGraphQLSchema = (
           fields,
           fieldsI18n,
           fieldsReference,
-          generateReverseConnections(configuration, graphRegistry, entity),
+          isEntity(entity)
+            ? generateReverseConnections(configuration, graphRegistry, entity)
+            : {},
         );
 
         return fields;

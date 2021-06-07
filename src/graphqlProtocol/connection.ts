@@ -17,6 +17,8 @@ import { generateSortInput } from './sort';
 import { generateFilterInput } from './filter';
 import { ConnectionNode } from './types';
 import { getRegisteredEntity, getRegisteredEntityAttribute } from './registry';
+import { Configuration, Entity } from '..';
+import { GraphRegistryType } from './graphRegistry';
 
 export const generateConnectionArgs = (entity, graphRegistry) => {
   const sortInput = generateSortInput(entity);
@@ -294,10 +296,10 @@ export const registerConnection = (graphRegistry, entity) => {
 };
 
 export const generateReverseConnections = (
-  configuration,
-  graphRegistry,
-  entity,
-) => {
+  configuration: Configuration,
+  graphRegistry: GraphRegistryType,
+  entity: Entity,
+): Record<string, unknown> => {
   const schema = configuration.getSchema();
   const schemaEntities = schema.getEntities();
   const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;

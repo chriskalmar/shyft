@@ -6,6 +6,8 @@ export interface GraphRegistryType {
     [key: string]: {
       entity: Entity | ViewEntity;
       type: GraphQLObjectType;
+      connection?: GraphQLObjectType;
+      connectionArgs?: unknown;
     };
   };
   actions: {
