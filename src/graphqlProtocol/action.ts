@@ -18,6 +18,7 @@ import { buildActionPermissionFilter } from '../engine/permission/Permission';
 import { CustomError } from '../engine/CustomError';
 import { Attribute } from '../engine/attribute/Attribute';
 import { GraphRegistryType } from './graphRegistry';
+import { isFunction } from '../index';
 
 const AccessDeniedError = new CustomError(
   'Access denied',
@@ -95,11 +96,18 @@ export const handlePermission = async (
 
   const { userId, userRoles } = context;
 
+  let _permission;
+  if (!isFunction(permission)) {
+    _permission = () => permission;
+  } else {
+    _permission = permission;
+  }
+
   const {
     where: permissionWhere,
     lookupPermissionEntity,
   } = await buildActionPermissionFilter(
-    () => permission,
+    _permission,
     userId,
     userRoles,
     action,

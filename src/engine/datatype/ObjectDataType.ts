@@ -151,7 +151,7 @@ export class ObjectDataType extends ComplexDataType {
     return resultAttributes;
   }
 
-  validate: DataTypeValidateType = (value) => {
+  validate: DataTypeValidateType = ({ value }): void => {
     if (value) {
       if (!isMap(value)) {
         throw new Error(`Object data type '${this.name}' expects an object`);
