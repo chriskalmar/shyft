@@ -7,6 +7,9 @@ import {
 
 export const i18nDataParser: StorageDataTypeParser = (
   _,
+  // why ts-ignore? dataShaperMap does not exist on type RegistryEntity
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   { data, entity, model: { dataShaperMap } },
 ) => {
   const i18nAttributeNames = entity.getI18nAttributeNames();
@@ -42,6 +45,9 @@ export const i18nDataParser: StorageDataTypeParser = (
 
 export const i18nDataSerializer: StorageDataTypeSerializer = (
   _,
+  // why ts-ignore? dataShaperMap does not exist on type RegistryEntity
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   { data, entity, mutation, model: { dataShaperMap } },
 ): Record<string, unknown> => {
   const i18nAttributeNames = entity.getI18nAttributeNames();

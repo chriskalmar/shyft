@@ -109,7 +109,7 @@ export type AttributeBase = {
   /**
    * a custom mock data generator
    */
-  mock?: () => any;
+  mock?: (...args) => any;
 
   /**
    * attribute is an input for a mutation and not part of the storage model

@@ -58,3 +58,6 @@ lib/*
 
 # test schema
 schema.graphql
+
+# webstorm
+.idea

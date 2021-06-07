@@ -489,7 +489,7 @@ export const getMutationResolver: GetMutationResolverParams = ({
             ),
           );
 
-          result = translateInstance(entity, result, context);
+          result = translateInstance(entity, result, context as any);
         }
       }
 
@@ -562,7 +562,7 @@ export const handleSubscriptionPermission = async (
     where: permissionWhere,
     lookupPermissionEntity,
   } = await buildActionPermissionFilter(
-    subPermissions,
+    () => subPermissions,
     userId,
     userRoles,
     entitySubscription,

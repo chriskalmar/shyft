@@ -1,13 +1,11 @@
-import { passOrThrow, isFunction } from '../util';
+import { isFunction, passOrThrow } from '../util';
 
-import { isDataType, DataType } from '../datatype/DataType';
+import { DataType, isDataType } from '../datatype/DataType';
 import { isStorageDataType } from './StorageDataType';
-import {
-  StorageConfiguration,
-  isStorageConfiguration,
-} from './StorageConfiguration';
+import { isStorageConfiguration, StorageConfiguration } from './StorageConfiguration';
 import { ComplexDataType, Entity, StorageDataType } from '../..';
 import { Mutation } from '../mutation/Mutation';
+import { Connection } from 'typeorm';
 
 export type StorageTypeSetup = {
   name?: string;
@@ -52,12 +50,12 @@ export type StorageTypeSetup = {
 export class StorageType {
   name: string;
   description: string;
-  findOne: Function;
-  findOneByValues: Function;
-  find: Function;
-  count: Function;
-  mutate: Function;
-  checkLookupPermission: Function;
+  findOne: (...arg) => any;
+  findOneByValues: (...arg) => any;
+  find: (...args) => any;
+  count: (...arg) => any;
+  mutate: (...args) => any;
+  checkLookupPermission: (...arg) => any;
 
   private _dataTypeMap;
   private _dynamicDataTypeMap;
@@ -151,9 +149,9 @@ export class StorageType {
   }
 
   addDynamicDataTypeMap(
-    schemaDataTypeDetector: Function,
-    storageDataType: StorageDataType | Function,
-  ) {
+    schemaDataTypeDetector: (...args) => any,
+    storageDataType: StorageDataType | ((...args) => any),
+  ): void {
     passOrThrow(
       isFunction(schemaDataTypeDetector),
       () =>
@@ -187,8 +185,7 @@ export class StorageType {
       const storageDataType = foundDynamicDataType.storageDataType;
 
       if (isFunction(storageDataType)) {
-        const attributeType = schemaDataType;
-        return storageDataType(attributeType);
+        return storageDataType(schemaDataType);
       }
 
       return storageDataType;
@@ -211,7 +208,7 @@ export class StorageType {
     return this._dataTypeMap[schemaDataType.name];
   }
 
-  setStorageConfiguration(storageConfiguration: StorageConfiguration) {
+  setStorageConfiguration(storageConfiguration: StorageConfiguration): void {
     passOrThrow(
       isStorageConfiguration(storageConfiguration),
       () => 'StorageType expects a valid storageConfiguration',
@@ -220,7 +217,7 @@ export class StorageType {
     this.storageConfiguration = storageConfiguration;
   }
 
-  getStorageConfiguration() {
+  getStorageConfiguration(): StorageConfiguration {
     passOrThrow(
       this.storageConfiguration,
       () => 'StorageType is missing a valid storageConfiguration',
@@ -229,7 +226,7 @@ export class StorageType {
     return this.storageConfiguration;
   }
 
-  getStorageInstance() {
+  getStorageInstance(): Connection {
     return this.getStorageConfiguration().getStorageInstance();
   }
 
@@ -237,11 +234,11 @@ export class StorageType {
     return this.getStorageConfiguration().getStorageModels();
   }
 
-  toString() {
+  toString(): string {
     return this.name;
   }
 }
 
-export const isStorageType = (obj: unknown): obj is StorageType => {
+export const isStorageType = (obj: unknown): boolean => {
   return obj instanceof StorageType;
 };

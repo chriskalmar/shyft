@@ -49,7 +49,7 @@ export type ActionSetup = {
   output?: any;
   resolve: ActionResolver;
   type?: string;
-  permissions?: Function | Permission | Permission[];
+  permissions?: ((...args) => Permission | Permission[]) | Permission | Permission[];
   // preProcessor?: Function;
   // postProcessor?: Function;
   preProcessor?: ActionPreProcessor;
@@ -70,7 +70,7 @@ export class Action {
   resolve: ActionResolver;
   type: string;
   permissions: Permission | Permission[];
-  private _permissions: Function | Permission | Permission[];
+  private readonly _permissions: ((...args) => Permission | Permission[]) | Permission | Permission[];
   private _defaultPermissions: Permission | Permission[];
   descriptionPermissions: string | boolean;
   preProcessor?: ActionPreProcessor;
@@ -152,7 +152,7 @@ export class Action {
     }
 
     if (isFunction(this.input)) {
-      const inputFn = this.input as Function;
+      const inputFn = this.input as (...args) => any;
       this.input = inputFn();
 
       passOrThrow(
@@ -198,7 +198,7 @@ export class Action {
     }
 
     if (isFunction(this.output)) {
-      const outputFn = this.output as Function;
+      const outputFn = this.output as (...args) => any;
       this.output = outputFn();
 
       passOrThrow(
@@ -237,8 +237,8 @@ export class Action {
   _processPermissions(): null | Permission | Permission[] {
     if (this._permissions) {
       if (isFunction(this._permissions)) {
-        const permissionsFn = this._permissions as Function;
-        const permissions: Permission | Permission[] = permissionsFn();
+        const permissionsFn = this._permissions as (...args) => Permission | Permission[];
+        const permissions = permissionsFn();
         return processActionPermissions(this, permissions);
       }
       const permissions = this._permissions as Permission | Permission[];
@@ -254,7 +254,7 @@ export class Action {
     if (this.permissions) {
       let permissions: Permission | Permission[];
       if (isFunction(this._permissions)) {
-        const permissionsFn = this._permissions as Function;
+        const permissionsFn = this._permissions as (...args) => Permission | Permission[];
         permissions = permissionsFn();
       } else {
         permissions = this._permissions as Permission | Permission[];
@@ -268,7 +268,7 @@ export class Action {
     this._defaultPermissions = defaultPermissions;
   }
 
-  getPermissions(): Permission | Permission[] {
+  getPermissions(): ((...args) => Permission | Permission[]) | Permission | Permission[] {
     if ((!this._permissions && !this._defaultPermissions) || this.permissions) {
       return this.permissions;
     }

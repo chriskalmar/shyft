@@ -46,14 +46,18 @@ export const fillDefaultValues = async (
 
   const entityAttributes = entity.getAttributes();
   const payloadAttributes = Object.keys(payload);
+  // TODO: isSystemAttribute does not exist? do we create it?
   const requiredAttributes = _.filter(
     entityAttributes,
-    (attribute) => attribute.required && !attribute.isSystemAttribute,
+    // eslint-disable-next-line dot-notation
+    (attribute) => attribute.required && !attribute['isSystemAttribute'],
   );
 
   await Promise.all(
     requiredAttributes.map(async (attribute) => {
-      const attributeName = attribute.name;
+      // TODO: name does not exist on Attribute base
+      // eslint-disable-next-line dot-notation
+      const attributeName = attribute['name'];
       if (!payloadAttributes.includes(attributeName)) {
         if (attribute.defaultValue) {
           ret[attributeName] = await attribute.defaultValue({
@@ -73,7 +77,7 @@ export const fillDefaultValues = async (
 export const serializeValues = (
   entity: Entity,
   entityMutation: Mutation,
-  payload: any,
+  payload: Record<string, unknown>,
   model: string,
   context: Record<string, any>,
 ): any => {
@@ -84,10 +88,14 @@ export const serializeValues = (
   const entityAttributes = entity.getAttributes();
 
   _.forEach(entityAttributes, (attribute) => {
-    const attributeName = attribute.name;
+    // TODO: name does not exist on AttributeBase
+    // eslint-disable-next-line dot-notation
+    const attributeName = attribute['name'];
     const { fieldNameI18n: gqlFieldNameI18n } = getRegisteredEntityAttribute(
       entity.name,
-      attribute.name,
+      // TODO: name does not exist on AttributeBase
+      // eslint-disable-next-line dot-notation
+      attribute['name'],
     );
 
     if (attribute.serialize) {

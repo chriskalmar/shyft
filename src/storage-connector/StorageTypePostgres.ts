@@ -227,7 +227,7 @@ export const StorageTypePostgres = new StorageType({
   name: 'StorageTypePostgres',
   description: 'Postgres database storage type',
 
-  findOne(entity, id, args, context) {
+  findOne(entity, id, _args, context) {
     const entityName = entity.name;
     context.loaders = context.loaders || {};
     const loaders = context.loaders;

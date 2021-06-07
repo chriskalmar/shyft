@@ -815,7 +815,7 @@ export type ActionPermissionFilter = {
 };
 
 export const buildActionPermissionFilter = async (
-  _permissions: () => Permission | Permission | Permission[],
+  _permissions: () => Permission | Permission[],
   userId = null,
   userRoles = [],
   action: Action | Subscription,
@@ -840,10 +840,10 @@ export const buildActionPermissionFilter = async (
     permissions = isArray(permissionResult)
       ? permissionResult
       : [permissionResult];
-  } else if (isArray(_permissions as Permission[])) {
-    permissions = _permissions as Permission[];
+  } else if (isArray((_permissions as unknown) as Permission[])) {
+    permissions = _permissions as unknown as Permission[];
   } else {
-    permissions = [_permissions] as Permission[];
+    permissions = ([_permissions] as unknown) as Permission[];
   }
 
   // const permissions = isArray(_permissions as Permission[])

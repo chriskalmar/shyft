@@ -61,8 +61,9 @@ const validatePayload = async (
 
       await asyncForEach(Object.keys(attributes), async (attributeName) => {
         const attribute = attributes[attributeName];
-
-        const newPath = [...path, attribute.name];
+        // TODO: name does not exist on AttributeBase
+        // eslint-disable-next-line dot-notation
+        const newPath = [...path, attribute['name']];
 
         await validatePayload(
           attribute,
@@ -98,11 +99,17 @@ const validatePayload = async (
 
                   passOrThrow(
                     !attribute.required ||
-                      isDefined(itemPayload[attribute.name]),
+                      // TODO: name does not exist on AttributeBase
+                      // eslint-disable-next-line dot-notation
+                      isDefined(itemPayload[attribute['name']]),
                     () =>
-                      `Missing required input attribute '${pathString}${attribute.name}'`,
+                      // TODO: name does not exist on AttributeBase
+                      // eslint-disable-next-line dot-notation
+                      `Missing required input attribute '${pathString}${attribute['name']}'`,
                   );
-                  const newPath = [...path, attribute.name];
+                  // TODO: name does not exist on AttributeBase
+                  // eslint-disable-next-line dot-notation
+                  const newPath = [...path, attribute['name']];
                   await validatePayload(
                     attribute,
                     itemPayload,
@@ -170,6 +177,9 @@ export const validateActionPayload = async (
     newPayload.input = payload;
   }
 
+  // why ts-ignore? because action does not exist on the graphQl/Source class type as public member
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   await validatePayload(newParam, newPayload, { action }, context);
 };
 
@@ -188,6 +198,9 @@ export const validateMutationPayload = async (
   await Promise.all(
     systemAttributes.map(async (attributeName) => {
       const attribute = attributes[attributeName];
+      // why ts-ignore? because mutation does not exist on the graphQl/Source class type as public member
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       await validatePayload(attribute, payload, { mutation, entity }, context);
     }),
   );
@@ -204,7 +217,9 @@ export const validateMutationPayload = async (
           () => `Missing required input attribute '${attributeName}'`,
         );
       }
-
+      // why ts-ignore? because mutation does not exist on the graphQl/Source class type as public member
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       await validatePayload(attribute, payload, { mutation, entity }, context, [
         attributeName,
       ]);

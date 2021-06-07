@@ -29,7 +29,7 @@ export const resolveFunctionMap = (functionOrMap) => {
     : { ...functionOrMap };
 };
 
-export const isMap = (map: object, nonEmpty?: boolean): map is object => {
+export const isMap = (map: Record<string, any>, nonEmpty?: boolean): boolean => {
   return (
     map !== null &&
     typeof map === 'object' &&
@@ -38,7 +38,7 @@ export const isMap = (map: object, nonEmpty?: boolean): map is object => {
   );
 };
 
-export const isFunction = (fn: unknown): fn is Function => {
+export const isFunction = (fn: unknown): boolean => {
   return typeof fn === 'function';
 };
 
@@ -65,7 +65,7 @@ export const mergeMaps = (first, second) => {
 };
 
 export const mapOverProperties = (
-  object: object,
+  object: Record<string, unknown>,
   iteratee: (val: any, key: any) => any,
 ) => {
   passOrThrow(isMap(object), () => 'Provided object is not a map');
