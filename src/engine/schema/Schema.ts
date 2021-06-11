@@ -228,8 +228,8 @@ export class Schema {
       entityDefaultPermissions.subscriptions =
         entityDefaultPermissions.subscriptions || ({} as Permission);
 
-      const defaultPermissions = this.permissionsMap.entities
-        ._defaultPermissions;
+      const defaultPermissions =
+        this.permissionsMap.entities._defaultPermissions;
       defaultPermissions.mutations = defaultPermissions.mutations || {};
       defaultPermissions.subscriptions = defaultPermissions.subscriptions || {};
 

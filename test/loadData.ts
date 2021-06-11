@@ -2,7 +2,7 @@ import { readRows } from './testingData';
 import { Board } from './models/Board';
 import { findOneByValue, testGraphql } from './db';
 import { asAdmin, asUser } from './testUtils';
-import { asyncForEach } from '../src/engine/util';
+import { asyncForEach } from '../src';
 import { formatGraphQLError, gql } from '../src/graphqlProtocol/util';
 
 const stopOnError = (result) => {
@@ -12,7 +12,7 @@ const stopOnError = (result) => {
   }
 };
 
-export const loadData = async () => {
+export const loadData = async (): Promise<any> => {
   const profiles = readRows('profiles');
 
   await asyncForEach(
