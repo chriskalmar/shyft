@@ -79,6 +79,6 @@ schema.graphql
 .env.test.local
 .env.production.local
 
-/www/docs/api
+/api
 
 /www/typedoc-sidebar.js
