@@ -1,11 +1,18 @@
 import {
   connectStorage,
   disconnectStorage,
-} from '../src/storage-connector/generator';
+  Schema,
+  Configuration,
+  Entity,
+  generateGraphQLSchema,
+  ProtocolGraphQLConfiguration,
+  Context,
+  ProtocolGraphQL,
+} from '../src';
 import { StorageTypePostgres } from '../src/storage-connector/StorageTypePostgres';
 import StoragePostgresConfiguration from '../src/storage-connector/StoragePostgresConfiguration';
 import { writeFileSync } from 'fs';
-import { Schema, Configuration, Entity } from '../src';
+
 import { Profile } from './models/Profile';
 import { Message } from './models/Message';
 import { BoardMember } from './models/BoardMember';
@@ -13,21 +20,20 @@ import { Book } from './models/Book';
 import { DataTypeTester } from './models/DataTypeTester';
 import { BoardMemberView } from './models/BoardMemberView';
 import { Connection } from 'typeorm';
-import { generateGraphQLSchema } from '../src/graphqlProtocol/generator';
+
 import {
   ExecutionResult,
   graphql,
+  GraphQLResolveInfo,
   GraphQLSchema,
   printSchema,
   Source,
 } from 'graphql';
-import Maybe from 'graphql/tsutils/Maybe';
-import { ExecutionResultDataDefault } from 'graphql/execution/execute';
-import { ProtocolGraphQLConfiguration } from '../src/graphqlProtocol/ProtocolGraphQLConfiguration';
+
 import { formatGraphQLError } from '../src/graphqlProtocol/util';
-import { Context } from '../src/engine/context/Context';
+
 import { getMutationResolver } from '../src/graphqlProtocol/resolver';
-import { ProtocolGraphQL } from '../src/graphqlProtocol/ProtocolGraphQL';
+
 import { Website } from './models/Website';
 import { WebsiteTag } from './models/WebsiteTag';
 
@@ -88,8 +94,8 @@ export const initGraphQLSchema = (): void => {
 export async function testGraphql(
   query: Source | string,
   context?: unknown,
-  payload?: Maybe<{ [key: string]: unknown }>,
-): Promise<ExecutionResult<ExecutionResultDataDefault>> {
+  payload?: { [key: string]: unknown },
+): Promise<ExecutionResult> {
   const result = await graphql(
     graphqlSchema,
     query,
@@ -133,7 +139,7 @@ export const mutate = async (
     {},
     { input: { [typeName]: payload } },
     context,
-    {},
+    {} as GraphQLResolveInfo,
   );
 
   if (entityMutation.isTypeDelete) {

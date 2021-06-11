@@ -1,10 +1,10 @@
 import fs from 'fs';
 
-const buildArray = (length, value = 1) => {
+const buildArray = (length: number, value = 1) => {
   return new Array(length).fill(value);
 };
 
-export const readRows = (fileName) => {
+export const readRows = (fileName: string): string[][] => {
   const filePath = `${__dirname}/data/${fileName}.csv`;
   const content = fs.readFileSync(filePath, 'utf8');
   return content
@@ -18,13 +18,20 @@ export const readRows = (fileName) => {
     });
 };
 
-export const writeTestDataFile = (fileName, content) => {
+export const writeTestDataFile = (
+  fileName: string,
+  content: string[],
+): void => {
   const filePath = `${__dirname}/data/${fileName}.csv`;
   fs.writeFileSync(filePath, `${content.join('\n')}\n`, 'utf8');
 };
 
-export const generateRows = (count, fileName, generator) => {
-  const content = buildArray(count).map((item, idx) => {
+export const generateRows = (
+  count: number,
+  fileName: string,
+  generator: (arg: number) => any[],
+): void => {
+  const content = buildArray(count).map((_item, idx) => {
     return generator(idx).join(',');
   });
 

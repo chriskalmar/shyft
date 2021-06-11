@@ -22,10 +22,10 @@ export const BoardMemberView = new ViewEntity({
   name: 'BoardMemberView',
   description: 'Custom view of board members',
 
-  permissions: () => ({
+  permissions: {
     read: readPermissions(),
     find: readPermissions(),
-  }),
+  },
 
   viewExpression: `
     SELECT
