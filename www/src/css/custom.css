@@ -23,6 +23,7 @@ body {
 }
 
 .navbar {
+  box-shadow: none;
   padding-left: 10%;
   padding-right: 10%;
 }

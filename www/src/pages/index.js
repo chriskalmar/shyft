@@ -3,6 +3,7 @@ import React from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
+import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './index.module.css';
 import HomepageFeatures from '../components/HomepageFeatures';
@@ -39,6 +40,10 @@ export default function Home() {
   const { siteConfig } = useDocusaurusContext();
   return (
     <Layout title={siteConfig.title}>
+      <Head>
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <title />
+      </Head>
       <HomepageHeader />
       <main>
         <HomepageFeatures />

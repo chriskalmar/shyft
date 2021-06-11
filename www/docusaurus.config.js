@@ -16,17 +16,12 @@ module.exports = {
       },
       items: [
         {
+          label: 'Intro',
+          to: '/intro',
+        },
+        {
           to: 'docs/api',
           label: 'API',
-        },
-        {
-          label: 'Guides',
-          to: '/guides',
-        },
-        {
-          href: 'https://github.com/chriskalmar/shyft',
-          label: 'GitHub',
-          position: 'right',
         },
       ],
     },
@@ -40,7 +35,7 @@ module.exports = {
               to: '/docs/api',
             },
             {
-              label: 'Guides',
+              label: 'Intro',
               to: '/guides',
             },
           ],
@@ -50,6 +45,21 @@ module.exports = {
             {
               label: 'GitHub',
               href: 'https://github.com/chriskalmar/shyft',
+            },
+            {
+              html: `
+                <a
+                 class="github-button"
+                 href="https://github.com/chriskalmar/shyft"
+                 data-color-scheme="no-preference: light; light: light; dark: dark;"
+                 data-icon="octicon-star"
+                 data-size="large"
+                 data-show-count="true"
+                 aria-label="Star chriskalmar/shyft on GitHub"
+                >
+                  Star
+                 </a>
+              `,
             },
           ],
         },
@@ -81,6 +91,9 @@ module.exports = {
         tsconfig: '../tsconfig.json',
         readme: 'none',
         exclude: '**/*+(index|.spec|.e2e).ts',
+        excludePrivate: true,
+        excludeExternals: true,
+        includeVersion: true,
       },
     ],
   ],
