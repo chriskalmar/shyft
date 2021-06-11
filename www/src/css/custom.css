@@ -1,0 +1,124 @@
+/* stylelint-disable docusaurus/copyright-header */
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #ee5152;
+  --ifm-color-secondary: #3E3452;
+  --ifm-heading-color: #24292e;
+  --ifm-font-family-base: Roboto,Helvetica Neue,Helvetica,"sans-serif";
+  --ifm-code-font-size: 95%;
+  --ifm-navbar-background-color: var(--ifm-color-primary);
+  --ifm-footer-link-color: #ffffff;
+  --ifm-footer-color: #ffffff;
+}
+
+body {
+  font-family: var(--ifm-font-family-base);
+  font-weight: 400;
+}
+
+.navbar {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.navbar__title,.navbar__link {
+  color: hsla(0,0%,100%,.8);
+  transition: color var(--ifm-transition-fast) var(--ifm-transition-timing-default);
+}
+
+.navbar__link:hover {
+  color: white;
+}
+
+.hero {
+  display: inherit;
+  padding: 1rem;
+}
+
+.hero h1 {
+  margin-top: 20px;
+  margin-bottom: 50px;
+  font-size: 70px;
+  font-weight: 100;
+  color: #ffffff !important;
+}
+
+.hero h2 {
+  font-weight: 200;
+  font-size: 24px;
+  color: #ffffff !important;
+}
+
+.intro {
+  text-align: center;
+}
+
+.intro p {
+  font-size: 18px;
+}
+
+.intro h2 {
+  color: #3e3452;
+  font-family: var(--ifm-font-family-base);
+  font-weight: 400;
+  font-size: 26px;
+}
+
+.feature-grid span {
+  color: #3e3452;
+  font-family: Roboto,Helvetica Neue,Helvetica,"sans-serif";
+  font-weight: 400;
+  font-size: 24px;
+  border-bottom: 2px solid #ee5152;
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+.row.footer__links {
+  text-align: center;
+}
+
+.footer__link-item:hover {
+  text-decoration: none;
+}
+
+.footer,.footer--dark {
+  background: var(--ifm-color-secondary);
+  --ifm-footer-color: #ffffff;
+  --ifm-footer-link-color: #ffffff;
+}
+
+@media only screen and (min-width: 1024px) {
+
+  .hero .logo {
+    height: 300px !important;
+  }
+
+  .hero .title {
+    font-size: 110px;
+  }
+
+  .hero h2 {
+    font-size: 30px;
+  }
+
+  .featureSection h2 {
+    font-size: 30px;
+  }
+
+  .featureSection .intro p {
+    font-size: 22px;
+  }
+
+}
