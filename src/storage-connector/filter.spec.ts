@@ -1,4 +1,4 @@
-import { createConnection } from 'typeorm';
+import { Connection, createConnection } from 'typeorm';
 import { buildWhereQuery, purifyFilter } from './filter';
 import { StorageTypePostgres } from './StorageTypePostgres';
 import { loadModels } from './generator';
@@ -6,7 +6,7 @@ import { Server } from '../../test/models/Server';
 import StoragePostgresConfiguration from './StoragePostgresConfiguration';
 import { Schema, Configuration } from '..';
 
-let connection;
+let connection: Connection;
 let modelRegistry;
 
 beforeAll(async () => {
@@ -30,8 +30,7 @@ beforeAll(async () => {
   });
 
   connection = await createConnection({
-    database: ':memory:',
-    type: 'sqlite',
+    type: 'postgres',
     entities,
   });
 });
@@ -517,6 +516,69 @@ describe('filter', () => {
       buildWhereQuery(qBuilder, filter, entityNameServer, modelRegistry, true);
       const query2 = qBuilder.getQueryAndParameters();
       expect(query2).toMatchSnapshot('with isGetMany');
+    });
+
+    it.only('complex filter qBuilder check', () => {
+      const data = { id: 234, state: 10, updateAt: new Date() };
+      const qBuilder = connection
+        .createQueryBuilder()
+        .update('board_member')
+        .set(data)
+        .returning('*');
+
+      const filter = {
+        $and: [
+          {
+            id: '1500952',
+          },
+          {
+            state: {
+              $in: [10, 20, 30],
+            },
+          },
+          {
+            $or: [
+              {
+                $and: [
+                  {
+                    $or: [
+                      {
+                        $sub: {
+                          entity: 'ClusterZone',
+                          condition: [
+                            {
+                              targetAttribute: 'serviceProvider',
+                              operator: '$eq',
+                              sourceAttribute: 'serviceProvider',
+                            },
+                            {
+                              targetAttribute: 'member',
+                              operator: '$eq',
+                              value: '102',
+                            },
+                            {
+                              targetAttribute: 'role',
+                              operator: '$in',
+                              value: ['13700249'],
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+
+      buildWhereQuery(qBuilder, filter, entityNameServer, modelRegistry, false);
+      const query1 = qBuilder.getQueryAndParameters();
+      const query2 = qBuilder.getSql();
+
+      console.log(query1);
+      console.log(query2);
     });
   });
 });
