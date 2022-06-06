@@ -13,11 +13,15 @@ import {
   storageDataTypeCapabilityType,
 } from '../engine/constants';
 import { isComplexDataType } from '../engine/datatype/ComplexDataType';
-import { isArray, isMap } from '../engine/util';
+import { isArray, isFunction, isMap } from '../engine/util';
 import { isViewEntity, ViewEntity } from '../engine/entity/ViewEntity';
 import { isShadowEntity } from '../engine/entity/ShadowEntity';
 import { DataTypeBoolean, DataTypeString } from '../engine/datatype/dataTypes';
 import { getRegisteredEntity, getRegisteredEntityAttribute } from './registry';
+import { generateDataInput } from './io';
+import { DataTypeFunction } from '../engine/datatype/DataType';
+import { ObjectDataType } from '../engine/datatype/ObjectDataType';
+import { AttributesMap } from '../engine/attribute/Attribute';
 
 const AND_OPERATOR = 'AND';
 const OR_OPERATOR = 'OR';
@@ -165,14 +169,41 @@ export const generateFilterInput = (entity, graphRegistry) => {
 
               Object.keys(preFilters).map((preFilterName) => {
                 const preFilter = preFilters[preFilterName];
-                // TODO:
-                // const preFilterParamsInputTypeName = protocolConfiguration.generateFilterPreFilterParamsInputTypeName(
-                //   entity,
-                //   preFilterName,
-                // );
 
                 if (preFilter.attributes) {
-                  // TODO
+                  const preFilterParamsInputTypeName =
+                    protocolConfiguration.generateFilterPreFilterParamsInputTypeName(
+                      entity,
+                      preFilterName,
+                    );
+
+                  let preFilterAttributesType: AttributesMap;
+
+                  if (isFunction(preFilter.attributes)) {
+                    const preFilterAttributesTypeFn =
+                      preFilter.attributes as DataTypeFunction;
+
+                    const generatedType = preFilterAttributesTypeFn({
+                      setup: {
+                        name: preFilterParamsInputTypeName,
+                        description: preFilterParamsInputTypeName,
+                      },
+                    }) as ObjectDataType;
+
+                    preFilterAttributesType = generatedType.getAttributes();
+                  } else {
+                    preFilterAttributesType = preFilter.attributes;
+                  }
+
+                  const preFilterInputType = generateDataInput(
+                    preFilterParamsInputTypeName,
+                    preFilterAttributesType,
+                    false,
+                  );
+
+                  preFilterFields[preFilterName] = {
+                    type: preFilterInputType,
+                  };
                 } else {
                   preFilterFields[preFilterName] = {
                     type: GraphQLBoolean,
