@@ -65,7 +65,8 @@ const generateDataInputField = (
     );
   } else if (param.i18n) {
     // const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration();
-    const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+    const protocolConfiguration =
+      ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
     const languages = protocolConfiguration
       .getParentConfiguration()
@@ -73,17 +74,18 @@ const generateDataInputField = (
 
     param.gqlFieldNameI18n = protocolConfiguration.generateI18nFieldName(param);
 
-    const i18nFieldTypeName = protocolConfiguration.generateOperationI18nAttributeInputTypeName(
-      {
-        name: baseName,
-      },
-      {
-        name: paramName,
-      },
-      {
-        name: level,
-      },
-    );
+    const i18nFieldTypeName =
+      protocolConfiguration.generateOperationI18nAttributeInputTypeName(
+        {
+          name: baseName,
+        },
+        {
+          name: paramName,
+        },
+        {
+          name: level,
+        },
+      );
 
     const fieldType = ProtocolGraphQL.convertToProtocolDataType(
       paramType,
@@ -162,7 +164,8 @@ export const generateDataInput = (
   inputParams: any,
   singleParam?: any,
 ) => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+  const protocolConfiguration =
+    ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   if (singleParam) {
     // eslint-disable-next-line no-use-before-define
@@ -194,7 +197,8 @@ export const generateNestedDataInput = (
   nestedParamName,
   level = 1,
 ) => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+  const protocolConfiguration =
+    ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const dataInputType = new GraphQLInputObjectType({
     name: protocolConfiguration.generateNestedDataInputTypeName(
@@ -224,7 +228,8 @@ export const generateInput = (
   isField,
   includeClientMutationId = false,
 ): GraphQLInputObjectType => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+  const protocolConfiguration =
+    ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const inputType = new GraphQLInputObjectType({
     name: protocolConfiguration.generateInputTypeName(baseName),
@@ -268,7 +273,8 @@ const generateDataOutputField = (
   level = 0,
   returnAsFieldNameMap = false,
 ): GraphQLObjectType | WrappedDataOutputField => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+  const protocolConfiguration =
+    ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   let paramType = param.type;
   let baseFieldType;
@@ -358,17 +364,17 @@ const generateDataOutputField = (
         },
       };
 
-      const referenceFieldListName = protocolConfiguration.generateReferenceFieldListName(
-        targetEntity,
-        { name: paramName },
-      );
+      const referenceFieldListName =
+        protocolConfiguration.generateReferenceFieldListName(targetEntity, {
+          name: paramName,
+        });
 
       result[referenceFieldListName] = referenceFieldList;
     } else {
-      const referenceFieldName = protocolConfiguration.generateReferenceFieldName(
-        targetEntity,
-        { name: paramName },
-      );
+      const referenceFieldName =
+        protocolConfiguration.generateReferenceFieldName(targetEntity, {
+          name: paramName,
+        });
 
       result[referenceFieldName] = referenceField;
     }
@@ -432,7 +438,8 @@ export const generateDataOutput = (
   graphRegistry: any,
   singleParam?: any,
 ): GraphQLObjectType | WrappedDataOutputField => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+  const protocolConfiguration =
+    ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   if (singleParam) {
     // eslint-disable-next-line no-use-before-define
@@ -463,7 +470,8 @@ export const generateNestedDataOutput = (
   graphRegistry?: any,
   level = 1,
 ) => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+  const protocolConfiguration =
+    ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const dataOutputType = new GraphQLObjectType({
     name: protocolConfiguration.generateNestedDataOutPutTypeName(
@@ -494,7 +502,8 @@ export const generateOutput = (
   isField,
   includeClientMutationId = false,
 ): GraphQLObjectType => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+  const protocolConfiguration =
+    ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   const outputType = new GraphQLObjectType({
     name: protocolConfiguration.generateOutPutTypeName(baseName),

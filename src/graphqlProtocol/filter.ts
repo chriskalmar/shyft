@@ -30,17 +30,16 @@ const DEEP_FILTER_OPERATOR = 'filter';
 const PRE_FILTER_OPERATOR = 'pre_filter';
 
 export const generateFilterInput = (entity, graphRegistry) => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+  const protocolConfiguration =
+    ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
-  const {
-    typeNamePluralPascalCase: typeNamePluralListName,
-  } = getRegisteredEntity(entity.name);
+  const { typeNamePluralPascalCase: typeNamePluralListName } =
+    getRegisteredEntity(entity.name);
 
   const storageType = entity.storageType;
 
-  const filterInputTypeName = protocolConfiguration.generateFilterInputTypeName(
-    entity,
-  );
+  const filterInputTypeName =
+    protocolConfiguration.generateFilterInputTypeName(entity);
 
   const preFilters = entity.getPreFilters();
 
@@ -105,9 +104,8 @@ export const generateFilterInput = (entity, graphRegistry) => {
           true,
         );
 
-        const storageDataType = storageType.convertToStorageDataType(
-          attributeType,
-        );
+        const storageDataType =
+          storageType.convertToStorageDataType(attributeType);
 
         if (!isComplexDataType(attributeType)) {
           fields[gqlFieldName] = {
@@ -154,9 +152,8 @@ export const generateFilterInput = (entity, graphRegistry) => {
         });
 
         if (isPrimary && preFilters) {
-          const preFilterInputTypeName = protocolConfiguration.generateFilterPreFilterInputTypeName(
-            entity,
-          );
+          const preFilterInputTypeName =
+            protocolConfiguration.generateFilterPreFilterInputTypeName(entity);
 
           const fieldName = `${gqlFieldName}__${PRE_FILTER_OPERATOR}`;
           const preFilterFieldType = new GraphQLInputObjectType({
@@ -321,9 +318,8 @@ export const transformFilterLevel = async (
         return;
       }
 
-      const { operator, attributeName } = splitAttributeAndFilterOperator(
-        filter,
-      );
+      const { operator, attributeName } =
+        splitAttributeAndFilterOperator(filter);
 
       let attribute;
       const attributesNames = Object.keys(attributes);

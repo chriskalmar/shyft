@@ -46,7 +46,8 @@ export const getTypeForEntityFromGraphRegistry = (entity: Entity) => {
 
 // prepare models for graphql
 export const extendModelsForGql = (entities: EntityMap) => {
-  const protocolConfiguration = ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+  const protocolConfiguration =
+    ProtocolGraphQL.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   for (const entity of Object.values(entities)) {
     const dataShaperMap = {};
@@ -77,9 +78,8 @@ export const extendModelsForGql = (entities: EntityMap) => {
         // eslint-disable-next-line dot-notation
         reverseDataShaperMap[`${attribute['name']}.i18n`] = fieldNameI18n;
 
-        fieldNameI18nJson = protocolConfiguration.generateI18nJsonFieldName(
-          attribute,
-        );
+        fieldNameI18nJson =
+          protocolConfiguration.generateI18nJsonFieldName(attribute);
         // TODO: name does not exist on AttributeBase
         // eslint-disable-next-line dot-notation
         dataShaperMap[fieldNameI18nJson] = `${attribute['name']}.i18n`;
@@ -107,15 +107,12 @@ export const extendModelsForGql = (entities: EntityMap) => {
     registerEntity({
       entity,
       typeName: protocolConfiguration.generateEntityTypeName(entity),
-      typeNamePlural: protocolConfiguration.generateEntityTypeNamePlural(
-        entity,
-      ),
-      typeNamePascalCase: protocolConfiguration.generateEntityTypeNamePascalCase(
-        entity,
-      ),
-      typeNamePluralPascalCase: protocolConfiguration.generateEntityTypeNamePluralPascalCase(
-        entity,
-      ),
+      typeNamePlural:
+        protocolConfiguration.generateEntityTypeNamePlural(entity),
+      typeNamePascalCase:
+        protocolConfiguration.generateEntityTypeNamePascalCase(entity),
+      typeNamePluralPascalCase:
+        protocolConfiguration.generateEntityTypeNamePluralPascalCase(entity),
       attributes,
       dataShaper: (data) => {
         return data ? dataShaper(data) : data;
@@ -185,7 +182,8 @@ export const generateGraphQLSchema = (
   }
 
   const schema: Schema = configuration.getSchema();
-  const protocolConfiguration: ProtocolGraphQLConfiguration = configuration.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
+  const protocolConfiguration: ProtocolGraphQLConfiguration =
+    configuration.getProtocolConfiguration() as ProtocolGraphQLConfiguration;
 
   ProtocolGraphQL.setProtocolConfiguration(protocolConfiguration);
 
@@ -266,10 +264,11 @@ export const generateGraphQLSchema = (
               ),
             };
 
-            const referenceFieldName = protocolConfiguration.generateReferenceFieldName(
-              targetEntity,
-              attribute,
-            );
+            const referenceFieldName =
+              protocolConfiguration.generateReferenceFieldName(
+                targetEntity,
+                attribute,
+              );
             fieldsReference[referenceFieldName] = reference;
           }
 
