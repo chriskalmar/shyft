@@ -24,17 +24,10 @@ import {
   AttributesSetupMap,
   AttributesMapGenerator,
 } from '../attribute/Attribute';
-import { processPreFilters } from '../filter';
+import { PreFilterMap, processPreFilters } from '../filter';
 import { Context } from '../context/Context';
 import { GraphQLResolveInfo } from 'graphql';
 import { Entity } from './Entity';
-
-interface PreFilterType {
-  [key: string]: {
-    resolve: (...args) => any;
-    attributes: any;
-  };
-}
 
 interface ViewEntityPreProcessorResponse {
   args?: {
@@ -69,7 +62,7 @@ export interface ViewEntitySetup {
   permissions?: PermissionMap;
   preProcessor?: ViewEntityPreProcessor;
   postProcessor?: ViewEntityPostProcessor;
-  preFilters?: PreFilterType | (() => PreFilterType);
+  preFilters?: PreFilterMap | (() => PreFilterMap);
   meta?: any;
 }
 
@@ -82,7 +75,7 @@ export class ViewEntity {
   permissions?: PermissionMap;
   preProcessor?: ViewEntityPreProcessor;
   postProcessor?: ViewEntityPostProcessor;
-  preFilters?: PreFilterType;
+  preFilters?: PreFilterMap;
   meta?: any;
   private readonly _attributesMap: AttributesSetupMap | AttributesMapGenerator;
   private _primaryAttribute: Attribute;
@@ -91,7 +84,7 @@ export class ViewEntity {
   private _attributes: AttributesMap;
   descriptionPermissionsFind: string | boolean;
   descriptionPermissionsRead: string | boolean;
-  private _preFilters: PreFilterType | (() => PreFilterType);
+  private _preFilters: PreFilterMap | (() => PreFilterMap);
   isFallbackStorageType: any;
   findOne: (...arg) => any;
   find: (...args) => any;
@@ -246,7 +239,8 @@ export class ViewEntity {
     );
 
     if (isFunction(attribute.type)) {
-      const dataTypeBuilder: DataTypeFunction = attribute.type as DataTypeFunction;
+      const dataTypeBuilder: DataTypeFunction =
+        attribute.type as DataTypeFunction;
       attribute.type = dataTypeBuilder({
         setup: attribute as unknown,
         entity: this,
@@ -459,8 +453,8 @@ export class ViewEntity {
     }
   }
 
-  _processPreFilters(): PreFilterType {
-    return this._preFilters ? processPreFilters(this, this._preFilters) : null;
+  _processPreFilters(preFilters?: PreFilterMap): PreFilterMap {
+    return preFilters ? processPreFilters(this, preFilters) : null;
   }
 
   getPreFilters() {
@@ -472,7 +466,7 @@ export class ViewEntity {
       this._preFilters = this._preFilters();
     }
 
-    this.preFilters = this._processPreFilters();
+    this.preFilters = this._processPreFilters(this._preFilters);
     return this.preFilters;
   }
 

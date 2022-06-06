@@ -53,16 +53,9 @@ import {
   AttributesMapGenerator,
   PrimaryAttribute,
 } from '../attribute/Attribute';
-import { processPreFilters } from '../filter';
+import { PreFilterMap, processPreFilters } from '../filter';
 import { Context } from '../context/Context';
 import { GraphQLResolveInfo, Source } from 'graphql';
-
-interface PreFilterType {
-  [key: string]: {
-    resolve: Function;
-    attributes: unknown;
-  };
-}
 
 export interface StateMap {
   [key: string]: number;
@@ -107,7 +100,7 @@ export interface EntitySetup {
   states?: StateMap;
   preProcessor?: EntityPreProcessor;
   postProcessor?: EntityPostProcessor;
-  preFilters?: PreFilterType | (() => PreFilterType);
+  preFilters?: PreFilterMap | (() => PreFilterMap);
   meta?: {
     [key: string]: unknown;
   };
@@ -128,7 +121,7 @@ export class Entity {
   states?: StateMap;
   preProcessor?: EntityPreProcessor;
   postProcessor?: EntityPostProcessor;
-  preFilters?: PreFilterType;
+  preFilters?: PreFilterMap;
   meta?: {
     [key: string]: unknown;
   };
@@ -143,8 +136,8 @@ export class Entity {
   descriptionPermissionsFind: string | boolean;
   descriptionPermissionsRead: string | boolean;
   isFallbackStorageType: boolean;
-  findOne: Function;
-  find: Function;
+  findOne: () => unknown;
+  find: () => unknown;
 
   constructor(setup: EntitySetup) {
     passOrThrow(isMap(setup), () => 'Entity requires a setup object');
@@ -507,7 +500,8 @@ export class Entity {
     );
 
     if (isFunction(attribute.type)) {
-      const dataTypeBuilder: DataTypeFunction = attribute.type as DataTypeFunction;
+      const dataTypeBuilder: DataTypeFunction =
+        attribute.type as DataTypeFunction;
       attribute.type = dataTypeBuilder({
         setup: attribute as unknown,
         entity: this,
@@ -794,9 +788,8 @@ export class Entity {
           const permission = this.permissions.mutations[mutationName];
 
           if (permission) {
-            const descriptionPermissions = generatePermissionDescription(
-              permission,
-            );
+            const descriptionPermissions =
+              generatePermissionDescription(permission);
             if (descriptionPermissions) {
               mutation.description += descriptionPermissions;
             }
@@ -810,9 +803,8 @@ export class Entity {
           const permission = this.permissions.subscriptions[subscriptionName];
 
           if (permission) {
-            const descriptionPermissions = generatePermissionDescription(
-              permission,
-            );
+            const descriptionPermissions =
+              generatePermissionDescription(permission);
             if (descriptionPermissions) {
               subscription.description += descriptionPermissions;
             }
@@ -822,10 +814,8 @@ export class Entity {
     }
   }
 
-  _processPreFilters(): PreFilterType {
-    return this.setup.preFilters
-      ? (processPreFilters(this, this.setup.preFilters) as any)
-      : null;
+  _processPreFilters(preFilters?: PreFilterMap): PreFilterMap {
+    return preFilters ? processPreFilters(this, preFilters) : null;
   }
 
   getPreFilters() {
@@ -837,7 +827,7 @@ export class Entity {
       this.setup.preFilters = this.setup.preFilters();
     }
 
-    this.preFilters = this._processPreFilters();
+    this.preFilters = this._processPreFilters(this.setup.preFilters);
     return this.preFilters;
   }
 

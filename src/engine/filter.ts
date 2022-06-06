@@ -1,4 +1,4 @@
-import { isEntity } from './entity/Entity';
+import { Entity, isEntity } from './entity/Entity';
 
 import {
   passOrThrow,
@@ -9,12 +9,19 @@ import {
 } from './util';
 import { isObjectDataType, ObjectDataType } from './datatype/ObjectDataType';
 import { DataTypeFunction } from './datatype/DataType';
+import { ViewEntity } from './entity/ViewEntity';
+import { Context } from './context/Context';
 
-type PreFilter = {
-  [key: string]: {
-    resolve: () => unknown;
-    attributes?: ObjectDataType;
-  };
+export type PreFilter = {
+  resolve: (
+    context: Context,
+    input: { [key: string]: unknown },
+  ) => number[] | Promise<number[]>;
+  attributes?: ObjectDataType | DataTypeFunction;
+};
+
+export type PreFilterMap = {
+  [key: string]: PreFilter;
 };
 
 const logicFilters = ['$and', '$or'];
@@ -176,8 +183,7 @@ const isPreFilter = (preFilterDefinition: PreFilter) => {
       }
 
       if (isFunction(preFilterDefinition.attributes)) {
-        const dataTypeBuilder =
-          preFilterDefinition.attributes as DataTypeFunction;
+        const dataTypeBuilder = preFilterDefinition.attributes;
 
         const attributesType = dataTypeBuilder({
           setup: {
@@ -196,7 +202,10 @@ const isPreFilter = (preFilterDefinition: PreFilter) => {
   return false;
 };
 
-export const processPreFilters = (entity, preFilters) => {
+export const processPreFilters = (
+  entity: Entity | ViewEntity,
+  preFilters: PreFilterMap,
+) => {
   passOrThrow(
     isMap(preFilters),
     () =>
