@@ -8,10 +8,11 @@ import {
   isFunction,
 } from './util';
 import { isObjectDataType, ObjectDataType } from './datatype/ObjectDataType';
+import { DataTypeFunction } from './datatype/DataType';
 
 type PreFilter = {
   [key: string]: {
-    resolve: Function;
+    resolve: () => unknown;
     attributes?: ObjectDataType;
   };
 };
@@ -172,6 +173,22 @@ const isPreFilter = (preFilterDefinition: PreFilter) => {
         isObjectDataType(preFilterDefinition.attributes)
       ) {
         return true;
+      }
+
+      if (isFunction(preFilterDefinition.attributes)) {
+        const dataTypeBuilder =
+          preFilterDefinition.attributes as DataTypeFunction;
+
+        const attributesType = dataTypeBuilder({
+          setup: {
+            name: 'temporary',
+            description: 'temporary',
+          },
+        });
+
+        if (isObjectDataType(attributesType)) {
+          return true;
+        }
       }
     }
   }
