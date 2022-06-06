@@ -445,7 +445,7 @@ export const transformFilterLevel = async (
             }
 
             const preFilterFn = preFilter.resolve;
-            const preFilterAttributes = value[preFilter];
+            const preFilterAttributes = value[usedPreFilter];
 
             const resolvedList = await preFilterFn(
               context,
