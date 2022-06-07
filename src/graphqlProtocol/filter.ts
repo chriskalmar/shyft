@@ -170,7 +170,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
               Object.keys(preFilters).map((preFilterName) => {
                 const preFilter = preFilters[preFilterName];
 
-                if (preFilter.attributes) {
+                if (preFilter.input) {
                   const preFilterParamsInputTypeName =
                     protocolConfiguration.generateFilterPreFilterParamsInputTypeName(
                       entity,
@@ -179,9 +179,9 @@ export const generateFilterInput = (entity, graphRegistry) => {
 
                   let preFilterAttributesType: AttributesMap;
 
-                  if (isFunction(preFilter.attributes)) {
+                  if (isFunction(preFilter.input)) {
                     const preFilterAttributesTypeFn =
-                      preFilter.attributes as DataTypeFunction;
+                      preFilter.input as DataTypeFunction;
 
                     const generatedType = preFilterAttributesTypeFn({
                       setup: {
@@ -192,7 +192,7 @@ export const generateFilterInput = (entity, graphRegistry) => {
 
                     preFilterAttributesType = generatedType.getAttributes();
                   } else {
-                    preFilterAttributesType = preFilter.attributes;
+                    preFilterAttributesType = preFilter.input;
                   }
 
                   const preFilterInputType = generateDataInput(

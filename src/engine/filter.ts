@@ -17,7 +17,7 @@ export type PreFilter = {
     context: Context,
     input: { [key: string]: unknown },
   ) => number[] | Promise<number[]>;
-  attributes?: ObjectDataType | DataTypeFunction;
+  input?: ObjectDataType | DataTypeFunction;
 };
 
 export type PreFilterMap = {
@@ -176,23 +176,23 @@ const isPreFilter = (preFilterDefinition: PreFilter) => {
   if (isMap(preFilterDefinition)) {
     if (isFunction(preFilterDefinition.resolve)) {
       if (
-        !preFilterDefinition.attributes ||
-        isObjectDataType(preFilterDefinition.attributes)
+        !preFilterDefinition.input ||
+        isObjectDataType(preFilterDefinition.input)
       ) {
         return true;
       }
 
-      if (isFunction(preFilterDefinition.attributes)) {
-        const dataTypeBuilder = preFilterDefinition.attributes;
+      if (isFunction(preFilterDefinition.input)) {
+        const dataTypeBuilder = preFilterDefinition.input;
 
-        const attributesType = dataTypeBuilder({
+        const inputType = dataTypeBuilder({
           setup: {
             name: 'temporary',
             description: 'temporary',
           },
         });
 
-        if (isObjectDataType(attributesType)) {
+        if (isObjectDataType(inputType)) {
           return true;
         }
       }
