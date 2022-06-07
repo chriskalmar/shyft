@@ -93,7 +93,7 @@
     "dataloader": "^2.0.0",
     "date-fns": "^2.1.0",
     "graphql": "^15.5.0",
-    "graphql-relay": "^0.6.0",
+    "graphql-relay": "^0.10.0",
     "graphql-subscriptions": "^1.1.0",
     "graphql-type-json": "^0.3.0",
     "json-shaper": "^1.2.0",
